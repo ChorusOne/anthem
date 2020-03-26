@@ -1,0 +1,79 @@
+name: Build and Deploy Server
+
+on:
+  push:
+    branches:
+      - master
+      - staging
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - name: ecr
+        id: ecr
+        uses: elgohr/ecr-login-action@master
+        if: github.event_name == 'push' && ( github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/staging' )
+        with:
+          access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: us-east-1
+      - name: publish
+        id: publish
+        if: github.event_name == 'push' && ( github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/staging' )
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: 176395444877.dkr.ecr.us-east-1.amazonaws.com/chorusone/graphql
+          username: AWS
+          password: ${{ steps.ecr.outputs.password }}
+          registry: ${{ steps.ecr.outputs.registry }}
+      - name: branchchooser
+        id: branchchooser
+        uses: ./.github/actions/branchchooser
+      ### graphql prod deploy
+      - uses: steebchen/kubectl@master
+        if: github.event_name == 'push' && ( github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/staging' )
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+          NS: ${{ steps.branchchooser.outputs.namespace }}
+        with:
+          args: set image deployment.apps/graphql -n $NS graphql=176395444877.dkr.ecr.us-east-1.amazonaws.com/chorusone/graphql:${{ steps.publish.outputs.tag }}
+      - uses: steebchen/kubectl@master
+        if: github.event_name == 'push' && ( github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/staging' )
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+          NS: ${{ steps.branchchooser.outputs.namespace }}
+          HASH: ${{ github.sha }}
+        with:
+          args: set env deployment.apps/graphql -n $NS githash=$HASH
+      - uses: steebchen/kubectl@master
+        if: github.event_name == 'push' && ( github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/staging' )
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+          NS: ${{ steps.branchchooser.outputs.namespace }}
+        with:
+          args: rollout status -n $NS deployment/graphql
+      ### graphql test deploy
+      - uses: steebchen/kubectl@master
+        if: github.event_name == 'push' && ( github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/staging' )
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+          NS: ${{ steps.branchchooser.outputs.namespace }}
+        with:
+          args: set image deployment.apps/graphql-test -n $NS graphql=176395444877.dkr.ecr.us-east-1.amazonaws.com/chorusone/graphql:${{ steps.publish.outputs.tag }}
+      - uses: steebchen/kubectl@master
+        if: github.event_name == 'push' && ( github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/staging' )
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+          NS: ${{ steps.branchchooser.outputs.namespace }}
+          HASH: ${{ github.sha }}
+        with:
+          args: set env deployment.apps/graphql-test -n $NS githash=$HASH
+      - uses: steebchen/kubectl@master
+        if: github.event_name == 'push' && ( github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/staging' )
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+          NS: ${{ steps.branchchooser.outputs.namespace }}
+        with:
+          args: rollout status -n $NS deployment/graphql-test

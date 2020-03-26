@@ -1,0 +1,13 @@
+name: 'Branch Chooser'
+description: 'Determine Env and Tags based on Branch'
+author: 'Joe Bowman'
+outputs: 
+  namespace:
+    description: 'Namespace'
+  environment:
+    description: 'Environment'
+  tag:
+    description: 'Tag'
+runs:
+  using: 'node12'
+  main: 'main.js'
