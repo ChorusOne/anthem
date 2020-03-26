@@ -1,4 +1,4 @@
-const { SCREEN_SIZES, UTILS } = require("../support/cypress-utils");
+import { SCREEN_SIZES, UTILS } from "../support/cypress-utils";
 
 /** ===========================================================================
  * Test app navigation

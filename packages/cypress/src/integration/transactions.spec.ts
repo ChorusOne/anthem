@@ -1,4 +1,4 @@
-const { UTILS, getScreenType } = require("../support/cypress-utils");
+import { UTILS, getScreenType } from "../support/cypress-utils";
 
 /** ===========================================================================
  * Test Ledger transactions
