@@ -90,7 +90,7 @@ jobs:
           # Locked Deploys: https://www.netlify.com/docs/locked-deploys/
           # CLI Issue: https://github.com/netlify/cli/issues/536
           #
-          command: ./node_modules/.bin/netlify deploy --prod --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --message "CI production deployed commit hash $(git rev-parse --short HEAD)"
+          command: ./node_modules/.bin/netlify deploy --prod --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --dir packages/client/build --message "CI production deployed commit hash $(git rev-parse --short HEAD)"
 
       # Persist yarn cache
       - save_cache:
