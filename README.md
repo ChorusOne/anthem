@@ -15,5 +15,5 @@ This is the codebase for Anthem, a multi-network platform for managing blockchai
 * Run `yarn setup` to setup environment variables.
 * Run `yarn server:start` to start the server.
 * Run `yarn client:start` to start the client.
-* Run `yarn client:dev` to start the client in development mode.
+* Run `yarn dev` to start the client in test/development mode.
 * Run `yarn test` to run the project unit tests.
