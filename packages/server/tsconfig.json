@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2017",
     "module": "commonjs",
-    "lib": ["dom", "es6"],
     "outDir": "build",
+    "baseUrl": "./",
+    "strict": true,
     "removeComments": true,
     "resolveJsonModule": true,
-    "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "typeRoots": ["node_modules/@types"]
   },
-  "include": ["global.d.ts", "src", "scripts", "sherlock"]
+  "exclude": ["node_modules", "build"],
+  "include": ["global.d.ts", "src", "scripts"]
 }
