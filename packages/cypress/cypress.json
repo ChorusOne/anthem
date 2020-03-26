@@ -1,7 +1,7 @@
 {
-  "supportFile": "packages/cypress/src/support/index.ts",
-  "integrationFolder": "packages/cypress/src/integration",
-  "pluginsFile": "packages/cypress/src/plugins/index.js",
+  "supportFile": "src/support/index.ts",
+  "integrationFolder": "src/integration",
+  "pluginsFile": "src/plugins/index.js",
   "video": false,
   "fixturesFolder": false
 }
