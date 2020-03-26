@@ -4,8 +4,6 @@
 
 This is Anthem - the Chorus One staking dashboard for proof of stake cryptocurrency networks like Cosmos. Anthem is a React app built with TypeScript using [Create React App](https://github.com/facebook/create-react-app).
 
-<img width="1437" alt="Anthem" src="https://user-images.githubusercontent.com/18126719/67237818-a1578680-f411-11e9-8c47-8f0f3c3e29a0.png">
-
 ## Project Overview
 
 Anthem uses the following tools and technologies:
