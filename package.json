@@ -1,6 +1,18 @@
 {
-  "name": "root",
+  "name": "anthem",
+  "version": "0.0.1",
+  "description": "Anthem by Chorus One",
+  "author": "Chorus One Team",
   "private": true,
+  "scripts": {
+    "client:dev": "cd packages/client && yarn dev",
+    "client:start": "cd packages/client && yarn start",
+    "client:build": "cd packages/client && yarn build",
+    "client:test": "cd packages/client && yarn test",
+    "server:start": "cd packages/server && yarn start",
+    "server:build": "cd packages/server && yarn build",
+    "server:test": "cd packages/server && yarn test"
+  },
   "devDependencies": {
     "lerna": "^3.19.0"
   }
