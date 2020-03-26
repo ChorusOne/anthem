@@ -17,7 +17,8 @@
     "lint": "lerna run lint",
     "format": "lerna run format",
     "tsc": "lerna run tsc",
-    "test": "lerna run test"
+    "test": "lerna run test",
+    "cypress": "cd packages/cypress && yarn cypress:run"
   },
   "devDependencies": {
     "lerna": "^3.19.0"
