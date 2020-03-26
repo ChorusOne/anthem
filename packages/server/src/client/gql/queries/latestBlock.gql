@@ -1,0 +1,22 @@
+query latestBlock($network: String!){
+    latestBlock(network: $network){
+        block{
+            header{
+                chain_id
+                height
+                time
+                num_txs
+                total_txs
+                last_commit_hash
+                data_hash
+                validators_hash
+                next_validators_hash
+                consensus_hash
+                app_hash
+                last_results_hash
+                evidence_hash
+                proposer_address
+            }
+        }
+    }
+}

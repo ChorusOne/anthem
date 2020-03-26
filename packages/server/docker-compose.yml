@@ -1,0 +1,9 @@
+version: '3.4'
+services:
+    graphql:
+      image: 176395444877.dkr.ecr.us-east-1.amazonaws.com/chorusone/graphql:latest
+      build:
+        context: .
+      hostname: graphql
+      ports:
+        - 8000:8000

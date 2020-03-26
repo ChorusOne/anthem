@@ -1,0 +1,11 @@
+query validatorSets($network: String!){
+    validatorSets(network: $network){
+        block_height
+        validators{
+            address
+            pub_key
+            voting_power
+            proposer_priority
+        }
+    }
+}

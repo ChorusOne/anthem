@@ -1,0 +1,7 @@
+query coins{
+    coins{
+        id
+        symbol
+        name
+    }
+}

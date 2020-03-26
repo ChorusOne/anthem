@@ -1,0 +1,6 @@
+{
+  "governanceParametersDeposit": {
+    "min_deposit": [{ "denom": "uatom", "amount": "512000000" }],
+    "max_deposit_period": "1209600000000000"
+  }
+}

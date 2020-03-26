@@ -1,0 +1,6 @@
+query distributionCommunityPool($network: String!){
+    distributionCommunityPool(network: $network){
+        denom
+        amount
+    }
+}

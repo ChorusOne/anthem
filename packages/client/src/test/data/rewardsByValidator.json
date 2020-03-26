@@ -1,0 +1,12 @@
+{
+  "rewardsByValidator": [
+    {
+      "reward": [{ "denom": "uatom", "amount": "27152493.094754695401975339" }],
+      "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707"
+    },
+    {
+      "reward": [{ "denom": "uatom", "amount": "20933.246764882464000000" }],
+      "validator_address": "cosmosvaloper14lultfckehtszvzw4ehu0apvsr77afvyju5zzy"
+    }
+  ]
+}

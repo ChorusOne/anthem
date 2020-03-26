@@ -1,0 +1,11 @@
+query slashingParameters($network: String!){
+    slashingParameters(network: $network){
+        max_evidence_age
+        signed_blocks_window
+        min_signed_per_window
+        double_sign_unbond_duration
+        downtime_unbond_duration
+        slash_fraction_double_sign
+        slash_fraction_downtime
+    }
+}

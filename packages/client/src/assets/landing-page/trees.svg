@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="317px" height="283px" viewBox="0 0 317 283" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>bottom-illustration</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-35.000000, -3634.000000)">
+            <g id="bottom-illustration" transform="translate(35.000000, 3634.000000)">
+                <ellipse id="Oval" fill="#13818C" fill-rule="nonzero" cx="191.5" cy="39" rx="39.5" ry="39"></ellipse>
+                <ellipse id="Oval" fill="#13818C" fill-rule="nonzero" cx="123.5" cy="135" rx="39.5" ry="39"></ellipse>
+                <ellipse id="Oval" fill="#13818C" fill-rule="nonzero" cx="39.5" cy="208" rx="39.5" ry="39"></ellipse>
+                <path d="M40.5,283 L40.5,209" id="Path" stroke="#3F3D56" stroke-width="0.5" fill="#3F3D56" fill-rule="nonzero"></path>
+                <circle id="Oval" fill="#3F3D56" fill-rule="nonzero" cx="35.5" cy="206.5" r="9.5"></circle>
+                <path d="M39,252 C39,252 37.6046516,220.650797 9,224.294723" id="Path" fill="#3F3D56" fill-rule="nonzero"></path>
+                <path d="M191.5,280 L191.5,36" id="Path" stroke="#3F3D56" stroke-width="0.5" fill="#3F3D56" fill-rule="nonzero"></path>
+                <circle id="Oval" fill="#3F3D56" fill-rule="nonzero" cx="189.5" cy="36.5" r="9.5"></circle>
+                <circle id="Oval" fill="#3F3D56" fill-rule="nonzero" cx="157.5" cy="215.5" r="9.5"></circle>
+                <path d="M192,92 C192,92 190.604652,60.6508057 162,64.2947219" id="Path" fill="#3F3D56" fill-rule="nonzero"></path>
+                <path d="M192,182 C192,182 190.604652,150.650806 162,154.294722" id="Path" fill="#3F3D56" fill-rule="nonzero"></path>
+                <path d="M191.590479,280 C191.590479,280 197.783842,219.876328 162,217" id="Path" stroke="#3F3D56" stroke-width="0.5"></path>
+                <circle id="Oval" fill="#3F3D56" fill-rule="nonzero" cx="221.5" cy="215.5" r="9.5"></circle>
+                <path d="M191.409521,280 C191.409521,280 185.216158,219.876328 221,217" id="Path" stroke="#3F3D56" stroke-width="0.5"></path>
+                <circle id="Oval" fill="#3F3D56" fill-rule="nonzero" cx="221.5" cy="115.5" r="9.5"></circle>
+                <path d="M191.409521,178 C191.409521,178 185.216158,118.030575 221,115" id="Path" stroke="#3F3D56" stroke-width="0.5"></path>
+                <path d="M121.5,280 L121.5,130" id="Path" stroke="#3F3D56" stroke-width="0.5" fill="#3F3D56" fill-rule="nonzero"></path>
+                <circle id="Oval" fill="#3F3D56" fill-rule="nonzero" cx="123.5" cy="132.5" r="9.5"></circle>
+                <path d="M121,172 C121,172 119.604643,140.650798 91,144.294723" id="Path" fill="#3F3D56" fill-rule="nonzero"></path>
+                <path d="M121.576828,280 C121.576828,280 127.976637,219.905913 91,217" id="Path" stroke="#3F3D56" stroke-width="0.5"></path>
+                <circle id="Oval" fill="#3F3D56" fill-rule="nonzero" cx="91.5" cy="215.5" r="9.5"></circle>
+                <ellipse id="Oval" fill="#13818C" fill-rule="nonzero" cx="277.5" cy="135" rx="39.5" ry="39"></ellipse>
+                <path d="M275.5,280 L275.5,130" id="Path" stroke="#3F3D56" stroke-width="0.5" fill="#3F3D56" fill-rule="nonzero"></path>
+                <circle id="Oval" fill="#3F3D56" fill-rule="nonzero" cx="277.5" cy="132.5" r="9.5"></circle>
+                <path d="M275,172 C275,172 273.604643,140.650798 245,144.294723" id="Path" fill="#3F3D56" fill-rule="nonzero"></path>
+                <path d="M307.563178,280 C307.563178,280 314.169432,219.905913 276,217" id="Path" stroke="#3F3D56" stroke-width="0.5" transform="translate(292.000000, 248.500000) scale(-1, 1) translate(-292.000000, -248.500000) "></path>
+                <circle id="Oval" fill="#3F3D56" fill-rule="nonzero" transform="translate(307.500000, 215.500000) scale(-1, 1) translate(-307.500000, -215.500000) " cx="307.5" cy="215.5" r="9.5"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

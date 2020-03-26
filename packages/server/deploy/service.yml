@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: graphql-http
+  namespace: default
+spec:
+  selector:
+    k8s-app: graphql
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8001

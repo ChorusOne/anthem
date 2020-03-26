@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1098px" height="1032px" viewBox="0 0 1098 1032" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>hero-bg</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" fill="#F7F8F9" fill-rule="nonzero">
+            <path d="M1044.25909,430.857566 C1160.38586,655.760392 1093.26933,914.7948 794.392197,997.182609 C495.515064,1079.57042 105.490954,1025.94785 -14.4425939,725.82245 C-134.376141,425.697052 84.5103048,338.690374 235.424275,159.497407 C411.510166,-49.584319 578.217814,-177.672883 726.206488,-121.946012 C846.18734,-76.7658141 884.541014,121.531396 1044.25909,430.857566 Z" id="hero-bg" transform="translate(524.500000, 448.500000) scale(-1, 1) translate(-524.500000, -448.500000) "></path>
+        </g>
+    </g>
+</svg>

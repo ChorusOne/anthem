@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cosmos-utils createCosmosTransactionPostBody 1`] = `
+Object {
+  "type": "cosmos-sdk/StdTx",
+  "value": Object {
+    "fee": Object {
+      "amount": Array [
+        Object {
+          "amount": "930",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "37188",
+    },
+    "memo": "Stake online with Chorus One at https://anthem.chorus.one",
+    "msg": Array [
+      Object {
+        "type": "cosmos-sdk/MsgSend",
+        "value": Object {
+          "amounts": Array [
+            Object {
+              "amount": "2000000",
+              "denom": "uatom",
+            },
+          ],
+          "from_address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+          "to_address": "cosmos16nte2qf5l0u39s86wcwu4fff4vdtvg7yn3uksu",
+        },
+      },
+    ],
+    "signatures": Array [
+      Object {
+        "account_number": "146",
+        "pub_key": Object {
+          "type": "tendermint/PubKeySecp256k1",
+          "value": "AoUAnGnBsT7xGv2PTnIQbfK4t4oNyimGk2AhPwfgxq3T",
+        },
+        "sequence": "44",
+        "signature": "11vxO02HrMMPwm3KfXjj2rBZeTxEEyMPS7TlK185f3J9O8dJJD30GgBd4SFyyoLi0KfW14Mh2uR5mPT5NHbT3w==",
+      },
+    ],
+  },
+}
+`;
+
+exports[`cosmos-utils createDelegationTransactionMessage 1`] = `
+Object {
+  "fee": Object {
+    "amount": Array [
+      Object {
+        "amount": "225000000",
+        "denom": "uatom",
+      },
+    ],
+    "gas": "1500",
+  },
+  "memo": "Stake online with Chorus One at https://anthem.chorus.one",
+  "msg": Array [
+    Object {
+      "type": "cosmos-sdk/MsgDelegate",
+      "value": Object {
+        "amount": Object {
+          "amount": "50000000",
+          "denom": "uatom",
+        },
+        "delegator_address": "cosmos1yeygh0y8rfyufdczhzytcl3pehsnxv9d3wsnlg",
+        "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+    },
+  ],
+  "signatures": null,
+}
+`;
+
+exports[`cosmos-utils createRewardsClaimTransaction 1`] = `
+Object {
+  "fee": Object {
+    "amount": Array [
+      Object {
+        "amount": "225000000",
+        "denom": "uatom",
+      },
+    ],
+    "gas": "1500",
+  },
+  "memo": "Stake online with Chorus One at https://chorus.one",
+  "msg": Array [
+    Object {
+      "type": "cosmos-sdk/MsgWithdrawDelegationReward",
+      "value": Object {
+        "delegator_address": "cosmos1yeygh0y8rfyufdczhzytcl3pehsnxv9d3wsnlg",
+        "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+    },
+    Object {
+      "type": "cosmos-sdk/MsgWithdrawDelegationReward",
+      "value": Object {
+        "delegator_address": "cosmos1yeygh0y8rfyufdczhzytcl3pehsnxv9d3wsnlg",
+        "validator_address": "cosmosvaloper14lultfckehtszvzw4ehu0apvsr77afvyju5zzy",
+      },
+    },
+  ],
+  "signatures": null,
+}
+`;
+
+exports[`cosmos-utils createTransactionRequestMetadata 1`] = `
+Object {
+  "account_number": "16451",
+  "chain_id": "cosmoshub-3",
+  "fees": "225000000",
+  "from": "cosmos1yeygh0y8rfyufdczhzytcl3pehsnxv9d3wsnlg",
+  "generate_only": false,
+  "sequence": "69",
+}
+`;

@@ -1,0 +1,23 @@
+overwrite: true
+schema: schema.graphql
+# Another option is to use the schema directly from the server:
+# schema: http://localhost:8000/graphql
+documents: schema_documents/**/*.gql
+generates:
+  src/graphql/introspection-result.json:
+    plugins:
+      - fragment-matcher
+  src/graphql/types.tsx:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      avoidOptionals: true
+      immutableTypes: true
+      typesPrefix: I
+      declarationKind: interface
+      withHOC: true
+      withHooks: true
+      withComponent: true
+      withMutationFn: true

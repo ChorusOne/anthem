@@ -1,0 +1,42 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute-graphql
+  namespace: default
+spec:
+  entryPoints:
+    - https
+  tls:
+    passthrough: false
+    secretName: tls-chorus-one
+  routes:
+    - match: Host(`graphql.chorus.one`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: graphql-http
+          port: 80
+#          healthCheck:
+#            path: /api/health
+#            intervalSeconds: 5
+#            timeoutSeconds: 15
+          priority: 12
+      middlewares: []
+#      - name: cors-all
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: cors-all
+  namespace: default
+spec:
+  headers:
+    accessControlAllowMethods:
+      - "GET"
+      - "OPTIONS"
+      - "PUT"
+      - "POST"
+    accessControlAllowOrigin: "origin-list-or-null"
+    accessControlMaxAge: 100
+    accessControlAllowHeaders: 
+      - "Content-Type"
+    addVaryHeader: "true"    

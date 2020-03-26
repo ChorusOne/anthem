@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`i18nContainer utils createTranslationMethodFromLocale 1`] = `
+Array [
+  <span>
+    Voted “
+  </span>,
+  <span>
+    <b>
+      Yes
+    </b>
+  </span>,
+  <span>
+    ” on governance proposal 
+  </span>,
+  <span>
+    <b>
+      5
+    </b>
+  </span>,
+  <span>
+    . Fees spent: 
+  </span>,
+  <span>
+    <b>
+      235531
+    </b>
+  </span>,
+  <span>
+     ATOM.
+  </span>,
+]
+`;
+
+exports[`i18nContainer utils createTranslationMethodFromLocale 2`] = `
+Array [
+  <span>
+    “
+  </span>,
+  <span>
+    <b>
+      Yes
+    </b>
+  </span>,
+  <span>
+    ” bei der Abstimmung 
+  </span>,
+  <span>
+    <b>
+      5
+    </b>
+  </span>,
+  <span>
+     abgestimmt. Gezahlte Gebühr: 
+  </span>,
+  <span>
+    <b>
+      235531
+    </b>
+  </span>,
+  <span>
+     ATOM.
+  </span>,
+]
+`;

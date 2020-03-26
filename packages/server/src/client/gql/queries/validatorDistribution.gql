@@ -1,0 +1,13 @@
+query validatorDistribution($validatorAddress: String!){
+    validatorDistribution(validatorAddress: $validatorAddress){
+        operator_address
+        self_bond_rewards{
+            denom
+            amount
+        }
+        val_commission{
+            denom
+            amount
+        }
+    }
+}

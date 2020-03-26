@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graphql
+  labels:
+    k8s-app: graphql
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      k8s-app: graphql
+  template:
+    metadata:
+      labels:
+        k8s-app: graphql
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port:   '9145'
+    spec:
+      imagePullSecrets:
+       - name: regcred
+      containers:
+        - name: graphql
+          image: 176395444877.dkr.ecr.us-east-1.amazonaws.com/chorusone/graphql:latest
+          command: [ "/usr/src/app/entrypoint.sh" ]
+          args: [ "node", "build/src/server.js" ]
+          env:
+          - name: VAULT_SECRETS
+            value: "SENTRY_DSN,CRYPTO_COMPARE_API_KEY,PGHOST,PGUSER,PGPASSWORD"
+          - name: COSMOS_DB
+            value: cosmos
+          imagePullPolicy: Always
+        - name: nginx
+          image: 176395444877.dkr.ecr.us-east-1.amazonaws.com/chorusone/nginx:latest
+          ports:
+            - containerPort: 8001
+            - containerPort: 9145
+          env:
+            - name: CO_NGINX_PROXY_HOST
+              value: localhost
+            - name: CO_NGINX_PROXY_PORT
+              value: "8000"
+            - name: CO_NGINX_LISTEN_PORT
+              value: "8001"
+      serviceAccountName: graphql-vault
