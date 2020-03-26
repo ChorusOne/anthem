@@ -117,7 +117,7 @@ workflows:
       - cypress/run:
           yarn: true
           working_directory: packages/cypress
-          start: yarn dev
+          start: cd ../client && yarn dev
           # See: https://github.com/cypress-io/circleci-orb/issues/90
           wait-on: "-c src/wait-on-config.json https://localhost:3000"
           executor: cypress_tests
