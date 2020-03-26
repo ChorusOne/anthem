@@ -119,7 +119,7 @@ workflows:
           working_directory: packages/cypress
           start: cd ../client && yarn dev
           # See: https://github.com/cypress-io/circleci-orb/issues/90
-          wait-on: "-c src/wait-on-config.json https://localhost:3000"
+          wait-on: "-c packages/cypress/src/wait-on-config.json https://localhost:3000"
           executor: cypress_tests
           filters:
             branches:
