@@ -5,7 +5,7 @@ import { SCREEN_SIZES, UTILS } from "../support/cypress-utils";
  * ============================================================================
  */
 
-const visitSettingsPage = type => {
+const visitSettingsPage = (type: any) => {
   if (type.isMobile()) {
     UTILS.findAndClick("hamburger-menu-button");
   }
