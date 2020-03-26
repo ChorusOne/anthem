@@ -1,13 +1,12 @@
 version: 2.1
 
 orbs:
-  # Alternatively, "cypress-io/cypress@1" installs the latest published
   cypress: cypress-io/cypress@1.8.0
 
 executors:
   cypress_tests:
     docker:
-      - image: cypress/base:8
+      - image: cypress/base:12.16.1
     environment:
       SENTRY_DSN: overwrite_value_to_disable_in_test_env
       REACT_APP_SEGMENT_WRITE_KEY: overwrite_value_to_disable_in_test_env
@@ -19,7 +18,7 @@ jobs:
       REACT_APP_SEGMENT_WRITE_KEY: overwrite_value_to_disable_in_test_env
     working_directory: ~/anthem
     docker:
-      - image: cypress/base:8
+      - image: cypress/base:12.16.1
     steps:
       - checkout
 
@@ -55,7 +54,7 @@ jobs:
   deploy_production:
     working_directory: ~/anthem
     docker:
-      - image: cypress/base:8
+      - image: cypress/base:12.16.1
     steps:
       - checkout
 
@@ -73,7 +72,7 @@ jobs:
       # Build
       - run:
           name: Build the Client Application
-          command: yarn build
+          command: yarn client:build
 
       # Deploy
       - run:
