@@ -3,7 +3,7 @@
  * ============================================================================
  */
 
-export const getScreenType = mobile => ({
+export const getScreenType = (mobile?: boolean) => ({
   isMobile: () => mobile,
   isDesktop: () => !mobile,
 });
@@ -39,14 +39,14 @@ export const SCREEN_SIZES = [
  *
  * @param id element attribute id
  */
-const find = id => `[data-cy=${id}]`;
+const find = (id: string) => `[data-cy=${id}]`;
 
 /**
  * Find an element by id and click it.
  *
  * @param id
  */
-const findAndClick = id => {
+const findAndClick = (id: string) => {
   cy.get(find(id)).click({ force: true });
 };
 
@@ -56,7 +56,7 @@ const findAndClick = id => {
  * @param id
  * @param text
  */
-const typeText = (id, text) => {
+const typeText = (id: string, text: string) => {
   cy.get(`[data-cy=${id}]`)
     .clear()
     .type(text);
@@ -69,7 +69,7 @@ const typeText = (id, text) => {
  * @param  id
  * @param  text
  */
-const shouldMatchText = (id, text) => {
+const shouldMatchText = (id: string, text: string) => {
   cy.get(find(id)).should("have.text", text);
 };
 
@@ -80,7 +80,7 @@ const shouldMatchText = (id, text) => {
  * @param  id
  * @param  text
  */
-const shouldContainText = (id, text) => {
+const shouldContainText = (id: string, text: string) => {
   cy.get(find(id)).should(t => t.text().includes(text));
 };
 
@@ -91,7 +91,7 @@ const shouldContainText = (id, text) => {
  *
  * @param size viewport size
  */
-const setViewportSize = size => {
+const setViewportSize = (size: any) => {
   if (Cypress._.isArray(size)) {
     cy.viewport(size[0], size[1]);
   } else {
@@ -104,7 +104,7 @@ const setViewportSize = size => {
  *
  * @param type viewport type
  */
-const loginWithAddress = (type, useLedger = false) => {
+const loginWithAddress = (type: any, useLedger = false) => {
   /**
    * Visit the app. Expect redirect to login and initiate the login
    * enter address flow.
@@ -149,7 +149,7 @@ const loginWithAddress = (type, useLedger = false) => {
  *
  * @param type viewport type
  */
-const logout = type => {
+const logout = (type: any) => {
   if (type.isMobile()) {
     UTILS.findAndClick("hamburger-menu-button");
   }
