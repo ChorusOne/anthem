@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "setup": "lerna run setup",
+    "dev": "yarn client:dev",
     "client:dev": "cd packages/client && yarn dev",
     "client:start": "cd packages/client && yarn start",
     "client:build": "cd packages/client && yarn build",
