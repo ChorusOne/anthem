@@ -515,10 +515,7 @@ const dispatchProps = {
   openLogoutMenu: Modules.actions.ledger.openLogoutMenu,
 };
 
-const withProps = connect(
-  mapStateToProps,
-  dispatchProps,
-);
+const withProps = connect(mapStateToProps, dispatchProps);
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 

@@ -66,10 +66,7 @@ interface ComponentProps {}
 
 interface IProps extends ConnectProps, ComponentProps {}
 
-const withProps = connect(
-  mapStateToProps,
-  dispatchProps,
-);
+const withProps = connect(mapStateToProps, dispatchProps);
 
 export default composeWithProps<ComponentProps>(withProps)(
   CurrencySettingsToggle,

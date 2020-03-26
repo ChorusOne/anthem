@@ -15,21 +15,18 @@ import {
 
 const i18nLocale = (state: ReduxStoreState) => state.settings.locale;
 
-export const i18nSelector = createSelector(
-  i18nLocale,
-  locale => {
-    const catalog = getCatalogFromLocale(locale);
-    const fns = {
-      t: createTranslationMethodFromLocale(catalog),
-      tString: createStringTranslationMethodFromLocale(catalog),
-    };
+export const i18nSelector = createSelector(i18nLocale, locale => {
+  const catalog = getCatalogFromLocale(locale);
+  const fns = {
+    t: createTranslationMethodFromLocale(catalog),
+    tString: createStringTranslationMethodFromLocale(catalog),
+  };
 
-    return {
-      locale,
-      ...fns,
-    };
-  },
-);
+  return {
+    locale,
+    ...fns,
+  };
+});
 
 /** ===========================================================================
  * Settings
@@ -40,10 +37,7 @@ export const settingsState = (state: ReduxStoreState) => {
   return state.settings;
 };
 
-export const settingsSelector = createSelector(
-  settingsState,
-  identity,
-);
+export const settingsSelector = createSelector(settingsState, identity);
 
 /** ===========================================================================
  * Export

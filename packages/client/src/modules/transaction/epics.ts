@@ -25,9 +25,9 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
         const transactionData = state$.value.transaction.transactionData;
 
         if (ledger && transactionData) {
-          const ledgerSignature = (await ledger.sign(
-            createSignMessage(transactionData),
-          )).toString("base64");
+          const ledgerSignature = (
+            await ledger.sign(createSignMessage(transactionData))
+          ).toString("base64");
 
           const signature = ledgerSignature;
           const publicKey = (await ledger.getPubKey()).toString("base64");

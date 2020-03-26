@@ -380,10 +380,7 @@ const dispatchProps = {
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
-const withProps = connect(
-  mapStateToProps,
-  dispatchProps,
-);
+const withProps = connect(mapStateToProps, dispatchProps);
 
 interface ComponentProps {}
 

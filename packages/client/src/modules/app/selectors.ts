@@ -12,19 +12,13 @@ export const loadingState = (state: ReduxStoreState) => {
   return state.app.loading;
 };
 
-export const loadingSelector = createSelector(
-  [loadingState],
-  identity,
-);
+export const loadingSelector = createSelector([loadingState], identity);
 
 export const appState = (state: ReduxStoreState) => {
   return state.app.app;
 };
 
-export const appSelector = createSelector(
-  [appState],
-  identity,
-);
+export const appSelector = createSelector([appState], identity);
 
 /** ===========================================================================
  * Export

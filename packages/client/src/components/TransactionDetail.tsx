@@ -243,10 +243,7 @@ const dispatchProps = {
   setAddress: Modules.actions.ledger.setAddress,
 };
 
-const withProps = connect(
-  mapStateToProps,
-  dispatchProps,
-);
+const withProps = connect(mapStateToProps, dispatchProps);
 
 interface ComponentProps {}
 

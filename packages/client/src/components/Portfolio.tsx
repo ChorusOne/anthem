@@ -636,10 +636,7 @@ const dispatchProps = {
   updateSetting: Modules.actions.settings.updateSetting,
 };
 
-const withProps = connect(
-  mapStateToProps,
-  dispatchProps,
-);
+const withProps = connect(mapStateToProps, dispatchProps);
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 

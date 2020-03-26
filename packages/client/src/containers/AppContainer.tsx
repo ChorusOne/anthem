@@ -164,10 +164,7 @@ const dispatchProps = {
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
-const withProps = connect(
-  mapStateToProps,
-  dispatchProps,
-);
+const withProps = connect(mapStateToProps, dispatchProps);
 
 interface ComponentProps {}
 
@@ -178,6 +175,7 @@ interface IProps extends ComponentProps, RouteComponentProps, ConnectProps {}
  * ============================================================================
  */
 
-export default composeWithProps<ComponentProps>(withProps, withRouter)(
-  AppContainer,
-);
+export default composeWithProps<ComponentProps>(
+  withProps,
+  withRouter,
+)(AppContainer);

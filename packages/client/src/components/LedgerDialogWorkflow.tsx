@@ -572,10 +572,7 @@ interface ComponentProps {}
 
 interface IProps extends ComponentProps, ConnectProps {}
 
-const withProps = connect(
-  mapStateToProps,
-  dispatchProps,
-);
+const withProps = connect(mapStateToProps, dispatchProps);
 
 /** ===========================================================================
  * Export

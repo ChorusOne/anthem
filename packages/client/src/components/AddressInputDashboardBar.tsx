@@ -159,10 +159,7 @@ const dispatchProps = {
   setAddressInputState: Modules.actions.app.setDashboardAddressInputFocusState,
 };
 
-const withProps = connect(
-  mapStateToProps,
-  dispatchProps,
-);
+const withProps = connect(mapStateToProps, dispatchProps);
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 

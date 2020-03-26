@@ -1333,7 +1333,8 @@ export type AccountBalancesComponentProps = Omit<
 > &
   (
     | { variables: IAccountBalancesQueryVariables; skip?: false }
-    | { skip: true });
+    | { skip: true }
+  );
 
 export const AccountBalancesComponent = (
   props: AccountBalancesComponentProps,
@@ -1408,7 +1409,8 @@ export type AccountInformationComponentProps = Omit<
 > &
   (
     | { variables: IAccountInformationQueryVariables; skip?: false }
-    | { skip: true });
+    | { skip: true }
+  );
 
 export const AccountInformationComponent = (
   props: AccountInformationComponentProps,
@@ -1528,7 +1530,8 @@ export type DailyPercentChangeComponentProps = Omit<
 > &
   (
     | { variables: IDailyPercentChangeQueryVariables; skip?: false }
-    | { skip: true });
+    | { skip: true }
+  );
 
 export const DailyPercentChangeComponent = (
   props: DailyPercentChangeComponentProps,
@@ -1598,7 +1601,8 @@ export type DistributionCommunityPoolComponentProps = Omit<
 > &
   (
     | { variables: IDistributionCommunityPoolQueryVariables; skip?: false }
-    | { skip: true });
+    | { skip: true }
+  );
 
 export const DistributionCommunityPoolComponent = (
   props: DistributionCommunityPoolComponentProps,
@@ -1669,7 +1673,8 @@ export type DistributionParametersComponentProps = Omit<
 > &
   (
     | { variables: IDistributionParametersQueryVariables; skip?: false }
-    | { skip: true });
+    | { skip: true }
+  );
 
 export const DistributionParametersComponent = (
   props: DistributionParametersComponentProps,
@@ -1797,7 +1802,8 @@ export type FiatPriceHistoryComponentProps = Omit<
 > &
   (
     | { variables: IFiatPriceHistoryQueryVariables; skip?: false }
-    | { skip: true });
+    | { skip: true }
+  );
 
 export const FiatPriceHistoryComponent = (
   props: FiatPriceHistoryComponentProps,
@@ -1864,7 +1870,8 @@ export type GovernanceParametersDepositComponentProps = Omit<
 > &
   (
     | { variables: IGovernanceParametersDepositQueryVariables; skip?: false }
-    | { skip: true });
+    | { skip: true }
+  );
 
 export const GovernanceParametersDepositComponent = (
   props: GovernanceParametersDepositComponentProps,
@@ -1935,7 +1942,8 @@ export type GovernanceParametersTallyingComponentProps = Omit<
 > &
   (
     | { variables: IGovernanceParametersTallyingQueryVariables; skip?: false }
-    | { skip: true });
+    | { skip: true }
+  );
 
 export const GovernanceParametersTallyingComponent = (
   props: GovernanceParametersTallyingComponentProps,
@@ -2004,7 +2012,8 @@ export type GovernanceParametersVotingComponentProps = Omit<
 > &
   (
     | { variables: IGovernanceParametersVotingQueryVariables; skip?: false }
-    | { skip: true });
+    | { skip: true }
+  );
 
 export const GovernanceParametersVotingComponent = (
   props: GovernanceParametersVotingComponentProps,
@@ -2089,7 +2098,8 @@ export type GovernanceProposalsComponentProps = Omit<
 > &
   (
     | { variables: IGovernanceProposalsQueryVariables; skip?: false }
-    | { skip: true });
+    | { skip: true }
+  );
 
 export const GovernanceProposalsComponent = (
   props: GovernanceProposalsComponentProps,
@@ -2260,7 +2270,8 @@ export type PortfolioHistoryComponentProps = Omit<
 > &
   (
     | { variables: IPortfolioHistoryQueryVariables; skip?: false }
-    | { skip: true });
+    | { skip: true }
+  );
 
 export const PortfolioHistoryComponent = (
   props: PortfolioHistoryComponentProps,
@@ -2379,7 +2390,8 @@ export type RewardsByValidatorComponentProps = Omit<
 > &
   (
     | { variables: IRewardsByValidatorQueryVariables; skip?: false }
-    | { skip: true });
+    | { skip: true }
+  );
 
 export const RewardsByValidatorComponent = (
   props: RewardsByValidatorComponentProps,
@@ -2454,7 +2466,8 @@ export type SlashingParametersComponentProps = Omit<
 > &
   (
     | { variables: ISlashingParametersQueryVariables; skip?: false }
-    | { skip: true });
+    | { skip: true }
+  );
 
 export const SlashingParametersComponent = (
   props: SlashingParametersComponentProps,
@@ -2530,7 +2543,8 @@ export type StakingParametersComponentProps = Omit<
 > &
   (
     | { variables: IStakingParametersQueryVariables; skip?: false }
-    | { skip: true });
+    | { skip: true }
+  );
 
 export const StakingParametersComponent = (
   props: StakingParametersComponentProps,
@@ -2940,7 +2954,8 @@ export type ValidatorDistributionComponentProps = Omit<
 > &
   (
     | { variables: IValidatorDistributionQueryVariables; skip?: false }
-    | { skip: true });
+    | { skip: true }
+  );
 
 export const ValidatorDistributionComponent = (
   props: ValidatorDistributionComponentProps,

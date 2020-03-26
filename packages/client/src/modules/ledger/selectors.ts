@@ -14,19 +14,15 @@ const addressState = (state: ReduxStoreState) => {
   return state.ledger.ledger.address;
 };
 
-export const addressSelector = createSelector(
-  addressState,
-  address => ({ address }),
-);
+export const addressSelector = createSelector(addressState, address => ({
+  address,
+}));
 
 const setAddress = actions.setAddress;
 
-export const withAddress = connect(
-  addressSelector,
-  {
-    setAddress,
-  },
-);
+export const withAddress = connect(addressSelector, {
+  setAddress,
+});
 
 export interface AddressProps {
   address: string;
@@ -42,28 +38,19 @@ const ledgerState = (state: ReduxStoreState) => {
   return state.ledger.ledger;
 };
 
-const ledgerSelector = createSelector(
-  ledgerState,
-  identity,
-);
+const ledgerSelector = createSelector(ledgerState, identity);
 
 const networkState = (state: ReduxStoreState) => {
   return state.ledger.ledger.network;
 };
 
-const networkSelector = createSelector(
-  networkState,
-  identity,
-);
+const networkSelector = createSelector(networkState, identity);
 
 const ledgerDialogState = (state: ReduxStoreState) => {
   return state.ledger.ledgerDialog;
 };
 
-const ledgerDialogSelector = createSelector(
-  ledgerDialogState,
-  identity,
-);
+const ledgerDialogSelector = createSelector(ledgerDialogState, identity);
 
 const ledgerLogoutMenuState = (state: ReduxStoreState) => {
   return state.ledger.logoutMenuOpen;

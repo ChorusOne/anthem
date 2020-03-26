@@ -166,6 +166,7 @@ interface IProps extends ComponentProps, ConnectProps {}
  * ============================================================================
  */
 
-export default composeWithProps<ComponentProps>(withProps, withRouter)(
-  RoutesContainer,
-);
+export default composeWithProps<ComponentProps>(
+  withProps,
+  withRouter,
+)(RoutesContainer);

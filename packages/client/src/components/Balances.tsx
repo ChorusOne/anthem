@@ -36,7 +36,10 @@ class Balance extends React.Component<IProps, {}> {
         tString={tString}
         loadingComponent={<DashboardLoader />}
         errorComponent={<DashboardError tString={tString} />}
-        results={[[prices, "prices"], [accountBalances, "accountBalances"]]}
+        results={[
+          [prices, "prices"],
+          [accountBalances, "accountBalances"],
+        ]}
       >
         {() => {
           const atomsConversionRate = prices.prices;
@@ -382,10 +385,7 @@ const dispatchProps = {
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
-const withProps = connect(
-  mapStateToProps,
-  dispatchProps,
-);
+const withProps = connect(mapStateToProps, dispatchProps);
 
 /** ===========================================================================
  * Export
