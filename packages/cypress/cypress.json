@@ -1,0 +1,7 @@
+{
+  "supportFile": "src/support/index.ts",
+  "integrationFolder": "src/integration",
+  "pluginsFile": "src/plugins/index.js",
+  "video": false,
+  "fixturesFolder": false
+}

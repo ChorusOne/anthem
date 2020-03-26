@@ -1,0 +1,29 @@
+{
+  "name": "@anthem/cypress",
+  "version": "0.0.1",
+  "description": "Anthem Cypress test suite",
+  "private": true,
+  "scripts": {
+    "cypress:run": "cypress run",
+    "cypress:open": "cypress open",
+    "prettier": "prettier --list-different \"src/**/*.ts\" \"test/**/*.ts\"",
+    "prettier:fix": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "tslint": "tslint --project tsconfig.json -c tslint.json",
+    "tslint:fix": "tslint --project tsconfig.json -c tslint.json --fix",
+    "format": "yarn prettier:fix && yarn tslint:fix",
+    "lint": "yarn prettier && yarn tslint",
+    "test": "yarn lint && yarn tsc",
+    "tsc": "tsc --pretty --noEmit",
+    "build": "yarn tsc"
+  },
+  "dependencies": {
+    "@cypress/webpack-preprocessor": "^4.1.1",
+    "cypress": "^3.8.1",
+    "prettier": "^1.19.1",
+    "ts-loader": "^6.2.1",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
+}

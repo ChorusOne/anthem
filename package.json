@@ -5,13 +5,18 @@
   "author": "Chorus One Team",
   "private": true,
   "scripts": {
+    "setup": "lerna run setup",
     "client:dev": "cd packages/client && yarn dev",
     "client:start": "cd packages/client && yarn start",
     "client:build": "cd packages/client && yarn build",
     "client:test": "cd packages/client && yarn test",
     "server:start": "cd packages/server && yarn start",
     "server:build": "cd packages/server && yarn build",
-    "server:test": "cd packages/server && yarn test"
+    "server:test": "cd packages/server && yarn test",
+    "lint": "lerna run lint",
+    "format": "lerna run format",
+    "tsc": "lerna run tsc",
+    "test": "lerna run test"
   },
   "devDependencies": {
     "lerna": "^3.19.0"
