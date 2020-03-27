@@ -1,7 +1,7 @@
 import { ApolloError } from "apollo-client";
 import bech32 from "bech32";
 import BigNumber from "bignumber.js";
-import queryString from "query-string";
+import queryString, { ParsedQuery } from "query-string";
 
 import { AvailableReward } from "components/CreateTransactionForm";
 import Toast from "components/Toast";
@@ -120,11 +120,16 @@ export const identity = <T extends {}>(x: T): T => x;
 
 /**
  * Parse the query parameters from the current url.
- *
- * @param paramString url parameters
- * @returns parsed parameters as an object
  */
 export const getQueryParamsFromUrl = (paramString: string) => {
+  // TODO: How to handle Oasis addresses?
+  const addressSlice = paramString.replace("?address=", "");
+  const oasisProxy = addressSlice.length === 44;
+  if (oasisProxy) {
+    const result = { address: addressSlice };
+    return result as ParsedQuery<string>;
+  }
+
   return queryString.parse(paramString);
 };
 
@@ -647,6 +652,8 @@ export const deriveNetworkFromAddress = (address: string): NetworkMetadata => {
     return NETWORKS.TERRA;
   } else if (address.substring(0, 4) === "kava") {
     return NETWORKS.KAVA;
+  } else if (address.length === 44) {
+    return NETWORKS.OASIS;
   }
 
   throw new Error(

@@ -72,9 +72,6 @@ export const validateCosmosAppVersion = (version: string): boolean => {
 
 /**
  * Try to bech32 decode an address string to validate it as a Cosmos address.
- *
- * @param  {string} address
- * @returns boolean
  */
 export const validateCosmosAddress = (
   address: string,
@@ -91,6 +88,11 @@ export const validateCosmosAddress = (
     return tString(
       "This appears to be a validator address. Please use the associated delegator address if you wish to view information on a validator.",
     );
+  }
+
+  if (address.length === 44) {
+    console.warn("[TODO]: Fix address validation for Oasis addresses!");
+    return "";
   }
 
   let prefixInAddress = false;

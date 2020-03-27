@@ -288,6 +288,12 @@ const resolvers = {
       args: IPricesQueryVariables,
     ): Promise<IQuery["prices"]> => {
       const { currency, versus } = args;
+
+      // TODO: Oasis is not supported yet
+      if (currency === "oasis") {
+        return { price: 1 };
+      }
+
       return EXCHANGE_DATA_API.fetchExchangeRate(currency, versus);
     },
 
@@ -304,6 +310,12 @@ const resolvers = {
     ): Promise<IQuery["fiatPriceHistory"]> => {
       const { fiat } = args;
       const network = getNetworkDefinitionFromIdentifier(args.network);
+
+      // TODO: Oasis is not supported yet
+      if (network.name === "OASIS") {
+        return [];
+      }
+
       return EXCHANGE_DATA_API.fetchPortfolioFiatPriceHistory(fiat, network);
     },
 
@@ -312,6 +324,12 @@ const resolvers = {
       args: IDailyPercentChangeQueryVariables,
     ): Promise<IQuery["dailyPercentChange"]> => {
       const { crypto, fiat } = args;
+
+      // TODO: Oasis is not supported yet
+      if (crypto === "oasis") {
+        return "";
+      }
+
       return EXCHANGE_DATA_API.fetchDailyPercentChangeInPrice(crypto, fiat);
     },
 
