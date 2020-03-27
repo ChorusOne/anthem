@@ -1,13 +1,12 @@
-import { createBrowserHistory } from "history";
-import { applyMiddleware, createStore, Middleware } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import { createEpicMiddleware } from "redux-observable";
-
 import client from "graphql/apollo-client";
+import { createBrowserHistory } from "history";
 import cosmosBlockchainModule from "lib/blockchain-lib";
 import ENV from "lib/client-env";
 import ledgerModule from "lib/ledger-lib";
 import { reduxLogger as logger } from "lib/logger-lib";
+import { applyMiddleware, createStore, Middleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import { createEpicMiddleware } from "redux-observable";
 import { EpicDependencies, rootEpic, rootReducer } from "./root";
 
 /** ===========================================================================

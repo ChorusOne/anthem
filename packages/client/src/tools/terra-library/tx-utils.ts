@@ -1,6 +1,5 @@
 import * as sha256 from "crypto-js/sha256";
 import * as secp256k1 from "secp256k1";
-
 import { KeyPair } from "./key-utils";
 import { Signature, StdTxValue } from "./msg-utils";
 

@@ -1,12 +1,11 @@
 import * as bech32 from "bech32";
 import * as bip32 from "bip32";
 import * as bip39 from "bip39";
+import { NETWORK_NAME } from "constants/networks";
 import * as HEX from "crypto-js/enc-hex";
 import * as RIPEMD160 from "crypto-js/ripemd160";
 import * as SHA256 from "crypto-js/sha256";
 import * as secp256k1 from "secp256k1";
-
-import { NETWORK_NAME } from "constants/networks";
 import { assertUnreachable } from "tools/generic-utils";
 
 /** ===========================================================================
