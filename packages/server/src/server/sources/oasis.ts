@@ -21,8 +21,6 @@ const fetchAccountBalances = async (
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(`${host}/account/${address}`);
 
-  console.log(response);
-
   return {
     balance: [
       {

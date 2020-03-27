@@ -27,8 +27,6 @@ type Query {
   coins: [Coin!]
 
   fiatCurrencies: [FiatCurrency!]!
-
-  oasis: String!
 }
 
 # *****************************************************************************
