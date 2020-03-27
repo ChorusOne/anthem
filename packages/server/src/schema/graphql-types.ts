@@ -9,7 +9,7 @@ export interface Scalars {
 }
 
 export interface IAccount {
-  __typename?: "Account";
+  readonly __typename?: "Account";
   readonly account_number: Scalars["String"];
   readonly address: Scalars["String"];
   readonly coins: Maybe<ReadonlyArray<IAccountCoin>>;
@@ -18,7 +18,7 @@ export interface IAccount {
 }
 
 export interface IAccountBalances {
-  __typename?: "AccountBalances";
+  readonly __typename?: "AccountBalances";
   readonly balance: Maybe<ReadonlyArray<IBalance>>;
   readonly rewards: Maybe<ReadonlyArray<IBalance>>;
   readonly delegations: Maybe<ReadonlyArray<IDelegation>>;
@@ -27,41 +27,41 @@ export interface IAccountBalances {
 }
 
 export interface IAccountCoin {
-  __typename?: "AccountCoin";
+  readonly __typename?: "AccountCoin";
   readonly denom: Scalars["String"];
   readonly amount: Scalars["String"];
 }
 
 export interface IAccountInformation {
-  __typename?: "AccountInformation";
+  readonly __typename?: "AccountInformation";
   readonly type: Scalars["String"];
   readonly value: IAccount;
 }
 
 export interface IAvailableReward {
-  __typename?: "AvailableReward";
+  readonly __typename?: "AvailableReward";
   readonly reward: Maybe<ReadonlyArray<IBalance>>;
   readonly validator_address: Scalars["String"];
 }
 
 export interface IBalance {
-  __typename?: "Balance";
+  readonly __typename?: "Balance";
   readonly denom: Scalars["String"];
   readonly amount: Scalars["String"];
 }
 
 export interface IBlock {
-  __typename?: "Block";
+  readonly __typename?: "Block";
   readonly header: IBlockHeader;
 }
 
 export interface IBlockData {
-  __typename?: "BlockData";
+  readonly __typename?: "BlockData";
   readonly block: IBlock;
 }
 
 export interface IBlockHeader {
-  __typename?: "BlockHeader";
+  readonly __typename?: "BlockHeader";
   readonly chain_id: Scalars["String"];
   readonly height: Scalars["String"];
   readonly time: Scalars["String"];
@@ -79,65 +79,65 @@ export interface IBlockHeader {
 }
 
 export interface ICoin {
-  __typename?: "Coin";
+  readonly __typename?: "Coin";
   readonly id: Scalars["String"];
   readonly symbol: Scalars["String"];
   readonly name: Scalars["String"];
 }
 
 export interface ICommissionRates {
-  __typename?: "CommissionRates";
+  readonly __typename?: "CommissionRates";
   readonly rate: Scalars["String"];
   readonly max_rate: Scalars["String"];
   readonly max_change_rate: Scalars["String"];
 }
 
 export interface IDelegation {
-  __typename?: "Delegation";
+  readonly __typename?: "Delegation";
   readonly delegator_address: Scalars["String"];
   readonly validator_address: Scalars["String"];
   readonly shares: Scalars["String"];
 }
 
 export interface IDistributionParameters {
-  __typename?: "DistributionParameters";
+  readonly __typename?: "DistributionParameters";
   readonly base_proposer_reward: Scalars["String"];
   readonly bonus_proposer_reward: Scalars["String"];
   readonly community_tax: Scalars["String"];
 }
 
 export interface IFiatCurrency {
-  __typename?: "FiatCurrency";
+  readonly __typename?: "FiatCurrency";
   readonly name: Scalars["String"];
   readonly symbol: Scalars["String"];
 }
 
 export interface IFiatPrice {
-  __typename?: "FiatPrice";
+  readonly __typename?: "FiatPrice";
   readonly price: Scalars["Float"];
   readonly timestamp: Scalars["String"];
 }
 
 export interface IGovernanceParametersDeposit {
-  __typename?: "GovernanceParametersDeposit";
+  readonly __typename?: "GovernanceParametersDeposit";
   readonly min_deposit: Maybe<ReadonlyArray<IBalance>>;
   readonly max_deposit_period: Scalars["String"];
 }
 
 export interface IGovernanceParametersTallying {
-  __typename?: "GovernanceParametersTallying";
+  readonly __typename?: "GovernanceParametersTallying";
   readonly threshold: Scalars["String"];
   readonly veto: Scalars["String"];
   readonly governance_penalty: Maybe<Scalars["String"]>;
 }
 
 export interface IGovernanceParametersVoting {
-  __typename?: "GovernanceParametersVoting";
+  readonly __typename?: "GovernanceParametersVoting";
   readonly voting_period: Scalars["String"];
 }
 
 export interface IGovernanceProposal {
-  __typename?: "GovernanceProposal";
+  readonly __typename?: "GovernanceProposal";
   readonly proposal_id: Maybe<Scalars["Int"]>;
   readonly title: Maybe<Scalars["String"]>;
   readonly description: Maybe<Scalars["String"]>;
@@ -150,7 +150,7 @@ export interface IGovernanceProposal {
 }
 
 export interface ILogMessage {
-  __typename?: "LogMessage";
+  readonly __typename?: "LogMessage";
   readonly code: Maybe<Scalars["Int"]>;
   readonly message: Maybe<Scalars["String"]>;
   readonly success: Maybe<Scalars["Boolean"]>;
@@ -159,7 +159,7 @@ export interface ILogMessage {
 }
 
 export interface IMsgBeginRedelegate {
-  __typename?: "MsgBeginRedelegate";
+  readonly __typename?: "MsgBeginRedelegate";
   readonly amount: IBalance;
   readonly delegator_address: Maybe<Scalars["String"]>;
   readonly validator_src_address: Scalars["String"];
@@ -167,7 +167,7 @@ export interface IMsgBeginRedelegate {
 }
 
 export interface IMsgBeginRedelegateLegacy {
-  __typename?: "MsgBeginRedelegateLegacy";
+  readonly __typename?: "MsgBeginRedelegateLegacy";
   readonly shares_amount: Scalars["String"];
   readonly delegator_address: Maybe<Scalars["String"]>;
   readonly validator_src_address: Scalars["String"];
@@ -175,27 +175,27 @@ export interface IMsgBeginRedelegateLegacy {
 }
 
 export interface IMsgDelegate {
-  __typename?: "MsgDelegate";
+  readonly __typename?: "MsgDelegate";
   readonly amount: IBalance;
   readonly delegator_address: Maybe<Scalars["String"]>;
   readonly validator_address: Maybe<Scalars["String"]>;
 }
 
 export interface IMsgModifyWithdrawAddress {
-  __typename?: "MsgModifyWithdrawAddress";
+  readonly __typename?: "MsgModifyWithdrawAddress";
   readonly withdraw_address: Maybe<Scalars["String"]>;
   readonly validator_address: Maybe<Scalars["String"]>;
 }
 
 export interface IMsgSend {
-  __typename?: "MsgSend";
+  readonly __typename?: "MsgSend";
   readonly amounts: Maybe<ReadonlyArray<IBalance>>;
   readonly to_address: Maybe<Scalars["String"]>;
   readonly from_address: Maybe<Scalars["String"]>;
 }
 
 export interface IMsgSubmitProposal {
-  __typename?: "MsgSubmitProposal";
+  readonly __typename?: "MsgSubmitProposal";
   readonly title: Scalars["String"];
   readonly description: Scalars["String"];
   readonly proposal_type: Scalars["String"];
@@ -204,25 +204,25 @@ export interface IMsgSubmitProposal {
 }
 
 export interface IMsgVote {
-  __typename?: "MsgVote";
+  readonly __typename?: "MsgVote";
   readonly proposal_id: Scalars["String"];
   readonly voter: Scalars["String"];
   readonly option: Scalars["String"];
 }
 
 export interface IMsgWithdrawDelegationReward {
-  __typename?: "MsgWithdrawDelegationReward";
+  readonly __typename?: "MsgWithdrawDelegationReward";
   readonly delegator_address: Maybe<Scalars["String"]>;
   readonly validator_address: Maybe<Scalars["String"]>;
 }
 
 export interface IMsgWithdrawValidatorCommission {
-  __typename?: "MsgWithdrawValidatorCommission";
+  readonly __typename?: "MsgWithdrawValidatorCommission";
   readonly validator_address: Maybe<Scalars["String"]>;
 }
 
 export interface IPortfolioBalance {
-  __typename?: "PortfolioBalance";
+  readonly __typename?: "PortfolioBalance";
   readonly address: Scalars["String"];
   readonly denom: Scalars["String"];
   readonly balance: Scalars["String"];
@@ -232,7 +232,7 @@ export interface IPortfolioBalance {
 }
 
 export interface IPortfolioCommission {
-  __typename?: "PortfolioCommission";
+  readonly __typename?: "PortfolioCommission";
   readonly balance: Scalars["String"];
   readonly height: Scalars["Int"];
   readonly validator: Scalars["String"];
@@ -240,7 +240,7 @@ export interface IPortfolioCommission {
 }
 
 export interface IPortfolioData {
-  __typename?: "PortfolioData";
+  readonly __typename?: "PortfolioData";
   readonly balanceHistory: ReadonlyArray<IPortfolioBalance>;
   readonly delegations: ReadonlyArray<IPortfolioDelegation>;
   readonly unbondings: ReadonlyArray<IPortfolioDelegation>;
@@ -250,14 +250,14 @@ export interface IPortfolioData {
 }
 
 export interface IPortfolioDelegation {
-  __typename?: "PortfolioDelegation";
+  readonly __typename?: "PortfolioDelegation";
   readonly balance: Scalars["String"];
   readonly address: Scalars["String"];
   readonly timestamp: Scalars["String"];
 }
 
 export interface IPortfolioReward {
-  __typename?: "PortfolioReward";
+  readonly __typename?: "PortfolioReward";
   readonly balance: Scalars["String"];
   readonly height: Scalars["Int"];
   readonly address: Scalars["String"];
@@ -265,17 +265,18 @@ export interface IPortfolioReward {
 }
 
 export interface IPrice {
-  __typename?: "Price";
+  readonly __typename?: "Price";
   readonly price: Scalars["Float"];
 }
 
 export interface IPubKey {
-  __typename?: "PubKey";
+  readonly __typename?: "PubKey";
   readonly type: Scalars["String"];
 }
 
 export interface IQuery {
-  __typename?: "Query";
+  readonly __typename?: "Query";
+  /** Cosmos APIs */
   readonly portfolioHistory: IPortfolioData;
   readonly fiatPriceHistory: ReadonlyArray<IFiatPrice>;
   readonly dailyPercentChange: Scalars["String"];
@@ -297,6 +298,7 @@ export interface IQuery {
   readonly slashingParameters: ISlashingParameters;
   readonly distributionCommunityPool: ReadonlyArray<IBalance>;
   readonly distributionParameters: IDistributionParameters;
+  /** CoinGecko Price APIs */
   readonly prices: IPrice;
   readonly coins: Maybe<ReadonlyArray<ICoin>>;
   readonly fiatCurrencies: ReadonlyArray<IFiatCurrency>;
@@ -396,7 +398,7 @@ export interface IQueryPricesArgs {
 }
 
 export interface ISlashingParameters {
-  __typename?: "SlashingParameters";
+  readonly __typename?: "SlashingParameters";
   readonly max_evidence_age: Scalars["String"];
   readonly signed_blocks_window: Scalars["String"];
   readonly min_signed_per_window: Scalars["String"];
@@ -407,7 +409,7 @@ export interface ISlashingParameters {
 }
 
 export interface IStakingParameters {
-  __typename?: "StakingParameters";
+  readonly __typename?: "StakingParameters";
   readonly inflation_rate_change: Maybe<Scalars["String"]>;
   readonly inflation_max: Maybe<Scalars["String"]>;
   readonly inflation_min: Maybe<Scalars["String"]>;
@@ -419,7 +421,7 @@ export interface IStakingParameters {
 }
 
 export interface IStakingPool {
-  __typename?: "StakingPool";
+  readonly __typename?: "StakingPool";
   readonly loose_tokens: Maybe<Scalars["String"]>;
   readonly bonded_tokens: Maybe<Scalars["String"]>;
   readonly not_bonded_tokens: Maybe<Scalars["String"]>;
@@ -430,13 +432,13 @@ export interface IStakingPool {
 }
 
 export interface ITag {
-  __typename?: "Tag";
+  readonly __typename?: "Tag";
   readonly key: Scalars["String"];
   readonly value: Maybe<Scalars["String"]>;
 }
 
 export interface ITallyResult {
-  __typename?: "TallyResult";
+  readonly __typename?: "TallyResult";
   readonly yes: Scalars["String"];
   readonly abstain: Scalars["String"];
   readonly no: Scalars["String"];
@@ -444,7 +446,7 @@ export interface ITallyResult {
 }
 
 export interface ITransaction {
-  __typename?: "Transaction";
+  readonly __typename?: "Transaction";
   readonly hash: Scalars["String"];
   readonly height: Scalars["String"];
   readonly log: ReadonlyArray<Maybe<ILogMessage>>;
@@ -459,23 +461,24 @@ export interface ITransaction {
 }
 
 export interface ITx {
-  __typename?: "Tx";
+  readonly __typename?: "Tx";
   readonly type: Scalars["String"];
   readonly value: ITxValue;
 }
 
 export interface ITxFee {
-  __typename?: "TxFee";
+  readonly __typename?: "TxFee";
   readonly amount: Maybe<ReadonlyArray<IBalance>>;
   readonly gas: Scalars["String"];
 }
 
 export interface ITxMsg {
-  __typename?: "TxMsg";
+  readonly __typename?: "TxMsg";
   readonly type: Scalars["String"];
   readonly value: Maybe<ITxMsgValue>;
 }
 
+/** Could collapse this into a single type with all optional fields: */
 export type ITxMsgValue =
   | IMsgSend
   | IMsgVote
@@ -488,13 +491,13 @@ export type ITxMsgValue =
   | IMsgWithdrawValidatorCommission;
 
 export interface ITxSignature {
-  __typename?: "TxSignature";
+  readonly __typename?: "TxSignature";
   readonly pub_key: IPubKey;
   readonly signature: Scalars["String"];
 }
 
 export interface ITxValue {
-  __typename?: "TxValue";
+  readonly __typename?: "TxValue";
   readonly fee: ITxFee;
   readonly memo: Scalars["String"];
   readonly msg: Maybe<ReadonlyArray<ITxMsg>>;
@@ -502,14 +505,14 @@ export interface ITxValue {
 }
 
 export interface IUnbondingDelegation {
-  __typename?: "UnbondingDelegation";
+  readonly __typename?: "UnbondingDelegation";
   readonly delegator_address: Scalars["String"];
   readonly validator_address: Scalars["String"];
   readonly entries: ReadonlyArray<IUnbondingDelegationEntry>;
 }
 
 export interface IUnbondingDelegationEntry {
-  __typename?: "UnbondingDelegationEntry";
+  readonly __typename?: "UnbondingDelegationEntry";
   readonly balance: Scalars["String"];
   readonly initial_balance: Scalars["String"];
   readonly creation_height: Scalars["String"];
@@ -517,7 +520,7 @@ export interface IUnbondingDelegationEntry {
 }
 
 export interface IValidator {
-  __typename?: "Validator";
+  readonly __typename?: "Validator";
   readonly operator_address: Scalars["String"];
   readonly consensus_pubkey: Scalars["String"];
   readonly jailed: Scalars["Boolean"];
@@ -532,13 +535,13 @@ export interface IValidator {
 }
 
 export interface IValidatorCommission {
-  __typename?: "ValidatorCommission";
+  readonly __typename?: "ValidatorCommission";
   readonly update_time: Scalars["String"];
   readonly commission_rates: ICommissionRates;
 }
 
 export interface IValidatorDescription {
-  __typename?: "ValidatorDescription";
+  readonly __typename?: "ValidatorDescription";
   readonly moniker: Scalars["String"];
   readonly identity: Scalars["String"];
   readonly website: Scalars["String"];
@@ -546,25 +549,26 @@ export interface IValidatorDescription {
 }
 
 export interface IValidatorDistribution {
-  __typename?: "ValidatorDistribution";
+  readonly __typename?: "ValidatorDistribution";
   readonly operator_address: Scalars["String"];
   readonly self_bond_rewards: Maybe<ReadonlyArray<IBalance>>;
   readonly val_commission: Maybe<ReadonlyArray<IBalance>>;
 }
 
 export interface IValidatorSet {
-  __typename?: "ValidatorSet";
+  readonly __typename?: "ValidatorSet";
   readonly block_height: Scalars["Int"];
   readonly validators: Maybe<ReadonlyArray<IValidatorSetItem>>;
 }
 
 export interface IValidatorSetItem {
-  __typename?: "ValidatorSetItem";
+  readonly __typename?: "ValidatorSetItem";
   readonly address: Scalars["String"];
   readonly pub_key: Scalars["String"];
   readonly voting_power: Scalars["String"];
   readonly proposer_priority: Scalars["String"];
 }
+
 export interface IAccountBalancesQueryVariables {
   address: Scalars["String"];
 }
@@ -1046,15 +1050,11 @@ export type ITransactionQuery = { readonly __typename?: "Query" } & {
                         readonly __typename?: "Balance";
                       } & Pick<IBalance, "denom" | "amount">;
                     })
-                | ({
-                    readonly __typename?: "MsgModifyWithdrawAddress";
-                  } & Pick<
+                | ({ readonly __typename?: "MsgModifyWithdrawAddress" } & Pick<
                     IMsgModifyWithdrawAddress,
                     "withdraw_address" | "validator_address"
                   >)
-                | ({
-                    readonly __typename?: "MsgBeginRedelegateLegacy";
-                  } & Pick<
+                | ({ readonly __typename?: "MsgBeginRedelegateLegacy" } & Pick<
                     IMsgBeginRedelegateLegacy,
                     | "shares_amount"
                     | "delegator_address"
@@ -1173,15 +1173,11 @@ export type ITransactionsQuery = { readonly __typename?: "Query" } & {
                         readonly __typename?: "Balance";
                       } & Pick<IBalance, "denom" | "amount">;
                     })
-                | ({
-                    readonly __typename?: "MsgModifyWithdrawAddress";
-                  } & Pick<
+                | ({ readonly __typename?: "MsgModifyWithdrawAddress" } & Pick<
                     IMsgModifyWithdrawAddress,
                     "withdraw_address" | "validator_address"
                   >)
-                | ({
-                    readonly __typename?: "MsgBeginRedelegateLegacy";
-                  } & Pick<
+                | ({ readonly __typename?: "MsgBeginRedelegateLegacy" } & Pick<
                     IMsgBeginRedelegateLegacy,
                     | "shares_amount"
                     | "delegator_address"
@@ -1234,6 +1230,26 @@ export type IValidatorDistributionQuery = { readonly __typename?: "Query" } & {
     };
 };
 
+export interface IValidatorSetsQueryVariables {
+  network: Scalars["String"];
+}
+
+export type IValidatorSetsQuery = { readonly __typename?: "Query" } & {
+  readonly validatorSets: { readonly __typename?: "ValidatorSet" } & Pick<
+    IValidatorSet,
+    "block_height"
+  > & {
+      readonly validators: Maybe<
+        ReadonlyArray<
+          { readonly __typename?: "ValidatorSetItem" } & Pick<
+            IValidatorSetItem,
+            "address" | "pub_key" | "voting_power" | "proposer_priority"
+          >
+        >
+      >;
+    };
+};
+
 export interface IValidatorsQueryVariables {
   network: Scalars["String"];
 }
@@ -1267,24 +1283,4 @@ export type IValidatorsQuery = { readonly __typename?: "Query" } & {
           };
       }
   >;
-};
-
-export interface IValidatorSetsQueryVariables {
-  network: Scalars["String"];
-}
-
-export type IValidatorSetsQuery = { readonly __typename?: "Query" } & {
-  readonly validatorSets: { readonly __typename?: "ValidatorSet" } & Pick<
-    IValidatorSet,
-    "block_height"
-  > & {
-      readonly validators: Maybe<
-        ReadonlyArray<
-          { readonly __typename?: "ValidatorSetItem" } & Pick<
-            IValidatorSetItem,
-            "address" | "pub_key" | "voting_power" | "proposer_priority"
-          >
-        >
-      >;
-    };
 };

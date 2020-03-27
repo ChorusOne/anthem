@@ -1,7 +1,9 @@
+import * as ApolloReactCommon from "@apollo/react-common";
+import * as ApolloReactComponents from "@apollo/react-components";
+import * as ApolloReactHoc from "@apollo/react-hoc";
+import * as ApolloReactHooks from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import * as React from "react";
-import * as ReactApollo from "react-apollo";
-import * as ReactApolloHooks from "react-apollo-hooks";
 export type Maybe<T> = T | null;
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
@@ -14,7 +16,7 @@ export interface Scalars {
 }
 
 export interface IAccount {
-  __typename?: "Account";
+  readonly __typename?: "Account";
   readonly account_number: Scalars["String"];
   readonly address: Scalars["String"];
   readonly coins: Maybe<ReadonlyArray<IAccountCoin>>;
@@ -23,7 +25,7 @@ export interface IAccount {
 }
 
 export interface IAccountBalances {
-  __typename?: "AccountBalances";
+  readonly __typename?: "AccountBalances";
   readonly balance: Maybe<ReadonlyArray<IBalance>>;
   readonly rewards: Maybe<ReadonlyArray<IBalance>>;
   readonly delegations: Maybe<ReadonlyArray<IDelegation>>;
@@ -32,41 +34,41 @@ export interface IAccountBalances {
 }
 
 export interface IAccountCoin {
-  __typename?: "AccountCoin";
+  readonly __typename?: "AccountCoin";
   readonly denom: Scalars["String"];
   readonly amount: Scalars["String"];
 }
 
 export interface IAccountInformation {
-  __typename?: "AccountInformation";
+  readonly __typename?: "AccountInformation";
   readonly type: Scalars["String"];
   readonly value: IAccount;
 }
 
 export interface IAvailableReward {
-  __typename?: "AvailableReward";
+  readonly __typename?: "AvailableReward";
   readonly reward: Maybe<ReadonlyArray<IBalance>>;
   readonly validator_address: Scalars["String"];
 }
 
 export interface IBalance {
-  __typename?: "Balance";
+  readonly __typename?: "Balance";
   readonly denom: Scalars["String"];
   readonly amount: Scalars["String"];
 }
 
 export interface IBlock {
-  __typename?: "Block";
+  readonly __typename?: "Block";
   readonly header: IBlockHeader;
 }
 
 export interface IBlockData {
-  __typename?: "BlockData";
+  readonly __typename?: "BlockData";
   readonly block: IBlock;
 }
 
 export interface IBlockHeader {
-  __typename?: "BlockHeader";
+  readonly __typename?: "BlockHeader";
   readonly chain_id: Scalars["String"];
   readonly height: Scalars["String"];
   readonly time: Scalars["String"];
@@ -84,65 +86,65 @@ export interface IBlockHeader {
 }
 
 export interface ICoin {
-  __typename?: "Coin";
+  readonly __typename?: "Coin";
   readonly id: Scalars["String"];
   readonly symbol: Scalars["String"];
   readonly name: Scalars["String"];
 }
 
 export interface ICommissionRates {
-  __typename?: "CommissionRates";
+  readonly __typename?: "CommissionRates";
   readonly rate: Scalars["String"];
   readonly max_rate: Scalars["String"];
   readonly max_change_rate: Scalars["String"];
 }
 
 export interface IDelegation {
-  __typename?: "Delegation";
+  readonly __typename?: "Delegation";
   readonly delegator_address: Scalars["String"];
   readonly validator_address: Scalars["String"];
   readonly shares: Scalars["String"];
 }
 
 export interface IDistributionParameters {
-  __typename?: "DistributionParameters";
+  readonly __typename?: "DistributionParameters";
   readonly base_proposer_reward: Scalars["String"];
   readonly bonus_proposer_reward: Scalars["String"];
   readonly community_tax: Scalars["String"];
 }
 
 export interface IFiatCurrency {
-  __typename?: "FiatCurrency";
+  readonly __typename?: "FiatCurrency";
   readonly name: Scalars["String"];
   readonly symbol: Scalars["String"];
 }
 
 export interface IFiatPrice {
-  __typename?: "FiatPrice";
+  readonly __typename?: "FiatPrice";
   readonly price: Scalars["Float"];
   readonly timestamp: Scalars["String"];
 }
 
 export interface IGovernanceParametersDeposit {
-  __typename?: "GovernanceParametersDeposit";
+  readonly __typename?: "GovernanceParametersDeposit";
   readonly min_deposit: Maybe<ReadonlyArray<IBalance>>;
   readonly max_deposit_period: Scalars["String"];
 }
 
 export interface IGovernanceParametersTallying {
-  __typename?: "GovernanceParametersTallying";
+  readonly __typename?: "GovernanceParametersTallying";
   readonly threshold: Scalars["String"];
   readonly veto: Scalars["String"];
   readonly governance_penalty: Maybe<Scalars["String"]>;
 }
 
 export interface IGovernanceParametersVoting {
-  __typename?: "GovernanceParametersVoting";
+  readonly __typename?: "GovernanceParametersVoting";
   readonly voting_period: Scalars["String"];
 }
 
 export interface IGovernanceProposal {
-  __typename?: "GovernanceProposal";
+  readonly __typename?: "GovernanceProposal";
   readonly proposal_id: Maybe<Scalars["Int"]>;
   readonly title: Maybe<Scalars["String"]>;
   readonly description: Maybe<Scalars["String"]>;
@@ -155,7 +157,7 @@ export interface IGovernanceProposal {
 }
 
 export interface ILogMessage {
-  __typename?: "LogMessage";
+  readonly __typename?: "LogMessage";
   readonly code: Maybe<Scalars["Int"]>;
   readonly message: Maybe<Scalars["String"]>;
   readonly success: Maybe<Scalars["Boolean"]>;
@@ -164,7 +166,7 @@ export interface ILogMessage {
 }
 
 export interface IMsgBeginRedelegate {
-  __typename?: "MsgBeginRedelegate";
+  readonly __typename?: "MsgBeginRedelegate";
   readonly amount: IBalance;
   readonly delegator_address: Maybe<Scalars["String"]>;
   readonly validator_src_address: Scalars["String"];
@@ -172,7 +174,7 @@ export interface IMsgBeginRedelegate {
 }
 
 export interface IMsgBeginRedelegateLegacy {
-  __typename?: "MsgBeginRedelegateLegacy";
+  readonly __typename?: "MsgBeginRedelegateLegacy";
   readonly shares_amount: Scalars["String"];
   readonly delegator_address: Maybe<Scalars["String"]>;
   readonly validator_src_address: Scalars["String"];
@@ -180,27 +182,27 @@ export interface IMsgBeginRedelegateLegacy {
 }
 
 export interface IMsgDelegate {
-  __typename?: "MsgDelegate";
+  readonly __typename?: "MsgDelegate";
   readonly amount: IBalance;
   readonly delegator_address: Maybe<Scalars["String"]>;
   readonly validator_address: Maybe<Scalars["String"]>;
 }
 
 export interface IMsgModifyWithdrawAddress {
-  __typename?: "MsgModifyWithdrawAddress";
+  readonly __typename?: "MsgModifyWithdrawAddress";
   readonly withdraw_address: Maybe<Scalars["String"]>;
   readonly validator_address: Maybe<Scalars["String"]>;
 }
 
 export interface IMsgSend {
-  __typename?: "MsgSend";
+  readonly __typename?: "MsgSend";
   readonly amounts: Maybe<ReadonlyArray<IBalance>>;
   readonly to_address: Maybe<Scalars["String"]>;
   readonly from_address: Maybe<Scalars["String"]>;
 }
 
 export interface IMsgSubmitProposal {
-  __typename?: "MsgSubmitProposal";
+  readonly __typename?: "MsgSubmitProposal";
   readonly title: Scalars["String"];
   readonly description: Scalars["String"];
   readonly proposal_type: Scalars["String"];
@@ -209,25 +211,25 @@ export interface IMsgSubmitProposal {
 }
 
 export interface IMsgVote {
-  __typename?: "MsgVote";
+  readonly __typename?: "MsgVote";
   readonly proposal_id: Scalars["String"];
   readonly voter: Scalars["String"];
   readonly option: Scalars["String"];
 }
 
 export interface IMsgWithdrawDelegationReward {
-  __typename?: "MsgWithdrawDelegationReward";
+  readonly __typename?: "MsgWithdrawDelegationReward";
   readonly delegator_address: Maybe<Scalars["String"]>;
   readonly validator_address: Maybe<Scalars["String"]>;
 }
 
 export interface IMsgWithdrawValidatorCommission {
-  __typename?: "MsgWithdrawValidatorCommission";
+  readonly __typename?: "MsgWithdrawValidatorCommission";
   readonly validator_address: Maybe<Scalars["String"]>;
 }
 
 export interface IPortfolioBalance {
-  __typename?: "PortfolioBalance";
+  readonly __typename?: "PortfolioBalance";
   readonly address: Scalars["String"];
   readonly denom: Scalars["String"];
   readonly balance: Scalars["String"];
@@ -237,7 +239,7 @@ export interface IPortfolioBalance {
 }
 
 export interface IPortfolioCommission {
-  __typename?: "PortfolioCommission";
+  readonly __typename?: "PortfolioCommission";
   readonly balance: Scalars["String"];
   readonly height: Scalars["Int"];
   readonly validator: Scalars["String"];
@@ -245,7 +247,7 @@ export interface IPortfolioCommission {
 }
 
 export interface IPortfolioData {
-  __typename?: "PortfolioData";
+  readonly __typename?: "PortfolioData";
   readonly balanceHistory: ReadonlyArray<IPortfolioBalance>;
   readonly delegations: ReadonlyArray<IPortfolioDelegation>;
   readonly unbondings: ReadonlyArray<IPortfolioDelegation>;
@@ -255,14 +257,14 @@ export interface IPortfolioData {
 }
 
 export interface IPortfolioDelegation {
-  __typename?: "PortfolioDelegation";
+  readonly __typename?: "PortfolioDelegation";
   readonly balance: Scalars["String"];
   readonly address: Scalars["String"];
   readonly timestamp: Scalars["String"];
 }
 
 export interface IPortfolioReward {
-  __typename?: "PortfolioReward";
+  readonly __typename?: "PortfolioReward";
   readonly balance: Scalars["String"];
   readonly height: Scalars["Int"];
   readonly address: Scalars["String"];
@@ -270,17 +272,18 @@ export interface IPortfolioReward {
 }
 
 export interface IPrice {
-  __typename?: "Price";
+  readonly __typename?: "Price";
   readonly price: Scalars["Float"];
 }
 
 export interface IPubKey {
-  __typename?: "PubKey";
+  readonly __typename?: "PubKey";
   readonly type: Scalars["String"];
 }
 
 export interface IQuery {
-  __typename?: "Query";
+  readonly __typename?: "Query";
+  /** Cosmos APIs */
   readonly portfolioHistory: IPortfolioData;
   readonly fiatPriceHistory: ReadonlyArray<IFiatPrice>;
   readonly dailyPercentChange: Scalars["String"];
@@ -302,6 +305,7 @@ export interface IQuery {
   readonly slashingParameters: ISlashingParameters;
   readonly distributionCommunityPool: ReadonlyArray<IBalance>;
   readonly distributionParameters: IDistributionParameters;
+  /** CoinGecko Price APIs */
   readonly prices: IPrice;
   readonly coins: Maybe<ReadonlyArray<ICoin>>;
   readonly fiatCurrencies: ReadonlyArray<IFiatCurrency>;
@@ -401,7 +405,7 @@ export interface IQueryPricesArgs {
 }
 
 export interface ISlashingParameters {
-  __typename?: "SlashingParameters";
+  readonly __typename?: "SlashingParameters";
   readonly max_evidence_age: Scalars["String"];
   readonly signed_blocks_window: Scalars["String"];
   readonly min_signed_per_window: Scalars["String"];
@@ -412,7 +416,7 @@ export interface ISlashingParameters {
 }
 
 export interface IStakingParameters {
-  __typename?: "StakingParameters";
+  readonly __typename?: "StakingParameters";
   readonly inflation_rate_change: Maybe<Scalars["String"]>;
   readonly inflation_max: Maybe<Scalars["String"]>;
   readonly inflation_min: Maybe<Scalars["String"]>;
@@ -424,7 +428,7 @@ export interface IStakingParameters {
 }
 
 export interface IStakingPool {
-  __typename?: "StakingPool";
+  readonly __typename?: "StakingPool";
   readonly loose_tokens: Maybe<Scalars["String"]>;
   readonly bonded_tokens: Maybe<Scalars["String"]>;
   readonly not_bonded_tokens: Maybe<Scalars["String"]>;
@@ -435,13 +439,13 @@ export interface IStakingPool {
 }
 
 export interface ITag {
-  __typename?: "Tag";
+  readonly __typename?: "Tag";
   readonly key: Scalars["String"];
   readonly value: Maybe<Scalars["String"]>;
 }
 
 export interface ITallyResult {
-  __typename?: "TallyResult";
+  readonly __typename?: "TallyResult";
   readonly yes: Scalars["String"];
   readonly abstain: Scalars["String"];
   readonly no: Scalars["String"];
@@ -449,7 +453,7 @@ export interface ITallyResult {
 }
 
 export interface ITransaction {
-  __typename?: "Transaction";
+  readonly __typename?: "Transaction";
   readonly hash: Scalars["String"];
   readonly height: Scalars["String"];
   readonly log: ReadonlyArray<Maybe<ILogMessage>>;
@@ -464,23 +468,24 @@ export interface ITransaction {
 }
 
 export interface ITx {
-  __typename?: "Tx";
+  readonly __typename?: "Tx";
   readonly type: Scalars["String"];
   readonly value: ITxValue;
 }
 
 export interface ITxFee {
-  __typename?: "TxFee";
+  readonly __typename?: "TxFee";
   readonly amount: Maybe<ReadonlyArray<IBalance>>;
   readonly gas: Scalars["String"];
 }
 
 export interface ITxMsg {
-  __typename?: "TxMsg";
+  readonly __typename?: "TxMsg";
   readonly type: Scalars["String"];
   readonly value: Maybe<ITxMsgValue>;
 }
 
+/** Could collapse this into a single type with all optional fields: */
 export type ITxMsgValue =
   | IMsgSend
   | IMsgVote
@@ -493,13 +498,13 @@ export type ITxMsgValue =
   | IMsgWithdrawValidatorCommission;
 
 export interface ITxSignature {
-  __typename?: "TxSignature";
+  readonly __typename?: "TxSignature";
   readonly pub_key: IPubKey;
   readonly signature: Scalars["String"];
 }
 
 export interface ITxValue {
-  __typename?: "TxValue";
+  readonly __typename?: "TxValue";
   readonly fee: ITxFee;
   readonly memo: Scalars["String"];
   readonly msg: Maybe<ReadonlyArray<ITxMsg>>;
@@ -507,14 +512,14 @@ export interface ITxValue {
 }
 
 export interface IUnbondingDelegation {
-  __typename?: "UnbondingDelegation";
+  readonly __typename?: "UnbondingDelegation";
   readonly delegator_address: Scalars["String"];
   readonly validator_address: Scalars["String"];
   readonly entries: ReadonlyArray<IUnbondingDelegationEntry>;
 }
 
 export interface IUnbondingDelegationEntry {
-  __typename?: "UnbondingDelegationEntry";
+  readonly __typename?: "UnbondingDelegationEntry";
   readonly balance: Scalars["String"];
   readonly initial_balance: Scalars["String"];
   readonly creation_height: Scalars["String"];
@@ -522,7 +527,7 @@ export interface IUnbondingDelegationEntry {
 }
 
 export interface IValidator {
-  __typename?: "Validator";
+  readonly __typename?: "Validator";
   readonly operator_address: Scalars["String"];
   readonly consensus_pubkey: Scalars["String"];
   readonly jailed: Scalars["Boolean"];
@@ -537,13 +542,13 @@ export interface IValidator {
 }
 
 export interface IValidatorCommission {
-  __typename?: "ValidatorCommission";
+  readonly __typename?: "ValidatorCommission";
   readonly update_time: Scalars["String"];
   readonly commission_rates: ICommissionRates;
 }
 
 export interface IValidatorDescription {
-  __typename?: "ValidatorDescription";
+  readonly __typename?: "ValidatorDescription";
   readonly moniker: Scalars["String"];
   readonly identity: Scalars["String"];
   readonly website: Scalars["String"];
@@ -551,25 +556,26 @@ export interface IValidatorDescription {
 }
 
 export interface IValidatorDistribution {
-  __typename?: "ValidatorDistribution";
+  readonly __typename?: "ValidatorDistribution";
   readonly operator_address: Scalars["String"];
   readonly self_bond_rewards: Maybe<ReadonlyArray<IBalance>>;
   readonly val_commission: Maybe<ReadonlyArray<IBalance>>;
 }
 
 export interface IValidatorSet {
-  __typename?: "ValidatorSet";
+  readonly __typename?: "ValidatorSet";
   readonly block_height: Scalars["Int"];
   readonly validators: Maybe<ReadonlyArray<IValidatorSetItem>>;
 }
 
 export interface IValidatorSetItem {
-  __typename?: "ValidatorSetItem";
+  readonly __typename?: "ValidatorSetItem";
   readonly address: Scalars["String"];
   readonly pub_key: Scalars["String"];
   readonly voting_power: Scalars["String"];
   readonly proposer_priority: Scalars["String"];
 }
+
 export interface IAccountBalancesQueryVariables {
   address: Scalars["String"];
 }
@@ -1051,15 +1057,11 @@ export type ITransactionQuery = { readonly __typename?: "Query" } & {
                         readonly __typename?: "Balance";
                       } & Pick<IBalance, "denom" | "amount">;
                     })
-                | ({
-                    readonly __typename?: "MsgModifyWithdrawAddress";
-                  } & Pick<
+                | ({ readonly __typename?: "MsgModifyWithdrawAddress" } & Pick<
                     IMsgModifyWithdrawAddress,
                     "withdraw_address" | "validator_address"
                   >)
-                | ({
-                    readonly __typename?: "MsgBeginRedelegateLegacy";
-                  } & Pick<
+                | ({ readonly __typename?: "MsgBeginRedelegateLegacy" } & Pick<
                     IMsgBeginRedelegateLegacy,
                     | "shares_amount"
                     | "delegator_address"
@@ -1178,15 +1180,11 @@ export type ITransactionsQuery = { readonly __typename?: "Query" } & {
                         readonly __typename?: "Balance";
                       } & Pick<IBalance, "denom" | "amount">;
                     })
-                | ({
-                    readonly __typename?: "MsgModifyWithdrawAddress";
-                  } & Pick<
+                | ({ readonly __typename?: "MsgModifyWithdrawAddress" } & Pick<
                     IMsgModifyWithdrawAddress,
                     "withdraw_address" | "validator_address"
                   >)
-                | ({
-                    readonly __typename?: "MsgBeginRedelegateLegacy";
-                  } & Pick<
+                | ({ readonly __typename?: "MsgBeginRedelegateLegacy" } & Pick<
                     IMsgBeginRedelegateLegacy,
                     | "shares_amount"
                     | "delegator_address"
@@ -1239,6 +1237,26 @@ export type IValidatorDistributionQuery = { readonly __typename?: "Query" } & {
     };
 };
 
+export interface IValidatorSetsQueryVariables {
+  network: Scalars["String"];
+}
+
+export type IValidatorSetsQuery = { readonly __typename?: "Query" } & {
+  readonly validatorSets: { readonly __typename?: "ValidatorSet" } & Pick<
+    IValidatorSet,
+    "block_height"
+  > & {
+      readonly validators: Maybe<
+        ReadonlyArray<
+          { readonly __typename?: "ValidatorSetItem" } & Pick<
+            IValidatorSetItem,
+            "address" | "pub_key" | "voting_power" | "proposer_priority"
+          >
+        >
+      >;
+    };
+};
+
 export interface IValidatorsQueryVariables {
   network: Scalars["String"];
 }
@@ -1272,26 +1290,6 @@ export type IValidatorsQuery = { readonly __typename?: "Query" } & {
           };
       }
   >;
-};
-
-export interface IValidatorSetsQueryVariables {
-  network: Scalars["String"];
-}
-
-export type IValidatorSetsQuery = { readonly __typename?: "Query" } & {
-  readonly validatorSets: { readonly __typename?: "ValidatorSet" } & Pick<
-    IValidatorSet,
-    "block_height"
-  > & {
-      readonly validators: Maybe<
-        ReadonlyArray<
-          { readonly __typename?: "ValidatorSetItem" } & Pick<
-            IValidatorSetItem,
-            "address" | "pub_key" | "voting_power" | "proposer_priority"
-          >
-        >
-      >;
-    };
 };
 
 export const AccountBalancesDocument = gql`
@@ -1328,58 +1326,100 @@ export const AccountBalancesDocument = gql`
   }
 `;
 export type AccountBalancesComponentProps = Omit<
-  ReactApollo.QueryProps<IAccountBalancesQuery, IAccountBalancesQueryVariables>,
+  ApolloReactComponents.QueryComponentOptions<
+    IAccountBalancesQuery,
+    IAccountBalancesQueryVariables
+  >,
   "query"
 > &
   (
-    | { variables: IAccountBalancesQueryVariables; skip?: false }
-    | { skip: true }
+    | { variables: IAccountBalancesQueryVariables; skip?: boolean }
+    | { skip: boolean }
   );
 
 export const AccountBalancesComponent = (
   props: AccountBalancesComponentProps,
 ) => (
-  <ReactApollo.Query<IAccountBalancesQuery, IAccountBalancesQueryVariables>
+  <ApolloReactComponents.Query<
+    IAccountBalancesQuery,
+    IAccountBalancesQueryVariables
+  >
     query={AccountBalancesDocument}
     {...props}
   />
 );
 
-export type IAccountBalancesProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<IAccountBalancesQuery, IAccountBalancesQueryVariables>
+export type IAccountBalancesProps<TChildProps = {}> = ApolloReactHoc.DataProps<
+  IAccountBalancesQuery,
+  IAccountBalancesQueryVariables
 > &
   TChildProps;
 export function withAccountBalances<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IAccountBalancesQuery,
     IAccountBalancesQueryVariables,
     IAccountBalancesProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IAccountBalancesQuery,
     IAccountBalancesQueryVariables,
     IAccountBalancesProps<TChildProps>
   >(AccountBalancesDocument, {
-    alias: "withAccountBalances",
+    alias: "accountBalances",
     ...operationOptions,
   });
 }
 
+/**
+ * __useAccountBalancesQuery__
+ *
+ * To run a query within a React component, call `useAccountBalancesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAccountBalancesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAccountBalancesQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *   },
+ * });
+ */
 export function useAccountBalancesQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IAccountBalancesQuery,
     IAccountBalancesQueryVariables
   >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    IAccountBalancesQuery,
+    IAccountBalancesQueryVariables
+  >(AccountBalancesDocument, baseOptions);
+}
+export function useAccountBalancesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IAccountBalancesQuery,
+    IAccountBalancesQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     IAccountBalancesQuery,
     IAccountBalancesQueryVariables
   >(AccountBalancesDocument, baseOptions);
 }
 export type AccountBalancesQueryHookResult = ReturnType<
   typeof useAccountBalancesQuery
+>;
+export type AccountBalancesLazyQueryHookResult = ReturnType<
+  typeof useAccountBalancesLazyQuery
+>;
+export type AccountBalancesQueryResult = ApolloReactCommon.QueryResult<
+  IAccountBalancesQuery,
+  IAccountBalancesQueryVariables
 >;
 export const AccountInformationDocument = gql`
   query accountInformation($address: String!) {
@@ -1401,21 +1441,21 @@ export const AccountInformationDocument = gql`
   }
 `;
 export type AccountInformationComponentProps = Omit<
-  ReactApollo.QueryProps<
+  ApolloReactComponents.QueryComponentOptions<
     IAccountInformationQuery,
     IAccountInformationQueryVariables
   >,
   "query"
 > &
   (
-    | { variables: IAccountInformationQueryVariables; skip?: false }
-    | { skip: true }
+    | { variables: IAccountInformationQueryVariables; skip?: boolean }
+    | { skip: boolean }
   );
 
 export const AccountInformationComponent = (
   props: AccountInformationComponentProps,
 ) => (
-  <ReactApollo.Query<
+  <ApolloReactComponents.Query<
     IAccountInformationQuery,
     IAccountInformationQueryVariables
   >
@@ -1424,44 +1464,79 @@ export const AccountInformationComponent = (
   />
 );
 
-export type IAccountInformationProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<
-    IAccountInformationQuery,
-    IAccountInformationQueryVariables
-  >
+export type IAccountInformationProps<
+  TChildProps = {}
+> = ApolloReactHoc.DataProps<
+  IAccountInformationQuery,
+  IAccountInformationQueryVariables
 > &
   TChildProps;
 export function withAccountInformation<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IAccountInformationQuery,
     IAccountInformationQueryVariables,
     IAccountInformationProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IAccountInformationQuery,
     IAccountInformationQueryVariables,
     IAccountInformationProps<TChildProps>
   >(AccountInformationDocument, {
-    alias: "withAccountInformation",
+    alias: "accountInformation",
     ...operationOptions,
   });
 }
 
+/**
+ * __useAccountInformationQuery__
+ *
+ * To run a query within a React component, call `useAccountInformationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAccountInformationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAccountInformationQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *   },
+ * });
+ */
 export function useAccountInformationQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IAccountInformationQuery,
     IAccountInformationQueryVariables
   >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    IAccountInformationQuery,
+    IAccountInformationQueryVariables
+  >(AccountInformationDocument, baseOptions);
+}
+export function useAccountInformationLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IAccountInformationQuery,
+    IAccountInformationQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     IAccountInformationQuery,
     IAccountInformationQueryVariables
   >(AccountInformationDocument, baseOptions);
 }
 export type AccountInformationQueryHookResult = ReturnType<
   typeof useAccountInformationQuery
+>;
+export type AccountInformationLazyQueryHookResult = ReturnType<
+  typeof useAccountInformationLazyQuery
+>;
+export type AccountInformationQueryResult = ApolloReactCommon.QueryResult<
+  IAccountInformationQuery,
+  IAccountInformationQueryVariables
 >;
 export const CoinsDocument = gql`
   query coins {
@@ -1473,70 +1548,108 @@ export const CoinsDocument = gql`
   }
 `;
 export type CoinsComponentProps = Omit<
-  ReactApollo.QueryProps<ICoinsQuery, ICoinsQueryVariables>,
+  ApolloReactComponents.QueryComponentOptions<
+    ICoinsQuery,
+    ICoinsQueryVariables
+  >,
   "query"
 >;
 
 export const CoinsComponent = (props: CoinsComponentProps) => (
-  <ReactApollo.Query<ICoinsQuery, ICoinsQueryVariables>
+  <ApolloReactComponents.Query<ICoinsQuery, ICoinsQueryVariables>
     query={CoinsDocument}
     {...props}
   />
 );
 
-export type ICoinsProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<ICoinsQuery, ICoinsQueryVariables>
+export type ICoinsProps<TChildProps = {}> = ApolloReactHoc.DataProps<
+  ICoinsQuery,
+  ICoinsQueryVariables
 > &
   TChildProps;
 export function withCoins<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     ICoinsQuery,
     ICoinsQueryVariables,
     ICoinsProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     ICoinsQuery,
     ICoinsQueryVariables,
     ICoinsProps<TChildProps>
   >(CoinsDocument, {
-    alias: "withCoins",
+    alias: "coins",
     ...operationOptions,
   });
 }
 
+/**
+ * __useCoinsQuery__
+ *
+ * To run a query within a React component, call `useCoinsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCoinsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCoinsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
 export function useCoinsQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<ICoinsQueryVariables>,
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    ICoinsQuery,
+    ICoinsQueryVariables
+  >,
 ) {
-  return ReactApolloHooks.useQuery<ICoinsQuery, ICoinsQueryVariables>(
+  return ApolloReactHooks.useQuery<ICoinsQuery, ICoinsQueryVariables>(
+    CoinsDocument,
+    baseOptions,
+  );
+}
+export function useCoinsLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    ICoinsQuery,
+    ICoinsQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<ICoinsQuery, ICoinsQueryVariables>(
     CoinsDocument,
     baseOptions,
   );
 }
 export type CoinsQueryHookResult = ReturnType<typeof useCoinsQuery>;
+export type CoinsLazyQueryHookResult = ReturnType<typeof useCoinsLazyQuery>;
+export type CoinsQueryResult = ApolloReactCommon.QueryResult<
+  ICoinsQuery,
+  ICoinsQueryVariables
+>;
 export const DailyPercentChangeDocument = gql`
   query dailyPercentChange($crypto: String!, $fiat: String!) {
     dailyPercentChange(crypto: $crypto, fiat: $fiat)
   }
 `;
 export type DailyPercentChangeComponentProps = Omit<
-  ReactApollo.QueryProps<
+  ApolloReactComponents.QueryComponentOptions<
     IDailyPercentChangeQuery,
     IDailyPercentChangeQueryVariables
   >,
   "query"
 > &
   (
-    | { variables: IDailyPercentChangeQueryVariables; skip?: false }
-    | { skip: true }
+    | { variables: IDailyPercentChangeQueryVariables; skip?: boolean }
+    | { skip: boolean }
   );
 
 export const DailyPercentChangeComponent = (
   props: DailyPercentChangeComponentProps,
 ) => (
-  <ReactApollo.Query<
+  <ApolloReactComponents.Query<
     IDailyPercentChangeQuery,
     IDailyPercentChangeQueryVariables
   >
@@ -1545,44 +1658,80 @@ export const DailyPercentChangeComponent = (
   />
 );
 
-export type IDailyPercentChangeProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<
-    IDailyPercentChangeQuery,
-    IDailyPercentChangeQueryVariables
-  >
+export type IDailyPercentChangeProps<
+  TChildProps = {}
+> = ApolloReactHoc.DataProps<
+  IDailyPercentChangeQuery,
+  IDailyPercentChangeQueryVariables
 > &
   TChildProps;
 export function withDailyPercentChange<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IDailyPercentChangeQuery,
     IDailyPercentChangeQueryVariables,
     IDailyPercentChangeProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IDailyPercentChangeQuery,
     IDailyPercentChangeQueryVariables,
     IDailyPercentChangeProps<TChildProps>
   >(DailyPercentChangeDocument, {
-    alias: "withDailyPercentChange",
+    alias: "dailyPercentChange",
     ...operationOptions,
   });
 }
 
+/**
+ * __useDailyPercentChangeQuery__
+ *
+ * To run a query within a React component, call `useDailyPercentChangeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDailyPercentChangeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDailyPercentChangeQuery({
+ *   variables: {
+ *      crypto: // value for 'crypto'
+ *      fiat: // value for 'fiat'
+ *   },
+ * });
+ */
 export function useDailyPercentChangeQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IDailyPercentChangeQuery,
     IDailyPercentChangeQueryVariables
   >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    IDailyPercentChangeQuery,
+    IDailyPercentChangeQueryVariables
+  >(DailyPercentChangeDocument, baseOptions);
+}
+export function useDailyPercentChangeLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IDailyPercentChangeQuery,
+    IDailyPercentChangeQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     IDailyPercentChangeQuery,
     IDailyPercentChangeQueryVariables
   >(DailyPercentChangeDocument, baseOptions);
 }
 export type DailyPercentChangeQueryHookResult = ReturnType<
   typeof useDailyPercentChangeQuery
+>;
+export type DailyPercentChangeLazyQueryHookResult = ReturnType<
+  typeof useDailyPercentChangeLazyQuery
+>;
+export type DailyPercentChangeQueryResult = ApolloReactCommon.QueryResult<
+  IDailyPercentChangeQuery,
+  IDailyPercentChangeQueryVariables
 >;
 export const DistributionCommunityPoolDocument = gql`
   query distributionCommunityPool($network: String!) {
@@ -1593,21 +1742,21 @@ export const DistributionCommunityPoolDocument = gql`
   }
 `;
 export type DistributionCommunityPoolComponentProps = Omit<
-  ReactApollo.QueryProps<
+  ApolloReactComponents.QueryComponentOptions<
     IDistributionCommunityPoolQuery,
     IDistributionCommunityPoolQueryVariables
   >,
   "query"
 > &
   (
-    | { variables: IDistributionCommunityPoolQueryVariables; skip?: false }
-    | { skip: true }
+    | { variables: IDistributionCommunityPoolQueryVariables; skip?: boolean }
+    | { skip: boolean }
   );
 
 export const DistributionCommunityPoolComponent = (
   props: DistributionCommunityPoolComponentProps,
 ) => (
-  <ReactApollo.Query<
+  <ApolloReactComponents.Query<
     IDistributionCommunityPoolQuery,
     IDistributionCommunityPoolQueryVariables
   >
@@ -1616,44 +1765,79 @@ export const DistributionCommunityPoolComponent = (
   />
 );
 
-export type IDistributionCommunityPoolProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<
-    IDistributionCommunityPoolQuery,
-    IDistributionCommunityPoolQueryVariables
-  >
+export type IDistributionCommunityPoolProps<
+  TChildProps = {}
+> = ApolloReactHoc.DataProps<
+  IDistributionCommunityPoolQuery,
+  IDistributionCommunityPoolQueryVariables
 > &
   TChildProps;
 export function withDistributionCommunityPool<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IDistributionCommunityPoolQuery,
     IDistributionCommunityPoolQueryVariables,
     IDistributionCommunityPoolProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IDistributionCommunityPoolQuery,
     IDistributionCommunityPoolQueryVariables,
     IDistributionCommunityPoolProps<TChildProps>
   >(DistributionCommunityPoolDocument, {
-    alias: "withDistributionCommunityPool",
+    alias: "distributionCommunityPool",
     ...operationOptions,
   });
 }
 
+/**
+ * __useDistributionCommunityPoolQuery__
+ *
+ * To run a query within a React component, call `useDistributionCommunityPoolQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDistributionCommunityPoolQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDistributionCommunityPoolQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
 export function useDistributionCommunityPoolQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IDistributionCommunityPoolQuery,
     IDistributionCommunityPoolQueryVariables
   >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    IDistributionCommunityPoolQuery,
+    IDistributionCommunityPoolQueryVariables
+  >(DistributionCommunityPoolDocument, baseOptions);
+}
+export function useDistributionCommunityPoolLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IDistributionCommunityPoolQuery,
+    IDistributionCommunityPoolQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     IDistributionCommunityPoolQuery,
     IDistributionCommunityPoolQueryVariables
   >(DistributionCommunityPoolDocument, baseOptions);
 }
 export type DistributionCommunityPoolQueryHookResult = ReturnType<
   typeof useDistributionCommunityPoolQuery
+>;
+export type DistributionCommunityPoolLazyQueryHookResult = ReturnType<
+  typeof useDistributionCommunityPoolLazyQuery
+>;
+export type DistributionCommunityPoolQueryResult = ApolloReactCommon.QueryResult<
+  IDistributionCommunityPoolQuery,
+  IDistributionCommunityPoolQueryVariables
 >;
 export const DistributionParametersDocument = gql`
   query distributionParameters($network: String!) {
@@ -1665,21 +1849,21 @@ export const DistributionParametersDocument = gql`
   }
 `;
 export type DistributionParametersComponentProps = Omit<
-  ReactApollo.QueryProps<
+  ApolloReactComponents.QueryComponentOptions<
     IDistributionParametersQuery,
     IDistributionParametersQueryVariables
   >,
   "query"
 > &
   (
-    | { variables: IDistributionParametersQueryVariables; skip?: false }
-    | { skip: true }
+    | { variables: IDistributionParametersQueryVariables; skip?: boolean }
+    | { skip: boolean }
   );
 
 export const DistributionParametersComponent = (
   props: DistributionParametersComponentProps,
 ) => (
-  <ReactApollo.Query<
+  <ApolloReactComponents.Query<
     IDistributionParametersQuery,
     IDistributionParametersQueryVariables
   >
@@ -1688,44 +1872,79 @@ export const DistributionParametersComponent = (
   />
 );
 
-export type IDistributionParametersProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<
-    IDistributionParametersQuery,
-    IDistributionParametersQueryVariables
-  >
+export type IDistributionParametersProps<
+  TChildProps = {}
+> = ApolloReactHoc.DataProps<
+  IDistributionParametersQuery,
+  IDistributionParametersQueryVariables
 > &
   TChildProps;
 export function withDistributionParameters<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IDistributionParametersQuery,
     IDistributionParametersQueryVariables,
     IDistributionParametersProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IDistributionParametersQuery,
     IDistributionParametersQueryVariables,
     IDistributionParametersProps<TChildProps>
   >(DistributionParametersDocument, {
-    alias: "withDistributionParameters",
+    alias: "distributionParameters",
     ...operationOptions,
   });
 }
 
+/**
+ * __useDistributionParametersQuery__
+ *
+ * To run a query within a React component, call `useDistributionParametersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDistributionParametersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDistributionParametersQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
 export function useDistributionParametersQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IDistributionParametersQuery,
     IDistributionParametersQueryVariables
   >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    IDistributionParametersQuery,
+    IDistributionParametersQueryVariables
+  >(DistributionParametersDocument, baseOptions);
+}
+export function useDistributionParametersLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IDistributionParametersQuery,
+    IDistributionParametersQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     IDistributionParametersQuery,
     IDistributionParametersQueryVariables
   >(DistributionParametersDocument, baseOptions);
 }
 export type DistributionParametersQueryHookResult = ReturnType<
   typeof useDistributionParametersQuery
+>;
+export type DistributionParametersLazyQueryHookResult = ReturnType<
+  typeof useDistributionParametersLazyQuery
+>;
+export type DistributionParametersQueryResult = ApolloReactCommon.QueryResult<
+  IDistributionParametersQuery,
+  IDistributionParametersQueryVariables
 >;
 export const FiatCurrenciesDocument = gql`
   query fiatCurrencies {
@@ -1736,54 +1955,95 @@ export const FiatCurrenciesDocument = gql`
   }
 `;
 export type FiatCurrenciesComponentProps = Omit<
-  ReactApollo.QueryProps<IFiatCurrenciesQuery, IFiatCurrenciesQueryVariables>,
+  ApolloReactComponents.QueryComponentOptions<
+    IFiatCurrenciesQuery,
+    IFiatCurrenciesQueryVariables
+  >,
   "query"
 >;
 
 export const FiatCurrenciesComponent = (
   props: FiatCurrenciesComponentProps,
 ) => (
-  <ReactApollo.Query<IFiatCurrenciesQuery, IFiatCurrenciesQueryVariables>
+  <ApolloReactComponents.Query<
+    IFiatCurrenciesQuery,
+    IFiatCurrenciesQueryVariables
+  >
     query={FiatCurrenciesDocument}
     {...props}
   />
 );
 
-export type IFiatCurrenciesProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<IFiatCurrenciesQuery, IFiatCurrenciesQueryVariables>
+export type IFiatCurrenciesProps<TChildProps = {}> = ApolloReactHoc.DataProps<
+  IFiatCurrenciesQuery,
+  IFiatCurrenciesQueryVariables
 > &
   TChildProps;
 export function withFiatCurrencies<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IFiatCurrenciesQuery,
     IFiatCurrenciesQueryVariables,
     IFiatCurrenciesProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IFiatCurrenciesQuery,
     IFiatCurrenciesQueryVariables,
     IFiatCurrenciesProps<TChildProps>
   >(FiatCurrenciesDocument, {
-    alias: "withFiatCurrencies",
+    alias: "fiatCurrencies",
     ...operationOptions,
   });
 }
 
+/**
+ * __useFiatCurrenciesQuery__
+ *
+ * To run a query within a React component, call `useFiatCurrenciesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFiatCurrenciesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFiatCurrenciesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
 export function useFiatCurrenciesQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IFiatCurrenciesQuery,
     IFiatCurrenciesQueryVariables
   >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    IFiatCurrenciesQuery,
+    IFiatCurrenciesQueryVariables
+  >(FiatCurrenciesDocument, baseOptions);
+}
+export function useFiatCurrenciesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IFiatCurrenciesQuery,
+    IFiatCurrenciesQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     IFiatCurrenciesQuery,
     IFiatCurrenciesQueryVariables
   >(FiatCurrenciesDocument, baseOptions);
 }
 export type FiatCurrenciesQueryHookResult = ReturnType<
   typeof useFiatCurrenciesQuery
+>;
+export type FiatCurrenciesLazyQueryHookResult = ReturnType<
+  typeof useFiatCurrenciesLazyQuery
+>;
+export type FiatCurrenciesQueryResult = ApolloReactCommon.QueryResult<
+  IFiatCurrenciesQuery,
+  IFiatCurrenciesQueryVariables
 >;
 export const FiatPriceHistoryDocument = gql`
   query fiatPriceHistory($fiat: String!, $network: String!) {
@@ -1794,61 +2054,101 @@ export const FiatPriceHistoryDocument = gql`
   }
 `;
 export type FiatPriceHistoryComponentProps = Omit<
-  ReactApollo.QueryProps<
+  ApolloReactComponents.QueryComponentOptions<
     IFiatPriceHistoryQuery,
     IFiatPriceHistoryQueryVariables
   >,
   "query"
 > &
   (
-    | { variables: IFiatPriceHistoryQueryVariables; skip?: false }
-    | { skip: true }
+    | { variables: IFiatPriceHistoryQueryVariables; skip?: boolean }
+    | { skip: boolean }
   );
 
 export const FiatPriceHistoryComponent = (
   props: FiatPriceHistoryComponentProps,
 ) => (
-  <ReactApollo.Query<IFiatPriceHistoryQuery, IFiatPriceHistoryQueryVariables>
+  <ApolloReactComponents.Query<
+    IFiatPriceHistoryQuery,
+    IFiatPriceHistoryQueryVariables
+  >
     query={FiatPriceHistoryDocument}
     {...props}
   />
 );
 
-export type IFiatPriceHistoryProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<IFiatPriceHistoryQuery, IFiatPriceHistoryQueryVariables>
+export type IFiatPriceHistoryProps<TChildProps = {}> = ApolloReactHoc.DataProps<
+  IFiatPriceHistoryQuery,
+  IFiatPriceHistoryQueryVariables
 > &
   TChildProps;
 export function withFiatPriceHistory<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IFiatPriceHistoryQuery,
     IFiatPriceHistoryQueryVariables,
     IFiatPriceHistoryProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IFiatPriceHistoryQuery,
     IFiatPriceHistoryQueryVariables,
     IFiatPriceHistoryProps<TChildProps>
   >(FiatPriceHistoryDocument, {
-    alias: "withFiatPriceHistory",
+    alias: "fiatPriceHistory",
     ...operationOptions,
   });
 }
 
+/**
+ * __useFiatPriceHistoryQuery__
+ *
+ * To run a query within a React component, call `useFiatPriceHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFiatPriceHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFiatPriceHistoryQuery({
+ *   variables: {
+ *      fiat: // value for 'fiat'
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
 export function useFiatPriceHistoryQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IFiatPriceHistoryQuery,
     IFiatPriceHistoryQueryVariables
   >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    IFiatPriceHistoryQuery,
+    IFiatPriceHistoryQueryVariables
+  >(FiatPriceHistoryDocument, baseOptions);
+}
+export function useFiatPriceHistoryLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IFiatPriceHistoryQuery,
+    IFiatPriceHistoryQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     IFiatPriceHistoryQuery,
     IFiatPriceHistoryQueryVariables
   >(FiatPriceHistoryDocument, baseOptions);
 }
 export type FiatPriceHistoryQueryHookResult = ReturnType<
   typeof useFiatPriceHistoryQuery
+>;
+export type FiatPriceHistoryLazyQueryHookResult = ReturnType<
+  typeof useFiatPriceHistoryLazyQuery
+>;
+export type FiatPriceHistoryQueryResult = ApolloReactCommon.QueryResult<
+  IFiatPriceHistoryQuery,
+  IFiatPriceHistoryQueryVariables
 >;
 export const GovernanceParametersDepositDocument = gql`
   query governanceParametersDeposit($network: String!) {
@@ -1862,21 +2162,21 @@ export const GovernanceParametersDepositDocument = gql`
   }
 `;
 export type GovernanceParametersDepositComponentProps = Omit<
-  ReactApollo.QueryProps<
+  ApolloReactComponents.QueryComponentOptions<
     IGovernanceParametersDepositQuery,
     IGovernanceParametersDepositQueryVariables
   >,
   "query"
 > &
   (
-    | { variables: IGovernanceParametersDepositQueryVariables; skip?: false }
-    | { skip: true }
+    | { variables: IGovernanceParametersDepositQueryVariables; skip?: boolean }
+    | { skip: boolean }
   );
 
 export const GovernanceParametersDepositComponent = (
   props: GovernanceParametersDepositComponentProps,
 ) => (
-  <ReactApollo.Query<
+  <ApolloReactComponents.Query<
     IGovernanceParametersDepositQuery,
     IGovernanceParametersDepositQueryVariables
   >
@@ -1885,44 +2185,79 @@ export const GovernanceParametersDepositComponent = (
   />
 );
 
-export type IGovernanceParametersDepositProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<
-    IGovernanceParametersDepositQuery,
-    IGovernanceParametersDepositQueryVariables
-  >
+export type IGovernanceParametersDepositProps<
+  TChildProps = {}
+> = ApolloReactHoc.DataProps<
+  IGovernanceParametersDepositQuery,
+  IGovernanceParametersDepositQueryVariables
 > &
   TChildProps;
 export function withGovernanceParametersDeposit<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IGovernanceParametersDepositQuery,
     IGovernanceParametersDepositQueryVariables,
     IGovernanceParametersDepositProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IGovernanceParametersDepositQuery,
     IGovernanceParametersDepositQueryVariables,
     IGovernanceParametersDepositProps<TChildProps>
   >(GovernanceParametersDepositDocument, {
-    alias: "withGovernanceParametersDeposit",
+    alias: "governanceParametersDeposit",
     ...operationOptions,
   });
 }
 
+/**
+ * __useGovernanceParametersDepositQuery__
+ *
+ * To run a query within a React component, call `useGovernanceParametersDepositQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGovernanceParametersDepositQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGovernanceParametersDepositQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
 export function useGovernanceParametersDepositQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IGovernanceParametersDepositQuery,
     IGovernanceParametersDepositQueryVariables
   >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    IGovernanceParametersDepositQuery,
+    IGovernanceParametersDepositQueryVariables
+  >(GovernanceParametersDepositDocument, baseOptions);
+}
+export function useGovernanceParametersDepositLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IGovernanceParametersDepositQuery,
+    IGovernanceParametersDepositQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     IGovernanceParametersDepositQuery,
     IGovernanceParametersDepositQueryVariables
   >(GovernanceParametersDepositDocument, baseOptions);
 }
 export type GovernanceParametersDepositQueryHookResult = ReturnType<
   typeof useGovernanceParametersDepositQuery
+>;
+export type GovernanceParametersDepositLazyQueryHookResult = ReturnType<
+  typeof useGovernanceParametersDepositLazyQuery
+>;
+export type GovernanceParametersDepositQueryResult = ApolloReactCommon.QueryResult<
+  IGovernanceParametersDepositQuery,
+  IGovernanceParametersDepositQueryVariables
 >;
 export const GovernanceParametersTallyingDocument = gql`
   query governanceParametersTallying($network: String!) {
@@ -1934,21 +2269,21 @@ export const GovernanceParametersTallyingDocument = gql`
   }
 `;
 export type GovernanceParametersTallyingComponentProps = Omit<
-  ReactApollo.QueryProps<
+  ApolloReactComponents.QueryComponentOptions<
     IGovernanceParametersTallyingQuery,
     IGovernanceParametersTallyingQueryVariables
   >,
   "query"
 > &
   (
-    | { variables: IGovernanceParametersTallyingQueryVariables; skip?: false }
-    | { skip: true }
+    | { variables: IGovernanceParametersTallyingQueryVariables; skip?: boolean }
+    | { skip: boolean }
   );
 
 export const GovernanceParametersTallyingComponent = (
   props: GovernanceParametersTallyingComponentProps,
 ) => (
-  <ReactApollo.Query<
+  <ApolloReactComponents.Query<
     IGovernanceParametersTallyingQuery,
     IGovernanceParametersTallyingQueryVariables
   >
@@ -1957,44 +2292,79 @@ export const GovernanceParametersTallyingComponent = (
   />
 );
 
-export type IGovernanceParametersTallyingProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<
-    IGovernanceParametersTallyingQuery,
-    IGovernanceParametersTallyingQueryVariables
-  >
+export type IGovernanceParametersTallyingProps<
+  TChildProps = {}
+> = ApolloReactHoc.DataProps<
+  IGovernanceParametersTallyingQuery,
+  IGovernanceParametersTallyingQueryVariables
 > &
   TChildProps;
 export function withGovernanceParametersTallying<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IGovernanceParametersTallyingQuery,
     IGovernanceParametersTallyingQueryVariables,
     IGovernanceParametersTallyingProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IGovernanceParametersTallyingQuery,
     IGovernanceParametersTallyingQueryVariables,
     IGovernanceParametersTallyingProps<TChildProps>
   >(GovernanceParametersTallyingDocument, {
-    alias: "withGovernanceParametersTallying",
+    alias: "governanceParametersTallying",
     ...operationOptions,
   });
 }
 
+/**
+ * __useGovernanceParametersTallyingQuery__
+ *
+ * To run a query within a React component, call `useGovernanceParametersTallyingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGovernanceParametersTallyingQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGovernanceParametersTallyingQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
 export function useGovernanceParametersTallyingQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IGovernanceParametersTallyingQuery,
     IGovernanceParametersTallyingQueryVariables
   >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    IGovernanceParametersTallyingQuery,
+    IGovernanceParametersTallyingQueryVariables
+  >(GovernanceParametersTallyingDocument, baseOptions);
+}
+export function useGovernanceParametersTallyingLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IGovernanceParametersTallyingQuery,
+    IGovernanceParametersTallyingQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     IGovernanceParametersTallyingQuery,
     IGovernanceParametersTallyingQueryVariables
   >(GovernanceParametersTallyingDocument, baseOptions);
 }
 export type GovernanceParametersTallyingQueryHookResult = ReturnType<
   typeof useGovernanceParametersTallyingQuery
+>;
+export type GovernanceParametersTallyingLazyQueryHookResult = ReturnType<
+  typeof useGovernanceParametersTallyingLazyQuery
+>;
+export type GovernanceParametersTallyingQueryResult = ApolloReactCommon.QueryResult<
+  IGovernanceParametersTallyingQuery,
+  IGovernanceParametersTallyingQueryVariables
 >;
 export const GovernanceParametersVotingDocument = gql`
   query governanceParametersVoting($network: String!) {
@@ -2004,21 +2374,21 @@ export const GovernanceParametersVotingDocument = gql`
   }
 `;
 export type GovernanceParametersVotingComponentProps = Omit<
-  ReactApollo.QueryProps<
+  ApolloReactComponents.QueryComponentOptions<
     IGovernanceParametersVotingQuery,
     IGovernanceParametersVotingQueryVariables
   >,
   "query"
 > &
   (
-    | { variables: IGovernanceParametersVotingQueryVariables; skip?: false }
-    | { skip: true }
+    | { variables: IGovernanceParametersVotingQueryVariables; skip?: boolean }
+    | { skip: boolean }
   );
 
 export const GovernanceParametersVotingComponent = (
   props: GovernanceParametersVotingComponentProps,
 ) => (
-  <ReactApollo.Query<
+  <ApolloReactComponents.Query<
     IGovernanceParametersVotingQuery,
     IGovernanceParametersVotingQueryVariables
   >
@@ -2027,44 +2397,79 @@ export const GovernanceParametersVotingComponent = (
   />
 );
 
-export type IGovernanceParametersVotingProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<
-    IGovernanceParametersVotingQuery,
-    IGovernanceParametersVotingQueryVariables
-  >
+export type IGovernanceParametersVotingProps<
+  TChildProps = {}
+> = ApolloReactHoc.DataProps<
+  IGovernanceParametersVotingQuery,
+  IGovernanceParametersVotingQueryVariables
 > &
   TChildProps;
 export function withGovernanceParametersVoting<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IGovernanceParametersVotingQuery,
     IGovernanceParametersVotingQueryVariables,
     IGovernanceParametersVotingProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IGovernanceParametersVotingQuery,
     IGovernanceParametersVotingQueryVariables,
     IGovernanceParametersVotingProps<TChildProps>
   >(GovernanceParametersVotingDocument, {
-    alias: "withGovernanceParametersVoting",
+    alias: "governanceParametersVoting",
     ...operationOptions,
   });
 }
 
+/**
+ * __useGovernanceParametersVotingQuery__
+ *
+ * To run a query within a React component, call `useGovernanceParametersVotingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGovernanceParametersVotingQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGovernanceParametersVotingQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
 export function useGovernanceParametersVotingQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IGovernanceParametersVotingQuery,
     IGovernanceParametersVotingQueryVariables
   >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    IGovernanceParametersVotingQuery,
+    IGovernanceParametersVotingQueryVariables
+  >(GovernanceParametersVotingDocument, baseOptions);
+}
+export function useGovernanceParametersVotingLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IGovernanceParametersVotingQuery,
+    IGovernanceParametersVotingQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     IGovernanceParametersVotingQuery,
     IGovernanceParametersVotingQueryVariables
   >(GovernanceParametersVotingDocument, baseOptions);
 }
 export type GovernanceParametersVotingQueryHookResult = ReturnType<
   typeof useGovernanceParametersVotingQuery
+>;
+export type GovernanceParametersVotingLazyQueryHookResult = ReturnType<
+  typeof useGovernanceParametersVotingLazyQuery
+>;
+export type GovernanceParametersVotingQueryResult = ApolloReactCommon.QueryResult<
+  IGovernanceParametersVotingQuery,
+  IGovernanceParametersVotingQueryVariables
 >;
 export const GovernanceProposalsDocument = gql`
   query governanceProposals($network: String!) {
@@ -2090,21 +2495,21 @@ export const GovernanceProposalsDocument = gql`
   }
 `;
 export type GovernanceProposalsComponentProps = Omit<
-  ReactApollo.QueryProps<
+  ApolloReactComponents.QueryComponentOptions<
     IGovernanceProposalsQuery,
     IGovernanceProposalsQueryVariables
   >,
   "query"
 > &
   (
-    | { variables: IGovernanceProposalsQueryVariables; skip?: false }
-    | { skip: true }
+    | { variables: IGovernanceProposalsQueryVariables; skip?: boolean }
+    | { skip: boolean }
   );
 
 export const GovernanceProposalsComponent = (
   props: GovernanceProposalsComponentProps,
 ) => (
-  <ReactApollo.Query<
+  <ApolloReactComponents.Query<
     IGovernanceProposalsQuery,
     IGovernanceProposalsQueryVariables
   >
@@ -2113,44 +2518,79 @@ export const GovernanceProposalsComponent = (
   />
 );
 
-export type IGovernanceProposalsProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<
-    IGovernanceProposalsQuery,
-    IGovernanceProposalsQueryVariables
-  >
+export type IGovernanceProposalsProps<
+  TChildProps = {}
+> = ApolloReactHoc.DataProps<
+  IGovernanceProposalsQuery,
+  IGovernanceProposalsQueryVariables
 > &
   TChildProps;
 export function withGovernanceProposals<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IGovernanceProposalsQuery,
     IGovernanceProposalsQueryVariables,
     IGovernanceProposalsProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IGovernanceProposalsQuery,
     IGovernanceProposalsQueryVariables,
     IGovernanceProposalsProps<TChildProps>
   >(GovernanceProposalsDocument, {
-    alias: "withGovernanceProposals",
+    alias: "governanceProposals",
     ...operationOptions,
   });
 }
 
+/**
+ * __useGovernanceProposalsQuery__
+ *
+ * To run a query within a React component, call `useGovernanceProposalsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGovernanceProposalsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGovernanceProposalsQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
 export function useGovernanceProposalsQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IGovernanceProposalsQuery,
     IGovernanceProposalsQueryVariables
   >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    IGovernanceProposalsQuery,
+    IGovernanceProposalsQueryVariables
+  >(GovernanceProposalsDocument, baseOptions);
+}
+export function useGovernanceProposalsLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IGovernanceProposalsQuery,
+    IGovernanceProposalsQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     IGovernanceProposalsQuery,
     IGovernanceProposalsQueryVariables
   >(GovernanceProposalsDocument, baseOptions);
 }
 export type GovernanceProposalsQueryHookResult = ReturnType<
   typeof useGovernanceProposalsQuery
+>;
+export type GovernanceProposalsLazyQueryHookResult = ReturnType<
+  typeof useGovernanceProposalsLazyQuery
+>;
+export type GovernanceProposalsQueryResult = ApolloReactCommon.QueryResult<
+  IGovernanceProposalsQuery,
+  IGovernanceProposalsQueryVariables
 >;
 export const LatestBlockDocument = gql`
   query latestBlock($network: String!) {
@@ -2177,50 +2617,94 @@ export const LatestBlockDocument = gql`
   }
 `;
 export type LatestBlockComponentProps = Omit<
-  ReactApollo.QueryProps<ILatestBlockQuery, ILatestBlockQueryVariables>,
+  ApolloReactComponents.QueryComponentOptions<
+    ILatestBlockQuery,
+    ILatestBlockQueryVariables
+  >,
   "query"
 > &
-  ({ variables: ILatestBlockQueryVariables; skip?: false } | { skip: true });
+  (
+    | { variables: ILatestBlockQueryVariables; skip?: boolean }
+    | { skip: boolean }
+  );
 
 export const LatestBlockComponent = (props: LatestBlockComponentProps) => (
-  <ReactApollo.Query<ILatestBlockQuery, ILatestBlockQueryVariables>
+  <ApolloReactComponents.Query<ILatestBlockQuery, ILatestBlockQueryVariables>
     query={LatestBlockDocument}
     {...props}
   />
 );
 
-export type ILatestBlockProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<ILatestBlockQuery, ILatestBlockQueryVariables>
+export type ILatestBlockProps<TChildProps = {}> = ApolloReactHoc.DataProps<
+  ILatestBlockQuery,
+  ILatestBlockQueryVariables
 > &
   TChildProps;
 export function withLatestBlock<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     ILatestBlockQuery,
     ILatestBlockQueryVariables,
     ILatestBlockProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     ILatestBlockQuery,
     ILatestBlockQueryVariables,
     ILatestBlockProps<TChildProps>
   >(LatestBlockDocument, {
-    alias: "withLatestBlock",
+    alias: "latestBlock",
     ...operationOptions,
   });
 }
 
+/**
+ * __useLatestBlockQuery__
+ *
+ * To run a query within a React component, call `useLatestBlockQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLatestBlockQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLatestBlockQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
 export function useLatestBlockQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<ILatestBlockQueryVariables>,
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    ILatestBlockQuery,
+    ILatestBlockQueryVariables
+  >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    ILatestBlockQuery,
+    ILatestBlockQueryVariables
+  >(LatestBlockDocument, baseOptions);
+}
+export function useLatestBlockLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    ILatestBlockQuery,
+    ILatestBlockQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     ILatestBlockQuery,
     ILatestBlockQueryVariables
   >(LatestBlockDocument, baseOptions);
 }
 export type LatestBlockQueryHookResult = ReturnType<typeof useLatestBlockQuery>;
+export type LatestBlockLazyQueryHookResult = ReturnType<
+  typeof useLatestBlockLazyQuery
+>;
+export type LatestBlockQueryResult = ApolloReactCommon.QueryResult<
+  ILatestBlockQuery,
+  ILatestBlockQueryVariables
+>;
 export const PortfolioHistoryDocument = gql`
   query portfolioHistory($address: String!, $fiat: String!) {
     portfolioHistory(address: $address, fiat: $fiat) {
@@ -2262,61 +2746,101 @@ export const PortfolioHistoryDocument = gql`
   }
 `;
 export type PortfolioHistoryComponentProps = Omit<
-  ReactApollo.QueryProps<
+  ApolloReactComponents.QueryComponentOptions<
     IPortfolioHistoryQuery,
     IPortfolioHistoryQueryVariables
   >,
   "query"
 > &
   (
-    | { variables: IPortfolioHistoryQueryVariables; skip?: false }
-    | { skip: true }
+    | { variables: IPortfolioHistoryQueryVariables; skip?: boolean }
+    | { skip: boolean }
   );
 
 export const PortfolioHistoryComponent = (
   props: PortfolioHistoryComponentProps,
 ) => (
-  <ReactApollo.Query<IPortfolioHistoryQuery, IPortfolioHistoryQueryVariables>
+  <ApolloReactComponents.Query<
+    IPortfolioHistoryQuery,
+    IPortfolioHistoryQueryVariables
+  >
     query={PortfolioHistoryDocument}
     {...props}
   />
 );
 
-export type IPortfolioHistoryProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<IPortfolioHistoryQuery, IPortfolioHistoryQueryVariables>
+export type IPortfolioHistoryProps<TChildProps = {}> = ApolloReactHoc.DataProps<
+  IPortfolioHistoryQuery,
+  IPortfolioHistoryQueryVariables
 > &
   TChildProps;
 export function withPortfolioHistory<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IPortfolioHistoryQuery,
     IPortfolioHistoryQueryVariables,
     IPortfolioHistoryProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IPortfolioHistoryQuery,
     IPortfolioHistoryQueryVariables,
     IPortfolioHistoryProps<TChildProps>
   >(PortfolioHistoryDocument, {
-    alias: "withPortfolioHistory",
+    alias: "portfolioHistory",
     ...operationOptions,
   });
 }
 
+/**
+ * __usePortfolioHistoryQuery__
+ *
+ * To run a query within a React component, call `usePortfolioHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePortfolioHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePortfolioHistoryQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *      fiat: // value for 'fiat'
+ *   },
+ * });
+ */
 export function usePortfolioHistoryQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IPortfolioHistoryQuery,
     IPortfolioHistoryQueryVariables
   >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    IPortfolioHistoryQuery,
+    IPortfolioHistoryQueryVariables
+  >(PortfolioHistoryDocument, baseOptions);
+}
+export function usePortfolioHistoryLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IPortfolioHistoryQuery,
+    IPortfolioHistoryQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     IPortfolioHistoryQuery,
     IPortfolioHistoryQueryVariables
   >(PortfolioHistoryDocument, baseOptions);
 }
 export type PortfolioHistoryQueryHookResult = ReturnType<
   typeof usePortfolioHistoryQuery
+>;
+export type PortfolioHistoryLazyQueryHookResult = ReturnType<
+  typeof usePortfolioHistoryLazyQuery
+>;
+export type PortfolioHistoryQueryResult = ApolloReactCommon.QueryResult<
+  IPortfolioHistoryQuery,
+  IPortfolioHistoryQueryVariables
 >;
 export const PricesDocument = gql`
   query prices($currency: String!, $versus: String!) {
@@ -2326,50 +2850,90 @@ export const PricesDocument = gql`
   }
 `;
 export type PricesComponentProps = Omit<
-  ReactApollo.QueryProps<IPricesQuery, IPricesQueryVariables>,
+  ApolloReactComponents.QueryComponentOptions<
+    IPricesQuery,
+    IPricesQueryVariables
+  >,
   "query"
 > &
-  ({ variables: IPricesQueryVariables; skip?: false } | { skip: true });
+  ({ variables: IPricesQueryVariables; skip?: boolean } | { skip: boolean });
 
 export const PricesComponent = (props: PricesComponentProps) => (
-  <ReactApollo.Query<IPricesQuery, IPricesQueryVariables>
+  <ApolloReactComponents.Query<IPricesQuery, IPricesQueryVariables>
     query={PricesDocument}
     {...props}
   />
 );
 
-export type IPricesProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<IPricesQuery, IPricesQueryVariables>
+export type IPricesProps<TChildProps = {}> = ApolloReactHoc.DataProps<
+  IPricesQuery,
+  IPricesQueryVariables
 > &
   TChildProps;
 export function withPrices<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IPricesQuery,
     IPricesQueryVariables,
     IPricesProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IPricesQuery,
     IPricesQueryVariables,
     IPricesProps<TChildProps>
   >(PricesDocument, {
-    alias: "withPrices",
+    alias: "prices",
     ...operationOptions,
   });
 }
 
+/**
+ * __usePricesQuery__
+ *
+ * To run a query within a React component, call `usePricesQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePricesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePricesQuery({
+ *   variables: {
+ *      currency: // value for 'currency'
+ *      versus: // value for 'versus'
+ *   },
+ * });
+ */
 export function usePricesQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<IPricesQueryVariables>,
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IPricesQuery,
+    IPricesQueryVariables
+  >,
 ) {
-  return ReactApolloHooks.useQuery<IPricesQuery, IPricesQueryVariables>(
+  return ApolloReactHooks.useQuery<IPricesQuery, IPricesQueryVariables>(
+    PricesDocument,
+    baseOptions,
+  );
+}
+export function usePricesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IPricesQuery,
+    IPricesQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<IPricesQuery, IPricesQueryVariables>(
     PricesDocument,
     baseOptions,
   );
 }
 export type PricesQueryHookResult = ReturnType<typeof usePricesQuery>;
+export type PricesLazyQueryHookResult = ReturnType<typeof usePricesLazyQuery>;
+export type PricesQueryResult = ApolloReactCommon.QueryResult<
+  IPricesQuery,
+  IPricesQueryVariables
+>;
 export const RewardsByValidatorDocument = gql`
   query rewardsByValidator($address: String!) {
     rewardsByValidator(address: $address) {
@@ -2382,21 +2946,21 @@ export const RewardsByValidatorDocument = gql`
   }
 `;
 export type RewardsByValidatorComponentProps = Omit<
-  ReactApollo.QueryProps<
+  ApolloReactComponents.QueryComponentOptions<
     IRewardsByValidatorQuery,
     IRewardsByValidatorQueryVariables
   >,
   "query"
 > &
   (
-    | { variables: IRewardsByValidatorQueryVariables; skip?: false }
-    | { skip: true }
+    | { variables: IRewardsByValidatorQueryVariables; skip?: boolean }
+    | { skip: boolean }
   );
 
 export const RewardsByValidatorComponent = (
   props: RewardsByValidatorComponentProps,
 ) => (
-  <ReactApollo.Query<
+  <ApolloReactComponents.Query<
     IRewardsByValidatorQuery,
     IRewardsByValidatorQueryVariables
   >
@@ -2405,44 +2969,79 @@ export const RewardsByValidatorComponent = (
   />
 );
 
-export type IRewardsByValidatorProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<
-    IRewardsByValidatorQuery,
-    IRewardsByValidatorQueryVariables
-  >
+export type IRewardsByValidatorProps<
+  TChildProps = {}
+> = ApolloReactHoc.DataProps<
+  IRewardsByValidatorQuery,
+  IRewardsByValidatorQueryVariables
 > &
   TChildProps;
 export function withRewardsByValidator<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IRewardsByValidatorQuery,
     IRewardsByValidatorQueryVariables,
     IRewardsByValidatorProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IRewardsByValidatorQuery,
     IRewardsByValidatorQueryVariables,
     IRewardsByValidatorProps<TChildProps>
   >(RewardsByValidatorDocument, {
-    alias: "withRewardsByValidator",
+    alias: "rewardsByValidator",
     ...operationOptions,
   });
 }
 
+/**
+ * __useRewardsByValidatorQuery__
+ *
+ * To run a query within a React component, call `useRewardsByValidatorQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRewardsByValidatorQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRewardsByValidatorQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *   },
+ * });
+ */
 export function useRewardsByValidatorQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IRewardsByValidatorQuery,
     IRewardsByValidatorQueryVariables
   >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    IRewardsByValidatorQuery,
+    IRewardsByValidatorQueryVariables
+  >(RewardsByValidatorDocument, baseOptions);
+}
+export function useRewardsByValidatorLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IRewardsByValidatorQuery,
+    IRewardsByValidatorQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     IRewardsByValidatorQuery,
     IRewardsByValidatorQueryVariables
   >(RewardsByValidatorDocument, baseOptions);
 }
 export type RewardsByValidatorQueryHookResult = ReturnType<
   typeof useRewardsByValidatorQuery
+>;
+export type RewardsByValidatorLazyQueryHookResult = ReturnType<
+  typeof useRewardsByValidatorLazyQuery
+>;
+export type RewardsByValidatorQueryResult = ApolloReactCommon.QueryResult<
+  IRewardsByValidatorQuery,
+  IRewardsByValidatorQueryVariables
 >;
 export const SlashingParametersDocument = gql`
   query slashingParameters($network: String!) {
@@ -2458,21 +3057,21 @@ export const SlashingParametersDocument = gql`
   }
 `;
 export type SlashingParametersComponentProps = Omit<
-  ReactApollo.QueryProps<
+  ApolloReactComponents.QueryComponentOptions<
     ISlashingParametersQuery,
     ISlashingParametersQueryVariables
   >,
   "query"
 > &
   (
-    | { variables: ISlashingParametersQueryVariables; skip?: false }
-    | { skip: true }
+    | { variables: ISlashingParametersQueryVariables; skip?: boolean }
+    | { skip: boolean }
   );
 
 export const SlashingParametersComponent = (
   props: SlashingParametersComponentProps,
 ) => (
-  <ReactApollo.Query<
+  <ApolloReactComponents.Query<
     ISlashingParametersQuery,
     ISlashingParametersQueryVariables
   >
@@ -2481,44 +3080,79 @@ export const SlashingParametersComponent = (
   />
 );
 
-export type ISlashingParametersProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<
-    ISlashingParametersQuery,
-    ISlashingParametersQueryVariables
-  >
+export type ISlashingParametersProps<
+  TChildProps = {}
+> = ApolloReactHoc.DataProps<
+  ISlashingParametersQuery,
+  ISlashingParametersQueryVariables
 > &
   TChildProps;
 export function withSlashingParameters<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     ISlashingParametersQuery,
     ISlashingParametersQueryVariables,
     ISlashingParametersProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     ISlashingParametersQuery,
     ISlashingParametersQueryVariables,
     ISlashingParametersProps<TChildProps>
   >(SlashingParametersDocument, {
-    alias: "withSlashingParameters",
+    alias: "slashingParameters",
     ...operationOptions,
   });
 }
 
+/**
+ * __useSlashingParametersQuery__
+ *
+ * To run a query within a React component, call `useSlashingParametersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSlashingParametersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSlashingParametersQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
 export function useSlashingParametersQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    ISlashingParametersQuery,
     ISlashingParametersQueryVariables
   >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    ISlashingParametersQuery,
+    ISlashingParametersQueryVariables
+  >(SlashingParametersDocument, baseOptions);
+}
+export function useSlashingParametersLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    ISlashingParametersQuery,
+    ISlashingParametersQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     ISlashingParametersQuery,
     ISlashingParametersQueryVariables
   >(SlashingParametersDocument, baseOptions);
 }
 export type SlashingParametersQueryHookResult = ReturnType<
   typeof useSlashingParametersQuery
+>;
+export type SlashingParametersLazyQueryHookResult = ReturnType<
+  typeof useSlashingParametersLazyQuery
+>;
+export type SlashingParametersQueryResult = ApolloReactCommon.QueryResult<
+  ISlashingParametersQuery,
+  ISlashingParametersQueryVariables
 >;
 export const StakingParametersDocument = gql`
   query stakingParameters($network: String!) {
@@ -2535,64 +3169,102 @@ export const StakingParametersDocument = gql`
   }
 `;
 export type StakingParametersComponentProps = Omit<
-  ReactApollo.QueryProps<
+  ApolloReactComponents.QueryComponentOptions<
     IStakingParametersQuery,
     IStakingParametersQueryVariables
   >,
   "query"
 > &
   (
-    | { variables: IStakingParametersQueryVariables; skip?: false }
-    | { skip: true }
+    | { variables: IStakingParametersQueryVariables; skip?: boolean }
+    | { skip: boolean }
   );
 
 export const StakingParametersComponent = (
   props: StakingParametersComponentProps,
 ) => (
-  <ReactApollo.Query<IStakingParametersQuery, IStakingParametersQueryVariables>
+  <ApolloReactComponents.Query<
+    IStakingParametersQuery,
+    IStakingParametersQueryVariables
+  >
     query={StakingParametersDocument}
     {...props}
   />
 );
 
-export type IStakingParametersProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<
-    IStakingParametersQuery,
-    IStakingParametersQueryVariables
-  >
+export type IStakingParametersProps<
+  TChildProps = {}
+> = ApolloReactHoc.DataProps<
+  IStakingParametersQuery,
+  IStakingParametersQueryVariables
 > &
   TChildProps;
 export function withStakingParameters<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IStakingParametersQuery,
     IStakingParametersQueryVariables,
     IStakingParametersProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IStakingParametersQuery,
     IStakingParametersQueryVariables,
     IStakingParametersProps<TChildProps>
   >(StakingParametersDocument, {
-    alias: "withStakingParameters",
+    alias: "stakingParameters",
     ...operationOptions,
   });
 }
 
+/**
+ * __useStakingParametersQuery__
+ *
+ * To run a query within a React component, call `useStakingParametersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStakingParametersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStakingParametersQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
 export function useStakingParametersQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IStakingParametersQuery,
     IStakingParametersQueryVariables
   >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    IStakingParametersQuery,
+    IStakingParametersQueryVariables
+  >(StakingParametersDocument, baseOptions);
+}
+export function useStakingParametersLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IStakingParametersQuery,
+    IStakingParametersQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     IStakingParametersQuery,
     IStakingParametersQueryVariables
   >(StakingParametersDocument, baseOptions);
 }
 export type StakingParametersQueryHookResult = ReturnType<
   typeof useStakingParametersQuery
+>;
+export type StakingParametersLazyQueryHookResult = ReturnType<
+  typeof useStakingParametersLazyQuery
+>;
+export type StakingParametersQueryResult = ApolloReactCommon.QueryResult<
+  IStakingParametersQuery,
+  IStakingParametersQueryVariables
 >;
 export const StakingPoolDocument = gql`
   query stakingPool($network: String!) {
@@ -2608,50 +3280,94 @@ export const StakingPoolDocument = gql`
   }
 `;
 export type StakingPoolComponentProps = Omit<
-  ReactApollo.QueryProps<IStakingPoolQuery, IStakingPoolQueryVariables>,
+  ApolloReactComponents.QueryComponentOptions<
+    IStakingPoolQuery,
+    IStakingPoolQueryVariables
+  >,
   "query"
 > &
-  ({ variables: IStakingPoolQueryVariables; skip?: false } | { skip: true });
+  (
+    | { variables: IStakingPoolQueryVariables; skip?: boolean }
+    | { skip: boolean }
+  );
 
 export const StakingPoolComponent = (props: StakingPoolComponentProps) => (
-  <ReactApollo.Query<IStakingPoolQuery, IStakingPoolQueryVariables>
+  <ApolloReactComponents.Query<IStakingPoolQuery, IStakingPoolQueryVariables>
     query={StakingPoolDocument}
     {...props}
   />
 );
 
-export type IStakingPoolProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<IStakingPoolQuery, IStakingPoolQueryVariables>
+export type IStakingPoolProps<TChildProps = {}> = ApolloReactHoc.DataProps<
+  IStakingPoolQuery,
+  IStakingPoolQueryVariables
 > &
   TChildProps;
 export function withStakingPool<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IStakingPoolQuery,
     IStakingPoolQueryVariables,
     IStakingPoolProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IStakingPoolQuery,
     IStakingPoolQueryVariables,
     IStakingPoolProps<TChildProps>
   >(StakingPoolDocument, {
-    alias: "withStakingPool",
+    alias: "stakingPool",
     ...operationOptions,
   });
 }
 
+/**
+ * __useStakingPoolQuery__
+ *
+ * To run a query within a React component, call `useStakingPoolQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStakingPoolQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStakingPoolQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
 export function useStakingPoolQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<IStakingPoolQueryVariables>,
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IStakingPoolQuery,
+    IStakingPoolQueryVariables
+  >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    IStakingPoolQuery,
+    IStakingPoolQueryVariables
+  >(StakingPoolDocument, baseOptions);
+}
+export function useStakingPoolLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IStakingPoolQuery,
+    IStakingPoolQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     IStakingPoolQuery,
     IStakingPoolQueryVariables
   >(StakingPoolDocument, baseOptions);
 }
 export type StakingPoolQueryHookResult = ReturnType<typeof useStakingPoolQuery>;
+export type StakingPoolLazyQueryHookResult = ReturnType<
+  typeof useStakingPoolLazyQuery
+>;
+export type StakingPoolQueryResult = ApolloReactCommon.QueryResult<
+  IStakingPoolQuery,
+  IStakingPoolQueryVariables
+>;
 export const TransactionDocument = gql`
   query transaction($txHash: String!, $network: String!) {
     transaction(txHash: $txHash, network: $network) {
@@ -2746,50 +3462,95 @@ export const TransactionDocument = gql`
   }
 `;
 export type TransactionComponentProps = Omit<
-  ReactApollo.QueryProps<ITransactionQuery, ITransactionQueryVariables>,
+  ApolloReactComponents.QueryComponentOptions<
+    ITransactionQuery,
+    ITransactionQueryVariables
+  >,
   "query"
 > &
-  ({ variables: ITransactionQueryVariables; skip?: false } | { skip: true });
+  (
+    | { variables: ITransactionQueryVariables; skip?: boolean }
+    | { skip: boolean }
+  );
 
 export const TransactionComponent = (props: TransactionComponentProps) => (
-  <ReactApollo.Query<ITransactionQuery, ITransactionQueryVariables>
+  <ApolloReactComponents.Query<ITransactionQuery, ITransactionQueryVariables>
     query={TransactionDocument}
     {...props}
   />
 );
 
-export type ITransactionProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<ITransactionQuery, ITransactionQueryVariables>
+export type ITransactionProps<TChildProps = {}> = ApolloReactHoc.DataProps<
+  ITransactionQuery,
+  ITransactionQueryVariables
 > &
   TChildProps;
 export function withTransaction<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     ITransactionQuery,
     ITransactionQueryVariables,
     ITransactionProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     ITransactionQuery,
     ITransactionQueryVariables,
     ITransactionProps<TChildProps>
   >(TransactionDocument, {
-    alias: "withTransaction",
+    alias: "transaction",
     ...operationOptions,
   });
 }
 
+/**
+ * __useTransactionQuery__
+ *
+ * To run a query within a React component, call `useTransactionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTransactionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTransactionQuery({
+ *   variables: {
+ *      txHash: // value for 'txHash'
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
 export function useTransactionQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<ITransactionQueryVariables>,
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    ITransactionQuery,
+    ITransactionQueryVariables
+  >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    ITransactionQuery,
+    ITransactionQueryVariables
+  >(TransactionDocument, baseOptions);
+}
+export function useTransactionLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    ITransactionQuery,
+    ITransactionQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     ITransactionQuery,
     ITransactionQueryVariables
   >(TransactionDocument, baseOptions);
 }
 export type TransactionQueryHookResult = ReturnType<typeof useTransactionQuery>;
+export type TransactionLazyQueryHookResult = ReturnType<
+  typeof useTransactionLazyQuery
+>;
+export type TransactionQueryResult = ApolloReactCommon.QueryResult<
+  ITransactionQuery,
+  ITransactionQueryVariables
+>;
 export const TransactionsDocument = gql`
   query transactions($address: String!) {
     transactions(address: $address) {
@@ -2884,51 +3645,95 @@ export const TransactionsDocument = gql`
   }
 `;
 export type TransactionsComponentProps = Omit<
-  ReactApollo.QueryProps<ITransactionsQuery, ITransactionsQueryVariables>,
+  ApolloReactComponents.QueryComponentOptions<
+    ITransactionsQuery,
+    ITransactionsQueryVariables
+  >,
   "query"
 > &
-  ({ variables: ITransactionsQueryVariables; skip?: false } | { skip: true });
+  (
+    | { variables: ITransactionsQueryVariables; skip?: boolean }
+    | { skip: boolean }
+  );
 
 export const TransactionsComponent = (props: TransactionsComponentProps) => (
-  <ReactApollo.Query<ITransactionsQuery, ITransactionsQueryVariables>
+  <ApolloReactComponents.Query<ITransactionsQuery, ITransactionsQueryVariables>
     query={TransactionsDocument}
     {...props}
   />
 );
 
-export type ITransactionsProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<ITransactionsQuery, ITransactionsQueryVariables>
+export type ITransactionsProps<TChildProps = {}> = ApolloReactHoc.DataProps<
+  ITransactionsQuery,
+  ITransactionsQueryVariables
 > &
   TChildProps;
 export function withTransactions<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     ITransactionsQuery,
     ITransactionsQueryVariables,
     ITransactionsProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     ITransactionsQuery,
     ITransactionsQueryVariables,
     ITransactionsProps<TChildProps>
   >(TransactionsDocument, {
-    alias: "withTransactions",
+    alias: "transactions",
     ...operationOptions,
   });
 }
 
+/**
+ * __useTransactionsQuery__
+ *
+ * To run a query within a React component, call `useTransactionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTransactionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTransactionsQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *   },
+ * });
+ */
 export function useTransactionsQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<ITransactionsQueryVariables>,
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    ITransactionsQuery,
+    ITransactionsQueryVariables
+  >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    ITransactionsQuery,
+    ITransactionsQueryVariables
+  >(TransactionsDocument, baseOptions);
+}
+export function useTransactionsLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    ITransactionsQuery,
+    ITransactionsQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     ITransactionsQuery,
     ITransactionsQueryVariables
   >(TransactionsDocument, baseOptions);
 }
 export type TransactionsQueryHookResult = ReturnType<
   typeof useTransactionsQuery
+>;
+export type TransactionsLazyQueryHookResult = ReturnType<
+  typeof useTransactionsLazyQuery
+>;
+export type TransactionsQueryResult = ApolloReactCommon.QueryResult<
+  ITransactionsQuery,
+  ITransactionsQueryVariables
 >;
 export const ValidatorDistributionDocument = gql`
   query validatorDistribution($validatorAddress: String!) {
@@ -2946,21 +3751,21 @@ export const ValidatorDistributionDocument = gql`
   }
 `;
 export type ValidatorDistributionComponentProps = Omit<
-  ReactApollo.QueryProps<
+  ApolloReactComponents.QueryComponentOptions<
     IValidatorDistributionQuery,
     IValidatorDistributionQueryVariables
   >,
   "query"
 > &
   (
-    | { variables: IValidatorDistributionQueryVariables; skip?: false }
-    | { skip: true }
+    | { variables: IValidatorDistributionQueryVariables; skip?: boolean }
+    | { skip: boolean }
   );
 
 export const ValidatorDistributionComponent = (
   props: ValidatorDistributionComponentProps,
 ) => (
-  <ReactApollo.Query<
+  <ApolloReactComponents.Query<
     IValidatorDistributionQuery,
     IValidatorDistributionQueryVariables
   >
@@ -2969,44 +3774,186 @@ export const ValidatorDistributionComponent = (
   />
 );
 
-export type IValidatorDistributionProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<
-    IValidatorDistributionQuery,
-    IValidatorDistributionQueryVariables
-  >
+export type IValidatorDistributionProps<
+  TChildProps = {}
+> = ApolloReactHoc.DataProps<
+  IValidatorDistributionQuery,
+  IValidatorDistributionQueryVariables
 > &
   TChildProps;
 export function withValidatorDistribution<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IValidatorDistributionQuery,
     IValidatorDistributionQueryVariables,
     IValidatorDistributionProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IValidatorDistributionQuery,
     IValidatorDistributionQueryVariables,
     IValidatorDistributionProps<TChildProps>
   >(ValidatorDistributionDocument, {
-    alias: "withValidatorDistribution",
+    alias: "validatorDistribution",
     ...operationOptions,
   });
 }
 
+/**
+ * __useValidatorDistributionQuery__
+ *
+ * To run a query within a React component, call `useValidatorDistributionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useValidatorDistributionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useValidatorDistributionQuery({
+ *   variables: {
+ *      validatorAddress: // value for 'validatorAddress'
+ *   },
+ * });
+ */
 export function useValidatorDistributionQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IValidatorDistributionQuery,
     IValidatorDistributionQueryVariables
   >,
 ) {
-  return ReactApolloHooks.useQuery<
+  return ApolloReactHooks.useQuery<
+    IValidatorDistributionQuery,
+    IValidatorDistributionQueryVariables
+  >(ValidatorDistributionDocument, baseOptions);
+}
+export function useValidatorDistributionLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IValidatorDistributionQuery,
+    IValidatorDistributionQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
     IValidatorDistributionQuery,
     IValidatorDistributionQueryVariables
   >(ValidatorDistributionDocument, baseOptions);
 }
 export type ValidatorDistributionQueryHookResult = ReturnType<
   typeof useValidatorDistributionQuery
+>;
+export type ValidatorDistributionLazyQueryHookResult = ReturnType<
+  typeof useValidatorDistributionLazyQuery
+>;
+export type ValidatorDistributionQueryResult = ApolloReactCommon.QueryResult<
+  IValidatorDistributionQuery,
+  IValidatorDistributionQueryVariables
+>;
+export const ValidatorSetsDocument = gql`
+  query validatorSets($network: String!) {
+    validatorSets(network: $network) {
+      block_height
+      validators {
+        address
+        pub_key
+        voting_power
+        proposer_priority
+      }
+    }
+  }
+`;
+export type ValidatorSetsComponentProps = Omit<
+  ApolloReactComponents.QueryComponentOptions<
+    IValidatorSetsQuery,
+    IValidatorSetsQueryVariables
+  >,
+  "query"
+> &
+  (
+    | { variables: IValidatorSetsQueryVariables; skip?: boolean }
+    | { skip: boolean }
+  );
+
+export const ValidatorSetsComponent = (props: ValidatorSetsComponentProps) => (
+  <ApolloReactComponents.Query<
+    IValidatorSetsQuery,
+    IValidatorSetsQueryVariables
+  >
+    query={ValidatorSetsDocument}
+    {...props}
+  />
+);
+
+export type IValidatorSetsProps<TChildProps = {}> = ApolloReactHoc.DataProps<
+  IValidatorSetsQuery,
+  IValidatorSetsQueryVariables
+> &
+  TChildProps;
+export function withValidatorSets<TProps, TChildProps = {}>(
+  operationOptions?: ApolloReactHoc.OperationOption<
+    TProps,
+    IValidatorSetsQuery,
+    IValidatorSetsQueryVariables,
+    IValidatorSetsProps<TChildProps>
+  >,
+) {
+  return ApolloReactHoc.withQuery<
+    TProps,
+    IValidatorSetsQuery,
+    IValidatorSetsQueryVariables,
+    IValidatorSetsProps<TChildProps>
+  >(ValidatorSetsDocument, {
+    alias: "validatorSets",
+    ...operationOptions,
+  });
+}
+
+/**
+ * __useValidatorSetsQuery__
+ *
+ * To run a query within a React component, call `useValidatorSetsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useValidatorSetsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useValidatorSetsQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
+export function useValidatorSetsQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IValidatorSetsQuery,
+    IValidatorSetsQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useQuery<
+    IValidatorSetsQuery,
+    IValidatorSetsQueryVariables
+  >(ValidatorSetsDocument, baseOptions);
+}
+export function useValidatorSetsLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IValidatorSetsQuery,
+    IValidatorSetsQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
+    IValidatorSetsQuery,
+    IValidatorSetsQueryVariables
+  >(ValidatorSetsDocument, baseOptions);
+}
+export type ValidatorSetsQueryHookResult = ReturnType<
+  typeof useValidatorSetsQuery
+>;
+export type ValidatorSetsLazyQueryHookResult = ReturnType<
+  typeof useValidatorSetsLazyQuery
+>;
+export type ValidatorSetsQueryResult = ApolloReactCommon.QueryResult<
+  IValidatorSetsQuery,
+  IValidatorSetsQueryVariables
 >;
 export const ValidatorsDocument = gql`
   query validators($network: String!) {
@@ -3038,107 +3985,91 @@ export const ValidatorsDocument = gql`
   }
 `;
 export type ValidatorsComponentProps = Omit<
-  ReactApollo.QueryProps<IValidatorsQuery, IValidatorsQueryVariables>,
+  ApolloReactComponents.QueryComponentOptions<
+    IValidatorsQuery,
+    IValidatorsQueryVariables
+  >,
   "query"
 > &
-  ({ variables: IValidatorsQueryVariables; skip?: false } | { skip: true });
+  (
+    | { variables: IValidatorsQueryVariables; skip?: boolean }
+    | { skip: boolean }
+  );
 
 export const ValidatorsComponent = (props: ValidatorsComponentProps) => (
-  <ReactApollo.Query<IValidatorsQuery, IValidatorsQueryVariables>
+  <ApolloReactComponents.Query<IValidatorsQuery, IValidatorsQueryVariables>
     query={ValidatorsDocument}
     {...props}
   />
 );
 
-export type IValidatorsProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<IValidatorsQuery, IValidatorsQueryVariables>
+export type IValidatorsProps<TChildProps = {}> = ApolloReactHoc.DataProps<
+  IValidatorsQuery,
+  IValidatorsQueryVariables
 > &
   TChildProps;
 export function withValidators<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
+  operationOptions?: ApolloReactHoc.OperationOption<
     TProps,
     IValidatorsQuery,
     IValidatorsQueryVariables,
     IValidatorsProps<TChildProps>
   >,
 ) {
-  return ReactApollo.withQuery<
+  return ApolloReactHoc.withQuery<
     TProps,
     IValidatorsQuery,
     IValidatorsQueryVariables,
     IValidatorsProps<TChildProps>
   >(ValidatorsDocument, {
-    alias: "withValidators",
+    alias: "validators",
     ...operationOptions,
   });
 }
 
+/**
+ * __useValidatorsQuery__
+ *
+ * To run a query within a React component, call `useValidatorsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useValidatorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useValidatorsQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
 export function useValidatorsQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<IValidatorsQueryVariables>,
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IValidatorsQuery,
+    IValidatorsQueryVariables
+  >,
 ) {
-  return ReactApolloHooks.useQuery<IValidatorsQuery, IValidatorsQueryVariables>(
+  return ApolloReactHooks.useQuery<IValidatorsQuery, IValidatorsQueryVariables>(
     ValidatorsDocument,
     baseOptions,
   );
 }
-export type ValidatorsQueryHookResult = ReturnType<typeof useValidatorsQuery>;
-export const ValidatorSetsDocument = gql`
-  query validatorSets($network: String!) {
-    validatorSets(network: $network) {
-      block_height
-      validators {
-        address
-        pub_key
-        voting_power
-        proposer_priority
-      }
-    }
-  }
-`;
-export type ValidatorSetsComponentProps = Omit<
-  ReactApollo.QueryProps<IValidatorSetsQuery, IValidatorSetsQueryVariables>,
-  "query"
-> &
-  ({ variables: IValidatorSetsQueryVariables; skip?: false } | { skip: true });
-
-export const ValidatorSetsComponent = (props: ValidatorSetsComponentProps) => (
-  <ReactApollo.Query<IValidatorSetsQuery, IValidatorSetsQueryVariables>
-    query={ValidatorSetsDocument}
-    {...props}
-  />
-);
-
-export type IValidatorSetsProps<TChildProps = {}> = Partial<
-  ReactApollo.DataProps<IValidatorSetsQuery, IValidatorSetsQueryVariables>
-> &
-  TChildProps;
-export function withValidatorSets<TProps, TChildProps = {}>(
-  operationOptions?: ReactApollo.OperationOption<
-    TProps,
-    IValidatorSetsQuery,
-    IValidatorSetsQueryVariables,
-    IValidatorSetsProps<TChildProps>
+export function useValidatorsLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IValidatorsQuery,
+    IValidatorsQueryVariables
   >,
 ) {
-  return ReactApollo.withQuery<
-    TProps,
-    IValidatorSetsQuery,
-    IValidatorSetsQueryVariables,
-    IValidatorSetsProps<TChildProps>
-  >(ValidatorSetsDocument, {
-    alias: "withValidatorSets",
-    ...operationOptions,
-  });
+  return ApolloReactHooks.useLazyQuery<
+    IValidatorsQuery,
+    IValidatorsQueryVariables
+  >(ValidatorsDocument, baseOptions);
 }
-
-export function useValidatorSetsQuery(
-  baseOptions?: ReactApolloHooks.QueryHookOptions<IValidatorSetsQueryVariables>,
-) {
-  return ReactApolloHooks.useQuery<
-    IValidatorSetsQuery,
-    IValidatorSetsQueryVariables
-  >(ValidatorSetsDocument, baseOptions);
-}
-export type ValidatorSetsQueryHookResult = ReturnType<
-  typeof useValidatorSetsQuery
+export type ValidatorsQueryHookResult = ReturnType<typeof useValidatorsQuery>;
+export type ValidatorsLazyQueryHookResult = ReturnType<
+  typeof useValidatorsLazyQuery
+>;
+export type ValidatorsQueryResult = ApolloReactCommon.QueryResult<
+  IValidatorsQuery,
+  IValidatorsQueryVariables
 >;
