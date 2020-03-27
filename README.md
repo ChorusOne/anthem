@@ -8,12 +8,18 @@ This is the codebase for Anthem, a multi-network platform for managing blockchai
 
 ### Getting Started
 
-* Clone the repo: `git clone https://github.com/ChorusOne/anthem.git`.
-* Install [NodeJS](https://nodejs.org/en/) and [yarn](https://yarnpkg.com/lang/en/docs/).
-* Use Node LTS: `nvm install lts/* && nvm alias default lts/*`.
-* Run `yarn` to install dependencies.
-* Run `yarn setup` to setup environment variables.
-* Run `yarn server:start` to start the server.
-* Run `yarn client:start` to start the client.
-* Run `yarn dev` to start the client in test/development mode.
-* Run `yarn test` to run the project unit tests.
+- Clone the repo: `git clone https://github.com/ChorusOne/anthem.git`.
+- Install [NodeJS](https://nodejs.org/en/) and [yarn](https://yarnpkg.com/lang/en/docs/).
+- Use Node LTS: `nvm install lts/* && nvm alias default lts/*`.
+- Run `yarn` to install dependencies.
+- Run `yarn setup` to setup environment variables.
+- Run `yarn server:start` to start the server.
+- Run `yarn client:start` to start the client.
+- Run `yarn dev` to start the client in test/development mode.
+- Run `yarn test` to run the project unit tests.
+
+## Contributing
+
+We use the [Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) for developing new features. This involves pulling the `master` branch, developing your fix or feature on a new branch, and then creating a pull request for your code changes. It is recommended to try to keep pull requests simple and confined to a concise set of changes to make it easy to review and merge code. Pull requests require review and all status checks (continuous integration checks, for instance) to pass before merging is allowed.
+
+When merging code we recommend choosing the "Squash and Merge" option to reduce all your pull request commits to a single commit on the `master` branch. This approach should get the primary git history clear. For example, maybe you have 15 commits on a branch where you develop a new feature but then squash these to a single commit `Implement settings page and components`. If the commit should contain additional context, it can be included in the commit description.
