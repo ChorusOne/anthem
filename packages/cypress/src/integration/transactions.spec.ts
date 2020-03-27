@@ -14,7 +14,7 @@ describe("Test Ledger Transactions", () => {
     UTILS.logout(getScreenType());
   });
 
-  /* Error with no value: */
+  // Error with no value:
   it("The delegation transaction workflow can be completed", () => {
     UTILS.findAndClick("balances-delegation-button");
     UTILS.findAndClick("ledger-dialog-confirmation-button");
@@ -23,11 +23,11 @@ describe("Test Ledger Transactions", () => {
       "Please input an amount.",
     );
 
-    /* Open the validator menu and selector a validator */
+    // Open the validator menu and selector a validator
     UTILS.findAndClick("validator-composition-select-menu");
     UTILS.findAndClick("Cosmostation-delegation-option");
 
-    /* Error with very large value added: */
+    // Error with very large value added:
     UTILS.typeText("transaction-amount-input", "500000000000");
     UTILS.findAndClick("ledger-dialog-confirmation-button");
     UTILS.shouldMatchText(
@@ -53,29 +53,29 @@ describe("Test Ledger Transactions", () => {
     UTILS.findAndClick("balances-rewards-claim-button");
     UTILS.findAndClick("ledger-dialog-confirmation-button");
 
-    /* Error with no validators selected: */
+    // Error with no validators selected:
     UTILS.shouldMatchText(
       "claims-transaction-error",
       "Please select at least one validator to withdraw rewards from.",
     );
 
-    /* Check both: */
+    // Check both:
     UTILS.findAndClick("validator-check-option-0");
     UTILS.findAndClick("validator-check-option-1");
 
-    /* Uncheck both: */
+    // Uncheck both:
     UTILS.findAndClick("validator-check-option-0");
     UTILS.findAndClick("validator-check-option-1");
 
     UTILS.findAndClick("ledger-dialog-confirmation-button");
 
-    /* Error should persist after checking and unchecking both options; */
+    // Error should persist after checking and unchecking both options;
     UTILS.shouldMatchText(
       "claims-transaction-error",
       "Please select at least one validator to withdraw rewards from.",
     );
 
-    /* Check both and proceed */
+    // Check both and proceed
     UTILS.findAndClick("validator-check-option-0");
     UTILS.findAndClick("validator-check-option-1");
 

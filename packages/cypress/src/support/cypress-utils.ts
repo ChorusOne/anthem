@@ -36,15 +36,11 @@ export const SCREEN_SIZES = [
 
 /**
  * Find an element using the Cypress `data-cy` attribute.
- *
- * @param id element attribute id
  */
 const find = (id: string) => `[data-cy=${id}]`;
 
 /**
  * Find an element by id and click it.
- *
- * @param id
  */
 const findAndClick = (id: string) => {
   cy.get(find(id)).click({ force: true });
@@ -52,9 +48,6 @@ const findAndClick = (id: string) => {
 
 /**
  * Type some text in the specified element.
- *
- * @param id
- * @param text
  */
 const typeText = (id: string, text: string) => {
   cy.get(`[data-cy=${id}]`)
@@ -65,9 +58,6 @@ const typeText = (id: string, text: string) => {
 /**
  * Find an element by id and expect the contained text matches
  * the provided text exactly.
- *
- * @param  id
- * @param  text
  */
 const shouldMatchText = (id: string, text: string) => {
   cy.get(find(id)).should("have.text", text);
@@ -76,9 +66,6 @@ const shouldMatchText = (id: string, text: string) => {
 /**
  * Find an element by id and expect the element text includes the
  * provided text.
- *
- * @param  id
- * @param  text
  */
 const shouldContainText = (id: string, text: string) => {
   cy.get(find(id)).should(t => t.text().includes(text));
@@ -88,8 +75,6 @@ const shouldContainText = (id: string, text: string) => {
  * Set the test browser viewport size using Cypress. This is used
  * to set the viewport size before a test begins to test various
  * viewport sizes.
- *
- * @param size viewport size
  */
 const setViewportSize = (size: any) => {
   if (Cypress._.isArray(size)) {
@@ -101,8 +86,6 @@ const setViewportSize = (size: any) => {
 
 /**
  * Helper to login using the address login.
- *
- * @param type viewport type
  */
 const loginWithAddress = (type: any, useLedger = false) => {
   /**
@@ -120,15 +103,13 @@ const loginWithAddress = (type: any, useLedger = false) => {
    * NOTE: Ledger signin is only allowed on desktop currently.
    */
   if (useLedger || (Date.now() % 2 === 0 && type.isDesktop())) {
-    /* Ledger signin: */
+    // Ledger signin:
     findAndClick("ledger-signin");
     findAndClick("COSMOS-network-login");
   } else {
-    /* Address signin: */
+    // Address signin:
     findAndClick("address-signin");
-    /**
-     * Set an address before each test.
-     */
+    // Set an address before each test.
     const address = "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd";
     cy.get("[data-cy=address-input]").type(address);
     cy.get("[data-cy=address-input-form]").submit();
@@ -146,15 +127,13 @@ const loginWithAddress = (type: any, useLedger = false) => {
 
 /**
  * Helper to logout.
- *
- * @param type viewport type
  */
 const logout = (type: any) => {
   if (type.isMobile()) {
     UTILS.findAndClick("hamburger-menu-button");
   }
 
-  /* Click the logout link in the SideMenu */
+  // Click the logout link in the SideMenu
   cy.get(find("logout-navigation-link")).click({ force: true });
 
   /**
@@ -164,7 +143,7 @@ const logout = (type: any) => {
    */
   cy.get(".bp3-intent-danger > .bp3-button-text").click({ force: true });
 
-  /* Assert the logout action has occurred successfully */
+  // Assert the logout action has occurred successfully
   cy.url().should("contain", "/login");
 };
 
