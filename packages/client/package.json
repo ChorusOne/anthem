@@ -23,7 +23,7 @@
     "test:update-snapshots": "yarn jest --updateSnapshot",
     "lint": "yarn prettier && yarn tslint && yarn tsc",
     "test": "yarn lint && yarn test:unit",
-    "types": "graphql-build --outputFile=./src/graphql --copySchema=true && yarn format",
+    "types": "graphql-build --outputFile=./src/graphql --copySchema=true",
     "update-i18n": "ts-node --log-error -O '{\"module\": \"commonjs\"}' scripts/update-i18n.ts && yarn format",
     "chinese-tw": "ts-node --log-error -O '{\"module\": \"commonjs\"}' scripts/cn-tw.ts && yarn format",
     "client:mocks": "chmod +x scripts/mocks.sh && scripts/mocks.sh"

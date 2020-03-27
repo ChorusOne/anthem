@@ -22,7 +22,7 @@
     "test:unit": "jest",
     "test:watch": "jest --watchAll",
     "jest:clear": "jest --clearCache",
-    "types": "graphql-build --outputFile=./src/schema && yarn format",
+    "types": "graphql-build --outputFile=./src/schema",
     "gql": "yarn gqlgen && chmod +x scripts/gql.sh && scripts/gql.sh",
     "gqlgen": "gql-lib --schemaFilePath ./src/schema/schema.graphql --destDirPath ./src/client/gql --depthLimit 10",
     "mocks:generate": "yarn mocks:responses && yarn query:keys",

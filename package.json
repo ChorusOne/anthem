@@ -18,6 +18,9 @@
     "format": "lerna run format",
     "tsc": "lerna run tsc",
     "test": "lerna run test",
+    "graphql:client": "cd packages/client && yarn types",
+    "graphql:server": "cd packages/server && yarn gql && yarn types",
+    "graphql": "yarn graphql:server && yarn graphql:client && yarn format",
     "cypress": "cd packages/cypress && yarn cypress:run",
     "cypress:run": "cd packages/cypress && cypress run",
     "cypress:open": "cd packages/cypress && cypress open"
