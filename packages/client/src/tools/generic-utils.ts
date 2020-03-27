@@ -59,6 +59,16 @@ export enum TERRA_ADDRESS_ENUM {
   VALIDATOR_OPERATOR_PUBLIC_KEY = "terravaloperpub",
 }
 
+// TODO: Implement
+export enum OASIS_ADDRESS_ENUM {
+  ACCOUNT_ADDRESS = "",
+  ACCOUNT_PUBLIC_KEY = "",
+  VALIDATOR_OPERATOR_ADDRESS = "",
+  VALIDATOR_CONSENSUS_ADDRESS = "",
+  VALIDATOR_CONSENSUS_PUBLIC_KEY = "",
+  VALIDATOR_OPERATOR_PUBLIC_KEY = "",
+}
+
 const getAddressEnumFromNetwork = (network: NETWORK_NAME) => {
   switch (network) {
     case "COSMOS":
@@ -67,6 +77,8 @@ const getAddressEnumFromNetwork = (network: NETWORK_NAME) => {
       return TERRA_ADDRESS_ENUM;
     case "KAVA":
       return KAVA_ADDRESS_ENUM;
+    case "OASIS":
+      return OASIS_ADDRESS_ENUM;
     default:
       return assertUnreachable(network);
   }
@@ -130,6 +142,9 @@ export const getBlockExplorerUrlForTransaction = (
       return `https://kava.mintscan.io/txs/${hash}`;
     case "TERRA":
       return `https://terra.stake.id/?#/tx/${hash}`;
+    case "OASIS":
+      console.warn("[TODO]: Implement Block Explorer url for Oasis");
+      return "";
     default:
       return assertUnreachable(network);
   }

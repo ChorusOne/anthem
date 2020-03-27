@@ -52,6 +52,12 @@ const networkToPrefix = (network: NETWORK_NAME): Prefixes => {
         accountPrefix: "kava",
         validatorPrefix: "kavavaloper",
       };
+    case "OASIS":
+      console.warn("[TODO]: Implement Oasis address prefixes!");
+      return {
+        accountPrefix: "oasis",
+        validatorPrefix: "oasis",
+      };
     default:
       return assertUnreachable(network);
   }

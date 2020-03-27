@@ -7,6 +7,7 @@ import Dogecoin from "assets/coins/Dogecoin.svg";
 import Ethereum from "assets/coins/Ethereum.svg";
 import CosmosLogo from "assets/networks/cosmos_logo.png";
 import KavaLogo from "assets/networks/kava.png";
+import OasisLogo from "assets/networks/oasis.png";
 import TerraLogo from "assets/networks/terra.png";
 
 /**
@@ -23,4 +24,11 @@ export const COINS = {
 /**
  * Icons used throughout the app.
  */
-export { ChorusLogoDark, ChorusLogo, CosmosLogo, KavaLogo, TerraLogo };
+export {
+  ChorusLogoDark,
+  ChorusLogo,
+  CosmosLogo,
+  KavaLogo,
+  TerraLogo,
+  OasisLogo,
+};

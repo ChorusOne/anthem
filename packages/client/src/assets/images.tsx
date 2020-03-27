@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { CSSProperties } from "styled-components";
 
-import { CosmosLogo, KavaLogo, TerraLogo } from "assets/icons";
+import { CosmosLogo, KavaLogo, OasisLogo, TerraLogo } from "assets/icons";
 import { NETWORK_NAME } from "constants/networks";
 import { ReactComponent as ChorusLogoIconOnlyDark } from "../assets/chorus/C1_logo_simple_black.svg";
 import { ReactComponent as ChorusLogoIconOnlyLight } from "../assets/chorus/C1_logo_simple_white.svg";
@@ -192,6 +192,8 @@ export const NetworkLogoIcon = ({
       return <NetworkImage src={TerraLogo} style={styles} />;
     case "KAVA":
       return <NetworkImage src={KavaLogo} style={styles} />;
+    case "OASIS":
+      return <NetworkImage src={OasisLogo} style={styles} />;
     default:
       return null;
   }

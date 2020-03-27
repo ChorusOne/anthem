@@ -69,6 +69,9 @@ export const TERRA_MESSAGE_TYPES = {
   CLAIM: "distribution/MsgWithdrawDelegationReward",
 };
 
+// TODO: Implement
+export const OASIS_MESSAGE_TYPES = {};
+
 const getTransactionMessageTypeForNetwork = (
   network: NETWORK_NAME,
   transactionType: LEDGER_ACTION_TYPE,
@@ -79,6 +82,10 @@ const getTransactionMessageTypeForNetwork = (
       return COSMOS_MESSAGE_TYPES[transactionType];
     case "TERRA":
       return TERRA_MESSAGE_TYPES[transactionType];
+    case "OASIS":
+      console.warn("[TODO]: Implement Oasis transaction types!");
+      // @ts-ignore
+      return OASIS_MESSAGE_TYPES[transactionType];
     default:
       return assertUnreachable(network);
   }

@@ -63,6 +63,8 @@ class NotificationsBanner extends React.Component<IProps> {
             transaction workflows.
           </BannerText>
         );
+      case "OASIS":
+        return <BannerText>Oasis Network is still in development!</BannerText>;
       default:
         return assertUnreachable(name);
     }

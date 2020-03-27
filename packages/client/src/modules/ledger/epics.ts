@@ -130,6 +130,10 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
 
                 break;
               }
+              case "OASIS": {
+                Toast.danger("Oasis Network is not support on Ledger yet.");
+                return resolve(Actions.connectLedgerFailure());
+              }
               default: {
                 return assertUnreachable(signinNetworkName);
               }
