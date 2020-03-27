@@ -1,5 +1,4 @@
 import BigNumber from "bignumber.js";
-
 import { ICoin, IQuery } from "graphql/types";
 import { trimZeroes } from "./generic-utils";
 import {
@@ -14,8 +13,6 @@ import {
 
 /**
  * Get a token formatter for the number.
- *
- * TODO: Use i18n locale here:
  */
 const getTokenFormatter = (maximumFractionDigits: number = 2) => {
   return new Intl.NumberFormat("en-US", {
@@ -28,9 +25,6 @@ const getTokenFormatter = (maximumFractionDigits: number = 2) => {
 /**
  * Convert and format a Cosmos coin denomination into a human readable
  * format.
- *
- * @param  {string} amount
- * @returns string
  */
 export const formatCurrencyAmount = (
   amount: GenericNumberType,
@@ -41,7 +35,7 @@ export const formatCurrencyAmount = (
   if (value.isZero()) {
     return "0";
   } else if (value.isLessThanOrEqualTo(0.001)) {
-    /* Remove this case if people don't like it! */
+    // Remove this case if people don't like it!
     const tokenFormatter = getTokenFormatter(6);
     return tokenFormatter.format(Number(amount));
   } else if (
@@ -59,10 +53,6 @@ export const formatCurrencyAmount = (
 /**
  * Find a currency from the currency list. This can be used to get the
  * coin data for the prices query.
- *
- * @param  {string} denom
- * @param  {IQuery["coins"]} coins
- * @returns ICoin
  */
 export const findCurrencyFromCoinsList = (
   denom: string,
@@ -95,10 +85,6 @@ interface CurrencyConversionMethodTypes {
 
 /**
  * Convert an ATOM denomination to the normal ATOM amount.
- *
- * @param denoms to convert
- * @param targetConstructorFn object constructor to use for return type
- * @returns converted amount
  */
 export const denomToAtoms: CurrencyConversionMethodTypes = (
   denoms: any,
@@ -111,10 +97,6 @@ export const denomToAtoms: CurrencyConversionMethodTypes = (
 
 /**
  * Convert an ATOM amount back to the raw ATOM denomination.
- *
- * @param amount to convert
- * @param targetConstructorFn object constructor to use for return type
- * @returns converted amount
  */
 export const atomsToDenom: CurrencyConversionMethodTypes = (
   amount: any,
@@ -127,10 +109,6 @@ export const atomsToDenom: CurrencyConversionMethodTypes = (
 
 /**
  * Convert raw ATOMs amount to fiat price given the exchange rate.
- *
- * @param  {IQuery["prices"]|undefined} priceQuery
- * @param  {BigNumber} atoms
- * @returns string
  */
 export const convertAtomsToFiat = (
   priceQuery: IQuery["prices"] | undefined,
@@ -151,11 +129,6 @@ export const convertAtomsToFiat = (
 
 /**
  * Determine the maximum possible transaction value after fees.
- *
- * @param  {string} availableInput
- * @param  {string} gasPriceInput
- * @param  {string} gasAmountInput
- * @returns string
  */
 export const calculateTransactionAmount = (
   availableInput: string,

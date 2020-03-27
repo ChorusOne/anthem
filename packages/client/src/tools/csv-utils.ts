@@ -10,6 +10,11 @@ import { toDateKey } from "./date-utils";
 import { isGraphQLResponseDataEmpty } from "./generic-utils";
 import { add, multiply, subtract } from "./math-utils";
 
+/** ===========================================================================
+ * CSV Utils
+ * ============================================================================
+ */
+
 // Process the chart data and create a string CSV value for download.
 export const chartExportBuilder = ({
   network,

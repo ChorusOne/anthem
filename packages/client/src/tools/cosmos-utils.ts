@@ -222,10 +222,6 @@ export const createTransactionRequestMetadata = (args: {
 
 /**
  * Get the request metadata object for a transaction.
- *
- * @param  {JsonTransaction} transactionData
- * @param  {string} signature
- * @param  {string} publicKey
  */
 export const createCosmosTransactionPostBody = (args: {
   transactionData: JsonTransaction;
@@ -236,7 +232,8 @@ export const createCosmosTransactionPostBody = (args: {
   const { txRequestMetadata } = transactionData;
 
   return {
-    type: "cosmos-sdk/StdTx" /* NOTE: Works for any network? */,
+    // TODO: Works for any network?
+    type: "cosmos-sdk/StdTx",
     value: {
       ...transactionData.txMsg,
       signatures: [

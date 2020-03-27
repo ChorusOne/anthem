@@ -1,10 +1,9 @@
 import bech32 from "bech32";
-import emailValidator from "email-validator";
-import semver from "semver";
-
 import { FiatCurrency } from "constants/fiat";
 import { AVAILABLE_NETWORKS } from "constants/networks";
+import emailValidator from "email-validator";
 import ENV from "lib/client-env";
+import semver from "semver";
 import { tFnString } from "tools/i18n-utils";
 import {
   GenericNumberType,
@@ -13,10 +12,13 @@ import {
   valueToBigNumber,
 } from "./math-utils";
 
+/** ===========================================================================
+ * Validation Utils
+ * ============================================================================
+ */
+
 /**
  * Validate an email address.
- *
- * @param  {string} email
  */
 export const validateEmailAddress = (email: string) => {
   return emailValidator.validate(email);
@@ -24,9 +26,6 @@ export const validateEmailAddress = (email: string) => {
 
 /**
  * Validate a fiat currency from local storage.
- *
- * @param  {FiatCurrency} fiat
- * @returns boolean
  */
 export const validateFiatCurrency = (fiat: FiatCurrency): boolean => {
   try {
@@ -46,9 +45,6 @@ export const validateFiatCurrency = (fiat: FiatCurrency): boolean => {
 
 /**
  * Validates a currency setting from local storage.
- *
- * @param  {string} setting
- * @returns boolean
  */
 export const validateCurrencySetting = (setting: string): boolean => {
   return (
@@ -59,9 +55,6 @@ export const validateCurrencySetting = (setting: string): boolean => {
 /**
  * Validate the given Cosmos Ledger app version. Minimum version required is
  * v1.1.1.
- *
- * @param  {string} version
- * @returns boolean
  */
 export const validateCosmosAppVersion = (version: string): boolean => {
   const MINIMUM_COSMOS_VERSION = "1.1.1";
@@ -118,10 +111,6 @@ export const validateCosmosAddress = (
 
 /**
  * Validate a ledger transaction amount.
- *
- * @param  {GenericNumberType} amount
- * @param  {GenericNumberType} maxAmount
- * @returns string
  */
 export const validateLedgerTransactionAmount = (
   amount: GenericNumberType,

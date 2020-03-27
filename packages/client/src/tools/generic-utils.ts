@@ -1,8 +1,6 @@
 import { ApolloError } from "apollo-client";
 import bech32 from "bech32";
 import BigNumber from "bignumber.js";
-import queryString, { ParsedQuery } from "query-string";
-
 import { AvailableReward } from "components/CreateTransactionForm";
 import Toast from "components/Toast";
 import NETWORKS, {
@@ -18,6 +16,7 @@ import {
   IValidator,
 } from "graphql/types";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
+import queryString, { ParsedQuery } from "query-string";
 import {
   convertAtomsToFiat,
   denomToAtoms,
@@ -31,7 +30,7 @@ import { isGreaterThanOrEqualTo } from "./math-utils";
  * ============================================================================
  */
 
-/* Reference: https://cosmos.network/docs/spec/addresses/bech32.html */
+// Reference: https://cosmos.network/docs/spec/addresses/bech32.html
 export enum COSMOS_ADDRESS_ENUM {
   ACCOUNT_ADDRESS = "cosmos",
   ACCOUNT_PUBLIC_KEY = "cosmospub",
@@ -101,10 +100,6 @@ export const assertUnreachable = (x: never): never => {
 
 /**
  * Determine if a given route link is on the current active route.
- *
- * @param pathName string current actual route
- * @param routeName string route link
- * @returns true if the route link is the active route
  */
 export const onActiveRoute = (pathName: string, routeName: string) => {
   return pathName.toLowerCase().includes(routeName.toLowerCase());
@@ -112,9 +107,6 @@ export const onActiveRoute = (pathName: string, routeName: string) => {
 
 /**
  * Identity function.
- *
- * @param x any argument
- * @returns x parameter returned, unchanged
  */
 export const identity = <T extends {}>(x: T): T => x;
 
@@ -183,7 +175,7 @@ const aggregateCurrencyValuesFromList = <T>(
   key: keyof T,
 ) => {
   return balances.reduce((sum, balance) => {
-    /* The field may be nullable, hence defaulting to 0: */
+    // The field may be nullable, hence defaulting to 0:
     return sum.plus(new BigNumber(`${balance[key] || 0}`));
   }, new BigNumber(0));
 };
@@ -351,9 +343,6 @@ export const getAccountBalances = (
 /**
  * Simple helper to determine if data from a GraphQL query can be rendered or
  * not.
- *
- * @param  {{loading:boolean;error?:ApolloError;}} graphqlProps
- * @returns boolean true if response data exists
  */
 export const canRenderGraphQL = (graphqlProps: {
   data?: any;
@@ -365,10 +354,6 @@ export const canRenderGraphQL = (graphqlProps: {
 
 /**
  * Crudely determine if some path string is included in the current URL.
- *
- * @param  {string} url
- * @param  {string} pathString
- * @returns boolean
  */
 export const onPath = (url: string, pathString: string): boolean => {
   return url.includes(pathString);
@@ -377,8 +362,6 @@ export const onPath = (url: string, pathString: string): boolean => {
 /**
  * Return information on which dashboard tab the user is viewing from the
  * given url location.
- *
- * @param  {string} path
  */
 export const getPortfolioTypeFromUrl = (
   path: string,
@@ -401,9 +384,6 @@ export const getPortfolioTypeFromUrl = (
 /**
  * Abbreviate a blockchain address in the typical fashion, e.g.
  * cosmos12az976k62c4qlsfy0tz2ujtw73vvhpqntwenje -> cosmos12...hpqntwenje
- *
- * @param  {string} address
- * @returns string
  */
 export const abbreviateAddress = (
   address: string,
@@ -415,11 +395,6 @@ export const abbreviateAddress = (
 
 /**
  * Flexibly format an address string and adapt to mobile view.
- *
- * @param  {string} address
- * @param  {boolean} isDesktop
- * @param  {number} endOffset?
- * @returns string
  */
 export const formatAddressString = (
   address: Maybe<string>,
@@ -476,8 +451,6 @@ export interface PriceHistoryMap {
 
 /**
  * Convert the fiat price history data to a map with date keys.
- *
- * @param  {IQuery["fiatPriceHistory"]} fiatPriceHistory
  */
 export const getFiatPriceHistoryMap = (
   fiatPriceHistory: IQuery["fiatPriceHistory"],
@@ -497,10 +470,6 @@ export const getFiatPriceHistoryMap = (
 /**
  * Get the price value from the price history data for a given transaction
  * timestamp.
- *
- * @param  {string} timestamp
- * @param  {PriceHistoryMap} priceHistory
- * @returns string
  */
 export const getPriceFromTransactionTimestamp = (
   timestamp: string,
@@ -521,8 +490,6 @@ export interface ValidatorOperatorAddressMap {
 /**
  * Reduce a list of validators to a map keyed by the operator_address for
  * faster lookup.
- *
- * @param  {ReadonlyArray<IValidator>} validatorList
  */
 export const getValidatorOperatorAddressMap = (
   validatorList: ReadonlyArray<IValidator>,
@@ -538,10 +505,6 @@ export const getValidatorOperatorAddressMap = (
 /**
  * Get a validator name from a delegator address, if a validator exists
  * with that address.
- *
- * @param  {ValidatorOperatorAddressMap} validatorOperatorAddressMap
- * @param  {string} address
- * @returns Nullable
  */
 export const getValidatorNameFromAddress = (
   validatorOperatorAddressMap: ValidatorOperatorAddressMap,
@@ -602,8 +565,6 @@ export const wait = async (time: number = 1000) => {
  * `undefined`...???
  *
  * Determine if there is any data present in a response.
- *
- * @param data any data
  */
 export const isGraphQLResponseDataEmpty = (x?: any) => {
   return !Boolean(x) || !Object.keys(x).length;
@@ -615,8 +576,6 @@ const isCertusOne = (moniker: string) => moniker === "Certus One";
 /**
  * Sort validators list and put Chorus 1st and Certus 2nd. Apply no sorting
  * to the rest of the list.
- *
- * @param  {ReadonlyArray<IValidator>} validators
  */
 export const formatValidatorsList = (validators: ReadonlyArray<IValidator>) => {
   if (!validators) {
@@ -641,9 +600,6 @@ export const formatValidatorsList = (validators: ReadonlyArray<IValidator>) => {
 
 /**
  * Determine the network for a given address using the address prefix.
- *
- * @param  {string} address
- * @returns NetworkMetadata
  */
 export const deriveNetworkFromAddress = (address: string): NetworkMetadata => {
   if (address.substring(0, 6) === "cosmos") {

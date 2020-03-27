@@ -18,32 +18,53 @@ const setTimeZone = (date: any) => {
   return moment.tz(date, UTC_TIMEZONE);
 };
 
+/**
+ * Convert a date to a string date key.
+ */
 export const toDateKey = (date: string | number | Date) => {
   const tz = setTimeZone(date);
   return tz.format(DATE_FORMAT);
 };
 
+/**
+ * Convert a date to a string date key, on the previous day.
+ */
 export const toDateKeyBackOneDay = (date: string | number | Date) => {
   const tz = setTimeZone(date).subtract(60, "minutes");
   return tz.format(DATE_FORMAT);
 };
 
+/**
+ * Get a date from a date key.
+ */
 export const fromDateKey = (date: string) => {
   return moment(date, DATE_FORMAT);
 };
 
+/**
+ * Format a date.
+ */
 export const formatDate = (timestamp: string | number | Date): string => {
   return moment(timestamp).format(DATE_FORMAT);
 };
 
+/**
+ * Format a time.
+ */
 export const formatTime = (timestamp: number): string => {
   return moment(timestamp).format("HH:mm:ss");
 };
 
+/**
+ * Format a fiat price date.
+ */
 export const formatFiatPriceDate = (date: string | number | Date) => {
   return moment(date).format("MM-DD-YYYY");
 };
 
+/**
+ * Get a date some das in the future.
+ */
 export const getDateInFuture = (date: Date, daysInFuture: number) => {
   return moment(date)
     .add(daysInFuture, "days")

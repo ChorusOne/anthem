@@ -1,5 +1,3 @@
-import React from "react";
-
 import {
   catalogs,
   DEFAULT_LOCALE,
@@ -9,6 +7,7 @@ import {
 } from "i18n/catalog";
 import { ENGLISH } from "i18n/english";
 import ENV from "lib/client-env";
+import React from "react";
 
 /** ===========================================================================
  * Types & Config
@@ -41,10 +40,6 @@ export interface I18nProps {
 /**
  * Get a catalog given a locale if it exists, otherwise return the default
  * locale.
- *
- * @param locale string
- * @returns translation catalog for the provided locale, or the default
- *          locale catalog
  */
 export const getCatalogFromLocale = (locale: ILocale): ICatalog => {
   if (locale in catalogs) {
@@ -58,10 +53,6 @@ const INTERPOLATION_PATTERN = new RegExp(/\{\{(.*?)\}\}/g);
 
 /**
  * Helper to parse the i18n input.
- *
- * @param text ENGLISH type input string
- * @param catalog `ICatalog` current user catalog locale
- * @returns regex parsed text string and interpolated variable values
  */
 const parseCatalogInput = (input: ENGLISH, catalog: ICatalog) => {
   const [t, ...rest] = input;
@@ -71,9 +62,7 @@ const parseCatalogInput = (input: ENGLISH, catalog: ICatalog) => {
     if (ENV.DEVELOPMENT) {
       throw new Error(`No match for i18n text input: ${t}`);
     } else {
-      /**
-       * In production allow fallback to the English key.
-       */
+      // In production allow fallback to the English key.
       const text = t.split(INTERPOLATION_PATTERN);
       return {
         text,
@@ -100,10 +89,6 @@ const parseCatalogInput = (input: ENGLISH, catalog: ICatalog) => {
 /**
  * This methods returns a translation method given a locale which interpolates
  * translations values for text internationalization.
- *
- * @param catalog `ICatalog` to use for translation
- * @returns a function which takes an `ENGLISH` input and returns the localized
- *          translation with values interpolated using `<span />` elements
  */
 export const createTranslationMethodFromLocale = (catalog: ICatalog) => (
   ...input: ENGLISH
@@ -113,7 +98,7 @@ export const createTranslationMethodFromLocale = (catalog: ICatalog) => (
   return text.filter(Boolean).map((match: string, index: number) => {
     let interpolated;
     if (variables && match in variables) {
-      /* index key check occurs on the line above */
+      // index key check occurs on the line above
       interpolated = variables[match as keyof ENGLISH[1]];
     } else {
       interpolated = match;
@@ -128,10 +113,6 @@ export const createTranslationMethodFromLocale = (catalog: ICatalog) => (
  * is to make it easier to use the i18n-utils for components where the
  * translated text must be a string value. This method will throw an error
  * if it receives a dynamic non-string value for an interpolated variable.
- *
- * @param catalog `ICatalog` to use for translation
- * @returns a function which takes an `ENGLISH` input and returns the localized
- *          translation as a string
  */
 export const createStringTranslationMethodFromLocale = (catalog: ICatalog) => (
   ...input: ENGLISH
@@ -143,7 +124,7 @@ export const createStringTranslationMethodFromLocale = (catalog: ICatalog) => (
     .map((match: string) => {
       let interpolated;
       if (variables && match in variables) {
-        /* index key check occurs on the line above */
+        // index key check occurs on the line above
         interpolated = variables[match as keyof ENGLISH[1]];
       } else {
         interpolated = match;
@@ -162,8 +143,5 @@ export const createStringTranslationMethodFromLocale = (catalog: ICatalog) => (
 
 /**
  * Helper to wrap some text string in bold attributes.
- *
- * @param s text string
- * @returns s text in bold attributes
  */
 export const bold = (s: string): JSX.Element => <b>{s}</b>;

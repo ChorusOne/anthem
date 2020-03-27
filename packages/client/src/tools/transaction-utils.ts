@@ -464,13 +464,6 @@ const getChangeWithdrawAddressMessage = (
 /**
  * Primary method to handle converting a transaction to the relevant data
  * and text to render.
- *
- * @param  {ITransaction} transaction
- * @param  {string} address
- * @param  {tFn} t
- * @param  {tFnString} tString
- * @param  {boolean} isDesktop
- * @returns TransactionItemProps
  */
 export const getHumanReadableMessageFromTransaction = ({
   t,
