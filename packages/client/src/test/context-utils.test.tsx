@@ -1,6 +1,5 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
-
 import { composeWithProps, withContextFactory } from "tools/context-utils";
 
 describe("context-utils", () => {

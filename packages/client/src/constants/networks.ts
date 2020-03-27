@@ -1,9 +1,9 @@
+import ENV from "lib/client-env";
+
 /** ===========================================================================
  * Types & Config
  * ============================================================================
  */
-
-import ENV from "lib/client-env";
 
 export interface NetworkMetadata {
   name: NETWORK_NAME;
@@ -21,7 +21,7 @@ interface NetworksMap {
 /** ===========================================================================
  * Networks
  * ---------------------------------------------------------------------------
- * - Definitions of networks and their metadata for the support networks.
+ * Definitions of networks and their metadata for the support networks.
  * ============================================================================
  */
 

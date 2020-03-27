@@ -1,8 +1,5 @@
 import { Classes, H5, MenuItem, Switch, Tooltip } from "@blueprintjs/core";
 import { Select } from "@blueprintjs/select";
-import React, { ChangeEvent } from "react";
-import styled from "styled-components";
-
 import CurrencySettingsToggle from "components/CurrencySettingToggle";
 import LanguageSelectMenu from "components/LanguageSelect";
 import {
@@ -24,7 +21,9 @@ import {
 import Analytics from "lib/analytics-lib";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
+import React, { ChangeEvent } from "react";
 import { connect } from "react-redux";
+import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 import { validateEmailAddress } from "tools/validation-utils";
 

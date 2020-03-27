@@ -1,3 +1,6 @@
+import BigNumber from "bignumber.js";
+import { coins } from "test/data/coins.json";
+import prices from "test/data/prices.json";
 import {
   atomsToDenom,
   calculateTransactionAmount,
@@ -6,10 +9,6 @@ import {
   findCurrencyFromCoinsList,
   formatCurrencyAmount,
 } from "tools/currency-utils";
-
-import BigNumber from "bignumber.js";
-import { coins } from "test/data/coins.json";
-import prices from "test/data/prices.json";
 
 describe("currency-utils", () => {
   test("formatCurrencyAmount", () => {

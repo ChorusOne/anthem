@@ -1,5 +1,12 @@
 import { render } from "@testing-library/react";
+import App from "App";
+import { DEFAULT_CATALOG, DEFAULT_LOCALE, ILocale } from "i18n/catalog";
 import { createMockClient } from "mock-apollo-client";
+import store from "modules/create-store";
+import actions from "modules/settings/actions";
+import GovernancePage from "pages/GovernancePage";
+import SettingsPage from "pages/SettingsPage";
+import WalletPage from "pages/WalletPage";
 import React from "react";
 import { ApolloProvider } from "react-apollo";
 import { ApolloProvider as ApolloHooksProvider } from "react-apollo-hooks";
@@ -7,14 +14,6 @@ import ReactDOM from "react-dom";
 import { Provider as ReduxProvider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { act, create } from "react-test-renderer";
-
-import App from "App";
-import { DEFAULT_CATALOG, DEFAULT_LOCALE, ILocale } from "i18n/catalog";
-import store from "modules/create-store";
-import actions from "modules/settings/actions";
-import GovernancePage from "pages/GovernancePage";
-import SettingsPage from "pages/SettingsPage";
-import WalletPage from "pages/WalletPage";
 import {
   createStringTranslationMethodFromLocale,
   createTranslationMethodFromLocale,

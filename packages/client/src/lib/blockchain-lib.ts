@@ -2,6 +2,11 @@ import Toast from "components/Toast";
 import { NETWORK_NAME } from "constants/networks";
 import ENV from "./client-env";
 
+/** ===========================================================================
+ * Cosmos Blockchain Module
+ * ============================================================================
+ */
+
 class CosmosBlockchainModule {
   headers = {
     Accept: "application/json",

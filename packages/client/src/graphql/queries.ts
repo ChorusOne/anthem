@@ -100,6 +100,9 @@ const noPollingConfig = (variableKeys?: ReadonlyArray<VariablesKeys>) => {
 
 /** ===========================================================================
  * Query Providers
+ * ----------------------------------------------------------------------------
+ * These are helpers to make it easy to fetch data from GraphQL APIs and
+ * provide the response data components.
  * ============================================================================
  */
 

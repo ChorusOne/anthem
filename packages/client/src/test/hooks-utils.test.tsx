@@ -1,5 +1,4 @@
 import { renderHook } from "@testing-library/react-hooks";
-
 import { useDateTime } from "tools/hooks-utils";
 
 describe("hooks-utils", () => {

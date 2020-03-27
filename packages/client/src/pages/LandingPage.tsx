@@ -1,7 +1,4 @@
 import { Colors, H1, Icon } from "@blueprintjs/core";
-import React from "react";
-import styled from "styled-components";
-
 import { ChorusLogoDark } from "assets/icons";
 import {
   BitcoinTreesImage,
@@ -21,7 +18,9 @@ import { COLORS } from "constants/colors";
 import { catalogs } from "i18n/catalog";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
+import React from "react";
 import { connect } from "react-redux";
+import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 
 /** ===========================================================================

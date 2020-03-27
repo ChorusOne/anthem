@@ -11,12 +11,6 @@ import {
   Popover,
   Position,
 } from "@blueprintjs/core";
-import { History } from "history";
-import React from "react";
-import { connect } from "react-redux";
-import { Link, RouteComponentProps, withRouter } from "react-router-dom";
-import styled from "styled-components";
-
 import AddressInputDashboardBar from "components/AddressInputDashboardBar";
 import Balance from "components/Balances";
 import { KeyActionMap } from "components/KeyboardShortcutsPopover";
@@ -30,11 +24,16 @@ import {
   withGraphQLVariables,
   withPortfolioHistoryDataQuery,
 } from "graphql/queries";
+import { History } from "history";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import Analytics from "lib/analytics-lib";
 import { addressSelector } from "modules/ledger/selectors";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
+import React from "react";
+import { connect } from "react-redux";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
+import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 import {
   copyTextToClipboard,

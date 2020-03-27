@@ -1,7 +1,6 @@
 import { SchemaLink } from "apollo-link-schema";
 import { addMockFunctionsToSchema, makeExecutableSchema } from "graphql-tools";
 import { loader } from "graphql.macro";
-
 import queryKeys from "./query-keys";
 import { IQuery } from "./types";
 
@@ -12,7 +11,7 @@ import { IQuery } from "./types";
  * ============================================================================
  */
 
-/* Load the schema file */
+// Load the schema file
 const schemaString = loader("./schema.graphql");
 
 const keys = queryKeys as ReadonlyArray<QueryKeyUnion>;
@@ -22,10 +21,10 @@ const keys = queryKeys as ReadonlyArray<QueryKeyUnion>;
  * ============================================================================
  */
 
-/* Add delay time to simulate loading behavior: */
+// Add delay time to simulate loading behavior:
 const MOCK_DELAY_TIME = 0;
 
-/* Add custom delays for specific queries */
+// Add custom delays for specific queries
 const QUERY_LOAD_TIMES = {
   // accountBalances: 1e10,
   // addressHistoryData: 1e10,
@@ -33,7 +32,7 @@ const QUERY_LOAD_TIMES = {
 
 type QueryKeyUnion = keyof IQuery;
 
-/* Add query keys to simulate request failure: */
+// Add query keys to simulate request failure:
 const failKeysList: ReadonlyArray<QueryKeyUnion> = [];
 
 const SHOULD_FAIL_KEYS: Set<QueryKeyUnion> = new Set(failKeysList);
@@ -46,9 +45,6 @@ const SHOULD_FAIL_KEYS: Set<QueryKeyUnion> = new Set(failKeysList);
 /**
  * Determine the delay time for a query. Queries have a global delay time
  * which can be overridden by specific delay times for individual queries.
- *
- * @param key query key
- * @returns query delay time
  */
 const getDelayTime = (key: QueryKeyUnion): number => {
   if (key in QUERY_LOAD_TIMES) {
@@ -60,8 +56,6 @@ const getDelayTime = (key: QueryKeyUnion): number => {
 
 /**
  * Determine if a query should fail or not. If it should, throw an error.
- *
- * @param  {QueryKeyUnion} key
  */
 const handleMaybeFailQuery = (key: QueryKeyUnion) => {
   if (SHOULD_FAIL_KEYS.has(key)) {
@@ -71,8 +65,6 @@ const handleMaybeFailQuery = (key: QueryKeyUnion) => {
 
 /**
  * Artificial delay function.
- *
- * @param  {QueryKeyUnion} key
  */
 const artificialDelay = async (key: QueryKeyUnion) => {
   await new Promise((r: any) => setTimeout(r, getDelayTime(key)));
@@ -85,25 +77,22 @@ const artificialDelay = async (key: QueryKeyUnion) => {
 
 /**
  * Read fixed response JSON data from a file.
- *
- * @param  {QueryKeyUnion} key
- * @param  args query variables
  */
 const getQueryResolverFromKey = (key: QueryKeyUnion) => async (
   _: void,
   args: { [key: string]: any },
 ) => {
-  /* Handle optional failures */
+  // Handle optional failures
   handleMaybeFailQuery(key);
 
   try {
-    /* Handle optional delay */
+    // Handle optional delay
     await artificialDelay(key);
 
-    /* Get saved response data */
+    // Get saved response data
     const json = require(`../test/data/${key}.json`);
 
-    /* Return response JSON */
+    // Return response JSON
     return json[key];
   } catch (err) {
     /**

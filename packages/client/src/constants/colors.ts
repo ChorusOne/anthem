@@ -4,7 +4,7 @@
  */
 
 export enum COLORS {
-  /* General colors */
+  // General colors
   ERROR = "#dc415a",
   ERROR_LIGHT = "#f25870",
   CHORUS = "rgb(36, 129, 138)",
@@ -27,11 +27,11 @@ export enum COLORS {
   ADDRESS_BACKGROUND = "rgb(28, 28, 40)",
   WARNING = "#ffdf75",
 
-  /* Custom card styles */
+  // Custom card styles
   CARD_BORDER = "rgba(25, 25, 25, 0.1)",
   BOX_SHADOW = "rgba(25, 25, 25, 0.05)",
 
-  /* Balance colors */
+  // Balance colors
   BALANCE_SHADE_ONE = "rgb(190, 234, 174)",
   BALANCE_SHADE_TWO = "#148972",
   BALANCE_SHADE_THREE = "rgb(36, 129, 138)",
@@ -41,7 +41,7 @@ export enum COLORS {
   CHORUS_MINT = "rgb(40, 135, 115)",
   BRIGHT_GREEN = "#15B06D",
 
-  /* Chart colors */
+  // Chart colors
   CHART_GRADIENT_START = "rgba(27, 158, 132, 0.7)",
   CHART_GRADIENT_STOP = "rgba(194, 242, 177, 0.7)",
   CHART_FOCUS = "rgb(68,153,161)",
@@ -49,11 +49,11 @@ export enum COLORS {
   CHART_CROSSHAIR = "rgba(30, 136, 114, 0.75)",
   CHART_PLOT_LINE = "rgb(150,150,150)",
 
-  /* Primary design color */
+  // Primary design color
   PRIMARY = "#1d818b",
 
   CTA = "#1d818b",
 
-  /* Call to action color */
+  // Call to action color
   FOCUS = "#148972",
 }

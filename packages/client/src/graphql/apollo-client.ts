@@ -4,17 +4,20 @@ import {
 } from "apollo-cache-inmemory";
 import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
-
 import ENV from "lib/client-env";
 import getSchemaLink from "./mocks";
 
-/**
+/** ===========================================================================
+ * Fragment Matcher
+ * ----------------------------------------------------------------------------
  * This is for correcting matching union type fragment query results.
  *
  * Reference:
  * 1: https://www.apollographql.com/docs/react/advanced/fragments/
  * 2: https://graphql-code-generator.com/docs/plugins/fragment-matcher
+ * ============================================================================
  */
+
 import introspectionResult from "graphql/introspection-result.json";
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({

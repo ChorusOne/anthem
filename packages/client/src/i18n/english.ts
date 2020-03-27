@@ -22,7 +22,7 @@ export type PORTFOLIO_CHART_TYPES =
   | "COMMISSIONS";
 
 export type ENGLISH =
-  /* LandingPage */
+  // LandingPage */
   | readonly ["Login"]
   | readonly ["Anthem 2019-2020. All Rights Reserved."]
   | readonly ["Earn Rewards on Cryptoassets"]
@@ -47,7 +47,7 @@ export type ENGLISH =
   | readonly ["Community"]
   | readonly ["Invalid address found in URL, redirecting to login page."]
 
-  /* SideMenu */
+  // SideMenu */
   | readonly ["Dashboard"]
   | readonly ["Wallet"]
   | readonly ["Governance"]
@@ -68,7 +68,7 @@ export type ENGLISH =
       "Anthem currently supports staking on Cosmos. Connect your Ledger or enter a Cosmos address to start tracking your delegations.",
     ]
 
-  /* DashboardPage */
+  // DashboardPage */
   | readonly ["Selected"]
   | readonly ["Available"]
   | readonly ["Staking"]
@@ -109,7 +109,7 @@ export type ENGLISH =
       },
     ]
 
-  /* Chart */
+  // Chart */
   | readonly ["Unbonded"]
   | readonly ["Withdrew"]
   | readonly ["(available after 21 days)"]
@@ -117,7 +117,7 @@ export type ENGLISH =
   | readonly ["No staking balance exists yet."]
   | readonly ["No commissions data exists yet."]
 
-  /* Settings Page */
+  // Settings Page */
   | readonly ["App Language"]
   | readonly ["Enable Dark Theme"]
   | readonly ["Disable Dark Theme"]
@@ -148,7 +148,7 @@ export type ENGLISH =
   | readonly ["You have signed up!"]
   | readonly ["Thank you! Your interest has been recorded."]
 
-  /* Help Page */
+  // Help Page */
   | readonly ["What is Anthem?"]
   | readonly [
       "Anthem is a tool to help you earn on your cryptoassets. With Anthem, you can track your portfolio and access investment opportunities. In the first version, Anthem supports staking on Cosmos. In the future, we will add other blockchains with staking, as well as other crypto-native, non-custodial investment opportunities. To stay up-to-date, follow Chorus One on {{twitterLink}} or subscribe to our {{newsletterLink}}.",
@@ -214,7 +214,7 @@ export type ENGLISH =
       },
     ]
 
-  /* Ledger Components */
+  // Ledger Components */
   | readonly ["Connect Your Address"]
   | readonly ["Please confirm the transaction details on your ledger device"]
   | readonly ["Ledger Connected!"]
@@ -246,7 +246,7 @@ export type ENGLISH =
   | readonly ["Clear all addresses"]
   | readonly ["Back"]
 
-  /* Transaction Workflow */
+  // Transaction Workflow */
   | readonly ["You currently have no rewards available for withdrawal."]
   | readonly [
       "Please note that at least 1 µATOM worth of rewards is required before withdrawals can occur.",
@@ -311,7 +311,7 @@ export type ENGLISH =
   | readonly ["View on Mintscan"]
   | readonly ["Close"]
 
-  /* Transactions */
+  // Transactions */
   | readonly ["Recent Transactions and Events"]
   | readonly ["Send"]
   | readonly ["Receive"]
@@ -422,7 +422,7 @@ export type ENGLISH =
       },
     ]
 
-  /* Toast messages */
+  // Toast messages */
   | readonly ["Address {{address}} copied to clipboard", { address: string }]
   | readonly ["No data found..."]
   | readonly ["Transaction hash copied."]
@@ -442,7 +442,7 @@ export type ENGLISH =
   | readonly ["Logout Success."]
   | readonly ["Signing in with Ledger is currently not supported on mobile."]
 
-  /* Error Messages */
+  // Error Messages */
   | readonly ["This address is already connected."]
   | readonly ["This does not appear to be a valid address."]
   | readonly ["Please enter a value."]
@@ -453,7 +453,7 @@ export type ENGLISH =
   | readonly ["Final value is greater than the maximum available."]
   | readonly ["Final amount must be greater than zero."]
 
-  /* Miscellaneous */
+  // Miscellaneous */
   | readonly ["Error fetching data..."]
   | readonly ["Are you sure you want to logout?"]
   | readonly ["Any addresses you have entered will be cleared."]

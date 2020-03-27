@@ -1,12 +1,11 @@
 import { Classes, H5, Tooltip } from "@blueprintjs/core";
 import { Link, PageContainer, PageTitle } from "components/SharedComponents";
-import React from "react";
-import { connect } from "react-redux";
-
 import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
+import React from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 

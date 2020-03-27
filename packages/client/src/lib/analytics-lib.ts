@@ -17,18 +17,18 @@ enum T {
   OPEN_TRANSACTION_DETAILS = "OPEN_TRANSACTION_DETAILS",
   LOGOUT = "LOGOUT",
 
-  /* Settings */
+  // Settings
   SET_APP_THEME = "SET_APP_THEME",
   SET_APP_LANGUAGE = "SET_APP_LANGUAGE",
   SET_FIAT_CURRENCY = "SET_FIAT_CURRENCY",
   SET_CURRENCY_OPTION = "SET_CURRENCY_OPTION",
 
-  /* Actions */
+  // Actions
   DOWNLOAD_CSV = "DOWNLOAD_CSV",
   VIEW_BALANCE_PORTFOLIO = "VIEW_BALANCE_PORTFOLIO",
   VIEW_REWARDS_PORTFOLIO = "VIEW_REWARDS_PORTFOLIO",
 
-  /* Delegate */
+  // Delegate
   DELEGATE = "DELEGATE",
   CLAIM_REWARDS = "CLAIM_REWARDS",
 
@@ -44,7 +44,7 @@ enum T {
  * ============================================================================
  */
 class SegmentAnalyticsModule {
-  /* Map some methods directly from Segment analytics module */
+  // Map some methods directly from Segment analytics module
   page = window.analytics.page;
   identify = window.analytics.identify;
 

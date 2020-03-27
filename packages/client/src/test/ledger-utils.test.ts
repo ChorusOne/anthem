@@ -1,6 +1,5 @@
-import { createSignMessage } from "tools/ledger-utils";
-
 import { transaction } from "test/mock-transaction-data.json";
+import { createSignMessage } from "tools/ledger-utils";
 
 describe("ledger-utils", () => {
   test("createSignMessage", () => {

@@ -1,16 +1,15 @@
 import { Colors } from "@blueprintjs/core";
 import * as Sentry from "@sentry/browser";
+import { Centered } from "components/SharedComponents";
+import { IThemeProps } from "containers/ThemeContainer";
 import { Action, Location } from "history";
+import Analytics from "lib/analytics-lib";
+import Modules, { ReduxStoreState } from "modules/root";
+import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
-
-import { Centered } from "components/SharedComponents";
-import { IThemeProps } from "containers/ThemeContainer";
-import Analytics from "lib/analytics-lib";
-import Modules, { ReduxStoreState } from "modules/root";
-import { i18nSelector } from "modules/settings/selectors";
 import { composeWithProps } from "tools/context-utils";
 import { getQueryParamsFromUrl, onPath } from "tools/generic-utils";
 import RoutesContainer, { FixedAppBackgroundPage } from "./RoutesContainer";
@@ -45,28 +44,20 @@ class AppContainer extends React.Component<IProps, IState> {
   }
 
   componentDidMount() {
-    /**
-     * Initialize the app.
-     */
+    // Initialize the app.
     this.props.initializeApp();
 
-    /**
-     * Attach a listener for URL change events.
-     */
+    // Attach a listener for URL change events.
     this.props.history.listen(this.routeChangeListener);
   }
 
   componentDidCatch(error: Error) {
-    /**
-     * Log the error to Sentry.
-     */
+    // Log the error to Sentry.
     Sentry.captureException(error);
   }
 
   componentWillReceiveProps(nextProps: IProps) {
-    /**
-     * Update the address param in the url when the address changes.
-     */
+    // Update the address param in the url when the address changes.
     const queryParams = getQueryParamsFromUrl(nextProps.location.search);
     const maybeAddress = queryParams.address;
 
@@ -107,9 +98,7 @@ class AppContainer extends React.Component<IProps, IState> {
   setAddressQueryParams = (props: IProps) => {
     const { pathname } = props.location;
 
-    /**
-     * Only set the current address param if the user is on a /dashboard route.
-     */
+    // Only set the current address param if the user is on a /dashboard route.
     if (onPath(pathname, "/dashboard")) {
       this.props.history.push({
         pathname: props.location.pathname,
@@ -119,16 +108,14 @@ class AppContainer extends React.Component<IProps, IState> {
   };
 
   routeChangeListener = (location: Location, action: Action) => {
-    /**
-     * Dispatch relevant actions for routing events.
-     */
+    // Dispatch relevant actions for routing events.
     Analytics.page();
     this.props.onRouteChange({ ...location, action });
   };
 }
 
 /** ===========================================================================
- * Types & Config
+ * Styles
  * ============================================================================
  */
 

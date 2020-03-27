@@ -1,10 +1,9 @@
 import useWindowSize from "@rehooks/window-size";
+import { ReduxStoreState } from "modules/root";
 import React from "react";
+import { connect } from "react-redux";
 import { RouteChildrenProps, withRouter } from "react-router";
 import { ThemeProvider as StyledComponentsThemeProvider } from "styled-components";
-
-import { ReduxStoreState } from "modules/root";
-import { connect } from "react-redux";
 import { composeWithProps } from "tools/context-utils";
 
 /** ===========================================================================
@@ -20,14 +19,12 @@ export interface IThemeProps {
 /** ===========================================================================
  * Component
  * ----------------------------------------------------------------------------
- * - ThemeProvider which is responsible for various application settings,
+ * ThemeProvider which is responsible for various application settings,
  * such as app theme, fiat currency setting, etc.
  * ============================================================================
  */
 const ThemeProviderComponent = (props: ThemeProviderProps) => {
-  /**
-   * Window resize listener setup:
-   */
+  // Windo resize listener setup:
   const windowSize = useWindowSize();
   const isDesktop = windowSize.innerWidth > 768;
   const darkThemeEnabled = props.isDarkTheme;

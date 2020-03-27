@@ -10,9 +10,7 @@ import KavaLogo from "assets/networks/kava.png";
 import OasisLogo from "assets/networks/oasis.png";
 import TerraLogo from "assets/networks/terra.png";
 
-/**
- * Cryptocurrency coin icons.
- */
+// Cryptocurrency coin icons.
 export const COINS = {
   Bitcoin,
   Dai,
@@ -21,9 +19,7 @@ export const COINS = {
   Ethereum,
 };
 
-/**
- * Icons used throughout the app.
- */
+// Icons used throughout the app.
 export {
   ChorusLogoDark,
   ChorusLogo,

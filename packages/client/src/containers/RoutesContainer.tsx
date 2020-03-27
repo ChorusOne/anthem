@@ -1,9 +1,4 @@
 import { Classes } from "@blueprintjs/core";
-import React from "react";
-import { connect } from "react-redux";
-import { Redirect, Route, Switch, withRouter } from "react-router-dom";
-import styled from "styled-components";
-
 import LedgerDialogComponents from "components/LedgerDialogWorkflow";
 import LogoutAlertComponent from "components/LogoutAlert";
 import NotificationsBanner from "components/NotificationsBanner";
@@ -17,6 +12,10 @@ import DashboardPage from "pages/DashboardPage";
 import HelpPage from "pages/HelpPage";
 import LandingPage from "pages/LandingPage";
 import SettingsPage from "pages/SettingsPage";
+import React from "react";
+import { connect } from "react-redux";
+import { Redirect, Route, Switch, withRouter } from "react-router-dom";
+import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 
 /** ===========================================================================
@@ -28,7 +27,8 @@ import { composeWithProps } from "tools/context-utils";
 
 class RoutesContainer extends React.Component<IProps> {
   render(): JSX.Element {
-    const SHOW_LANDING_PAGE = !this.props.ledger.address;
+    const { ledger, settings } = this.props;
+    const SHOW_LANDING_PAGE = !ledger.address;
 
     if (SHOW_LANDING_PAGE) {
       return (
@@ -45,10 +45,10 @@ class RoutesContainer extends React.Component<IProps> {
 
     return (
       <FixedAppBackgroundPage
-        className={this.props.settings.isDarkTheme ? Classes.DARK : ""}
+        className={settings.isDarkTheme ? Classes.DARK : ""}
       >
         <DevelopmentBanner />
-        {this.props.settings.isDesktop && <NotificationsBanner />}
+        {settings.isDesktop && <NotificationsBanner />}
         <LedgerDialogComponents />
         <LogoutAlertComponent />
         <SideMenuComponent />

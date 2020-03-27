@@ -1,14 +1,13 @@
 import NETWORKS from "constants/networks";
+import { accountInformation } from "test/data/accountInformation.json";
+import { rewardsByValidator } from "test/data/rewardsByValidator.json";
+import { transaction } from "test/mock-transaction-data.json";
 import {
   createCosmosTransactionPostBody,
   createDelegationTransactionMessage,
   createRewardsClaimTransaction,
   createTransactionRequestMetadata,
 } from "tools/cosmos-utils";
-
-import { accountInformation } from "test/data/accountInformation.json";
-import { rewardsByValidator } from "test/data/rewardsByValidator.json";
-import { transaction } from "test/mock-transaction-data.json";
 
 describe("cosmos-utils", () => {
   test("createDelegationTransactionMessage", () => {
@@ -35,6 +34,7 @@ describe("cosmos-utils", () => {
       gasAmount: "1500",
       gasPrice: "150000",
       denom: "uatom",
+      // @ts-ignore
       selectedRewards: rewardsByValidator,
     });
 

@@ -1,9 +1,8 @@
-import React from "react";
-import { connect } from "react-redux";
-
 import { PageContainer, PageTitle } from "components/SharedComponents";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
+import React from "react";
+import { connect } from "react-redux";
 import { composeWithProps } from "tools/context-utils";
 
 /** ===========================================================================

@@ -1,6 +1,5 @@
-import React from "react";
-
 import { PageContainer, PageTitle } from "components/SharedComponents";
+import React from "react";
 import { I18nProps } from "tools/i18n-utils";
 
 /** ===========================================================================

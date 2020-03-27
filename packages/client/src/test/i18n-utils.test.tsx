@@ -1,6 +1,5 @@
-import React from "react";
-
 import { catalogs, TODO_IMPLEMENTATION_MSG } from "i18n/catalog";
+import React from "react";
 import {
   createStringTranslationMethodFromLocale,
   createTranslationMethodFromLocale,
