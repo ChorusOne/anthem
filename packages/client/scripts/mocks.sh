@@ -3,7 +3,7 @@
 # Copies mock GraphQL response data from the GraphQL server repo into the
 # Staking Dashboard repo. This data is used for testing and mocking.
 
-DIR=../chariot/src/client/data
+DIR=../server/src/client/data
 DEST=./src/test
 
 echo ""
@@ -13,7 +13,7 @@ if test -d "$DIR"; then
   cp -r $DIR $DEST
 fi
 
-cp ../chariot/src/client/query-keys.ts src/graphql
+cp ../server/src/client/query-keys.ts src/graphql
 
 echo "Success!"
 echo ""
