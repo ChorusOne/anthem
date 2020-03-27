@@ -56,9 +56,6 @@ export const getHostFromNetworkName = (network: NETWORK_NAME) => {
 
 /**
  * Only cache requests to the Crypto Compare API.
- *
- * @param url
- * @returns boolean
  */
 const shouldCacheFiatQuery = (url: string) => {
   // TODO: Separate the caching logic in the future!
@@ -76,9 +73,6 @@ const cache = new Map();
 /**
  * Cache a response for a url if the url is a request to the Crypto Compare
  * API. This caches the response data and the time it was recorded.
- *
- * @param url
- * @param response
  */
 const maybeCacheResponse = (url: string, response: any) => {
   try {
@@ -108,8 +102,6 @@ const differenceInSeconds = (dateOne: number, dateTwo: number) => {
 /**
  * Return a cached response for a url if it exists. The cache is invalidated
  * every 8 hours.
- *
- * @param url
  */
 const fetchFromCacheIfExists = (url: string) => {
   const time = Date.now();
@@ -156,9 +148,7 @@ class AxiosHelperClass {
       const shouldCache = shouldCacheFiatQuery(url);
       if (shouldCache) {
         try {
-          /**
-           * Try to return the cached response early if it exists.
-           */
+          // Try to return the cached response early if it exists.
           const cachedResponse = fetchFromCacheIfExists(url);
           logger.log(
             `[CRYPTO COMPARE CACHE]: Returning cached response for url: ${urlKey}...`,

@@ -5,8 +5,7 @@ import { objectHasKeys } from "../tools/utils";
  * ----------------------------------------------------------------------------
  * Helper resolvers for resolving union types.
  *
- * See:
- * https://www.apollographql.com/docs/apollo-server/features/unions-interfaces/
+ * See: https://www.apollographql.com/docs/apollo-server/features/unions-interfaces/
  * for more details.
  * ============================================================================
  */

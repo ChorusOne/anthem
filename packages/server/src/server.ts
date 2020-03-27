@@ -6,8 +6,6 @@ import express from "express";
 import depthLimit from "graphql-depth-limit";
 import { createServer } from "http";
 
-require("dotenv").config();
-
 // TODO: tsc issues!
 const prometheusMiddleware = require("express-prometheus-middleware");
 
@@ -21,10 +19,10 @@ import { formatError, logger } from "./tools/server-utils";
  * ============================================================================
  */
 
-/* Initialize Sentry */
+// Initialize Sentry
 Sentry.init({ dsn: ENV.SENTRY_DSN });
 
-/* Create Express app */
+// Create Express app
 const app = express();
 
 // Configure Prometheus middleware for metrics
@@ -36,10 +34,10 @@ app.use(
   }),
 );
 
-/* Remove x-powered-by headers */
+// Remove x-powered-by headers
 app.disable("x-powered-by");
 
-/* Create the server */
+// Create the server
 const server = new ApolloServer({
   schema,
   formatError,
@@ -47,21 +45,21 @@ const server = new ApolloServer({
   validationRules: [depthLimit(7)],
 });
 
-/* App configuration */
+// App configuration
 app.use("*", cors());
 app.use(bodyParser.json());
 
-/* Add API routes */
+// Add API routes
 app.use("/api", restAPI);
 
-/* Add logging function */
+// Add logging function
 app.use("/graphql", logger);
 
 server.applyMiddleware({ app, path: "/graphql" });
 
 const httpServer = createServer(app);
 
-/* Run the server */
+// Run the server
 httpServer.listen({ port: ENV.PORT }, (): void =>
   console.log(
     `\nGraphQL is now running${

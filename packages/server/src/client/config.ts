@@ -1,5 +1,4 @@
 import { Variables } from "graphql-request/dist/src/types";
-
 import resolvers from "../server/resolvers";
 
 /** ===========================================================================

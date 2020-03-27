@@ -1,7 +1,6 @@
 import bech32 from "bech32";
 import moment from "moment-timezone";
 import { identity, ifElse, lensProp, over } from "ramda";
-
 import { IMsgDelegate, ITransaction, ITxMsg } from "../schema/graphql-types";
 import NETWORKS, {
   NETWORK_NAME,
@@ -43,21 +42,18 @@ export const assertUnreachable = (x: never): never => {
 /**
  * Sorting method for transactions list result, which sorts by transaction
  * block height.
- *
- * @param  {ITransaction} txA
- * @param  {ITransaction} txB
  */
 export const orderTxsByHeight = (txA: ITransaction, txB: ITransaction) => {
   return Number(txA.height) > Number(txB.height) ? -1 : 1;
 };
 
-/* Associate amount value to amounts key */
+// Associate amount value to amounts key
 const updateFn = over(lensProp("value"), (msg: IMsgDelegate) => ({
   ...msg,
   amounts: msg.amount,
 }));
 
-/* Update amount key if it is an array */
+// Update amount key if it is an array
 const updateAmounts = ifElse(
   ({ value }: ITxMsg) => {
     const { amount } = value as IMsgDelegate;
@@ -99,9 +95,6 @@ export const formatTransactionResponse = ({
 /**
  * Decode a validator address using bech32 and re-encode it to derive the
  * associated validator address.
- *
- * @param  {string} address
- * @returns string
  */
 export const getValidatorAddressFromDelegatorAddress = (
   address: string,
@@ -136,10 +129,6 @@ export const mapSumToBalance = (item: any): any => {
 
 /**
  * Verify an object contains all of the given keys.
- *
- * @param  {any} obj
- * @param  {ReadonlyArray<string>} keys
- * @returns boolean
  */
 export const objectHasKeys = (
   obj: any,
@@ -155,9 +144,6 @@ export const objectHasKeys = (
 
 /**
  * Determine the network for a given address using the address prefix.
- *
- * @param  {string} address
- * @returns NetworkMetadata
  */
 export const deriveNetworkFromAddress = (
   address: string,
@@ -179,8 +165,6 @@ export const deriveNetworkFromAddress = (
 
 /**
  * Get the network definition from a provided network name.
- *
- * @param  {string} networkName
  */
 export const getNetworkDefinitionFromIdentifier = (networkName: string) => {
   const name = networkName.toUpperCase();

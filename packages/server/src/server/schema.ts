@@ -3,7 +3,6 @@ import { GraphQLSchema } from "graphql";
 import "graphql-import-node";
 import { makeExecutableSchema } from "graphql-tools";
 import path from "path";
-
 import resolvers from "./resolvers";
 
 /**

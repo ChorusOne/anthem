@@ -1,8 +1,6 @@
 import axios from "axios";
 import express from "express";
-
 import logger from "../tools/logger-utils";
-import { getNetworkDefinitionFromIdentifier } from "../tools/utils";
 import { AxiosUtil, getHostFromNetworkName } from "./axios-utils";
 
 /** ===========================================================================
@@ -17,7 +15,7 @@ const Router = express.Router();
  * ============================================================================
  */
 
-/* Broadcast a transaction */
+// Broadcast a transaction
 Router.post("/broadcast-tx", async (req, res) => {
   try {
     const { tx, network } = req.body;
@@ -32,7 +30,7 @@ Router.post("/broadcast-tx", async (req, res) => {
   }
 });
 
-/* Poll a transaction */
+// Poll a transaction
 Router.post("/poll-tx", async (req, res) => {
   try {
     const { hash, network } = req.body;
@@ -47,7 +45,7 @@ Router.post("/poll-tx", async (req, res) => {
   }
 });
 
-/* Email Newsletter signup route */
+// Email Newsletter signup route
 Router.post("/newsletter", async (req, res) => {
   try {
     const { email } = req.body;

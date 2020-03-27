@@ -44,9 +44,6 @@ const postProcessResponse = (response: any, network: NetworkDefinition) => {
 
 /**
  * Fetch balance data for an address.
- *
- * @param  {string} address
- * @returns Promise with balance data
  */
 const fetchBalance = async (
   address: string,
@@ -59,9 +56,6 @@ const fetchBalance = async (
 
 /**
  * Fetch delegations for an address.
- *
- * @param  {string} address
- * @returns Promise
  */
 const fetchDelegations = async (
   address: string,
@@ -76,9 +70,6 @@ const fetchDelegations = async (
 
 /**
  * Fetch reward for an address.
- *
- * @param  {string} address
- * @returns Promise
  */
 const fetchRewards = async (
   address: string,
@@ -103,9 +94,6 @@ const fetchRewards = async (
 
 /**
  * Fetch unbonding delegations for an address.
- *
- * @param  {string} address
- * @returns Promise
  */
 const fetchUnbondingDelegations = async (
   address: string,
@@ -122,9 +110,6 @@ const fetchUnbondingDelegations = async (
  * Decode the delegator address and determine the associated validator address
  * and fetch distributions for that validator, which may or may not exists. If
  * it exists, return the commissions data.
- *
- * @param  {string} address
- * @returns Promise
  */
 const fetchCommissionsForValidator = async (
   address: string,
@@ -155,8 +140,6 @@ const fetchCommissionsForValidator = async (
 
 /**
  * Fetch account information for an address.
- *
- * @param  {string} address
  */
 const fetchAccountInformation = async (
   address: string,
@@ -174,9 +157,6 @@ const fetchAccountInformation = async (
 
 /**
  * Fetch validation distribution data.
- *
- * @param  {string} validatorAddress
- * @returns Promise
  */
 const fetchValidatorDistribution = async (
   validatorAddress: string,
@@ -191,8 +171,6 @@ const fetchValidatorDistribution = async (
 
 /**
  * Fetch all validators.
- *
- * @returns Promise
  */
 const fetchValidators = async (
   network: NetworkDefinition,
@@ -204,8 +182,6 @@ const fetchValidators = async (
 
 /**
  * Fetch all validator sets.
- *
- * @returns Promise
  */
 const fetchValidatorSets = async (
   network: NetworkDefinition,
@@ -222,8 +198,6 @@ const fetchValidatorSets = async (
 
 /**
  * Fetch latest block info.
- *
- * @returns Promise
  */
 const fetchLatestBlock = async (
   network: NetworkDefinition,
@@ -234,8 +208,6 @@ const fetchLatestBlock = async (
 
 /**
  * Fetch latest staking pool data.
- *
- * @returns Promise
  */
 const fetchStakingPool = async (
   network: NetworkDefinition,
@@ -247,8 +219,6 @@ const fetchStakingPool = async (
 
 /**
  * Fetch latest staking parameters data.
- *
- * @returns Promise
  */
 const fetchStakingParameters = async (
   network: NetworkDefinition,
@@ -260,8 +230,6 @@ const fetchStakingParameters = async (
 
 /**
  * Fetch latest governance proposals.
- *
- * @returns Promise
  */
 const fetchGovernanceProposals = async (
   network: NetworkDefinition,
@@ -284,8 +252,6 @@ const fetchGovernanceProposals = async (
 
 /**
  * Fetch latest governance parameters deposit values.
- *
- * @returns Promise
  */
 const fetchGovernanceParametersDeposit = async (
   network: NetworkDefinition,
@@ -297,8 +263,6 @@ const fetchGovernanceParametersDeposit = async (
 
 /**
  * Fetch latest governance parameters tallying data.
- *
- * @returns Promise
  */
 const fetchGovernanceParametersTallying = async (
   network: NetworkDefinition,
@@ -310,8 +274,6 @@ const fetchGovernanceParametersTallying = async (
 
 /**
  * Fetch latest governance parameters voting data.
- *
- * @returns Promise
  */
 const fetchGovernanceParametersVoting = async (
   network: NetworkDefinition,
@@ -323,8 +285,6 @@ const fetchGovernanceParametersVoting = async (
 
 /**
  * Fetch slashing signing parameters data.
- *
- * @returns Promise
  */
 const fetchSlashingParameters = async (
   network: NetworkDefinition,
@@ -336,8 +296,6 @@ const fetchSlashingParameters = async (
 
 /**
  * Fetch current distribution community pool.
- *
- * @returns Promise
  */
 const fetchDistributionCommunityPool = async (
   network: NetworkDefinition,
@@ -349,8 +307,6 @@ const fetchDistributionCommunityPool = async (
 
 /**
  * Fetch distribution parameters data.
- *
- * @returns Promise
  */
 const fetchDistributionParameters = async (
   network: NetworkDefinition,
@@ -363,9 +319,6 @@ const fetchDistributionParameters = async (
 /**
  * Fetch detailed rewards response data which includes validator addresses.
  * The underlying API is the same as what's used in fetchRewards.
- *
- * @param  {string} address
- * @returns Promise
  */
 const fetchAvailableRewards = async (
   address: string,

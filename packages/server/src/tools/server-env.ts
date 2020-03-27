@@ -12,9 +12,7 @@ const TEST = NODE_ENV === "test";
 const DEVELOPMENT = NODE_ENV === "development";
 const PRODUCTION = NODE_ENV === "production";
 
-/**
- * Allow environment variables to be un-set in development & test environments.
- */
+// Disable safeguard outside of production
 if (!PRODUCTION) {
   getenv.disableErrors();
 }
@@ -27,9 +25,7 @@ const RECORDING_API_MODE = getenv.bool("RECORDING_API_MODE", false);
 
 const ENABLE_OASIS = getenv.bool("ENABLE_OASIS", false);
 
-/**
- * These variables are required in production.
- */
+// These variables are required in production.
 const SENTRY_DSN = getenv.string("SENTRY_DSN", "");
 const CRYPTO_COMPARE_API_KEY = getenv.string("CRYPTO_COMPARE_API_KEY");
 

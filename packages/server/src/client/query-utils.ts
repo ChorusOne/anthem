@@ -1,7 +1,6 @@
 import fs from "fs";
-import path from "path";
-
 import { Variables } from "graphql-request/dist/src/types";
+import path from "path";
 import { QUERY_FILE_KEYS, VarConfig, VARIABLES_CONFIG } from "./config";
 
 /** ===========================================================================
@@ -19,9 +18,6 @@ export type RequestArray = ReadonlyArray<RequestData>;
 /**
  * For a given gql string, return the associated variables that gql query
  * requires, or an empty object if there are none.
- *
- * @param  {string} gql
- * @returns Variables
  */
 const getVariablesForRequest = (gql: string): Variables => {
   return VARIABLES_CONFIG.reduce((vars: Variables, configItem: VarConfig) => {
@@ -40,9 +36,6 @@ const getVariablesForRequest = (gql: string): Variables => {
 
 /**
  * Map the gql key to a file path.
- *
- * @param  {string} key
- * @returns readonly tuple with the `[key, filePath]`
  */
 const keyToFilePath = (key: string): readonly [string, string] => {
   return [key, `./gql/queries/${key}.gql`];

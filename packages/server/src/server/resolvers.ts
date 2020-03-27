@@ -347,7 +347,7 @@ const resolvers = {
 export default resolvers;
 
 /** ===========================================================================
- * Multi Network Support
+ * Multi Network Support Note
  *
  * [~] addressHistoryData
  * [ ] rewardsByValidator
