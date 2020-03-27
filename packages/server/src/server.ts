@@ -13,7 +13,7 @@ const prometheusMiddleware = require("express-prometheus-middleware");
 
 import restAPI from "./server/rest-api";
 import schema from "./server/schema";
-import ENV from "./tools/env-utils";
+import ENV from "./tools/server-env";
 import { formatError, logger } from "./tools/server-utils";
 
 /** ===========================================================================

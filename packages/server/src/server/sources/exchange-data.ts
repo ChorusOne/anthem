@@ -1,7 +1,7 @@
 import moment from "moment-timezone";
 
 import { IQuery } from "../../schema/graphql-types";
-import ENV from "../../tools/env-utils";
+import ENV from "../../tools/server-env";
 import { assertUnreachable, convertTimestampToUTC } from "../../tools/utils";
 import { AxiosUtil, HOSTS } from "../axios-utils";
 import { NetworkDefinition } from "./networks";

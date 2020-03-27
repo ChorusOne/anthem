@@ -25,6 +25,8 @@ const DISABLE_LOGGING = getenv.bool("DISABLE_LOGGING", false);
 const DISABLE_GRAPHIQL = getenv.bool("DISABLE_GRAPHIQL", false);
 const RECORDING_API_MODE = getenv.bool("RECORDING_API_MODE", false);
 
+const ENABLE_OASIS = getenv.bool("ENABLE_OASIS", false);
+
 /**
  * These variables are required in production.
  */
@@ -52,6 +54,7 @@ const ENV = {
   COSMOS_DB,
   TERRA_DB,
   KAVA_DB,
+  ENABLE_OASIS,
 };
 
 /** ===========================================================================

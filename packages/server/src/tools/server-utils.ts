@@ -3,7 +3,7 @@ import chalk from "chalk";
 import { NextFunction, Request, Response } from "express";
 import { GraphQLError } from "graphql";
 
-import ENV from "./env-utils";
+import ENV from "./server-env";
 
 /**
  * Helper to log and format errors.

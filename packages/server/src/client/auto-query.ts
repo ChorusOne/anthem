@@ -1,7 +1,7 @@
 import fs from "fs";
 import { request } from "graphql-request";
 
-import ENV from "../tools/env-utils";
+import ENV from "../tools/server-env";
 import { RequestData, requests } from "./query-utils";
 
 /** ===========================================================================

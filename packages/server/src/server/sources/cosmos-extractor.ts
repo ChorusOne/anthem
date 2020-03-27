@@ -5,7 +5,7 @@ import {
   IPortfolioReward,
   IQuery,
 } from "../../schema/graphql-types";
-import ENV from "../../tools/env-utils";
+import ENV from "../../tools/server-env";
 import { getSqlQueryString, SQLVariables } from "../../tools/sql-utils";
 import {
   assertUnreachable,

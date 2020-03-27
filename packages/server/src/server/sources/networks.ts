@@ -3,7 +3,7 @@
  * ============================================================================
  */
 
-import ENV from "src/tools/env-utils";
+import ENV from "src/tools/server-env";
 
 export interface NetworkDefinition {
   name: NETWORK_NAME;
@@ -58,7 +58,7 @@ const NETWORKS: NetworksMap = {
 
 let NETWORKS_LIST = NETWORKS;
 
-if (!ENV.DEVELOPMENT) {
+if (!ENV.ENABLE_OASIS) {
   NETWORKS_LIST = {
     ...NETWORKS_LIST,
     OASIS: {
