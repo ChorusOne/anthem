@@ -8,7 +8,7 @@ import {
   TODO_IMPLEMENTATION_MSG,
 } from "i18n/catalog";
 import { ENGLISH } from "i18n/english";
-import ENV from "lib/env-lib";
+import ENV from "lib/client-env";
 
 /** ===========================================================================
  * Types & Config

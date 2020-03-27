@@ -15,7 +15,7 @@ import {
   TransactionsDocument,
   ValidatorsDocument,
 } from "graphql/types";
-import ENV from "lib/env-lib";
+import ENV from "lib/client-env";
 import { ReduxStoreState } from "modules/root";
 
 /** ===========================================================================

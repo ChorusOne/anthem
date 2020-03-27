@@ -17,7 +17,7 @@ import NETWORKS from "constants/networks";
 import { graphqlSelector } from "graphql/queries";
 import { AccountBalancesDocument, TransactionsDocument } from "graphql/types";
 import Analytics from "lib/analytics-lib";
-import ENV from "lib/env-lib";
+import ENV from "lib/client-env";
 import StorageModule from "lib/storage-lib";
 import { EpicSignature } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";

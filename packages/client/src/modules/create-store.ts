@@ -5,7 +5,7 @@ import { createEpicMiddleware } from "redux-observable";
 
 import client from "graphql/apollo-client";
 import cosmosBlockchainModule from "lib/blockchain-lib";
-import ENV from "lib/env-lib";
+import ENV from "lib/client-env";
 import ledgerModule from "lib/ledger-lib";
 import { reduxLogger as logger } from "lib/logger-lib";
 import { EpicDependencies, rootEpic, rootReducer } from "./root";

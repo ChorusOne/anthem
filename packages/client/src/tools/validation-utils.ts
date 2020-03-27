@@ -4,7 +4,7 @@ import semver from "semver";
 
 import { FiatCurrency } from "constants/fiat";
 import { AVAILABLE_NETWORKS } from "constants/networks";
-import ENV from "lib/env-lib";
+import ENV from "lib/client-env";
 import { tFnString } from "tools/i18n-utils";
 import {
   GenericNumberType,

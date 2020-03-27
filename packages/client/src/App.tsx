@@ -9,7 +9,7 @@ import { Router as ReactRouter } from "react-router-dom";
 import AppContainer from "containers/AppContainer";
 import { ThemeProvider } from "containers/ThemeContainer";
 import client from "graphql/apollo-client";
-import ENV from "lib/env-lib";
+import ENV from "lib/client-env";
 import store, { history } from "modules/create-store";
 
 /* Disable focus styles for mouse events */

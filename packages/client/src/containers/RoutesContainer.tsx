@@ -11,7 +11,7 @@ import SideMenuComponent from "components/SideMenu";
 import TransactionDetail from "components/TransactionDetail";
 import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
-import ENV from "lib/env-lib";
+import ENV from "lib/client-env";
 import Modules, { ReduxStoreState } from "modules/root";
 import DashboardPage from "pages/DashboardPage";
 import HelpPage from "pages/HelpPage";

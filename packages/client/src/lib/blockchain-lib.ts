@@ -1,6 +1,6 @@
 import Toast from "components/Toast";
 import { NETWORK_NAME } from "constants/networks";
-import ENV from "./env-lib";
+import ENV from "./client-env";
 
 class CosmosBlockchainModule {
   headers = {

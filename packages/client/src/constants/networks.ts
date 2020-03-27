@@ -3,7 +3,7 @@
  * ============================================================================
  */
 
-import ENV from "lib/env-lib";
+import ENV from "lib/client-env";
 
 export interface NetworkMetadata {
   name: NETWORK_NAME;

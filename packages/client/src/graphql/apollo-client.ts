@@ -5,7 +5,7 @@ import {
 import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 
-import ENV from "lib/env-lib";
+import ENV from "lib/client-env";
 import getSchemaLink from "./mocks";
 
 /**

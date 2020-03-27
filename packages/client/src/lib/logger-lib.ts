@@ -1,6 +1,6 @@
 import { createLogger } from "redux-logger";
 
-import ENV from "lib/env-lib";
+import ENV from "lib/client-env";
 
 /** ===========================================================================
  * Redux Logger Setup
