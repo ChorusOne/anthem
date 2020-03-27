@@ -1,7 +1,6 @@
 import { Action, Location } from "history";
-import { ActionType, createStandardAction } from "typesafe-actions";
-
 import { ILocale } from "i18n/catalog";
+import { ActionType, createStandardAction } from "typesafe-actions";
 import { SettingsState } from "./store";
 
 /** ===========================================================================

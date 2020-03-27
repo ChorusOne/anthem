@@ -1,6 +1,5 @@
-import { createSelector } from "reselect";
-
 import { ReduxStoreState } from "modules/root";
+import { createSelector } from "reselect";
 import { identity } from "tools/generic-utils";
 import {
   createStringTranslationMethodFromLocale,

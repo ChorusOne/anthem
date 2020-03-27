@@ -1,7 +1,6 @@
+import { ReduxStoreState } from "modules/root";
 import { connect } from "react-redux";
 import { createSelector } from "reselect";
-
-import { ReduxStoreState } from "modules/root";
 import { identity } from "tools/generic-utils";
 import actions from "./actions";
 

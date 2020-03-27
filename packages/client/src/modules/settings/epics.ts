@@ -1,8 +1,7 @@
+import { EpicSignature } from "modules/root";
 import { combineEpics } from "redux-observable";
 import { filter, ignoreElements, tap } from "rxjs/operators";
 import { isActionOf } from "typesafe-actions";
-
-import { EpicSignature } from "modules/root";
 import actions from "./actions";
 import { SETTINGS_STORE_KEY } from "./store";
 

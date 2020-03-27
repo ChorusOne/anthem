@@ -1,7 +1,6 @@
+import StorageModule from "lib/storage-lib";
 import { combineReducers } from "redux";
 import { createReducer } from "typesafe-actions";
-
-import StorageModule from "lib/storage-lib";
 import actions, { ActionTypes } from "./actions";
 
 /** ===========================================================================

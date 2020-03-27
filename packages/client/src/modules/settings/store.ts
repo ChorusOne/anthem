@@ -1,11 +1,10 @@
-import { createReducer } from "typesafe-actions";
-
 import {
   CURRENCY_SETTING,
   DEFAULT_FIAT_CURRENCY,
   FiatCurrency,
 } from "constants/fiat";
 import { ILocale } from "i18n/catalog";
+import { createReducer } from "typesafe-actions";
 import actions, { ActionTypes } from "./actions";
 
 /** ===========================================================================

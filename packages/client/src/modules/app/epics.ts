@@ -1,3 +1,12 @@
+import Toast from "components/Toast";
+import NETWORKS from "constants/networks";
+import { graphqlSelector } from "graphql/queries";
+import { AccountBalancesDocument, TransactionsDocument } from "graphql/types";
+import Analytics from "lib/analytics-lib";
+import ENV from "lib/client-env";
+import StorageModule from "lib/storage-lib";
+import { EpicSignature } from "modules/root";
+import { i18nSelector } from "modules/settings/selectors";
 import { combineEpics } from "redux-observable";
 import { from, merge } from "rxjs";
 import {
@@ -10,17 +19,6 @@ import {
   take,
   tap,
 } from "rxjs/operators";
-import { isActionOf } from "typesafe-actions";
-
-import Toast from "components/Toast";
-import NETWORKS from "constants/networks";
-import { graphqlSelector } from "graphql/queries";
-import { AccountBalancesDocument, TransactionsDocument } from "graphql/types";
-import Analytics from "lib/analytics-lib";
-import ENV from "lib/client-env";
-import StorageModule from "lib/storage-lib";
-import { EpicSignature } from "modules/root";
-import { i18nSelector } from "modules/settings/selectors";
 import {
   deriveNetworkFromAddress,
   getQueryParamsFromUrl,
@@ -28,6 +26,7 @@ import {
   wait,
 } from "tools/generic-utils";
 import { validateCosmosAddress } from "tools/validation-utils";
+import { isActionOf } from "typesafe-actions";
 import { Actions } from "../root-actions";
 
 /** ===========================================================================
@@ -55,7 +54,7 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
       }
 
       const addressError = validateCosmosAddress(address, "", tString);
-      let network = NETWORKS.COSMOS; /* Default to Cosmos ~ */
+      let network = NETWORKS.COSMOS; // Default to Cosmos
 
       if (addressError && address !== "") {
         address = "";
@@ -79,7 +78,7 @@ const monthlySummaryEmailBannerEpic: EpicSignature = (action$, state$) => {
   return action$.pipe(
     filter(isActionOf([Actions.setAddressSuccess, Actions.initializeSuccess])),
     filter(() => {
-      /* Make development easier, whatever... */
+      // Make development easier, whatever...
       if (ENV.ENABLE_MOCK_APIS) {
         return true;
       }

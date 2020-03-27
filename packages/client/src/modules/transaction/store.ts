@@ -1,7 +1,6 @@
-import { createReducer } from "typesafe-actions";
-
 import { TransactionData, TxPostBody } from "tools/cosmos-utils";
 import { TRANSACTION_STAGES } from "tools/transaction-utils";
+import { createReducer } from "typesafe-actions";
 import LedgerActions, {
   ActionTypes as LedgerActionTypes,
 } from "../ledger/actions";

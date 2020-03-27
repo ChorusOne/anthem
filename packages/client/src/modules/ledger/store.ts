@@ -1,8 +1,7 @@
-import { combineReducers } from "redux";
-import { createReducer } from "typesafe-actions";
-
 import NETWORKS, { NETWORK_NAME, NetworkMetadata } from "constants/networks";
 import StorageModule from "lib/storage-lib";
+import { combineReducers } from "redux";
+import { createReducer } from "typesafe-actions";
 import LoadingActions, {
   ActionTypes as LoadingActionTypes,
 } from "../app/actions";
@@ -50,7 +49,8 @@ const ledger = createReducer<LedgerState, ActionTypes | LoadingActionTypes>(
   }))
   .handleAction(actions.connectLedgerFailure, () => ({
     ...initialState,
-    cosmosAppVersionValid: true /* Currently the only cause for failure */,
+    // Currently the only cause for failure
+    cosmosAppVersionValid: true,
   }))
   .handleAction(actions.connectLedgerSuccess, (state, action) => ({
     ...state,

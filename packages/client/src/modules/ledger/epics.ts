@@ -1,4 +1,10 @@
+import Toast from "components/Toast";
+import Analytics from "lib/analytics-lib";
+import StorageModule from "lib/storage-lib";
+import { EpicSignature, ReduxActionTypes } from "modules/root";
+import { i18nSelector } from "modules/settings/selectors";
 import { combineEpics } from "redux-observable";
+import { from } from "rxjs";
 import {
   filter,
   ignoreElements,
@@ -8,14 +14,6 @@ import {
   takeUntil,
   tap,
 } from "rxjs/operators";
-import { isActionOf } from "typesafe-actions";
-
-import Toast from "components/Toast";
-import Analytics from "lib/analytics-lib";
-import StorageModule from "lib/storage-lib";
-import { EpicSignature, ReduxActionTypes } from "modules/root";
-import { i18nSelector } from "modules/settings/selectors";
-import { from } from "rxjs";
 import {
   assertUnreachable,
   capitalizeString,
@@ -28,6 +26,7 @@ import {
   validateCosmosAddress,
   validateCosmosAppVersion,
 } from "tools/validation-utils";
+import { isActionOf } from "typesafe-actions";
 import { Actions } from "../root-actions";
 import selectors, { addressSelector } from "./selectors";
 
@@ -175,7 +174,9 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
                   "The screensaver mode is currently active on the Ledger Device",
                 ),
               );
-              retryDelay = 6500; /* Extend the retry delay */
+
+              // Extend the retry delay
+              retryDelay = 6500;
             }
 
             await wait(retryDelay);
@@ -191,17 +192,17 @@ const logoutEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.confirmLogout)),
     tap(() => {
-      /* Remove local storage state */
+      // Remove local storage state
       StorageModule.logout();
 
-      /* Reset Apollo cache */
+      // Reset Apollo cache
       const { client } = deps;
       client.cache.reset();
 
-      /* Record analytics */
+      // Record analytics
       Analytics.logout();
 
-      /* Render toast success message */
+      // Render toast success message
       const { tString } = i18nSelector(state$.value);
       Toast.success(tString("Logout Success."));
     }),

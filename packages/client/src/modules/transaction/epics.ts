@@ -1,14 +1,13 @@
-import { combineEpics } from "redux-observable";
-import { filter, mergeMap, pluck } from "rxjs/operators";
-import { isActionOf } from "typesafe-actions";
-
 import Toast from "components/Toast";
 import logger from "lib/logger-lib";
 import { EpicSignature } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
+import { combineEpics } from "redux-observable";
+import { filter, mergeMap, pluck } from "rxjs/operators";
 import { createCosmosTransactionPostBody } from "tools/cosmos-utils";
 import { wait } from "tools/generic-utils";
 import { createSignMessage } from "tools/ledger-utils";
+import { isActionOf } from "typesafe-actions";
 import { Actions } from "../root-actions";
 
 /** ===========================================================================
@@ -74,7 +73,7 @@ const broadcastTransactionEpic: EpicSignature = (action$, state$, deps) => {
         // NOTE: Use `block` to debug and `async` in production:
         const body = JSON.stringify({
           tx: tx.value,
-          mode: "block",
+          mode: "async",
         });
 
         logger(body);

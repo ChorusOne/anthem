@@ -1,6 +1,5 @@
-import { ActionType, createStandardAction } from "typesafe-actions";
-
 import { NetworkMetadata } from "constants/networks";
+import { ActionType, createStandardAction } from "typesafe-actions";
 import { BANNER_NOTIFICATIONS_KEYS } from "./store";
 
 /** ===========================================================================
@@ -9,7 +8,8 @@ import { BANNER_NOTIFICATIONS_KEYS } from "./store";
  */
 
 enum ActionTypesEnum {
-  EMPTY_ACTION = "EMPTY_ACTION" /* Empty action */,
+  // Empty action
+  EMPTY_ACTION = "EMPTY_ACTION",
 
   SET_DASHBOARD_ADDRESS_INPUT_FOCUS_STATE = "SET_DASHBOARD_ADDRESS_INPUT_FOCUS_STATE",
 
