@@ -13,6 +13,8 @@ const ALLOW_LEDGER_ADDRESS_OVERRIDE = getenv.bool(
   false,
 );
 
+const ENABLE_OASIS = getenv.bool("REACT_APP_ENABLE_OASIS", false);
+
 const ONE_MINUTE = 60000;
 const ONE_DAY = 60000 * 24;
 
@@ -51,6 +53,7 @@ const ENV = {
   SERVER_URL,
   GRAPHQL_URL,
   SENTRY_DSN,
+  ENABLE_OASIS,
   FAST_POLL_INTERVAL,
   SLOW_POLL_INTERVAL,
   ENABLE_MOCK_APIS,

@@ -62,6 +62,7 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
         Toast.danger(
           tString("Invalid address found in URL, redirecting to login page."),
         );
+        StorageModule.setAddress("");
       } else if (address !== "") {
         network = deriveNetworkFromAddress(address);
       }

@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 import { capitalizeString, onPath } from "tools/generic-utils";
-import { Row, View } from "./SharedComponents";
+import { View } from "./SharedComponents";
 
 /** ===========================================================================
  * React Component
@@ -21,20 +21,11 @@ import { Row, View } from "./SharedComponents";
 class NetworkSelectComponent extends React.Component<IProps, {}> {
   render(): JSX.Element {
     const enableThemedStyles = !this.onLoginPage();
+    const color = enableThemedStyles ? undefined : COLORS.DARK_TITLE;
     return (
       <View>
-        <p
-          style={{
-            color: enableThemedStyles ? undefined : COLORS.DARK_TITLE,
-          }}
-        >
-          Choose a network to connect to:
-        </p>
-        <Row
-          style={{
-            marginTop: 50,
-          }}
-        >
+        <p style={{ color }}>Choose a network to connect to:</p>
+        <NetworkGrid>
           {AVAILABLE_NETWORKS.map(network => {
             return (
               <NetworkSelect
@@ -45,7 +36,7 @@ class NetworkSelectComponent extends React.Component<IProps, {}> {
               />
             );
           })}
-        </Row>
+        </NetworkGrid>
       </View>
     );
   }
@@ -118,7 +109,8 @@ const NetworkSelect = (props: NetworkSelectProps) => {
         <NetworkLogoIcon styles={{ width: 60 }} network={props.network} />
         <p
           style={{
-            marginTop: 12,
+            marginTop: 8,
+            marginBottom: 2,
             fontWeight: "bold",
             color: props.enableThemedStyles ? undefined : COLORS.DARK_TITLE,
           }}
@@ -131,8 +123,8 @@ const NetworkSelect = (props: NetworkSelectProps) => {
 };
 
 const cardButtonStyles: CSSProperties = {
-  width: 150,
-  height: 150,
+  width: 115,
+  height: 115,
   margin: 12,
   borderRadius: 0,
   display: "flex",
@@ -141,6 +133,12 @@ const cardButtonStyles: CSSProperties = {
   justifyContent: "center",
   borderColor: COLORS.CARD_BORDER,
 };
+
+const NetworkGrid = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
 
 /** ===========================================================================
  * Props

@@ -3,6 +3,8 @@
  * ============================================================================
  */
 
+import ENV from "src/tools/env-utils";
+
 export interface NetworkDefinition {
   name: NETWORK_NAME;
   denom: COIN_DENOMS;
@@ -52,18 +54,26 @@ const NETWORKS: NetworksMap = {
     coinGeckoTicker: "kava",
     cryptoCompareTicker: "KAVA",
   },
-  OASIS: {
-    name: "OASIS",
-    denom: "oasis",
-    descriptor: "OASIS",
-    coinGeckoTicker: "oasis",
-    cryptoCompareTicker: "OASIS",
-  },
 };
+
+let NETWORKS_LIST = NETWORKS;
+
+if (!ENV.DEVELOPMENT) {
+  NETWORKS_LIST = {
+    ...NETWORKS_LIST,
+    OASIS: {
+      name: "OASIS",
+      denom: "oasis",
+      descriptor: "OASIS",
+      coinGeckoTicker: "oasis",
+      cryptoCompareTicker: "OASIS",
+    },
+  };
+}
 
 /** ===========================================================================
  * Export
  * ============================================================================
  */
 
-export default NETWORKS;
+export default NETWORKS_LIST;

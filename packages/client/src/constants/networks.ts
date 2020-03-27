@@ -3,6 +3,8 @@
  * ============================================================================
  */
 
+import ENV from "lib/env-lib";
+
 export interface NetworkMetadata {
   name: NETWORK_NAME;
   ticker: string;
@@ -52,17 +54,25 @@ const NETWORKS: NetworksMap = {
     chainId: "kava-2",
     coinGeckoTicker: "kava",
   },
-  OASIS: {
-    name: "OASIS",
-    denom: "oasis",
-    ticker: "oasis",
-    descriptor: "OASIS",
-    chainId: "oasis-2",
-    coinGeckoTicker: "oasis",
-  },
 };
 
-const AVAILABLE_NETWORKS = Object.values(NETWORKS).filter(n => n.name);
+let NETWORKS_LIST = NETWORKS;
+
+if (ENV.ENABLE_OASIS) {
+  NETWORKS_LIST = {
+    ...NETWORKS_LIST,
+    OASIS: {
+      name: "OASIS",
+      denom: "oasis",
+      ticker: "oasis",
+      descriptor: "OASIS",
+      chainId: "oasis-2",
+      coinGeckoTicker: "oasis",
+    },
+  };
+}
+
+const AVAILABLE_NETWORKS = Object.values(NETWORKS_LIST).filter(n => n.name);
 
 /** ===========================================================================
  * Export
@@ -71,4 +81,4 @@ const AVAILABLE_NETWORKS = Object.values(NETWORKS).filter(n => n.name);
 
 export { AVAILABLE_NETWORKS };
 
-export default NETWORKS;
+export default NETWORKS_LIST;

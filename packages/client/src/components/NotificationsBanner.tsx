@@ -32,7 +32,9 @@ class NotificationsBanner extends React.Component<IProps> {
   }
 
   getBannerTextForNetwork = () => {
-    const { name } = this.props.network;
+    const { network } = this.props;
+    const { name } = network;
+
     switch (name) {
       case "COSMOS":
         return (

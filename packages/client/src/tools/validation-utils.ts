@@ -4,6 +4,7 @@ import semver from "semver";
 
 import { FiatCurrency } from "constants/fiat";
 import { AVAILABLE_NETWORKS } from "constants/networks";
+import ENV from "lib/env-lib";
 import { tFnString } from "tools/i18n-utils";
 import {
   GenericNumberType,
@@ -92,7 +93,7 @@ export const validateCosmosAddress = (
 
   if (address.length === 44) {
     console.warn("[TODO]: Fix address validation for Oasis addresses!");
-    return "";
+    return ENV.ENABLE_OASIS ? "" : "Oasis Network is not supported yet";
   }
 
   let prefixInAddress = false;
