@@ -58,7 +58,7 @@ const NETWORKS: NetworksMap = {
 
 let NETWORKS_LIST = NETWORKS;
 
-if (!ENV.ENABLE_OASIS) {
+if (ENV.ENABLE_OASIS) {
   NETWORKS_LIST = {
     ...NETWORKS_LIST,
     OASIS: {
