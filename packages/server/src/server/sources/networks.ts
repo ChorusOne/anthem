@@ -3,7 +3,7 @@
  * ============================================================================
  */
 
-import ENV from "src/tools/server-env";
+import ENV from "../../tools/server-env";
 
 export interface NetworkDefinition {
   name: NETWORK_NAME;
