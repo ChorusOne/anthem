@@ -26,9 +26,9 @@ interface NetworksMap {
  * ============================================================================
  */
 
-export type COIN_DENOMS = "uatom" | "ukava" | "uluna";
+export type COIN_DENOMS = "uatom" | "ukava" | "uluna" | "oasis";
 
-export type NETWORK_NAME = "COSMOS" | "TERRA" | "KAVA";
+export type NETWORK_NAME = "COSMOS" | "TERRA" | "KAVA" | "OASIS";
 
 const NETWORKS: NetworksMap = {
   COSMOS: {
@@ -51,6 +51,13 @@ const NETWORKS: NetworksMap = {
     descriptor: "KAVA",
     coinGeckoTicker: "kava",
     cryptoCompareTicker: "KAVA",
+  },
+  OASIS: {
+    name: "OASIS",
+    denom: "oasis",
+    descriptor: "OASIS",
+    coinGeckoTicker: "oasis",
+    cryptoCompareTicker: "OASIS",
   },
 };
 

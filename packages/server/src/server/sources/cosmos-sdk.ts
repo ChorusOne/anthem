@@ -21,13 +21,6 @@ import { NetworkDefinition } from "./networks";
 
 /**
  * Apply some post processing for the response data for calling a LCD node.
- *
- * NOTE: Currently Kava is running a newer version of CosmosSDK which returns
- * height and result data for all queries. So for Kava we read this result
- * field, for other networks we do not.
- *
- * @param  {any} response
- * @param  {NetworkDefinition} network
  */
 const postProcessResponse = (response: any, network: NetworkDefinition) => {
   const { name } = network;
@@ -37,6 +30,8 @@ const postProcessResponse = (response: any, network: NetworkDefinition) => {
     case "COSMOS":
     case "KAVA":
       return response.result;
+    case "OASIS":
+      break;
     default:
       return assertUnreachable(name);
   }

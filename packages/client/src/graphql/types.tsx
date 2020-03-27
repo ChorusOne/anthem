@@ -309,6 +309,7 @@ export interface IQuery {
   readonly prices: IPrice;
   readonly coins: Maybe<ReadonlyArray<ICoin>>;
   readonly fiatCurrencies: ReadonlyArray<IFiatCurrency>;
+  readonly oasis: Scalars["String"];
 }
 
 export interface IQueryPortfolioHistoryArgs {
@@ -829,6 +830,13 @@ export type ILatestBlockQuery = { readonly __typename?: "Query" } & {
     };
   };
 };
+
+export interface IOasisQueryVariables {}
+
+export type IOasisQuery = { readonly __typename?: "Query" } & Pick<
+  IQuery,
+  "oasis"
+>;
 
 export interface IPortfolioHistoryQueryVariables {
   address: Scalars["String"];
@@ -2704,6 +2712,93 @@ export type LatestBlockLazyQueryHookResult = ReturnType<
 export type LatestBlockQueryResult = ApolloReactCommon.QueryResult<
   ILatestBlockQuery,
   ILatestBlockQueryVariables
+>;
+export const OasisDocument = gql`
+  query oasis {
+    oasis
+  }
+`;
+export type OasisComponentProps = Omit<
+  ApolloReactComponents.QueryComponentOptions<
+    IOasisQuery,
+    IOasisQueryVariables
+  >,
+  "query"
+>;
+
+export const OasisComponent = (props: OasisComponentProps) => (
+  <ApolloReactComponents.Query<IOasisQuery, IOasisQueryVariables>
+    query={OasisDocument}
+    {...props}
+  />
+);
+
+export type IOasisProps<TChildProps = {}> = ApolloReactHoc.DataProps<
+  IOasisQuery,
+  IOasisQueryVariables
+> &
+  TChildProps;
+export function withOasis<TProps, TChildProps = {}>(
+  operationOptions?: ApolloReactHoc.OperationOption<
+    TProps,
+    IOasisQuery,
+    IOasisQueryVariables,
+    IOasisProps<TChildProps>
+  >,
+) {
+  return ApolloReactHoc.withQuery<
+    TProps,
+    IOasisQuery,
+    IOasisQueryVariables,
+    IOasisProps<TChildProps>
+  >(OasisDocument, {
+    alias: "oasis",
+    ...operationOptions,
+  });
+}
+
+/**
+ * __useOasisQuery__
+ *
+ * To run a query within a React component, call `useOasisQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOasisQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOasisQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOasisQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    IOasisQuery,
+    IOasisQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useQuery<IOasisQuery, IOasisQueryVariables>(
+    OasisDocument,
+    baseOptions,
+  );
+}
+export function useOasisLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    IOasisQuery,
+    IOasisQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<IOasisQuery, IOasisQueryVariables>(
+    OasisDocument,
+    baseOptions,
+  );
+}
+export type OasisQueryHookResult = ReturnType<typeof useOasisQuery>;
+export type OasisLazyQueryHookResult = ReturnType<typeof useOasisLazyQuery>;
+export type OasisQueryResult = ApolloReactCommon.QueryResult<
+  IOasisQuery,
+  IOasisQueryVariables
 >;
 export const PortfolioHistoryDocument = gql`
   query portfolioHistory($address: String!, $fiat: String!) {

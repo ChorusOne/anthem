@@ -37,7 +37,7 @@ export const cosmosSdkPools = {
 export const queryPostgresCosmosSdkPool = async (
   network: NETWORK_NAME,
   query: string,
-) => {
+): Promise<any> => {
   let response;
 
   switch (network) {
@@ -50,6 +50,9 @@ export const queryPostgresCosmosSdkPool = async (
     case "KAVA":
       response = await kavaPool.query(query);
       break;
+    case "OASIS":
+      // Not supported yet
+      return;
     default:
       return assertUnreachable(network);
   }

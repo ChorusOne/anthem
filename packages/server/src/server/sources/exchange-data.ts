@@ -113,12 +113,19 @@ const getBackFillPricesForNetwork = (
       const prices =
         cosmosPriceHistory[fiat as keyof typeof cosmosPriceHistory];
       return convertBackfilledPrices(prices);
+
+    // return kavaPriceHistory[fiat as keyof typeof kavaPriceHistory];
     case "KAVA":
-      // return kavaPriceHistory[fiat as keyof typeof kavaPriceHistory];
       return [];
+
+    // NOTE: Coin Gecko has no earlier price history for Terra!
     case "TERRA":
-      /* NOTE: Coin Gecko has no earlier price history for Terra! */
       return [];
+
+    // NOTE: Not supported yet
+    case "OASIS":
+      return [];
+
     default:
       assertUnreachable(name);
 

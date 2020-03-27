@@ -16,6 +16,7 @@ const KAVA_LCD = "https://kava-lcd.chorus.one:1317";
 const COSMOS_API = "https://stargate.cosmos.network";
 const COIN_GECKO_API = "https://api.coingecko.com/api/v3";
 const CRYPTO_COMPARE = "https://min-api.cryptocompare.com";
+const OASIS = "http://216.18.206.50:8121";
 
 const HOSTS = {
   COSMOS_LCD,
@@ -25,6 +26,7 @@ const HOSTS = {
   CRYPTO_COMPARE,
   COSMOS_API,
   COIN_GECKO_API,
+  OASIS,
 };
 
 const hostsList = Object.values(HOSTS);
@@ -40,6 +42,8 @@ export const getHostFromNetworkName = (network: NETWORK_NAME) => {
       return HOSTS.TERRA_LCD;
     case "KAVA":
       return HOSTS.KAVA_LCD;
+    case "OASIS":
+      return HOSTS.OASIS;
     default:
       return assertUnreachable(network);
   }

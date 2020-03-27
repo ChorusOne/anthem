@@ -33,6 +33,7 @@ import COSMOS_SDK from "./sources/cosmos-sdk";
 import EXCHANGE_DATA_API from "./sources/exchange-data";
 import FIAT_CURRENCIES from "./sources/fiat-currencies";
 import { NETWORK_NAME } from "./sources/networks";
+import OASIS from "./sources/oasis";
 
 /** ===========================================================================
  * Resolvers
@@ -135,29 +136,33 @@ const resolvers = {
       const { address } = args;
       const network = deriveNetworkFromAddress(address);
 
-      const [
-        balance,
-        delegations,
-        rewards,
-        unbonding,
-        commissions,
-      ] = await Promise.all([
-        COSMOS_SDK.fetchBalance(address, network),
-        COSMOS_SDK.fetchDelegations(address, network),
-        COSMOS_SDK.fetchRewards(address, network),
-        COSMOS_SDK.fetchUnbondingDelegations(address, network),
-        COSMOS_SDK.fetchCommissionsForValidator(address, network),
-      ]);
+      if (network.name === "OASIS") {
+        return OASIS.fetchAccountBalances(address, network);
+      } else {
+        const [
+          balance,
+          delegations,
+          rewards,
+          unbonding,
+          commissions,
+        ] = await Promise.all([
+          COSMOS_SDK.fetchBalance(address, network),
+          COSMOS_SDK.fetchDelegations(address, network),
+          COSMOS_SDK.fetchRewards(address, network),
+          COSMOS_SDK.fetchUnbondingDelegations(address, network),
+          COSMOS_SDK.fetchCommissionsForValidator(address, network),
+        ]);
 
-      const result: IQuery["accountBalances"] = {
-        balance,
-        delegations,
-        rewards,
-        unbonding,
-        commissions,
-      };
+        const result: IQuery["accountBalances"] = {
+          balance,
+          delegations,
+          rewards,
+          unbonding,
+          commissions,
+        };
 
-      return result;
+        return result;
+      }
     },
 
     accountInformation: async (

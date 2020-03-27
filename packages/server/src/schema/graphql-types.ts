@@ -302,6 +302,7 @@ export interface IQuery {
   readonly prices: IPrice;
   readonly coins: Maybe<ReadonlyArray<ICoin>>;
   readonly fiatCurrencies: ReadonlyArray<IFiatCurrency>;
+  readonly oasis: Scalars["String"];
 }
 
 export interface IQueryPortfolioHistoryArgs {
@@ -822,6 +823,13 @@ export type ILatestBlockQuery = { readonly __typename?: "Query" } & {
     };
   };
 };
+
+export interface IOasisQueryVariables {}
+
+export type IOasisQuery = { readonly __typename?: "Query" } & Pick<
+  IQuery,
+  "oasis"
+>;
 
 export interface IPortfolioHistoryQueryVariables {
   address: Scalars["String"];

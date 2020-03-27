@@ -168,6 +168,8 @@ export const deriveNetworkFromAddress = (
     return NETWORKS.TERRA;
   } else if (address.substring(0, 4) === "kava") {
     return NETWORKS.KAVA;
+  } else if (address.length === 44) {
+    return NETWORKS.OASIS;
   }
 
   throw new Error(
