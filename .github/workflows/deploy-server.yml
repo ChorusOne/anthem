@@ -1,7 +1,7 @@
 name: Build and Deploy Server
 
 on:
-  pull_requests:
+  pull_request:
     branches:
       - master
     types:
