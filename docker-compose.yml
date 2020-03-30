@@ -1,0 +1,10 @@
+version: '3.4'
+services:
+    server:
+      image: chorusone/anthem:latest
+      build:
+        context: .
+        dockerfile: packages/server/Dockerfile
+      hostname: anthem-server
+      ports:
+        - 8000:8000

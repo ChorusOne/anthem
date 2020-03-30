@@ -18,6 +18,16 @@ This is the codebase for Anthem, a multi-network platform for managing blockchai
 - Run `yarn dev` to start the client in test/development mode.
 - Run `yarn test` to run the project unit tests.
 
+### Docker Images
+
+The docker image for the Anthem backend server can be found on [Docker Hub](https://hub.docker.com/r/chorusone/anthem). The latest release is kept up to date with the master branch of this repository.
+
+A docker image for the frontend application will be available shortly.
+
+### Kubernetes
+
+A Kubernetes manifest file for the backend server is included in `packages/server/anthem.yaml.dist`.
+
 ## Contributing
 
 We use the [Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) for developing new features. This involves pulling the `master` branch, developing your fix or feature on a new branch, and then creating a pull request for your code changes. It is recommended to try to keep pull requests simple and confined to a concise set of changes to make it easy to review and merge code. Pull requests require review and all status checks (continuous integration checks, for instance) to pass before merging is allowed.
