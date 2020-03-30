@@ -30,9 +30,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: |
-            docker tag chorusone/anthem:${{ github.sha }} -t chorusone/anthem:latest
+            docker tag chorusone/anthem:${{ github.sha }} chorusone/anthem:latest
             docker push chorusone/anthem:latest
-            docker tag chorusone/anthem:${{ github.sha }} -t chorusone/anthem:${{ steps.semver.outputs.tag }}
+            docker tag chorusone/anthem:${{ github.sha }} chorusone/anthem:${{ steps.semver.outputs.tag }}
             docker push chorusone/anthem:${{ steps.semver.outputs.tag }}
 
       - uses: steebchen/kubectl@master
