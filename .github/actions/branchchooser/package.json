@@ -1,7 +1,0 @@
-{
-  "private": true,
-  "license": "MIT",
-  "dependencies": {
-    "@actions/core": "^1.1.0"
-  }
-}
