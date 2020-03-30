@@ -1,0 +1,36 @@
+name: Build and Deploy Staging Server
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: azure/docker-login@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_API_KEY }}
+
+      - working_directory: packages/server
+        run: |
+            docker build . -t chorusone/anthem:${{ github.sha }}
+            docker push chorusone/anthem:${{ github.sha }}
+
+      - uses: steebchen/kubectl@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+          NS: default
+        with:
+          args: set image deployment.apps/graphql-test -n $NS graphql=chorusone/anthem:${{ github.sha }}
+
+      - uses: steebchen/kubectl@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+          NS: default
+        with:
+          args: rollout status -n $NS deployment/graphql-test

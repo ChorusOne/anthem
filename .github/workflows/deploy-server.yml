@@ -4,76 +4,49 @@ on:
   push:
     branches:
       - master
-      - staging
 
 jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v1
-      - name: ecr
-        id: ecr
-        uses: elgohr/ecr-login-action@master
-        if: github.event_name == 'push' && ( github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/staging' )
+      - uses: actions/checkout@v2
+
+      - uses: azure/docker-login@v1
         with:
-          access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          region: us-east-1
-      - name: publish
-        id: publish
-        if: github.event_name == 'push' && ( github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/staging' )
-        uses: elgohr/Publish-Docker-Github-Action@master
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_API_KEY }}
+
+      - working_directory: packages/server
+        run: |
+            docker build . -t chorusone/anthem:${{ github.sha }}
+            docker push chorusone/anthem:${{ github.sha }}
+
+      - name: Compute next SemVer tag
+        id: semver
+        uses: K-Phoen/semver-release-action@master
         with:
-          name: 176395444877.dkr.ecr.us-east-1.amazonaws.com/chorusone/graphql
-          username: AWS
-          password: ${{ steps.ecr.outputs.password }}
-          registry: ${{ steps.ecr.outputs.registry }}
-      - name: branchchooser
-        id: branchchooser
-        uses: ./.github/actions/branchchooser
-      ### graphql prod deploy
+          release_branch: master
+          release_strategy: tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - working_directory: packages/server
+        run: |
+            docker tag chorusone/anthem:${{ github.sha }} -t chorusone/anthem:latest
+            docker push chorusone/anthem:latest
+            docker tag chorusone/anthem:${{ github.sha }} -t chorusone/anthem:${{ steps.semver.outputs.tag }}
+            docker push chorusone/anthem:${{ steps.semver.outputs.tag }}
+
       - uses: steebchen/kubectl@master
-        if: github.event_name == 'push' && ( github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/staging' )
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-          NS: ${{ steps.branchchooser.outputs.namespace }}
+          NS: default
         with:
-          args: set image deployment.apps/graphql -n $NS graphql=176395444877.dkr.ecr.us-east-1.amazonaws.com/chorusone/graphql:${{ steps.publish.outputs.tag }}
+          args: set image deployment.apps/graphql -n $NS graphql=chorusone/anthem:${{ steps.semver.outputs.tag }}
+
       - uses: steebchen/kubectl@master
-        if: github.event_name == 'push' && ( github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/staging' )
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-          NS: ${{ steps.branchchooser.outputs.namespace }}
-          HASH: ${{ github.sha }}
-        with:
-          args: set env deployment.apps/graphql -n $NS githash=$HASH
-      - uses: steebchen/kubectl@master
-        if: github.event_name == 'push' && ( github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/staging' )
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-          NS: ${{ steps.branchchooser.outputs.namespace }}
+          NS: default
         with:
           args: rollout status -n $NS deployment/graphql
-      ### graphql test deploy
-      - uses: steebchen/kubectl@master
-        if: github.event_name == 'push' && ( github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/staging' )
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-          NS: ${{ steps.branchchooser.outputs.namespace }}
-        with:
-          args: set image deployment.apps/graphql-test -n $NS graphql=176395444877.dkr.ecr.us-east-1.amazonaws.com/chorusone/graphql:${{ steps.publish.outputs.tag }}
-      - uses: steebchen/kubectl@master
-        if: github.event_name == 'push' && ( github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/staging' )
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-          NS: ${{ steps.branchchooser.outputs.namespace }}
-          HASH: ${{ github.sha }}
-        with:
-          args: set env deployment.apps/graphql-test -n $NS githash=$HASH
-      - uses: steebchen/kubectl@master
-        if: github.event_name == 'push' && ( github.event.ref == 'refs/heads/master' || github.event.ref == 'refs/heads/staging' )
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-          NS: ${{ steps.branchchooser.outputs.namespace }}
-        with:
-          args: rollout status -n $NS deployment/graphql-test
