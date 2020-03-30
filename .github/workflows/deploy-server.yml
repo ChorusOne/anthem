@@ -22,7 +22,7 @@ jobs:
 
       - name: Compute next SemVer tag
         id: semver
-        uses: K-Phoen/semver-release-action@master
+        uses: ChorusOne/semver-release-action@master
         with:
           release_branch: master
           release_strategy: tag
