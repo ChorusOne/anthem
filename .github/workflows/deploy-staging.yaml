@@ -16,7 +16,7 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_API_KEY }}
 
-      - working_directory: packages/server
+      - working-directory: packages/server
         run: |
             docker build . -t chorusone/anthem:${{ github.sha }}
             docker push chorusone/anthem:${{ github.sha }}
