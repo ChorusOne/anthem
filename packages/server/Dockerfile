@@ -6,14 +6,14 @@ RUN apk update && apk add bash curl jq
 WORKDIR /usr/src/app
 
 # Copy dependency files into Docker Image
-COPY package.json ./
+COPY packages/server/package.json ./
 COPY yarn.lock ./
 
 # Install dependencies
 RUN yarn install
 
 # Bundle app source
-COPY . .
+COPY packages/server/ ./
 
 # Build the app
 RUN yarn build
