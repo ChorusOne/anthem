@@ -347,7 +347,7 @@ const DesktopNavigationContainer = styled.div`
   top: 0;
   left: 0;
   bottom: 0;
-  z-index: 5;
+  z-index: 25;
   width: 250px;
   display: flex;
   position: fixed;

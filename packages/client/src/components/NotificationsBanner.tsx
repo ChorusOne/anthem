@@ -80,7 +80,7 @@ class NotificationsBanner extends React.Component<IProps> {
 
 const Banner = styled.div`
   z-index: 1;
-  height: 24px;
+  min-height: 24px;
   top: 0;
   left: 0;
   right: 0;
