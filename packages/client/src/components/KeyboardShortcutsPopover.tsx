@@ -64,6 +64,7 @@ export const KeyActionMap: {
 const KeyboardShortcutsPopover = () => {
   return (
     <Popover
+      usePortal={false}
       content={
         <KeyboardShortcutsPreview>
           <Title>Anthem Keyboard Shortcuts</Title>
@@ -82,6 +83,7 @@ const KeyboardShortcutsPopover = () => {
       position={Position.RIGHT}
     >
       <Tooltip
+        usePortal={false}
         position={Position.RIGHT}
         content="Click to view keyboard shortcuts"
       >
@@ -105,6 +107,7 @@ const fontColor = (darkTheme: boolean) =>
   darkTheme ? Colors.WHITE : Colors.DARK_GRAY3;
 
 const KeyboardShortcutsPreview = styled.div`
+  z-index: 50;
   width: 325px;
   padding: 12px;
   background: ${(props: { theme: IThemeProps }) =>

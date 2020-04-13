@@ -224,6 +224,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         </NetworkAddressContainer>
         {validator && (
           <Tooltip
+            usePortal={false}
             disabled={!isDesktop}
             position={Position.RIGHT}
             content={validator.operator_address}
