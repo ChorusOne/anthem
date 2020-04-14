@@ -81,7 +81,12 @@ export const chartExportBuilder = ({
     ]);
   }
 
-  let CSV = `${CSV_HEADERS.join(",")}\n`;
+  // Add disclaimer at the top of the CSV:
+  const DISCLAIMER_0 = `[ANTHEM DISCLAIMER]:\n`;
+  const DISCLAIMER_1 = `> This CSV account history is a best approximation of the account balances and rewards data over time. It is not a perfect history and uses a 3rd party price feed for exchange price data.\n\n`;
+  const DISCLAIMER = `${DISCLAIMER_0}${DISCLAIMER_1}`;
+
+  let CSV = `${DISCLAIMER}${CSV_HEADERS.join(",")}\n`;
 
   // const currentRewards = 0;
   let accumulatedWithdrawals = 0;
