@@ -358,8 +358,14 @@ class Portfolio extends React.PureComponent<IProps, IState> {
   handleDownloadCSV = () => {
     try {
       const { network, settings, portfolioHistory } = this.props;
-      const { portfolioChartData: portfolioData } = this.state;
       const fiatCurrencySymbol = settings.fiatCurrency.symbol;
+
+      // Calculate the portfolio data again, but force displayFiat to
+      // false to get the crypto balances.
+      const portfolioData = processPortfolioHistoryData(
+        portfolioHistory,
+        false,
+      );
 
       if (
         portfolioData &&

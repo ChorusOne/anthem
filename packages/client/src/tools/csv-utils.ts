@@ -122,18 +122,17 @@ export const chartExportBuilder = ({
     rewardsPool = subtract(atomRewards, accumulatedWithdrawals, Number);
 
     // Get the associated balance for this reward.
-    let balanceAmount: number = 0;
+    let balanceValue: number = 0;
     let balanceConversionRate = "";
     if (time in fiatPriceMap) {
       balanceConversionRate = Number(fiatPriceMap[time]).toFixed(2);
       if (time in balanceMapByTime) {
-        balanceAmount = balanceMapByTime[time] || 0;
+        balanceValue = balanceMapByTime[time] || 0;
       }
     } else {
       throw new Error(`Time ${time} does not exist in balance history!`);
     }
 
-    const balanceValue = denomToAtoms(balanceAmount, String);
     const withdrawals = Boolean(withdrawalsATOM) ? withdrawalsATOM : "";
 
     let delegationsValue = 0;
