@@ -5,7 +5,6 @@ import {
   getChartTotalGraph,
   PortfolioHistoryChartData,
 } from "./chart-utils";
-import { denomToAtoms } from "./currency-utils";
 import { toDateKey } from "./date-utils";
 import { isGraphQLResponseDataEmpty } from "./generic-utils";
 import { add, multiply, subtract } from "./math-utils";
