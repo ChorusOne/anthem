@@ -129,7 +129,7 @@ export const chartExportBuilder = ({
     let balanceValue: number = 0;
     let balanceConversionRate = "";
     if (time in fiatPriceMap) {
-      balanceConversionRate = Number(fiatPriceMap[time]).toFixed(2);
+      balanceConversionRate = fiatPriceMap[time];
       if (time in balanceMapByTime) {
         balanceValue = balanceMapByTime[time] || 0;
       }
