@@ -93,6 +93,11 @@ class DashboardPage extends React.Component<IProps, IState> {
         <DashboardDefaultView>
           <WelcomeTitle>Welcome to Anthem!</WelcomeTitle>
           <LoginStart />
+          <Link to="/login">
+            <Button icon="arrow-left" style={{ marginTop: 24 }}>
+              Exit to Landing Page
+            </Button>
+          </Link>
         </DashboardDefaultView>
       );
     }
