@@ -96,13 +96,14 @@ class AppContainer extends React.Component<IProps, IState> {
   };
 
   setAddressQueryParams = (props: IProps) => {
+    const { address } = props.ledger;
     const { pathname } = props.location;
 
     // Only set the current address param if the user is on a /dashboard route.
-    if (onPath(pathname, "/dashboard")) {
+    if (!!address && onPath(pathname, "/dashboard")) {
       this.props.history.push({
         pathname: props.location.pathname,
-        search: `?address=${props.ledger.address}`,
+        search: `?address=${address}`,
       });
     }
   };

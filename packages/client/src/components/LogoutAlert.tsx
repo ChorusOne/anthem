@@ -74,8 +74,8 @@ const AlertText = styled.p`
 
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
-  logoutMenuOpen: Modules.selectors.ledger.ledgerLogoutMenuSelector(state),
   settings: Modules.selectors.settings(state),
+  logoutMenuOpen: Modules.selectors.ledger.ledgerLogoutMenuSelector(state),
 });
 
 const dispatchProps = {

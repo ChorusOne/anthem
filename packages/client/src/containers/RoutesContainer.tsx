@@ -14,7 +14,13 @@ import LandingPage from "pages/LandingPage";
 import SettingsPage from "pages/SettingsPage";
 import React from "react";
 import { connect } from "react-redux";
-import { Redirect, Route, Switch, withRouter } from "react-router-dom";
+import {
+  Redirect,
+  Route,
+  RouteComponentProps,
+  Switch,
+  withRouter,
+} from "react-router-dom";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 
@@ -27,8 +33,8 @@ import { composeWithProps } from "tools/context-utils";
 
 class RoutesContainer extends React.Component<IProps> {
   render(): JSX.Element {
-    const { ledger, settings } = this.props;
-    const SHOW_LANDING_PAGE = !ledger.address;
+    const { history, address, settings } = this.props;
+    const SHOW_LANDING_PAGE = history.location.pathname === "/login";
 
     if (SHOW_LANDING_PAGE) {
       return (
@@ -54,18 +60,26 @@ class RoutesContainer extends React.Component<IProps> {
         <SideMenuComponent />
         <PageContainer>
           <Switch>
+            <Route key={0} exact path="/login" component={LandingPage} />
+            <Route key={1} path="/welcome" component={DashboardPage} />
             <Route
-              key={0}
+              key={2}
               exact
               path="/dashboard/*"
               component={DashboardPage}
             />
-            <Route key={1} path="/txs/*" component={TransactionDetail} />
-            <Route key={2} path="/help" component={HelpPage} />
-            <Route key={3} path="/settings" component={SettingsPage} />
+            <Route key={3} path="/txs/*" component={TransactionDetail} />
+            <Route key={4} path="/help" component={HelpPage} />
+            <Route key={5} path="/settings" component={SettingsPage} />
             <Route
-              key={4}
-              component={() => <Redirect to="/dashboard/total" />}
+              key={6}
+              component={() =>
+                !!address ? (
+                  <Redirect to="/dashboard/total" />
+                ) : (
+                  <Redirect to="/welcome" />
+                )
+              }
             />
           </Switch>
         </PageContainer>
@@ -150,7 +164,7 @@ const DevLabelText = styled.p`
 
 const mapStateToProps = (state: ReduxStoreState) => ({
   settings: Modules.selectors.settings(state),
-  ledger: Modules.selectors.ledger.ledgerSelector(state),
+  address: Modules.selectors.ledger.addressSelector(state),
 });
 
 type ConnectProps = ReturnType<typeof mapStateToProps>;
@@ -159,7 +173,7 @@ const withProps = connect(mapStateToProps);
 
 interface ComponentProps {}
 
-interface IProps extends ComponentProps, ConnectProps {}
+interface IProps extends ComponentProps, RouteComponentProps, ConnectProps {}
 
 /** ===========================================================================
  * Export

@@ -14,6 +14,7 @@ import {
 import AddressInputDashboardBar from "components/AddressInputDashboardBar";
 import Balance from "components/Balances";
 import { KeyActionMap } from "components/KeyboardShortcutsPopover";
+import LoginStart from "components/LoginStart";
 import Portfolio from "components/Portfolio";
 import { Centered, View } from "components/SharedComponents";
 import TransactionListContainer from "components/TransactionListContainer";
@@ -85,7 +86,17 @@ class DashboardPage extends React.Component<IProps, IState> {
   }
 
   render(): JSX.Element {
-    const { ledger } = this.props;
+    const { address, ledger } = this.props;
+
+    if (!address) {
+      return (
+        <DashboardDefaultView>
+          <WelcomeTitle>Welcome to Anthem!</WelcomeTitle>
+          <LoginStart />
+        </DashboardDefaultView>
+      );
+    }
+
     const { isDesktop, currencySetting, fiatCurrency } = this.props.settings;
     const { t, tString } = this.props.i18n;
     const { portfolioExpanded, transactionExpanded } = this.state;
@@ -505,6 +516,16 @@ export const DashboardError = ({
     </p>
   </Centered>
 );
+
+const DashboardDefaultView = styled.div`
+  padding-top: 250px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const WelcomeTitle = styled.h1``;
 
 /** ===========================================================================
  * Props

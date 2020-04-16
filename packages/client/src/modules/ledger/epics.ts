@@ -196,11 +196,14 @@ const logoutEpic: EpicSignature = (action$, state$, deps) => {
       StorageModule.logout();
 
       // Reset Apollo cache
-      const { client } = deps;
+      const { client, router } = deps;
       client.cache.reset();
 
       // Record analytics
       Analytics.logout();
+
+      // Redirect to welcome route
+      router.push("/welcome");
 
       // Render toast success message
       const { tString } = i18nSelector(state$.value);
@@ -237,7 +240,8 @@ const setAddressNavigationEpic: EpicSignature = (action$, state$, deps) => {
     pluck("payload"),
     tap(address => {
       const { router } = deps;
-      if (!router.location.pathname.includes("dashboard")) {
+      if (!router.location.pathname.includes("dashboard") && !!address) {
+        console.log("HI!");
         router.push({
           pathname: "/dashboard/total/",
           search: `?address=${address}`,

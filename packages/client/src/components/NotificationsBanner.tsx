@@ -24,6 +24,10 @@ interface IProps extends ComponentProps {}
 
 class NotificationsBanner extends React.Component<IProps> {
   render(): Nullable<JSX.Element> {
+    if (!this.props.address) {
+      return null;
+    }
+
     return (
       <Banner className="notifications-banner">
         {this.getBannerTextForNetwork()}
@@ -112,6 +116,7 @@ const BannerText = styled.p`
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   banner: Modules.selectors.app.appSelector(state),
+  address: Modules.selectors.ledger.addressSelector(state),
   network: Modules.selectors.ledger.networkSelector(state),
 });
 

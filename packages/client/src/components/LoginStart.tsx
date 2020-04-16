@@ -12,6 +12,7 @@ import styled, { CSSProperties } from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 import { onPath } from "tools/generic-utils";
 import Toast from "./Toast";
+import { View } from "./SharedComponents";
 
 /** ===========================================================================
  * React Component
@@ -24,7 +25,7 @@ class LoginStart extends React.Component<IProps, {}> {
     const { t } = this.props.i18n;
 
     return (
-      <React.Fragment>
+      <View>
         <H5
           style={{
             textAlign: "center",
@@ -68,7 +69,7 @@ class LoginStart extends React.Component<IProps, {}> {
             "Anthem currently supports staking on Cosmos. Connect your Ledger or enter a Cosmos address to start tracking your delegations.",
           )}
         </InfoTextBottom>
-      </React.Fragment>
+      </View>
     );
   }
 
@@ -124,11 +125,11 @@ const getCardButtonStyles = (isDesktop: boolean): CSSProperties => {
   return {
     ...dimensions,
     margin: 12,
+    borderRadius: 0,
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
     justifyContent: "center",
-    borderRadius: 0,
     borderColor: COLORS.CARD_BORDER,
   };
 };

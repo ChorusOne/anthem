@@ -89,6 +89,8 @@ class SideMenuComponent extends React.Component<IProps, IState> {
     const ledgerConnected = this.props.ledger.connected;
     const validator = this.getValidatorFromDelegatorAddressIfExists();
 
+    const HAS_ADDRESS = !!address;
+
     // SideMenu route navigation links.
     const TOP_ROUTE_LINKS: ReadonlyArray<JSX.Element> = [
       <NavItem
@@ -118,14 +120,16 @@ class SideMenuComponent extends React.Component<IProps, IState> {
     ];
 
     const BOTTOM_ROUTE_LINKS: ReadonlyArray<JSX.Element> = [
-      <NavItem
-        path={pathname}
-        closeHandler={close}
-        key="Settings"
-        route="Settings"
-        title={tString("Settings")}
-        icon={IconNames.COG}
-      />,
+      address && (
+        <NavItem
+          path={pathname}
+          closeHandler={close}
+          key="Settings"
+          route="Settings"
+          title={tString("Settings")}
+          icon={IconNames.COG}
+        />
+      ),
       <NavItem
         path={pathname}
         closeHandler={close}
@@ -134,25 +138,29 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         title={tString("Help")}
         icon={IconNames.INFO_SIGN}
       />,
-      <NavItem
-        path={pathname}
-        closeHandler={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-          /**
-           * Prevent default link behavior since this does not need to
-           * navigate to any route currently.
-           */
-          e.preventDefault();
+      address && (
+        <NavItem
+          path={pathname}
+          closeHandler={(
+            e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+          ) => {
+            /**
+             * Prevent default link behavior since this does not need to
+             * navigate to any route currently.
+             */
+            e.preventDefault();
 
-          // Close the side menu and run the logout method.
-          close();
-          this.props.openLogoutMenu();
-        }}
-        key="Logout"
-        route="Logout"
-        title={tString("Logout")}
-        icon={IconNames.LOG_OUT}
-      />,
-    ];
+            // Close the side menu and run the logout method.
+            close();
+            this.props.openLogoutMenu();
+          }}
+          key="Logout"
+          route="Logout"
+          title={tString("Logout")}
+          icon={IconNames.LOG_OUT}
+        />
+      ),
+    ].filter(Boolean) as ReadonlyArray<JSX.Element>;
 
     // Create address select component.
     const AddressSelectComponent = (
@@ -167,8 +175,10 @@ class SideMenuComponent extends React.Component<IProps, IState> {
           <Text>
             {ledgerConnected ? (
               <LedgerConnectedText>Ledger Connected</LedgerConnectedText>
-            ) : (
+            ) : HAS_ADDRESS ? (
               <AddressTitle>{t("Address Connected")}</AddressTitle>
+            ) : (
+              <AddressTitle>{t("Connect Your Address")}</AddressTitle>
             )}
           </Text>
         </AddressConnectedTextBar>
@@ -183,7 +193,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
               });
             }}
           >
-            {isDesktop && (
+            {isDesktop && HAS_ADDRESS && (
               <NetworkLogoIcon
                 network={network.name}
                 styles={{ marginRight: 8 }}
@@ -236,10 +246,12 @@ class SideMenuComponent extends React.Component<IProps, IState> {
             </ValidatorOperatorLabel>
           </Tooltip>
         )}
-        <NetworkInfoText>
-          <b style={{ color: COLORS.LIGHT_GRAY }}>{t("NETWORK:")}</b>{" "}
-          {network.name}
-        </NetworkInfoText>
+        {HAS_ADDRESS && (
+          <NetworkInfoText>
+            <b style={{ color: COLORS.LIGHT_GRAY }}>{t("NETWORK:")}</b>{" "}
+            {network.name}
+          </NetworkInfoText>
+        )}
       </AddressContainer>
     );
 
@@ -320,6 +332,10 @@ class SideMenuComponent extends React.Component<IProps, IState> {
   };
 
   getValidatorFromDelegatorAddressIfExists = () => {
+    if (!this.props.validators) {
+      return;
+    }
+
     const { validators } = this.props.validators;
 
     if (!validators) {
@@ -327,6 +343,12 @@ class SideMenuComponent extends React.Component<IProps, IState> {
     }
 
     const { network, address } = this.props.ledger;
+
+    // Short circuit if address is not set
+    if (!address) {
+      return null;
+    }
+
     const validatorAddress = getValidatorAddressFromDelegatorAddress(
       address,
       network.name,
