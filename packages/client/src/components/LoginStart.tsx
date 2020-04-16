@@ -11,8 +11,8 @@ import { connect } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 import { onPath } from "tools/generic-utils";
-import Toast from "./Toast";
 import { View } from "./SharedComponents";
+import Toast from "./Toast";
 
 /** ===========================================================================
  * React Component
