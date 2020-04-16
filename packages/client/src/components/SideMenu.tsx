@@ -172,15 +172,13 @@ class SideMenuComponent extends React.Component<IProps, IState> {
       >
         <AddressConnectedTextBar>
           {isDesktop && <KeyboardShortcutsPopover />}
-          <Text>
-            {ledgerConnected ? (
-              <LedgerConnectedText>Ledger Connected</LedgerConnectedText>
-            ) : HAS_ADDRESS ? (
-              <AddressTitle>{t("Address Connected")}</AddressTitle>
-            ) : (
-              <AddressTitle>{t("Connect Your Address")}</AddressTitle>
-            )}
-          </Text>
+          {ledgerConnected ? (
+            <LedgerConnectedText>Ledger Connected</LedgerConnectedText>
+          ) : HAS_ADDRESS ? (
+            <AddressTitle>{t("Address Connected")}</AddressTitle>
+          ) : (
+            <AddressTitle>{t("Connect Your Address")}</AddressTitle>
+          )}
         </AddressConnectedTextBar>
         <NetworkAddressContainer>
           <NetworkAddressBox
@@ -220,9 +218,9 @@ class SideMenuComponent extends React.Component<IProps, IState> {
               ) : (
                 <View
                   style={{
+                    marginTop: 48,
                     display: "flex",
                     flexDirection: "row",
-                    marginTop: 48,
                   }}
                 >
                   <Icon
@@ -437,6 +435,8 @@ const NavTitle = styled.h4`
 `;
 
 const LedgerConnectedText = styled.p`
+  margin-top: 5px;
+  margin-bottom: 0;
   font-weight: bold;
   color: ${COLORS.CHORUS_MINT};
 `;
