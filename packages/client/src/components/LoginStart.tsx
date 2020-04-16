@@ -140,10 +140,6 @@ const LoginText = styled.h4`
   text-align: center;
   color: ${(props: { theme: IThemeProps }) =>
     props.theme.isDarkTheme ? COLORS.LIGHT_WHITE : COLORS.DARK_TITLE};
-
-  &:hover {
-    color: ${COLORS.PRIMARY};
-  }
 `;
 
 const InfoTextBottom = styled.p`

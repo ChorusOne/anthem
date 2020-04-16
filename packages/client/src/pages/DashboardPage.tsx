@@ -523,7 +523,8 @@ export const DashboardError = ({
 );
 
 const DashboardDefaultView = styled.div`
-  padding-top: 250px;
+  margin-top: -30px;
+  height: 100vh;
   display: flex;
   align-items: center;
   flex-direction: column;

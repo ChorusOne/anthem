@@ -64,6 +64,7 @@ export const KeyActionMap: {
 const KeyboardShortcutsPopover = () => {
   return (
     <Popover
+      canEscapeKeyClose
       usePortal={false}
       content={
         <KeyboardShortcutsPreview>

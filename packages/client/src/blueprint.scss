@@ -93,24 +93,8 @@
   fill: rgb(245, 245, 245);
 }
 
-.ledger-login-card:hover .ledger-login-icon {
-  fill: #1d818b;
-}
-
-.address-login-card:hover .address-login-icon {
-  fill: #1d818b;
-}
-
 .ledger-login-card:hover .address-login-card:hover {
   cursor: pointer;
-}
-
-.ledger-login-card:hover .login-text {
-  color: #1d818b;
-}
-
-.address-login-card:hover .login-text {
-  color: #1d818b;
 }
 
 // Copy address icon
