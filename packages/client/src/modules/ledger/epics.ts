@@ -203,7 +203,8 @@ const logoutEpic: EpicSignature = (action$, state$, deps) => {
       Analytics.logout();
 
       // Redirect to welcome route
-      router.push("/welcome");
+      // NOTE: Welcome UI is not enabled yet
+      // router.push("/welcome");
 
       // Render toast success message
       const { tString } = i18nSelector(state$.value);

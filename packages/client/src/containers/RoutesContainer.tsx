@@ -33,8 +33,11 @@ import { composeWithProps } from "tools/context-utils";
 
 class RoutesContainer extends React.Component<IProps> {
   render(): JSX.Element {
-    const { history, address, settings } = this.props;
-    const SHOW_LANDING_PAGE = history.location.pathname === "/login";
+    const { address, settings } = this.props;
+    const SHOW_LANDING_PAGE = !address;
+    // Alternate welcome page:
+    // NOTE: To enable, also redirect to /welcome in the ledger logoutEpic
+    // const SHOW_LANDING_PAGE = history.location.pathname === "/login";
 
     if (SHOW_LANDING_PAGE) {
       return (
@@ -60,8 +63,8 @@ class RoutesContainer extends React.Component<IProps> {
         <SideMenuComponent />
         <PageContainer>
           <Switch>
-            <Route key={0} exact path="/login" component={LandingPage} />
-            <Route key={1} path="/welcome" component={DashboardPage} />
+            {/* <Route key={0} exact path="/login" component={LandingPage} /> */}
+            {/* <Route key={1} path="/welcome" component={DashboardPage} /> */}
             <Route
               key={2}
               exact
