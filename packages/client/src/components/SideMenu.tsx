@@ -205,32 +205,38 @@ class SideMenuComponent extends React.Component<IProps, IState> {
                 : t("Link Your Address")}
             </Address>
           </NetworkAddressBox>
-          <CopyToClipboard onCopy={this.onCopySuccess} text={address}>
-            {isDesktop ? (
-              <Centered style={{ marginTop: !isDesktop ? 16 : "auto" }}>
-                <Icon
-                  icon="duplicate"
-                  color={COLORS.LIGHT_GRAY}
-                  data-cy="address-copy-to-clipboard-icon"
-                  className="address-copy-to-clipboard-icon"
-                  style={{ marginLeft: 8, marginRight: 8 }}
-                />
-              </Centered>
-            ) : (
-              <View
-                style={{ display: "flex", flexDirection: "row", marginTop: 48 }}
-              >
-                <Icon
-                  icon="duplicate"
-                  color={COLORS.LIGHT_GRAY}
-                  data-cy="address-copy-to-clipboard-icon"
-                  className="address-copy-to-clipboard-icon"
-                  style={{ marginRight: 8 }}
-                />
-                <p style={{ margin: 0 }}>{t("Copy Address")}</p>
-              </View>
-            )}
-          </CopyToClipboard>
+          {HAS_ADDRESS && (
+            <CopyToClipboard onCopy={this.onCopySuccess} text={address}>
+              {isDesktop ? (
+                <Centered style={{ marginTop: !isDesktop ? 16 : "auto" }}>
+                  <Icon
+                    icon="duplicate"
+                    color={COLORS.LIGHT_GRAY}
+                    data-cy="address-copy-to-clipboard-icon"
+                    className="address-copy-to-clipboard-icon"
+                    style={{ marginLeft: 8, marginRight: 8 }}
+                  />
+                </Centered>
+              ) : (
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    marginTop: 48,
+                  }}
+                >
+                  <Icon
+                    icon="duplicate"
+                    color={COLORS.LIGHT_GRAY}
+                    data-cy="address-copy-to-clipboard-icon"
+                    className="address-copy-to-clipboard-icon"
+                    style={{ marginRight: 8 }}
+                  />
+                  <p style={{ margin: 0 }}>{t("Copy Address")}</p>
+                </View>
+              )}
+            </CopyToClipboard>
+          )}
         </NetworkAddressContainer>
         {validator && (
           <Tooltip
