@@ -196,7 +196,7 @@ const logoutEpic: EpicSignature = (action$, state$, deps) => {
       StorageModule.logout();
 
       // Reset Apollo cache
-      const { client, router } = deps;
+      const { client } = deps;
       client.cache.reset();
 
       // Record analytics

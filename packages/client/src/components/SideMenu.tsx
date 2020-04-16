@@ -4,7 +4,6 @@ import {
   Icon,
   IconName,
   Position,
-  Text,
   Tooltip,
 } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
