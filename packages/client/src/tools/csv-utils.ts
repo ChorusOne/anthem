@@ -16,11 +16,13 @@ import { add, multiply, subtract } from "./math-utils";
 
 // Process the chart data and create a string CSV value for download.
 export const chartExportBuilder = ({
+  address,
   network,
   fiatPriceHistory,
   fiatCurrencySymbol,
   portfolioChartHistory,
 }: {
+  address: string;
   network: NetworkMetadata;
   fiatCurrencySymbol: string;
   fiatPriceHistory: ReadonlyArray<IFiatPrice>;
@@ -80,12 +82,14 @@ export const chartExportBuilder = ({
     ]);
   }
 
-  // Add disclaimer at the top of the CSV:
-  const DISCLAIMER_0 = `[ANTHEM DISCLAIMER]:\n`;
-  const DISCLAIMER_1 = `> This CSV account history is a best approximation of the account balances and rewards data over time. It is not a perfect history and uses a 3rd party price feed for exchange price data.\n\n`;
-  const DISCLAIMER = `${DISCLAIMER_0}${DISCLAIMER_1}`;
+  // Add info text about the address and network
+  const ADDRESS_INFO = `Account history data for ${network.name} address ${address}.\n\n`;
 
-  let CSV = `${DISCLAIMER}${CSV_HEADERS.join(",")}\n`;
+  // Add disclaimer at the top of the CSV:
+  const DISCLAIMER = `[DISCLAIMER]: This CSV account history is a best approximation of the account balances and rewards data over time. It is not a perfect history and uses a 3rd party price feed for exchange price data.\n\n`;
+
+  // Assemble CSV file string with headers
+  let CSV = `${ADDRESS_INFO}${DISCLAIMER}${CSV_HEADERS.join(",")}\n`;
 
   // const currentRewards = 0;
   let accumulatedWithdrawals = 0;

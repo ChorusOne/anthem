@@ -123,7 +123,7 @@ class DashboardPage extends React.Component<IProps, IState> {
                     )
                   </H5>
                 </Row>
-                <Balance address={this.props.address.address} />
+                <Balance address={this.props.address} />
               </Card>
             )}
           </PortfolioBalanceView>
@@ -304,7 +304,7 @@ class DashboardPage extends React.Component<IProps, IState> {
         break;
       }
       case C.keyCode: {
-        copyTextToClipboard(this.props.address.address);
+        copyTextToClipboard(this.props.address);
         break;
       }
       default: {
@@ -502,10 +502,10 @@ export const DashboardError = ({
 
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
-  address: addressSelector(state),
   settings: Modules.selectors.settings(state),
   app: Modules.selectors.app.appSelector(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
+  address: Modules.selectors.ledger.addressSelector(state),
   ledgerDialog: Modules.selectors.ledger.ledgerDialogSelector(state),
 });
 

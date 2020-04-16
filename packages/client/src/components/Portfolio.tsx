@@ -357,7 +357,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
 
   handleDownloadCSV = () => {
     try {
-      const { network, settings, portfolioHistory } = this.props;
+      const { address, network, settings, portfolioHistory } = this.props;
       const fiatCurrencySymbol = settings.fiatCurrency.symbol;
 
       // Calculate the portfolio data again, but force displayFiat to
@@ -374,6 +374,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
       ) {
         const { fiatPriceHistory } = portfolioHistory.portfolioHistory;
         const CSV = chartExportBuilder({
+          address,
           network,
           fiatPriceHistory,
           fiatCurrencySymbol,
@@ -636,6 +637,7 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   settings: Modules.selectors.settings(state),
   network: Modules.selectors.ledger.networkSelector(state),
+  address: Modules.selectors.ledger.addressSelector(state),
 });
 
 const dispatchProps = {

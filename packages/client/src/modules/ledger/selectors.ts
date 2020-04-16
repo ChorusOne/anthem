@@ -9,13 +9,9 @@ import actions from "./actions";
  * ============================================================================
  */
 
-const addressState = (state: ReduxStoreState) => {
+export const addressSelector = (state: ReduxStoreState) => {
   return state.ledger.ledger.address;
 };
-
-export const addressSelector = createSelector(addressState, address => ({
-  address,
-}));
 
 const setAddress = actions.setAddress;
 
@@ -66,6 +62,7 @@ const ledgerLogoutMenuSelector = createSelector(
  */
 
 export default {
+  addressSelector,
   ledgerSelector,
   networkSelector,
   ledgerDialogSelector,

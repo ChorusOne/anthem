@@ -41,7 +41,7 @@ const setAddressEpic: EpicSignature = (action$, state$, deps) => {
     map(({ payload, meta }) => {
       let setAddress = payload;
       const { tString } = i18nSelector(state$.value);
-      const { address } = addressSelector(state$.value);
+      const address = addressSelector(state$.value);
 
       if (payload.length > 52) {
         return Actions.searchTransactionByHash(payload);
