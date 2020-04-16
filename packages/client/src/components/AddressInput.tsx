@@ -1,5 +1,6 @@
-import { AddressProps, withAddress } from "modules/ledger/selectors";
+import Modules, { ReduxStoreState } from "modules/root";
 import React, { ChangeEvent } from "react";
+import { connect } from "react-redux";
 import { composeWithProps } from "tools/context-utils";
 import { tFnString } from "tools/i18n-utils";
 import { SearchInput } from "./SharedComponents";
@@ -8,17 +9,6 @@ import { SearchInput } from "./SharedComponents";
  * Types & Config
  * ============================================================================
  */
-
-interface ComponentProps {
-  tString: tFnString;
-  isDesktop: boolean;
-  inputWidth?: number;
-  onBlur?: () => void;
-  onFocus?: () => void;
-  assignInputRef?: (ref: HTMLInputElement) => void;
-}
-
-interface IProps extends AddressProps, ComponentProps {}
 
 interface IState {
   value: string;
@@ -86,10 +76,38 @@ class AddressInputComponent extends React.Component<IProps, IState> {
 }
 
 /** ===========================================================================
+ * Props
+ * ============================================================================
+ */
+
+const mapStateToProps = (state: ReduxStoreState) => ({
+  address: Modules.selectors.ledger.addressSelector(state),
+});
+
+const dispatchProps = {
+  setAddress: Modules.actions.ledger.setAddress,
+};
+
+const withProps = connect(mapStateToProps, dispatchProps);
+
+type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
+
+interface ComponentProps {
+  tString: tFnString;
+  isDesktop: boolean;
+  inputWidth?: number;
+  onBlur?: () => void;
+  onFocus?: () => void;
+  assignInputRef?: (ref: HTMLInputElement) => void;
+}
+
+interface IProps extends ConnectProps, ComponentProps {}
+
+/** ===========================================================================
  * Export
  * ============================================================================
  */
 
-export default composeWithProps<ComponentProps>(withAddress)(
+export default composeWithProps<ComponentProps>(withProps)(
   AddressInputComponent,
 );

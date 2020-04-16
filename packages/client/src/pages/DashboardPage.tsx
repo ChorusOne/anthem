@@ -27,7 +27,6 @@ import {
 import { History } from "history";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import Analytics from "lib/analytics-lib";
-import { addressSelector } from "modules/ledger/selectors";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
@@ -148,7 +147,14 @@ class DashboardPage extends React.Component<IProps, IState> {
   }
 
   renderDashboardNavigationLinks = () => {
-    const { i18n, history, settings, location, portfolioHistory } = this.props;
+    const {
+      i18n,
+      address,
+      history,
+      settings,
+      location,
+      portfolioHistory,
+    } = this.props;
     const { tString } = i18n;
     const { pathname } = location;
 
@@ -175,6 +181,7 @@ class DashboardPage extends React.Component<IProps, IState> {
                 <DashboardNavigationLink
                   key={title}
                   title={title}
+                  address={address}
                   pathname={pathname}
                   localizedTitle={tString(title as PORTFOLIO_CHART_TYPES)}
                 />
@@ -193,8 +200,9 @@ class DashboardPage extends React.Component<IProps, IState> {
                 {AVAILABLE_TABS.map(title =>
                   getMobileDashboardNavigationLink({
                     title,
-                    pathname,
+                    address,
                     history,
+                    pathname,
                     localizedTitle: tString(title),
                   }),
                 )}
@@ -364,9 +372,10 @@ const getBalanceCardStyles = () => ({
 });
 
 interface INavItemProps {
-  title: PORTFOLIO_CHART_TYPES;
+  address: string;
   pathname: string;
   localizedTitle: string;
+  title: PORTFOLIO_CHART_TYPES;
 }
 
 const TransactionsContainer = styled.div`
@@ -401,11 +410,13 @@ const ExpandCollapseIcon = ({ onClick }: { onClick: () => void }) => (
 
 const DashboardNavigationLink = ({
   title,
-  localizedTitle,
+  address,
   pathname,
+  localizedTitle,
 }: INavItemProps) => {
+  const params = `?address=${address}`;
   const active = onActiveRoute(pathname, title);
-  const path = title.toLowerCase();
+  const path = `${title.toLowerCase()}${params}`;
   const onClickFunction = () => runAnalyticsForTab(title);
   return (
     <Link

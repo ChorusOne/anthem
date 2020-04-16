@@ -1,8 +1,6 @@
 import { ReduxStoreState } from "modules/root";
-import { connect } from "react-redux";
 import { createSelector } from "reselect";
 import { identity } from "tools/generic-utils";
-import actions from "./actions";
 
 /** ===========================================================================
  * Address
@@ -12,17 +10,6 @@ import actions from "./actions";
 export const addressSelector = (state: ReduxStoreState) => {
   return state.ledger.ledger.address;
 };
-
-const setAddress = actions.setAddress;
-
-export const withAddress = connect(addressSelector, {
-  setAddress,
-});
-
-export interface AddressProps {
-  address: string;
-  setAddress: typeof setAddress;
-}
 
 /** ===========================================================================
  * Ledger
