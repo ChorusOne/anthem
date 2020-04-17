@@ -1,5 +1,5 @@
 import axios from "axios";
-import express from "express";
+import express, { response } from "express";
 import logger from "../tools/logger-utils";
 import { AxiosUtil, getHostFromNetworkName } from "./axios-utils";
 
@@ -15,6 +15,24 @@ const Router = express.Router();
  * ============================================================================
  */
 
+interface LcdRequestError {
+  response: {
+    data: {
+      error: string;
+    };
+  };
+}
+
+const formatLcdRequestError = (error: LcdRequestError) => {
+  try {
+    return {
+      error: error.response.data.error,
+    };
+  } catch (err) {
+    return { error: "Request Failed" };
+  }
+};
+
 // Broadcast a transaction
 Router.post("/broadcast-tx", async (req, res) => {
   try {
@@ -26,7 +44,8 @@ Router.post("/broadcast-tx", async (req, res) => {
     res.send(JSON.stringify(data));
   } catch (err) {
     logger.error(err, true);
-    res.sendStatus(400);
+    res.status(400);
+    res.send(formatLcdRequestError(err));
   }
 });
 
@@ -41,7 +60,8 @@ Router.post("/poll-tx", async (req, res) => {
     res.json(result);
   } catch (err) {
     logger.error(err, true);
-    res.sendStatus(400);
+    res.status(400);
+    res.send(formatLcdRequestError(err));
   }
 });
 
