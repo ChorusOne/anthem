@@ -11,5 +11,5 @@
     "typeRoots": ["node_modules/@types"]
   },
   "exclude": ["node_modules", "build"],
-  "include": ["global.d.ts", "src", "scripts"]
+  "include": ["src", "scripts", "global.d.ts"]
 }

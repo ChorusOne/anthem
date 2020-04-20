@@ -7,7 +7,7 @@
   "main": "server.ts",
   "scripts": {
     "setup": "cp sample.env .env",
-    "start": "NODE_ENV=development nodemon 'src/server.ts' --exec 'ts-node' src/server.ts -e ts,graphql",
+    "start": "nodemon --exec ts-node --files src/server.ts",
     "prod": "node build/src/server.js",
     "build": "rimraf build && tsc -p . && ncp src/schema build/src/schema",
     "debug": "yarn build && yarn rawkit build/src/server.js --nodemon",
