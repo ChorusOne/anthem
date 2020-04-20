@@ -1,5 +1,5 @@
 import axios from "axios";
-import express, { response } from "express";
+import express from "express";
 import logger from "../tools/logger-utils";
 import { AxiosUtil, getHostFromNetworkName } from "./axios-utils";
 
@@ -11,7 +11,7 @@ import { AxiosUtil, getHostFromNetworkName } from "./axios-utils";
 const Router = express.Router();
 
 /** ===========================================================================
- * API routes
+ * Cosmos LCD APIs
  * ============================================================================
  */
 
@@ -64,6 +64,11 @@ Router.post("/poll-tx", async (req, res) => {
     res.send(formatLcdRequestError(err));
   }
 });
+
+/** ===========================================================================
+ * Regular REST APIs
+ * ============================================================================
+ */
 
 // Email Newsletter signup route
 Router.post("/newsletter", async (req, res) => {
