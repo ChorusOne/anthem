@@ -434,7 +434,6 @@ const NavTitle = styled.h4`
 `;
 
 const LedgerConnectedText = styled.p`
-  margin-top: 5px;
   margin-bottom: 0;
   font-weight: bold;
   color: ${COLORS.CHORUS_MINT};
