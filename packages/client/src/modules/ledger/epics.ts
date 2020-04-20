@@ -242,7 +242,6 @@ const setAddressNavigationEpic: EpicSignature = (action$, state$, deps) => {
     tap(address => {
       const { router } = deps;
       if (!router.location.pathname.includes("dashboard") && !!address) {
-        console.log("HI!");
         router.push({
           pathname: "/dashboard/total/",
           search: `?address=${address}`,

@@ -287,7 +287,7 @@ export const mapRewardsToChartData = (
   lastRewards = 0;
 
   let lastValue = 0;
-  let runningTotal = 0;
+  let runningAtomTotal = 0;
 
   // Use a set to exclude multiple values recorded for one timestamp:
   let rewardsByTime: Set<string> = new Set();
@@ -305,15 +305,17 @@ export const mapRewardsToChartData = (
     const diff = subtract(atomReward, lastValue, Number);
     lastValue = atomReward;
 
-    // Optionally convert fiat after performing the other above adjustments
-    const diffValue = displayFiat ? multiply(diff, fiatPrice, Number) : diff;
-
     // Only include positive diffs to exclude withdrawal events
-    runningTotal = runningTotal + (diffValue > 0 ? diffValue : 0);
+    runningAtomTotal = runningAtomTotal + (diff > 0 ? diff : 0);
+
+    // Optionally convert fiat after performing the other above adjustments
+    const value = displayFiat
+      ? multiply(runningAtomTotal, fiatPrice, Number)
+      : runningAtomTotal;
 
     if (diff !== 0) {
       // Add the running total to the data
-      data[time] = runningTotal;
+      data[time] = value;
       // Update rewards by time array
       rewardsByTime = rewardsByTime.add(time);
     }
