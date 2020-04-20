@@ -1,7 +1,11 @@
 import moment from "moment-timezone";
 import { IQuery } from "../../schema/graphql-types";
 import ENV from "../../tools/server-env";
-import { assertUnreachable, convertTimestampToUTC } from "../../tools/utils";
+import {
+  assertUnreachable,
+  convertTimestampToUTC,
+  getAveragePrice,
+} from "../../tools/utils";
 import { AxiosUtil, HOSTS } from "../axios-utils";
 import { NetworkDefinition } from "./networks";
 import cosmosPriceHistory from "./price-history/cosmos.json";
@@ -12,7 +16,7 @@ import kavaPriceHistory from "./price-history/kava.json";
  * ============================================================================
  */
 
-interface Price {
+export interface Price {
   time: number;
   close: number;
   high: number;
@@ -49,7 +53,7 @@ const fetchPortfolioFiatPriceHistory = async (
   const normalizedPrices = result.Data.filter(
     (price: Price) => price.open !== 0,
   ).map((price: Price) => ({
-    price: price.close,
+    price: getAveragePrice(price),
     timestamp: convertTimestampToUTC(price.time * 1000),
   }));
 
@@ -126,7 +130,6 @@ const getBackFillPricesForNetwork = (
 
     default:
       assertUnreachable(name);
-
       return [];
   }
 };

@@ -1,6 +1,7 @@
 import bech32 from "bech32";
 import moment from "moment-timezone";
 import { identity, ifElse, lensProp, over } from "ramda";
+import { Price } from "src/server/sources/exchange-data";
 import { IMsgDelegate, ITransaction, ITxMsg } from "../schema/graphql-types";
 import NETWORKS, {
   NETWORK_NAME,
@@ -198,4 +199,12 @@ export const standardizeTimestamps = (item: any) => {
         timestamp: ISO,
       };
     });
+};
+
+/**
+ * Calculate the OHLC average price for the price data.
+ */
+export const getAveragePrice = (price: Price) => {
+  const { open, high, low, close } = price;
+  return (open + high + low + close) / 4;
 };
