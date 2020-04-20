@@ -109,6 +109,9 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
               state$.value,
             );
 
+            // Connect to the Ledger device
+            await ledger.connectDevice();
+
             let cosmosSdkAddress;
             switch (signinNetworkName) {
               case "COSMOS": {

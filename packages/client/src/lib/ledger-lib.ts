@@ -8,7 +8,7 @@ import ENV from "./client-env";
  */
 
 class LedgerModule extends Ledger {
-  ledger: Ledger = {} as any;
+  ledger: typeof Ledger = {} as any;
 
   constructor(args: { testModeAllowed: boolean }) {
     super(args);
@@ -102,6 +102,6 @@ class MockLedgerModule extends Ledger {
 
 const ledgerModule = new LedgerModule({ testModeAllowed: true });
 
-const mockLedgerModule = new MockLedgerModule({ testModeAllowed: true });
+const mockLedgerModule = new MockLedgerModule();
 
 export default ENV.ENABLE_MOCK_APIS ? mockLedgerModule : ledgerModule;
