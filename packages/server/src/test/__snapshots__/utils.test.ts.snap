@@ -1,0 +1,1247 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Utils test convertTimestampToUTC 1`] = `
+Array [
+  "2019-03-13T15:00:00.000Z",
+  "2019-03-20T10:45:53.000Z",
+  "2019-03-20T12:06:39.000Z",
+  "2019-03-21T06:57:00.000Z",
+  "2019-03-21T07:28:47.000Z",
+]
+`;
+
+exports[`Utils test formatTransactionResponse 1`] = `
+Array [
+  Object {
+    "chain": "cosmoshub-3",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "2500",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "250000",
+    },
+    "gasused": 128605,
+    "gaswanted": 250000,
+    "hash": "4D692335E275A7180432B1B830DB4757A8901836EA14DCDBC10C445D7F34AD7F",
+    "height": 1587904,
+    "log": Array [
+      Object {
+        "events": Array [
+          Object {
+            "attributes": Array [
+              Object {
+                "key": "validator",
+                "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+              },
+              Object {
+                "key": "amount",
+                "value": "410000",
+              },
+            ],
+            "type": "delegate",
+          },
+          Object {
+            "attributes": Array [
+              Object {
+                "key": "sender",
+                "value": "cosmos1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl",
+              },
+              Object {
+                "key": "module",
+                "value": "staking",
+              },
+              Object {
+                "key": "sender",
+                "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+              },
+              Object {
+                "key": "action",
+                "value": "delegate",
+              },
+            ],
+            "type": "message",
+          },
+          Object {
+            "attributes": Array [
+              Object {
+                "key": "recipient",
+                "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+              },
+              Object {
+                "key": "amount",
+                "value": "1207601uatom",
+              },
+            ],
+            "type": "transfer",
+          },
+        ],
+        "log": "",
+        "msg_index": 0,
+        "success": true,
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://anthem.chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgDelegate",
+        "value": Object {
+          "amount": Object {
+            "amount": "410000",
+            "denom": "uatom",
+          },
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "recipient",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "amount",
+        "value": "1207601uatom",
+      },
+      Object {
+        "key": "sender",
+        "value": "cosmos1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl",
+      },
+      Object {
+        "key": "validator",
+        "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+      Object {
+        "key": "amount",
+        "value": "410000",
+      },
+      Object {
+        "key": "module",
+        "value": "staking",
+      },
+      Object {
+        "key": "sender",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "action",
+        "value": "delegate",
+      },
+    ],
+    "timestamp": "2020-04-20T00:00:21.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-3",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "1750",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "175000",
+    },
+    "gasused": 126667,
+    "gaswanted": 175000,
+    "hash": "BB4E11FE7C5C75D8A015EFC4D0CC4F4A8B84740A1329B6F1A851FD286E0A2069",
+    "height": 961054,
+    "log": Array [
+      Object {
+        "events": Array [
+          Object {
+            "attributes": Array [
+              Object {
+                "key": "validator",
+                "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+              },
+              Object {
+                "key": "amount",
+                "value": "1156625",
+              },
+            ],
+            "type": "delegate",
+          },
+          Object {
+            "attributes": Array [
+              Object {
+                "key": "sender",
+                "value": "cosmos1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl",
+              },
+              Object {
+                "key": "module",
+                "value": "staking",
+              },
+              Object {
+                "key": "sender",
+                "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+              },
+              Object {
+                "key": "action",
+                "value": "delegate",
+              },
+            ],
+            "type": "message",
+          },
+          Object {
+            "attributes": Array [
+              Object {
+                "key": "recipient",
+                "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+              },
+              Object {
+                "key": "amount",
+                "value": "1816813uatom",
+              },
+            ],
+            "type": "transfer",
+          },
+        ],
+        "log": "",
+        "msg_index": 0,
+        "success": true,
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgDelegate",
+        "value": Object {
+          "amount": Object {
+            "amount": "1156625",
+            "denom": "uatom",
+          },
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "recipient",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "amount",
+        "value": "1816813uatom",
+      },
+      Object {
+        "key": "sender",
+        "value": "cosmos1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl",
+      },
+      Object {
+        "key": "validator",
+        "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+      Object {
+        "key": "amount",
+        "value": "1156625",
+      },
+      Object {
+        "key": "module",
+        "value": "staking",
+      },
+      Object {
+        "key": "sender",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "action",
+        "value": "delegate",
+      },
+    ],
+    "timestamp": "2020-02-28T04:37:29.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "1500",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "150000",
+    },
+    "gasused": 109381,
+    "gaswanted": 150000,
+    "hash": "A5C59545DCB5254BEF8E0784A1B782C2510EAA8A3E508986FF76732B09DAFE5E",
+    "height": 2310908,
+    "log": Array [
+      Object {
+        "log": "",
+        "msg_index": "0",
+        "success": true,
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgDelegate",
+        "value": Object {
+          "amount": Object {
+            "amount": "476945",
+            "denom": "uatom",
+          },
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "action",
+        "value": "delegate",
+      },
+      Object {
+        "key": "delegator",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "destination-validator",
+        "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+    ],
+    "timestamp": "2019-10-24T18:14:22.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "1500",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "150000",
+    },
+    "gasused": 107575,
+    "gaswanted": 150000,
+    "hash": "C6659FBDFC68A6B23831B3010A16504DCD1E9B1D9287459FDC11E2869A44C0B2",
+    "height": 2310352,
+    "log": Array [
+      Object {
+        "log": "",
+        "msg_index": "0",
+        "success": true,
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgDelegate",
+        "value": Object {
+          "amount": Object {
+            "amount": "9222966",
+            "denom": "uatom",
+          },
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "action",
+        "value": "delegate",
+      },
+      Object {
+        "key": "delegator",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "destination-validator",
+        "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+    ],
+    "timestamp": "2019-10-24T17:09:39.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "1",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "100000",
+    },
+    "gasused": 27913,
+    "gaswanted": 100000,
+    "hash": "B8A0B6CF2051B815CFBDCBE06A425421FB41F44D9CAA45ACAC454DB517DC970A",
+    "height": 2220869,
+    "log": Array [
+      Object {
+        "log": "",
+        "msg_index": "0",
+        "success": true,
+      },
+    ],
+    "memo": "Float",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgSend",
+        "value": Object {
+          "amount": Array [
+            Object {
+              "amount": "9210000",
+              "denom": "uatom",
+            },
+          ],
+          "amounts": Array [
+            Object {
+              "amount": "9210000",
+              "denom": "uatom",
+            },
+          ],
+          "from_address": "cosmos19z4uvcy8whqanfz65xlrw6nteyaerfud3pjujh",
+          "to_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "action",
+        "value": "send",
+      },
+      Object {
+        "key": "sender",
+        "value": "cosmos19z4uvcy8whqanfz65xlrw6nteyaerfud3pjujh",
+      },
+      Object {
+        "key": "recipient",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+    ],
+    "timestamp": "2019-10-17T11:55:45.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "1500",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "150000",
+    },
+    "gasused": 109464,
+    "gaswanted": 150000,
+    "hash": "002D9DA885F4E3B6E672A282B0FA20C2006FE077F77AB2E9DD03EBE59BBC1D58",
+    "height": 2046984,
+    "log": Array [
+      Object {
+        "log": "",
+        "msg_index": "0",
+        "success": true,
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgDelegate",
+        "value": Object {
+          "amount": Object {
+            "amount": "30621199",
+            "denom": "uatom",
+          },
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "action",
+        "value": "delegate",
+      },
+      Object {
+        "key": "delegator",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "destination-validator",
+        "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+    ],
+    "timestamp": "2019-10-03T11:17:05.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "1500",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "150000",
+    },
+    "gasused": 109554,
+    "gaswanted": 150000,
+    "hash": "BE92E625D22DED79AE844464D53AD8E02E05A6E03BDD3C3F10AFD4D10B5DE6EE",
+    "height": 2035407,
+    "log": Array [
+      Object {
+        "log": "",
+        "msg_index": "0",
+        "success": true,
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgDelegate",
+        "value": Object {
+          "amount": Object {
+            "amount": "25000000",
+            "denom": "uatom",
+          },
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "action",
+        "value": "delegate",
+      },
+      Object {
+        "key": "delegator",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "destination-validator",
+        "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+    ],
+    "timestamp": "2019-10-02T12:56:18.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 12,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "1000",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "100000",
+    },
+    "gasused": 100026,
+    "gaswanted": 100000,
+    "hash": "9BF4B06306A3BF71B301F442FE92A3BC8C1374C8C03D4D1BC6B6D2FC6B19C281",
+    "height": 2035299,
+    "log": Array [
+      Object {
+        "code": 12,
+        "codespace": "sdk",
+        "message": "out of gas in location: ReadPerByte; gasWanted: 100000, gasUsed: 100026",
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgDelegate",
+        "value": Object {
+          "amount": Object {
+            "amount": "25000000",
+            "denom": "uatom",
+          },
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": null,
+    "timestamp": "2019-10-02T12:43:46.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "1500",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "150000",
+    },
+    "gasused": 109541,
+    "gaswanted": 150000,
+    "hash": "851E23D5EF4C2104145DD85F46407A20A5995826AD55F71F5E7AF4B2AB07C6EC",
+    "height": 2035246,
+    "log": Array [
+      Object {
+        "log": "",
+        "msg_index": "0",
+        "success": true,
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgDelegate",
+        "value": Object {
+          "amount": Object {
+            "amount": "5000000",
+            "denom": "uatom",
+          },
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "action",
+        "value": "delegate",
+      },
+      Object {
+        "key": "delegator",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "destination-validator",
+        "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+    ],
+    "timestamp": "2019-10-02T12:37:35.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "750",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "150000",
+    },
+    "gasused": 109499,
+    "gaswanted": 150000,
+    "hash": "CEEC93DC16D6C897338F1FD688F323A4151CD172C1FEE7FE70BA723B8C702D66",
+    "height": 1763411,
+    "log": Array [
+      Object {
+        "log": "",
+        "msg_index": "0",
+        "success": true,
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgDelegate",
+        "value": Object {
+          "amount": Object {
+            "amount": "30000000",
+            "denom": "uatom",
+          },
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "action",
+        "value": "delegate",
+      },
+      Object {
+        "key": "delegator",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "destination-validator",
+        "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+    ],
+    "timestamp": "2019-09-10T12:45:07.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "1500",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "150000",
+    },
+    "gasused": 64755,
+    "gaswanted": 150000,
+    "hash": "034440F1A569AC58085C3638E7D03AF711B3303CB9C574F2E9F7E17C5B6E12F9",
+    "height": 1763321,
+    "log": Array [
+      Object {
+        "log": "",
+        "msg_index": "0",
+        "success": true,
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgWithdrawDelegationReward",
+        "value": Object {
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "action",
+        "value": "withdraw_delegator_reward",
+      },
+      Object {
+        "key": "rewards",
+        "value": "3uatom",
+      },
+      Object {
+        "key": "delegator",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "source-validator",
+        "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+    ],
+    "timestamp": "2019-09-10T12:34:38.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "1500",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "150000",
+    },
+    "gasused": 64755,
+    "gaswanted": 150000,
+    "hash": "FC1DF75DCC1CA8DAF28017E946AAD2DECC1793DFE21515915B36779155908131",
+    "height": 1763285,
+    "log": Array [
+      Object {
+        "log": "",
+        "msg_index": "0",
+        "success": true,
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgWithdrawDelegationReward",
+        "value": Object {
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "action",
+        "value": "withdraw_delegator_reward",
+      },
+      Object {
+        "key": "rewards",
+        "value": "3uatom",
+      },
+      Object {
+        "key": "delegator",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "source-validator",
+        "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+    ],
+    "timestamp": "2019-09-10T12:30:25.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "750",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "150000",
+    },
+    "gasused": 109426,
+    "gaswanted": 150000,
+    "hash": "57C05FDACD957D31B9292576668291507A75B3ED1590BC754FC0E10BE54CA141",
+    "height": 1763250,
+    "log": Array [
+      Object {
+        "log": "",
+        "msg_index": "0",
+        "success": true,
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgDelegate",
+        "value": Object {
+          "amount": Object {
+            "amount": "1000000",
+            "denom": "uatom",
+          },
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "action",
+        "value": "delegate",
+      },
+      Object {
+        "key": "delegator",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "destination-validator",
+        "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+    ],
+    "timestamp": "2019-09-10T12:26:21.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "1500",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "150000",
+    },
+    "gasused": 109469,
+    "gaswanted": 150000,
+    "hash": "03624C84FFED8E63F87B6F88B7670A35C586F54D34C7DF954224370A18AD379F",
+    "height": 1724405,
+    "log": Array [
+      Object {
+        "log": "",
+        "msg_index": "0",
+        "success": true,
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgDelegate",
+        "value": Object {
+          "amount": Object {
+            "amount": "1000000",
+            "denom": "uatom",
+          },
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "action",
+        "value": "delegate",
+      },
+      Object {
+        "key": "delegator",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "destination-validator",
+        "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+    ],
+    "timestamp": "2019-09-07T09:01:31.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "750",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "150000",
+    },
+    "gasused": 109419,
+    "gaswanted": 150000,
+    "hash": "C543CD504F58C435912C538C4D23128F5F2A8A7AE5A50C4364DEF4E5D9B80588",
+    "height": 1724167,
+    "log": Array [
+      Object {
+        "log": "",
+        "msg_index": "0",
+        "success": true,
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgDelegate",
+        "value": Object {
+          "amount": Object {
+            "amount": "500000",
+            "denom": "uatom",
+          },
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "action",
+        "value": "delegate",
+      },
+      Object {
+        "key": "delegator",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "destination-validator",
+        "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+    ],
+    "timestamp": "2019-09-07T08:33:17.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "1500",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "150000",
+    },
+    "gasused": 109449,
+    "gaswanted": 150000,
+    "hash": "0063860028A079244B43AE9F347027A3518FE984E1C5F809C76851D4DD24CF58",
+    "height": 1723963,
+    "log": Array [
+      Object {
+        "log": "",
+        "msg_index": "0",
+        "success": true,
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgDelegate",
+        "value": Object {
+          "amount": Object {
+            "amount": "50000",
+            "denom": "uatom",
+          },
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "action",
+        "value": "delegate",
+      },
+      Object {
+        "key": "delegator",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "destination-validator",
+        "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+    ],
+    "timestamp": "2019-09-07T08:09:03.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "1500",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "150000",
+    },
+    "gasused": 109508,
+    "gaswanted": 150000,
+    "hash": "DB56F042D8E4A1A2560E06D0EFD7E5D3DA57F871EDE57E3389377DACC2A34B7B",
+    "height": 1723798,
+    "log": Array [
+      Object {
+        "log": "",
+        "msg_index": "0",
+        "success": true,
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgDelegate",
+        "value": Object {
+          "amount": Object {
+            "amount": "1000000",
+            "denom": "uatom",
+          },
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "action",
+        "value": "delegate",
+      },
+      Object {
+        "key": "delegator",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "destination-validator",
+        "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+    ],
+    "timestamp": "2019-09-07T07:49:31.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "1500",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "150000",
+    },
+    "gasused": 101181,
+    "gaswanted": 150000,
+    "hash": "58983A4E1A2D72845BA29857C0749B3080C1EE9A40E3D91710C28D9AD2C92B6B",
+    "height": 1723334,
+    "log": Array [
+      Object {
+        "log": "",
+        "msg_index": "0",
+        "success": true,
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgDelegate",
+        "value": Object {
+          "amount": Object {
+            "amount": "1000000",
+            "denom": "uatom",
+          },
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "action",
+        "value": "delegate",
+      },
+      Object {
+        "key": "delegator",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "destination-validator",
+        "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+    ],
+    "timestamp": "2019-09-07T06:54:51.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "1500",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "150000",
+    },
+    "gasused": 82376,
+    "gaswanted": 150000,
+    "hash": "76ED49ABB4867323A4C3D831E6A016E5642A266F228B8D4A9ED73CD8475218EA",
+    "height": 1723134,
+    "log": Array [
+      Object {
+        "log": "",
+        "msg_index": "0",
+        "success": true,
+      },
+    ],
+    "memo": "Stake online with Chorus One at https://chorus.one",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgDelegate",
+        "value": Object {
+          "amount": Object {
+            "amount": "250000",
+            "denom": "uatom",
+          },
+          "delegator_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+          "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "action",
+        "value": "delegate",
+      },
+      Object {
+        "key": "delegator",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+      Object {
+        "key": "destination-validator",
+        "value": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      },
+    ],
+    "timestamp": "2019-09-07T06:31:24.000Z",
+  },
+  Object {
+    "chain": "cosmoshub-2",
+    "code": 0,
+    "fees": Object {
+      "amount": Array [
+        Object {
+          "amount": "5000",
+          "denom": "uatom",
+        },
+      ],
+      "gas": "200000",
+    },
+    "gasused": 29485,
+    "gaswanted": 200000,
+    "hash": "32DA97F377E1CFE5AEFF39BD3B6266A7578C71630082444097CE117A7520D957",
+    "height": 1714853,
+    "log": Array [
+      Object {
+        "log": "",
+        "msg_index": "0",
+        "success": true,
+      },
+    ],
+    "memo": "",
+    "msgs": Array [
+      Object {
+        "type": "cosmos-sdk/MsgSend",
+        "value": Object {
+          "amount": Array [
+            Object {
+              "amount": "95250000",
+              "denom": "uatom",
+            },
+          ],
+          "amounts": Array [
+            Object {
+              "amount": "95250000",
+              "denom": "uatom",
+            },
+          ],
+          "from_address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+          "to_address": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+        },
+      },
+    ],
+    "tags": Array [
+      Object {
+        "key": "action",
+        "value": "send",
+      },
+      Object {
+        "key": "sender",
+        "value": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+      },
+      Object {
+        "key": "recipient",
+        "value": "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
+      },
+    ],
+    "timestamp": "2019-09-06T14:21:57.000Z",
+  },
+]
+`;
+
+exports[`Utils test getAveragePrice 1`] = `
+Array [
+  0,
+  0,
+  1.8054999999999999,
+  3.4025,
+  3.3600000000000003,
+]
+`;
+
+exports[`Utils test standardizeTimestamps 1`] = `
+Array [
+  Object {
+    "timestamp": "2019-03-13T15:00:00.000Z",
+  },
+  Object {
+    "timestamp": "2019-03-20T10:45:53.000Z",
+  },
+  Object {
+    "timestamp": "2019-03-20T12:06:39.000Z",
+  },
+  Object {
+    "timestamp": "2019-03-21T06:57:00.000Z",
+  },
+  Object {
+    "timestamp": "2019-03-21T07:28:47.000Z",
+  },
+]
+`;
