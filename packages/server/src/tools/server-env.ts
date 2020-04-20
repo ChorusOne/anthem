@@ -31,7 +31,7 @@ const ENABLE_OASIS = getenv.bool("ENABLE_OASIS", false);
 const SENTRY_DSN = getenv.string("SENTRY_DSN", "");
 const CRYPTO_COMPARE_API_KEY = getenv.string("CRYPTO_COMPARE_API_KEY");
 
-const COSMOS_DB = getenv.string("COSMOS_DB", "cosmos");
+const COSMOS_DB = getenv.string("COSMOS_DB", "cosmos4");
 const TERRA_DB = getenv.string("TERRA_DB", "terra");
 const KAVA_DB = getenv.string("KAVA_DB", "kava");
 
