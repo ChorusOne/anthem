@@ -104,8 +104,8 @@ export const chartExportBuilder = ({
 
   // Iterate all the rewards data rows and build up CSV data set.
   Object.entries(rewardsChartData.data).forEach(([timestamp, atomRewards]) => {
-    const time = toDateKey(new Date(timestamp));
-    const fiatPrice = fiatPriceMap[time];
+    const time = timestamp;
+    const fiatPrice = fiatPriceMap[timestamp];
 
     // Get the withdrawal amount data.
     let withdrawalsATOM = "";
@@ -131,14 +131,8 @@ export const chartExportBuilder = ({
 
     // Get the associated balance for this reward.
     let balanceValue: number = 0;
-    let balanceConversionRate = "";
-    if (time in fiatPriceMap) {
-      balanceConversionRate = fiatPriceMap[time];
-      if (time in balanceMapByTime) {
-        balanceValue = balanceMapByTime[time] || 0;
-      }
-    } else {
-      throw new Error(`Time ${time} does not exist in balance history!`);
+    if (time in balanceMapByTime) {
+      balanceValue = balanceMapByTime[time] || 0;
     }
 
     const withdrawals = Boolean(withdrawalsATOM) ? withdrawalsATOM : "";
@@ -168,7 +162,7 @@ export const chartExportBuilder = ({
     // Add regular CSV fields.
     let CSV_DATA: ReadonlyArray<string> = [
       timestamp.replace(",", ""),
-      balanceConversionRate,
+      fiatPrice,
       totalValue,
       balanceValue,
       delegationsValue,
