@@ -1,8 +1,8 @@
 import { ITransaction } from "graphql/types";
 import { ENGLISH } from "i18n/english";
-import transactions from "test/data/transactions.json";
 import { tFn } from "tools/i18n-utils";
 import { getHumanReadableMessageFromTransaction } from "tools/transaction-utils";
+import transactions from "../../../utils/src/client/data/transactions.json";
 
 const txs = transactions.transactions;
 

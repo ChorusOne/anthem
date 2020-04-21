@@ -1,6 +1,4 @@
 import { ApolloError } from "apollo-client";
-import accountBalances from "test/data/accountBalances.json";
-import prices from "test/data/prices.json";
 import {
   abbreviateAddress,
   canRenderGraphQL,
@@ -13,6 +11,8 @@ import {
   onActiveRoute,
   trimZeroes,
 } from "tools/generic-utils";
+import accountBalances from "../../../utils/src/client/data/accountBalances.json";
+import prices from "../../../utils/src/client/data/prices.json";
 
 describe("utils", () => {
   test("onActiveRoute matches routes correctly", () => {

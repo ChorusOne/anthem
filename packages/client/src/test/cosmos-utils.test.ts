@@ -1,6 +1,4 @@
 import NETWORKS from "constants/networks";
-import { accountInformation } from "test/data/accountInformation.json";
-import { rewardsByValidator } from "test/data/rewardsByValidator.json";
 import { transaction } from "test/mock-transaction-data.json";
 import {
   createCosmosTransactionPostBody,
@@ -8,6 +6,8 @@ import {
   createRewardsClaimTransaction,
   createTransactionRequestMetadata,
 } from "tools/cosmos-utils";
+import { accountInformation } from "../../../utils/src/client/data/accountInformation.json";
+import { rewardsByValidator } from "../../../utils/src/client/data/rewardsByValidator.json";
 
 describe("cosmos-utils", () => {
   test("createDelegationTransactionMessage", () => {
