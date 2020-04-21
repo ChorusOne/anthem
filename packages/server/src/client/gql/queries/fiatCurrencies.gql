@@ -1,6 +1,0 @@
-query fiatCurrencies{
-    fiatCurrencies{
-        name
-        symbol
-    }
-}

@@ -1,3 +1,0 @@
-query dailyPercentChange($crypto: String!, $fiat: String!){
-    dailyPercentChange(crypto: $crypto, fiat: $fiat)
-}
