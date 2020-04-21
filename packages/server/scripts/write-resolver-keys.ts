@@ -14,7 +14,7 @@ export default ${JSON.stringify(QUERY_FILE_KEYS)};
  * Save the list of query keys to a file.
  */
 const writeKeysToDisk = (keys: string) => {
-  fs.writeFileSync("../utils/src/client/query-keys.ts", keys);
+  fs.writeFileSync("../utils/src/client/resolver-query-keys.ts", keys);
   console.log("Query keys saved!\n");
 };
 

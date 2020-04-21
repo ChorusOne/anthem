@@ -60,7 +60,7 @@ const httpServer = createServer(app);
 httpServer.listen({ port: ENV.PORT }, (): void =>
   console.log(
     `\nGraphQL is now running${
-      ENV.RECORDING_API_MODE ? " in mock recording mode" : ""
+      ENV.RECORD_CLIENT_DATA ? " in mock recording mode" : ""
     } on http://localhost:${ENV.PORT}/graphql\n`,
   ),
 );
