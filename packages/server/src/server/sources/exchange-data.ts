@@ -1,6 +1,5 @@
-import { assertUnreachable } from "@anthem/utils";
+import { assertUnreachable, IQuery } from "@anthem/utils";
 import moment from "moment-timezone";
-import { IQuery } from "../../schema/graphql-types";
 import ENV from "../../tools/server-env";
 import { convertTimestampToUTC, getAveragePrice } from "../../tools/utils";
 import { AxiosUtil, HOSTS } from "../axios-utils";
