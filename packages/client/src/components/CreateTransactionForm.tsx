@@ -1,3 +1,4 @@
+import { IAccountInformation, IQuery, IValidator } from "@anthem/utils";
 import {
   Checkbox,
   Classes,
@@ -27,7 +28,6 @@ import {
   withRewardsByValidatorQuery,
   withValidators,
 } from "graphql/queries";
-import { IAccountInformation, IQuery, IValidator } from "graphql/types";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React, { ChangeEvent } from "react";

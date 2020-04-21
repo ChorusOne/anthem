@@ -1,3 +1,4 @@
+import { IQuery } from "@anthem/utils";
 import { NetworkLogoIcon } from "assets/images";
 import AddressInput from "components/AddressInput";
 import { View } from "components/SharedComponents";
@@ -9,7 +10,6 @@ import {
   withDailyPercentChange,
   withGraphQLVariables,
 } from "graphql/queries";
-import { IQuery } from "graphql/types";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";

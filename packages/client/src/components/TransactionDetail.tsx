@@ -1,3 +1,4 @@
+import { IQuery, ITransaction, TransactionDocument } from "@anthem/utils";
 import { Colors, H3, Icon } from "@blueprintjs/core";
 import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
 import {
@@ -17,7 +18,6 @@ import {
   withTransactions,
   withValidators,
 } from "graphql/queries";
-import { IQuery, ITransaction, TransactionDocument } from "graphql/types";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";

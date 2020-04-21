@@ -1,0 +1,430 @@
+type Query {
+  # Cosmos APIs
+  portfolioHistory(address: String!, fiat: String!): PortfolioData!
+  fiatPriceHistory(fiat: String!, network: String!): [FiatPrice!]!
+  dailyPercentChange(crypto: String!, fiat: String!): String!
+  accountBalances(address: String!): AccountBalances!
+  rewardsByValidator(address: String!): [AvailableReward!]!
+  accountInformation(address: String!): AccountInformation!
+  transaction(txHash: String!, network: String!): Transaction
+  transactions(address: String!): [Transaction!]!
+  validatorDistribution(validatorAddress: String!): ValidatorDistribution!
+  validators(network: String!): [Validator!]!
+  validatorSets(network: String!): ValidatorSet!
+  latestBlock(network: String!): BlockData!
+  stakingPool(network: String!): StakingPool!
+  stakingParameters(network: String!): StakingParameters!
+  governanceProposals(network: String!): [GovernanceProposal!]!
+  governanceParametersDeposit(network: String!): GovernanceParametersDeposit!
+  governanceParametersTallying(network: String!): GovernanceParametersTallying!
+  governanceParametersVoting(network: String!): GovernanceParametersVoting!
+  slashingParameters(network: String!): SlashingParameters!
+  distributionCommunityPool(network: String!): [Balance!]!
+  distributionParameters(network: String!): DistributionParameters!
+
+  # CoinGecko Price APIs
+  prices(currency: String!, versus: String!): Price!
+  coins: [Coin!]
+
+  fiatCurrencies: [FiatCurrency!]!
+}
+
+# *****************************************************************************
+# Cosmos APIs
+
+type PortfolioReward {
+  balance: String!
+  height: Int!
+  address: String!
+  timestamp: String!
+}
+
+type PortfolioCommission {
+  balance: String!
+  height: Int!
+  validator: String!
+  timestamp: String!
+}
+
+type PortfolioDelegation {
+  balance: String!
+  address: String!
+  timestamp: String!
+}
+
+type PortfolioBalance {
+  address: String!
+  denom: String!
+  balance: String!
+  height: Int!
+  timestamp: String!
+  chain: String!
+}
+
+type FiatPrice {
+  price: Float!
+  timestamp: String!
+}
+
+type PortfolioData {
+  balanceHistory: [PortfolioBalance!]!
+  delegations: [PortfolioDelegation!]!
+  unbondings: [PortfolioDelegation!]!
+  delegatorRewards: [PortfolioReward!]!
+  validatorCommissions: [PortfolioCommission!]!
+  fiatPriceHistory: [FiatPrice!]!
+}
+
+type AvailableReward {
+  reward: [Balance!]
+  validator_address: String!
+}
+
+type AccountBalances {
+  balance: [Balance!]
+  rewards: [Balance!]
+  delegations: [Delegation!]
+  unbonding: [UnbondingDelegation!]
+  commissions: [Balance!]
+}
+
+type Balance {
+  denom: String!
+  amount: String!
+}
+
+type Delegation {
+  delegator_address: String!
+  validator_address: String!
+  shares: String!
+}
+
+type UnbondingDelegation {
+  delegator_address: String!
+  validator_address: String!
+  entries: [UnbondingDelegationEntry!]!
+}
+
+type UnbondingDelegationEntry {
+  balance: String!
+  initial_balance: String!
+  creation_height: String!
+  completion_time: String!
+}
+
+type AccountInformation {
+  type: String!
+  value: Account!
+}
+
+type Account {
+  account_number: String!
+  address: String!
+  coins: [AccountCoin!]
+  public_key: PubKey
+  sequence: String!
+}
+
+type AccountCoin {
+  denom: String!
+  amount: String!
+}
+
+type Transaction {
+  hash: String!
+  height: String!
+  log: [LogMessage]!
+  gaswanted: String!
+  gasused: String!
+  memo: String
+  fees: TxFee!
+  tags: [Tag!]
+  msgs: [TxMsg!]!
+  timestamp: String!
+  chain: String!
+}
+
+type LogMessage {
+  code: Int
+  message: String
+  success: Boolean
+  log: String
+  msg_index: String
+}
+
+type Tag {
+  key: String!
+  value: String
+}
+
+type Tx {
+  type: String!
+  value: TxValue!
+}
+
+type TxValue {
+  fee: TxFee!
+  memo: String!
+  msg: [TxMsg!]
+  signatures: [TxSignature!]
+}
+
+type TxFee {
+  amount: [Balance!]
+  gas: String!
+}
+
+type TxMsg {
+  type: String!
+  value: TxMsgValue
+}
+
+# Could collapse this into a single type with all optional fields:
+union TxMsgValue =
+    MsgSend
+  | MsgVote
+  | MsgDelegate
+  | MsgSubmitProposal
+  | MsgBeginRedelegate
+  | MsgModifyWithdrawAddress
+  | MsgBeginRedelegateLegacy
+  | MsgWithdrawDelegationReward
+  | MsgWithdrawValidatorCommission
+
+type MsgSend {
+  amounts: [Balance!]
+  to_address: String
+  from_address: String
+}
+
+type MsgDelegate {
+  amount: Balance!
+  delegator_address: String
+  validator_address: String
+}
+
+type MsgSubmitProposal {
+  title: String!
+  description: String!
+  proposal_type: String!
+  proposer: String!
+  initial_deposit: [Balance!]
+}
+
+type MsgBeginRedelegate {
+  amount: Balance!
+  delegator_address: String
+  validator_src_address: String!
+  validator_dst_address: String!
+}
+
+type MsgBeginRedelegateLegacy {
+  shares_amount: String!
+  delegator_address: String
+  validator_src_address: String!
+  validator_dst_address: String!
+}
+
+type MsgModifyWithdrawAddress {
+  withdraw_address: String
+  validator_address: String
+}
+
+type MsgWithdrawDelegationReward {
+  delegator_address: String
+  validator_address: String
+}
+
+type MsgWithdrawValidatorCommission {
+  validator_address: String
+}
+
+type MsgVote {
+  proposal_id: String!
+  voter: String!
+  option: String!
+}
+
+type TxSignature {
+  pub_key: PubKey!
+  signature: String!
+}
+
+type PubKey {
+  type: String!
+  # value: String!
+}
+
+# NOTE: The PubKey `value` is a union type but union types options
+# must be object values:
+
+# union PubKeyValue = String | PubKeyList
+
+# type PubKeyList {
+#   threshold: String!
+#   pubkeys: [PubKey!]
+# }
+
+type ValidatorDistribution {
+  operator_address: String!
+  self_bond_rewards: [Balance!]
+  val_commission: [Balance!]
+}
+
+type Validator {
+  operator_address: String!
+  consensus_pubkey: String!
+  jailed: Boolean!
+  status: Int!
+  tokens: String!
+  delegator_shares: String!
+  description: ValidatorDescription!
+  unbonding_height: String!
+  unbonding_time: String!
+  commission: ValidatorCommission!
+  min_self_delegation: String!
+}
+
+type ValidatorDescription {
+  moniker: String!
+  identity: String!
+  website: String!
+  details: String!
+}
+
+type ValidatorCommission {
+  update_time: String!
+  commission_rates: CommissionRates!
+}
+
+type CommissionRates {
+  rate: String!
+  max_rate: String!
+  max_change_rate: String!
+}
+
+type ValidatorSet {
+  block_height: Int!
+  validators: [ValidatorSetItem!]
+}
+
+type ValidatorSetItem {
+  address: String!
+  pub_key: String!
+  voting_power: String!
+  proposer_priority: String!
+}
+
+type BlockData {
+  block: Block!
+}
+
+type Block {
+  header: BlockHeader!
+}
+
+type BlockHeader {
+  chain_id: String!
+  height: String!
+  time: String!
+  num_txs: String!
+  total_txs: String!
+  last_commit_hash: String!
+  data_hash: String!
+  validators_hash: String!
+  next_validators_hash: String!
+  consensus_hash: String!
+  app_hash: String!
+  last_results_hash: String!
+  evidence_hash: String!
+  proposer_address: String!
+}
+
+type StakingPool {
+  loose_tokens: String
+  bonded_tokens: String
+  not_bonded_tokens: String
+  inflation_last_time: String
+  inflation: String
+  date_last_commission_reset: String
+  prev_bonded_shares: String
+}
+
+type StakingParameters {
+  inflation_rate_change: String
+  inflation_max: String
+  inflation_min: String
+  goal_bonded: String
+  unbonding_time: String!
+  max_validators: Int!
+  max_entries: Int!
+  bond_denom: String!
+}
+
+type GovernanceProposal {
+  proposal_id: Int
+  title: String
+  description: String
+  proposal_type: String
+  proposal_status: String!
+  final_tally_result: TallyResult!
+  submit_time: String!
+  total_deposit: [Balance!]
+  voting_start_time: String!
+}
+
+type TallyResult {
+  yes: String!
+  abstain: String!
+  no: String!
+  no_with_veto: String!
+}
+
+type GovernanceParametersDeposit {
+  min_deposit: [Balance!]
+  max_deposit_period: String!
+}
+
+type GovernanceParametersTallying {
+  threshold: String!
+  veto: String!
+  governance_penalty: String
+}
+
+type GovernanceParametersVoting {
+  voting_period: String!
+}
+
+type SlashingParameters {
+  max_evidence_age: String!
+  signed_blocks_window: String!
+  min_signed_per_window: String!
+  double_sign_unbond_duration: String
+  downtime_unbond_duration: String
+  slash_fraction_double_sign: String!
+  slash_fraction_downtime: String!
+}
+
+type DistributionParameters {
+  base_proposer_reward: String!
+  bonus_proposer_reward: String!
+  community_tax: String!
+}
+
+# *****************************************************************************
+# CoinGecko Price APIs
+
+type Price {
+  price: Float!
+}
+
+type Coin {
+  id: String!
+  symbol: String!
+  name: String!
+}
+
+type FiatCurrency {
+  name: String!
+  symbol: String!
+}

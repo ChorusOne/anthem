@@ -1,10 +1,5 @@
-import { graphql, QueryOpts, QueryResult } from "react-apollo";
-import { connect } from "react-redux";
-import { createSelector } from "reselect";
-
-import { AccountBalancesDocument } from "@anthem/utils";
 import {
-  // AccountBalancesDocument,
+  AccountBalancesDocument,
   AccountInformationDocument,
   DailyPercentChangeDocument,
   FiatCurrenciesDocument,
@@ -15,9 +10,12 @@ import {
   RewardsByValidatorDocument,
   TransactionsDocument,
   ValidatorsDocument,
-} from "graphql/types";
+} from "@anthem/utils";
 import ENV from "lib/client-env";
 import { ReduxStoreState } from "modules/root";
+import { graphql, QueryOpts, QueryResult } from "react-apollo";
+import { connect } from "react-redux";
+import { createSelector } from "reselect";
 
 /** ===========================================================================
  * GraphQL Data:

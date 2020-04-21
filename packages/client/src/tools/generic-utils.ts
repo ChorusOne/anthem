@@ -1,3 +1,10 @@
+import {
+  IBalance,
+  IDelegation,
+  IQuery,
+  IUnbondingDelegationEntry,
+  IValidator,
+} from "@anthem/utils";
 import { ApolloError } from "apollo-client";
 import bech32 from "bech32";
 import BigNumber from "bignumber.js";
@@ -8,13 +15,6 @@ import NETWORKS, {
   NETWORK_NAME,
   NetworkMetadata,
 } from "constants/networks";
-import {
-  IBalance,
-  IDelegation,
-  IQuery,
-  IUnbondingDelegationEntry,
-  IValidator,
-} from "graphql/types";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import queryString, { ParsedQuery } from "query-string";
 import {

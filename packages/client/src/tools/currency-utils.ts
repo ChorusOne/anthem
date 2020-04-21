@@ -1,5 +1,5 @@
+import { ICoin, IQuery } from "@anthem/utils";
 import BigNumber from "bignumber.js";
-import { ICoin, IQuery } from "graphql/types";
 import { trimZeroes } from "./generic-utils";
 import {
   divide,

@@ -1,5 +1,5 @@
+import { IFiatPrice } from "@anthem/utils";
 import { NetworkMetadata } from "constants/networks";
-import { IFiatPrice } from "graphql/types";
 import {
   ChartData,
   getChartTotalGraph,

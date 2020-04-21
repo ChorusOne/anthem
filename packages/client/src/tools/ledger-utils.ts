@@ -1,4 +1,4 @@
-import { IBalance, ITxMsg, ITxValue } from "graphql/types";
+import { IBalance, ITxMsg, ITxValue } from "@anthem/utils";
 
 /** ===========================================================================
  * Types & Config

@@ -1,8 +1,7 @@
-import { RESOLVER_QUERY_KEYS } from "@anthem/utils";
+import { IQuery, RESOLVER_QUERY_KEYS } from "@anthem/utils";
 import { SchemaLink } from "apollo-link-schema";
 import { addMockFunctionsToSchema, makeExecutableSchema } from "graphql-tools";
 import { loader } from "graphql.macro";
-import { IQuery } from "./types";
 
 /** ===========================================================================
  * Mock GraphQL Configuration for running in Offline Dev Mode
@@ -12,7 +11,7 @@ import { IQuery } from "./types";
  */
 
 // Load the schema file
-const schemaString = loader("./schema.graphql");
+const schemaString = loader("../../../server/src/server/schema/schema.graphql");
 
 const keys = RESOLVER_QUERY_KEYS as ReadonlyArray<QueryKeyUnion>;
 

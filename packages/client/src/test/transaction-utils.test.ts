@@ -1,4 +1,4 @@
-import { ITransaction } from "graphql/types";
+import { ITransaction } from "@anthem/utils";
 import { ENGLISH } from "i18n/english";
 import { tFn } from "tools/i18n-utils";
 import { getHumanReadableMessageFromTransaction } from "tools/transaction-utils";
