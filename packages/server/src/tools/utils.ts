@@ -1,8 +1,8 @@
 import bech32 from "bech32";
 import moment from "moment-timezone";
 import { identity, ifElse, lensProp, over } from "ramda";
-import { Price } from "src/server/sources/exchange-data";
 import { IMsgDelegate, ITransaction, ITxMsg } from "../schema/graphql-types";
+import { Price } from "../server/sources/exchange-data";
 import NETWORKS, {
   NETWORK_NAME,
   NetworkDefinition,

@@ -1,0 +1,7 @@
+query distributionParameters($network: String!){
+    distributionParameters(network: $network){
+        base_proposer_reward
+        bonus_proposer_reward
+        community_tax
+    }
+}

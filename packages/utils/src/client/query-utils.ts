@@ -1,7 +1,8 @@
 import fs from "fs";
 import { Variables } from "graphql-request/dist/src/types";
 import path from "path";
-import { QUERY_FILE_KEYS, VarConfig, VARIABLES_CONFIG } from "./config";
+import { VarConfig, VARIABLES_CONFIG } from "./config";
+import QUERY_FILE_KEYS from "./query-keys";
 
 /** ===========================================================================
  * Script file with code to auto-query the GraphQL server with all existing

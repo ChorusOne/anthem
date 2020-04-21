@@ -6,8 +6,8 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "prettier": "prettier --list-different \"src/**/*.ts\" \"test/**/*.ts\"",
-    "prettier:fix": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "prettier": "prettier --list-different \"src/**/*.ts\" \"src/**/*.{ts,json}\"",
+    "prettier:fix": "prettier --write \"src/**/*.ts\" \"src/**/*.{ts,json}\"",
     "tslint": "tslint --project tsconfig.json -c tslint.json",
     "tslint:fix": "tslint --project tsconfig.json -c tslint.json --fix",
     "format": "yarn prettier:fix && yarn tslint:fix",
@@ -20,10 +20,9 @@
     "types": "graphql-build --outputFile=./src/schema",
     "gql": "yarn gqlgen && chmod +x scripts/gql.sh && scripts/gql.sh",
     "gqlgen": "gql-lib --schemaFilePath ../server/src/schema/schema.graphql --destDirPath ./src/client/gql --depthLimit 10",
-    "mocks:setup": "rm -rf src/client/data && mkdir src/client/data",
-    "mocks:generate:all": "yarn mocks:setup && yarn mocks:responses && yarn query:keys",
-    "mocks:responses": "ts-node src/client/auto-query.ts",
-    "query:keys": "ts-node scripts/query-keys.ts && yarn format"
+    "client:go": "yarn gql && yarn client:refresh && yarn client:generate && yarn format",
+    "client:refresh": "rm -rf src/client/data && mkdir src/client/data",
+    "client:generate": "ts-node src/client/query-server-script.ts"
   },
   "dependencies": {
     "@types/bytes": "^3.1.0",

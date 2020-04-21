@@ -1,0 +1,22 @@
+{
+  "latestBlock": {
+    "block": {
+      "header": {
+        "chain_id": "cosmoshub-3",
+        "height": "1600920",
+        "time": "2020-04-21T09:53:38.105370286Z",
+        "num_txs": "0",
+        "total_txs": "513448",
+        "last_commit_hash": "6EBDD1EB8DDBAACEB5BE1821BEC24D18F5A9EFB0DB8697484AB5270B53A7037D",
+        "data_hash": "",
+        "validators_hash": "849145407A9EA90BA831E0EDF659C63CB0595EE099F15CFE4FF99786C5038F6C",
+        "next_validators_hash": "849145407A9EA90BA831E0EDF659C63CB0595EE099F15CFE4FF99786C5038F6C",
+        "consensus_hash": "0F2908883A105C793B74495EB7D6DF2EEA479ED7FC9349206A65CB0F9987A0B8",
+        "app_hash": "A7121128E89F7AC63B2FEE0D9CCFA406CF394AC736CDBA8DC0F990403AF0D18F",
+        "last_results_hash": "6E340B9CFFB37A989CA544E6BB780A2C78901D3FB33738768511A30617AFA01D",
+        "evidence_hash": "",
+        "proposer_address": "AC2D56057CD84765E6FBE318979093E8E44AA18F"
+      }
+    }
+  }
+}

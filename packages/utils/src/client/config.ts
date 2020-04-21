@@ -1,5 +1,4 @@
 import { Variables } from "graphql-request/dist/src/types";
-import resolvers from "../../../server/src/server/resolvers";
 
 /** ===========================================================================
  * Configuration for automatically runnings GraphQL queries against the
@@ -10,11 +9,6 @@ import resolvers from "../../../server/src/server/resolvers";
  * below.
  * ============================================================================
  */
-
-/**
- * Derive all the query keys from the current resolver set.
- */
-const QUERY_FILE_KEYS: ReadonlyArray<string> = Object.keys(resolvers.Query);
 
 export interface VarConfig {
   variables: Variables;
@@ -107,4 +101,4 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
  * ============================================================================
  */
 
-export { QUERY_FILE_KEYS, VARIABLES_CONFIG };
+export { VARIABLES_CONFIG };

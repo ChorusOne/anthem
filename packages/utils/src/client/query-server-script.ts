@@ -1,6 +1,5 @@
 import fs from "fs";
 import { request } from "graphql-request";
-import ENV from "../../../server/src/tools/server-env";
 import { RequestData, requests } from "./query-utils";
 
 /** ===========================================================================
@@ -22,7 +21,9 @@ const writeGraphQLResponseToFile = (key: string, response: any) => {
  * Types & Config
  * ============================================================================
  */
-const PORT = ENV.PORT;
+
+// Override PORT if local port is different
+const PORT = process.env.PORT || 8000;
 const GRAPHQL_URL = `http://localhost:${PORT}/graphql`;
 
 /**

@@ -22,13 +22,14 @@
     "test:unit": "jest",
     "test:watch": "jest --watchAll",
     "jest:clear": "jest --clearCache",
+    "mocks:recording": "RECORDING_API_MODE=true yarn start",
     "mocks:generate": "yarn mocks:responses && yarn query:keys",
     "mocks:generate:all": "yarn mocks:setup && RUN_ALL_MOCKS=true yarn mocks:responses && yarn query:keys",
-    "mocks:recording": "RECORDING_API_MODE=true yarn start",
     "mocks:responses": "NODE_ENV=test ts-node -O '{\"module\": \"commonjs\"}' src/client/auto-query.ts",
     "mocks:setup": "rm -rf src/client/data && mkdir src/client/data",
     "price-history": "ts-node -O '{\"module\": \"commonjs\"}' scripts/price-history.ts && yarn format",
-    "query:keys": "NODE_ENV=test ts-node -O '{\"module\": \"commonjs\"}' scripts/query-keys.ts && yarn format"
+    "query:keys": "NODE_ENV=test ts-node -O '{\"module\": \"commonjs\"}' scripts/query-keys.ts && yarn format",
+    "write:keys": "ts-node scripts/write-resolver-keys.ts"
   },
   "dependencies": {
     "@anthem/utils": "^0.0.1",
