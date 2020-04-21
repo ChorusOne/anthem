@@ -1,13 +1,18 @@
 import axios from "axios";
 import fs from "fs";
-
 import FIAT_CURRENCIES, {
   FiatCurrency,
 } from "../src/server/sources/fiat-currencies";
 import NETWORKS from "../src/server/sources/networks";
 
 /** ===========================================================================
- * Types & Config
+ * Coin Price History Script
+ * ----------------------------------------------------------------------------
+ * Script for fetching the price data for ATOMs and saving it to a JSON
+ * file.
+ *
+ * NOTE: To use this script uncomment the network you want to run it for from
+ * the list below and then run the script.
  * ============================================================================
  */
 
@@ -34,19 +39,8 @@ interface PriceMap {
 
 type Nullable<T> = T | null;
 
-/** ===========================================================================
- * Coin Price History Script
- * ----------------------------------------------------------------------------
- * Quick util for fetching the price data for ATOMs and saving it to a JSON
- * file.
- *
- * NOTE: To use this script uncomment the network you want to run it for from
- * the list below and then run the script.
- * ============================================================================
- */
-
-// const NETWORK = "COSMOS";
-const NETWORK = "KAVA";
+const NETWORK = "COSMOS";
+// const NETWORK = "KAVA";
 // const NETWORK = "TERRA";
 
 const COIN = NETWORKS[NETWORK].coinGeckoTicker;

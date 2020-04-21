@@ -24,7 +24,7 @@
     "jest:clear": "jest --clearCache",
     "mocks:recording": "RECORDING_API_MODE=true yarn start",
     "write:keys": "ts-node scripts/write-resolver-keys.ts",
-    "price-history": "ts-node -O '{\"module\": \"commonjs\"}' scripts/price-history.ts && yarn format"
+    "fetch-price-history": "ts-node scripts/price-history.ts && yarn format"
   },
   "dependencies": {
     "@anthem/utils": "^0.0.1",
