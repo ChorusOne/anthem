@@ -34,6 +34,7 @@
     "query:keys": "NODE_ENV=test ts-node -O '{\"module\": \"commonjs\"}' scripts/query-keys.ts && yarn format"
   },
   "dependencies": {
+    "@anthem/utils": "^0.0.1",
     "apollo-server-express": "^2.7.2",
     "axios": "^0.19.0",
     "bech32": "^1.1.3",

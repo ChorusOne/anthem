@@ -29,10 +29,10 @@
     "typescript": "^3.7.4",
     "utils": "^0.3.1"
   },
-  "main": "dist/main.js",
-  "typings": "dist/main.d.ts",
+  "main": "build/main.js",
+  "typings": "build/main.d.ts",
   "files": [
-    "dist"
+    "build"
   ],
   "jest": {
     "testEnvironment": "node",

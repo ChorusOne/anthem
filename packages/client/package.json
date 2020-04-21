@@ -29,6 +29,7 @@
     "client:mocks": "chmod +x scripts/mocks.sh && scripts/mocks.sh"
   },
   "dependencies": {
+    "@anthem/utils": "^0.0.1",
     "@lunie/cosmos-ledger": "0.1.7",
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-client": "^2.6.3",
