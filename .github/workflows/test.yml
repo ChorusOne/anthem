@@ -26,6 +26,10 @@ jobs:
       - name: Install dependencies
         run: lerna bootstrap
 
+      # Build the utils/ package
+      - name: Build utils package
+        run: yarn utils:build
+
       # Run unit tests for all packages
       - name: Run all package unit tests
         run: yarn test
