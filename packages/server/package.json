@@ -24,7 +24,7 @@
     "jest:clear": "jest --clearCache",
     "write:keys": "ts-node scripts/write-resolver-keys.ts",
     "recording": "RECORD_CLIENT_DATA=true yarn start",
-    "fetch-price-history": "ts-node scripts/price-history.ts && yarn format"
+    "fetch-price-history": "ts-node scripts/fetch-price-history.ts && yarn format"
   },
   "dependencies": {
     "@anthem/utils": "^0.0.1",
