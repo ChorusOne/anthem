@@ -11,7 +11,7 @@ import { loader } from "graphql.macro";
  */
 
 // Load the schema file
-const schemaString = loader("../../../server/src/server/schema/schema.graphql");
+const schemaString = loader("../../../server/src/schema/schema.graphql");
 
 const keys = RESOLVER_QUERY_KEYS as ReadonlyArray<QueryKeyUnion>;
 
