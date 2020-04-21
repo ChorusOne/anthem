@@ -23,10 +23,8 @@
     "test:update-snapshots": "yarn jest --updateSnapshot",
     "lint": "yarn prettier && yarn tslint && yarn tsc",
     "test": "yarn lint && yarn test:unit",
-    "types": "graphql-build --outputFile=./src/graphql --copySchema=true",
-    "update-i18n": "ts-node --log-error -O '{\"module\": \"commonjs\"}' scripts/update-i18n.ts && yarn format",
-    "chinese-tw": "ts-node --log-error -O '{\"module\": \"commonjs\"}' scripts/cn-tw.ts && yarn format",
-    "client:mocks": "chmod +x scripts/mocks.sh && scripts/mocks.sh"
+    "i18n:update": "ts-node --log-error -O '{\"module\": \"commonjs\"}' scripts/update-i18n.ts && yarn format",
+    "i18n:tw": "ts-node --log-error -O '{\"module\": \"commonjs\"}' scripts/cn-tw.ts && yarn format"
   },
   "dependencies": {
     "@anthem/utils": "^0.0.1",
@@ -114,7 +112,6 @@
     "mock-apollo-client": "^0.1.0",
     "netlify-cli": "^2.15.0",
     "prettier": "^1.18.2",
-    "react-graphql-generator-helper-lib": "^0.0.34",
     "react-test-renderer": "16.8.6",
     "redux-devtools": "^3.5.0",
     "redux-devtools-extension": "^2.13.8",
