@@ -1,0 +1,13 @@
+overwrite: true
+schema: ../server/src/schema/schema.graphql
+documents: schema_documents/**/*.gql
+generates:
+  src/schema/graphql-types.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+    config:
+      avoidOptionals: true
+      immutableTypes: true
+      typesPrefix: I
+      declarationKind: interface
