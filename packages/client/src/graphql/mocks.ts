@@ -1,7 +1,7 @@
+import { RESOLVER_QUERY_KEYS } from "@anthem/utils";
 import { SchemaLink } from "apollo-link-schema";
 import { addMockFunctionsToSchema, makeExecutableSchema } from "graphql-tools";
 import { loader } from "graphql.macro";
-import queryKeys from "./query-keys";
 import { IQuery } from "./types";
 
 /** ===========================================================================
@@ -14,7 +14,7 @@ import { IQuery } from "./types";
 // Load the schema file
 const schemaString = loader("./schema.graphql");
 
-const keys = queryKeys as ReadonlyArray<QueryKeyUnion>;
+const keys = RESOLVER_QUERY_KEYS as ReadonlyArray<QueryKeyUnion>;
 
 /** ===========================================================================
  * Types & Config
