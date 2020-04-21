@@ -1,3 +1,4 @@
+import { assertUnreachable } from "@anthem/utils";
 import { Pool } from "pg";
 import {
   IPortfolioBalance,
@@ -8,7 +9,6 @@ import {
 import ENV from "../../tools/server-env";
 import { getSqlQueryString, SQLVariables } from "../../tools/sql-utils";
 import {
-  assertUnreachable,
   filterSanityCheckHeights,
   formatTransactionResponse,
   getValidatorAddressFromDelegatorAddress,

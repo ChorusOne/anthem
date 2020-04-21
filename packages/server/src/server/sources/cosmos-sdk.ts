@@ -1,13 +1,11 @@
+import { assertUnreachable } from "@anthem/utils";
 import {
   IAccountBalances,
   IAccountInformation,
   IGovernanceProposal,
   IQuery,
 } from "../../schema/graphql-types";
-import {
-  assertUnreachable,
-  getValidatorAddressFromDelegatorAddress,
-} from "../../tools/utils";
+import { getValidatorAddressFromDelegatorAddress } from "../../tools/utils";
 import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
 import { NetworkDefinition } from "./networks";
 
