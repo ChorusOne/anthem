@@ -41,23 +41,6 @@ $ yarn test
 
 You can also run `yarn prettier:fix` or `yarn tslint:fix` to use the auto-fix options for these tools to fix any issues. Normally, any linting/styling issues should be fixed automatically on-save if you are using VS Code with the recommended extensions.
 
-## Client Data
-
-Some tooling exists to automatically generate and record API responses and GraphQL responses for supporting queries. Separate data is recorded for running the server in offline mode and for testing purposes. To update these sets of mock data, follow these steps:
-
-```sh
-# Generates all GQL queries for the GraphQL Schema
-$ yarn gql
-
-# Runs the server with RECORDING_API_MODE flag enabled
-$ yarn mocks:recording
-
-# Records mock data responses
-$ yarn mocks:generate:all
-```
-
-If a new query is added in the future which uses new variables, these variables will need to be added in the `client/config.ts` file.
-
 ## Deployment
 
 ```sh

@@ -40,11 +40,8 @@ $ yarn tslint
 # runs the TypeScript compiler
 $ yarn tsc
 
-# runs the project unit tests using Jest
-$ yarn test
-
-# runs the unit tests in Jest watch mode
-$ yarn test
+# runs the project unit tests using Jest in watch mode
+$ yarn test:watch
 
 # runs all the above tests
 $ yarn test
@@ -57,7 +54,7 @@ The overall approach to testing for this project follows the idea of the ["testi
 1. Static analysis (TypeScript, TSLint, and Prettier).
 2. Unit tests: ideally 100% test coverage of all functions (Jest test runner).
 3. Integration tests: entire application or major components can be tested or mocked using React snapshot testing.
-4. UI testing/E2E/Acceptance Tests. We use Cypress for e2e/integration testing. You can run the Cypress test suite by running `yarn dev` to launch the app in testing mode and `yarn cypress` to launch the Cypress test runner.
+4. UI testing/E2E/Acceptance Tests. We use Cypress for e2e testing. See the `cypress/` package for more details.
 
 Using these approaches, our goal is to have total test coverage for the entire application. These tests will be automated and run continuously against code changes so developers can ship code frequently to production with confidence and get feedback quickly and early whenever their changes introduce bugs or regressions.
 
