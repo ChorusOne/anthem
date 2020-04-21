@@ -2,8 +2,9 @@ import { graphql, QueryOpts, QueryResult } from "react-apollo";
 import { connect } from "react-redux";
 import { createSelector } from "reselect";
 
+import { AccountBalancesDocument } from "@anthem/utils";
 import {
-  AccountBalancesDocument,
+  // AccountBalancesDocument,
   AccountInformationDocument,
   DailyPercentChangeDocument,
   FiatCurrenciesDocument,

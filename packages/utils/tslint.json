@@ -8,13 +8,14 @@
     "quotemark": [true, "double"],
     "member-access": [false],
     "ordered-imports": [false],
-    "max-line-length": [true, 150],
+    "max-line-length": [false],
     "member-ordering": [false],
     "interface-name": [false],
     "arrow-parens": false,
     "no-console": [false],
     "semicolon": [true, "always", "ignore-bound-class-methods"],
     "max-classes-per-file": false,
+    "no-empty-interface": false,
     "object-literal-sort-keys": false
   },
   "rulesDirectory": []

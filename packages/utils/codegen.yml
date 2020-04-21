@@ -2,12 +2,19 @@ overwrite: true
 schema: ../server/src/schema/schema.graphql
 documents: schema_documents/**/*.gql
 generates:
-  src/schema/graphql-types.ts:
+  src/graphql/introspection-result.json:
+    plugins:
+      - fragment-matcher
+  src/graphql/types.tsx:
     plugins:
       - typescript
       - typescript-operations
+      - typescript-react-apollo
     config:
       avoidOptionals: true
-      immutableTypes: true
       typesPrefix: I
       declarationKind: interface
+      withHOC: true
+      withHooks: true
+      withComponent: true
+      withMutationFn: true

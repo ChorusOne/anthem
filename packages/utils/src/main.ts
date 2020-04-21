@@ -1,4 +1,2 @@
-// Test
-const TEST_VALUE = "hello";
-
-export { TEST_VALUE };
+// Export GraphQL Types
+export * from "./graphql/types";

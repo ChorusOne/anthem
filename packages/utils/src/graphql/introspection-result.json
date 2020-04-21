@@ -1,0 +1,39 @@
+{
+  "__schema": {
+    "types": [
+      {
+        "kind": "UNION",
+        "name": "TxMsgValue",
+        "possibleTypes": [
+          {
+            "name": "MsgSend"
+          },
+          {
+            "name": "MsgVote"
+          },
+          {
+            "name": "MsgDelegate"
+          },
+          {
+            "name": "MsgSubmitProposal"
+          },
+          {
+            "name": "MsgBeginRedelegate"
+          },
+          {
+            "name": "MsgModifyWithdrawAddress"
+          },
+          {
+            "name": "MsgBeginRedelegateLegacy"
+          },
+          {
+            "name": "MsgWithdrawDelegationReward"
+          },
+          {
+            "name": "MsgWithdrawValidatorCommission"
+          }
+        ]
+      }
+    ]
+  }
+}
