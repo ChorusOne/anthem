@@ -1,8 +1,9 @@
 {
   "name": "@anthem/cypress",
   "version": "0.0.1",
-  "description": "Anthem Cypress test suite",
   "private": true,
+  "description": "Anthem Cypress test suite",
+  "author": "Chorus One Team",
   "scripts": {
     "cypress:run": "cypress run",
     "cypress:open": "cypress open",
