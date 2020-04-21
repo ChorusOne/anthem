@@ -23,7 +23,7 @@
     "test:watch": "jest --watchAll",
     "jest:clear": "jest --clearCache",
     "write:keys": "ts-node scripts/write-resolver-keys.ts",
-    "client:recording": "RECORD_CLIENT_DATA=true yarn start",
+    "recording": "RECORD_CLIENT_DATA=true yarn start",
     "fetch-price-history": "ts-node scripts/price-history.ts && yarn format"
   },
   "dependencies": {

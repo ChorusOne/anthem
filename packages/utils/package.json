@@ -20,9 +20,9 @@
     "types": "graphql-build --outputFile=./src/schema",
     "gql": "yarn gqlgen && chmod +x scripts/gql.sh && scripts/gql.sh",
     "gqlgen": "gql-lib --schemaFilePath ../server/src/schema/schema.graphql --destDirPath ./src/client/gql --depthLimit 10",
-    "client:go": "yarn gql && yarn client:refresh && yarn client:generate && yarn format",
-    "client:refresh": "rm -rf src/client/data && mkdir src/client/data",
-    "client:generate": "ts-node src/client/query-script.ts"
+    "record": "yarn gql && yarn mocks:refresh && yarn mocks:generate && yarn format",
+    "mocks:refresh": "rm -rf src/client/data && mkdir src/client/data",
+    "mocks:generate": "ts-node src/client/query-script.ts"
   },
   "dependencies": {
     "@types/bytes": "^3.1.0",
