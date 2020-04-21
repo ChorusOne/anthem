@@ -89,8 +89,8 @@ const getQueryResolverFromKey = (key: QueryKeyUnion) => async (
     // Handle optional delay
     await artificialDelay(key);
 
-    // Get saved response data
-    const json = require(`../test/data/${key}.json`);
+    // Get saved response data from utils/ package client/data directory
+    const json = require(`../../../utils/src/client/data/${key}.json`);
 
     // Return response JSON
     return json[key];
