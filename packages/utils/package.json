@@ -1,0 +1,50 @@
+{
+  "name": "@anthem/utils",
+  "version": "0.0.1",
+  "description": "Anthem Utils",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "prettier": "prettier --list-different \"src/**/*.ts\" \"test/**/*.ts\"",
+    "prettier:fix": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "tslint": "tslint --project tsconfig.json -c tslint.json",
+    "tslint:fix": "tslint --project tsconfig.json -c tslint.json --fix",
+    "format": "yarn prettier:fix && yarn tslint:fix",
+    "lint": "yarn prettier && yarn tslint",
+    "test:unit": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test": "yarn lint && yarn test:unit"
+  },
+  "dependencies": {
+    "@types/bytes": "^3.1.0",
+    "@types/debug": "^4.1.5",
+    "bytes": "^3.1.0",
+    "jest": "^24.9.0",
+    "prettier": "^1.19.1",
+    "ts-node": "^8.8.2",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.4",
+    "utils": "^0.3.1"
+  },
+  "main": "dist/main.js",
+  "typings": "dist/main.d.ts",
+  "files": [
+    "dist"
+  ],
+  "jest": {
+    "testEnvironment": "node",
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    }
+  }
+}
