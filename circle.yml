@@ -28,10 +28,20 @@ jobs:
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
 
+      # Install Lerna
+      - run:
+        name: Install Lerna
+        command: npm i -g lerna
+
       # Install dependencies
       - run:
           name: Install Dependencies
-          command: yarn install --frozen-lockfile
+          command: lerna bootstrap
+
+      # Build utils/ package
+      - run:
+        name: Build Utils Package
+        command: yarn utils:build
 
       # Run unit tests
       - run:
