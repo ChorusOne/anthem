@@ -5,7 +5,7 @@ import {
   getNetworkDefinitionFromIdentifier,
   getValidatorAddressFromDelegatorAddress,
 } from "../utils";
-import NETWORKS from "src/networks";
+import NETWORKS from "../networks";
 
 describe("utils", () => {
   test("assertUnreachable", () => {
