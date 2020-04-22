@@ -18,8 +18,11 @@ This is a GraphQL server written in TypeScript using Apollo-Express.
 ## Deployment
 
 ```sh
-yarn build
-yarn prod
+# Build the server
+$ yarn build
+
+# Run the production server
+$ yarn prod
 ```
 
 These commands build and run the app. There is a Dockerfile which can be build and run using Docker to be deployed in any containerized environment.

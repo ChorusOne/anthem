@@ -1,6 +1,6 @@
 # Anthem Cypress Tests
 
-This is a set of Cypress e2e UI tests for Anthem.
+This is a set of Cypress e2e tests for Anthem.
 
 ## Development
 
