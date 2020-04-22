@@ -124,6 +124,9 @@ workflows:
             branches:
               only:
                 - master
+      - cypress/install:
+          # Install project dependencies
+          build: "npm i -g lerna && lerna bootstrap && yarn utils:build"
       - cypress/run:
           yarn: true
           working_directory: packages/cypress
