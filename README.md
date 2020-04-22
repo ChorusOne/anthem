@@ -1,6 +1,8 @@
 # Anthem by Chorus One
 
-Welcome to the codebase for Anthem, a multi-network platform for managing blockchain proof-of-stake networks like [Cosmos](https://cosmos.network/), [Terra](https://terra.money/), [Kava](https://www.kava.io/), [Celo](https://celo.org/), [Oasis](https://www.oasislabs.com/), and other upcoming blockchains. Anthem is open source and built and maintained by [Chorus One](https://chorus.one/).
+**Welcome to the codebase for Anthem!**
+
+Anthem is a multi-network platform for managing blockchain proof-of-stake networks like [Cosmos](https://cosmos.network/), [Terra](https://terra.money/), [Kava](https://www.kava.io/), [Celo](https://celo.org/), [Oasis](https://www.oasislabs.com/), and other upcoming blockchains. Anthem is open source and built and maintained by [Chorus One](https://chorus.one/).
 
 [![CircleCI](https://circleci.com/gh/ChorusOne/anthem.svg?style=svg&circle-token=efa3725ebd2648b4c6a5289ad3bb415383f21106)](https://circleci.com/gh/ChorusOne/anthem)
 
@@ -10,18 +12,36 @@ Welcome to the codebase for Anthem, a multi-network platform for managing blockc
 
 ## Getting Started
 
-- Clone the repo: `git clone https://github.com/ChorusOne/anthem.git`.
-- Install [NodeJS](https://nodejs.org/en/) and [yarn](https://yarnpkg.com/lang/en/docs/).
-- Use Node LTS: `nvm install lts/* && nvm alias default lts/*`.
-- Install [Lerna](https://lerna.js.org/): `npm i -g lerna`.
-- Run `lerna bootstrap` to install dependencies.
-- Run `yarn utils:build` to build the utils/ package.
-- Run `yarn setup` to setup environment variables.
-- Run `yarn server:start` to start the server.
-- Run `yarn client:start` to start the client.
-- Or, run `yarn dev` to start the client in test/development mode.
-- Run `yarn test` to run the project unit tests.
-- Run `yarn cypress` to run the Cypress tests (requires the client app to be running).
+You will need [NodeJS](https://nodejs.org/en/) and [yarn](https://yarnpkg.com/lang/en/docs/) installed to proceed.
+
+```sh
+# Clone the repo
+$ git clone https://github.com/ChorusOne/anthem.git
+
+# Use Node LTS
+$ nvm install lts/* && nvm alias default lts/*
+
+# Install Lerna
+$ npm i -g lerna
+
+# Install dependencies
+$ lerna bootstrap
+
+# Build the utils/ package
+$ yarn utils:build
+
+# Setup environment variables
+$ yarn setup
+
+# Start the server
+$ yarn server:start
+
+# Start the client
+$ yarn client:start
+
+# Start the app in development mode (no server required)
+$ yarn dev
+```
 
 We recommend using [VS Code](https://code.visualstudio.com/) and installing the recommended workspace extensions to make development easier.
 
@@ -29,10 +49,10 @@ We recommend using [VS Code](https://code.visualstudio.com/) and installing the 
 
 The codebase is organized into a monorepo with the following packages:
 
-- `client/`: React client application.
-- `cypress/`: Cypress e2e test suite.
-- `server/`: GraphQL/Express API server.
-- `utils/`: Shared utils, tools, and types.
+- [`client/`](https://github.com/ChorusOne/anthem/tree/master/packages/client): React client application.
+- [`cypress/`](https://github.com/ChorusOne/anthem/tree/master/packages/cypress): Cypress e2e test suite.
+- [`server/`](https://github.com/ChorusOne/anthem/tree/master/packages/server): GraphQL/Express API server.
+- [`utils/`](https://github.com/ChorusOne/anthem/tree/master/packages/utils): Shared utils, tools, and types.
 
 Each package contains a README document with more specific information about that package.
 
@@ -41,19 +61,16 @@ Each package contains a README document with more specific information about tha
 The entire project is written in TypeScript and all packages follow the same testing conventions. You can run tests at the top level or in any package with the following commands:
 
 ```sh
-# runs Prettier
+# Run Prettier
 $ yarn prettier
 
-# runs TSLint
+# Run TSLint
 $ yarn tslint
 
-# runs the TypeScript compiler
+# Run the TypeScript compiler
 $ yarn tsc
 
-# runs the project unit tests using Jest in watch mode
-$ yarn test:watch
-
-# runs all the above tests
+# Run all the above tests
 $ yarn test
 ```
 
@@ -62,10 +79,10 @@ You can also run `yarn prettier:fix` or `yarn tslint:fix` to use the auto-fix op
 The above commands cover static and unit testing the codebase. Additionally, we maintain a suite of e2e tests written with Cypress which you can run with the following commands:
 
 ```sh
-# Start the client application, it needs to be running
+# Start the client application (it needs to be running for the tests)
 $ yarn dev
 
-# Run cypress
+# Run the Cypress tests
 $ yarn cypress
 ```
 
@@ -73,7 +90,12 @@ This will run the Cypress tests. You can see the Cypress package README for more
 
 ## GraphQL
 
-The project relies on GraphQL for the majority of the APIs. The GraphQL schema exists in the `server` package. To work with GraphQL, some tooling exists to generate TypeScript type definitions from the GraphQL schema. This generated code is in the `utils/` package and can be imported and used by other packages. to generate the type definitions, run `yarn utils:types`.
+The project relies on GraphQL for the majority of the APIs. The GraphQL schema exists in the `server` package. To work with GraphQL, some tooling exists to generate TypeScript type definitions from the GraphQL schema. This generated code is in the `utils/` package and can be imported and used by other packages. to generate the type definitions, run the following:
+
+```sh
+# Generate TypeScript type definitions for GraphQL schema
+$ yarn types
+```
 
 ## Development Mode
 
