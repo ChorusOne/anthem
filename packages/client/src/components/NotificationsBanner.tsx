@@ -1,3 +1,4 @@
+import { assertUnreachable } from "@anthem/utils";
 import { COLORS } from "constants/colors";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
@@ -6,7 +7,6 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
-import { assertUnreachable } from "tools/generic-utils";
 
 /** ===========================================================================
  * Types & Config

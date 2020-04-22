@@ -1,4 +1,5 @@
 import {
+  assertUnreachable,
   IAccountInformation,
   ITxFee,
   ITxMsg,
@@ -9,7 +10,6 @@ import { AvailableReward } from "components/CreateTransactionForm";
 import { COIN_DENOMS, NETWORK_NAME, NetworkMetadata } from "constants/networks";
 import { LEDGER_ACTION_TYPE } from "modules/ledger/actions";
 import { atomsToDenom } from "./currency-utils";
-import { assertUnreachable } from "./generic-utils";
 import { multiply } from "./math-utils";
 
 /** ===========================================================================

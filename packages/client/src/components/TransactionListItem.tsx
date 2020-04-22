@@ -1,4 +1,4 @@
-import { ITransaction } from "@anthem/utils";
+import { assertUnreachable, ITransaction } from "@anthem/utils";
 import { Card, Colors, Elevation, Position, Tooltip } from "@blueprintjs/core";
 import { CosmosLogo } from "assets/icons";
 import {
@@ -24,7 +24,6 @@ import styled from "styled-components";
 import { denomToAtoms, formatCurrencyAmount } from "tools/currency-utils";
 import { formatDate, formatTime } from "tools/date-utils";
 import {
-  assertUnreachable,
   copyTextToClipboard,
   justFormatChainString,
   ValidatorOperatorAddressMap,
