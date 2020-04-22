@@ -1,5 +1,5 @@
+import { NETWORKS } from "@anthem/utils";
 import { ApolloError } from "apollo-client";
-import NETWORKS_LIST from "constants/networks";
 import {
   abbreviateAddress,
   canRenderGraphQL,
@@ -61,17 +61,17 @@ describe("utils", () => {
     let result = deriveNetworkFromAddress(
       "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
     );
-    expect(result).toEqual(NETWORKS_LIST.COSMOS);
+    expect(result).toEqual(NETWORKS.COSMOS);
 
     result = deriveNetworkFromAddress(
       "terra15urq2dtp9qce4fyc85m6upwm9xul30496lytpd",
     );
-    expect(result).toEqual(NETWORKS_LIST.TERRA);
+    expect(result).toEqual(NETWORKS.TERRA);
 
     result = deriveNetworkFromAddress(
       "kava1gk6yv6quevfd93zwke75cn22mxhevxv0n5vvzg",
     );
-    expect(result).toEqual(NETWORKS_LIST.KAVA);
+    expect(result).toEqual(NETWORKS.KAVA);
   });
 
   test("formatValidatorsList", () => {
@@ -179,7 +179,7 @@ describe("utils", () => {
   test("mapRewardsToAvailableRewards", () => {
     const result = mapRewardsToAvailableRewards(
       rewardsByValidator,
-      NETWORKS_LIST.COSMOS,
+      NETWORKS.COSMOS,
     );
     for (const reward of result) {
       expect(+reward.amount > 1).toBeTruthy();

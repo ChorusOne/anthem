@@ -1,7 +1,7 @@
+import { NETWORK_NAME, NETWORKS } from "@anthem/utils";
 import { Card } from "@blueprintjs/core";
 import { NetworkLogoIcon } from "assets/images";
 import { COLORS } from "constants/colors";
-import { AVAILABLE_NETWORKS, NETWORK_NAME } from "constants/networks";
 import Analytics from "lib/analytics-lib";
 import { SIGNIN_TYPE } from "modules/ledger/actions";
 import Modules, { ReduxStoreState } from "modules/root";
@@ -26,7 +26,7 @@ class NetworkSelectComponent extends React.Component<IProps, {}> {
       <View>
         <p style={{ color }}>Choose a network to connect to:</p>
         <NetworkGrid>
-          {AVAILABLE_NETWORKS.map(network => {
+          {Object.values(NETWORKS).map(network => {
             return (
               <NetworkSelect
                 enableThemedStyles

@@ -1,6 +1,9 @@
-import { AccountBalancesDocument, TransactionsDocument } from "@anthem/utils";
+import {
+  AccountBalancesDocument,
+  NETWORKS,
+  TransactionsDocument,
+} from "@anthem/utils";
 import Toast from "components/Toast";
-import NETWORKS from "constants/networks";
 import { graphqlSelector } from "graphql/queries";
 import Analytics from "lib/analytics-lib";
 import ENV from "lib/client-env";

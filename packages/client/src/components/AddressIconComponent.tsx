@@ -1,6 +1,6 @@
+import { NETWORK_NAME } from "@anthem/utils";
 import { NetworkLogoIcon } from "assets/images";
 import axios from "axios";
-import { NETWORK_NAME } from "constants/networks";
 import Identicon from "identicon.js";
 import md5 from "js-md5";
 import React from "react";

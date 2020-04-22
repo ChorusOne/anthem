@@ -1,8 +1,7 @@
+import { NETWORK_NAME } from "@anthem/utils";
+import { CosmosLogo, KavaLogo, OasisLogo, TerraLogo } from "assets/icons";
 import React from "react";
 import styled, { CSSProperties } from "styled-components";
-
-import { CosmosLogo, KavaLogo, OasisLogo, TerraLogo } from "assets/icons";
-import { NETWORK_NAME } from "constants/networks";
 import { ReactComponent as ChorusLogoIconOnlyDark } from "../assets/chorus/C1_logo_simple_black.svg";
 import { ReactComponent as ChorusLogoIconOnlyLight } from "../assets/chorus/C1_logo_simple_white.svg";
 import { ReactComponent as AddressIconSvg } from "../assets/landing-page/address-icon.svg";

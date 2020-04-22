@@ -1,6 +1,6 @@
+import { NETWORKS } from "@anthem/utils";
 import bech32 from "bech32";
 import { FiatCurrency } from "constants/fiat";
-import { AVAILABLE_NETWORKS } from "constants/networks";
 import emailValidator from "email-validator";
 import ENV from "lib/client-env";
 import semver from "semver";
@@ -86,11 +86,11 @@ export const validateCosmosAddress = (
 
   if (address.length === 44) {
     console.warn("[TODO]: Fix address validation for Oasis addresses!");
-    return ENV.ENABLE_OASIS ? "" : "Oasis Network is not supported yet";
+    return "Oasis Network is not supported yet";
   }
 
   let prefixInAddress = false;
-  for (const prefix of AVAILABLE_NETWORKS.map(n => n.name.toLowerCase())) {
+  for (const prefix of Object.values(NETWORKS).map(n => n.name.toLowerCase())) {
     if (address.includes(prefix)) {
       prefixInAddress = true;
     }

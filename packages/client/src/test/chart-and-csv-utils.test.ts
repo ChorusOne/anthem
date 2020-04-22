@@ -1,4 +1,4 @@
-import NETWORKS_LIST from "constants/networks";
+import { NETWORKS } from "@anthem/utils";
 import { processPortfolioHistoryData } from "tools/chart-utils";
 import { chartExportBuilder } from "tools/csv-utils";
 import { fiatPriceHistory } from "../../../utils/src/client/data/fiatPriceHistory.json";
@@ -13,7 +13,7 @@ describe("chart-and-csv-utils", () => {
 
     const result = chartExportBuilder({
       address: "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-      network: NETWORKS_LIST.COSMOS,
+      network: NETWORKS.COSMOS,
       fiatPriceHistory,
       fiatCurrencySymbol: "USD",
       portfolioChartHistory,

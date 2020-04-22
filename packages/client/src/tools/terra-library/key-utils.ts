@@ -1,8 +1,7 @@
-import { assertUnreachable } from "@anthem/utils";
+import { assertUnreachable, NETWORK_NAME } from "@anthem/utils";
 import * as bech32 from "bech32";
 import * as bip32 from "bip32";
 import * as bip39 from "bip39";
-import { NETWORK_NAME } from "constants/networks";
 import * as HEX from "crypto-js/enc-hex";
 import * as RIPEMD160 from "crypto-js/ripemd160";
 import * as SHA256 from "crypto-js/sha256";

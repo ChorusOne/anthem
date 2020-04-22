@@ -1,4 +1,4 @@
-import { NETWORK_NAME, NetworkMetadata } from "constants/networks";
+import { NETWORK_NAME, NetworkDefinition } from "@anthem/utils";
 import { ActionType, createStandardAction } from "typesafe-actions";
 
 /** ===========================================================================
@@ -66,7 +66,7 @@ const setAddress = createStandardAction(ActionTypesEnum.SET_ADDRESS)<
 
 const setAddressSuccess = createStandardAction(
   ActionTypesEnum.SET_ADDRESS_SUCCESS,
-)<{ address: string; network: NetworkMetadata }>();
+)<{ address: string; network: NetworkDefinition }>();
 
 const setAddressFailure = createStandardAction(
   ActionTypesEnum.SET_ADDRESS_FAILURE,
@@ -95,7 +95,7 @@ const connectLedgerSuccess = createStandardAction(
 )<{
   cosmosAddress: string;
   cosmosAppVersion: string;
-  network: NetworkMetadata;
+  network: NetworkDefinition;
 }>();
 
 const connectLedgerFailure = createStandardAction(

@@ -1,13 +1,15 @@
 import {
   assertUnreachable,
+  COIN_DENOMS,
   IAccountInformation,
   ITxFee,
   ITxMsg,
   ITxSignature,
   ITxValue,
+  NETWORK_NAME,
+  NetworkDefinition,
 } from "@anthem/utils";
 import { AvailableReward } from "components/CreateTransactionForm";
-import { COIN_DENOMS, NETWORK_NAME, NetworkMetadata } from "constants/networks";
 import { LEDGER_ACTION_TYPE } from "modules/ledger/actions";
 import { atomsToDenom } from "./currency-utils";
 import { multiply } from "./math-utils";
@@ -205,7 +207,7 @@ export const createTransactionRequestMetadata = (args: {
   account: IAccountInformation;
   gasAmount: string;
   gasPrice: string;
-  network: NetworkMetadata;
+  network: NetworkDefinition;
 }): TransactionMetadata => {
   const { address, network, account, gasAmount, gasPrice } = args;
   const { value: accountValue } = account;

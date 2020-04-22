@@ -1,4 +1,4 @@
-import { NetworkMetadata } from "constants/networks";
+import { NetworkDefinition } from "@anthem/utils";
 import { ActionType, createStandardAction } from "typesafe-actions";
 import { BANNER_NOTIFICATIONS_KEYS } from "./store";
 
@@ -72,7 +72,7 @@ const refreshBalanceAndTransactionsSuccess = createStandardAction(
 const initializeApp = createStandardAction(ActionTypesEnum.INITIALIZING_APP)();
 const initializeSuccess = createStandardAction(
   ActionTypesEnum.INITIALIZING_APP_SUCCESS,
-)<{ address: string; network: NetworkMetadata }>();
+)<{ address: string; network: NetworkDefinition }>();
 
 const newsletterSignup = createStandardAction(
   ActionTypesEnum.NEWSLETTER_SIGNUP,

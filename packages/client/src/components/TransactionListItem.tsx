@@ -1,4 +1,8 @@
-import { assertUnreachable, ITransaction } from "@anthem/utils";
+import {
+  assertUnreachable,
+  ITransaction,
+  NetworkDefinition,
+} from "@anthem/utils";
 import { Card, Colors, Elevation, Position, Tooltip } from "@blueprintjs/core";
 import { CosmosLogo } from "assets/icons";
 import {
@@ -13,7 +17,6 @@ import {
 import { Row, View } from "components/SharedComponents";
 import { COLORS } from "constants/colors";
 import { FiatCurrency } from "constants/fiat";
-import { NetworkMetadata } from "constants/networks";
 import { IThemeProps } from "containers/ThemeContainer";
 import { ILocale } from "i18n/catalog";
 import Analytics from "lib/analytics-lib";
@@ -55,7 +58,7 @@ interface IProps extends TranslateMethodProps {
   locale: ILocale;
   isDesktop: boolean;
   fiatCurrency: FiatCurrency;
-  network: NetworkMetadata;
+  network: NetworkDefinition;
   setAddress: typeof Modules.actions.ledger.setAddress;
   validatorOperatorAddressMap: ValidatorOperatorAddressMap;
   onCopySuccess: (address: string) => void;
