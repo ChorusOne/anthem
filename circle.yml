@@ -134,9 +134,9 @@ workflows:
       #         only:
       #           - master
       - cypress/run:
-          install-command: cd ../../ && npm i -g lerna && lerna bootstrap && yarn utils:build
-          requires:
-            - Cypress Install
+          install-command: "cd ../../ && npm i -g lerna && lerna bootstrap && yarn utils:build"
+          # requires:
+          #   - Cypress Install
           yarn: true
           working_directory: packages/cypress
           start: cd ../client && yarn dev
