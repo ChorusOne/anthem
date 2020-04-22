@@ -1,6 +1,6 @@
 # Anthem Server
 
-This is the GraphQL server application for Anthem.
+This is the GraphQL/Express server for Anthem.
 
 ## Project Overview
 
@@ -14,32 +14,6 @@ This is a GraphQL server written in TypeScript using Apollo-Express.
 - [Prettier](https://prettier.io/): An opinionated code formatter for JavaScript and related languages.
 - [Jest](https://jestjs.io/): The JavaScript test runner.
 - [Yarn](https://yarnpkg.com/en/): For dependency management.
-
-## Testing
-
-This project is written in TypeScript to take advantage of static typing and uses other tools like Prettier and TSLint to establish consistent code styling. All of these tools are integrated and configuration in the runnable project scripts and tests. For instance you can run:
-
-```sh
-# Runs Prettier
-$ yarn prettier
-
-# Runs TSLint
-$ yarn tslint
-
-# Runs the TypeScript compiler
-$ yarn tsc
-
-# Runs the project unit tests using Jest
-$ yarn test:unit
-
-# Runs the unit tests in Jest watch mode
-$ yarn test:watch
-
-# Runs all the above tests
-$ yarn test
-```
-
-You can also run `yarn prettier:fix` or `yarn tslint:fix` to use the auto-fix options for these tools to fix any issues. Normally, any linting/styling issues should be fixed automatically on-save if you are using VS Code with the recommended extensions.
 
 ## Deployment
 
