@@ -1,4 +1,8 @@
-import { assertUnreachable } from "@anthem/utils";
+import {
+  assertUnreachable,
+  deriveNetworkFromAddress,
+  validatorAddressToOperatorAddress,
+} from "@anthem/utils";
 import Toast from "components/Toast";
 import Analytics from "lib/analytics-lib";
 import StorageModule from "lib/storage-lib";
@@ -15,12 +19,7 @@ import {
   takeUntil,
   tap,
 } from "rxjs/operators";
-import {
-  capitalizeString,
-  deriveNetworkFromAddress,
-  validatorAddressToOperatorAddress,
-  wait,
-} from "tools/generic-utils";
+import { capitalizeString, wait } from "tools/generic-utils";
 import { getAccAddress } from "tools/terra-library/key-utils";
 import {
   validateCosmosAddress,

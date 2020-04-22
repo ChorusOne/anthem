@@ -1,7 +1,9 @@
 import {
   AccountBalancesDocument,
+  deriveNetworkFromAddress,
   NETWORKS,
   TransactionsDocument,
+  validatorAddressToOperatorAddress,
 } from "@anthem/utils";
 import Toast from "components/Toast";
 import { graphqlSelector } from "graphql/queries";
@@ -22,12 +24,7 @@ import {
   take,
   tap,
 } from "rxjs/operators";
-import {
-  deriveNetworkFromAddress,
-  getQueryParamsFromUrl,
-  validatorAddressToOperatorAddress,
-  wait,
-} from "tools/generic-utils";
+import { getQueryParamsFromUrl, wait } from "tools/generic-utils";
 import { validateCosmosAddress } from "tools/validation-utils";
 import { isActionOf } from "typesafe-actions";
 import { Actions } from "../root-actions";

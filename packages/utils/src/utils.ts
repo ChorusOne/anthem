@@ -63,6 +63,15 @@ const getCosmosSdkAddressEnumsForNetwork = (name: NETWORK_NAME) => {
 };
 
 /**
+ * Convert a validator address to its associated delegator address.
+ */
+export const validatorAddressToOperatorAddress = (validatorAddress: string) => {
+  const decodedAddress = bech32.decode(validatorAddress);
+  const operatorAddress = bech32.encode("cosmos", decodedAddress.words);
+  return operatorAddress;
+};
+
+/**
  * Decode a validator address using bech32 and re-encode it to derive the
  * associated validator address.
  */

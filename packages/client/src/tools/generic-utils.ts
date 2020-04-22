@@ -1,6 +1,7 @@
 import {
   assertUnreachable,
   COIN_DENOMS,
+  getValidatorAddressFromDelegatorAddress,
   IBalance,
   IDelegation,
   IQuery,
@@ -8,10 +9,8 @@ import {
   IValidator,
   NETWORK_NAME,
   NetworkDefinition,
-  NETWORKS,
 } from "@anthem/utils";
 import { ApolloError } from "apollo-client";
-import bech32 from "bech32";
 import BigNumber from "bignumber.js";
 import { AvailableReward } from "components/CreateTransactionForm";
 import Toast from "components/Toast";
@@ -67,21 +66,6 @@ export enum OASIS_ADDRESS_ENUM {
   VALIDATOR_CONSENSUS_PUBLIC_KEY = "",
   VALIDATOR_OPERATOR_PUBLIC_KEY = "",
 }
-
-const getAddressEnumFromNetwork = (network: NETWORK_NAME) => {
-  switch (network) {
-    case "COSMOS":
-      return COSMOS_ADDRESS_ENUM;
-    case "TERRA":
-      return TERRA_ADDRESS_ENUM;
-    case "KAVA":
-      return KAVA_ADDRESS_ENUM;
-    case "OASIS":
-      return OASIS_ADDRESS_ENUM;
-    default:
-      return assertUnreachable(network);
-  }
-};
 
 /** =======================================================
  * Common Util Helper Methods
@@ -514,35 +498,6 @@ export const getValidatorNameFromAddress = (
   return null;
 };
 
-// Convert a validator address to its associated delegator address
-export const validatorAddressToOperatorAddress = (validatorAddress: string) => {
-  const decodedAddress = bech32.decode(validatorAddress);
-  const operatorAddress = bech32.encode("cosmos", decodedAddress.words);
-  return operatorAddress;
-};
-
-/**
- * Decode a validator address using bech32 and re-encode it to derive the
- * associated validator address.
- */
-export const getValidatorAddressFromDelegatorAddress = (
-  address: string,
-  network: NETWORK_NAME,
-): string | null => {
-  try {
-    const decodedAddress = bech32.decode(address);
-    const addressEnum = getAddressEnumFromNetwork(network);
-    const validatorAddress = bech32.encode(
-      addressEnum.VALIDATOR_OPERATOR_ADDRESS,
-      decodedAddress.words,
-    );
-
-    return validatorAddress;
-  } catch (err) {
-    return null;
-  }
-};
-
 /**
  * Artificially wait the provided amount of time.
  */
@@ -586,27 +541,6 @@ export const formatValidatorsList = (validators: ReadonlyArray<IValidator>) => {
   }
 
   return reordered;
-};
-
-/**
- * Determine the network for a given address using the address prefix.
- */
-export const deriveNetworkFromAddress = (
-  address: string,
-): NetworkDefinition => {
-  if (address.substring(0, 6) === "cosmos") {
-    return NETWORKS.COSMOS;
-  } else if (address.substring(0, 5) === "terra") {
-    return NETWORKS.TERRA;
-  } else if (address.substring(0, 4) === "kava") {
-    return NETWORKS.KAVA;
-  } else if (address.length === 44) {
-    return NETWORKS.OASIS;
-  }
-
-  throw new Error(
-    `Unrecognized address ${address} with no associated network!`,
-  );
 };
 
 /**

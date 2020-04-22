@@ -1,10 +1,14 @@
-import { NETWORKS } from "@anthem/utils";
+import {
+  deriveNetworkFromAddress,
+  getValidatorAddressFromDelegatorAddress,
+  NETWORKS,
+  validatorAddressToOperatorAddress,
+} from "@anthem/utils";
 import { ApolloError } from "apollo-client";
 import {
   abbreviateAddress,
   canRenderGraphQL,
   capitalizeString,
-  deriveNetworkFromAddress,
   formatAddressString,
   formatValidatorsList,
   getAccountBalances,
@@ -13,7 +17,6 @@ import {
   getPortfolioTypeFromUrl,
   getPriceFromTransactionTimestamp,
   getQueryParamsFromUrl,
-  getValidatorAddressFromDelegatorAddress,
   getValidatorNameFromAddress,
   getValidatorOperatorAddressMap,
   identity,
@@ -24,7 +27,6 @@ import {
   onPath,
   race,
   trimZeroes,
-  validatorAddressToOperatorAddress,
   wait,
 } from "tools/generic-utils";
 import accountBalances from "../../../utils/src/client/data/accountBalances.json";

@@ -1,3 +1,4 @@
+import { getValidatorAddressFromDelegatorAddress } from "@anthem/utils";
 import {
   Classes,
   Drawer,
@@ -28,7 +29,6 @@ import { composeWithProps } from "tools/context-utils";
 import {
   abbreviateAddress,
   copyTextToClipboard,
-  getValidatorAddressFromDelegatorAddress,
   onActiveRoute,
   onPath,
 } from "tools/generic-utils";

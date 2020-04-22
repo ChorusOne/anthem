@@ -1,4 +1,4 @@
-import { NETWORK_NAME } from "@anthem/utils";
+import { deriveNetworkFromAddress, NETWORK_NAME } from "@anthem/utils";
 import { NetworkLogoIcon } from "assets/images";
 import axios from "axios";
 import Identicon from "identicon.js";
@@ -6,7 +6,6 @@ import md5 from "js-md5";
 import React from "react";
 import styled from "styled-components";
 import {
-  deriveNetworkFromAddress,
   getValidatorNameFromAddress,
   ValidatorOperatorAddressMap,
   wait,
