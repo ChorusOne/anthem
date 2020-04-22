@@ -28,7 +28,10 @@ import {
   wait,
 } from "tools/generic-utils";
 import accountBalances from "../../../utils/src/client/data/accountBalances.json";
+import { fiatPriceHistory } from "../../../utils/src/client/data/fiatPriceHistory.json";
 import prices from "../../../utils/src/client/data/prices.json";
+import { transactions } from "../../../utils/src/client/data/transactions.json";
+import { validators } from "../../../utils/src/client/data/validators.json";
 
 describe("utils", () => {
   test("abbreviateAddress", () => {
@@ -68,6 +71,66 @@ describe("utils", () => {
       "kava1gk6yv6quevfd93zwke75cn22mxhevxv0n5vvzg",
     );
     expect(result).toEqual(NETWORKS_LIST.KAVA);
+  });
+
+  test("formatValidatorsList", () => {
+    const result = formatValidatorsList(validators);
+    expect(result[0].description.moniker).toBe("Chorus One");
+    expect(result[1].description.moniker).toBe("Certus One");
+  });
+
+  test("getBlockExplorerUrlForTransaction", () => {
+    let result = getBlockExplorerUrlForTransaction(
+      "5C8E06175EE62495A4A2DE82AA0AD8F5E0E11EFC825A7673C1638966E97ABCA0",
+      "COSMOS",
+    );
+    expect(result).toMatchInlineSnapshot(
+      `"https://www.mintscan.io/txs/5C8E06175EE62495A4A2DE82AA0AD8F5E0E11EFC825A7673C1638966E97ABCA0"`,
+    );
+
+    result = getBlockExplorerUrlForTransaction(
+      "5C8E06175EE62495A4A2DE82AA0AD8F5E0E11EFC825A7673C1638966E97ABCA0",
+      "KAVA",
+    );
+    expect(result).toMatchInlineSnapshot(
+      `"https://kava.mintscan.io/txs/5C8E06175EE62495A4A2DE82AA0AD8F5E0E11EFC825A7673C1638966E97ABCA0"`,
+    );
+
+    result = getBlockExplorerUrlForTransaction(
+      "5C8E06175EE62495A4A2DE82AA0AD8F5E0E11EFC825A7673C1638966E97ABCA0",
+      "TERRA",
+    );
+    expect(result).toMatchInlineSnapshot(
+      `"https://terra.stake.id/?#/tx/5C8E06175EE62495A4A2DE82AA0AD8F5E0E11EFC825A7673C1638966E97ABCA0"`,
+    );
+  });
+
+  test("getFiatPriceHistoryMap", () => {
+    const result = getFiatPriceHistoryMap(fiatPriceHistory);
+    for (const price of Object.values(result)) {
+      expect(typeof price).toBe("number");
+    }
+  });
+
+  test("getPriceFromTransactionTimestamp", () => {
+    const priceMap = getFiatPriceHistoryMap(fiatPriceHistory);
+    let result = getPriceFromTransactionTimestamp(
+      transactions[0].timestamp,
+      priceMap,
+    );
+    expect(result).toMatchInlineSnapshot(`2.17075`);
+
+    result = getPriceFromTransactionTimestamp(
+      transactions[1].timestamp,
+      priceMap,
+    );
+    expect(result).toMatchInlineSnapshot(`2.17075`);
+
+    result = getPriceFromTransactionTimestamp(
+      transactions[2].timestamp,
+      priceMap,
+    );
+    expect(result).toMatchInlineSnapshot(`3.5997500000000002`);
   });
 
   test("onActiveRoute matches routes correctly", () => {
