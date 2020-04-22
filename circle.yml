@@ -133,10 +133,13 @@ workflows:
       #       branches:
       #         only:
       #           - master
+      - install:
+          name: Install
+          command: npm i -g lerna && lerna bootstrap && yarn utils:build
       - cypress/run:
-          post-install: "cd ../../ && npm i -g lerna && lerna bootstrap && yarn utils:build"
-          # requires:
-          #   - Cypress Install
+          # post-install: "cd ../../ && npm i -g lerna && lerna bootstrap && yarn utils:build"
+          requires:
+            - Install
           yarn: true
           working_directory: packages/cypress
           start: cd ../client && yarn dev
