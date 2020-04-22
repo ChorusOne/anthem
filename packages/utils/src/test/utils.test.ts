@@ -1,5 +1,6 @@
 import {
   assertUnreachable,
+  validatorAddressToOperatorAddress,
   deriveNetworkFromAddress,
   getNetworkDefinitionFromIdentifier,
   getValidatorAddressFromDelegatorAddress,
@@ -9,6 +10,14 @@ import NETWORKS from "src/networks";
 describe("utils", () => {
   test("assertUnreachable", () => {
     expect(() => assertUnreachable({} as never)).toThrow();
+  });
+
+  test("validatorAddressToOperatorAddress", () => {
+    expect(
+      validatorAddressToOperatorAddress(
+        "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      ),
+    ).toBe("cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd");
   });
 
   test("deriveNetworkFromAddress", () => {

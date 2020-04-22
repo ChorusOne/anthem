@@ -1,9 +1,4 @@
-import {
-  deriveNetworkFromAddress,
-  getValidatorAddressFromDelegatorAddress,
-  NETWORKS,
-  validatorAddressToOperatorAddress,
-} from "@anthem/utils";
+import { NETWORKS } from "@anthem/utils";
 import { ApolloError } from "apollo-client";
 import {
   abbreviateAddress,
@@ -57,23 +52,6 @@ describe("utils", () => {
     expect(capitalizeString("oranGES")).toBe("Oranges");
     expect(capitalizeString("pEACHES")).toBe("Peaches");
     expect(capitalizeString("apples AND BANANAS")).toBe("Apples and bananas");
-  });
-
-  test("deriveNetworkFromAddress", () => {
-    let result = deriveNetworkFromAddress(
-      "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-    );
-    expect(result).toEqual(NETWORKS.COSMOS);
-
-    result = deriveNetworkFromAddress(
-      "terra15urq2dtp9qce4fyc85m6upwm9xul30496lytpd",
-    );
-    expect(result).toEqual(NETWORKS.TERRA);
-
-    result = deriveNetworkFromAddress(
-      "kava1gk6yv6quevfd93zwke75cn22mxhevxv0n5vvzg",
-    );
-    expect(result).toEqual(NETWORKS.KAVA);
   });
 
   test("formatValidatorsList", () => {
@@ -134,16 +112,6 @@ describe("utils", () => {
       priceMap,
     );
     expect(result).toMatchInlineSnapshot(`3.5997500000000002`);
-  });
-
-  test("getValidatorAddressFromDelegatorAddress", () => {
-    const result = getValidatorAddressFromDelegatorAddress(
-      "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-      "COSMOS",
-    );
-    expect(result).toMatchInlineSnapshot(
-      `"cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707"`,
-    );
   });
 
   test("getValidatorOperatorAddressMap", () => {
@@ -230,15 +198,6 @@ describe("utils", () => {
     expect(identity("hello")).toBe("hello");
     expect(identity([1, 2, 3])).toEqual([1, 2, 3]);
   });
-
-  // test("getMintScanUrlForTx", () => {
-  //   const hash =
-  //     "94a02c86b8dbddfe0d777918fdcad85c25df7ee34223c4056aef763ca01bcde6";
-  //   const result = getBlockExplorerUrlForTransaction(hash);
-  //   expect(result).toMatchInlineSnapshot(
-  //     `"https://www.mintscan.io/txs/94a02c86b8dbddfe0d777918fdcad85c25df7ee34223c4056aef763ca01bcde6"`,
-  //   );
-  // });
 
   test("getAccountBalances", () => {
     const result = getAccountBalances(
@@ -336,14 +295,6 @@ describe("utils", () => {
 
     result = abbreviateAddress(address, 10);
     expect(result).toMatchInlineSnapshot(`"cosmos1y...xv9d3wsnlg"`);
-  });
-
-  test("validatorAddressToOperatorAddress", () => {
-    expect(
-      validatorAddressToOperatorAddress(
-        "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
-      ),
-    ).toBe("cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd");
   });
 
   test("race", async () => {
