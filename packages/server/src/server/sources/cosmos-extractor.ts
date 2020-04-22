@@ -1,9 +1,12 @@
 import {
   assertUnreachable,
+  getValidatorAddressFromDelegatorAddress,
   IPortfolioBalance,
   IPortfolioCommission,
   IPortfolioReward,
   IQuery,
+  NETWORK_NAME,
+  NetworkDefinition,
 } from "@anthem/utils";
 import { Pool } from "pg";
 import ENV from "../../tools/server-env";
@@ -11,10 +14,8 @@ import { getSqlQueryString, SQLVariables } from "../../tools/sql-utils";
 import {
   filterSanityCheckHeights,
   formatTransactionResponse,
-  getValidatorAddressFromDelegatorAddress,
   mapSumToBalance,
 } from "../../tools/utils";
-import { NETWORK_NAME, NetworkDefinition } from "./networks";
 
 /** ===========================================================================
  * Postgres Pool

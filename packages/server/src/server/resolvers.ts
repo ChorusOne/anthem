@@ -1,4 +1,6 @@
 import {
+  deriveNetworkFromAddress,
+  getNetworkDefinitionFromIdentifier,
   IAccountBalancesQueryVariables,
   IAccountInformationQueryVariables,
   ICoinsQueryVariables,
@@ -21,18 +23,14 @@ import {
   IValidatorDistributionQueryVariables,
   IValidatorSetsQueryVariables,
   IValidatorsQueryVariables,
+  NETWORK_NAME,
 } from "@anthem/utils";
-import {
-  deriveNetworkFromAddress,
-  getNetworkDefinitionFromIdentifier,
-  standardizeTimestamps,
-} from "../tools/utils";
+import { standardizeTimestamps } from "../tools/utils";
 import UnionResolvers from "./resolve-types";
 import COSMOS_EXTRACTOR from "./sources/cosmos-extractor";
 import COSMOS_SDK from "./sources/cosmos-sdk";
 import EXCHANGE_DATA_API from "./sources/exchange-data";
 import FIAT_CURRENCIES from "./sources/fiat-currencies";
-import { NETWORK_NAME } from "./sources/networks";
 import OASIS from "./sources/oasis";
 
 /** ===========================================================================
