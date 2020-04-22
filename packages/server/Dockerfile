@@ -9,14 +9,20 @@ WORKDIR /usr/src/app
 COPY packages/server/package.json ./
 COPY yarn.lock ./
 
+# Install Lerna
+RUN npm i -g lerna
+
 # Install dependencies
-RUN yarn install
+RUN lerna bootstrap
+
+# Build utils package
+RUN yarn utils:build
+
+# Build the server
+RUN yarn server:build
 
 # Bundle app source
 COPY packages/server/ ./
-
-# Build the app
-RUN yarn build
 
 # production env
 ENV NODE_ENV=production
@@ -25,7 +31,6 @@ ENV NODE_ENV=production
 EXPOSE 8080
 
 # Start the server
-
 RUN chmod +x /usr/src/app/entrypoint.sh
 
 CMD [ "node", "build/src/server.js" ]
