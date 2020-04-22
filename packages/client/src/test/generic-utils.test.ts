@@ -30,6 +30,7 @@ import {
 import accountBalances from "../../../utils/src/client/data/accountBalances.json";
 import { fiatPriceHistory } from "../../../utils/src/client/data/fiatPriceHistory.json";
 import prices from "../../../utils/src/client/data/prices.json";
+import { rewardsByValidator } from "../../../utils/src/client/data/rewardsByValidator.json";
 import { transactions } from "../../../utils/src/client/data/transactions.json";
 import { validators } from "../../../utils/src/client/data/validators.json";
 
@@ -131,6 +132,66 @@ describe("utils", () => {
       priceMap,
     );
     expect(result).toMatchInlineSnapshot(`3.5997500000000002`);
+  });
+
+  test("getValidatorAddressFromDelegatorAddress", () => {
+    const result = getValidatorAddressFromDelegatorAddress(
+      "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+      "COSMOS",
+    );
+    expect(result).toMatchInlineSnapshot(
+      `"cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707"`,
+    );
+  });
+
+  test("getValidatorOperatorAddressMap", () => {
+    const result = getValidatorOperatorAddressMap(validators);
+    for (const [key, value] of Object.entries(result)) {
+      expect(key).toBe(value.operator_address);
+    }
+  });
+
+  test("getValidatorNameFromAddress", () => {
+    const validatorMap = getValidatorOperatorAddressMap(validators);
+    const result = getValidatorNameFromAddress(
+      validatorMap,
+      "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+      "COSMOS",
+    );
+    expect(result?.description.moniker).toBe("Chorus One");
+  });
+
+  test("isGraphQLResponseDataEmpty", () => {
+    expect(isGraphQLResponseDataEmpty()).toBeTruthy();
+    expect(isGraphQLResponseDataEmpty(undefined)).toBeTruthy();
+    expect(isGraphQLResponseDataEmpty({})).toBeTruthy();
+    expect(isGraphQLResponseDataEmpty({ data: {} })).toBeFalsy();
+  });
+
+  test("justFormatChainString", () => {
+    expect(justFormatChainString("cosmoshub-1")).toBe("Cosmos Hub 1");
+    expect(justFormatChainString("cosmoshub-2")).toBe("Cosmos Hub 2");
+    expect(justFormatChainString("cosmoshub-3")).toBe("Cosmos Hub 3");
+  });
+
+  test("mapRewardsToAvailableRewards", () => {
+    const result = mapRewardsToAvailableRewards(
+      rewardsByValidator,
+      NETWORKS_LIST.COSMOS,
+    );
+    for (const reward of result) {
+      expect(+reward.amount > 1).toBeTruthy();
+    }
+  });
+
+  test("onPath", () => {
+    expect(
+      onPath("https://anthem.chorus.one/dashboard/rewards", "rewards"),
+    ).toBeTruthy();
+
+    expect(
+      onPath("https://anthem.chorus.one/dashboard/rewards", "staking"),
+    ).toBeFalsy();
   });
 
   test("onActiveRoute matches routes correctly", () => {
@@ -271,5 +332,37 @@ describe("utils", () => {
 
     result = abbreviateAddress(address, 10);
     expect(result).toMatchInlineSnapshot(`"cosmos1y...xv9d3wsnlg"`);
+  });
+
+  test("validatorAddressToOperatorAddress", () => {
+    expect(
+      validatorAddressToOperatorAddress(
+        "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      ),
+    ).toBe("cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd");
+  });
+
+  test("race", async () => {
+    try {
+      await race<any>(
+        async () =>
+          new Promise(resolve => setTimeout(() => resolve(null), 5000)),
+      );
+    } catch (error) {
+      expect(error).toBe("race timeout occurred");
+    }
+
+    expect(
+      await race<any>(
+        async () => new Promise(resolve => setTimeout(() => resolve(null), 50)),
+      ),
+    ).toBe(null);
+  });
+
+  test("wait", async () => {
+    const then = Date.now();
+    await wait(500);
+    const expected = then + 500;
+    expect(Date.now() - expected < 10).toBeTruthy();
   });
 });
