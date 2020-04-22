@@ -133,7 +133,7 @@ workflows:
       #       branches:
       #         only:
       #           - master
-      - install:
+      - Install:
           name: Install
           command: npm i -g lerna && lerna bootstrap && yarn utils:build
       - cypress/run:
