@@ -1,11 +1,9 @@
 name: Build and Deploy Server
 
 on:
-  pull_request:
+  push:
     branches:
       - master
-    types:
-      - closed
 
 jobs:
   build:
@@ -19,8 +17,8 @@ jobs:
           password: ${{ secrets.DOCKER_API_KEY }}
 
       - run: |
-            docker build -f packages/server/Dockerfile . -t chorusone/anthem:${{ github.sha }}
-            docker push chorusone/anthem:${{ github.sha }}
+          docker build -f packages/server/Dockerfile . -t chorusone/anthem:${{ github.sha }}
+          docker push chorusone/anthem:${{ github.sha }}
 
       - name: Compute next SemVer tag
         id: semver
@@ -32,10 +30,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: |
-            docker tag chorusone/anthem:${{ github.sha }} chorusone/anthem:latest
-            docker push chorusone/anthem:latest
-            docker tag chorusone/anthem:${{ github.sha }} chorusone/anthem:${{ steps.semver.outputs.tag }}
-            docker push chorusone/anthem:${{ steps.semver.outputs.tag }}
+          docker tag chorusone/anthem:${{ github.sha }} chorusone/anthem:latest
+          docker push chorusone/anthem:latest
+          docker tag chorusone/anthem:${{ github.sha }} chorusone/anthem:${{ steps.semver.outputs.tag }}
+          docker push chorusone/anthem:${{ steps.semver.outputs.tag }}
 
       - uses: steebchen/kubectl@master
         env:

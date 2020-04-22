@@ -17,8 +17,8 @@ jobs:
           password: ${{ secrets.DOCKER_API_KEY }}
 
       - run: |
-            docker build -f packages/server/Dockerfile . -t chorusone/anthem:${{ github.sha }}
-            docker push chorusone/anthem:${{ github.sha }}
+          docker build -f packages/server/Dockerfile . -t chorusone/anthem:${{ github.sha }}
+          docker push chorusone/anthem:${{ github.sha }}
 
       - uses: steebchen/kubectl@master
         env:

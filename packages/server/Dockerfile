@@ -5,6 +5,9 @@ RUN apk update && apk add bash curl jq
 # Create app directory
 WORKDIR /usr/src/app
 
+# Copy files
+COPY . .
+
 # Install Lerna
 RUN npm i -g lerna
 
