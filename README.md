@@ -109,6 +109,15 @@ $ yarn recording
 $ yarn record
 ```
 
+The development can be run with the command:
+
+```sh
+# Run development mode
+$ yarn dev
+```
+
+This runs the client app and uses the stored mock response data, which allows the client dashboard to be run without a server running. This also supports mocking the Ledger integration for testing.
+
 ## Docker Images
 
 The docker image for the Anthem backend server can be found on [Docker Hub](https://hub.docker.com/r/chorusone/anthem). The latest release is kept up to date with the master branch of this repository.
