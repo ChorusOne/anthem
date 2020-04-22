@@ -1,5 +1,5 @@
 import NETWORKS from "constants/networks";
-import { transaction } from "test/mock-transaction-data.json";
+import { transaction } from "test/data/mock-transaction-data.json";
 import {
   createCosmosTransactionPostBody,
   createDelegationTransactionMessage,
