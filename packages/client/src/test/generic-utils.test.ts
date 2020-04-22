@@ -158,7 +158,9 @@ describe("utils", () => {
       "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
       "COSMOS",
     );
-    expect(result?.description.moniker).toBe("Chorus One");
+
+    // @ts-ignore
+    expect(result.description.moniker).toBe("Chorus One");
   });
 
   test("isGraphQLResponseDataEmpty", () => {
