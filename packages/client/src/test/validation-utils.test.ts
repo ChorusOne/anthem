@@ -58,10 +58,13 @@ describe("validation-utils", () => {
     const tString = (...text: ENGLISH) => String(text);
     const address = "cosmos1yeygh0y8rfyufdczhzytcl3pehsnxv9d3wsnlg";
     expect(validateCosmosAddress("", address, tString)).toBeTruthy();
+
     expect(validateCosmosAddress("apsdiuf", address, tString)).toBeTruthy();
+
     expect(
       validateCosmosAddress("apsdiasfd870asd0f97a0suf", address, tString),
     ).toBeTruthy();
+
     expect(
       validateCosmosAddress(
         "cosmos1yeygh0y8rfyufdczhzytcl3pehsnxv9d3wsnlg",
@@ -69,6 +72,7 @@ describe("validation-utils", () => {
         tString,
       ),
     ).toBeTruthy();
+
     expect(
       validateCosmosAddress(
         "cosmos16nte2qf5l0u39s86wcwu4fff4vdtvg7yn3uksu",
@@ -76,6 +80,7 @@ describe("validation-utils", () => {
         tString,
       ),
     ).toBeFalsy();
+
     expect(
       validateCosmosAddress(
         "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
