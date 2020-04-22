@@ -4,6 +4,11 @@ import { NextFunction, Request, Response } from "express";
 import { GraphQLError } from "graphql";
 import ENV from "./server-env";
 
+/** ===========================================================================
+ * Server Utils for logging and error handling
+ * ============================================================================
+ */
+
 /**
  * Helper to log and format errors.
  */
@@ -13,7 +18,7 @@ export const formatError = (error: GraphQLError): GraphQLError => {
     console.log(chalk.red(`- ${JSON.stringify(error)}\n`));
   }
 
-  // Report to Sentry
+  // Report error to Sentry
   Sentry.captureException(error);
 
   return error;

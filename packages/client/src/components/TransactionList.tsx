@@ -1,7 +1,7 @@
+import { ITransaction } from "@anthem/utils";
 import { H5 } from "@blueprintjs/core";
 import { Centered } from "components/SharedComponents";
 import Toast from "components/Toast";
-import { ITransaction } from "graphql/types";
 import React from "react";
 import { atomsToDenom, convertAtomsToFiat } from "tools/currency-utils";
 import {

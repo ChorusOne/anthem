@@ -18,10 +18,18 @@ jobs:
         with:
           node-version: 12.x
 
+      # Install Lerna CLI
+      - name: Install Lerna
+        run: npm i -g lerna
+
       # Install dependencies
       - name: Install dependencies
-        run: yarn install
+        run: lerna bootstrap
+
+      # Build the utils/ package
+      - name: Build utils package
+        run: yarn utils:build
 
       # Run unit tests for all packages
-      - name: Run project unit tests
+      - name: Run all package unit tests
         run: yarn test

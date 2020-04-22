@@ -1,0 +1,11 @@
+{
+  "stakingPool": {
+    "loose_tokens": null,
+    "bonded_tokens": "183219801271817",
+    "not_bonded_tokens": "2512822116642",
+    "inflation_last_time": null,
+    "inflation": null,
+    "date_last_commission_reset": null,
+    "prev_bonded_shares": null
+  }
+}

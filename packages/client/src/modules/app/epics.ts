@@ -1,7 +1,7 @@
+import { AccountBalancesDocument, TransactionsDocument } from "@anthem/utils";
 import Toast from "components/Toast";
 import NETWORKS from "constants/networks";
 import { graphqlSelector } from "graphql/queries";
-import { AccountBalancesDocument, TransactionsDocument } from "graphql/types";
 import Analytics from "lib/analytics-lib";
 import ENV from "lib/client-env";
 import StorageModule from "lib/storage-lib";

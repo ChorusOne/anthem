@@ -1,0 +1,59 @@
+{
+  "name": "@anthem/utils",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Anthem Utils",
+  "main": "build/main.js",
+  "typings": "build/main.d.ts",
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "prettier": "prettier --list-different \"src/**/*.ts\" \"src/**/*.{ts,json}\"",
+    "prettier:fix": "prettier --write \"src/**/*.ts\" \"src/**/*.{ts,json}\"",
+    "tslint": "tslint --project tsconfig.json -c tslint.json",
+    "tslint:fix": "tslint --project tsconfig.json -c tslint.json --fix",
+    "format": "yarn prettier:fix && yarn tslint:fix",
+    "lint": "yarn prettier && yarn tslint",
+    "test:unit": "jest",
+    "test:watch": "jest --watch",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test": "yarn lint && yarn test:unit",
+    "build:types": "graphql-build --outputFile=./src/schema",
+    "gql": "yarn gqlgen && chmod +x scripts/gql.sh && scripts/gql.sh",
+    "gqlgen": "gql-lib --schemaFilePath ../server/src/schema/schema.graphql --destDirPath ./src/client/gql --depthLimit 10",
+    "record": "yarn gql && yarn mocks:refresh && yarn mocks:generate && yarn format",
+    "mocks:refresh": "rm -rf src/client/data && mkdir src/client/data",
+    "mocks:generate": "ts-node src/client/query-script.ts"
+  },
+  "dependencies": {
+    "@apollo/react-common": "^3.1.4",
+    "@apollo/react-components": "^3.1.5",
+    "@apollo/react-hoc": "^3.1.5",
+    "@apollo/react-hooks": "^3.1.5",
+    "@types/debug": "^4.1.5",
+    "gql-generator": "^1.0.12",
+    "graphql-request": "^1.8.2",
+    "jest": "24.7.1",
+    "prettier": "^1.19.1",
+    "react-graphql-generator-helper-lib": "^0.0.34",
+    "ts-node": "^8.8.2",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.4"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testEnvironment": "node",
+    "testRegex": ".test.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    }
+  }
+}

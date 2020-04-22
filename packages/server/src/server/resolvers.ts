@@ -21,7 +21,7 @@ import {
   IValidatorDistributionQueryVariables,
   IValidatorSetsQueryVariables,
   IValidatorsQueryVariables,
-} from "../schema/graphql-types";
+} from "@anthem/utils";
 import {
   deriveNetworkFromAddress,
   getNetworkDefinitionFromIdentifier,

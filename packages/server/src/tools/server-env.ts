@@ -23,7 +23,7 @@ const PORT = getenv.string("PORT", "8000");
 const RUN_ALL_MOCKS = getenv.bool("RUN_ALL_MOCKS", false);
 const DISABLE_LOGGING = getenv.bool("DISABLE_LOGGING", false);
 const DISABLE_GRAPHIQL = getenv.bool("DISABLE_GRAPHIQL", false);
-const RECORDING_API_MODE = getenv.bool("RECORDING_API_MODE", false);
+const RECORD_CLIENT_DATA = getenv.bool("RECORD_CLIENT_DATA", false);
 
 const ENABLE_OASIS = getenv.bool("ENABLE_OASIS", false);
 
@@ -47,7 +47,7 @@ const ENV = {
   ENABLE_GRAPHIQL,
   ENABLE_LOGGING,
   RUN_ALL_MOCKS,
-  RECORDING_API_MODE,
+  RECORD_CLIENT_DATA,
   CRYPTO_COMPARE_API_KEY,
   COSMOS_DB,
   TERRA_DB,

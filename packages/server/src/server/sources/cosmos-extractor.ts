@@ -1,14 +1,14 @@
-import { Pool } from "pg";
 import {
+  assertUnreachable,
   IPortfolioBalance,
   IPortfolioCommission,
   IPortfolioReward,
   IQuery,
-} from "../../schema/graphql-types";
+} from "@anthem/utils";
+import { Pool } from "pg";
 import ENV from "../../tools/server-env";
 import { getSqlQueryString, SQLVariables } from "../../tools/sql-utils";
 import {
-  assertUnreachable,
   filterSanityCheckHeights,
   formatTransactionResponse,
   getValidatorAddressFromDelegatorAddress,

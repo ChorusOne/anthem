@@ -1,3 +1,4 @@
+import { assertUnreachable } from "@anthem/utils";
 import Toast from "components/Toast";
 import Analytics from "lib/analytics-lib";
 import StorageModule from "lib/storage-lib";
@@ -15,7 +16,6 @@ import {
   tap,
 } from "rxjs/operators";
 import {
-  assertUnreachable,
   capitalizeString,
   deriveNetworkFromAddress,
   validatorAddressToOperatorAddress,

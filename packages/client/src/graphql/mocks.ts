@@ -1,8 +1,7 @@
+import { IQuery, RESOLVER_QUERY_KEYS } from "@anthem/utils";
 import { SchemaLink } from "apollo-link-schema";
 import { addMockFunctionsToSchema, makeExecutableSchema } from "graphql-tools";
 import { loader } from "graphql.macro";
-import queryKeys from "./query-keys";
-import { IQuery } from "./types";
 
 /** ===========================================================================
  * Mock GraphQL Configuration for running in Offline Dev Mode
@@ -12,9 +11,9 @@ import { IQuery } from "./types";
  */
 
 // Load the schema file
-const schemaString = loader("./schema.graphql");
+const schemaString = loader("../../../server/src/schema/schema.graphql");
 
-const keys = queryKeys as ReadonlyArray<QueryKeyUnion>;
+const keys = RESOLVER_QUERY_KEYS as ReadonlyArray<QueryKeyUnion>;
 
 /** ===========================================================================
  * Types & Config
@@ -89,8 +88,8 @@ const getQueryResolverFromKey = (key: QueryKeyUnion) => async (
     // Handle optional delay
     await artificialDelay(key);
 
-    // Get saved response data
-    const json = require(`../test/data/${key}.json`);
+    // Get saved response data from utils/ package client/data directory
+    const json = require(`../../../utils/src/client/data/${key}.json`);
 
     // Return response JSON
     return json[key];

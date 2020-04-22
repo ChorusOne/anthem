@@ -1,5 +1,5 @@
-import { COIN_DENOMS } from "constants/networks";
 import {
+  assertUnreachable,
   IBalance,
   ILogMessage,
   IMsgBeginRedelegate,
@@ -11,9 +11,10 @@ import {
   IMsgWithdrawDelegationReward,
   IMsgWithdrawValidatorCommission,
   ITransaction,
-} from "graphql/types";
+} from "@anthem/utils";
+import { COIN_DENOMS } from "constants/networks";
 import { tFn, tFnString } from "tools/i18n-utils";
-import { assertUnreachable, formatAddressString } from "./generic-utils";
+import { formatAddressString } from "./generic-utils";
 import { bold } from "./i18n-utils";
 import { addValuesInList } from "./math-utils";
 
@@ -104,8 +105,8 @@ export interface TransactionItemProps {
  */
 
 // Get all failed logs in a log message.
-const getFailedLogs = (logs: ReadonlyArray<ILogMessage>) => {
-  return logs.filter(log => !log.success);
+const getFailedLogs = (logs: Array<Maybe<ILogMessage>>) => {
+  return logs.filter(log => log && !log.success);
 };
 
 // Determine if a transaction failed and return the log message.
@@ -116,13 +117,14 @@ export const getTransactionFailedLogMessage = (
     const { log } = transaction;
     if (Array.isArray(log)) {
       const failedLogs = getFailedLogs(log);
-      if (failedLogs.length === 0) {
+      const firstLog = failedLogs[0];
+      if (firstLog) {
+        const maybeLogMessage = JSON.parse(firstLog.message || "");
+        const { message } = maybeLogMessage;
+        return message || null;
+      } else {
         return "";
       }
-
-      const maybeLogMessage = JSON.parse(failedLogs[0].message || "");
-      const { message } = maybeLogMessage;
-      return message || null;
     }
   } catch (err) {
     /* Do nothing */

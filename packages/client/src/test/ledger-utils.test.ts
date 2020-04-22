@@ -1,4 +1,4 @@
-import { transaction } from "test/mock-transaction-data.json";
+import { transaction } from "test/data/mock-transaction-data.json";
 import { createSignMessage } from "tools/ledger-utils";
 
 describe("ledger-utils", () => {

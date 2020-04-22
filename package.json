@@ -14,16 +14,19 @@
     "server:start": "cd packages/server && yarn start",
     "server:build": "cd packages/server && yarn build",
     "server:test": "cd packages/server && yarn test",
+    "utils:watch": "cd packages/utils && yarn watch",
+    "utils:build": "cd packages/utils && yarn build",
+    "utils:test": "cd packages/utils && yarn test",
     "lint": "lerna run lint",
     "format": "lerna run format",
     "tsc": "lerna run tsc",
     "test": "lerna run test",
-    "graphql:client": "cd packages/client && yarn types",
-    "graphql:server": "cd packages/server && yarn gql && yarn types",
-    "graphql": "yarn graphql:server && yarn graphql:client && yarn format",
     "cypress": "cd packages/cypress && yarn cypress:run",
     "cypress:run": "cd packages/cypress && cypress run",
-    "cypress:open": "cd packages/cypress && cypress open"
+    "cypress:open": "cd packages/cypress && cypress open",
+    "utils:types": "cd packages/utils && yarn build:types && yarn format && yarn build",
+    "recording": "cd packages/server && yarn recording",
+    "record": "cd packages/utils && yarn record"
   },
   "devDependencies": {
     "lerna": "^3.19.0"

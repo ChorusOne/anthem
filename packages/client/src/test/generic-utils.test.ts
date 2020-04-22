@@ -1,20 +1,201 @@
 import { ApolloError } from "apollo-client";
-import accountBalances from "test/data/accountBalances.json";
-import prices from "test/data/prices.json";
+import NETWORKS_LIST from "constants/networks";
 import {
   abbreviateAddress,
   canRenderGraphQL,
+  capitalizeString,
+  deriveNetworkFromAddress,
   formatAddressString,
+  formatValidatorsList,
   getAccountBalances,
   getBlockExplorerUrlForTransaction,
+  getFiatPriceHistoryMap,
   getPortfolioTypeFromUrl,
+  getPriceFromTransactionTimestamp,
   getQueryParamsFromUrl,
+  getValidatorAddressFromDelegatorAddress,
+  getValidatorNameFromAddress,
+  getValidatorOperatorAddressMap,
   identity,
+  isGraphQLResponseDataEmpty,
+  justFormatChainString,
+  mapRewardsToAvailableRewards,
   onActiveRoute,
+  onPath,
+  race,
   trimZeroes,
+  validatorAddressToOperatorAddress,
+  wait,
 } from "tools/generic-utils";
+import accountBalances from "../../../utils/src/client/data/accountBalances.json";
+import { fiatPriceHistory } from "../../../utils/src/client/data/fiatPriceHistory.json";
+import prices from "../../../utils/src/client/data/prices.json";
+import { rewardsByValidator } from "../../../utils/src/client/data/rewardsByValidator.json";
+import { transactions } from "../../../utils/src/client/data/transactions.json";
+import { validators } from "../../../utils/src/client/data/validators.json";
 
 describe("utils", () => {
+  test("abbreviateAddress", () => {
+    expect(
+      abbreviateAddress("cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd"),
+    ).toMatchInlineSnapshot(`"cosmos15...49um7trd"`);
+
+    expect(
+      abbreviateAddress("cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd", 5),
+    ).toMatchInlineSnapshot(`"cosmos15...m7trd"`);
+
+    expect(
+      abbreviateAddress("cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd", 7),
+    ).toMatchInlineSnapshot(`"cosmos15...9um7trd"`);
+  });
+
+  test("capitalizeString", () => {
+    expect(capitalizeString("APPLES")).toBe("Apples");
+    expect(capitalizeString("Banana")).toBe("Banana");
+    expect(capitalizeString("oranGES")).toBe("Oranges");
+    expect(capitalizeString("pEACHES")).toBe("Peaches");
+    expect(capitalizeString("apples AND BANANAS")).toBe("Apples and bananas");
+  });
+
+  test("deriveNetworkFromAddress", () => {
+    let result = deriveNetworkFromAddress(
+      "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+    );
+    expect(result).toEqual(NETWORKS_LIST.COSMOS);
+
+    result = deriveNetworkFromAddress(
+      "terra15urq2dtp9qce4fyc85m6upwm9xul30496lytpd",
+    );
+    expect(result).toEqual(NETWORKS_LIST.TERRA);
+
+    result = deriveNetworkFromAddress(
+      "kava1gk6yv6quevfd93zwke75cn22mxhevxv0n5vvzg",
+    );
+    expect(result).toEqual(NETWORKS_LIST.KAVA);
+  });
+
+  test("formatValidatorsList", () => {
+    const result = formatValidatorsList(validators);
+    expect(result[0].description.moniker).toBe("Chorus One");
+    expect(result[1].description.moniker).toBe("Certus One");
+  });
+
+  test("getBlockExplorerUrlForTransaction", () => {
+    let result = getBlockExplorerUrlForTransaction(
+      "5C8E06175EE62495A4A2DE82AA0AD8F5E0E11EFC825A7673C1638966E97ABCA0",
+      "COSMOS",
+    );
+    expect(result).toMatchInlineSnapshot(
+      `"https://www.mintscan.io/txs/5C8E06175EE62495A4A2DE82AA0AD8F5E0E11EFC825A7673C1638966E97ABCA0"`,
+    );
+
+    result = getBlockExplorerUrlForTransaction(
+      "5C8E06175EE62495A4A2DE82AA0AD8F5E0E11EFC825A7673C1638966E97ABCA0",
+      "KAVA",
+    );
+    expect(result).toMatchInlineSnapshot(
+      `"https://kava.mintscan.io/txs/5C8E06175EE62495A4A2DE82AA0AD8F5E0E11EFC825A7673C1638966E97ABCA0"`,
+    );
+
+    result = getBlockExplorerUrlForTransaction(
+      "5C8E06175EE62495A4A2DE82AA0AD8F5E0E11EFC825A7673C1638966E97ABCA0",
+      "TERRA",
+    );
+    expect(result).toMatchInlineSnapshot(
+      `"https://terra.stake.id/?#/tx/5C8E06175EE62495A4A2DE82AA0AD8F5E0E11EFC825A7673C1638966E97ABCA0"`,
+    );
+  });
+
+  test("getFiatPriceHistoryMap", () => {
+    const result = getFiatPriceHistoryMap(fiatPriceHistory);
+    for (const price of Object.values(result)) {
+      expect(typeof price).toBe("number");
+    }
+  });
+
+  test("getPriceFromTransactionTimestamp", () => {
+    const priceMap = getFiatPriceHistoryMap(fiatPriceHistory);
+    let result = getPriceFromTransactionTimestamp(
+      transactions[0].timestamp,
+      priceMap,
+    );
+    expect(result).toMatchInlineSnapshot(`2.17075`);
+
+    result = getPriceFromTransactionTimestamp(
+      transactions[1].timestamp,
+      priceMap,
+    );
+    expect(result).toMatchInlineSnapshot(`2.17075`);
+
+    result = getPriceFromTransactionTimestamp(
+      transactions[2].timestamp,
+      priceMap,
+    );
+    expect(result).toMatchInlineSnapshot(`3.5997500000000002`);
+  });
+
+  test("getValidatorAddressFromDelegatorAddress", () => {
+    const result = getValidatorAddressFromDelegatorAddress(
+      "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+      "COSMOS",
+    );
+    expect(result).toMatchInlineSnapshot(
+      `"cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707"`,
+    );
+  });
+
+  test("getValidatorOperatorAddressMap", () => {
+    const result = getValidatorOperatorAddressMap(validators);
+    for (const [key, value] of Object.entries(result)) {
+      expect(key).toBe(value.operator_address);
+    }
+  });
+
+  test("getValidatorNameFromAddress", () => {
+    const validatorMap = getValidatorOperatorAddressMap(validators);
+    const result = getValidatorNameFromAddress(
+      validatorMap,
+      "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+      "COSMOS",
+    );
+
+    // @ts-ignore
+    expect(result.description.moniker).toBe("Chorus One");
+  });
+
+  test("isGraphQLResponseDataEmpty", () => {
+    expect(isGraphQLResponseDataEmpty()).toBeTruthy();
+    expect(isGraphQLResponseDataEmpty(undefined)).toBeTruthy();
+    expect(isGraphQLResponseDataEmpty({})).toBeTruthy();
+    expect(isGraphQLResponseDataEmpty({ data: {} })).toBeFalsy();
+  });
+
+  test("justFormatChainString", () => {
+    expect(justFormatChainString("cosmoshub-1")).toBe("Cosmos Hub 1");
+    expect(justFormatChainString("cosmoshub-2")).toBe("Cosmos Hub 2");
+    expect(justFormatChainString("cosmoshub-3")).toBe("Cosmos Hub 3");
+  });
+
+  test("mapRewardsToAvailableRewards", () => {
+    const result = mapRewardsToAvailableRewards(
+      rewardsByValidator,
+      NETWORKS_LIST.COSMOS,
+    );
+    for (const reward of result) {
+      expect(+reward.amount > 1).toBeTruthy();
+    }
+  });
+
+  test("onPath", () => {
+    expect(
+      onPath("https://anthem.chorus.one/dashboard/rewards", "rewards"),
+    ).toBeTruthy();
+
+    expect(
+      onPath("https://anthem.chorus.one/dashboard/rewards", "staking"),
+    ).toBeFalsy();
+  });
+
   test("onActiveRoute matches routes correctly", () => {
     expect(onActiveRoute("/dashboard", "Dashboard")).toBeTruthy();
     expect(onActiveRoute("/wallet", "Wallet")).toBeTruthy();
@@ -65,23 +246,23 @@ describe("utils", () => {
     );
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "balance": "11,755.13",
-        "balanceUSD": "25,273.52",
-        "commissions": "2,164.41",
-        "commissionsUSD": "4,653.48",
+        "balance": "348.59",
+        "balanceUSD": "794.79",
+        "commissions": "2,393.86",
+        "commissionsUSD": "5,458.01",
         "delegations": "5,000.00",
-        "delegationsUSD": "10,750.00",
+        "delegationsUSD": "11,400.00",
         "percentages": Array [
-          62.043110499630245,
-          26.38981055700623,
-          0.14342031469617697,
+          4.484583822134841,
+          64.32421906145976,
+          0.39453265704926765,
           0,
-          11.42365862866735,
+          30.79666445935613,
         ],
-        "rewards": "27.17",
-        "rewardsUSD": "58.42",
-        "total": "18,946.71",
-        "totalUSD": "40,735.42",
+        "rewards": "30.67",
+        "rewardsUSD": "69.92",
+        "total": "7,773.12",
+        "totalUSD": "17,722.72",
         "unbonding": "0",
         "unbondingUSD": "0",
       }
@@ -153,5 +334,37 @@ describe("utils", () => {
 
     result = abbreviateAddress(address, 10);
     expect(result).toMatchInlineSnapshot(`"cosmos1y...xv9d3wsnlg"`);
+  });
+
+  test("validatorAddressToOperatorAddress", () => {
+    expect(
+      validatorAddressToOperatorAddress(
+        "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+      ),
+    ).toBe("cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd");
+  });
+
+  test("race", async () => {
+    try {
+      await race<any>(
+        async () =>
+          new Promise(resolve => setTimeout(() => resolve(null), 5000)),
+      );
+    } catch (error) {
+      expect(error).toBe("race timeout occurred");
+    }
+
+    expect(
+      await race<any>(
+        async () => new Promise(resolve => setTimeout(() => resolve(null), 50)),
+      ),
+    ).toBe(null);
+  });
+
+  test("wait", async () => {
+    const then = Date.now();
+    await wait(500);
+    const expected = then + 500;
+    expect(Date.now() - expected < 10).toBeTruthy();
   });
 });

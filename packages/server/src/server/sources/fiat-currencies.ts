@@ -10,7 +10,7 @@ export interface FiatCurrency {
   name: string;
 }
 
-const FIAT_CURRENCIES: ReadonlyArray<FiatCurrency> = [
+const FIAT_CURRENCIES: FiatCurrency[] = [
   {
     symbol: "USD",
     name: "US Dollar",

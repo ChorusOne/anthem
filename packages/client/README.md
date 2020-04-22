@@ -26,45 +26,11 @@ This is a React web application written in TypeScript using React-Apollo and Red
 - [Yarn](https://yarnpkg.com/en/): For dependency management.
 - [Segment](https://segment.com/docs/) and [Amplitude](https://developers.amplitude.com) for product analytics.
 
-## Testing
-
-This project is built in TypeScript to take advantage of static typing and uses other tools like Prettier and TSLint to establish consistent code styling. All of these tools are integrated and configuration in the runnable project scripts and tests. For instance you can run:
-
-```sh
-# runs Prettier
-$ yarn prettier
-
-# runs TSLint
-$ yarn tslint
-
-# runs the TypeScript compiler
-$ yarn tsc
-
-# runs the project unit tests using Jest
-$ yarn test
-
-# runs the unit tests in Jest watch mode
-$ yarn test
-
-# runs all the above tests
-$ yarn test
-```
-
-You can also run `yarn prettier:fix` or `yarn tslint:fix` to use the auto-fix options for these tools to fix any issues. Normally, any linting/styling issues should be fixed automatically on-save if you are using VS Code with the recommended extensions.
-
-The overall approach to testing for this project follows the idea of the ["testing pyramid"](https://martinfowler.com/articles/practical-test-pyramid.html) and looks like this:
-
-1. Static analysis (TypeScript, TSLint, and Prettier).
-2. Unit tests: ideally 100% test coverage of all functions (Jest test runner).
-3. Integration tests: entire application or major components can be tested or mocked using React snapshot testing.
-4. UI testing/E2E/Acceptance Tests. We use Cypress for e2e/integration testing. You can run the Cypress test suite by running `yarn dev` to launch the app in testing mode and `yarn cypress` to launch the Cypress test runner.
-
-Using these approaches, our goal is to have total test coverage for the entire application. These tests will be automated and run continuously against code changes so developers can ship code frequently to production with confidence and get feedback quickly and early whenever their changes introduce bugs or regressions.
-
 ## Deployment
 
 ```sh
-yarn build
+# Build the application
+$ yarn build
 ```
 
 Builds the app for production to the `build` folder. It correctly bundles React in production mode and optimizes the build for the best performance.

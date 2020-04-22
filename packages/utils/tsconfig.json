@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "jsx": "react",
+    "target": "es2017",
+    "lib": ["es2019"],
+    "sourceMap": true,
+    "outDir": "./build",
+    "baseUrl": "./",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "incremental": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "build"]
+}

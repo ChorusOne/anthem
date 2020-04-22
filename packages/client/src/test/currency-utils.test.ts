@@ -1,6 +1,4 @@
 import BigNumber from "bignumber.js";
-import { coins } from "test/data/coins.json";
-import prices from "test/data/prices.json";
 import {
   atomsToDenom,
   calculateTransactionAmount,
@@ -9,6 +7,8 @@ import {
   findCurrencyFromCoinsList,
   formatCurrencyAmount,
 } from "tools/currency-utils";
+import { coins } from "../../../utils/src/client/data/coins.json";
+import prices from "../../../utils/src/client/data/prices.json";
 
 describe("currency-utils", () => {
   test("formatCurrencyAmount", () => {
@@ -58,16 +58,16 @@ describe("currency-utils", () => {
 
   test("convertAtomsToUsd", () => {
     let result = convertAtomsToFiat(prices.prices, new BigNumber(5000));
-    expect(result).toMatchInlineSnapshot(`"0.01075"`);
+    expect(result).toMatchInlineSnapshot(`"0.0114"`);
 
     result = convertAtomsToFiat(prices.prices, new BigNumber(15));
-    expect(result).toMatchInlineSnapshot(`"0.00003225"`);
+    expect(result).toMatchInlineSnapshot(`"0.0000342"`);
 
     result = convertAtomsToFiat(prices.prices, new BigNumber(1000000));
-    expect(result).toMatchInlineSnapshot(`"2.15"`);
+    expect(result).toMatchInlineSnapshot(`"2.28"`);
 
     result = convertAtomsToFiat(prices.prices, new BigNumber(100000000));
-    expect(result).toMatchInlineSnapshot(`"215"`);
+    expect(result).toMatchInlineSnapshot(`"228"`);
   });
 
   test("atomsToDenom", () => {

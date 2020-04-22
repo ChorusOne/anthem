@@ -18,7 +18,7 @@ import getSchemaLink from "./mocks";
  * ============================================================================
  */
 
-import introspectionResult from "graphql/introspection-result.json";
+import { introspectionResult } from "@anthem/utils";
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData: introspectionResult,

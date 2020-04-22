@@ -1,15 +1,15 @@
-import { AvailableReward } from "components/CreateTransactionForm";
-import { COIN_DENOMS, NETWORK_NAME, NetworkMetadata } from "constants/networks";
 import {
+  assertUnreachable,
   IAccountInformation,
   ITxFee,
   ITxMsg,
   ITxSignature,
   ITxValue,
-} from "graphql/types";
+} from "@anthem/utils";
+import { AvailableReward } from "components/CreateTransactionForm";
+import { COIN_DENOMS, NETWORK_NAME, NetworkMetadata } from "constants/networks";
 import { LEDGER_ACTION_TYPE } from "modules/ledger/actions";
 import { atomsToDenom } from "./currency-utils";
-import { assertUnreachable } from "./generic-utils";
 import { multiply } from "./math-utils";
 
 /** ===========================================================================

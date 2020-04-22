@@ -1,6 +1,6 @@
 # Anthem Server
 
-This is the GraphQL server application for Anthem.
+This is the GraphQL/Express server for Anthem.
 
 ## Project Overview
 
@@ -15,54 +15,14 @@ This is a GraphQL server written in TypeScript using Apollo-Express.
 - [Jest](https://jestjs.io/): The JavaScript test runner.
 - [Yarn](https://yarnpkg.com/en/): For dependency management.
 
-## Testing
-
-This project is written in TypeScript to take advantage of static typing and uses other tools like Prettier and TSLint to establish consistent code styling. All of these tools are integrated and configuration in the runnable project scripts and tests. For instance you can run:
-
-```sh
-# Runs Prettier
-$ yarn prettier
-
-# Runs TSLint
-$ yarn tslint
-
-# Runs the TypeScript compiler
-$ yarn tsc
-
-# Runs the project unit tests using Jest
-$ yarn test:unit
-
-# Runs the unit tests in Jest watch mode
-$ yarn test:watch
-
-# Runs all the above tests
-$ yarn test
-```
-
-You can also run `yarn prettier:fix` or `yarn tslint:fix` to use the auto-fix options for these tools to fix any issues. Normally, any linting/styling issues should be fixed automatically on-save if you are using VS Code with the recommended extensions.
-
-## Client Data
-
-Some tooling exists to automatically generate and record API responses and GraphQL responses for supporting queries. Separate data is recorded for running the server in offline mode and for testing purposes. To update these sets of mock data, follow these steps:
-
-```sh
-# Generates all GQL queries for the GraphQL Schema
-$ yarn gql
-
-# Runs the server with RECORDING_API_MODE flag enabled
-$ yarn mocks:recording
-
-# Records mock data responses
-$ yarn mocks:generate:all
-```
-
-If a new query is added in the future which uses new variables, these variables will need to be added in the `client/config.ts` file.
-
 ## Deployment
 
 ```sh
-yarn build
-yarn prod
+# Build the server
+$ yarn build
+
+# Run the production server
+$ yarn prod
 ```
 
 These commands build and run the app. There is a Dockerfile which can be build and run using Docker to be deployed in any containerized environment.

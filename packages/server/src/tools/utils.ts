@@ -1,52 +1,17 @@
+import { IMsgDelegate, ITransaction, ITxMsg } from "@anthem/utils";
 import bech32 from "bech32";
 import moment from "moment-timezone";
 import { identity, ifElse, lensProp, over } from "ramda";
-import { Price } from "src/server/sources/exchange-data";
-import { IMsgDelegate, ITransaction, ITxMsg } from "../schema/graphql-types";
+import { Price } from "../server/sources/exchange-data";
 import NETWORKS, {
   NETWORK_NAME,
   NetworkDefinition,
 } from "../server/sources/networks";
 
 /** ===========================================================================
- * Types & Config
- * ============================================================================
- */
-
-const getCosmosSdkAddressEnumsForNetwork = (name: NETWORK_NAME) => {
-  const networkPrefix = name.toLowerCase();
-  return {
-    ACCOUNT_ADDRESS: `${networkPrefix}`,
-    ACCOUNT_PUBLIC_KEY: `${networkPrefix}pub`,
-    VALIDATOR_OPERATOR_ADDRESS: `${networkPrefix}valoper`,
-    VALIDATOR_CONSENSUS_ADDRESS: `${networkPrefix}valcons`,
-    VALIDATOR_CONSENSUS_PUBLIC_KEY: `${networkPrefix}valconspub`,
-    VALIDATOR_OPERATOR_PUBLIC_KEY: `${networkPrefix}valoperpub`,
-  };
-};
-
-/** ===========================================================================
  * Utils
  * ============================================================================
  */
-
-/**
- * Assert a condition cannot occur. Used for writing exhaustive switch
- * blocks (e.g. see unwrapOkValueIfExists).
- */
-export const assertUnreachable = (x: never): never => {
-  throw new Error(
-    `Panicked! Received a value which should not exist: ${JSON.stringify(x)}`,
-  );
-};
-
-/**
- * Sorting method for transactions list result, which sorts by transaction
- * block height.
- */
-export const orderTxsByHeight = (txA: ITransaction, txB: ITransaction) => {
-  return Number(txA.height) > Number(txB.height) ? -1 : 1;
-};
 
 // Associate amount value to amounts key
 const updateFn = over(lensProp("value"), (msg: IMsgDelegate) => ({
@@ -65,33 +30,29 @@ const updateAmounts = ifElse(
 );
 
 /**
- * Format the transaction response data from Clickhouse.
+ * Format the transaction response data.
  */
 export const formatTransactionResponse = ({
-  hash,
-  height,
-  gaswanted,
-  gasused,
   log,
-  memo,
-  fees,
-  tags,
   msgs,
-  timestamp,
-  chain,
+  ...rest
 }: any): ITransaction => ({
-  hash,
-  height,
-  timestamp,
-  gaswanted,
-  gasused,
-  memo,
-  chain,
-  fees,
-  tags,
+  ...rest,
   msgs: msgs.map(updateAmounts),
   log: Array.isArray(log) ? log : [log],
 });
+
+const getCosmosSdkAddressEnumsForNetwork = (name: NETWORK_NAME) => {
+  const networkPrefix = name.toLowerCase();
+  return {
+    ACCOUNT_ADDRESS: `${networkPrefix}`,
+    ACCOUNT_PUBLIC_KEY: `${networkPrefix}pub`,
+    VALIDATOR_OPERATOR_ADDRESS: `${networkPrefix}valoper`,
+    VALIDATOR_CONSENSUS_ADDRESS: `${networkPrefix}valcons`,
+    VALIDATOR_CONSENSUS_PUBLIC_KEY: `${networkPrefix}valconspub`,
+    VALIDATOR_OPERATOR_PUBLIC_KEY: `${networkPrefix}valoperpub`,
+  };
+};
 
 /**
  * Decode a validator address using bech32 and re-encode it to derive the
@@ -123,8 +84,11 @@ export const filterSanityCheckHeights = (response: { height: number }) => {
   return response.height % 10000 !== 0;
 };
 
-// TODO: Types?
-export const mapSumToBalance = (item: any): any => {
+/**
+ * Convert response values with a sum field to a balance field
+ * for consistency in response data.
+ */
+export const mapSumToBalance = (item: { sum: number }): { balance: number } => {
   return { ...item, balance: item.sum };
 };
 
@@ -179,6 +143,9 @@ export const getNetworkDefinitionFromIdentifier = (networkName: string) => {
   );
 };
 
+/**
+ * Convert a timestamp to UTC.
+ */
 export const convertTimestampToUTC = (timestamp: string | number | Date) => {
   const UTC_ISO = moment(new Date(timestamp))
     .tz("Etc/UTC")
@@ -187,11 +154,17 @@ export const convertTimestampToUTC = (timestamp: string | number | Date) => {
   return UTC_ISO;
 };
 
-// Convert all timestamps to the same ISO string format.
-export const standardizeTimestamps = (item: any) => {
+interface TimestampContainingType {
+  timestamp: string;
+}
+
+/**
+ * Convert all timestamps to the same ISO string format.
+ */
+export const standardizeTimestamps = (item: TimestampContainingType[]): any => {
   return item
-    .filter((x: any) => Boolean(x.timestamp))
-    .map((x: any) => {
+    .filter((x: TimestampContainingType) => Boolean(x.timestamp))
+    .map((x: TimestampContainingType) => {
       // Force timestamp to UTC and convert to string
       const ISO = convertTimestampToUTC(new Date(x.timestamp));
       return {

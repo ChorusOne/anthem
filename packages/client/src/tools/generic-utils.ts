@@ -1,3 +1,11 @@
+import {
+  assertUnreachable,
+  IBalance,
+  IDelegation,
+  IQuery,
+  IUnbondingDelegationEntry,
+  IValidator,
+} from "@anthem/utils";
 import { ApolloError } from "apollo-client";
 import bech32 from "bech32";
 import BigNumber from "bignumber.js";
@@ -8,13 +16,6 @@ import NETWORKS, {
   NETWORK_NAME,
   NetworkMetadata,
 } from "constants/networks";
-import {
-  IBalance,
-  IDelegation,
-  IQuery,
-  IUnbondingDelegationEntry,
-  IValidator,
-} from "graphql/types";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import queryString, { ParsedQuery } from "query-string";
 import {
@@ -87,16 +88,6 @@ const getAddressEnumFromNetwork = (network: NETWORK_NAME) => {
  * Common Util Helper Methods
  * ========================================================
  */
-
-/**
- * Assert a condition cannot occur. Used for writing exhaustive switch
- * blocks (e.g. see unwrapOkValueIfExists).
- */
-export const assertUnreachable = (x: never): never => {
-  throw new Error(
-    `Panicked! Received a value which should not exist: ${JSON.stringify(x)}`,
-  );
-};
 
 /**
  * Determine if a given route link is on the current active route.

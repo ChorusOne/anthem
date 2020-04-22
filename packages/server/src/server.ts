@@ -3,12 +3,9 @@ import { ApolloServer } from "apollo-server-express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
+import prometheusMiddleware from "express-prometheus-middleware";
 import depthLimit from "graphql-depth-limit";
 import { createServer } from "http";
-
-// TODO: tsc issues!
-const prometheusMiddleware = require("express-prometheus-middleware");
-
 import restAPI from "./server/rest-api";
 import schema from "./server/schema";
 import ENV from "./tools/server-env";
@@ -63,7 +60,7 @@ const httpServer = createServer(app);
 httpServer.listen({ port: ENV.PORT }, (): void =>
   console.log(
     `\nGraphQL is now running${
-      ENV.RECORDING_API_MODE ? " in mock recording mode" : ""
+      ENV.RECORD_CLIENT_DATA ? " in mock recording mode" : ""
     } on http://localhost:${ENV.PORT}/graphql\n`,
   ),
 );
