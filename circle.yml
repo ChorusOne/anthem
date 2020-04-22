@@ -125,6 +125,7 @@ workflows:
               only:
                 - master
       - cypress/install:
+          yarn: true
           # Install project dependencies
           build: "npm i -g lerna && lerna bootstrap && yarn utils:build"
       - cypress/run:
