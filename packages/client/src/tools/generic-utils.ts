@@ -1,21 +1,20 @@
 import {
   assertUnreachable,
+  COIN_DENOMS,
   IBalance,
   IDelegation,
   IQuery,
   IUnbondingDelegationEntry,
   IValidator,
+  NETWORK_NAME,
+  NetworkDefinition,
+  NETWORKS,
 } from "@anthem/utils";
 import { ApolloError } from "apollo-client";
 import bech32 from "bech32";
 import BigNumber from "bignumber.js";
 import { AvailableReward } from "components/CreateTransactionForm";
 import Toast from "components/Toast";
-import NETWORKS, {
-  COIN_DENOMS,
-  NETWORK_NAME,
-  NetworkMetadata,
-} from "constants/networks";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import queryString, { ParsedQuery } from "query-string";
 import {
@@ -592,7 +591,9 @@ export const formatValidatorsList = (validators: ReadonlyArray<IValidator>) => {
 /**
  * Determine the network for a given address using the address prefix.
  */
-export const deriveNetworkFromAddress = (address: string): NetworkMetadata => {
+export const deriveNetworkFromAddress = (
+  address: string,
+): NetworkDefinition => {
   if (address.substring(0, 6) === "cosmos") {
     return NETWORKS.COSMOS;
   } else if (address.substring(0, 5) === "terra") {
@@ -621,7 +622,7 @@ export const capitalizeString = (input: string): string => {
  */
 export const mapRewardsToAvailableRewards = (
   rewardsData: IQuery["rewardsByValidator"],
-  network: NetworkMetadata,
+  network: NetworkDefinition,
 ) => {
   /**
    * Get all the rewards for the selected network denom.

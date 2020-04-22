@@ -1,12 +1,8 @@
-import NETWORKS_LIST from "../server/sources/networks";
 import {
   convertTimestampToUTC,
-  deriveNetworkFromAddress,
   filterSanityCheckHeights,
   formatTransactionResponse,
   getAveragePrice,
-  getNetworkDefinitionFromIdentifier,
-  getValidatorAddressFromDelegatorAddress,
   mapSumToBalance,
   objectHasKeys,
   standardizeTimestamps,
@@ -17,15 +13,6 @@ describe("Utils test", () => {
   test("formatTransactionResponse", () => {
     const result = transactionsResponseData.map(formatTransactionResponse);
     expect(result).toMatchSnapshot();
-  });
-
-  test("getValidatorAddressFromDelegatorAddress", () => {
-    const addr = "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd";
-    let result = getValidatorAddressFromDelegatorAddress(addr, "COSMOS");
-    expect(result).toBe("cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707");
-
-    result = getValidatorAddressFromDelegatorAddress("sadf", "COSMOS");
-    expect(result).toBe(null);
   });
 
   test("filterSanityCheckHeights", () => {
@@ -71,38 +58,6 @@ describe("Utils test", () => {
 
     result = objectHasKeys(obj, ["a", "b", "c", "d"]);
     expect(result).toBeFalsy();
-  });
-
-  test("deriveNetworkFromAddress", () => {
-    let result = deriveNetworkFromAddress(
-      "cosmos1gk6yv6quevfd93zwke75cn22mxhevxv00pc350",
-    );
-    expect(result).toEqual(NETWORKS_LIST.COSMOS);
-
-    result = deriveNetworkFromAddress(
-      "terra1sszc3mgur52wuln2t3slh796mgceweqlp7zkky",
-    );
-    expect(result).toEqual(NETWORKS_LIST.TERRA);
-
-    result = deriveNetworkFromAddress(
-      "kava1wu8m65vqazssv2rh8rthv532hzggfr3hgtcx6j",
-    );
-    expect(result).toEqual(NETWORKS_LIST.KAVA);
-
-    expect(() => deriveNetworkFromAddress("blegh")).toThrow();
-  });
-
-  test("getNetworkDefinitionFromIdentifier", () => {
-    let result = getNetworkDefinitionFromIdentifier("COSMOS");
-    expect(result).toEqual(NETWORKS_LIST.COSMOS);
-
-    result = getNetworkDefinitionFromIdentifier("TERRA");
-    expect(result).toEqual(NETWORKS_LIST.TERRA);
-
-    result = getNetworkDefinitionFromIdentifier("KAVA");
-    expect(result).toEqual(NETWORKS_LIST.KAVA);
-
-    expect(() => getNetworkDefinitionFromIdentifier("blegh")).toThrow();
   });
 
   test("convertTimestampToUTC", () => {

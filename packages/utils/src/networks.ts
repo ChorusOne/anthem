@@ -1,21 +1,20 @@
-import ENV from "lib/client-env";
-
 /** ===========================================================================
  * Types & Config
  * ============================================================================
  */
 
-export interface NetworkMetadata {
+export interface NetworkDefinition {
   name: NETWORK_NAME;
   ticker: string;
   denom: COIN_DENOMS;
   descriptor: string;
   chainId: string;
   coinGeckoTicker: string;
+  cryptoCompareTicker: string;
 }
 
 interface NetworksMap {
-  [key: string]: NetworkMetadata;
+  [key: string]: NetworkDefinition;
 }
 
 /** ===========================================================================
@@ -37,6 +36,7 @@ const NETWORKS: NetworksMap = {
     descriptor: "ATOM",
     chainId: "cosmoshub-3",
     coinGeckoTicker: "cosmos",
+    cryptoCompareTicker: "ATOM",
   },
   TERRA: {
     name: "TERRA",
@@ -45,6 +45,7 @@ const NETWORKS: NetworksMap = {
     descriptor: "LUNA",
     chainId: "columbus-3",
     coinGeckoTicker: "terra-luna",
+    cryptoCompareTicker: "LUNA",
   },
   KAVA: {
     name: "KAVA",
@@ -53,26 +54,20 @@ const NETWORKS: NetworksMap = {
     descriptor: "KAVA",
     chainId: "kava-2",
     coinGeckoTicker: "kava",
+    cryptoCompareTicker: "KAVA",
+  },
+  OASIS: {
+    name: "OASIS",
+    denom: "oasis",
+    ticker: "oasis",
+    descriptor: "OASIS",
+    chainId: "oasis-2",
+    coinGeckoTicker: "oasis",
+    cryptoCompareTicker: "OASIS",
   },
 };
 
-let NETWORKS_LIST = NETWORKS;
-
-if (ENV.ENABLE_OASIS) {
-  NETWORKS_LIST = {
-    ...NETWORKS_LIST,
-    OASIS: {
-      name: "OASIS",
-      denom: "oasis",
-      ticker: "oasis",
-      descriptor: "OASIS",
-      chainId: "oasis-2",
-      coinGeckoTicker: "oasis",
-    },
-  };
-}
-
-const AVAILABLE_NETWORKS = Object.values(NETWORKS_LIST).filter(n => n.name);
+const AVAILABLE_NETWORKS = Object.values(NETWORKS).filter(n => n.name);
 
 /** ===========================================================================
  * Export
@@ -81,4 +76,4 @@ const AVAILABLE_NETWORKS = Object.values(NETWORKS_LIST).filter(n => n.name);
 
 export { AVAILABLE_NETWORKS };
 
-export default NETWORKS_LIST;
+export default NETWORKS;

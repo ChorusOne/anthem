@@ -25,8 +25,6 @@ const DISABLE_LOGGING = getenv.bool("DISABLE_LOGGING", false);
 const DISABLE_GRAPHIQL = getenv.bool("DISABLE_GRAPHIQL", false);
 const RECORD_CLIENT_DATA = getenv.bool("RECORD_CLIENT_DATA", false);
 
-const ENABLE_OASIS = getenv.bool("ENABLE_OASIS", false);
-
 // These variables are required in production.
 const SENTRY_DSN = getenv.string("SENTRY_DSN", "");
 const CRYPTO_COMPARE_API_KEY = getenv.string("CRYPTO_COMPARE_API_KEY");
@@ -52,7 +50,6 @@ const ENV = {
   COSMOS_DB,
   TERRA_DB,
   KAVA_DB,
-  ENABLE_OASIS,
 };
 
 /** ===========================================================================
