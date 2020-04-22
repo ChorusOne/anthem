@@ -132,7 +132,6 @@ workflows:
           requires:
             - Cypress Install
           yarn: true
-          install-command: echo 'Nothing to install in this job!'
           working_directory: packages/cypress
           start: cd ../client && yarn dev
           # See: https://github.com/cypress-io/circleci-orb/issues/90
