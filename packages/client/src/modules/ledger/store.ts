@@ -1,4 +1,4 @@
-import NETWORKS, { NETWORK_NAME, NetworkMetadata } from "constants/networks";
+import { NETWORK_NAME, NetworkDefinition, NETWORKS } from "@anthem/utils";
 import StorageModule from "lib/storage-lib";
 import { combineReducers } from "redux";
 import { createReducer } from "typesafe-actions";
@@ -20,7 +20,7 @@ import actions, {
 export interface LedgerState {
   address: string;
   addressError: string;
-  network: NetworkMetadata;
+  network: NetworkDefinition;
   connected: boolean;
   cosmosAppVersionValid: boolean | undefined;
   recentAddresses: ReadonlyArray<string>;

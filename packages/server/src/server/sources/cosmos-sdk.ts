@@ -1,13 +1,13 @@
 import {
   assertUnreachable,
+  getValidatorAddressFromDelegatorAddress,
   IAccountBalances,
   IAccountInformation,
   IGovernanceProposal,
   IQuery,
+  NetworkDefinition,
 } from "@anthem/utils";
-import { getValidatorAddressFromDelegatorAddress } from "../../tools/utils";
 import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
-import { NetworkDefinition } from "./networks";
 
 /** ===========================================================================
  * Cosmos REST API Utils

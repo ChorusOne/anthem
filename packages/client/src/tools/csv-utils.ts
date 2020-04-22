@@ -1,5 +1,4 @@
-import { IFiatPrice } from "@anthem/utils";
-import { NetworkMetadata } from "constants/networks";
+import { IFiatPrice, NetworkDefinition } from "@anthem/utils";
 import {
   ChartData,
   getChartTotalGraph,
@@ -23,7 +22,7 @@ export const chartExportBuilder = ({
   portfolioChartHistory,
 }: {
   address: string;
-  network: NetworkMetadata;
+  network: NetworkDefinition;
   fiatCurrencySymbol: string;
   fiatPriceHistory: ReadonlyArray<IFiatPrice>;
   portfolioChartHistory: PortfolioHistoryChartData;

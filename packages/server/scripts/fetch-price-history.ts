@@ -1,9 +1,9 @@
+import { NETWORKS } from "@anthem/utils";
 import axios from "axios";
 import fs from "fs";
 import FIAT_CURRENCIES, {
   FiatCurrency,
 } from "../src/server/sources/fiat-currencies";
-import NETWORKS from "../src/server/sources/networks";
 
 /** ===========================================================================
  * Coin Price History Script

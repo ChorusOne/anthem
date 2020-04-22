@@ -1,5 +1,6 @@
 import {
   assertUnreachable,
+  COIN_DENOMS,
   IBalance,
   ILogMessage,
   IMsgBeginRedelegate,
@@ -12,7 +13,6 @@ import {
   IMsgWithdrawValidatorCommission,
   ITransaction,
 } from "@anthem/utils";
-import { COIN_DENOMS } from "constants/networks";
 import { tFn, tFnString } from "tools/i18n-utils";
 import { formatAddressString } from "./generic-utils";
 import { bold } from "./i18n-utils";

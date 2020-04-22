@@ -1,9 +1,8 @@
-import { assertUnreachable, IQuery } from "@anthem/utils";
+import { assertUnreachable, IQuery, NetworkDefinition } from "@anthem/utils";
 import moment from "moment-timezone";
 import ENV from "../../tools/server-env";
 import { convertTimestampToUTC, getAveragePrice } from "../../tools/utils";
 import { AxiosUtil, HOSTS } from "../axios-utils";
-import { NetworkDefinition } from "./networks";
 import cosmosPriceHistory from "./price-history/cosmos.json";
 import kavaPriceHistory from "./price-history/kava.json";
 

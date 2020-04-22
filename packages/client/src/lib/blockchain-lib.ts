@@ -1,5 +1,5 @@
+import { NETWORK_NAME } from "@anthem/utils";
 import Toast from "components/Toast";
-import { NETWORK_NAME } from "constants/networks";
 import ENV from "./client-env";
 
 /** ===========================================================================

@@ -1,7 +1,6 @@
-import { IQuery } from "@anthem/utils";
+import { IQuery, NetworkDefinition } from "@anthem/utils";
 import {} from "../../tools/utils";
 import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
-import { NetworkDefinition } from "./networks";
 
 /** ===========================================================================
  * Oasis REST API Utils

@@ -1,4 +1,4 @@
-import NETWORKS from "constants/networks";
+import { NETWORKS } from "@anthem/utils";
 import { transaction } from "test/data/mock-transaction-data.json";
 import {
   createCosmosTransactionPostBody,
