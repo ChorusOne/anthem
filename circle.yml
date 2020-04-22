@@ -124,16 +124,17 @@ workflows:
             branches:
               only:
                 - master
-      - cypress/install:
-          # Install project dependencies
-          yarn: true
-          name: Cypress Install
-          build: "npm i -g lerna && lerna bootstrap && yarn utils:build"
-          filters:
-            branches:
-              only:
-                - master
+      # - cypress/install:
+      #     # Install project dependencies
+      #     yarn: true
+      #     name: Cypress Install
+      #     build: "npm i -g lerna && lerna bootstrap && yarn utils:build"
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
       - cypress/run:
+          install-command: cd ../../ && npm i -g lerna && lerna bootstrap && yarn utils:build
           requires:
             - Cypress Install
           yarn: true
@@ -142,10 +143,10 @@ workflows:
           # See: https://github.com/cypress-io/circleci-orb/issues/90
           wait-on: "-c packages/cypress/src/wait-on-config.json https://localhost:3000"
           executor: cypress_tests
-          filters:
-            branches:
-              only:
-                - master
+          # filters:
+          #   branches:
+          #     only:
+          #       - master
       - deploy_production:
           requires:
             - unit_tests
