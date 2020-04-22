@@ -30,8 +30,8 @@ jobs:
 
       # Install Lerna
       - run:
-        name: Install Lerna
-        command: npm i -g lerna
+          name: Install Lerna
+          command: npm i -g lerna
 
       # Install dependencies
       - run:
@@ -40,8 +40,8 @@ jobs:
 
       # Build utils/ package
       - run:
-        name: Build Utils Package
-        command: yarn utils:build
+          name: Build Utils Package
+          command: yarn utils:build
 
       # Run unit tests
       - run:
