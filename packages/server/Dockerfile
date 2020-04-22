@@ -5,11 +5,6 @@ RUN apk update && apk add bash curl jq
 # Create app directory
 WORKDIR /usr/src/app
 
-# Copy dependency files into Docker Image
-COPY packages/server/package.json ./
-COPY yarn.lock ./
-COPY lerna.json ./
-
 # Install Lerna
 RUN npm i -g lerna
 
