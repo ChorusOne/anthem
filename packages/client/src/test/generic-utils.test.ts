@@ -1,20 +1,75 @@
 import { ApolloError } from "apollo-client";
+import NETWORKS_LIST from "constants/networks";
 import {
   abbreviateAddress,
   canRenderGraphQL,
+  capitalizeString,
+  deriveNetworkFromAddress,
   formatAddressString,
+  formatValidatorsList,
   getAccountBalances,
   getBlockExplorerUrlForTransaction,
+  getFiatPriceHistoryMap,
   getPortfolioTypeFromUrl,
+  getPriceFromTransactionTimestamp,
   getQueryParamsFromUrl,
+  getValidatorAddressFromDelegatorAddress,
+  getValidatorNameFromAddress,
+  getValidatorOperatorAddressMap,
   identity,
+  isGraphQLResponseDataEmpty,
+  justFormatChainString,
+  mapRewardsToAvailableRewards,
   onActiveRoute,
+  onPath,
+  race,
   trimZeroes,
+  validatorAddressToOperatorAddress,
+  wait,
 } from "tools/generic-utils";
 import accountBalances from "../../../utils/src/client/data/accountBalances.json";
 import prices from "../../../utils/src/client/data/prices.json";
 
 describe("utils", () => {
+  test("abbreviateAddress", () => {
+    expect(
+      abbreviateAddress("cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd"),
+    ).toMatchInlineSnapshot(`"cosmos15...49um7trd"`);
+
+    expect(
+      abbreviateAddress("cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd", 5),
+    ).toMatchInlineSnapshot(`"cosmos15...m7trd"`);
+
+    expect(
+      abbreviateAddress("cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd", 7),
+    ).toMatchInlineSnapshot(`"cosmos15...9um7trd"`);
+  });
+
+  test("capitalizeString", () => {
+    expect(capitalizeString("APPLES")).toBe("Apples");
+    expect(capitalizeString("Banana")).toBe("Banana");
+    expect(capitalizeString("oranGES")).toBe("Oranges");
+    expect(capitalizeString("pEACHES")).toBe("Peaches");
+    expect(capitalizeString("apples AND BANANAS")).toBe("Apples and bananas");
+  });
+
+  test("deriveNetworkFromAddress", () => {
+    let result = deriveNetworkFromAddress(
+      "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+    );
+    expect(result).toEqual(NETWORKS_LIST.COSMOS);
+
+    result = deriveNetworkFromAddress(
+      "terra15urq2dtp9qce4fyc85m6upwm9xul30496lytpd",
+    );
+    expect(result).toEqual(NETWORKS_LIST.TERRA);
+
+    result = deriveNetworkFromAddress(
+      "kava1gk6yv6quevfd93zwke75cn22mxhevxv0n5vvzg",
+    );
+    expect(result).toEqual(NETWORKS_LIST.KAVA);
+  });
+
   test("onActiveRoute matches routes correctly", () => {
     expect(onActiveRoute("/dashboard", "Dashboard")).toBeTruthy();
     expect(onActiveRoute("/wallet", "Wallet")).toBeTruthy();
