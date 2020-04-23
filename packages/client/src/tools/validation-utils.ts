@@ -2,7 +2,6 @@ import { NETWORKS } from "@anthem/utils";
 import bech32 from "bech32";
 import { FiatCurrency } from "constants/fiat";
 import emailValidator from "email-validator";
-import ENV from "lib/client-env";
 import semver from "semver";
 import { tFnString } from "tools/i18n-utils";
 import {
