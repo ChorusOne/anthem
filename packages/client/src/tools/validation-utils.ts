@@ -85,7 +85,7 @@ export const validateCosmosAddress = (
 
   if (address.length === 44) {
     console.warn("[TODO]: Fix address validation for Oasis addresses!");
-    return "Oasis Network is not supported yet";
+    return "";
   }
 
   let prefixInAddress = false;
