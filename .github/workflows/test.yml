@@ -9,7 +9,7 @@ env:
   CI: true
 
 jobs:
-  test:
+  cypress:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -19,18 +19,10 @@ jobs:
         with:
           node-version: 12.x
 
-      # Install Lerna CLI
-      - name: Install Lerna
-        run: npm i -g lerna
+      # Install the application dependencies
+      - name: Install dependencies and build the application
+        run: yarn docker:build
 
-      # Install dependencies
-      - name: Install dependencies
-        run: lerna bootstrap
-
-      # Build all packages
-      - name: Build all packages
-        run: yarn utils:build && yarn client:build && yarn server:build
-
-      # Run unit tests for all packages
-      - name: Run all package unit tests
-        run: yarn test
+      # Build the application
+      - name: Run all application tests
+        run: yarn docker:cypress
