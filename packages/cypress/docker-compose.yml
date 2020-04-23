@@ -11,7 +11,7 @@ services:
 
   cypress:
     image: anthem-dependencies
-    command: dockerize -wait tcp://client:3000 -timeout 10s yarn cypress
+    command: dockerize -wait tcp://client:3000 -timeout 10s yarn test:ci
     depends_on:
       - client
     ipc: host # See: https://github.com/cypress-io/cypress/issues/350#issuecomment-267704772

@@ -21,13 +21,15 @@
     "format": "lerna run format",
     "tsc": "lerna run tsc",
     "test": "lerna run test",
+    "build": "lerna run build",
     "cypress": "cd packages/cypress && yarn cypress:run",
     "cypress:run": "cd packages/cypress && cypress run",
     "cypress:open": "cd packages/cypress && cypress open",
+    "test:ci": "yarn test && yarn cypress",
     "types": "cd packages/utils && yarn build:types && yarn format && yarn build",
     "recording": "cd packages/server && yarn recording",
     "record": "cd packages/utils && yarn record",
-    "docker:dependencies": "docker build -t anthem-dependencies -f Dockerfile .",
+    "docker:build": "docker build -t anthem-dependencies -f Dockerfile .",
     "docker:cypress": "docker-compose -f packages/cypress/docker-compose.yml up --abort-on-container-exit"
   },
   "devDependencies": {

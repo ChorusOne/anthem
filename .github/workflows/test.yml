@@ -13,23 +13,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+
       - name: Setup NodeJS
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
 
-      # Install Lerna CLI
-      - name: Install Lerna
-        run: npm i -g lerna
-
-      # Install dependencies
+      # Install the application dependencies
       - name: Install dependencies
-        run: lerna bootstrap
+      run: yarn docker:build
 
-      # Build the utils/ package
-      - name: Build utils package
-        run: yarn utils:build
+      # Build the application
+      - name: Build the application
+      run: yarn docker:cypress
 
-      # Run unit tests for all packages
-      - name: Run all package unit tests
-        run: yarn test
+      # # Install Lerna CLI
+      # - name: Install Lerna
+      #   run: npm i -g lerna
+
+      # # Install dependencies
+      # - name: Install dependencies
+      #   run: lerna bootstrap
+
+      # # Build the utils/ package
+      # - name: Build utils package
+      #   run: yarn utils:build
+
+      # # Run unit tests for all packages
+      # - name: Run all package unit tests
+      #   run: yarn test
