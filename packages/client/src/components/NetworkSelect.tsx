@@ -1,4 +1,4 @@
-import { NETWORK_NAME, NETWORKS } from "@anthem/utils";
+import { AVAILABLE_NETWORKS, NETWORK_NAME } from "@anthem/utils";
 import { Card } from "@blueprintjs/core";
 import { NetworkLogoIcon } from "assets/images";
 import { COLORS } from "constants/colors";
@@ -26,7 +26,7 @@ class NetworkSelectComponent extends React.Component<IProps, {}> {
       <View>
         <p style={{ color }}>Choose a network to connect to:</p>
         <NetworkGrid>
-          {Object.values(NETWORKS).map(network => {
+          {Object.values(AVAILABLE_NETWORKS).map(network => {
             return (
               <NetworkSelect
                 enableThemedStyles

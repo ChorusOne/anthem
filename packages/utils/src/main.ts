@@ -1,6 +1,8 @@
 import RESOLVER_QUERY_KEYS from "./client/resolver-query-keys";
 import introspectionResult from "./graphql/introspection-result.json";
-import NETWORKS, {
+import {
+  NETWORKS,
+  AVAILABLE_NETWORKS,
   COIN_DENOMS,
   NETWORK_NAME,
   NetworkDefinition,
@@ -17,6 +19,7 @@ export {
   NETWORKS,
   COIN_DENOMS,
   NETWORK_NAME,
+  AVAILABLE_NETWORKS,
   NetworkDefinition,
   RESOLVER_QUERY_KEYS,
   introspectionResult,
