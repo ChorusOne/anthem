@@ -29,3 +29,8 @@ Cypress.on("uncaught:exception", (err, runnable) => {
   // failing the test
   return false;
 });
+
+// Disable screenshots
+Cypress.Screenshot.defaults({
+  screenshotOnRunFailure: false,
+});
