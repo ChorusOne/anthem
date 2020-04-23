@@ -8,7 +8,7 @@ export const getScreenType = (mobile?: boolean) => ({
   isDesktop: () => !mobile,
 });
 
-export const APP_URL = "https://localhost:3000";
+export const APP_URL = Cypress.env("HOST");
 
 /**
  * Screen sizes to use in tests. Covers mobile, tablet, and desktop

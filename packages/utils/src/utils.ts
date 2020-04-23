@@ -1,5 +1,5 @@
 import bech32 from "bech32";
-import NETWORKS, { NetworkDefinition, NETWORK_NAME } from "./networks";
+import { NETWORKS, NetworkDefinition, NETWORK_NAME } from "./networks";
 
 /**
  * Assert a condition cannot occur. Used for writing exhaustive switch

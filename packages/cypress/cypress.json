@@ -3,5 +3,8 @@
   "integrationFolder": "src/integration",
   "pluginsFile": "src/plugins/index.js",
   "video": false,
-  "fixturesFolder": false
+  "fixturesFolder": false,
+  "env": {
+    "HOST": "http://127.0.0.1:3000"
+  }
 }

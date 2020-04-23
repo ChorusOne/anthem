@@ -41,7 +41,7 @@ const TEST = NODE_ENV === "test";
 const DEVELOPMENT = NODE_ENV === "development";
 const PRODUCTION = NODE_ENV === "production";
 
-const ENABLE_MOCK_APIS = (DEV || TEST) && !PRODUCTION;
+const ENABLE_MOCK_APIS = DEV || TEST;
 
 const ENV = {
   DEV,

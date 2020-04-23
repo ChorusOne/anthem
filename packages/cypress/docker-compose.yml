@@ -1,0 +1,17 @@
+version: "3.5"
+
+services:
+  client:
+    image: anthem-dependencies
+    command: yarn client:prod
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+
+  cypress:
+    image: anthem-dependencies
+    command: dockerize -wait tcp://client:3000 -timeout 10s yarn test:ci
+    depends_on:
+      - client
+    ipc: host # See: https://github.com/cypress-io/cypress/issues/350#issuecomment-267704772

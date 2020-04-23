@@ -10,6 +10,7 @@
     "dev": "REACT_APP_DEV=true yarn start",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "prod": "serve build -s -p 3000",
     "jest": "react-scripts test --env=jsdom --transformIgnorePatterns 'node_modules/(?!(react-syntax-highlighter)/)'",
     "eject": "react-scripts eject",
     "prettier": "prettier --list-different './src/**/*.{ts,tsx,json}'",
@@ -116,6 +117,7 @@
     "redux-devtools": "^3.5.0",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
+    "serve": "^11.3.0",
     "tslint": "^5.18.0"
   },
   "browserslist": {

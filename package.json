@@ -10,6 +10,7 @@
     "client:dev": "cd packages/client && yarn dev",
     "client:start": "cd packages/client && yarn start",
     "client:build": "cd packages/client && yarn build",
+    "client:prod": "cd packages/client && yarn prod",
     "client:test": "cd packages/client && yarn test",
     "server:start": "cd packages/server && yarn start",
     "server:build": "cd packages/server && yarn build",
@@ -21,12 +22,17 @@
     "format": "lerna run format",
     "tsc": "lerna run tsc",
     "test": "lerna run test",
+    "build": "lerna run build",
     "cypress": "cd packages/cypress && yarn cypress:run",
-    "cypress:run": "cd packages/cypress && cypress run",
-    "cypress:open": "cd packages/cypress && cypress open",
+    "cypress:run": "cd packages/cypress && yarn cypress run",
+    "cypress:open": "cd packages/cypress && yarn cypress open",
+    "cypress:dev": "cd packages/client && yarn cypress:dev",
+    "test:ci": "yarn test && cd packages/cypress && yarn cypress:ci",
     "types": "cd packages/utils && yarn build:types && yarn format && yarn build",
     "recording": "cd packages/server && yarn recording",
-    "record": "cd packages/utils && yarn record"
+    "record": "cd packages/utils && yarn record",
+    "docker:build": "docker build -t anthem-dependencies -f Dockerfile .",
+    "docker:cypress": "docker-compose -f packages/cypress/docker-compose.yml up --abort-on-container-exit"
   },
   "devDependencies": {
     "lerna": "^3.19.0"

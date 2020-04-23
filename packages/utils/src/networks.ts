@@ -67,13 +67,14 @@ const NETWORKS: NetworksMap = {
   },
 };
 
-const AVAILABLE_NETWORKS = Object.values(NETWORKS).filter(n => n.name);
+// Refactor to improve this whitelisting logic
+const AVAILABLE_NETWORKS = Object.values(NETWORKS).filter(
+  n => n.name !== "OASIS",
+);
 
 /** ===========================================================================
  * Export
  * ============================================================================
  */
 
-export { AVAILABLE_NETWORKS };
-
-export default NETWORKS;
+export { NETWORKS, AVAILABLE_NETWORKS };
