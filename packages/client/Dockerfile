@@ -11,6 +11,12 @@ ARG REACT_APP_SEGMENT_WRITE_KEY
 # Install Netlify CLI
 RUN npm i -g netlify-cli
 
+# Build the utils package
+RUN yarn utils:build
+
+# Build the client application
+RUN yarn client:build
+
 # Deploy the client application:
 #
 # NOTE: Netlify has the production release branch set to the
