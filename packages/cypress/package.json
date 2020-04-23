@@ -7,6 +7,7 @@
   "scripts": {
     "cypress:run": "cypress run",
     "cypress:open": "cypress open",
+    "cypress:ci": "cypress run --env HOST=http://client:3000",
     "prettier": "prettier --list-different \"src/**/*.ts\" \"test/**/*.ts\"",
     "prettier:fix": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "tslint": "tslint --project tsconfig.json -c tslint.json",
