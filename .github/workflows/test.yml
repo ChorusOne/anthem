@@ -19,26 +19,18 @@ jobs:
         with:
           node-version: 12.x
 
-      # Install the application dependencies
+      # Install Lerna CLI
+      - name: Install Lerna
+        run: npm i -g lerna
+
+      # Install dependencies
       - name: Install dependencies
-      run: yarn docker:build
+        run: lerna bootstrap
 
-      # Build the application
-      - name: Build the application
-      run: yarn docker:cypress
+      # Build all packages
+      - name: Build all packages
+        run: yarn utils:build && yarn client:build && yarn server:build
 
-      # # Install Lerna CLI
-      # - name: Install Lerna
-      #   run: npm i -g lerna
-
-      # # Install dependencies
-      # - name: Install dependencies
-      #   run: lerna bootstrap
-
-      # # Build the utils/ package
-      # - name: Build utils package
-      #   run: yarn utils:build
-
-      # # Run unit tests for all packages
-      # - name: Run all package unit tests
-      #   run: yarn test
+      # Run unit tests for all packages
+      - name: Run all package unit tests
+        run: yarn test

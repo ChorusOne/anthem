@@ -1,0 +1,28 @@
+name: Pull Request Tests
+
+on:
+  pull_request:
+    branches:
+      - master
+
+env:
+  CI: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      # Install the application dependencies
+      - name: Install dependencies
+        run: yarn docker:build
+
+      # Build the application
+      - name: Build the application
+        run: yarn docker:cypress

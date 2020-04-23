@@ -19,11 +19,14 @@ COPY . .
 # Install all dependencies with Lerna
 RUN lerna bootstrap
 
-# Build the utils folder
+# Build the utils package
 RUN yarn utils:build
 
-# Build the other packages
-RUN yarn build
+# Build the client packages
+RUN yarn client:build
+
+# Build the server packages
+RUN yarn server:build
 
 FROM base as dependencies
 
