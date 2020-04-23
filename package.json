@@ -10,6 +10,7 @@
     "client:dev": "cd packages/client && yarn dev",
     "client:start": "cd packages/client && yarn start",
     "client:build": "cd packages/client && yarn build",
+    "client:prod": "cd packages/client && yarn prod",
     "client:test": "cd packages/client && yarn test",
     "server:start": "cd packages/server && yarn start",
     "server:build": "cd packages/server && yarn build",
