@@ -5,71 +5,71 @@ on:
     branches:
       - master
 
-  env:
-    CI: true
-    HTTPS: ${{ secrets.HTTPS }}
-    NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-    NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-    REACT_APP_GRAPHQL_URL: ${{ secrets.REACT_APP_GRAPHQL_URL }}
-    REACT_APP_SEGMENT_WRITE_KEY: ${{ secrets.REACT_APP_SEGMENT_WRITE_KEY }}
-    REACT_APP_SENTRY_DSN: ${{ secrets.REACT_APP_SENTRY_DSN }}
-    SLACK_BOT_ACCESS_TOKEN: ${{ secrets.SLACK_BOT_ACCESS_TOKEN }}
+env:
+  CI: true
+  HTTPS: ${{ secrets.HTTPS }}
+  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+  REACT_APP_GRAPHQL_URL: ${{ secrets.REACT_APP_GRAPHQL_URL }}
+  REACT_APP_SEGMENT_WRITE_KEY: ${{ secrets.REACT_APP_SEGMENT_WRITE_KEY }}
+  REACT_APP_SENTRY_DSN: ${{ secrets.REACT_APP_SENTRY_DSN }}
+  SLACK_BOT_ACCESS_TOKEN: ${{ secrets.SLACK_BOT_ACCESS_TOKEN }}
 
-    jobs:
-      deploy-production:
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v1
+jobs:
+  deploy-client:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
 
-          # Setup NodeJS
-          - name: Setup NodeJS Environment
-            uses: actions/setup-node@v1
-            with:
-              node-version: 10.x
+      # Setup NodeJS
+      - name: Setup NodeJS Environment
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
 
-          # Install dependencies and build the application
-          - name: Install dependencies
-            run: yarn docker:build
+      # Install dependencies and build the application
+      - name: Install dependencies
+        run: yarn docker:build
 
-          # Build the client application directly (instead of using Netlify)
-          - name: Build the production client application
-            run: |
-              docker build \
-                --build-arg HTTPS=$HTTPS \
-                --build-arg REACT_APP_GRAPHQL_URL=$REACT_APP_GRAPHQL_URL \
-                --build-arg REACT_APP_SEGMENT_WRITE_KEY=$REACT_APP_SEGMENT_WRITE_KEY \
-                --build-arg REACT_APP_SENTRY_DSN=$REACT_APP_SENTRY_DSN \
-                -t anthem-production-client \
-                -f packages/client/Dockerfile .
+      # Build the client application directly (instead of using Netlify)
+      - name: Build the production client application
+        run: |
+          docker build \
+            --build-arg HTTPS=$HTTPS \
+            --build-arg REACT_APP_GRAPHQL_URL=$REACT_APP_GRAPHQL_URL \
+            --build-arg REACT_APP_SEGMENT_WRITE_KEY=$REACT_APP_SEGMENT_WRITE_KEY \
+            --build-arg REACT_APP_SENTRY_DSN=$REACT_APP_SENTRY_DSN \
+            -t anthem-production-client \
+            -f packages/client/Dockerfile .
 
-          # Deploy client workspace on Netlify (no builds occur on Netlify)
-          - name: Deploy the client workspace using Netlify CLI
-            run: |
-              docker run \
-                --env GITHUB_SHA=$GITHUB_SHA \
-                --env NETLIFY_SITE_ID=$NETLIFY_SITE_ID \
-                --env NETLIFY_AUTH_TOKEN=$NETLIFY_AUTH_TOKEN \
-                -t anthem-production-client
+      # Deploy client workspace on Netlify (no builds occur on Netlify)
+      - name: Deploy the client workspace using Netlify CLI
+        run: |
+          docker run \
+            --env GITHUB_SHA=$GITHUB_SHA \
+            --env NETLIFY_SITE_ID=$NETLIFY_SITE_ID \
+            --env NETLIFY_AUTH_TOKEN=$NETLIFY_AUTH_TOKEN \
+            -t anthem-production-client
 
-          # Send Slack notification if workflow succeeds
-          # (docs: https://github.com/voxmedia/github-action-slack-notify-build)
-          - name: Notify Slack on workflow success
-            if: success()
-            env:
-              SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_ACCESS_TOKEN }}
-            uses: voxmedia/github-action-slack-notify-build@v1
-            with:
-              channel_id: CTBG8AT0B
-              status: SUCCESS
-              color: good
+      # Send Slack notification if workflow succeeds
+      # (docs: https://github.com/voxmedia/github-action-slack-notify-build)
+      - name: Notify Slack on workflow success
+        if: success()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_ACCESS_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel_id: CTBG8AT0B
+          status: SUCCESS
+          color: good
 
-          # Send Slack notification if workflow fails
-          - name: Notify Slack on workflow failure
-            if: failure()
-            env:
-              SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_ACCESS_TOKEN }}
-            uses: voxmedia/github-action-slack-notify-build@v1
-            with:
-              channel_id: CTBG8AT0B
-              status: FAILED
-              color: danger
+      # Send Slack notification if workflow fails
+      - name: Notify Slack on workflow failure
+        if: failure()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_ACCESS_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel_id: CTBG8AT0B
+          status: FAILED
+          color: danger
