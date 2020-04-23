@@ -3,7 +3,7 @@ version: "3.5"
 services:
   client:
     image: anthem-dependencies
-    command: yarn dev
+    command: yarn prod
     expose:
       - 3000
     ports:

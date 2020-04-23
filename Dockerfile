@@ -22,10 +22,10 @@ RUN lerna bootstrap
 # Build the utils package
 RUN yarn utils:build
 
-# Build the client packages
-RUN yarn client:build
+# Build the client package
+RUN cd packages/client && REACT_APP_DEV=true yarn build
 
-# Build the server packages
+# Build the server package
 RUN yarn server:build
 
 FROM base as dependencies
