@@ -32,7 +32,7 @@ jobs:
         run: yarn docker:build
 
       # Build the client application directly (instead of using Netlify)
-      - name: Build the production client application
+      - name: Build the client application
         run: |
           docker build \
             --build-arg HTTPS=$HTTPS \
@@ -43,7 +43,7 @@ jobs:
             -f packages/client/Dockerfile .
 
       # Deploy client workspace on Netlify (no builds occur on Netlify)
-      - name: Deploy the client workspace using Netlify CLI
+      - name: Deploy the client application
         run: |
           docker run \
             --env GITHUB_SHA=$GITHUB_SHA \
@@ -59,7 +59,7 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_ACCESS_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v1
         with:
-          channel_id: CTBG8AT0B
+          channel_id: T8NB5DC3Y
           status: SUCCESS
           color: good
 
@@ -70,6 +70,6 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_ACCESS_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v1
         with:
-          channel_id: CTBG8AT0B
+          channel_id: T8NB5DC3Y
           status: FAILED
           color: danger
