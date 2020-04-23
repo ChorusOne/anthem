@@ -26,7 +26,9 @@
     "cypress:open": "cd packages/cypress && cypress open",
     "types": "cd packages/utils && yarn build:types && yarn format && yarn build",
     "recording": "cd packages/server && yarn recording",
-    "record": "cd packages/utils && yarn record"
+    "record": "cd packages/utils && yarn record",
+    "docker:dependencies": "docker build -t anthem-dependencies -f Dockerfile .",
+    "docker:cypress": "docker-compose -f packages/cypress/docker-compose.yml up --abort-on-container-exit"
   },
   "devDependencies": {
     "lerna": "^3.19.0"
