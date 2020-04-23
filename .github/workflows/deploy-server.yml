@@ -7,8 +7,11 @@ on:
     types:
       - closed
 
+env:
+  SLACK_BOT_ACCESS_TOKEN: ${{ secrets.SLACK_BOT_ACCESS_TOKEN }}
+
 jobs:
-  build:
+  deploy-server:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -50,3 +53,26 @@ jobs:
           NS: default
         with:
           args: rollout status -n $NS deployment/graphql
+
+      # Send Slack notification if workflow succeeds
+      # (docs: https://github.com/voxmedia/github-action-slack-notify-build)
+      - name: Notify Slack on workflow success
+        if: success()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_ACCESS_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel_id: CTBG8AT0B
+          status: SUCCESS
+          color: good
+
+      # Send Slack notification if workflow fails
+      - name: Notify Slack on workflow failure
+        if: failure()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_ACCESS_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel_id: CTBG8AT0B
+          status: FAILED
+          color: danger
