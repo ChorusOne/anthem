@@ -62,7 +62,7 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_ACCESS_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v1
         with:
-          channel_id: CTBG8AT0B
+          channel_id: T8NB5DC3Y
           status: SUCCESS
           color: good
 
@@ -73,6 +73,6 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_ACCESS_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v1
         with:
-          channel_id: CTBG8AT0B
+          channel_id: T8NB5DC3Y
           status: FAILED
           color: danger
