@@ -23,7 +23,7 @@ RUN yarn server:build
 # Bundle app source
 # COPY packages/server/ ./
 
-# production env
+# Set production env
 ENV NODE_ENV=production
 
 # Expose PORT
