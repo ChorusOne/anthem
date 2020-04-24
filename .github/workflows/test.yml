@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: 12.x
 
-      # Install the application dependencies
+      # Run install and build steps
       - name: Install dependencies and build the application
         run: yarn docker:build
 
