@@ -287,10 +287,10 @@ const resolvers = {
       args: IPricesQueryVariables,
     ): Promise<IQuery["prices"]> => {
       const { currency, versus } = args;
+      const network = getNetworkDefinitionFromTicker(currency);
 
-      // TODO: Oasis is not supported yet
-      if (currency === "oasis") {
-        return { price: 1 };
+      if (!network.supportsFiatPrices) {
+        throw new Error("Network not supported!");
       }
 
       return EXCHANGE_DATA_API.fetchExchangeRate(currency, versus);
@@ -322,11 +322,10 @@ const resolvers = {
       args: IDailyPercentChangeQueryVariables,
     ): Promise<IQuery["dailyPercentChange"]> => {
       const { crypto, fiat } = args;
-
       const network = getNetworkDefinitionFromTicker(crypto);
 
       if (!network.supportsFiatPrices) {
-        return "";
+        throw new Error("Network not supported!");
       }
 
       return EXCHANGE_DATA_API.fetchDailyPercentChangeInPrice(crypto, fiat);

@@ -66,8 +66,6 @@ const fetchDailyPercentChangeInPrice = async (
   // Validate the input
   const from = crypto.toUpperCase();
   const to = fiat.toUpperCase();
-  console.log("FUCK!!!!!!!!!!!!!!!!!!!!!!!");
-  console.log(from, to);
 
   const url = `${HOSTS.CRYPTO_COMPARE}/data/v2/histohour?fsym=${from}&tsym=${to}&limit=24&api_key=${ENV.CRYPTO_COMPARE_API_KEY}`;
 
@@ -145,8 +143,6 @@ const fetchExchangeRate = async (
 ): Promise<IQuery["prices"]> => {
   const versus = versusId.toLowerCase();
   const currency = currencyId.toLowerCase();
-
-  console.log(versus, currency);
 
   const url = `${HOSTS.COIN_GECKO_API}/simple/price?ids=${currency}&vs_currencies=${versus}`;
   // The API may fail from time to time, add a retry allowance:

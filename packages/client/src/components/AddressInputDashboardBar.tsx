@@ -39,7 +39,15 @@ class AddressInputDashboardBar extends React.Component<IProps, {}> {
         <GraphQLGuardComponent
           tString={tString}
           dataKey="prices"
-          errorComponent={<p />}
+          errorComponent={
+            <Row style={{ width: 110 }}>
+              <NetworkLogoIcon network={network.name} />
+              <View style={{ textAlign: "center", marginRight: 20 }}>
+                <b style={{ margin: 0, fontSize: 14 }}>{network.descriptor}</b>
+                <p>Network</p>
+              </View>
+            </Row>
+          }
           result={this.props.prices}
           loadingComponent={<p style={{ width: 135 }} />}
         >
