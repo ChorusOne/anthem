@@ -114,10 +114,6 @@ export const convertCryptoToFiat = (
   priceQuery: IQuery["prices"] | undefined,
   denom: string | BigNumber,
 ): string => {
-  if (!priceQuery) {
-    return "0";
-  }
-
   const amount = valueToBigNumber(denom);
   if (priceQuery) {
     const { price } = priceQuery;

@@ -19,6 +19,8 @@ const CurrencySettingsToggle = (props: IProps) => {
     event: React.FormEvent<HTMLInputElement>,
   ) => {
     const value = event.currentTarget.value;
+
+    // Check that the network supports fiat prices
     if (value === "fiat" && !props.network.supportsFiatPrices) {
       Toast.warn(
         `${props.network.name} network does not support fiat price data yet.`,

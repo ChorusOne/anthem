@@ -175,7 +175,7 @@ interface AccountBalancesResult {
  */
 export const getAccountBalances = (
   accountBalancesData: IQuery["accountBalances"] | undefined,
-  fiatExchangeRate: IQuery["prices"] | undefined,
+  rate: IQuery["prices"] | undefined,
   denom: COIN_DENOMS,
   maximumFractionDigits?: number,
 ): AccountBalancesResult => {
@@ -274,12 +274,13 @@ export const getAccountBalances = (
     denomToAtoms(unbondingResult, String),
     denomToAtoms(commissionsResult, String),
     denomToAtoms(totalResult, String),
-    convertCryptoToFiat(fiatExchangeRate, balanceResult),
-    convertCryptoToFiat(fiatExchangeRate, delegationResult),
-    convertCryptoToFiat(fiatExchangeRate, rewardsResult),
-    convertCryptoToFiat(fiatExchangeRate, unbondingResult),
-    convertCryptoToFiat(fiatExchangeRate, commissionsResult),
-    convertCryptoToFiat(fiatExchangeRate, totalResult),
+    // The rate is undefined for non fiat supported networks
+    rate ? convertCryptoToFiat(rate, balanceResult) : "0",
+    rate ? convertCryptoToFiat(rate, delegationResult) : "0",
+    rate ? convertCryptoToFiat(rate, rewardsResult) : "0",
+    rate ? convertCryptoToFiat(rate, unbondingResult) : "0",
+    rate ? convertCryptoToFiat(rate, commissionsResult) : "0",
+    rate ? convertCryptoToFiat(rate, totalResult) : "0",
   ].map(x => formatCurrencyAmount(x, maximumFractionDigits));
 
   const getPercentage = (value: BigNumber) => {
