@@ -11,6 +11,7 @@ export interface NetworkDefinition {
   chainId: string;
   coinGeckoTicker: string;
   cryptoCompareTicker: string;
+  supportsFiatPrices: boolean;
 }
 
 interface NetworksMap {
@@ -37,6 +38,7 @@ const NETWORKS: NetworksMap = {
     chainId: "cosmoshub-3",
     coinGeckoTicker: "cosmos",
     cryptoCompareTicker: "ATOM",
+    supportsFiatPrices: true,
   },
   TERRA: {
     name: "TERRA",
@@ -46,6 +48,7 @@ const NETWORKS: NetworksMap = {
     chainId: "columbus-3",
     coinGeckoTicker: "terra-luna",
     cryptoCompareTicker: "LUNA",
+    supportsFiatPrices: true,
   },
   KAVA: {
     name: "KAVA",
@@ -55,6 +58,7 @@ const NETWORKS: NetworksMap = {
     chainId: "kava-2",
     coinGeckoTicker: "kava",
     cryptoCompareTicker: "KAVA",
+    supportsFiatPrices: true,
   },
   OASIS: {
     name: "OASIS",
@@ -64,6 +68,7 @@ const NETWORKS: NetworksMap = {
     chainId: "oasis-2",
     coinGeckoTicker: "oasis",
     cryptoCompareTicker: "OASIS",
+    supportsFiatPrices: false,
   },
 };
 

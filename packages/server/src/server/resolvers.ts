@@ -1,6 +1,7 @@
 import {
   deriveNetworkFromAddress,
   getNetworkDefinitionFromIdentifier,
+  getNetworkDefinitionFromTicker,
   IAccountBalancesQueryVariables,
   IAccountInformationQueryVariables,
   ICoinsQueryVariables,
@@ -309,8 +310,7 @@ const resolvers = {
       const { fiat } = args;
       const network = getNetworkDefinitionFromIdentifier(args.network);
 
-      // TODO: Oasis is not supported yet
-      if (network.name === "OASIS") {
+      if (!network.supportsFiatPrices) {
         return [];
       }
 
@@ -323,8 +323,9 @@ const resolvers = {
     ): Promise<IQuery["dailyPercentChange"]> => {
       const { crypto, fiat } = args;
 
-      // TODO: Oasis is not supported yet
-      if (crypto === "oasis") {
+      const network = getNetworkDefinitionFromTicker(crypto);
+
+      if (!network.supportsFiatPrices) {
         return "";
       }
 
