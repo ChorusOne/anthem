@@ -25,7 +25,7 @@ import {
   IValidatorDistributionQueryVariables,
   IValidatorSetsQueryVariables,
   IValidatorsQueryVariables,
-  NETWORK_NAME,
+  NetworkDefinition,
 } from "@anthem/utils";
 import { standardizeTimestamps } from "../tools/utils";
 import UnionResolvers from "./resolve-types";
@@ -40,9 +40,9 @@ import OASIS from "./sources/oasis";
  * ============================================================================
  */
 
-const blockUnsupportedNetworks = (networkName: NETWORK_NAME) => {
-  if (networkName !== "COSMOS") {
-    throw new Error(`${networkName} portfolioHistory is not supported yet!`);
+const blockUnsupportedNetworks = (network: NetworkDefinition) => {
+  if (!network.supportsFiatPrices) {
+    throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
   }
 };
 
@@ -57,7 +57,7 @@ const resolvers = {
       const { address, fiat } = args;
       const network = deriveNetworkFromAddress(address);
 
-      blockUnsupportedNetworks(network.name);
+      blockUnsupportedNetworks(network);
 
       let sanitizedAddress = address;
       if (network.name === "TERRA") {
@@ -106,7 +106,7 @@ const resolvers = {
     ): Promise<IQuery["transaction"]> => {
       const { txHash } = args;
       const network = getNetworkDefinitionFromIdentifier(args.network);
-      blockUnsupportedNetworks(network.name);
+      blockUnsupportedNetworks(network);
       return COSMOS_EXTRACTOR.getTransactionByHash(txHash, network);
     },
 
@@ -116,7 +116,7 @@ const resolvers = {
     ): Promise<IQuery["transactions"]> => {
       const { address } = args;
       const network = deriveNetworkFromAddress(address);
-      blockUnsupportedNetworks(network.name);
+      blockUnsupportedNetworks(network);
       return COSMOS_EXTRACTOR.getTransactions(address, network);
     },
 
@@ -291,7 +291,7 @@ const resolvers = {
       const network = getNetworkDefinitionFromTicker(currency);
 
       if (!network.supportsFiatPrices) {
-        throw new Error("Network not supported!");
+        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
       }
 
       return EXCHANGE_DATA_API.fetchExchangeRate(currency, versus);
@@ -312,7 +312,7 @@ const resolvers = {
       const network = getNetworkDefinitionFromIdentifier(args.network);
 
       if (!network.supportsFiatPrices) {
-        return [];
+        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
       }
 
       return EXCHANGE_DATA_API.fetchPortfolioFiatPriceHistory(fiat, network);
