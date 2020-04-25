@@ -110,10 +110,14 @@ export const atomsToDenom: CurrencyConversionMethodTypes = (
 /**
  * Convert raw ATOMs amount to fiat price given the exchange rate.
  */
-export const convertAtomsToFiat = (
+export const convertCryptoToFiat = (
   priceQuery: IQuery["prices"] | undefined,
   denom: string | BigNumber,
 ): string => {
+  if (!priceQuery) {
+    return "0";
+  }
+
   const amount = valueToBigNumber(denom);
   if (priceQuery) {
     const { price } = priceQuery;

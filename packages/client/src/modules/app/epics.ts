@@ -74,6 +74,23 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
   );
 };
 
+const maybeResetCurrencySettingEpic: EpicSignature = (action$, state$) => {
+  return action$.pipe(
+    filter(isActionOf([Actions.setAddressSuccess, Actions.initializeSuccess])),
+    filter(() => {
+      return (
+        state$.value.settings.currencySetting === "fiat" &&
+        !state$.value.ledger.ledger.network.supportsFiatPrices
+      );
+    }),
+    map(() =>
+      Actions.updateSetting({
+        currencySetting: "crypto",
+      }),
+    ),
+  );
+};
+
 const monthlySummaryEmailBannerEpic: EpicSignature = (action$, state$) => {
   return action$.pipe(
     filter(isActionOf([Actions.setAddressSuccess, Actions.initializeSuccess])),
@@ -250,5 +267,6 @@ export default combineEpics(
   highlightDataIntegrityHelpLabel,
   dismissNotificationsBannerEpic,
   monthlySummaryEmailBannerEpic,
+  maybeResetCurrencySettingEpic,
   refreshBalanceAndTransactionsEpic,
 );

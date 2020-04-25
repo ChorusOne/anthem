@@ -2,7 +2,7 @@ import BigNumber from "bignumber.js";
 import {
   atomsToDenom,
   calculateTransactionAmount,
-  convertAtomsToFiat,
+  convertCryptoToFiat,
   denomToAtoms,
   findCurrencyFromCoinsList,
   formatCurrencyAmount,
@@ -57,16 +57,16 @@ describe("currency-utils", () => {
   });
 
   test("convertAtomsToUsd", () => {
-    let result = convertAtomsToFiat(prices.prices, new BigNumber(5000));
+    let result = convertCryptoToFiat(prices.prices, new BigNumber(5000));
     expect(result).toMatchInlineSnapshot(`"0.0114"`);
 
-    result = convertAtomsToFiat(prices.prices, new BigNumber(15));
+    result = convertCryptoToFiat(prices.prices, new BigNumber(15));
     expect(result).toMatchInlineSnapshot(`"0.0000342"`);
 
-    result = convertAtomsToFiat(prices.prices, new BigNumber(1000000));
+    result = convertCryptoToFiat(prices.prices, new BigNumber(1000000));
     expect(result).toMatchInlineSnapshot(`"2.28"`);
 
-    result = convertAtomsToFiat(prices.prices, new BigNumber(100000000));
+    result = convertCryptoToFiat(prices.prices, new BigNumber(100000000));
     expect(result).toMatchInlineSnapshot(`"228"`);
   });
 

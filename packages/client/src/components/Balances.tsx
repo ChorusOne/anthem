@@ -38,7 +38,6 @@ class Balance extends React.Component<IProps, {}> {
     } = this.props;
     const { t, tString } = i18n;
     const { isDesktop, currencySetting } = settings;
-    console.log(accountBalances);
     return (
       <GraphQLGuardComponentMultipleQueries
         allowErrorResponses
@@ -64,6 +63,8 @@ class Balance extends React.Component<IProps, {}> {
             denom,
             2,
           );
+
+          console.log(balances);
 
           const {
             balance,

@@ -17,7 +17,7 @@ import Toast from "components/Toast";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import queryString, { ParsedQuery } from "query-string";
 import {
-  convertAtomsToFiat,
+  convertCryptoToFiat,
   denomToAtoms,
   formatCurrencyAmount,
 } from "./currency-utils";
@@ -175,7 +175,7 @@ interface AccountBalancesResult {
  */
 export const getAccountBalances = (
   accountBalancesData: IQuery["accountBalances"] | undefined,
-  atomsConversionRate: IQuery["prices"] | undefined,
+  fiatExchangeRate: IQuery["prices"] | undefined,
   denom: COIN_DENOMS,
   maximumFractionDigits?: number,
 ): AccountBalancesResult => {
@@ -195,7 +195,7 @@ export const getAccountBalances = (
     percentages: [],
   };
 
-  if (!accountBalancesData || !atomsConversionRate) {
+  if (!accountBalancesData) {
     return defaultResult;
   }
 
@@ -274,12 +274,12 @@ export const getAccountBalances = (
     denomToAtoms(unbondingResult, String),
     denomToAtoms(commissionsResult, String),
     denomToAtoms(totalResult, String),
-    convertAtomsToFiat(atomsConversionRate, balanceResult),
-    convertAtomsToFiat(atomsConversionRate, delegationResult),
-    convertAtomsToFiat(atomsConversionRate, rewardsResult),
-    convertAtomsToFiat(atomsConversionRate, unbondingResult),
-    convertAtomsToFiat(atomsConversionRate, commissionsResult),
-    convertAtomsToFiat(atomsConversionRate, totalResult),
+    convertCryptoToFiat(fiatExchangeRate, balanceResult),
+    convertCryptoToFiat(fiatExchangeRate, delegationResult),
+    convertCryptoToFiat(fiatExchangeRate, rewardsResult),
+    convertCryptoToFiat(fiatExchangeRate, unbondingResult),
+    convertCryptoToFiat(fiatExchangeRate, commissionsResult),
+    convertCryptoToFiat(fiatExchangeRate, totalResult),
   ].map(x => formatCurrencyAmount(x, maximumFractionDigits));
 
   const getPercentage = (value: BigNumber) => {

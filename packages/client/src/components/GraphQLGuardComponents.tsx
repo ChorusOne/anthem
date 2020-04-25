@@ -31,6 +31,7 @@ export const GraphQLGuardComponent = (graphqlQueryResponse: {
   errorComponent?: JSX.Element;
   tString: tFnString;
   children: ChildrenType;
+  allowErrorResponses?: boolean;
 }): JSX.Element => {
   const {
     result,
@@ -40,6 +41,7 @@ export const GraphQLGuardComponent = (graphqlQueryResponse: {
     isLoading,
     errorComponent,
     loadingComponent,
+    allowErrorResponses,
   } = graphqlQueryResponse;
   const { error, loading } = result;
 
@@ -60,7 +62,10 @@ export const GraphQLGuardComponent = (graphqlQueryResponse: {
         </Centered>
       )
     );
-  } else if (error || (!loading && isGraphQLResponseDataEmpty(data))) {
+  } else if (
+    !allowErrorResponses &&
+    (error || (!loading && isGraphQLResponseDataEmpty(data)))
+  ) {
     return (
       errorComponent || (
         <Centered>
