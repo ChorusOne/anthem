@@ -28,7 +28,14 @@ import { getAccountBalances } from "tools/generic-utils";
 
 class Balance extends React.Component<IProps, {}> {
   render(): JSX.Element {
-    const { i18n, prices, address, settings, accountBalances } = this.props;
+    const {
+      i18n,
+      prices,
+      address,
+      settings,
+      ledger,
+      accountBalances,
+    } = this.props;
     const { t, tString } = i18n;
     const { isDesktop, currencySetting } = settings;
     return (
@@ -45,6 +52,7 @@ class Balance extends React.Component<IProps, {}> {
           const atomsConversionRate = prices.prices;
           const data = accountBalances.accountBalances;
           const { denom } = this.props.ledger.network;
+          console.log(data);
           const balances = getAccountBalances(
             data,
             atomsConversionRate,
@@ -76,12 +84,15 @@ class Balance extends React.Component<IProps, {}> {
             }
           };
 
+          const SHOULD_SHOW_LEDGER_ACTIONS =
+            isDesktop && ledger.network.name !== "OASIS";
+
           const BalanceLines = (
             <View>
               <BalanceLine>
                 <Icon
                   icon={IconNames.DOT}
-                  style={{ marginRight: 6 }}
+                  style={{ marginRight: 2 }}
                   color={COLORS.BALANCE_SHADE_ONE}
                 />
                 <BalanceTitle>{t("Available")}:</BalanceTitle>
@@ -92,7 +103,7 @@ class Balance extends React.Component<IProps, {}> {
               <BalanceLine>
                 <Icon
                   color={COLORS.BALANCE_SHADE_TWO}
-                  style={{ marginRight: 6 }}
+                  style={{ marginRight: 2 }}
                   icon={IconNames.DOT}
                 />
                 <BalanceTitle>{t("Staking")}:</BalanceTitle>
@@ -103,7 +114,7 @@ class Balance extends React.Component<IProps, {}> {
               <BalanceLine>
                 <Icon
                   color={COLORS.BALANCE_SHADE_THREE}
-                  style={{ marginRight: 6 }}
+                  style={{ marginRight: 2 }}
                   icon={IconNames.DOT}
                 />
                 <BalanceTitle>{t("Rewards")}:</BalanceTitle>
@@ -114,7 +125,7 @@ class Balance extends React.Component<IProps, {}> {
               <BalanceLine>
                 <Icon
                   color={COLORS.BALANCE_SHADE_FIVE}
-                  style={{ marginRight: 6 }}
+                  style={{ marginRight: 2 }}
                   icon={IconNames.DOT}
                 />
                 <BalanceTitle>{t("Unbonding")}:</BalanceTitle>
@@ -126,7 +137,7 @@ class Balance extends React.Component<IProps, {}> {
                 <BalanceLine>
                   <Icon
                     color={COLORS.BALANCE_SHADE_FIVE}
-                    style={{ marginRight: 6 }}
+                    style={{ marginRight: 2 }}
                     icon={IconNames.DOT}
                   />
                   <BalanceTitle>{t("Commission")}:</BalanceTitle>
@@ -161,7 +172,7 @@ class Balance extends React.Component<IProps, {}> {
                   </BalanceContainer>
                 )}
               </SummaryContainer>
-              {isDesktop && (
+              {SHOULD_SHOW_LEDGER_ACTIONS && (
                 <ActionContainer>
                   <H5>{t("What do you want to do?")}</H5>
                   <DelegationControlsContainer>
@@ -253,7 +264,7 @@ const BalanceTitle = styled.p`
   margin: 0;
   padding: 0;
   font-size: 14px;
-  width: 105px;
+  width: 102px;
   font-weight: bold;
 `;
 
