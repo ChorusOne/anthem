@@ -5,6 +5,7 @@ import Modules, { ReduxStoreState } from "modules/root";
 import React from "react";
 import { connect } from "react-redux";
 import { composeWithProps } from "tools/context-utils";
+import Toast from "./Toast";
 
 /** ===========================================================================
  * Component
@@ -18,9 +19,15 @@ const CurrencySettingsToggle = (props: IProps) => {
     event: React.FormEvent<HTMLInputElement>,
   ) => {
     const value = event.currentTarget.value;
-    props.updateSetting({
-      currencySetting: value as CURRENCY_SETTING,
-    });
+    if (value === "fiat" && !props.network.supportsFiatPrices) {
+      Toast.warn(
+        `${props.network.name} network does not support fiat price data yet.`,
+      );
+    } else {
+      props.updateSetting({
+        currencySetting: value as CURRENCY_SETTING,
+      });
+    }
   };
 
   return (
