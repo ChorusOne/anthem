@@ -18,7 +18,6 @@ import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 import { formatCurrencyAmount } from "tools/currency-utils";
-import { parseGraphQLError } from "tools/generic-utils";
 import { isGreaterThan, isLessThan } from "tools/math-utils";
 import { GraphQLGuardComponent } from "./GraphQLGuardComponents";
 

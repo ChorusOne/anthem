@@ -64,8 +64,6 @@ class Balance extends React.Component<IProps, {}> {
             2,
           );
 
-          console.log(balances);
-
           const {
             balance,
             rewards,
