@@ -160,7 +160,7 @@
   "You have a total of {{rewards}} ({{rewardsUSD}}) rewards available to withdraw.": "您共有{{rewards}} ({{rewardsUSD}})可贖回的收益。",
   "Select the rewards you wish to withdraw from the list:": "從列表中選擇您想贖回的收益：",
   "Generate My Transaction": "生成交易",
-  "Available balance: {{balance}} ({{balanceUSD}})": "可用余額：{{balance}} ({{balanceUSD}})",
+  "Available balance: {{balance}} ({{balanceFiat}})": "可用余額：{{balance}} ({{balanceFiat}})",
   "Please enter an amount to delegate": "請輸入委托數額",
   "This network is not supported yet.": "目前尚不支持此網絡。",
   "Transaction Amount (ATOM)": "交易數額（ATOM）",

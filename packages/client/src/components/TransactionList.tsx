@@ -3,7 +3,7 @@ import { H5 } from "@blueprintjs/core";
 import { Centered } from "components/SharedComponents";
 import Toast from "components/Toast";
 import React from "react";
-import { atomsToDenom, convertAtomsToFiat } from "tools/currency-utils";
+import { atomsToDenom, convertCryptoToFiat } from "tools/currency-utils";
 import {
   formatAddressString,
   getFiatPriceHistoryMap,
@@ -87,7 +87,7 @@ class TransactionList extends React.PureComponent<IProps> {
       this.priceHistoryMap,
     );
 
-    const fiatPrice = convertAtomsToFiat(
+    const fiatPrice = convertCryptoToFiat(
       {
         price: Number(transactionPrice),
       },

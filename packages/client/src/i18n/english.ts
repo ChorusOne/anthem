@@ -261,10 +261,10 @@ export type ENGLISH =
   | readonly ["Select the rewards you wish to withdraw from the list:"]
   | readonly ["Generate My Transaction"]
   | readonly [
-      "Available balance: {{balance}} ({{balanceUSD}})",
+      "Available balance: {{balance}} ({{balanceFiat}})",
       {
         balance: JSX.Element;
-        balanceUSD: string;
+        balanceFiat: string;
       },
     ]
   | readonly ["Please enter an amount to delegate"]

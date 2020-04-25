@@ -28,11 +28,19 @@ import { getAccountBalances } from "tools/generic-utils";
 
 class Balance extends React.Component<IProps, {}> {
   render(): JSX.Element {
-    const { i18n, prices, address, settings, accountBalances } = this.props;
+    const {
+      i18n,
+      prices,
+      address,
+      settings,
+      ledger,
+      accountBalances,
+    } = this.props;
     const { t, tString } = i18n;
     const { isDesktop, currencySetting } = settings;
     return (
       <GraphQLGuardComponentMultipleQueries
+        allowErrorResponses
         tString={tString}
         loadingComponent={<DashboardLoader />}
         errorComponent={<DashboardError tString={tString} />}
@@ -42,12 +50,16 @@ class Balance extends React.Component<IProps, {}> {
         ]}
       >
         {() => {
-          const atomsConversionRate = prices.prices;
+          if (accountBalances.error) {
+            return <DashboardError tString={tString} />;
+          }
+
+          const fiatConversionRate = prices.prices;
           const data = accountBalances.accountBalances;
           const { denom } = this.props.ledger.network;
           const balances = getAccountBalances(
             data,
-            atomsConversionRate,
+            fiatConversionRate,
             denom,
             2,
           );
@@ -59,12 +71,12 @@ class Balance extends React.Component<IProps, {}> {
             unbonding,
             commissions,
             total,
-            balanceUSD,
-            delegationsUSD,
-            rewardsUSD,
-            unbondingUSD,
-            commissionsUSD,
-            totalUSD,
+            balanceFiat,
+            delegationsFiat,
+            rewardsFiat,
+            unbondingFiat,
+            commissionsFiat,
+            totalFiat,
             percentages,
           } = balances;
 
@@ -76,62 +88,65 @@ class Balance extends React.Component<IProps, {}> {
             }
           };
 
+          const SHOULD_SHOW_LEDGER_ACTIONS =
+            isDesktop && ledger.network.name !== "OASIS";
+
           const BalanceLines = (
             <View>
               <BalanceLine>
                 <Icon
                   icon={IconNames.DOT}
-                  style={{ marginRight: 6 }}
+                  style={{ marginRight: 2 }}
                   color={COLORS.BALANCE_SHADE_ONE}
                 />
                 <BalanceTitle>{t("Available")}:</BalanceTitle>
                 <BalanceText data-cy="balance-available">
-                  {renderBalanceItem(balance, balanceUSD)}
+                  {renderBalanceItem(balance, balanceFiat)}
                 </BalanceText>
               </BalanceLine>
               <BalanceLine>
                 <Icon
                   color={COLORS.BALANCE_SHADE_TWO}
-                  style={{ marginRight: 6 }}
+                  style={{ marginRight: 2 }}
                   icon={IconNames.DOT}
                 />
                 <BalanceTitle>{t("Staking")}:</BalanceTitle>
                 <BalanceText data-cy="balance-delegations">
-                  {renderBalanceItem(delegations, delegationsUSD)}
+                  {renderBalanceItem(delegations, delegationsFiat)}
                 </BalanceText>
               </BalanceLine>
               <BalanceLine>
                 <Icon
                   color={COLORS.BALANCE_SHADE_THREE}
-                  style={{ marginRight: 6 }}
+                  style={{ marginRight: 2 }}
                   icon={IconNames.DOT}
                 />
                 <BalanceTitle>{t("Rewards")}:</BalanceTitle>
                 <BalanceText data-cy="balance-rewards">
-                  {renderBalanceItem(rewards, rewardsUSD)}
+                  {renderBalanceItem(rewards, rewardsFiat)}
                 </BalanceText>
               </BalanceLine>
               <BalanceLine>
                 <Icon
                   color={COLORS.BALANCE_SHADE_FIVE}
-                  style={{ marginRight: 6 }}
+                  style={{ marginRight: 2 }}
                   icon={IconNames.DOT}
                 />
                 <BalanceTitle>{t("Unbonding")}:</BalanceTitle>
                 <BalanceText data-cy="balance-unbonding">
-                  {renderBalanceItem(unbonding, unbondingUSD)}
+                  {renderBalanceItem(unbonding, unbondingFiat)}
                 </BalanceText>
               </BalanceLine>
               {commissions !== "0" && (
                 <BalanceLine>
                   <Icon
                     color={COLORS.BALANCE_SHADE_FIVE}
-                    style={{ marginRight: 6 }}
+                    style={{ marginRight: 2 }}
                     icon={IconNames.DOT}
                   />
                   <BalanceTitle>{t("Commission")}:</BalanceTitle>
                   <BalanceText data-cy="balance-commissions">
-                    {renderBalanceItem(commissions, commissionsUSD)}
+                    {renderBalanceItem(commissions, commissionsFiat)}
                   </BalanceText>
                 </BalanceLine>
               )}
@@ -152,7 +167,7 @@ class Balance extends React.Component<IProps, {}> {
                         <BalanceCircle>
                           <BalanceTotalBox>
                             <BalanceTotalText data-cy="balance-total">
-                              {renderBalanceItem(total, totalUSD)}
+                              {renderBalanceItem(total, totalFiat)}
                             </BalanceTotalText>
                           </BalanceTotalBox>
                         </BalanceCircle>
@@ -161,7 +176,7 @@ class Balance extends React.Component<IProps, {}> {
                   </BalanceContainer>
                 )}
               </SummaryContainer>
-              {isDesktop && (
+              {SHOULD_SHOW_LEDGER_ACTIONS && (
                 <ActionContainer>
                   <H5>{t("What do you want to do?")}</H5>
                   <DelegationControlsContainer>
@@ -253,7 +268,7 @@ const BalanceTitle = styled.p`
   margin: 0;
   padding: 0;
   font-size: 14px;
-  width: 105px;
+  width: 102px;
   font-weight: bold;
 `;
 

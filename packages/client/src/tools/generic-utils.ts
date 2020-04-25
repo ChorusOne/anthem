@@ -9,6 +9,7 @@ import {
   IValidator,
   NETWORK_NAME,
   NetworkDefinition,
+  RequestFailure,
 } from "@anthem/utils";
 import { ApolloError } from "apollo-client";
 import BigNumber from "bignumber.js";
@@ -17,7 +18,7 @@ import Toast from "components/Toast";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import queryString, { ParsedQuery } from "query-string";
 import {
-  convertAtomsToFiat,
+  convertCryptoToFiat,
   denomToAtoms,
   formatCurrencyAmount,
 } from "./currency-utils";
@@ -161,12 +162,12 @@ interface AccountBalancesResult {
   unbonding: string;
   commissions: string;
   total: string;
-  balanceUSD: string;
-  delegationsUSD: string;
-  rewardsUSD: string;
-  unbondingUSD: string;
-  commissionsUSD: string;
-  totalUSD: string;
+  balanceFiat: string;
+  delegationsFiat: string;
+  rewardsFiat: string;
+  unbondingFiat: string;
+  commissionsFiat: string;
+  totalFiat: string;
   percentages: ReadonlyArray<number>;
 }
 /**
@@ -175,7 +176,7 @@ interface AccountBalancesResult {
  */
 export const getAccountBalances = (
   accountBalancesData: IQuery["accountBalances"] | undefined,
-  atomsConversionRate: IQuery["prices"] | undefined,
+  rate: IQuery["prices"] | undefined,
   denom: COIN_DENOMS,
   maximumFractionDigits?: number,
 ): AccountBalancesResult => {
@@ -186,16 +187,16 @@ export const getAccountBalances = (
     unbonding: "",
     commissions: "",
     total: "",
-    balanceUSD: "",
-    delegationsUSD: "",
-    rewardsUSD: "",
-    unbondingUSD: "",
-    commissionsUSD: "",
-    totalUSD: "",
+    balanceFiat: "",
+    delegationsFiat: "",
+    rewardsFiat: "",
+    unbondingFiat: "",
+    commissionsFiat: "",
+    totalFiat: "",
     percentages: [],
   };
 
-  if (!accountBalancesData || !atomsConversionRate) {
+  if (!accountBalancesData) {
     return defaultResult;
   }
 
@@ -261,12 +262,12 @@ export const getAccountBalances = (
     unbonding,
     commissions,
     total,
-    balanceUSD,
-    delegationsUSD,
-    rewardsUSD,
-    unbondingUSD,
-    commissionsUSD,
-    totalUSD,
+    balanceFiat,
+    delegationsFiat,
+    rewardsFiat,
+    unbondingFiat,
+    commissionsFiat,
+    totalFiat,
   ]: ReadonlyArray<string> = [
     denomToAtoms(balanceResult, String),
     denomToAtoms(rewardsResult, String),
@@ -274,12 +275,13 @@ export const getAccountBalances = (
     denomToAtoms(unbondingResult, String),
     denomToAtoms(commissionsResult, String),
     denomToAtoms(totalResult, String),
-    convertAtomsToFiat(atomsConversionRate, balanceResult),
-    convertAtomsToFiat(atomsConversionRate, delegationResult),
-    convertAtomsToFiat(atomsConversionRate, rewardsResult),
-    convertAtomsToFiat(atomsConversionRate, unbondingResult),
-    convertAtomsToFiat(atomsConversionRate, commissionsResult),
-    convertAtomsToFiat(atomsConversionRate, totalResult),
+    // The rate is undefined for non fiat supported networks
+    rate ? convertCryptoToFiat(rate, balanceResult) : "0",
+    rate ? convertCryptoToFiat(rate, delegationResult) : "0",
+    rate ? convertCryptoToFiat(rate, rewardsResult) : "0",
+    rate ? convertCryptoToFiat(rate, unbondingResult) : "0",
+    rate ? convertCryptoToFiat(rate, commissionsResult) : "0",
+    rate ? convertCryptoToFiat(rate, totalResult) : "0",
   ].map(x => formatCurrencyAmount(x, maximumFractionDigits));
 
   const getPercentage = (value: BigNumber) => {
@@ -304,12 +306,12 @@ export const getAccountBalances = (
     unbonding,
     commissions,
     total,
-    balanceUSD,
-    delegationsUSD,
-    rewardsUSD,
-    unbondingUSD,
-    commissionsUSD,
-    totalUSD,
+    balanceFiat,
+    delegationsFiat,
+    rewardsFiat,
+    unbondingFiat,
+    commissionsFiat,
+    totalFiat,
     percentages,
   };
 };
@@ -616,10 +618,33 @@ export const copyTextToClipboard = (text: string) => {
   document.body.removeChild(textArea);
 };
 
-// Format a chain id, e.g. cosmoshub-2 -> Cosmos Hub 2.
-// NOTE: This is hard-coded to format cosmos network chain
-// ids and will need to be updated to support other networks.
+/**
+ * Format a chain id, e.g. cosmoshub-2 -> Cosmos Hub 2.
+ * NOTE: This is hard-coded to format cosmos network chain
+ * ids and will need to be updated to support other networks.
+ */
 export const justFormatChainString = (chain: string) => {
   const id = chain.slice(-1);
   return `Cosmos Hub ${id}`;
+};
+
+/**
+ * Parse an error field from a GraphQL request failure and return
+ * the formatted error code, if it exists. Expected request failures
+ * which are handled by the GraphQL server can be parsed in this way.
+ */
+export const parseGraphQLError = (error?: {
+  message: string;
+}): Nullable<RequestFailure> => {
+  try {
+    if (error) {
+      const expectedJSON = error.message.replace("GraphQL error: ", "");
+      const result = JSON.parse(expectedJSON);
+      return result;
+    }
+  } catch (err) {
+    // no-op
+  }
+
+  return null;
 };

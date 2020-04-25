@@ -32,15 +32,24 @@ class AddressInputDashboardBar extends React.Component<IProps, {}> {
       return null;
     }
 
-    const { i18n, network } = this.props;
+    const { i18n, network, prices, dailyPercentChange } = this.props;
     const { tString } = i18n;
+
     return (
       <AddressInputBar>
         <GraphQLGuardComponent
           tString={tString}
           dataKey="prices"
-          errorComponent={<p />}
-          result={this.props.prices}
+          errorComponent={
+            <Row style={{ width: 110 }}>
+              <NetworkLogoIcon network={network.name} />
+              <View style={{ textAlign: "center", marginRight: 20 }}>
+                <b style={{ margin: 0, fontSize: 14 }}>{network.descriptor}</b>
+                <p>Network</p>
+              </View>
+            </Row>
+          }
+          result={prices}
           loadingComponent={<p style={{ width: 135 }} />}
         >
           {(priceData: IQuery["prices"]) => {
@@ -66,7 +75,7 @@ class AddressInputDashboardBar extends React.Component<IProps, {}> {
           errorComponent={<p />}
           loadingComponent={<p style={{ width: 115 }} />}
           dataKey="dailyPercentChange"
-          result={this.props.dailyPercentChange}
+          result={dailyPercentChange}
         >
           {(percentageChange: IQuery["dailyPercentChange"]) => {
             return (

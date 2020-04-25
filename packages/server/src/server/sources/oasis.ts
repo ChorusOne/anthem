@@ -18,20 +18,40 @@ const fetchAccountBalances = async (
   network: NetworkDefinition,
 ): Promise<IQuery["accountBalances"]> => {
   const host = getHostFromNetworkName(network.name);
-  const response = await AxiosUtil.get(`${host}/account/${address}`);
+  // const response = await AxiosUtil.get(`${host}/account/${address}`);
 
+  // Return fake data:
   return {
     balance: [
       {
         denom: "oasis",
-        amount: response.balance,
+        amount: "8461776366",
       },
     ],
     rewards: [],
-    delegations: [],
+    delegations: [
+      {
+        delegator_address: "CVzqFIADD2Ed0khGBNf4Rvh7vSNtrL1ULTkWYQszDpc=",
+        validator_address: "CVzqFIADD2Ed0khGBNf4Rvh7vSNtrL1ULTkWYQszDpc=",
+        shares: "10540852281084",
+      },
+    ],
     unbonding: [],
     commissions: [],
   };
+
+  // return {
+  //   balance: [
+  //     {
+  //       denom: "oasis",
+  //       amount: response.balance,
+  //     },
+  //   ],
+  //   rewards: [],
+  //   delegations: [],
+  //   unbonding: [],
+  //   commissions: [],
+  // };
 };
 
 /** ===========================================================================

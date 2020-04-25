@@ -30,6 +30,6 @@ ENV NODE_ENV=production
 EXPOSE 8080
 
 # Start the server
-RUN chmod +x /usr/src/app/packages/server/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
 
 CMD [ "node", "packages/server/build/src/server.js" ]

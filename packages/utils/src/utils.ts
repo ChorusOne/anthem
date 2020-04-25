@@ -48,6 +48,21 @@ export const getNetworkDefinitionFromIdentifier = (networkName: string) => {
 };
 
 /**
+ * Get the network definition from a provided network price ticker.
+ */
+export const getNetworkDefinitionFromTicker = (ticker: string) => {
+  const network = Object.values(NETWORKS).find(n => n.ticker === ticker);
+
+  if (network) {
+    return network;
+  } else {
+    throw new Error(
+      `Unsupported or invalid network ticker ${ticker} supplied!`,
+    );
+  }
+};
+
+/**
  * Get network enums.
  */
 const getCosmosSdkAddressEnumsForNetwork = (name: NETWORK_NAME) => {

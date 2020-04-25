@@ -160,7 +160,7 @@
   "You have a total of {{rewards}} ({{rewardsUSD}}) rewards available to withdraw.": "Tienes un total de {{rewards}} ({{rewardsUSD}}) recompensas disponibles para reclamar.",
   "Select the rewards you wish to withdraw from the list:": "Selecciona la recompensa que deseas reclamar de la lista:",
   "Generate My Transaction": "Generar Mi Transacción:",
-  "Available balance: {{balance}} ({{balanceUSD}})": "Implement",
+  "Available balance: {{balance}} ({{balanceFiat}})": "Implement",
   "Please enter an amount to delegate": "Por favor, introduce una cantidad para delegar",
   "This network is not supported yet.": "Esta red aún no es compatible.",
   "Transaction Amount (ATOM)": "Cantidad de la transacción (ATOM)",

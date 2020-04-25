@@ -31,6 +31,7 @@ export const GraphQLGuardComponent = (graphqlQueryResponse: {
   errorComponent?: JSX.Element;
   tString: tFnString;
   children: ChildrenType;
+  allowErrorResponses?: boolean;
 }): JSX.Element => {
   const {
     result,
@@ -40,6 +41,7 @@ export const GraphQLGuardComponent = (graphqlQueryResponse: {
     isLoading,
     errorComponent,
     loadingComponent,
+    allowErrorResponses,
   } = graphqlQueryResponse;
   const { error, loading } = result;
 
@@ -60,7 +62,10 @@ export const GraphQLGuardComponent = (graphqlQueryResponse: {
         </Centered>
       )
     );
-  } else if (error || (!loading && isGraphQLResponseDataEmpty(data))) {
+  } else if (
+    !allowErrorResponses &&
+    (error || (!loading && isGraphQLResponseDataEmpty(data)))
+  ) {
     return (
       errorComponent || (
         <Centered>
@@ -108,6 +113,7 @@ export const GraphQLGuardComponentMultipleQueries = (graphqlQueryResponse: {
   errorComponent?: JSX.Element;
   tString: tFnString;
   children: ChildrenType;
+  allowErrorResponses?: boolean;
 }): JSX.Element => {
   const {
     results,
@@ -115,6 +121,7 @@ export const GraphQLGuardComponentMultipleQueries = (graphqlQueryResponse: {
     children,
     errorComponent,
     loadingComponent,
+    allowErrorResponses,
   } = graphqlQueryResponse;
 
   const anyQueryIsLoading = results.find(([x]) => x.loading);
@@ -128,7 +135,7 @@ export const GraphQLGuardComponentMultipleQueries = (graphqlQueryResponse: {
         </Centered>
       )
     );
-  } else if (anyQueryHasError) {
+  } else if (anyQueryHasError && !allowErrorResponses) {
     return (
       errorComponent || (
         <Centered>

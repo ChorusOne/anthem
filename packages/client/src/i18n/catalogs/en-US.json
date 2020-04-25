@@ -160,7 +160,7 @@
   "You have a total of {{rewards}} ({{rewardsUSD}}) rewards available to withdraw.": "You have a total of {{rewards}} ({{rewardsUSD}}) rewards available to withdraw.",
   "Select the rewards you wish to withdraw from the list:": "Select the rewards you wish to withdraw from the list:",
   "Generate My Transaction": "Generate My Transaction",
-  "Available balance: {{balance}} ({{balanceUSD}})": "Available balance: {{balance}} ({{balanceUSD}})",
+  "Available balance: {{balance}} ({{balanceFiat}})": "Available balance: {{balance}} ({{balanceFiat}})",
   "Please enter an amount to delegate": "Please enter an amount to delegate",
   "This network is not supported yet.": "This network is not supported yet.",
   "Transaction Amount (ATOM)": "Transaction Amount (ATOM)",
