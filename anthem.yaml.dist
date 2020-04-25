@@ -18,7 +18,7 @@ spec:
         - name: graphql
           image: chorusone/anthem:latest
           command: [ "/usr/src/app/entrypoint.sh" ]
-          args: [ "node", "build/src/server.js" ]
+          args: [ "node", "packages/server/build/src/server.js" ]
           env:
           - name: VAULT_SECRETS
             value: "SENTRY_DSN,CRYPTO_COMPARE_API_KEY,PGHOST,PGUSER,PGPASSWORD"
