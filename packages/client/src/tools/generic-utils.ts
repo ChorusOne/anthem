@@ -161,12 +161,12 @@ interface AccountBalancesResult {
   unbonding: string;
   commissions: string;
   total: string;
-  balanceUSD: string;
-  delegationsUSD: string;
-  rewardsUSD: string;
-  unbondingUSD: string;
-  commissionsUSD: string;
-  totalUSD: string;
+  balanceFiat: string;
+  delegationsFiat: string;
+  rewardsFiat: string;
+  unbondingFiat: string;
+  commissionsFiat: string;
+  totalFiat: string;
   percentages: ReadonlyArray<number>;
 }
 /**
@@ -186,12 +186,12 @@ export const getAccountBalances = (
     unbonding: "",
     commissions: "",
     total: "",
-    balanceUSD: "",
-    delegationsUSD: "",
-    rewardsUSD: "",
-    unbondingUSD: "",
-    commissionsUSD: "",
-    totalUSD: "",
+    balanceFiat: "",
+    delegationsFiat: "",
+    rewardsFiat: "",
+    unbondingFiat: "",
+    commissionsFiat: "",
+    totalFiat: "",
     percentages: [],
   };
 
@@ -261,12 +261,12 @@ export const getAccountBalances = (
     unbonding,
     commissions,
     total,
-    balanceUSD,
-    delegationsUSD,
-    rewardsUSD,
-    unbondingUSD,
-    commissionsUSD,
-    totalUSD,
+    balanceFiat,
+    delegationsFiat,
+    rewardsFiat,
+    unbondingFiat,
+    commissionsFiat,
+    totalFiat,
   ]: ReadonlyArray<string> = [
     denomToAtoms(balanceResult, String),
     denomToAtoms(rewardsResult, String),
@@ -304,12 +304,12 @@ export const getAccountBalances = (
     unbonding,
     commissions,
     total,
-    balanceUSD,
-    delegationsUSD,
-    rewardsUSD,
-    unbondingUSD,
-    commissionsUSD,
-    totalUSD,
+    balanceFiat,
+    delegationsFiat,
+    rewardsFiat,
+    unbondingFiat,
+    commissionsFiat,
+    totalFiat,
     percentages,
   };
 };

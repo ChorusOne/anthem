@@ -208,11 +208,11 @@ describe("utils", () => {
     expect(result).toMatchInlineSnapshot(`
       Object {
         "balance": "348.59",
-        "balanceUSD": "794.79",
+        "balanceFiat": "794.79",
         "commissions": "2,393.86",
-        "commissionsUSD": "5,458.01",
+        "commissionsFiat": "5,458.01",
         "delegations": "5,000.00",
-        "delegationsUSD": "11,400.00",
+        "delegationsFiat": "11,400.00",
         "percentages": Array [
           4.484583822134841,
           64.32421906145976,
@@ -221,11 +221,11 @@ describe("utils", () => {
           30.79666445935613,
         ],
         "rewards": "30.67",
-        "rewardsUSD": "69.92",
+        "rewardsFiat": "69.92",
         "total": "7,773.12",
-        "totalUSD": "17,722.72",
+        "totalFiat": "17,722.72",
         "unbonding": "0",
-        "unbondingUSD": "0",
+        "unbondingFiat": "0",
       }
     `);
   });

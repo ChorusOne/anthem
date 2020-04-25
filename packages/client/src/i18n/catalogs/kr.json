@@ -160,7 +160,7 @@
   "You have a total of {{rewards}} ({{rewardsUSD}}) rewards available to withdraw.": "현재 인출 가능한 보상 액수는 {{rewards}} ({{rewardsUSD}}) 입니다.",
   "Select the rewards you wish to withdraw from the list:": "다음 목록에서 인출하기 원하는 보상을 선택하세요.",
   "Generate My Transaction": "내 트랜잭션 생성하기",
-  "Available balance: {{balance}} ({{balanceUSD}})": "가용 자산 잔고 : {{balance}} ({{balanceUSD}})",
+  "Available balance: {{balance}} ({{balanceFiat}})": "가용 자산 잔고 : {{balance}} ({{balanceFiat}})",
   "Please enter an amount to delegate": "위임할 금액을 입력하세요.",
   "This network is not supported yet.": "아직 지원되지 않는 네트워크입니다.",
   "Transaction Amount (ATOM)": "트랜잭션 금액 (아톰)",

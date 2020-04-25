@@ -38,6 +38,7 @@ class Balance extends React.Component<IProps, {}> {
     } = this.props;
     const { t, tString } = i18n;
     const { isDesktop, currencySetting } = settings;
+    console.log(accountBalances);
     return (
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
@@ -49,13 +50,12 @@ class Balance extends React.Component<IProps, {}> {
         ]}
       >
         {() => {
-          const atomsConversionRate = prices.prices;
+          const fiatConversionRate = prices.prices;
           const data = accountBalances.accountBalances;
           const { denom } = this.props.ledger.network;
-          console.log(data);
           const balances = getAccountBalances(
             data,
-            atomsConversionRate,
+            fiatConversionRate,
             denom,
             2,
           );
@@ -67,12 +67,12 @@ class Balance extends React.Component<IProps, {}> {
             unbonding,
             commissions,
             total,
-            balanceUSD,
-            delegationsUSD,
-            rewardsUSD,
-            unbondingUSD,
-            commissionsUSD,
-            totalUSD,
+            balanceFiat,
+            delegationsFiat,
+            rewardsFiat,
+            unbondingFiat,
+            commissionsFiat,
+            totalFiat,
             percentages,
           } = balances;
 
@@ -97,7 +97,7 @@ class Balance extends React.Component<IProps, {}> {
                 />
                 <BalanceTitle>{t("Available")}:</BalanceTitle>
                 <BalanceText data-cy="balance-available">
-                  {renderBalanceItem(balance, balanceUSD)}
+                  {renderBalanceItem(balance, balanceFiat)}
                 </BalanceText>
               </BalanceLine>
               <BalanceLine>
@@ -108,7 +108,7 @@ class Balance extends React.Component<IProps, {}> {
                 />
                 <BalanceTitle>{t("Staking")}:</BalanceTitle>
                 <BalanceText data-cy="balance-delegations">
-                  {renderBalanceItem(delegations, delegationsUSD)}
+                  {renderBalanceItem(delegations, delegationsFiat)}
                 </BalanceText>
               </BalanceLine>
               <BalanceLine>
@@ -119,7 +119,7 @@ class Balance extends React.Component<IProps, {}> {
                 />
                 <BalanceTitle>{t("Rewards")}:</BalanceTitle>
                 <BalanceText data-cy="balance-rewards">
-                  {renderBalanceItem(rewards, rewardsUSD)}
+                  {renderBalanceItem(rewards, rewardsFiat)}
                 </BalanceText>
               </BalanceLine>
               <BalanceLine>
@@ -130,7 +130,7 @@ class Balance extends React.Component<IProps, {}> {
                 />
                 <BalanceTitle>{t("Unbonding")}:</BalanceTitle>
                 <BalanceText data-cy="balance-unbonding">
-                  {renderBalanceItem(unbonding, unbondingUSD)}
+                  {renderBalanceItem(unbonding, unbondingFiat)}
                 </BalanceText>
               </BalanceLine>
               {commissions !== "0" && (
@@ -142,7 +142,7 @@ class Balance extends React.Component<IProps, {}> {
                   />
                   <BalanceTitle>{t("Commission")}:</BalanceTitle>
                   <BalanceText data-cy="balance-commissions">
-                    {renderBalanceItem(commissions, commissionsUSD)}
+                    {renderBalanceItem(commissions, commissionsFiat)}
                   </BalanceText>
                 </BalanceLine>
               )}
@@ -163,7 +163,7 @@ class Balance extends React.Component<IProps, {}> {
                         <BalanceCircle>
                           <BalanceTotalBox>
                             <BalanceTotalText data-cy="balance-total">
-                              {renderBalanceItem(total, totalUSD)}
+                              {renderBalanceItem(total, totalFiat)}
                             </BalanceTotalText>
                           </BalanceTotalBox>
                         </BalanceCircle>

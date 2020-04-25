@@ -290,7 +290,7 @@ const resolvers = {
       const network = getNetworkDefinitionFromTicker(currency);
 
       if (!network.supportsFiatPrices) {
-        throw new Error("Network not supported!");
+        return { price: 1 };
       }
 
       return EXCHANGE_DATA_API.fetchExchangeRate(currency, versus);

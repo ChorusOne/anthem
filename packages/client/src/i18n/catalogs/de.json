@@ -160,7 +160,7 @@
   "You have a total of {{rewards}} ({{rewardsUSD}}) rewards available to withdraw.": "Dir stehen insgesamt {{rewards}} ({{rewardsUSD}}) an Einkommen zum Abheben zur Verfügung.",
   "Select the rewards you wish to withdraw from the list:": "Wähle aus welche Einkommen aus der Liste du abheben möchtest:",
   "Generate My Transaction": "Erzeuge meine Transaktion",
-  "Available balance: {{balance}} ({{balanceUSD}})": "Verfügbares Guthaben: {{balance}} ({{balanceUSD}})",
+  "Available balance: {{balance}} ({{balanceFiat}})": "Verfügbares Guthaben: {{balance}} ({{balanceFiat}})",
   "Please enter an amount to delegate": "Bitte gebe eine Menge zum Delegieren an",
   "This network is not supported yet.": "Dieses Netzwerk wird noch nicht unterstützt.",
   "Transaction Amount (ATOM)": "Transaktionsbetrag (ATOM)",

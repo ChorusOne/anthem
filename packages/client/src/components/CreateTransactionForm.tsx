@@ -184,7 +184,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             ledger.network.denom,
             6,
           );
-          const { rewards, rewardsUSD } = balances;
+          const { rewards, rewardsFiat } = balances;
 
           const availableRewards = mapRewardsToAvailableRewards(
             rewardsData,
@@ -216,7 +216,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   "You have a total of {{rewards}} ({{rewardsUSD}}) rewards available to withdraw.",
                   {
                     rewards: bold(`${rewards} ${ledger.network.descriptor}`),
-                    rewardsUSD: `${rewardsUSD} ${fiatCurrency.symbol}`,
+                    rewardsUSD: `${rewardsFiat} ${fiatCurrency.symbol}`,
                   },
                 )}
               </p>
@@ -336,7 +336,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       ledger.network.denom,
       6,
     );
-    const { balance, balanceUSD } = balances;
+    const { balance, balanceFiat } = balances;
 
     return (
       <GraphQLGuardComponentMultipleQueries
@@ -349,9 +349,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       >
         <View>
           <p>
-            {t("Available balance: {{balance}} ({{balanceUSD}})", {
+            {t("Available balance: {{balance}} ({{balanceFiat}})", {
               balance: bold(`${balance} ${ledger.network.descriptor}`),
-              balanceUSD: `${balanceUSD} ${fiatCurrency.symbol}`,
+              balanceFiat: `${balanceFiat} ${fiatCurrency.symbol}`,
             })}
           </p>
           <ValidatorSelect
