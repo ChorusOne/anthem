@@ -108,6 +108,7 @@ export const GraphQLGuardComponentMultipleQueries = (graphqlQueryResponse: {
   errorComponent?: JSX.Element;
   tString: tFnString;
   children: ChildrenType;
+  allowErrorResponses?: boolean;
 }): JSX.Element => {
   const {
     results,
@@ -115,6 +116,7 @@ export const GraphQLGuardComponentMultipleQueries = (graphqlQueryResponse: {
     children,
     errorComponent,
     loadingComponent,
+    allowErrorResponses,
   } = graphqlQueryResponse;
 
   const anyQueryIsLoading = results.find(([x]) => x.loading);
@@ -128,7 +130,7 @@ export const GraphQLGuardComponentMultipleQueries = (graphqlQueryResponse: {
         </Centered>
       )
     );
-  } else if (anyQueryHasError) {
+  } else if (anyQueryHasError && !allowErrorResponses) {
     return (
       errorComponent || (
         <Centered>

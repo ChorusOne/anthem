@@ -41,6 +41,7 @@ class Balance extends React.Component<IProps, {}> {
     console.log(accountBalances);
     return (
       <GraphQLGuardComponentMultipleQueries
+        allowErrorResponses
         tString={tString}
         loadingComponent={<DashboardLoader />}
         errorComponent={<DashboardError tString={tString} />}
@@ -50,6 +51,10 @@ class Balance extends React.Component<IProps, {}> {
         ]}
       >
         {() => {
+          if (accountBalances.error) {
+            return <DashboardError tString={tString} />;
+          }
+
           const fiatConversionRate = prices.prices;
           const data = accountBalances.accountBalances;
           const { denom } = this.props.ledger.network;
