@@ -9,6 +9,7 @@ import {
   IValidator,
   NETWORK_NAME,
   NetworkDefinition,
+  RequestFailure,
 } from "@anthem/utils";
 import { ApolloError } from "apollo-client";
 import BigNumber from "bignumber.js";
@@ -617,10 +618,33 @@ export const copyTextToClipboard = (text: string) => {
   document.body.removeChild(textArea);
 };
 
-// Format a chain id, e.g. cosmoshub-2 -> Cosmos Hub 2.
-// NOTE: This is hard-coded to format cosmos network chain
-// ids and will need to be updated to support other networks.
+/**
+ * Format a chain id, e.g. cosmoshub-2 -> Cosmos Hub 2.
+ * NOTE: This is hard-coded to format cosmos network chain
+ * ids and will need to be updated to support other networks.
+ */
 export const justFormatChainString = (chain: string) => {
   const id = chain.slice(-1);
   return `Cosmos Hub ${id}`;
+};
+
+/**
+ * Parse an error field from a GraphQL request failure and return
+ * the formatted error code, if it exists. Expected request failures
+ * which are handled by the GraphQL server can be parsed in this way.
+ */
+export const parseGraphQLError = (error?: {
+  message: string;
+}): Nullable<RequestFailure> => {
+  try {
+    if (error) {
+      const expectedJSON = error.message.replace("GraphQL error: ", "");
+      const result = JSON.parse(expectedJSON);
+      return result;
+    }
+  } catch (err) {
+    // no-op
+  }
+
+  return null;
 };

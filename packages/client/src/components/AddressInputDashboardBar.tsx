@@ -18,6 +18,7 @@ import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 import { formatCurrencyAmount } from "tools/currency-utils";
+import { parseGraphQLError } from "tools/generic-utils";
 import { isGreaterThan, isLessThan } from "tools/math-utils";
 import { GraphQLGuardComponent } from "./GraphQLGuardComponents";
 
@@ -32,8 +33,9 @@ class AddressInputDashboardBar extends React.Component<IProps, {}> {
       return null;
     }
 
-    const { i18n, network } = this.props;
+    const { i18n, network, prices, dailyPercentChange } = this.props;
     const { tString } = i18n;
+
     return (
       <AddressInputBar>
         <GraphQLGuardComponent
@@ -48,7 +50,7 @@ class AddressInputDashboardBar extends React.Component<IProps, {}> {
               </View>
             </Row>
           }
-          result={this.props.prices}
+          result={prices}
           loadingComponent={<p style={{ width: 135 }} />}
         >
           {(priceData: IQuery["prices"]) => {
@@ -74,7 +76,7 @@ class AddressInputDashboardBar extends React.Component<IProps, {}> {
           errorComponent={<p />}
           loadingComponent={<p style={{ width: 115 }} />}
           dataKey="dailyPercentChange"
-          result={this.props.dailyPercentChange}
+          result={dailyPercentChange}
         >
           {(percentageChange: IQuery["dailyPercentChange"]) => {
             return (

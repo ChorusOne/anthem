@@ -1,5 +1,6 @@
 import {
   deriveNetworkFromAddress,
+  ERRORS,
   getNetworkDefinitionFromIdentifier,
   getNetworkDefinitionFromTicker,
   IAccountBalancesQueryVariables,
@@ -325,7 +326,7 @@ const resolvers = {
       const network = getNetworkDefinitionFromTicker(crypto);
 
       if (!network.supportsFiatPrices) {
-        throw new Error("Network not supported!");
+        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
       }
 
       return EXCHANGE_DATA_API.fetchDailyPercentChangeInPrice(crypto, fiat);
