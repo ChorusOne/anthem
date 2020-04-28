@@ -22,8 +22,8 @@ import {
 import { capitalizeString, wait } from "tools/generic-utils";
 import { getAccAddress } from "tools/terra-library/key-utils";
 import {
-  validateCosmosAddress,
   validateCosmosAppVersion,
+  validateNetworkAddress,
 } from "tools/validation-utils";
 import { isActionOf } from "typesafe-actions";
 import { Actions } from "../root-actions";
@@ -51,7 +51,7 @@ const setAddressEpic: EpicSignature = (action$, state$, deps) => {
         setAddress = validatorAddressToOperatorAddress(setAddress);
       }
 
-      const maybeErrorMessage = validateCosmosAddress(
+      const maybeErrorMessage = validateNetworkAddress(
         setAddress,
         address,
         tString,

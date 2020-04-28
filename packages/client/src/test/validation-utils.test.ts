@@ -1,6 +1,6 @@
 import { ENGLISH } from "i18n/english";
 import {
-  validateCosmosAddress,
+  validateNetworkAddress,
   validateCosmosAppVersion,
   validateCurrencySetting,
   validateFiatCurrency,
@@ -57,16 +57,16 @@ describe("validation-utils", () => {
     console.warn = () => null;
     const tString = (...text: ENGLISH) => String(text);
     const address = "cosmos1yeygh0y8rfyufdczhzytcl3pehsnxv9d3wsnlg";
-    expect(validateCosmosAddress("", address, tString)).toBeTruthy();
+    expect(validateNetworkAddress("", address, tString)).toBeTruthy();
 
-    expect(validateCosmosAddress("apsdiuf", address, tString)).toBeTruthy();
+    expect(validateNetworkAddress("apsdiuf", address, tString)).toBeTruthy();
 
     expect(
-      validateCosmosAddress("apsdiasfd870asd0f97a0suf", address, tString),
+      validateNetworkAddress("apsdiasfd870asd0f97a0suf", address, tString),
     ).toBeTruthy();
 
     expect(
-      validateCosmosAddress(
+      validateNetworkAddress(
         "cosmos1yeygh0y8rfyufdczhzytcl3pehsnxv9d3wsnlg",
         address,
         tString,
@@ -74,7 +74,7 @@ describe("validation-utils", () => {
     ).toBeTruthy();
 
     expect(
-      validateCosmosAddress(
+      validateNetworkAddress(
         "cosmos16nte2qf5l0u39s86wcwu4fff4vdtvg7yn3uksu",
         address,
         tString,
@@ -82,7 +82,7 @@ describe("validation-utils", () => {
     ).toBeFalsy();
 
     expect(
-      validateCosmosAddress(
+      validateNetworkAddress(
         "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         address,
         tString,

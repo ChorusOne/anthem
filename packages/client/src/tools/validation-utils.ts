@@ -66,7 +66,7 @@ export const validateCosmosAppVersion = (version: string): boolean => {
 /**
  * Try to bech32 decode an address string to validate it as a Cosmos address.
  */
-export const validateCosmosAddress = (
+export const validateNetworkAddress = (
   address: string,
   currentAddress: string,
   tString: tFnString,
@@ -81,6 +81,11 @@ export const validateCosmosAddress = (
     return tString(
       "This appears to be a validator address. Please use the associated delegator address if you wish to view information on a validator.",
     );
+  }
+
+  if (address.substring(0, 2) === "0x" && address.length === 42) {
+    console.warn("[TODO]: Fix address validation for Celo addresses!");
+    return "";
   }
 
   if (address.length === 44) {
