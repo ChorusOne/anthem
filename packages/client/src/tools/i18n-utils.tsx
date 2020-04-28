@@ -62,7 +62,12 @@ const parseCatalogInput = (input: ENGLISH, catalog: ICatalog) => {
     if (ENV.DEVELOPMENT) {
       throw new Error(`No match for i18n text input: ${t}`);
     } else {
-      // In production allow fallback to the English key.
+      /**
+       * NOTE: In production allow fallback to the English key! This is
+       * to allow us to more quickly ship updates to the app text content,
+       * but will result in "broken" internationalized versions of the
+       * app.
+       */
       const text = t.split(INTERPOLATION_PATTERN);
       return {
         text,
