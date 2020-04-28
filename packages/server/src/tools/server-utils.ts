@@ -13,10 +13,26 @@ import ENV from "./server-env";
  * ============================================================================
  */
 
+class Logger {
+  log = (message: string, logInAllEnvironments: boolean = false) => {
+    if (ENV.DEVELOPMENT || logInAllEnvironments) {
+      console.log(message);
+    }
+  };
+
+  error = (error: any, logInAllEnvironments: boolean = false) => {
+    if (ENV.DEVELOPMENT || logInAllEnvironments) {
+      console.error(error);
+    }
+  };
+}
+
+export const logger = new Logger();
+
 /**
- * Helper to log and format errors.
+ * Helper to log and format errors thrown when handling requests.
  */
-export const formatError = (error: GraphQLError): GraphQLError => {
+export const requestErrorHandler = (error: GraphQLError): GraphQLError => {
   if (ENV.ENABLE_LOGGING) {
     console.log(chalk.red("Request Failed:"));
     console.log(chalk.red(`- ${JSON.stringify(error)}\n`));
@@ -29,9 +45,13 @@ export const formatError = (error: GraphQLError): GraphQLError => {
 };
 
 /**
- * Logger util to log server requests.
+ * Logger util for standard logging for server requests.
  */
-export const logger = (req: Request, _: Response, next: NextFunction) => {
+export const requestLogger = (
+  req: Request,
+  _: Response,
+  next: NextFunction,
+) => {
   if (ENV.ENABLE_LOGGING) {
     const { body } = req;
     const { operationName, variables } = body;

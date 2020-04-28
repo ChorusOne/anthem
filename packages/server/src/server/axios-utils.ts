@@ -1,7 +1,7 @@
 import { assertUnreachable, NETWORK_NAME } from "@anthem/utils";
 import axios from "axios";
 import moment from "moment";
-import logger from "../tools/logger-utils";
+import { logger } from "../tools/server-utils";
 
 /** ===========================================================================
  * Hosts
@@ -9,7 +9,6 @@ import logger from "../tools/logger-utils";
  */
 
 const COSMOS_LCD = "https://cosmos-lcd.chorus.one:1317";
-const COSMOS_2_LCD = "http://18.232.190.11:1317";
 const TERRA_LCD = "https://terra-lcd.chorus.one:1317";
 const KAVA_LCD = "https://kava-lcd.chorus.one:1317";
 const COSMOS_API = "https://stargate.cosmos.network";
@@ -20,7 +19,6 @@ const CELO = "???";
 
 const HOSTS = {
   COSMOS_LCD,
-  COSMOS_2_LCD,
   TERRA_LCD,
   KAVA_LCD,
   CRYPTO_COMPARE,

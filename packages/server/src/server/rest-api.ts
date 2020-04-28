@@ -1,6 +1,6 @@
 import axios from "axios";
 import express from "express";
-import logger from "../tools/logger-utils";
+import { logger } from "../tools/server-utils";
 import { AxiosUtil, getHostFromNetworkName } from "./axios-utils";
 
 /** ===========================================================================

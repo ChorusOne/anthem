@@ -9,7 +9,7 @@ import { createServer } from "http";
 import restAPI from "./server/rest-api";
 import schema from "./server/schema";
 import ENV from "./tools/server-env";
-import { formatError, logger } from "./tools/server-utils";
+import { requestErrorHandler, requestLogger } from "./tools/server-utils";
 
 /** ===========================================================================
  * Server Configuration
@@ -37,7 +37,7 @@ app.disable("x-powered-by");
 // Create the server
 const server = new ApolloServer({
   schema,
-  formatError,
+  formatError: requestErrorHandler,
   introspection: ENV.ENABLE_GRAPHIQL,
   validationRules: [depthLimit(7)],
 });
@@ -50,7 +50,7 @@ app.use(bodyParser.json());
 app.use("/api", restAPI);
 
 // Add logging function
-app.use("/graphql", logger);
+app.use("/graphql", requestLogger);
 
 server.applyMiddleware({ app, path: "/graphql" });
 
