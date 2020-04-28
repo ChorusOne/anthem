@@ -1,7 +1,6 @@
 import fs from "fs";
-import path from "path";
-
 import { ILocale } from "i18n/catalog";
+import path from "path";
 
 /** ===========================================================================
  * Types & Config
