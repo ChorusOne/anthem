@@ -10,9 +10,9 @@ import ENV from "lib/client-env";
 import Modules, { ReduxStoreState } from "modules/root";
 import DashboardPage from "pages/DashboardPage";
 import HelpPage from "pages/HelpPage";
-import ValidatorsListPage from "pages/ValidatorsListPage";
 import LandingPage from "pages/LandingPage";
 import SettingsPage from "pages/SettingsPage";
+import ValidatorsListPage from "pages/ValidatorsListPage";
 import React from "react";
 import { connect } from "react-redux";
 import {
@@ -73,7 +73,7 @@ class RoutesContainer extends React.Component<IProps> {
               component={DashboardPage}
             />
             <Route key={3} path="/txs/*" component={TransactionDetail} />
-            <Route key={4} path="/validators" component={ValidatorsListPage} />
+            {/* <Route key={4} path="/validators" component={ValidatorsListPage} /> */}
             <Route key={4} path="/help" component={HelpPage} />
             <Route key={5} path="/settings" component={SettingsPage} />
             <Route
