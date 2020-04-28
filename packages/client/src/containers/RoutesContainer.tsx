@@ -12,7 +12,7 @@ import DashboardPage from "pages/DashboardPage";
 import HelpPage from "pages/HelpPage";
 import LandingPage from "pages/LandingPage";
 import SettingsPage from "pages/SettingsPage";
-import ValidatorsListPage from "pages/ValidatorsListPage";
+// import ValidatorsListPage from "pages/ValidatorsListPage";
 import React from "react";
 import { connect } from "react-redux";
 import {

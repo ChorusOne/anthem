@@ -1,5 +1,4 @@
 import { IQuery, NetworkDefinition } from "@anthem/utils";
-import {} from "../../tools/utils";
 import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
 
 /** ===========================================================================
@@ -10,18 +9,35 @@ import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
  * ============================================================================
  */
 
+interface OasisDelegation {
+  delegator: string;
+  validator: string;
+  amount: string;
+}
+
+interface OasisAccountResponse {
+  address: string;
+  balance: string;
+  height: number;
+  delegations: OasisDelegation[];
+  meta: {
+    is_validator: boolean;
+    is_delegator: boolean;
+  };
+}
+
 /**
- * Fetch account balances.
+ * Fetch Oasis account balances.
  */
 const fetchAccountBalances = async (
   address: string,
   network: NetworkDefinition,
 ): Promise<IQuery["accountBalances"]> => {
   const host = getHostFromNetworkName(network.name);
-  const response = await AxiosUtil.get(`${host}/account/${address}`);
-  console.log(response);
+  const response = await AxiosUtil.get<OasisAccountResponse>(
+    `${host}/account/${address}`,
+  );
 
-  // TODO: Transform response:
   return {
     balance: [
       {
@@ -30,7 +46,11 @@ const fetchAccountBalances = async (
       },
     ],
     rewards: [],
-    delegations: [],
+    delegations: response.delegations.map(d => ({
+      delegator_address: d.delegator,
+      validator_address: d.validator,
+      shares: d.amount,
+    })),
     unbonding: [],
     commissions: [],
   };
