@@ -12,6 +12,8 @@ export interface NetworkDefinition {
   coinGeckoTicker: string;
   cryptoCompareTicker: string;
   supportsFiatPrices: boolean;
+  supportsLedger: boolean;
+  available: boolean; // Flag to officially show/hide the network in Anthem
 }
 
 interface NetworksMap {
@@ -39,6 +41,8 @@ const NETWORKS: NetworksMap = {
     coinGeckoTicker: "cosmos",
     cryptoCompareTicker: "ATOM",
     supportsFiatPrices: true,
+    supportsLedger: true,
+    available: true,
   },
   TERRA: {
     name: "TERRA",
@@ -49,6 +53,8 @@ const NETWORKS: NetworksMap = {
     coinGeckoTicker: "terra-luna",
     cryptoCompareTicker: "LUNA",
     supportsFiatPrices: true,
+    supportsLedger: true,
+    available: true,
   },
   KAVA: {
     name: "KAVA",
@@ -59,6 +65,8 @@ const NETWORKS: NetworksMap = {
     coinGeckoTicker: "kava",
     cryptoCompareTicker: "KAVA",
     supportsFiatPrices: true,
+    supportsLedger: true,
+    available: true,
   },
   OASIS: {
     name: "OASIS",
@@ -69,13 +77,13 @@ const NETWORKS: NetworksMap = {
     coinGeckoTicker: "oasis",
     cryptoCompareTicker: "OASIS",
     supportsFiatPrices: false,
+    supportsLedger: false,
+    available: false,
   },
 };
 
 // Refactor to improve this whitelisting logic
-const AVAILABLE_NETWORKS = Object.values(NETWORKS).filter(
-  n => n.name !== "OASIS",
-);
+const AVAILABLE_NETWORKS = Object.values(NETWORKS).filter(n => n.available);
 
 /** ===========================================================================
  * Export

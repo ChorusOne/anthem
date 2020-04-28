@@ -89,7 +89,7 @@ class Balance extends React.Component<IProps, {}> {
           };
 
           const SHOULD_SHOW_LEDGER_ACTIONS =
-            isDesktop && ledger.network.name !== "OASIS";
+            isDesktop && ledger.network.supportsLedger;
 
           const BalanceLines = (
             <View>
