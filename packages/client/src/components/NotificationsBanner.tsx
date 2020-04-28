@@ -70,7 +70,8 @@ class NotificationsBanner extends React.Component<IProps> {
           </BannerText>
         );
       case "OASIS":
-        return <BannerText>Oasis Network is still in development!</BannerText>;
+      case "CELO":
+        return <BannerText>{name} Network is still in development!</BannerText>;
       default:
         return assertUnreachable(name);
     }

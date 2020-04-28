@@ -1,5 +1,11 @@
-import { NETWORK_NAME } from "@anthem/utils";
-import { CosmosLogo, KavaLogo, OasisLogo, TerraLogo } from "assets/icons";
+import { assertUnreachable, NETWORK_NAME } from "@anthem/utils";
+import {
+  CeloLogo,
+  CosmosLogo,
+  KavaLogo,
+  OasisLogo,
+  TerraLogo,
+} from "assets/icons";
 import React from "react";
 import styled, { CSSProperties } from "styled-components";
 import { ReactComponent as ChorusLogoIconOnlyDark } from "../assets/chorus/C1_logo_simple_black.svg";
@@ -193,8 +199,10 @@ export const NetworkLogoIcon = ({
       return <NetworkImage src={KavaLogo} style={styles} />;
     case "OASIS":
       return <NetworkImage src={OasisLogo} style={styles} />;
+    case "CELO":
+      return <NetworkImage src={CeloLogo} style={styles} />;
     default:
-      return null;
+      return assertUnreachable(network);
   }
 };
 
