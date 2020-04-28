@@ -86,8 +86,8 @@ const NETWORKS: NetworksMap = {
     supportsFiatPrices: false,
     supportsLedger: false,
     available: false,
-    balancesUnsupported: true,
     portfolioUnsupported: true,
+    transactionsListUnsupported: true,
   },
   CELO: {
     name: "CELO",
