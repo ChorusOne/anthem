@@ -25,5 +25,5 @@ jobs:
         run: yarn docker:build
 
       # Run all tests
-      - name: Run all application tests
+      - name: Run all static, unit and e2e tests
         run: yarn docker:cypress
