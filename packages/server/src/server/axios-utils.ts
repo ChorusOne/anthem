@@ -16,6 +16,7 @@ const COSMOS_API = "https://stargate.cosmos.network";
 const COIN_GECKO_API = "https://api.coingecko.com/api/v3";
 const CRYPTO_COMPARE = "https://min-api.cryptocompare.com";
 const OASIS = "http://216.18.206.50:10100";
+const CELO = "???";
 
 const HOSTS = {
   COSMOS_LCD,
@@ -26,6 +27,7 @@ const HOSTS = {
   COSMOS_API,
   COIN_GECKO_API,
   OASIS,
+  CELO,
 };
 
 const hostsList = Object.values(HOSTS);
@@ -43,6 +45,8 @@ export const getHostFromNetworkName = (network: NETWORK_NAME) => {
       return HOSTS.KAVA_LCD;
     case "OASIS":
       return HOSTS.OASIS;
+    case "CELO":
+      return HOSTS.CELO;
     default:
       return assertUnreachable(network);
   }

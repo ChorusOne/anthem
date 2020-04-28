@@ -6,7 +6,7 @@ import {
   mapSumToBalance,
   objectHasKeys,
   standardizeTimestamps,
-} from "../tools/utils";
+} from "../tools/server-utils";
 import { fiatPriceResponseData, transactionsResponseData } from "./test-data";
 
 describe("Utils test", () => {
