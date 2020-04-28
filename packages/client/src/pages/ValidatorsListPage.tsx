@@ -1,5 +1,16 @@
-import { PageContainer, PageTitle } from "components/SharedComponents";
-import { ValidatorsProps, withValidators } from "graphql/queries";
+import { IQuery } from "@anthem/utils";
+import { GraphQLGuardComponent } from "components/GraphQLGuardComponents";
+import {
+  Line,
+  PageContainer,
+  PageTitle,
+  View,
+} from "components/SharedComponents";
+import {
+  ValidatorsProps,
+  withGraphQLVariables,
+  withValidators,
+} from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
@@ -13,11 +24,28 @@ import { composeWithProps } from "tools/context-utils";
 
 class ValidatorsListPage extends React.Component<IProps, {}> {
   render(): JSX.Element {
-    console.log("Validators:");
-    console.log(this.props.validators);
+    const { validators, i18n } = this.props;
     return (
       <PageContainer>
         <PageTitle data-cy="validators-page-title">Validators</PageTitle>
+        <Line style={{ marginBottom: 12 }} />
+        <GraphQLGuardComponent
+          dataKey="validators"
+          result={validators}
+          tString={i18n.tString}
+        >
+          {(validatorList: IQuery["validators"]) => {
+            return (
+              <View>
+                {validatorList.map(v => (
+                  <p>
+                    <b>{v.description.moniker}</b> | {v.operator_address}
+                  </p>
+                ))}
+              </View>
+            );
+          }}
+        </GraphQLGuardComponent>
       </PageContainer>
     );
   }
@@ -56,5 +84,6 @@ interface IProps extends ComponentProps, ValidatorsProps, ConnectProps {}
 
 export default composeWithProps<ComponentProps>(
   withProps,
+  withGraphQLVariables,
   withValidators,
 )(ValidatorsListPage);

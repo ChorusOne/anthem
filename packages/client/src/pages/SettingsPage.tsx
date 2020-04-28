@@ -4,6 +4,7 @@ import CurrencySettingsToggle from "components/CurrencySettingToggle";
 import LanguageSelectMenu from "components/LanguageSelect";
 import {
   Button,
+  Line,
   PageContainer,
   PageTitle,
   TextInput,
@@ -346,14 +347,6 @@ const InfoText = styled.p`
   margin: 0;
   padding: 0;
   width: 600px;
-`;
-
-const Line = styled.div`
-  height: 1px;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-color: ${(props: { theme: IThemeProps }) =>
-    props.theme.isDarkTheme ? COLORS.ADDRESS_LINE : COLORS.LIGHT_GRAY};
 `;
 
 /** ===========================================================================
