@@ -1,3 +1,4 @@
+// @ts-ignore
 import { tify } from "chinese-conv";
 import { catalogs } from "../src/i18n/catalog";
 import { I_SOURCE_KEYS, saveJsonFile, SOURCE_KEYS } from "./script-utils";
