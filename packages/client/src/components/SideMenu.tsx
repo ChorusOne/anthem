@@ -100,6 +100,14 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         title={tString("Dashboard")}
         icon={IconNames.TIMELINE_BAR_CHART}
       />,
+      <NavItem
+        path={pathname}
+        closeHandler={close}
+        key="Validators"
+        route="Validators"
+        title="Validators"
+        icon={IconNames.OFFICE}
+      />,
       // <NavItem
       //   path={pathname}
       //   closeHandler={close}
