@@ -14,6 +14,9 @@ export interface NetworkDefinition {
   supportsFiatPrices: boolean;
   supportsLedger: boolean;
   available: boolean; // Flag to officially show/hide the network in Anthem
+  balancesUnsupported?: boolean;
+  portfolioUnsupported?: boolean;
+  transactionsListUnsupported?: boolean;
 }
 
 interface NetworksMap {
@@ -27,9 +30,9 @@ interface NetworksMap {
  * ============================================================================
  */
 
-export type COIN_DENOMS = "uatom" | "ukava" | "uluna" | "oasis";
+export type COIN_DENOMS = "uatom" | "ukava" | "uluna" | "oasis" | "cGLD";
 
-export type NETWORK_NAME = "COSMOS" | "TERRA" | "KAVA" | "OASIS";
+export type NETWORK_NAME = "COSMOS" | "TERRA" | "KAVA" | "OASIS" | "CELO";
 
 const NETWORKS: NetworksMap = {
   COSMOS: {
@@ -55,6 +58,8 @@ const NETWORKS: NetworksMap = {
     supportsFiatPrices: true,
     supportsLedger: true,
     available: true,
+    balancesUnsupported: true,
+    portfolioUnsupported: true,
   },
   KAVA: {
     name: "KAVA",
@@ -67,18 +72,37 @@ const NETWORKS: NetworksMap = {
     supportsFiatPrices: true,
     supportsLedger: true,
     available: true,
+    balancesUnsupported: true,
+    portfolioUnsupported: true,
   },
   OASIS: {
     name: "OASIS",
     denom: "oasis",
     ticker: "oasis",
     descriptor: "OASIS",
-    chainId: "oasis-2",
+    chainId: "oasis",
     coinGeckoTicker: "oasis",
     cryptoCompareTicker: "OASIS",
     supportsFiatPrices: false,
     supportsLedger: false,
     available: false,
+    balancesUnsupported: true,
+    portfolioUnsupported: true,
+  },
+  CELO: {
+    name: "CELO",
+    denom: "cGLD",
+    ticker: "celo",
+    descriptor: "CELO",
+    chainId: "celo",
+    coinGeckoTicker: "celo",
+    cryptoCompareTicker: "CELO",
+    supportsFiatPrices: false,
+    supportsLedger: false,
+    available: false,
+    balancesUnsupported: true,
+    portfolioUnsupported: true,
+    transactionsListUnsupported: true,
   },
 };
 

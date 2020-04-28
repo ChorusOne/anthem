@@ -1,7 +1,12 @@
 import { Colors, H5, Icon } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
-import { Button, DashboardLoader, View } from "components/SharedComponents";
+import {
+  Button,
+  Centered,
+  DashboardLoader,
+  View,
+} from "components/SharedComponents";
 import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
 import {
@@ -36,8 +41,20 @@ class Balance extends React.Component<IProps, {}> {
       ledger,
       accountBalances,
     } = this.props;
+    const { network } = ledger;
     const { t, tString } = i18n;
     const { isDesktop, currencySetting } = settings;
+
+    if (network.balancesUnsupported) {
+      return (
+        <Centered style={{ flexDirection: "column", marginTop: -25 }}>
+          <p>
+            <b>{network.name}</b> balances are not supported yet.
+          </p>
+        </Centered>
+      );
+    }
+
     return (
       <GraphQLGuardComponentMultipleQueries
         allowErrorResponses

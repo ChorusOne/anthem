@@ -74,7 +74,7 @@ class TransactionListContainer extends React.Component<IProps, IState> {
     const { tString } = i18n;
     const { network } = ledger;
 
-    if (network.name !== "COSMOS") {
+    if (network.transactionsListUnsupported) {
       return (
         <Centered style={{ flexDirection: "column" }}>
           <p>
