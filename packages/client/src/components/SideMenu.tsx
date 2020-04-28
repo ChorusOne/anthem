@@ -25,13 +25,13 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { connect } from "react-redux";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
-import { composeWithProps } from "tools/context-utils";
 import {
   abbreviateAddress,
   copyTextToClipboard,
   onActiveRoute,
   onPath,
-} from "tools/generic-utils";
+} from "tools/client-utils";
+import { composeWithProps } from "tools/context-utils";
 import BetaBanner from "./BetaBanner";
 import { KeyboardShortcutsPopover } from "./KeyboardShortcutsPopover";
 import Toast from "./Toast";

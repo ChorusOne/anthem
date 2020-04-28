@@ -1,5 +1,5 @@
 import Ledger from "@lunie/cosmos-ledger";
-import { wait } from "tools/generic-utils";
+import { wait } from "tools/client-utils";
 import ENV from "./client-env";
 
 /** ===========================================================================

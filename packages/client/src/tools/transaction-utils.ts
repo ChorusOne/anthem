@@ -14,7 +14,7 @@ import {
   ITransaction,
 } from "@anthem/utils";
 import { tFn, tFnString } from "tools/i18n-utils";
-import { formatAddressString } from "./generic-utils";
+import { formatAddressString } from "./client-utils";
 import { bold } from "./i18n-utils";
 import { addValuesInList } from "./math-utils";
 

@@ -23,8 +23,8 @@ import React from "react";
 import PieChart from "react-minimal-pie-chart";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import { getAccountBalances } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
-import { getAccountBalances } from "tools/generic-utils";
 
 /** ===========================================================================
  * React Component

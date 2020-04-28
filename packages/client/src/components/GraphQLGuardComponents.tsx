@@ -2,7 +2,7 @@ import { Spinner } from "@blueprintjs/core";
 import React from "react";
 import { QueryResult } from "react-apollo";
 import { QueryHookResult } from "react-apollo-hooks";
-import { isGraphQLResponseDataEmpty } from "tools/generic-utils";
+import { isGraphQLResponseDataEmpty } from "tools/client-utils";
 import { tFnString } from "tools/i18n-utils";
 import { Centered } from "./SharedComponents";
 

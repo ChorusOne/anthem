@@ -1,6 +1,6 @@
 import { ICoin, IQuery } from "@anthem/utils";
 import BigNumber from "bignumber.js";
-import { trimZeroes } from "./generic-utils";
+import { trimZeroes } from "./client-utils";
 import {
   divide,
   GenericNumberType,

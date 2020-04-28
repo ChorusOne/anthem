@@ -24,7 +24,7 @@ import {
   take,
   tap,
 } from "rxjs/operators";
-import { getQueryParamsFromUrl, wait } from "tools/generic-utils";
+import { getQueryParamsFromUrl, wait } from "tools/client-utils";
 import { validateNetworkAddress } from "tools/validation-utils";
 import { isActionOf } from "typesafe-actions";
 import { Actions } from "../root-actions";

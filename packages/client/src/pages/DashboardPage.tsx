@@ -34,12 +34,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
-import { composeWithProps } from "tools/context-utils";
 import {
   copyTextToClipboard,
   getPortfolioTypeFromUrl,
   onActiveRoute,
-} from "tools/generic-utils";
+} from "tools/client-utils";
+import { composeWithProps } from "tools/context-utils";
 import { tFnString } from "tools/i18n-utils";
 
 /** ===========================================================================

@@ -3,7 +3,6 @@ import { H5 } from "@blueprintjs/core";
 import { Centered } from "components/SharedComponents";
 import Toast from "components/Toast";
 import React from "react";
-import { atomsToDenom, convertCryptoToFiat } from "tools/currency-utils";
 import {
   formatAddressString,
   getFiatPriceHistoryMap,
@@ -12,7 +11,8 @@ import {
   getValidatorOperatorAddressMap,
   PriceHistoryMap,
   ValidatorOperatorAddressMap,
-} from "tools/generic-utils";
+} from "tools/client-utils";
+import { atomsToDenom, convertCryptoToFiat } from "tools/currency-utils";
 import { TransactionListProps } from "./TransactionListContainer";
 import TransactionListItem from "./TransactionListItem";
 

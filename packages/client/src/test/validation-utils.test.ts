@@ -1,10 +1,10 @@
 import { ENGLISH } from "i18n/english";
 import {
-  validateNetworkAddress,
   validateCosmosAppVersion,
   validateCurrencySetting,
   validateFiatCurrency,
   validateLedgerTransactionAmount,
+  validateNetworkAddress,
 } from "tools/validation-utils";
 
 describe("validation-utils", () => {

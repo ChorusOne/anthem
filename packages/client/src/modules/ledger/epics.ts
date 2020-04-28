@@ -19,7 +19,7 @@ import {
   takeUntil,
   tap,
 } from "rxjs/operators";
-import { capitalizeString, wait } from "tools/generic-utils";
+import { capitalizeString, wait } from "tools/client-utils";
 import { getAccAddress } from "tools/terra-library/key-utils";
 import {
   validateCosmosAppVersion,

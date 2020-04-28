@@ -30,11 +30,11 @@ import {
   processPortfolioHistoryData,
   WithdrawalEventDates,
 } from "tools/chart-utils";
+import { getPortfolioTypeFromUrl } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { chartExportBuilder } from "tools/csv-utils";
 import { formatCurrencyAmount } from "tools/currency-utils";
 import { fromDateKey, getDateInFuture, toDateKey } from "tools/date-utils";
-import { getPortfolioTypeFromUrl } from "tools/generic-utils";
 import { tFnString } from "tools/i18n-utils";
 import CurrencySettingsToggle from "./CurrencySettingToggle";
 import {

@@ -1,6 +1,6 @@
 import { ReduxStoreState } from "modules/root";
 import { createSelector } from "reselect";
-import { identity } from "tools/generic-utils";
+import { identity } from "tools/client-utils";
 
 /** ===========================================================================
  * Address

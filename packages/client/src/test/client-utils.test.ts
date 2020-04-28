@@ -23,7 +23,7 @@ import {
   race,
   trimZeroes,
   wait,
-} from "tools/generic-utils";
+} from "tools/client-utils";
 import accountBalances from "../../../utils/src/client/data/accountBalances.json";
 import { fiatPriceHistory } from "../../../utils/src/client/data/fiatPriceHistory.json";
 import prices from "../../../utils/src/client/data/prices.json";
