@@ -8,6 +8,7 @@ import {
   Spinner,
 } from "@blueprintjs/core";
 import { COLORS } from "constants/colors";
+import { IThemeProps } from "containers/ThemeContainer";
 import React, { ChangeEvent } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import Loader from "react-loader-spinner";
@@ -27,6 +28,18 @@ interface StyleProps {
  * ============================================================================
  */
 export const View = styled.div``;
+
+/** ===========================================================================
+ * Line
+ * ============================================================================
+ */
+export const Line = styled.div`
+  height: 1px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-color: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? COLORS.ADDRESS_LINE : COLORS.LIGHT_GRAY};
+`;
 
 /** ===========================================================================
  * Row

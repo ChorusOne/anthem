@@ -38,6 +38,13 @@ import SyntaxHighlighter, {
 import { googlecode } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import styled from "styled-components";
+import {
+  capitalizeString,
+  formatValidatorsList,
+  getAccountBalances,
+  getBlockExplorerUrlForTransaction,
+  mapRewardsToAvailableRewards,
+} from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import {
   createDelegationTransactionMessage,
@@ -49,13 +56,6 @@ import {
   denomToAtoms,
   formatCurrencyAmount,
 } from "tools/currency-utils";
-import {
-  capitalizeString,
-  formatValidatorsList,
-  getAccountBalances,
-  getBlockExplorerUrlForTransaction,
-  mapRewardsToAvailableRewards,
-} from "tools/generic-utils";
 import { bold } from "tools/i18n-utils";
 import { TRANSACTION_STAGES } from "tools/transaction-utils";
 import { validateLedgerTransactionAmount } from "tools/validation-utils";

@@ -1,4 +1,16 @@
-import { PageContainer, PageTitle } from "components/SharedComponents";
+import { IQuery } from "@anthem/utils";
+import { GraphQLGuardComponent } from "components/GraphQLGuardComponents";
+import {
+  Line,
+  PageContainer,
+  PageTitle,
+  View,
+} from "components/SharedComponents";
+import {
+  ValidatorsProps,
+  withGraphQLVariables,
+  withValidators,
+} from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
@@ -6,22 +18,34 @@ import { connect } from "react-redux";
 import { composeWithProps } from "tools/context-utils";
 
 /** ===========================================================================
- * Types & Config
- * ============================================================================
- */
-
-/** ===========================================================================
  * React Component
  * ============================================================================
  */
 
-class GovernancePage extends React.Component<IProps, {}> {
+class ValidatorsListPage extends React.Component<IProps, {}> {
   render(): JSX.Element {
+    const { validators, i18n } = this.props;
     return (
       <PageContainer>
-        <PageTitle data-cy="governance-page-title">
-          {this.props.i18n.tString("Governance")}
-        </PageTitle>
+        <PageTitle data-cy="validators-page-title">Validators</PageTitle>
+        <Line style={{ marginBottom: 12 }} />
+        <GraphQLGuardComponent
+          dataKey="validators"
+          result={validators}
+          tString={i18n.tString}
+        >
+          {(validatorList: IQuery["validators"]) => {
+            return (
+              <View>
+                {validatorList.map(v => (
+                  <p>
+                    <b>{v.description.moniker}</b> | {v.operator_address}
+                  </p>
+                ))}
+              </View>
+            );
+          }}
+        </GraphQLGuardComponent>
       </PageContainer>
     );
   }
@@ -51,11 +75,15 @@ const withProps = connect(mapStateToProps, dispatchProps);
 
 interface ComponentProps {}
 
-interface IProps extends ComponentProps, ConnectProps {}
+interface IProps extends ComponentProps, ValidatorsProps, ConnectProps {}
 
 /** ===========================================================================
  * Export
  * ============================================================================
  */
 
-export default composeWithProps<ComponentProps>(withProps)(GovernancePage);
+export default composeWithProps<ComponentProps>(
+  withProps,
+  withGraphQLVariables,
+  withValidators,
+)(ValidatorsListPage);

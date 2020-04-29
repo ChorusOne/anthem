@@ -15,15 +15,17 @@ import { composeWithProps } from "tools/context-utils";
  * ============================================================================
  */
 
-const WalletPage: React.FC<IProps> = (props: IProps) => {
-  return (
-    <PageContainer>
-      <PageTitle data-cy="wallet-page-title">
-        {props.i18n.tString("Wallet")}
-      </PageTitle>
-    </PageContainer>
-  );
-};
+class WalletPage extends React.Component<IProps, {}> {
+  render(): JSX.Element {
+    return (
+      <PageContainer>
+        <PageTitle data-cy="wallet-page-title">
+          {this.props.i18n.tString("Wallet")}
+        </PageTitle>
+      </PageContainer>
+    );
+  }
+}
 
 /** ===========================================================================
  * Styles and Helpers

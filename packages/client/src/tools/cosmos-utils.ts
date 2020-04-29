@@ -74,6 +74,9 @@ export const TERRA_MESSAGE_TYPES = {
 // TODO: Implement
 export const OASIS_MESSAGE_TYPES = {};
 
+// TODO: Implement
+export const CELO_MESSAGE_TYPES = {};
+
 const getTransactionMessageTypeForNetwork = (
   network: NETWORK_NAME,
   transactionType: LEDGER_ACTION_TYPE,
@@ -88,6 +91,10 @@ const getTransactionMessageTypeForNetwork = (
       console.warn("[TODO]: Implement Oasis transaction types!");
       // @ts-ignore
       return OASIS_MESSAGE_TYPES[transactionType];
+    case "CELO":
+      console.warn("[TODO]: Implement Celo transaction types!");
+      // @ts-ignore
+      return CELO_MESSAGE_TYPES[transactionType];
     default:
       return assertUnreachable(network);
   }

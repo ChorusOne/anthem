@@ -1,6 +1,5 @@
 // @ts-ignore
 import { tify } from "chinese-conv";
-
 import { catalogs } from "../src/i18n/catalog";
 import { I_SOURCE_KEYS, saveJsonFile, SOURCE_KEYS } from "./script-utils";
 
@@ -32,7 +31,7 @@ const convertToTraditional = (sourceKeys: I_SOURCE_KEYS) => {
   return result;
 };
 
-const main = () => {
+const convertSimplifiedToTraditional = () => {
   console.log(
     "Converting existing Simplified Chinese translation JSON file to Traditional Chinese\n",
   );
@@ -40,7 +39,12 @@ const main = () => {
   const traditionalCatalog = convertToTraditional(SOURCE_KEYS);
   saveJsonFile(traditionalCatalog, "zh-TW");
 
-  console.log("Converstion complete!");
+  console.log("Conversion complete!\n");
 };
 
-main();
+/** ===========================================================================
+ * Export
+ * ============================================================================
+ */
+
+export { convertSimplifiedToTraditional };

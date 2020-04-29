@@ -19,11 +19,11 @@ import {
   takeUntil,
   tap,
 } from "rxjs/operators";
-import { capitalizeString, wait } from "tools/generic-utils";
+import { capitalizeString, wait } from "tools/client-utils";
 import { getAccAddress } from "tools/terra-library/key-utils";
 import {
-  validateCosmosAddress,
   validateCosmosAppVersion,
+  validateNetworkAddress,
 } from "tools/validation-utils";
 import { isActionOf } from "typesafe-actions";
 import { Actions } from "../root-actions";
@@ -51,7 +51,7 @@ const setAddressEpic: EpicSignature = (action$, state$, deps) => {
         setAddress = validatorAddressToOperatorAddress(setAddress);
       }
 
-      const maybeErrorMessage = validateCosmosAddress(
+      const maybeErrorMessage = validateNetworkAddress(
         setAddress,
         address,
         tString,
@@ -131,8 +131,11 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
 
                 break;
               }
+              case "CELO":
               case "OASIS": {
-                Toast.warn("Oasis Network is not supported on Ledger yet.");
+                Toast.warn(
+                  `${signinNetworkName} Network is not supported on Ledger yet.`,
+                );
                 return resolve(Actions.connectLedgerFailure());
               }
               default: {

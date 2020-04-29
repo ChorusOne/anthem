@@ -1,7 +1,7 @@
 import { assertUnreachable, NETWORK_NAME } from "@anthem/utils";
 import axios from "axios";
 import moment from "moment";
-import logger from "../tools/logger-utils";
+import { logger } from "../tools/server-utils";
 
 /** ===========================================================================
  * Hosts
@@ -9,23 +9,23 @@ import logger from "../tools/logger-utils";
  */
 
 const COSMOS_LCD = "https://cosmos-lcd.chorus.one:1317";
-const COSMOS_2_LCD = "http://18.232.190.11:1317";
 const TERRA_LCD = "https://terra-lcd.chorus.one:1317";
 const KAVA_LCD = "https://kava-lcd.chorus.one:1317";
 const COSMOS_API = "https://stargate.cosmos.network";
 const COIN_GECKO_API = "https://api.coingecko.com/api/v3";
 const CRYPTO_COMPARE = "https://min-api.cryptocompare.com";
-const OASIS = "http://216.18.206.50:8121";
+const OASIS = "http://216.18.206.50:10100";
+const CELO = "???";
 
 const HOSTS = {
   COSMOS_LCD,
-  COSMOS_2_LCD,
   TERRA_LCD,
   KAVA_LCD,
   CRYPTO_COMPARE,
   COSMOS_API,
   COIN_GECKO_API,
   OASIS,
+  CELO,
 };
 
 const hostsList = Object.values(HOSTS);
@@ -43,6 +43,8 @@ export const getHostFromNetworkName = (network: NETWORK_NAME) => {
       return HOSTS.KAVA_LCD;
     case "OASIS":
       return HOSTS.OASIS;
+    case "CELO":
+      return HOSTS.CELO;
     default:
       return assertUnreachable(network);
   }

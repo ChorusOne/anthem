@@ -117,6 +117,9 @@ export const getBlockExplorerUrlForTransaction = (
     case "OASIS":
       console.warn("[TODO]: Implement Block Explorer url for Oasis");
       return "";
+    case "CELO":
+      console.warn("[TODO]: Implement Block Explorer url for Celo");
+      return "";
     default:
       return assertUnreachable(network);
   }

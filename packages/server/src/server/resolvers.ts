@@ -27,7 +27,7 @@ import {
   IValidatorsQueryVariables,
   NetworkDefinition,
 } from "@anthem/utils";
-import { standardizeTimestamps } from "../tools/utils";
+import { standardizeTimestamps } from "../tools/server-utils";
 import UnionResolvers from "./resolve-types";
 import COSMOS_EXTRACTOR from "./sources/cosmos-extractor";
 import COSMOS_SDK from "./sources/cosmos-sdk";

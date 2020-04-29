@@ -1,6 +1,6 @@
 import React from "react";
 import { compose } from "react-apollo";
-import { identity } from "tools/generic-utils";
+import { identity } from "tools/client-utils";
 
 /**
  * This just wraps the `compose` method with generic type abilities so the

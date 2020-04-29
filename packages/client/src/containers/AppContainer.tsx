@@ -10,8 +10,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
+import { getQueryParamsFromUrl, onPath } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
-import { getQueryParamsFromUrl, onPath } from "tools/generic-utils";
 import RoutesContainer, { FixedAppBackgroundPage } from "./RoutesContainer";
 
 /** ===========================================================================

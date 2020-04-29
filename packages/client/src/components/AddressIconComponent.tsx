@@ -9,7 +9,7 @@ import {
   getValidatorNameFromAddress,
   ValidatorOperatorAddressMap,
   wait,
-} from "tools/generic-utils";
+} from "tools/client-utils";
 
 /** ===========================================================================
  * Types & Config

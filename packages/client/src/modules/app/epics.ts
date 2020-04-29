@@ -24,8 +24,8 @@ import {
   take,
   tap,
 } from "rxjs/operators";
-import { getQueryParamsFromUrl, wait } from "tools/generic-utils";
-import { validateCosmosAddress } from "tools/validation-utils";
+import { getQueryParamsFromUrl, wait } from "tools/client-utils";
+import { validateNetworkAddress } from "tools/validation-utils";
 import { isActionOf } from "typesafe-actions";
 import { Actions } from "../root-actions";
 
@@ -53,7 +53,7 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
         address = validatorAddressToOperatorAddress(address);
       }
 
-      const addressError = validateCosmosAddress(address, "", tString);
+      const addressError = validateNetworkAddress(address, "", tString);
       let network = NETWORKS.COSMOS; // Default to Cosmos
 
       if (addressError && address !== "") {

@@ -21,15 +21,15 @@ RUN yarn utils:build
 RUN yarn server:build
 
 # Bundle app source
-# COPY packages/server/ ./
+COPY packages/server/ ./
 
 # Set production env
 ENV NODE_ENV=production
 
 # Expose PORT
-EXPOSE 8080
+EXPOSE 8000
 
 # Start the server
 RUN chmod +x /usr/src/app/entrypoint.sh
 
-CMD [ "node", "packages/server/build/src/server.js" ]
+CMD [ "node", "build/src/server.js" ]

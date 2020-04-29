@@ -30,11 +30,11 @@ import {
   processPortfolioHistoryData,
   WithdrawalEventDates,
 } from "tools/chart-utils";
+import { getPortfolioTypeFromUrl } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { chartExportBuilder } from "tools/csv-utils";
 import { formatCurrencyAmount } from "tools/currency-utils";
 import { fromDateKey, getDateInFuture, toDateKey } from "tools/date-utils";
-import { getPortfolioTypeFromUrl } from "tools/generic-utils";
 import { tFnString } from "tools/i18n-utils";
 import CurrencySettingsToggle from "./CurrencySettingToggle";
 import {
@@ -105,7 +105,7 @@ class PortfolioLoadingContainer extends React.PureComponent<
     const { i18n, network, portfolioHistory } = this.props;
     const { tString } = i18n;
 
-    if (network.name !== "COSMOS") {
+    if (network.portfolioUnsupported) {
       return (
         <Centered style={{ flexDirection: "column", marginTop: -25 }}>
           <p>

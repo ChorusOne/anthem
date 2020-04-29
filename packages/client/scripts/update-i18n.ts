@@ -4,6 +4,7 @@ import {
   ICatalogKeys,
   TODO_IMPLEMENTATION_MSG,
 } from "../src/i18n/catalog";
+import { convertSimplifiedToTraditional } from "./cn-tw";
 import { I_SOURCE_KEYS, saveJsonFile, SOURCE_KEYS } from "./script-utils";
 
 /** ===========================================================================
@@ -84,6 +85,8 @@ const main = () => {
   console.log(
     `\nComplete! ${catalogList.length} files processed successfully!\n`,
   );
+
+  convertSimplifiedToTraditional();
 };
 
 main();

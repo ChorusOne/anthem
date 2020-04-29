@@ -24,8 +24,7 @@
     "test:update-snapshots": "yarn jest --updateSnapshot",
     "lint": "yarn prettier && yarn tslint && yarn tsc",
     "test": "yarn lint && yarn test:unit",
-    "i18n:update": "ts-node --log-error -O '{\"module\": \"commonjs\"}' scripts/update-i18n.ts && yarn format",
-    "i18n:tw": "ts-node --log-error -O '{\"module\": \"commonjs\"}' scripts/cn-tw.ts && yarn format"
+    "i18n": "ts-node --log-error -O '{\"module\": \"commonjs\"}' scripts/update-i18n.ts && yarn format"
   },
   "dependencies": {
     "@anthem/utils": "^0.0.1",

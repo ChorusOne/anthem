@@ -23,6 +23,7 @@
     "tsc": "lerna run tsc",
     "test": "lerna run test",
     "build": "lerna run build",
+    "i18n": "cd packages/client && yarn i18n",
     "cypress": "cd packages/cypress && yarn cypress:run",
     "cypress:run": "cd packages/cypress && yarn cypress run",
     "cypress:open": "cd packages/cypress && yarn cypress open",

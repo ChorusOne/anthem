@@ -29,6 +29,7 @@ const postProcessResponse = (response: any, network: NetworkDefinition) => {
     case "KAVA":
       return response.result;
     case "OASIS":
+    case "CELO":
       break;
     default:
       return assertUnreachable(name);

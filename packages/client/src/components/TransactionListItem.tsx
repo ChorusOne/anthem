@@ -24,13 +24,13 @@ import Modules from "modules/root";
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { denomToAtoms, formatCurrencyAmount } from "tools/currency-utils";
-import { formatDate, formatTime } from "tools/date-utils";
 import {
   copyTextToClipboard,
   justFormatChainString,
   ValidatorOperatorAddressMap,
-} from "tools/generic-utils";
+} from "tools/client-utils";
+import { denomToAtoms, formatCurrencyAmount } from "tools/currency-utils";
+import { formatDate, formatTime } from "tools/date-utils";
 import { tFnString, TranslateMethodProps } from "tools/i18n-utils";
 import {
   COSMOS_TRANSACTION_TYPES,

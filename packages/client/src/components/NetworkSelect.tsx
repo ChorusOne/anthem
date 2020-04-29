@@ -9,8 +9,8 @@ import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
+import { capitalizeString, onPath } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
-import { capitalizeString, onPath } from "tools/generic-utils";
 import { View } from "./SharedComponents";
 
 /** ===========================================================================

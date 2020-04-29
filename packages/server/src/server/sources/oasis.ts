@@ -1,5 +1,4 @@
 import { IQuery, NetworkDefinition } from "@anthem/utils";
-import {} from "../../tools/utils";
 import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
 
 /** ===========================================================================
@@ -10,48 +9,51 @@ import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
  * ============================================================================
  */
 
+interface OasisDelegation {
+  delegator: string;
+  validator: string;
+  amount: string;
+}
+
+interface OasisAccountResponse {
+  address: string;
+  balance: string;
+  height: number;
+  delegations: OasisDelegation[];
+  meta: {
+    is_validator: boolean;
+    is_delegator: boolean;
+  };
+}
+
 /**
- * Fetch account balances.
+ * Fetch Oasis account balances.
  */
 const fetchAccountBalances = async (
   address: string,
   network: NetworkDefinition,
 ): Promise<IQuery["accountBalances"]> => {
   const host = getHostFromNetworkName(network.name);
-  // const response = await AxiosUtil.get(`${host}/account/${address}`);
+  const response = await AxiosUtil.get<OasisAccountResponse>(
+    `${host}/account/${address}`,
+  );
 
-  // Return fake data:
   return {
     balance: [
       {
         denom: "oasis",
-        amount: "8461776366",
+        amount: response.balance,
       },
     ],
     rewards: [],
-    delegations: [
-      {
-        delegator_address: "CVzqFIADD2Ed0khGBNf4Rvh7vSNtrL1ULTkWYQszDpc=",
-        validator_address: "CVzqFIADD2Ed0khGBNf4Rvh7vSNtrL1ULTkWYQszDpc=",
-        shares: "10540852281084",
-      },
-    ],
+    delegations: response.delegations.map(d => ({
+      delegator_address: d.delegator,
+      validator_address: d.validator,
+      shares: d.amount,
+    })),
     unbonding: [],
     commissions: [],
   };
-
-  // return {
-  //   balance: [
-  //     {
-  //       denom: "oasis",
-  //       amount: response.balance,
-  //     },
-  //   ],
-  //   rewards: [],
-  //   delegations: [],
-  //   unbonding: [],
-  //   commissions: [],
-  // };
 };
 
 /** ===========================================================================

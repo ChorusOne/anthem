@@ -24,6 +24,6 @@ jobs:
       - name: Install dependencies and build the application
         run: yarn docker:build
 
-      # Build the application
-      - name: Run all application tests
+      # Run all tests
+      - name: Run all static, unit and e2e tests
         run: yarn docker:cypress

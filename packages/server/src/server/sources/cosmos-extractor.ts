@@ -10,12 +10,12 @@ import {
 } from "@anthem/utils";
 import { Pool } from "pg";
 import ENV from "../../tools/server-env";
-import { getSqlQueryString, SQLVariables } from "../../tools/sql-utils";
 import {
   filterSanityCheckHeights,
   formatTransactionResponse,
   mapSumToBalance,
-} from "../../tools/utils";
+} from "../../tools/server-utils";
+import { getSqlQueryString, SQLVariables } from "../../tools/sql-utils";
 
 /** ===========================================================================
  * Postgres Pool
@@ -51,8 +51,10 @@ export const queryPostgresCosmosSdkPool = async (
     case "KAVA":
       response = await kavaPool.query(query);
       break;
+    case "CELO":
     case "OASIS":
       // Not supported yet
+      console.warn(`${network} is not supported yet!`);
       return;
     default:
       return assertUnreachable(network);
