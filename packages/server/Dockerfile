@@ -27,7 +27,7 @@ COPY packages/server/ ./
 ENV NODE_ENV=production
 
 # Expose PORT
-EXPOSE 8080
+EXPOSE 8000
 
 # Start the server
 RUN chmod +x /usr/src/app/entrypoint.sh
