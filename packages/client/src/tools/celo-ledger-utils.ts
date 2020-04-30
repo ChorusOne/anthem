@@ -7,24 +7,22 @@ import TransportUSB from "@ledgerhq/hw-transport-webusb";
  * ============================================================================
  */
 
+const getCeloLedgerTransport = () => {
+  if (window.USB) {
+    return TransportUSB.create();
+  } else if (window.u2f) {
+    return TransportU2F.create();
+  }
+
+  throw new Error("Browser not supported!");
+};
+
 export const connectCeloAddress = async () => {
   try {
-    let transport;
-    console.log("Checking for Celo transport!");
-    if (window.USB) {
-      transport = await TransportUSB.create();
-    } else if (window.u2f) {
-      transport = await TransportU2F.create();
-    } else {
-      // Browser not supported
-      return;
-    }
+    const transport = getCeloLedgerTransport();
     const eth = new Eth(transport);
-    const { address } = await eth.getAddress(
-      "44'/52752'/0'/0/" + "0", // Address Index
-      true,
-    );
-    console.log(`Got address! ${address}`);
+    const { address } = await eth.getAddress("44'/52752'/0'/0/1", true);
+    console.log(`Got Celo Address! ${address}`);
   } catch (error) {
     console.error(error);
   }
@@ -32,14 +30,7 @@ export const connectCeloAddress = async () => {
 
 export const signCeloTransaction = async (transactionData: any) => {
   try {
-    let transport;
-    if (window.USB) {
-      transport = await TransportUSB.create();
-    } else if (window.u2f) {
-      transport = await TransportU2F.create();
-    } else {
-      return;
-    }
+    const transport = getCeloLedgerTransport();
     const eth = new Eth(transport);
     const { address } = await eth.signTransaction(
       "44'/52752'/0'/0/0",
