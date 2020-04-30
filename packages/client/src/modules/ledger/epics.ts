@@ -109,36 +109,32 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
               state$.value,
             );
 
-            if (signinNetworkName === "CELO") {
-              console.log(`Connecting network: ${signinNetworkName}`);
-              await connectCeloAddress();
-              return;
-            }
-
-            // Connect to the Ledger device
-            await ledger.connectDevice();
-
-            let cosmosSdkAddress;
+            let ledgerAddress;
             switch (signinNetworkName) {
               case "COSMOS": {
-                cosmosSdkAddress = await ledger.getCosmosAddress();
+                await ledger.connectDevice();
+                ledgerAddress = await ledger.getCosmosAddress();
                 break;
               }
               case "KAVA":
               case "TERRA": {
+                await ledger.connectDevice();
                 const pk = await ledger.getPubKey();
                 if (typeof pk === "string") {
-                  cosmosSdkAddress = getAccAddress(
+                  ledgerAddress = getAccAddress(
                     Buffer.from(pk),
                     signinNetworkName,
                   );
                 } else {
-                  cosmosSdkAddress = getAccAddress(pk, signinNetworkName);
+                  ledgerAddress = getAccAddress(pk, signinNetworkName);
                 }
 
                 break;
               }
-              // case "CELO":
+              case "CELO": {
+                ledgerAddress = await connectCeloAddress();
+                break;
+              }
               case "OASIS": {
                 Toast.warn(
                   `${signinNetworkName} Network is not supported on Ledger yet.`,
@@ -151,7 +147,7 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
             }
 
             const cosmosAppVersion = await ledger.getCosmosAppVersion();
-            const network = deriveNetworkFromAddress(cosmosSdkAddress);
+            const network = deriveNetworkFromAddress(ledgerAddress);
             const versionValid = validateCosmosAppVersion(cosmosAppVersion);
 
             if (!versionValid) {
@@ -171,7 +167,7 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
               Actions.connectLedgerSuccess({
                 network,
                 cosmosAppVersion,
-                cosmosAddress: cosmosSdkAddress,
+                cosmosAddress: ledgerAddress,
               }),
             );
           } catch (error) {

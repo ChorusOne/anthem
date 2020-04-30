@@ -14,6 +14,9 @@ import TransportUSB from "@ledgerhq/hw-transport-webusb";
  * ============================================================================
  */
 
+/**
+ * Handle getting the Celo Ledger transport.
+ */
 const getCeloLedgerTransport = () => {
   if (window.USB) {
     return TransportUSB.create();
@@ -24,17 +27,25 @@ const getCeloLedgerTransport = () => {
   throw new Error("Browser not supported!");
 };
 
+/**
+ * Connect to the Celo Ledger App and retrieve the account address.
+ */
 export const connectCeloAddress = async () => {
   try {
     const transport = await getCeloLedgerTransport();
     const eth = new Eth(transport);
     const { address } = await eth.getAddress("44'/52752'/0'/0/1", true);
     console.log(`Got Celo Address! ${address}`);
+    return address;
   } catch (error) {
+    // TODO: Handle screensaver errors
     console.error(error);
   }
 };
 
+/**
+ * Sign transaction data with the Celo Ledger App.
+ */
 export const signCeloTransaction = async (transactionData: any) => {
   try {
     const transport = await getCeloLedgerTransport();
