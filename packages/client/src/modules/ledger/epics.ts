@@ -109,8 +109,8 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
               state$.value,
             );
 
-            console.log(`Connecting network: ${signinNetworkName}`);
             if (signinNetworkName === "CELO") {
+              console.log(`Connecting network: ${signinNetworkName}`);
               await connectCeloAddress();
               return;
             }
@@ -138,7 +138,7 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
 
                 break;
               }
-              case "CELO":
+              // case "CELO":
               case "OASIS": {
                 Toast.warn(
                   `${signinNetworkName} Network is not supported on Ledger yet.`,

@@ -98,7 +98,7 @@ const NETWORKS: NetworksMap = {
     coinGeckoTicker: "celo",
     cryptoCompareTicker: "CELO",
     supportsFiatPrices: false,
-    supportsLedger: false,
+    supportsLedger: true,
     available: false,
     balancesUnsupported: true,
     portfolioUnsupported: true,
