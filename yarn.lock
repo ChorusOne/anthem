@@ -1944,6 +1944,25 @@
   resolved "https://registry.yarnpkg.com/@ledgerhq/errors/-/errors-5.13.1.tgz#1df73a8084609888fabcefbdb9edfd4c11ab3a22"
   integrity sha512-IuEw9a70K3C3AZV4yVGk75HlwmKmJaR6EjMIxBAupiCw0G6rBP0d62MA1Vx4dg082LKKNXKafWcDstLG4ySpBA==
 
+"@ledgerhq/hw-app-eth@^5.14.0":
+  version "5.14.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-eth/-/hw-app-eth-5.14.0.tgz#a268c8f86035e88e637c38254cc7847a7dadf169"
+  integrity sha512-JCgKcyr/oQl4PW1uHlhCvgmqzoJZNQWrXiWZHrrvaCwZTJicGW8UlY8Gy/EWNbMG0yf591qk4bIOoXXFd3fjgg==
+  dependencies:
+    "@ledgerhq/errors" "^5.13.1"
+    "@ledgerhq/hw-transport" "^5.13.1"
+    bignumber.js "^9.0.0"
+
+"@ledgerhq/hw-transport-u2f@^5.13.1":
+  version "5.13.1"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-u2f/-/hw-transport-u2f-5.13.1.tgz#d36b60788148e149e4be4a733bb4ffd8524048ea"
+  integrity sha512-vn91iWDpEYYYGRPM+EbtnBnalE8KRKTPKo2vw8KHRGGdSqxip3nUvtXAa+9SCbm/nh4VU+s3K8YvuWKBrikTXg==
+  dependencies:
+    "@ledgerhq/errors" "^5.13.1"
+    "@ledgerhq/hw-transport" "^5.13.1"
+    "@ledgerhq/logs" "^5.13.1"
+    u2f-api "0.2.7"
+
 "@ledgerhq/hw-transport-webhid@^5.7.0":
   version "5.13.1"
   resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-webhid/-/hw-transport-webhid-5.13.1.tgz#6252498e05660067222e01f2e48413f5150bc051"
@@ -19289,6 +19308,11 @@ typescript@^3.6.4, typescript@^3.7.4:
   version "3.8.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.8.3.tgz#409eb8544ea0335711205869ec458ab109ee1061"
   integrity sha512-MYlEfn5VrLNsgudQTVJeNaQFUAI7DkhnOjdpAp4T+ku1TfQClewlbSuTVHiA+8skNBgaf02TL/kLOvig4y3G8w==
+
+u2f-api@0.2.7:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/u2f-api/-/u2f-api-0.2.7.tgz#17bf196b242f6bf72353d9858e6a7566cc192720"
+  integrity sha512-fqLNg8vpvLOD5J/z4B6wpPg4Lvowz1nJ9xdHcCzdUPKcFE/qNCceV2gNZxSJd5vhAZemHr/K/hbzVA0zxB5mkg==
 
 ua-parser-js@^0.7.18:
   version "0.7.21"
