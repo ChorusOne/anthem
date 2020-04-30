@@ -1,5 +1,7 @@
 FROM cypress/base:12.16.1 AS cypress
 
+ENV CI=true
+
 # Dockerize is needed to sync containers startup
 ENV DOCKERIZE_VERSION v0.6.0
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
