@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node:10-alpine AS build
 
 RUN apk update && apk add bash curl jq
 
@@ -11,6 +11,9 @@ COPY . .
 # Install Lerna
 RUN npm i -g lerna
 
+# Install Zeit ncc
+RUN npm i -g @zeit/ncc
+
 # Install dependencies
 RUN lerna bootstrap
 
@@ -20,16 +23,26 @@ RUN yarn utils:build
 # Build the server
 RUN yarn server:build
 
-# Bundle app source
-COPY packages/server/ ./
+# Compile the server into a single js file
+RUN cd packages/server && ncc build build/src/server.js -o dist
 
-# Set production env
-ENV NODE_ENV=production
+FROM node:10-alpine AS runtime
+
+WORKDIR /usr/src/app
+
+# Copy entrypoint file
+COPY --from=build /usr/src/app/packages/server/entrypoint.sh /usr/src/app
+
+# Copy dist folder with server index.js file
+COPY --from=build /usr/src/app/packages/server/dist /usr/src/app/dist
+
+# Copy schema folder with GraphQL schema file
+COPY --from=build /usr/src/app/packages/server/src/schema /usr/src/app/schema
+
+# Allow entrypoint to be executable
+RUN chmod +x entrypoint.sh
 
 # Expose PORT
 EXPOSE 8000
 
-# Start the server
-RUN chmod +x /usr/src/app/entrypoint.sh
-
-CMD [ "node", "build/src/server.js" ]
+CMD [ "node", "dist/index.js" ]
