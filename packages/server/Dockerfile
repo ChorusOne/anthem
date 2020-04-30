@@ -1,7 +1,5 @@
 FROM node:10-alpine AS build
 
-RUN npm install -g ncp
-
 # Create app directory
 WORKDIR /usr/src/app
 
