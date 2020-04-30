@@ -28,7 +28,7 @@
     "cypress:run": "cd packages/cypress && yarn cypress run",
     "cypress:open": "cd packages/cypress && yarn cypress open",
     "cypress:dev": "cd packages/client && yarn cypress:dev",
-    "test:ci": "yarn test && cd packages/cypress && yarn cypress:ci",
+    "test:ci": "cd packages/cypress && yarn cypress:ci",
     "types": "cd packages/utils && yarn build:types && yarn format && yarn build",
     "recording": "cd packages/server && yarn recording",
     "record": "cd packages/utils && yarn record",

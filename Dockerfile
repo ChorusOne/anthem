@@ -28,6 +28,9 @@ RUN cd packages/client && REACT_APP_DEV=true yarn build
 # Build the server package
 RUN yarn server:build
 
+# Run the unit tests
+RUN yarn test
+
 FROM base as dependencies
 
 # Copy everything
