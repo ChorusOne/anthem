@@ -53,7 +53,9 @@ export const getNetworkDefinitionFromIdentifier = (networkName: string) => {
  * Get the network definition from a provided network price ticker.
  */
 export const getNetworkDefinitionFromTicker = (ticker: string) => {
-  const network = Object.values(NETWORKS).find(n => n.ticker === ticker);
+  const network = Object.values(NETWORKS).find(
+    n => ticker === n.coinGeckoTicker || ticker === n.ticker,
+  );
 
   if (network) {
     return network;

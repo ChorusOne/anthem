@@ -41,7 +41,7 @@ import OASIS from "./sources/oasis";
  */
 
 const blockUnsupportedNetworks = (network: NetworkDefinition) => {
-  if (!network.supportsFiatPrices) {
+  if (network.portfolioUnsupported) {
     throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
   }
 };
