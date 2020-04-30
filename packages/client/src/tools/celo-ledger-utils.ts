@@ -7,7 +7,7 @@ import TransportUSB from "@ledgerhq/hw-transport-webusb";
  * ============================================================================
  */
 
-export const onGetLedgerCeloAddress = async () => {
+export const connectCeloAddress = async () => {
   try {
     let transport;
     console.log("Checking for Celo transport!");
@@ -30,7 +30,7 @@ export const onGetLedgerCeloAddress = async () => {
   }
 };
 
-export const onLedgerCeloSendTx = async (transactionData: any) => {
+export const signCeloTransaction = async (transactionData: any) => {
   try {
     let transport;
     if (window.USB) {

@@ -19,6 +19,7 @@ import {
   takeUntil,
   tap,
 } from "rxjs/operators";
+import { connectCeloAddress } from "tools/celo-ledger-utils";
 import { capitalizeString, wait } from "tools/client-utils";
 import { getAccAddress } from "tools/terra-library/key-utils";
 import {
@@ -107,6 +108,12 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
             const { signinNetworkName } = selectors.ledgerDialogSelector(
               state$.value,
             );
+
+            console.log(`Connecting network: ${signinNetworkName}`);
+            if (signinNetworkName === "CELO") {
+              await connectCeloAddress();
+              return;
+            }
 
             // Connect to the Ledger device
             await ledger.connectDevice();
