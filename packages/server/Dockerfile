@@ -1,9 +1,5 @@
 FROM node:10-alpine AS build
 
-RUN apk update && apk add bash curl jq
-
-RUN npm install -g ncp
-
 # Create app directory
 WORKDIR /usr/src/app
 
@@ -29,6 +25,9 @@ RUN yarn server:build
 RUN cd packages/server && ncc build build/src/server.js -o dist
 
 FROM node:10-alpine AS runtime
+
+# Install dependencies for entrypoint script
+RUN apk update && apk add bash curl jq
 
 WORKDIR /usr/src/app
 

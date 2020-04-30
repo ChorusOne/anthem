@@ -44,7 +44,7 @@ class AddressInputDashboardBar extends React.Component<IProps, {}> {
             <Row style={{ width: 110 }}>
               <NetworkLogoIcon network={network.name} />
               <View style={{ textAlign: "center", marginRight: 20 }}>
-                <b style={{ margin: 0, fontSize: 14 }}>{network.descriptor}</b>
+                <b style={{ margin: 0, fontSize: 14 }}>{network.name}</b>
                 <p>Network</p>
               </View>
             </Row>
@@ -148,8 +148,8 @@ const renderPercentChange = (percentChange: string) => {
 export const Row = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: space-around;
 `;
 
 /** ===========================================================================
