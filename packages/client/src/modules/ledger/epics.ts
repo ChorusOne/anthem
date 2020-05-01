@@ -23,7 +23,7 @@ import { connectCeloAddress } from "tools/celo-ledger-utils";
 import { capitalizeString, wait } from "tools/client-utils";
 import { getAccAddress } from "tools/terra-library/key-utils";
 import {
-  validateCosmosAppVersion,
+  validateLedgerAppVersion,
   validateNetworkAddress,
 } from "tools/validation-utils";
 import { isActionOf } from "typesafe-actions";
@@ -146,13 +146,16 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
               }
             }
 
-            const cosmosAppVersion = await ledger.getCosmosAppVersion();
+            const ledgerAppVersion = await ledger.getCosmosAppVersion();
             const network = deriveNetworkFromAddress(ledgerAddress);
-            const versionValid = validateCosmosAppVersion(cosmosAppVersion);
+            const versionValid = validateLedgerAppVersion(
+              ledgerAppVersion,
+              network.ledgerAppVersion,
+            );
 
             if (!versionValid) {
               Toast.danger(
-                "Invalid Cosmos app version. Please upgrade your Cosmos Ledger application!",
+                `Invalid ${network.ledgerAppName} version! Please upgrade your ${network.ledgerAppName} Ledger application!`,
               );
               return resolve(Actions.connectLedgerFailure());
             }
@@ -166,7 +169,7 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
             return resolve(
               Actions.connectLedgerSuccess({
                 network,
-                cosmosAppVersion,
+                cosmosAppVersion: ledgerAppVersion,
                 cosmosAddress: ledgerAddress,
               }),
             );

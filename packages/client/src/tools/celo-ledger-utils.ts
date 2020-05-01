@@ -38,6 +38,7 @@ export const connectCeloAddress = async () => {
     console.log(`Got Celo Address! ${address}`);
     return address;
   } catch (error) {
+    console.log(error.message);
     // TODO: Handle screensaver errors
     console.error(error);
   }
