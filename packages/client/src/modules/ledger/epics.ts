@@ -99,7 +99,7 @@ const ledgerDialogConnectionEpic: EpicSignature = (action$, state$, deps) => {
   );
 };
 
-const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
+const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.connectLedger)),
     mergeMap(() => {
@@ -111,19 +111,20 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
               state$.value,
             );
 
-            const associatedNetwork = getNetworkDefinitionFromIdentifier(
+            const networkDefinition = getNetworkDefinitionFromIdentifier(
               signinNetworkName,
             );
+
             // Fail fast if the network does not have Ledger support yet.
-            // TODO: Move this logic up to a filter operator.
-            if (!associatedNetwork.supportsLedger) {
+            if (!networkDefinition.supportsLedger) {
               Toast.warn(
-                `${associatedNetwork.name} Network is not supported on Ledger yet.`,
+                `${networkDefinition.name} Network is not supported on Ledger yet.`,
               );
               return resolve(Actions.connectLedgerFailure());
             }
 
             let ledgerAddress;
+            // TODO: Refactor this to a separate function, e.g. getAddressFromLedger
             switch (signinNetworkName) {
               case "COSMOS": {
                 await ledger.connectDevice();
@@ -187,6 +188,7 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
           } catch (error) {
             let retryDelay = 500;
             const { message } = error;
+
             if (message === LEDGER_ERRORS.BROWSER_NOT_SUPPORTED) {
               Toast.warn("This browser is not supported.");
             } else if (
@@ -199,7 +201,7 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
                 ),
               );
 
-              // Extend the retry delay
+              // Extend the retry delay to allow the screensaver to be dismissed
               retryDelay = 6500;
             }
 
@@ -207,6 +209,7 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
             return resolve(Actions.connectLedger());
           }
         }),
+        // Discard stream when the Ledger dialog is dismissed
       ).pipe(takeUntil(action$.ofType(Actions.closeLedgerDialog().type)));
     }),
   );
@@ -305,7 +308,7 @@ const clearAllRecentAddressesEpic: EpicSignature = action$ => {
 export default combineEpics(
   setAddressEpic,
   ledgerDialogConnectionEpic,
-  connectCosmosLedgerEpic,
+  connectLedgerEpic,
   logoutEpic,
   saveAddressEpic,
   setAddressNavigationEpic,
