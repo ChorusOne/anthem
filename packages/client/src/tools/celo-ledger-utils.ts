@@ -38,9 +38,12 @@ export const connectCeloAddress = async () => {
     console.log(`Got Celo Address! ${address}`);
     return address;
   } catch (error) {
-    console.log(error.message);
-    // TODO: Handle screensaver errors
-    console.error(error);
+    // Escalate the error. Try to identify and handle screensaver mode errors.
+    if (error.message === "Invalid channel") {
+      throw new Error("Ledger's screensaver mode is on");
+    } else {
+      throw error;
+    }
   }
 };
 

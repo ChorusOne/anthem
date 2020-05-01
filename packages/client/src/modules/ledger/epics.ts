@@ -1,6 +1,7 @@
 import {
   assertUnreachable,
   deriveNetworkFromAddress,
+  getNetworkDefinitionFromIdentifier,
   validatorAddressToOperatorAddress,
 } from "@anthem/utils";
 import Toast from "components/Toast";
@@ -109,6 +110,18 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
               state$.value,
             );
 
+            const associatedNetwork = getNetworkDefinitionFromIdentifier(
+              signinNetworkName,
+            );
+            // Fail fast if the network does not have Ledger support yet.
+            // TODO: Move this logic up to a filteroperator.
+            if (!associatedNetwork.supportsLedger) {
+              Toast.warn(
+                `${associatedNetwork.name} Network is not supported on Ledger yet.`,
+              );
+              return resolve(Actions.connectLedgerFailure());
+            }
+
             let ledgerAddress;
             switch (signinNetworkName) {
               case "COSMOS": {
@@ -136,9 +149,6 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
                 break;
               }
               case "OASIS": {
-                Toast.warn(
-                  `${signinNetworkName} Network is not supported on Ledger yet.`,
-                );
                 return resolve(Actions.connectLedgerFailure());
               }
               default: {

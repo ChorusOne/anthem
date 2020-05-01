@@ -1,8 +1,8 @@
 import { ENGLISH } from "i18n/english";
 import {
-  validateCosmosAppVersion,
   validateCurrencySetting,
   validateFiatCurrency,
+  validateLedgerAppVersion,
   validateLedgerTransactionAmount,
   validateNetworkAddress,
 } from "tools/validation-utils";
@@ -37,19 +37,19 @@ describe("validation-utils", () => {
   });
 
   test("validateCosmosAddress", () => {
-    let result = validateCosmosAppVersion("1.1.1");
+    let result = validateLedgerAppVersion("1.1.1", "1.1.1");
     expect(result).toBeTruthy();
 
-    result = validateCosmosAppVersion("1.1.2");
+    result = validateLedgerAppVersion("1.1.2", "1.1.1");
     expect(result).toBeTruthy();
 
-    result = validateCosmosAppVersion("1.5.3");
+    result = validateLedgerAppVersion("1.5.3", "1.1.1");
     expect(result).toBeTruthy();
 
-    result = validateCosmosAppVersion("0.1.2");
+    result = validateLedgerAppVersion("0.1.2", "1.1.1");
     expect(result).toBeFalsy();
 
-    result = validateCosmosAppVersion("1.0.9");
+    result = validateLedgerAppVersion("1.0.9", "1.1.1");
     expect(result).toBeFalsy();
   });
 
