@@ -5,8 +5,8 @@ import {
   validatorAddressToOperatorAddress,
 } from "@anthem/utils";
 import Toast from "components/Toast";
+import { LEDGER_ERRORS } from "constants/ledger-errors";
 import Analytics from "lib/analytics-lib";
-import { COSMOS_LEDGER_SCREENSAVER_ERROR } from "lib/cosmos-ledger-lib";
 import StorageModule from "lib/storage-lib";
 import { EpicSignature, ReduxActionTypes } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
@@ -115,7 +115,7 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
               signinNetworkName,
             );
             // Fail fast if the network does not have Ledger support yet.
-            // TODO: Move this logic up to a filteroperator.
+            // TODO: Move this logic up to a filter operator.
             if (!associatedNetwork.supportsLedger) {
               Toast.warn(
                 `${associatedNetwork.name} Network is not supported on Ledger yet.`,
@@ -187,7 +187,11 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
           } catch (error) {
             let retryDelay = 500;
             const { message } = error;
-            if (message === COSMOS_LEDGER_SCREENSAVER_ERROR) {
+            if (message === LEDGER_ERRORS.BROWSER_NOT_SUPPORTED) {
+              Toast.warn("This browser is not supported.");
+            } else if (
+              message === LEDGER_ERRORS.COSMOS_LEDGER_SCREENSAVER_ERROR
+            ) {
               const { tString } = i18nSelector(state$.value);
               Toast.warn(
                 tString(

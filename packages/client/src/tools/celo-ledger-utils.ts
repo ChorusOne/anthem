@@ -1,7 +1,7 @@
 import Eth from "@ledgerhq/hw-app-eth";
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
-import { COSMOS_LEDGER_SCREENSAVER_ERROR } from "lib/cosmos-ledger-lib";
+import { LEDGER_ERRORS } from "constants/ledger-errors";
 
 /** ===========================================================================
  * Celo Ledger Utils
@@ -25,7 +25,7 @@ const getCeloLedgerTransport = () => {
     return TransportU2F.create();
   }
 
-  throw new Error("Browser not supported!");
+  throw new Error(LEDGER_ERRORS.BROWSER_NOT_SUPPORTED);
 };
 
 /**
@@ -41,7 +41,7 @@ export const connectCeloAddress = async () => {
   } catch (error) {
     // Escalate the error. Try to identify and handle screensaver mode errors.
     if (error.message === "Invalid channel") {
-      throw new Error(COSMOS_LEDGER_SCREENSAVER_ERROR);
+      throw new Error(LEDGER_ERRORS.COSMOS_LEDGER_SCREENSAVER_ERROR);
     } else {
       throw error;
     }

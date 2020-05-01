@@ -7,9 +7,6 @@ import ENV from "./client-env";
  * ============================================================================
  */
 
-export const COSMOS_LEDGER_SCREENSAVER_ERROR =
-  "Ledger's screensaver mode is on";
-
 class CosmosLedgerModule extends Ledger {
   ledger: typeof Ledger = {} as any;
 
