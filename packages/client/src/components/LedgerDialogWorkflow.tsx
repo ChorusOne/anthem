@@ -210,6 +210,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
   };
 
   renderLedgerSignin = () => {
+    const { network } = this.props;
     const { tString } = this.props.i18n;
 
     // TODO: Render specific instructions for each signinNetwork network type:
