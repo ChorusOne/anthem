@@ -22,6 +22,7 @@ export interface NetworkDefinition extends NetworkFeatureMeta {
   ledgerAppVersion: string;
   supportsLedger: boolean;
   ledgerAppName: string;
+  ledgerDocsLink: string;
 }
 
 interface NetworksMap {
@@ -31,7 +32,9 @@ interface NetworksMap {
 /** ===========================================================================
  * Networks
  * ---------------------------------------------------------------------------
- * Definitions of networks and their metadata for the support networks.
+ * This is the source of truth for all supported or in-development networks
+ * for Anthem. The network definitions include various configuration details
+ * and flags which dictate their usage and features in Anthem.
  * ============================================================================
  */
 
@@ -50,9 +53,11 @@ const NETWORKS: NetworksMap = {
     coinGeckoTicker: "cosmos",
     cryptoCompareTicker: "ATOM",
     ledgerAppVersion: "1.1.1",
-    supportsFiatPrices: true,
-    supportsLedger: true,
     ledgerAppName: "Cosmos",
+    ledgerDocsLink:
+      "https://hub.cosmos.network/master/resources/ledger.html#install-the-cosmos-ledger-application",
+    supportsLedger: true,
+    supportsFiatPrices: true,
   },
   TERRA: {
     available: true,
@@ -64,9 +69,10 @@ const NETWORKS: NetworksMap = {
     coinGeckoTicker: "terra-luna",
     cryptoCompareTicker: "LUNA",
     ledgerAppVersion: "1.1.1",
-    supportsFiatPrices: true,
-    supportsLedger: true,
     ledgerAppName: "Cosmos",
+    ledgerDocsLink: "https://docs.terra.money/docs/node-ledger-nano-support",
+    supportsLedger: true,
+    supportsFiatPrices: true,
     balancesUnsupported: true,
     portfolioUnsupported: true,
   },
@@ -80,9 +86,11 @@ const NETWORKS: NetworksMap = {
     coinGeckoTicker: "kava",
     cryptoCompareTicker: "KAVA",
     ledgerAppVersion: "1.1.1",
-    supportsFiatPrices: true,
-    supportsLedger: true,
     ledgerAppName: "Cosmos",
+    ledgerDocsLink:
+      "https://medium.com/kava-labs/configure-ledger-nano-s-for-use-with-kava-4c3b00aeca32",
+    supportsLedger: true,
+    supportsFiatPrices: true,
     balancesUnsupported: true,
     portfolioUnsupported: true,
   },
@@ -96,9 +104,10 @@ const NETWORKS: NetworksMap = {
     coinGeckoTicker: "oasis",
     cryptoCompareTicker: "OASIS",
     ledgerAppVersion: "n/a",
-    supportsFiatPrices: false,
+    ledgerAppName: "n/a",
+    ledgerDocsLink: "n/a",
     supportsLedger: false,
-    ledgerAppName: "Cosmos",
+    supportsFiatPrices: false,
     portfolioUnsupported: true,
     transactionsListUnsupported: true,
   },
@@ -112,9 +121,10 @@ const NETWORKS: NetworksMap = {
     coinGeckoTicker: "celo",
     cryptoCompareTicker: "CELO",
     ledgerAppVersion: "1.0.1",
-    supportsFiatPrices: false,
-    supportsLedger: true,
     ledgerAppName: "Celo",
+    ledgerDocsLink: "https://docs.celo.org/celo-gold-holder-guide/ledger",
+    supportsLedger: true,
+    supportsFiatPrices: false,
     // available: false,
     // supportsLedger: false,
     balancesUnsupported: true,

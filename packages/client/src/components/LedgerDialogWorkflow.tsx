@@ -267,7 +267,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
             bottom: -16,
             position: "absolute",
           }}
-          href="https://chorusone.substack.com/"
+          href={network.ledgerDocsLink}
         >
           <span>{network.ledgerAppName} Docs</span>
         </Link>
