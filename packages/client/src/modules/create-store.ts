@@ -2,7 +2,7 @@ import client from "graphql/apollo-client";
 import { createBrowserHistory } from "history";
 import cosmosBlockchainModule from "lib/blockchain-lib";
 import ENV from "lib/client-env";
-import ledgerModule from "lib/ledger-lib";
+import ledgerModule from "lib/cosmos-ledger-lib";
 import { reduxLogger as logger } from "lib/logger-lib";
 import { applyMiddleware, createStore, Middleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";

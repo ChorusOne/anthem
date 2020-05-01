@@ -7,7 +7,10 @@ import ENV from "./client-env";
  * ============================================================================
  */
 
-class LedgerModule extends Ledger {
+export const COSMOS_LEDGER_SCREENSAVER_ERROR =
+  "Ledger's screensaver mode is on";
+
+class CosmosLedgerModule extends Ledger {
   ledger: typeof Ledger = {} as any;
 
   constructor(args: { testModeAllowed: boolean }) {
@@ -57,7 +60,7 @@ class LedgerModule extends Ledger {
  * ============================================================================
  */
 
-class MockLedgerModule extends Ledger {
+class MockCosmosLedgerModule extends Ledger {
   connectDevice = async () => {
     return this;
   };
@@ -100,8 +103,10 @@ class MockLedgerModule extends Ledger {
  * ============================================================================
  */
 
-const ledgerModule = new LedgerModule({ testModeAllowed: true });
+const cosmosLedgerModule = new CosmosLedgerModule({ testModeAllowed: true });
 
-const mockLedgerModule = new MockLedgerModule();
+const mockCosmosLedgerModule = new MockCosmosLedgerModule();
 
-export default ENV.ENABLE_MOCK_APIS ? mockLedgerModule : ledgerModule;
+export default ENV.ENABLE_MOCK_APIS
+  ? mockCosmosLedgerModule
+  : cosmosLedgerModule;

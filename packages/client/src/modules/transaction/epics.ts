@@ -5,8 +5,8 @@ import { i18nSelector } from "modules/settings/selectors";
 import { combineEpics } from "redux-observable";
 import { filter, mergeMap, pluck } from "rxjs/operators";
 import { wait } from "tools/client-utils";
+import { createSignMessage } from "tools/cosmos-ledger-utils";
 import { createCosmosTransactionPostBody } from "tools/cosmos-utils";
-import { createSignMessage } from "tools/ledger-utils";
 import { isActionOf } from "typesafe-actions";
 import { Actions } from "../root-actions";
 

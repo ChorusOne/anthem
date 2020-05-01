@@ -6,6 +6,7 @@ import {
 } from "@anthem/utils";
 import Toast from "components/Toast";
 import Analytics from "lib/analytics-lib";
+import { COSMOS_LEDGER_SCREENSAVER_ERROR } from "lib/cosmos-ledger-lib";
 import StorageModule from "lib/storage-lib";
 import { EpicSignature, ReduxActionTypes } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
@@ -184,11 +185,9 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
               }),
             );
           } catch (error) {
-            const SCREENSAVER_MODE_ERROR = "Ledger's screensaver mode is on";
-            const { message } = error;
-
             let retryDelay = 500;
-            if (message === SCREENSAVER_MODE_ERROR) {
+            const { message } = error;
+            if (message === COSMOS_LEDGER_SCREENSAVER_ERROR) {
               const { tString } = i18nSelector(state$.value);
               Toast.warn(
                 tString(
