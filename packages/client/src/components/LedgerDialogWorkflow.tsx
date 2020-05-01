@@ -261,6 +261,16 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
           </Centered>
         )}
         {this.renderBackArrow()}
+        <Link
+          style={{
+            right: 0,
+            bottom: -16,
+            position: "absolute",
+          }}
+          href="https://chorusone.substack.com/"
+        >
+          <span>{network.ledgerAppName} Docs</span>
+        </Link>
       </View>
     );
   };
