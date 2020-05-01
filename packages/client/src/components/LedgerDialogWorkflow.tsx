@@ -1,3 +1,4 @@
+import { getNetworkDefinitionFromIdentifier } from "@anthem/utils";
 import { Classes, Colors, Dialog, H6, Icon } from "@blueprintjs/core";
 import { ChorusLogoIconOnly, ChorusLogoIconOnlyIconDark } from "assets/images";
 import {
@@ -211,7 +212,9 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
 
   renderLedgerSignin = () => {
     const { tString } = this.props.i18n;
-    const { network } = this.props.ledger;
+    const { ledgerAppVersionValid } = this.props.ledger;
+    const { signinNetworkName } = this.props.ledgerDialog;
+    const network = getNetworkDefinitionFromIdentifier(signinNetworkName);
     return (
       <View>
         <Row style={{ justifyContent: "left" }}>
@@ -231,7 +234,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
             {network.ledgerAppName} app installed.
           </H6>
         </Row>
-        {this.props.ledger.cosmosAppVersionValid === false ? (
+        {ledgerAppVersionValid === false ? (
           <Centered style={{ flexDirection: "column", marginTop: 52 }}>
             <ErrorText>
               Invalid version of the {network.ledgerAppVersion} Ledger app
