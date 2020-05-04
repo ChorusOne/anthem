@@ -141,6 +141,7 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
         <TransactionList
           {...this.props}
           isDetailView
+          extraLiveTransactions={[]}
           transactions={transaction ? [transaction] : []}
         />
       </View>
@@ -237,9 +238,6 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   settings: Modules.selectors.settings(state),
   app: Modules.selectors.app.appSelector(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
-  liveTransactionsRecordSelector: Modules.selectors.transaction.liveTransactionsRecordSelector(
-    state,
-  ),
 });
 
 const dispatchProps = {

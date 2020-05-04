@@ -70,6 +70,7 @@ class TransactionListContainer extends React.Component<IProps, IState> {
       validators,
       transactions,
       fiatPriceHistory,
+      extraLiveTransactions,
     } = this.props;
     const { tString } = i18n;
     const { network } = ledger;
@@ -95,12 +96,16 @@ class TransactionListContainer extends React.Component<IProps, IState> {
           [fiatPriceHistory, "fiatPriceHistory"],
         ]}
       >
-        {() => (
-          <TransactionList
-            {...this.props}
-            transactions={transactions.transactions!}
-          />
-        )}
+        {() => {
+          console.log(extraLiveTransactions);
+          console.log(transactions.transactions);
+          return (
+            <TransactionList
+              {...this.props}
+              transactions={transactions.transactions!}
+            />
+          );
+        }}
       </GraphQLGuardComponentMultipleQueries>
     );
   }
@@ -115,7 +120,7 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   settings: Modules.selectors.settings(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
-  liveTransactionsRecordSelector: Modules.selectors.transaction.liveTransactionsRecordSelector(
+  extraLiveTransactions: Modules.selectors.transaction.liveTransactionsRecordSelector(
     state,
   ),
 });
