@@ -12,6 +12,7 @@ import Actions, { ActionTypes } from "./actions";
  */
 
 export interface TransactionState {
+  liveTransactionRecord: any[];
   transactionPostBody: Nullable<TxPostBody>;
   transactionData: Nullable<TransactionData>;
   transactionStage: TRANSACTION_STAGES;
@@ -23,6 +24,7 @@ export interface TransactionState {
 }
 
 const initialState: TransactionState = {
+  liveTransactionRecord: [],
   transactionPostBody: null,
   transactionData: null,
   transactionStage: TRANSACTION_STAGES.SETUP,
@@ -76,7 +78,8 @@ const transaction = createReducer<
   )
   .handleAction(Actions.transactionConfirmed, (state, action) => ({
     ...state,
-    confirmedTransactionHeight: action.payload,
+    confirmedTransactionHeight: action.payload.height,
+    liveTransactionRecord: state.liveTransactionRecord.concat(action.payload),
     transactionStage: TRANSACTION_STAGES.SUCCESS,
   }))
   .handleAction(

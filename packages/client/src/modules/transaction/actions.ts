@@ -70,7 +70,7 @@ const pollForTransaction = createStandardAction(
 
 const transactionConfirmed = createStandardAction(
   ActionTypesEnum.TRANSACTION_CONFIRMED,
-)<string>();
+)<any>(); // TODO: This is a transaction payload now, type correctly!
 
 const transactionFailed = createStandardAction(
   ActionTypesEnum.TRANSACTION_FAILED,

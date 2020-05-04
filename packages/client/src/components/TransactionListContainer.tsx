@@ -115,6 +115,9 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   settings: Modules.selectors.settings(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
+  liveTransactionsRecordSelector: Modules.selectors.transaction.liveTransactionsRecordSelector(
+    state,
+  ),
 });
 
 const dispatchProps = {

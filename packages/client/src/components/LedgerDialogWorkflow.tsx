@@ -555,9 +555,9 @@ const ClearAllLink = styled.p`
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   settings: Modules.selectors.settings(state),
-  transaction: Modules.selectors.transaction(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
   ledgerDialog: Modules.selectors.ledger.ledgerDialogSelector(state),
+  transaction: Modules.selectors.transaction.transactionsSelector(state),
 });
 
 const dispatchProps = {

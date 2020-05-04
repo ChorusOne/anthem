@@ -11,9 +11,11 @@ const transactionState = (state: ReduxStoreState) => {
   return state.transaction;
 };
 
-export const transactionStateSelector = createSelector(
+const transactionsSelector = createSelector(transactionState, identity);
+
+const liveTransactionsRecordSelector = createSelector(
   transactionState,
-  identity,
+  txs => txs.liveTransactionRecord,
 );
 
 /** ===========================================================================
@@ -21,4 +23,7 @@ export const transactionStateSelector = createSelector(
  * ============================================================================
  */
 
-export default transactionStateSelector;
+export default {
+  transactionsSelector,
+  liveTransactionsRecordSelector,
+};
