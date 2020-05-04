@@ -48,6 +48,44 @@ export const connectCeloAddress = async () => {
   }
 };
 
+// Alfajores = "https://alfajores-forno.celo-testnet.org";
+// Baklava = "https://baklava-forno.celo-testnet.org";
+
+// From web3-core library types:
+// Reference on RLP encoding: https://github.com/ethereum/wiki/wiki/RLP
+export interface RLPEncodedTransaction {
+  raw: string;
+  tx: {
+    nonce: string;
+    gasPrice: string;
+    gas: string;
+    to: string;
+    value: string;
+    input: string;
+    r: string;
+    s: string;
+    v: string;
+    hash: string;
+  };
+}
+
+// See: https://docs.celo.org/v/master/developer-guide/overview/introduction/contractkit/contracts-wrappers-registry
+interface CeloTransactionFields {
+  feeCurrency: string; // address of the ERC20 contract to use to pay for gas and the gateway fee
+  gatewayFeeRecipient: string; // coinbase address of the full serving the light client's transactions
+  gatewayFee: string; // value paid to the gateway fee recipient, denominated in the fee currency
+}
+
+interface EthTransactionData {
+  nonce?: string;
+  chainId?: string;
+  to?: string;
+  data?: string;
+  value?: string;
+  gasPrice?: string;
+  gas: string;
+}
+
 /**
  * Sign transaction data with the Celo Ledger App.
  */
