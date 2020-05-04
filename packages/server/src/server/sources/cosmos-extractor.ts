@@ -95,7 +95,7 @@ const getTransactionsPaginationQuery = () => (
   WHERE hash IN (SELECT hash FROM message_addresses WHERE address = @address)
   ORDER BY timestamp DESC
   OFFSET @startingPage
-  LIMIT 25
+  LIMIT @pageSize
   `;
 
   return getSqlQueryString(sql, variables);
@@ -255,10 +255,11 @@ export const getTransactions = async (
 
 export const getTransactionsPagination = async (
   address: string,
+  pageSize: number,
   startingPage: number,
   network: NetworkDefinition,
 ): Promise<IQuery["transactions"]> => {
-  const variables = { address, startingPage };
+  const variables = { address, startingPage, pageSize };
   const transactionsQuery = getTransactionsPaginationQuery();
   const query = transactionsQuery(variables);
   const response = await queryPostgresCosmosSdkPool(network.name, query);

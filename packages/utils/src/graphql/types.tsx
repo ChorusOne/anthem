@@ -351,6 +351,7 @@ export interface IQueryTransactionsArgs {
 export interface IQueryTransactionsPaginationArgs {
   address: Scalars["String"];
   startingPage: Maybe<Scalars["Float"]>;
+  pageSize: Maybe<Scalars["Float"]>;
 }
 
 export interface IQueryValidatorDistributionArgs {
@@ -1017,6 +1018,7 @@ export type ITransactionsQuery = (
 export interface ITransactionsPaginationQueryVariables {
   address: Scalars["String"];
   startingPage: Maybe<Scalars["Float"]>;
+  pageSize: Maybe<Scalars["Float"]>;
 }
 
 export type ITransactionsPaginationQuery = (
@@ -2510,8 +2512,8 @@ export type TransactionsQueryHookResult = ReturnType<typeof useTransactionsQuery
 export type TransactionsLazyQueryHookResult = ReturnType<typeof useTransactionsLazyQuery>;
 export type TransactionsQueryResult = ApolloReactCommon.QueryResult<ITransactionsQuery, ITransactionsQueryVariables>;
 export const TransactionsPaginationDocument = gql`
-    query transactionsPagination($address: String!, $startingPage: Float) {
-  transactionsPagination(address: $address, startingPage: $startingPage) {
+    query transactionsPagination($address: String!, $startingPage: Float, $pageSize: Float) {
+  transactionsPagination(address: $address, startingPage: $startingPage, pageSize: $pageSize) {
     hash
     height
     log {
@@ -2634,6 +2636,7 @@ export function withTransactionsPagination<TProps, TChildProps = {}>(operationOp
  *   variables: {
  *      address: // value for 'address'
  *      startingPage: // value for 'startingPage'
+ *      pageSize: // value for 'pageSize'
  *   },
  * });
  */

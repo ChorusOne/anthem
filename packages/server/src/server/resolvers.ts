@@ -125,13 +125,13 @@ const resolvers = {
       _: void,
       args: ITransactionsPaginationQueryVariables,
     ): Promise<IQuery["transactionsPagination"]> => {
-      const { address, startingPage } = args;
-      const initialPage: number = startingPage || 0;
+      const { address, startingPage, pageSize } = args;
       const network = deriveNetworkFromAddress(address);
       blockUnsupportedNetworks(network);
       return COSMOS_EXTRACTOR.getTransactionsPagination(
         address,
-        initialPage,
+        pageSize || 25,
+        startingPage || 0,
         network,
       );
     },
