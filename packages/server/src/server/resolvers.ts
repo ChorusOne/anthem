@@ -22,6 +22,7 @@ import {
   IStakingParametersQueryVariables,
   IStakingPoolQueryVariables,
   ITransactionQueryVariables,
+  ITransactionsPaginationQueryVariables,
   IValidatorDistributionQueryVariables,
   IValidatorSetsQueryVariables,
   IValidatorsQueryVariables,
@@ -118,6 +119,21 @@ const resolvers = {
       const network = deriveNetworkFromAddress(address);
       blockUnsupportedNetworks(network);
       return COSMOS_EXTRACTOR.getTransactions(address, network);
+    },
+
+    transactionsPagination: async (
+      _: void,
+      args: ITransactionsPaginationQueryVariables,
+    ): Promise<IQuery["transactionsPagination"]> => {
+      const { address, startingPage } = args;
+      const initialPage: number = startingPage || 0;
+      const network = deriveNetworkFromAddress(address);
+      blockUnsupportedNetworks(network);
+      return COSMOS_EXTRACTOR.getTransactionsPagination(
+        address,
+        initialPage,
+        network,
+      );
     },
 
     rewardsByValidator: async (

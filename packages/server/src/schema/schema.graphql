@@ -8,6 +8,7 @@ type Query {
   accountInformation(address: String!): AccountInformation!
   transaction(txHash: String!, network: String!): Transaction
   transactions(address: String!): [Transaction!]!
+  transactionsPagination(address: String!, startingPage: Float): [Transaction!]!
   validatorDistribution(validatorAddress: String!): ValidatorDistribution!
   validators(network: String!): [Validator!]!
   validatorSets(network: String!): ValidatorSet!

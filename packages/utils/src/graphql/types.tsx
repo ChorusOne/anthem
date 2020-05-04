@@ -292,6 +292,7 @@ export interface IQuery {
   accountInformation: IAccountInformation;
   transaction: Maybe<ITransaction>;
   transactions: ITransaction[];
+  transactionsPagination: ITransaction[];
   validatorDistribution: IValidatorDistribution;
   validators: IValidator[];
   validatorSets: IValidatorSet;
@@ -345,6 +346,11 @@ export interface IQueryTransactionArgs {
 
 export interface IQueryTransactionsArgs {
   address: Scalars["String"];
+}
+
+export interface IQueryTransactionsPaginationArgs {
+  address: Scalars["String"];
+  startingPage: Maybe<Scalars["Float"]>;
 }
 
 export interface IQueryValidatorDistributionArgs {
@@ -942,6 +948,80 @@ export interface ITransactionsQueryVariables {
 export type ITransactionsQuery = (
   { __typename?: "Query" }
   & { transactions: Array<(
+    { __typename?: "Transaction" }
+    & Pick<ITransaction, "hash" | "height" | "gaswanted" | "gasused" | "memo" | "timestamp" | "chain">
+    & { log: Array<Maybe<(
+      { __typename?: "LogMessage" }
+      & Pick<ILogMessage, "code" | "message" | "success" | "log" | "msg_index">
+    )>>, fees: (
+      { __typename?: "TxFee" }
+      & Pick<ITxFee, "gas">
+      & { amount: Maybe<Array<(
+        { __typename?: "Balance" }
+        & Pick<IBalance, "denom" | "amount">
+      )>> }
+    ), tags: Maybe<Array<(
+      { __typename?: "Tag" }
+      & Pick<ITag, "key" | "value">
+    )>>, msgs: Array<(
+      { __typename?: "TxMsg" }
+      & Pick<ITxMsg, "type">
+      & { value: Maybe<(
+        { __typename?: "MsgSend" }
+        & Pick<IMsgSend, "to_address" | "from_address">
+        & { amounts: Maybe<Array<(
+          { __typename?: "Balance" }
+          & Pick<IBalance, "denom" | "amount">
+        )>> }
+      ) | (
+        { __typename?: "MsgVote" }
+        & Pick<IMsgVote, "proposal_id" | "voter" | "option">
+      ) | (
+        { __typename?: "MsgDelegate" }
+        & Pick<IMsgDelegate, "delegator_address" | "validator_address">
+        & { amount: (
+          { __typename?: "Balance" }
+          & Pick<IBalance, "denom" | "amount">
+        ) }
+      ) | (
+        { __typename?: "MsgSubmitProposal" }
+        & Pick<IMsgSubmitProposal, "title" | "description" | "proposal_type" | "proposer">
+        & { initial_deposit: Maybe<Array<(
+          { __typename?: "Balance" }
+          & Pick<IBalance, "denom" | "amount">
+        )>> }
+      ) | (
+        { __typename?: "MsgBeginRedelegate" }
+        & Pick<IMsgBeginRedelegate, "delegator_address" | "validator_src_address" | "validator_dst_address">
+        & { amount: (
+          { __typename?: "Balance" }
+          & Pick<IBalance, "denom" | "amount">
+        ) }
+      ) | (
+        { __typename?: "MsgModifyWithdrawAddress" }
+        & Pick<IMsgModifyWithdrawAddress, "withdraw_address" | "validator_address">
+      ) | (
+        { __typename?: "MsgBeginRedelegateLegacy" }
+        & Pick<IMsgBeginRedelegateLegacy, "shares_amount" | "delegator_address" | "validator_src_address" | "validator_dst_address">
+      ) | (
+        { __typename?: "MsgWithdrawDelegationReward" }
+        & Pick<IMsgWithdrawDelegationReward, "delegator_address" | "validator_address">
+      ) | (
+        { __typename?: "MsgWithdrawValidatorCommission" }
+        & Pick<IMsgWithdrawValidatorCommission, "validator_address">
+      )> }
+    )> }
+  )> }
+);
+
+export interface ITransactionsPaginationQueryVariables {
+  address: Scalars["String"];
+  startingPage: Maybe<Scalars["Float"]>;
+}
+
+export type ITransactionsPaginationQuery = (
+  { __typename?: "Query" }
+  & { transactionsPagination: Array<(
     { __typename?: "Transaction" }
     & Pick<ITransaction, "hash" | "height" | "gaswanted" | "gasused" | "memo" | "timestamp" | "chain">
     & { log: Array<Maybe<(
@@ -2429,6 +2509,143 @@ export function useTransactionsLazyQuery(baseOptions?: ApolloReactHooks.LazyQuer
 export type TransactionsQueryHookResult = ReturnType<typeof useTransactionsQuery>;
 export type TransactionsLazyQueryHookResult = ReturnType<typeof useTransactionsLazyQuery>;
 export type TransactionsQueryResult = ApolloReactCommon.QueryResult<ITransactionsQuery, ITransactionsQueryVariables>;
+export const TransactionsPaginationDocument = gql`
+    query transactionsPagination($address: String!, $startingPage: Float) {
+  transactionsPagination(address: $address, startingPage: $startingPage) {
+    hash
+    height
+    log {
+      code
+      message
+      success
+      log
+      msg_index
+    }
+    gaswanted
+    gasused
+    memo
+    fees {
+      amount {
+        denom
+        amount
+      }
+      gas
+    }
+    tags {
+      key
+      value
+    }
+    msgs {
+      type
+      value {
+        ... on MsgSend {
+          amounts {
+            denom
+            amount
+          }
+          to_address
+          from_address
+        }
+        ... on MsgVote {
+          proposal_id
+          voter
+          option
+        }
+        ... on MsgDelegate {
+          amount {
+            denom
+            amount
+          }
+          delegator_address
+          validator_address
+        }
+        ... on MsgSubmitProposal {
+          title
+          description
+          proposal_type
+          proposer
+          initial_deposit {
+            denom
+            amount
+          }
+        }
+        ... on MsgBeginRedelegate {
+          amount {
+            denom
+            amount
+          }
+          delegator_address
+          validator_src_address
+          validator_dst_address
+        }
+        ... on MsgModifyWithdrawAddress {
+          withdraw_address
+          validator_address
+        }
+        ... on MsgBeginRedelegateLegacy {
+          shares_amount
+          delegator_address
+          validator_src_address
+          validator_dst_address
+        }
+        ... on MsgWithdrawDelegationReward {
+          delegator_address
+          validator_address
+        }
+        ... on MsgWithdrawValidatorCommission {
+          validator_address
+        }
+      }
+    }
+    timestamp
+    chain
+  }
+}
+    `;
+export type TransactionsPaginationComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ITransactionsPaginationQuery, ITransactionsPaginationQueryVariables>, "query"> & ({ variables: ITransactionsPaginationQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+export const TransactionsPaginationComponent = (props: TransactionsPaginationComponentProps) => (
+      <ApolloReactComponents.Query<ITransactionsPaginationQuery, ITransactionsPaginationQueryVariables> query={TransactionsPaginationDocument} {...props} />
+    );
+
+export type ITransactionsPaginationProps<TChildProps = {}> = ApolloReactHoc.DataProps<ITransactionsPaginationQuery, ITransactionsPaginationQueryVariables> & TChildProps;
+export function withTransactionsPagination<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ITransactionsPaginationQuery,
+  ITransactionsPaginationQueryVariables,
+  ITransactionsPaginationProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, ITransactionsPaginationQuery, ITransactionsPaginationQueryVariables, ITransactionsPaginationProps<TChildProps>>(TransactionsPaginationDocument, {
+      alias: "transactionsPagination",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useTransactionsPaginationQuery__
+ *
+ * To run a query within a React component, call `useTransactionsPaginationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTransactionsPaginationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTransactionsPaginationQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *      startingPage: // value for 'startingPage'
+ *   },
+ * });
+ */
+export function useTransactionsPaginationQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ITransactionsPaginationQuery, ITransactionsPaginationQueryVariables>) {
+        return ApolloReactHooks.useQuery<ITransactionsPaginationQuery, ITransactionsPaginationQueryVariables>(TransactionsPaginationDocument, baseOptions);
+      }
+export function useTransactionsPaginationLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ITransactionsPaginationQuery, ITransactionsPaginationQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ITransactionsPaginationQuery, ITransactionsPaginationQueryVariables>(TransactionsPaginationDocument, baseOptions);
+        }
+export type TransactionsPaginationQueryHookResult = ReturnType<typeof useTransactionsPaginationQuery>;
+export type TransactionsPaginationLazyQueryHookResult = ReturnType<typeof useTransactionsPaginationLazyQuery>;
+export type TransactionsPaginationQueryResult = ApolloReactCommon.QueryResult<ITransactionsPaginationQuery, ITransactionsPaginationQueryVariables>;
 export const ValidatorDistributionDocument = gql`
     query validatorDistribution($validatorAddress: String!) {
   validatorDistribution(validatorAddress: $validatorAddress) {
