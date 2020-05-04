@@ -112,8 +112,8 @@ const NETWORKS: NetworksMap = {
     transactionsListUnsupported: true,
   },
   CELO: {
-    available: true,
-    // available: false,
+    // available: true,
+    available: false,
     name: "CELO",
     denom: "cGLD",
     ticker: "celo",
