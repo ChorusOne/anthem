@@ -1,3 +1,4 @@
+import { getNetworkDefinitionFromIdentifier } from "@anthem/utils";
 import { Classes, Colors, Dialog, H6, Icon } from "@blueprintjs/core";
 import { ChorusLogoIconOnly, ChorusLogoIconOnlyIconDark } from "assets/images";
 import {
@@ -211,36 +212,33 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
 
   renderLedgerSignin = () => {
     const { tString } = this.props.i18n;
-
-    // TODO: Render specific instructions for each signinNetwork network type:
+    const { ledgerAppVersionValid } = this.props.ledger;
+    const { signinNetworkName } = this.props.ledgerDialog;
+    const network = getNetworkDefinitionFromIdentifier(signinNetworkName);
     return (
       <View>
         <Row style={{ justifyContent: "left" }}>
           <Circle />
+          <H6 style={{ margin: 0 }}>Connect and unlock your Ledger device.</H6>
+        </Row>
+        <Row style={{ justifyContent: "left" }}>
+          <Circle />
           <H6 style={{ margin: 0 }}>
-            {tString(
-              "Connect your Ledger Device to your computer and enter your PIN.",
-            )}
+            Open the {network.ledgerAppName} Ledger application.
           </H6>
         </Row>
         <Row style={{ justifyContent: "left" }}>
           <Circle />
           <H6 style={{ margin: 0 }}>
-            {tString("Open the Cosmos Ledger application.")}
+            At least version v{network.ledgerAppVersion} of the{" "}
+            {network.ledgerAppName} app installed.
           </H6>
         </Row>
-        <Row style={{ justifyContent: "left" }}>
-          <Circle />
-          <H6 style={{ margin: 0 }}>
-            {tString("At least version v1.1.1 of Cosmos Ledger app installed.")}{" "}
-          </H6>
-        </Row>
-        {this.props.ledger.cosmosAppVersionValid === false ? (
+        {ledgerAppVersionValid === false ? (
           <Centered style={{ flexDirection: "column", marginTop: 52 }}>
             <ErrorText>
-              {tString(
-                "Invalid version of the Cosmos Ledger Application found.",
-              )}
+              Invalid version of the {network.ledgerAppVersion} Ledger app
+              found.
             </ErrorText>
             <ErrorText>
               {tString("Please install the latest version and retry.")}
@@ -263,6 +261,16 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
           </Centered>
         )}
         {this.renderBackArrow()}
+        <Link
+          style={{
+            right: 0,
+            bottom: -16,
+            position: "absolute",
+          }}
+          href={network.ledgerDocsLink}
+        >
+          <span>{network.ledgerAppName} Docs</span>
+        </Link>
       </View>
     );
   };

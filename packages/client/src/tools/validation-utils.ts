@@ -52,14 +52,15 @@ export const validateCurrencySetting = (setting: string): boolean => {
 };
 
 /**
- * Validate the given Cosmos Ledger app version. Minimum version required is
- * v1.1.1.
+ * Validate the given Cosmos Ledger app version.
  */
-export const validateCosmosAppVersion = (version: string): boolean => {
-  const MINIMUM_COSMOS_VERSION = "1.1.1";
+export const validateLedgerAppVersion = (
+  version: string,
+  minimumRequiredVersion: string,
+): boolean => {
   return (
-    semver.eq(version, MINIMUM_COSMOS_VERSION) ||
-    semver.gt(version, MINIMUM_COSMOS_VERSION)
+    semver.eq(version, minimumRequiredVersion) ||
+    semver.gt(version, minimumRequiredVersion)
   );
 };
 

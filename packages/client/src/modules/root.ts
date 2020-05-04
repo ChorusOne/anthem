@@ -2,7 +2,7 @@ import { NormalizedCacheObject } from "apollo-cache-inmemory";
 import ApolloClient from "apollo-client";
 import { History } from "history";
 import cosmosBlockchainModule from "lib/blockchain-lib";
-import ledgerModule from "lib/ledger-lib";
+import ledgerModule from "lib/cosmos-ledger-lib";
 import { combineReducers } from "redux";
 import { combineEpics, Epic } from "redux-observable";
 
