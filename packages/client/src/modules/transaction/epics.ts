@@ -114,7 +114,7 @@ const pollTransactionEpic: EpicSignature = (action$, state$, deps) => {
         const result = await deps.cosmos.pollTransaction(txHash, networkName);
         console.log("RESULT:");
         console.log(result);
-        gger(result);
+        logger(result);
 
         if (result.error && result.error.includes("not found")) {
           logger("Transaction not found, re-polling...");
