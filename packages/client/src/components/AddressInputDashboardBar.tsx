@@ -43,10 +43,10 @@ class AddressInputDashboardBar extends React.Component<IProps, {}> {
           errorComponent={
             <Row style={{ width: 110 }}>
               <NetworkLogoIcon network={network.name} />
-              <View style={{ textAlign: "center", marginRight: 20 }}>
+              <NetworkBar>
                 <b style={{ margin: 0, fontSize: 14 }}>{network.name}</b>
-                <p>Network</p>
-              </View>
+                <p style={{ margin: 0 }}>Network</p>
+              </NetworkBar>
             </Row>
           }
           result={prices}
@@ -58,14 +58,14 @@ class AddressInputDashboardBar extends React.Component<IProps, {}> {
             return (
               <Row style={{ width: 140 }}>
                 <NetworkLogoIcon network={network.name} />
-                <View style={{ textAlign: "center", marginRight: 20 }}>
+                <NetworkBar>
                   <p style={{ margin: 0, fontSize: 14 }}>
                     {network.descriptor} {tString("Price")}
                   </p>
                   <b>
                     {fiatPrice} {this.props.settings.fiatCurrency.symbol}
                   </b>
-                </View>
+                </NetworkBar>
               </Row>
             );
           }}
@@ -150,6 +150,12 @@ export const Row = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
+`;
+
+const NetworkBar = styled.div`
+  text-align: center;
+  margin-left: 6px;
+  margin-right: 20px;
 `;
 
 /** ===========================================================================

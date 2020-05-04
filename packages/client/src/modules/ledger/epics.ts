@@ -1,9 +1,11 @@
 import {
   assertUnreachable,
   deriveNetworkFromAddress,
+  getNetworkDefinitionFromIdentifier,
   validatorAddressToOperatorAddress,
 } from "@anthem/utils";
 import Toast from "components/Toast";
+import { LEDGER_ERRORS } from "constants/ledger-errors";
 import Analytics from "lib/analytics-lib";
 import StorageModule from "lib/storage-lib";
 import { EpicSignature, ReduxActionTypes } from "modules/root";
@@ -19,10 +21,11 @@ import {
   takeUntil,
   tap,
 } from "rxjs/operators";
+import { connectCeloAddress } from "tools/celo-ledger-utils";
 import { capitalizeString, wait } from "tools/client-utils";
 import { getAccAddress } from "tools/terra-library/key-utils";
 import {
-  validateCosmosAppVersion,
+  validateLedgerAppVersion,
   validateNetworkAddress,
 } from "tools/validation-utils";
 import { isActionOf } from "typesafe-actions";
@@ -96,7 +99,7 @@ const ledgerDialogConnectionEpic: EpicSignature = (action$, state$, deps) => {
   );
 };
 
-const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
+const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.connectLedger)),
     mergeMap(() => {
@@ -108,34 +111,46 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
               state$.value,
             );
 
-            // Connect to the Ledger device
-            await ledger.connectDevice();
+            const networkDefinition = getNetworkDefinitionFromIdentifier(
+              signinNetworkName,
+            );
 
-            let cosmosSdkAddress;
+            // Fail fast if the network does not have Ledger support yet.
+            if (!networkDefinition.supportsLedger) {
+              Toast.warn(
+                `${networkDefinition.name} Network is not supported on Ledger yet.`,
+              );
+              return resolve(Actions.connectLedgerFailure());
+            }
+
+            let ledgerAddress;
+            // TODO: Refactor this to a separate function, e.g. getAddressFromLedger
             switch (signinNetworkName) {
               case "COSMOS": {
-                cosmosSdkAddress = await ledger.getCosmosAddress();
+                await ledger.connectDevice();
+                ledgerAddress = await ledger.getCosmosAddress();
                 break;
               }
               case "KAVA":
               case "TERRA": {
+                await ledger.connectDevice();
                 const pk = await ledger.getPubKey();
                 if (typeof pk === "string") {
-                  cosmosSdkAddress = getAccAddress(
+                  ledgerAddress = getAccAddress(
                     Buffer.from(pk),
                     signinNetworkName,
                   );
                 } else {
-                  cosmosSdkAddress = getAccAddress(pk, signinNetworkName);
+                  ledgerAddress = getAccAddress(pk, signinNetworkName);
                 }
 
                 break;
               }
-              case "CELO":
+              case "CELO": {
+                ledgerAddress = await connectCeloAddress();
+                break;
+              }
               case "OASIS": {
-                Toast.warn(
-                  `${signinNetworkName} Network is not supported on Ledger yet.`,
-                );
                 return resolve(Actions.connectLedgerFailure());
               }
               default: {
@@ -143,13 +158,16 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
               }
             }
 
-            const cosmosAppVersion = await ledger.getCosmosAppVersion();
-            const network = deriveNetworkFromAddress(cosmosSdkAddress);
-            const versionValid = validateCosmosAppVersion(cosmosAppVersion);
+            const ledgerAppVersion = await ledger.getCosmosAppVersion();
+            const network = deriveNetworkFromAddress(ledgerAddress);
+            const versionValid = validateLedgerAppVersion(
+              ledgerAppVersion,
+              network.ledgerAppVersion,
+            );
 
             if (!versionValid) {
               Toast.danger(
-                "Invalid Cosmos app version. Please upgrade your Cosmos Ledger application!",
+                `Invalid ${network.ledgerAppName} version! Please upgrade your ${network.ledgerAppName} Ledger application!`,
               );
               return resolve(Actions.connectLedgerFailure());
             }
@@ -163,16 +181,19 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
             return resolve(
               Actions.connectLedgerSuccess({
                 network,
-                cosmosAppVersion,
-                cosmosAddress: cosmosSdkAddress,
+                cosmosAppVersion: ledgerAppVersion,
+                cosmosAddress: ledgerAddress,
               }),
             );
           } catch (error) {
-            const SCREENSAVER_MODE_ERROR = "Ledger's screensaver mode is on";
+            let retryDelay = 500;
             const { message } = error;
 
-            let retryDelay = 500;
-            if (message === SCREENSAVER_MODE_ERROR) {
+            if (message === LEDGER_ERRORS.BROWSER_NOT_SUPPORTED) {
+              Toast.warn("This browser is not supported.");
+            } else if (
+              message === LEDGER_ERRORS.COSMOS_LEDGER_SCREENSAVER_ERROR
+            ) {
               const { tString } = i18nSelector(state$.value);
               Toast.warn(
                 tString(
@@ -180,7 +201,7 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
                 ),
               );
 
-              // Extend the retry delay
+              // Extend the retry delay to allow the screensaver to be dismissed
               retryDelay = 6500;
             }
 
@@ -188,6 +209,7 @@ const connectCosmosLedgerEpic: EpicSignature = (action$, state$, deps) => {
             return resolve(Actions.connectLedger());
           }
         }),
+        // Discard stream when the Ledger dialog is dismissed
       ).pipe(takeUntil(action$.ofType(Actions.closeLedgerDialog().type)));
     }),
   );
@@ -286,7 +308,7 @@ const clearAllRecentAddressesEpic: EpicSignature = action$ => {
 export default combineEpics(
   setAddressEpic,
   ledgerDialogConnectionEpic,
-  connectCosmosLedgerEpic,
+  connectLedgerEpic,
   logoutEpic,
   saveAddressEpic,
   setAddressNavigationEpic,

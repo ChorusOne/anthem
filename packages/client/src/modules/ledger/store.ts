@@ -22,7 +22,7 @@ export interface LedgerState {
   addressError: string;
   network: NetworkDefinition;
   connected: boolean;
-  cosmosAppVersionValid: boolean | undefined;
+  ledgerAppVersionValid: boolean | undefined;
   recentAddresses: ReadonlyArray<string>;
 }
 
@@ -34,7 +34,7 @@ const initialState: LedgerState = {
   address: "",
   addressError: "",
   connected: false,
-  cosmosAppVersionValid: undefined,
+  ledgerAppVersionValid: undefined,
   network: NETWORKS.KAVA,
   recentAddresses: StorageModule.getRecentAddresses(),
 };
@@ -50,7 +50,7 @@ const ledger = createReducer<LedgerState, ActionTypes | LoadingActionTypes>(
   .handleAction(actions.connectLedgerFailure, () => ({
     ...initialState,
     // Currently the only cause for failure
-    cosmosAppVersionValid: true,
+    ledgerAppVersionValid: true,
   }))
   .handleAction(actions.connectLedgerSuccess, (state, action) => ({
     ...state,

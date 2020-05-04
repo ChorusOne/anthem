@@ -3,7 +3,14 @@
  * ============================================================================
  */
 
-export interface NetworkDefinition {
+interface NetworkFeatureMeta {
+  balancesUnsupported?: boolean;
+  portfolioUnsupported?: boolean;
+  transactionsListUnsupported?: boolean;
+}
+
+export interface NetworkDefinition extends NetworkFeatureMeta {
+  available: boolean; // Flag to officially show/hide the network in Anthem
   name: NETWORK_NAME;
   ticker: string;
   denom: COIN_DENOMS;
@@ -12,11 +19,10 @@ export interface NetworkDefinition {
   coinGeckoTicker: string;
   cryptoCompareTicker: string;
   supportsFiatPrices: boolean;
+  ledgerAppVersion: string;
   supportsLedger: boolean;
-  available: boolean; // Flag to officially show/hide the network in Anthem
-  balancesUnsupported?: boolean;
-  portfolioUnsupported?: boolean;
-  transactionsListUnsupported?: boolean;
+  ledgerAppName: string;
+  ledgerDocsLink: string;
 }
 
 interface NetworksMap {
@@ -26,7 +32,9 @@ interface NetworksMap {
 /** ===========================================================================
  * Networks
  * ---------------------------------------------------------------------------
- * Definitions of networks and their metadata for the support networks.
+ * This is the source of truth for all supported or in-development networks
+ * for Anthem. The network definitions include various configuration details
+ * and flags which dictate their usage and features in Anthem.
  * ============================================================================
  */
 
@@ -36,6 +44,7 @@ export type NETWORK_NAME = "COSMOS" | "TERRA" | "KAVA" | "OASIS" | "CELO";
 
 const NETWORKS: NetworksMap = {
   COSMOS: {
+    available: true,
     name: "COSMOS",
     denom: "uatom",
     ticker: "atom",
@@ -43,11 +52,15 @@ const NETWORKS: NetworksMap = {
     chainId: "cosmoshub-3",
     coinGeckoTicker: "cosmos",
     cryptoCompareTicker: "ATOM",
-    supportsFiatPrices: true,
+    ledgerAppVersion: "1.1.1",
+    ledgerAppName: "Cosmos",
+    ledgerDocsLink:
+      "https://hub.cosmos.network/master/resources/ledger.html#install-the-cosmos-ledger-application",
     supportsLedger: true,
-    available: true,
+    supportsFiatPrices: true,
   },
   TERRA: {
+    available: true,
     name: "TERRA",
     denom: "uluna",
     ticker: "luna",
@@ -55,13 +68,16 @@ const NETWORKS: NetworksMap = {
     chainId: "columbus-3",
     coinGeckoTicker: "terra-luna",
     cryptoCompareTicker: "LUNA",
-    supportsFiatPrices: true,
+    ledgerAppVersion: "1.1.1",
+    ledgerAppName: "Cosmos",
+    ledgerDocsLink: "https://docs.terra.money/docs/node-ledger-nano-support",
     supportsLedger: true,
-    available: true,
+    supportsFiatPrices: true,
     balancesUnsupported: true,
     portfolioUnsupported: true,
   },
   KAVA: {
+    available: true,
     name: "KAVA",
     denom: "ukava",
     ticker: "kava",
@@ -69,13 +85,17 @@ const NETWORKS: NetworksMap = {
     chainId: "kava-2",
     coinGeckoTicker: "kava",
     cryptoCompareTicker: "KAVA",
-    supportsFiatPrices: true,
+    ledgerAppVersion: "1.1.1",
+    ledgerAppName: "Cosmos",
+    ledgerDocsLink:
+      "https://medium.com/kava-labs/configure-ledger-nano-s-for-use-with-kava-4c3b00aeca32",
     supportsLedger: true,
-    available: true,
+    supportsFiatPrices: true,
     balancesUnsupported: true,
     portfolioUnsupported: true,
   },
   OASIS: {
+    available: false,
     name: "OASIS",
     denom: "oasis",
     ticker: "oasis",
@@ -83,13 +103,17 @@ const NETWORKS: NetworksMap = {
     chainId: "oasis",
     coinGeckoTicker: "oasis",
     cryptoCompareTicker: "OASIS",
-    supportsFiatPrices: false,
+    ledgerAppVersion: "n/a",
+    ledgerAppName: "n/a",
+    ledgerDocsLink: "n/a",
     supportsLedger: false,
-    available: false,
+    supportsFiatPrices: false,
     portfolioUnsupported: true,
     transactionsListUnsupported: true,
   },
   CELO: {
+    // available: true,
+    available: false,
     name: "CELO",
     denom: "cGLD",
     ticker: "celo",
@@ -97,9 +121,12 @@ const NETWORKS: NetworksMap = {
     chainId: "celo",
     coinGeckoTicker: "celo",
     cryptoCompareTicker: "CELO",
-    supportsFiatPrices: false,
+    ledgerAppVersion: "1.0.1",
+    ledgerAppName: "Celo",
+    ledgerDocsLink: "https://docs.celo.org/celo-gold-holder-guide/ledger",
+    // supportsLedger: true,
     supportsLedger: false,
-    available: false,
+    supportsFiatPrices: false,
     balancesUnsupported: true,
     portfolioUnsupported: true,
     transactionsListUnsupported: true,
