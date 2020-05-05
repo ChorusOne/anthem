@@ -74,7 +74,7 @@ class TransactionListContainer extends React.Component<IProps, IState> {
     const { tString } = i18n;
     const { network } = ledger;
 
-    if (network.supportsTransactionsHistory) {
+    if (!network.supportsTransactionsHistory) {
       return (
         <Centered style={{ flexDirection: "column" }}>
           <p>

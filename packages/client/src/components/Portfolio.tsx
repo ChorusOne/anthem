@@ -105,7 +105,7 @@ class PortfolioLoadingContainer extends React.PureComponent<
     const { i18n, network, portfolioHistory } = this.props;
     const { tString } = i18n;
 
-    if (network.supportsPortfolio) {
+    if (!network.supportsPortfolio) {
       return (
         <Centered style={{ flexDirection: "column", marginTop: -25 }}>
           <p>
