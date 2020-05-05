@@ -8,7 +8,6 @@ import {
   PortfolioHistoryDocument,
   PricesDocument,
   RewardsByValidatorDocument,
-  TransactionsDocument,
   TransactionsPaginationDocument,
   ValidatorsDocument,
 } from "@anthem/utils";
