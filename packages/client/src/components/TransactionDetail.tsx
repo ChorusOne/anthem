@@ -245,6 +245,7 @@ const mapStateToProps = (state: ReduxStoreState) => ({
 
 const dispatchProps = {
   setAddress: Modules.actions.ledger.setAddress,
+  setTransactionsPage: Modules.actions.transaction.setTransactionsPage,
 };
 
 const withProps = connect(mapStateToProps, dispatchProps);

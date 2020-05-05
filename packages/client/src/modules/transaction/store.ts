@@ -68,6 +68,10 @@ const transaction = createReducer<
     ...state,
     broadcastingTransaction: true,
   }))
+  .handleAction(Actions.setTransactionsPage, (state, action) => ({
+    ...state,
+    transactionsPage: action.payload,
+  }))
   .handleAction(Actions.broadcastTransactionSuccess, (state, action) => ({
     ...state,
     transactionHash: action.payload,
