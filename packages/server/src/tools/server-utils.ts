@@ -56,8 +56,6 @@ export const requestLogger = (
     const { body } = req;
     const { operationName, variables } = body;
 
-    console.log(operationName);
-
     // Don't log introspection query (clutter):
     if (Boolean(operationName) && operationName !== "IntrospectionQuery") {
       console.log(chalk.blue("Request Received:"));

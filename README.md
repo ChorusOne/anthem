@@ -110,6 +110,9 @@ $ yarn recording
 
 # Run the script to record the data
 $ yarn record
+
+# Rebuild the utils package
+$ yarn utils:build
 ```
 
 The development can be run with the command:

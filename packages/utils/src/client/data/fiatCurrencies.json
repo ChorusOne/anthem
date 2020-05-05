@@ -1,1 +1,30 @@
-{"fiatCurrencies":[{"name":"US Dollar","symbol":"USD"},{"name":"Chinese Yuan","symbol":"CNY"},{"name":"Euro","symbol":"EUR"},{"name":"Japanese Yen","symbol":"JPY"},{"name":"British Pound","symbol":"GBP"},{"name":"Korean Won","symbol":"KRW"},{"name":"Indian Rupee","symbol":"INR"},{"name":"Canadian Dollar","symbol":"CAD"},{"name":"Hong Kong Dollar","symbol":"HKD"},{"name":"Brazilian Real","symbol":"BRL"},{"name":"Australian Dollar","symbol":"AUD"},{"name":"Taiwan New Dollar","symbol":"TWD"},{"name":"Swiss Franc","symbol":"CHF"},{"name":"Russian Ruble","symbol":"RUB"},{"name":"Thai Baht","symbol":"THB"},{"name":"Mexican Peso","symbol":"MXN"},{"name":"Singapore Dollar","symbol":"SGD"},{"name":"Indonesian Rupiah","symbol":"IDR"},{"name":"Turkish Lira","symbol":"TRY"},{"name":"Vietnamese Dong","symbol":"VND"},{"name":"Swedish Krona","symbol":"SEK"},{"name":"Norwegian Krone","symbol":"NOK"},{"name":"South African Rand","symbol":"ZAR"},{"name":"Philippine Peso","symbol":"PHP"},{"name":"Danish Krone","symbol":"DKK"},{"name":"New Zealand Dollar","symbol":"NZD"}]}
+{
+  "fiatCurrencies": [
+    { "name": "US Dollar", "symbol": "USD" },
+    { "name": "Chinese Yuan", "symbol": "CNY" },
+    { "name": "Euro", "symbol": "EUR" },
+    { "name": "Japanese Yen", "symbol": "JPY" },
+    { "name": "British Pound", "symbol": "GBP" },
+    { "name": "Korean Won", "symbol": "KRW" },
+    { "name": "Indian Rupee", "symbol": "INR" },
+    { "name": "Canadian Dollar", "symbol": "CAD" },
+    { "name": "Hong Kong Dollar", "symbol": "HKD" },
+    { "name": "Brazilian Real", "symbol": "BRL" },
+    { "name": "Australian Dollar", "symbol": "AUD" },
+    { "name": "Taiwan New Dollar", "symbol": "TWD" },
+    { "name": "Swiss Franc", "symbol": "CHF" },
+    { "name": "Russian Ruble", "symbol": "RUB" },
+    { "name": "Thai Baht", "symbol": "THB" },
+    { "name": "Mexican Peso", "symbol": "MXN" },
+    { "name": "Singapore Dollar", "symbol": "SGD" },
+    { "name": "Indonesian Rupiah", "symbol": "IDR" },
+    { "name": "Turkish Lira", "symbol": "TRY" },
+    { "name": "Vietnamese Dong", "symbol": "VND" },
+    { "name": "Swedish Krona", "symbol": "SEK" },
+    { "name": "Norwegian Krone", "symbol": "NOK" },
+    { "name": "South African Rand", "symbol": "ZAR" },
+    { "name": "Philippine Peso", "symbol": "PHP" },
+    { "name": "Danish Krone", "symbol": "DKK" },
+    { "name": "New Zealand Dollar", "symbol": "NZD" }
+  ]
+}

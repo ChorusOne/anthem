@@ -36,8 +36,6 @@ const KAVA_DB = getenv.string("KAVA_DB", "kava");
 const ENABLE_GRAPHIQL = !DISABLE_GRAPHIQL;
 const ENABLE_LOGGING = !DISABLE_LOGGING;
 
-console.log(ENABLE_LOGGING);
-
 const ENV = {
   TEST,
   DEVELOPMENT,
