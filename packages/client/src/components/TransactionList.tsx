@@ -63,13 +63,18 @@ class TransactionList extends React.PureComponent<IProps> {
       moreResultsExist,
       extraLiveTransactions,
     } = this.props;
+
     /**
-     * - Combine the transactions list with the extraLiveTransactions cache,
+     * Combine the transactions list with the extraLiveTransactions cache,
      * but do not show any transaction from the live cache which exists in the
      * transactions list. OK!
      */
-    const txs = extraLiveTransactions.concat(transactions);
+    const txs = this.combineTransactionRecords(
+      transactions,
+      extraLiveTransactions,
+    );
     const TXS_EXIST = txs && txs.length > 0;
+
     return (
       <React.Fragment>
         {TXS_EXIST ? (
@@ -101,6 +106,17 @@ class TransactionList extends React.PureComponent<IProps> {
       </React.Fragment>
     );
   }
+
+  combineTransactionRecords = (
+    transactions: readonly ITransaction[],
+    localTransactions: ITransaction[],
+  ) => {
+    const hashSet = new Set(transactions.map(tx => tx.hash));
+    const localUniqueTransactions = localTransactions.filter(
+      tx => !hashSet.has(tx.hash),
+    );
+    return localUniqueTransactions.concat(transactions);
+  };
 
   pageBack = () => {
     this.props.setTransactionsPage(this.props.transactionsPage - 1);
