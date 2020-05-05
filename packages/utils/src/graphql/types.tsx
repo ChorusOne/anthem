@@ -228,6 +228,69 @@ export interface IMsgWithdrawValidatorCommission {
   validator_address: Maybe<Scalars["String"]>;
 }
 
+export interface IOasisAddEscrowEvent {
+   __typename?: "OasisAddEscrowEvent";
+  owner: Scalars["String"];
+  escrow: Scalars["String"];
+  tokens: Scalars["String"];
+}
+
+export interface IOasisBurnEvent {
+   __typename?: "OasisBurnEvent";
+  data: Scalars["String"];
+}
+
+export interface IOasisEscrowEvent {
+   __typename?: "OasisEscrowEvent";
+  data: Scalars["String"];
+}
+
+export interface IOasisStakingEvent {
+   __typename?: "OasisStakingEvent";
+  data: Scalars["String"];
+}
+
+export interface IOasisTakeEscrowEvent {
+   __typename?: "OasisTakeEscrowEvent";
+  data: Scalars["String"];
+}
+
+/** Reference: https://github.com/ChorusOne/Hippias/blob/master/pkg/oasis/types.go */
+export interface IOasisTransaction {
+   __typename?: "OasisTransaction";
+  date: Scalars["String"];
+  height: Scalars["Int"];
+  type: IOasisTransactionType;
+  data: IOasisTransactionData;
+}
+
+export type IOasisTransactionData = IOasisTransferEvent | IOasisBurnEvent | IOasisEscrowEvent | IOasisStakingEvent | IOasisAddEscrowEvent | IOasisTakeEscrowEvent | IReclaimEscrowEvent;
+
+export interface IOasisTransactionResult {
+   __typename?: "OasisTransactionResult";
+  page: Scalars["Float"];
+  limit: Scalars["Float"];
+  data: IOasisTransaction[];
+  moreResultsExist: Scalars["Boolean"];
+}
+
+export enum IOasisTransactionType {
+  Transfer = "TRANSFER",
+  Burn = "BURN",
+  Escrow = "ESCROW",
+  Staking = "STAKING",
+  AddEscrow = "ADD_ESCROW",
+  TakeEscrow = "TAKE_ESCROW",
+  ReclaimEscrow = "RECLAIM_ESCROW",
+}
+
+export interface IOasisTransferEvent {
+   __typename?: "OasisTransferEvent";
+  from: Scalars["String"];
+  to: Scalars["String"];
+  tokens: Scalars["String"];
+}
+
 export interface IPortfolioBalance {
    __typename?: "PortfolioBalance";
   address: Scalars["String"];
@@ -310,6 +373,8 @@ export interface IQuery {
   prices: IPrice;
   coins: Maybe<ICoin[]>;
   fiatCurrencies: IFiatCurrency[];
+  /** Oasis APIs */
+  oasisTransactions: IOasisTransactionResult;
 }
 
 export interface IQueryPortfolioHistoryArgs {
@@ -409,6 +474,17 @@ export interface IQueryDistributionParametersArgs {
 export interface IQueryPricesArgs {
   currency: Scalars["String"];
   versus: Scalars["String"];
+}
+
+export interface IQueryOasisTransactionsArgs {
+  address: Scalars["String"];
+  startingPage: Maybe<Scalars["Float"]>;
+  pageSize: Maybe<Scalars["Float"]>;
+}
+
+export interface IReclaimEscrowEvent {
+   __typename?: "ReclaimEscrowEvent";
+  data: Scalars["String"];
 }
 
 export interface ISlashingParameters {
@@ -777,6 +853,46 @@ export type ILatestBlockQuery = (
         & Pick<IBlockHeader, "chain_id" | "height" | "time" | "num_txs" | "total_txs" | "last_commit_hash" | "data_hash" | "validators_hash" | "next_validators_hash" | "consensus_hash" | "app_hash" | "last_results_hash" | "evidence_hash" | "proposer_address">
       ) }
     ) }
+  ) }
+);
+
+export interface IOasisTransactionsQueryVariables {
+  address: Scalars["String"];
+  startingPage: Maybe<Scalars["Float"]>;
+  pageSize: Maybe<Scalars["Float"]>;
+}
+
+export type IOasisTransactionsQuery = (
+  { __typename?: "Query" }
+  & { oasisTransactions: (
+    { __typename?: "OasisTransactionResult" }
+    & Pick<IOasisTransactionResult, "page" | "limit" | "moreResultsExist">
+    & { data: Array<(
+      { __typename?: "OasisTransaction" }
+      & Pick<IOasisTransaction, "date" | "height" | "type">
+      & { data: (
+        { __typename?: "OasisTransferEvent" }
+        & Pick<IOasisTransferEvent, "from" | "to" | "tokens">
+      ) | (
+        { __typename?: "OasisBurnEvent" }
+        & Pick<IOasisBurnEvent, "data">
+      ) | (
+        { __typename?: "OasisEscrowEvent" }
+        & Pick<IOasisEscrowEvent, "data">
+      ) | (
+        { __typename?: "OasisStakingEvent" }
+        & Pick<IOasisStakingEvent, "data">
+      ) | (
+        { __typename?: "OasisAddEscrowEvent" }
+        & Pick<IOasisAddEscrowEvent, "owner" | "escrow" | "tokens">
+      ) | (
+        { __typename?: "OasisTakeEscrowEvent" }
+        & Pick<IOasisTakeEscrowEvent, "data">
+      ) | (
+        { __typename?: "ReclaimEscrowEvent" }
+        & Pick<IReclaimEscrowEvent, "data">
+      ) }
+    )> }
   ) }
 );
 
@@ -1892,6 +2008,92 @@ export function useLatestBlockLazyQuery(baseOptions?: ApolloReactHooks.LazyQuery
 export type LatestBlockQueryHookResult = ReturnType<typeof useLatestBlockQuery>;
 export type LatestBlockLazyQueryHookResult = ReturnType<typeof useLatestBlockLazyQuery>;
 export type LatestBlockQueryResult = ApolloReactCommon.QueryResult<ILatestBlockQuery, ILatestBlockQueryVariables>;
+export const OasisTransactionsDocument = gql`
+    query oasisTransactions($address: String!, $startingPage: Float, $pageSize: Float) {
+  oasisTransactions(address: $address, startingPage: $startingPage, pageSize: $pageSize) {
+    page
+    limit
+    data {
+      date
+      height
+      type
+      data {
+        ... on OasisTransferEvent {
+          from
+          to
+          tokens
+        }
+        ... on OasisBurnEvent {
+          data
+        }
+        ... on OasisEscrowEvent {
+          data
+        }
+        ... on OasisStakingEvent {
+          data
+        }
+        ... on OasisAddEscrowEvent {
+          owner
+          escrow
+          tokens
+        }
+        ... on OasisTakeEscrowEvent {
+          data
+        }
+        ... on ReclaimEscrowEvent {
+          data
+        }
+      }
+    }
+    moreResultsExist
+  }
+}
+    `;
+export type OasisTransactionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IOasisTransactionsQuery, IOasisTransactionsQueryVariables>, "query"> & ({ variables: IOasisTransactionsQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+export const OasisTransactionsComponent = (props: OasisTransactionsComponentProps) => (
+      <ApolloReactComponents.Query<IOasisTransactionsQuery, IOasisTransactionsQueryVariables> query={OasisTransactionsDocument} {...props} />
+    );
+
+export type IOasisTransactionsProps<TChildProps = {}> = ApolloReactHoc.DataProps<IOasisTransactionsQuery, IOasisTransactionsQueryVariables> & TChildProps;
+export function withOasisTransactions<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  IOasisTransactionsQuery,
+  IOasisTransactionsQueryVariables,
+  IOasisTransactionsProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, IOasisTransactionsQuery, IOasisTransactionsQueryVariables, IOasisTransactionsProps<TChildProps>>(OasisTransactionsDocument, {
+      alias: "oasisTransactions",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useOasisTransactionsQuery__
+ *
+ * To run a query within a React component, call `useOasisTransactionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOasisTransactionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOasisTransactionsQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *      startingPage: // value for 'startingPage'
+ *      pageSize: // value for 'pageSize'
+ *   },
+ * });
+ */
+export function useOasisTransactionsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<IOasisTransactionsQuery, IOasisTransactionsQueryVariables>) {
+        return ApolloReactHooks.useQuery<IOasisTransactionsQuery, IOasisTransactionsQueryVariables>(OasisTransactionsDocument, baseOptions);
+      }
+export function useOasisTransactionsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<IOasisTransactionsQuery, IOasisTransactionsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<IOasisTransactionsQuery, IOasisTransactionsQueryVariables>(OasisTransactionsDocument, baseOptions);
+        }
+export type OasisTransactionsQueryHookResult = ReturnType<typeof useOasisTransactionsQuery>;
+export type OasisTransactionsLazyQueryHookResult = ReturnType<typeof useOasisTransactionsLazyQuery>;
+export type OasisTransactionsQueryResult = ApolloReactCommon.QueryResult<IOasisTransactionsQuery, IOasisTransactionsQueryVariables>;
 export const PortfolioHistoryDocument = gql`
     query portfolioHistory($address: String!, $fiat: String!) {
   portfolioHistory(address: $address, fiat: $fiat) {

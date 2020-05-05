@@ -51,6 +51,7 @@ type OasisTransactionResult {
   moreResultsExist: Boolean!
 }
 
+# Reference: https://github.com/ChorusOne/Hippias/blob/master/pkg/oasis/types.go
 type OasisTransaction {
   date: String!
   height: Int!

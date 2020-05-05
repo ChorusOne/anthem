@@ -10,6 +10,9 @@ import { objectHasKeys } from "../tools/server-utils";
  * ============================================================================
  */
 
+/**
+ * Cosmos TxMsgValue resolver:
+ */
 const TxMsgValue = {
   __resolveType(obj: any) {
     if ("amount" in obj && obj.amount.length) {
@@ -76,11 +79,22 @@ const TxMsgValue = {
   },
 };
 
+/**
+ * Oasis Transaction Resolver:
+ *
+ * TODO: Complete this.
+ */
+const OasisTransactionData = {
+  __resolveType(obj: any) {
+    return "OasisTransferEvent";
+  },
+};
+
 /** ===========================================================================
  * Export
  * ============================================================================
  */
 
-const UnionResolvers = { TxMsgValue };
+const UnionResolvers = { TxMsgValue, OasisTransactionData };
 
 export default UnionResolvers;

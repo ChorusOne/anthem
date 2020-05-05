@@ -14,6 +14,8 @@ import {
   IGovernanceParametersVotingQueryVariables,
   IGovernanceProposalsQueryVariables,
   ILatestBlockQueryVariables,
+  IOasisTransactionsQueryVariables,
+  IOasisTransactionType,
   IPortfolioHistoryQueryVariables,
   IPricesQueryVariables,
   IQuery,
@@ -41,9 +43,26 @@ import OASIS from "./sources/oasis";
  * ============================================================================
  */
 
-const blockUnsupportedNetworks = (network: NetworkDefinition) => {
-  if (!network.supportsPortfolio) {
-    throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
+const blockUnsupportedNetworks = (
+  network: NetworkDefinition,
+  feature: "portfolio" | "transactions" | "balances",
+) => {
+  switch (feature) {
+    case "portfolio":
+      if (!network.supportsPortfolio) {
+        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
+      }
+      break;
+    case "balances":
+      if (!network.supportsBalances) {
+        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
+      }
+      break;
+    case "transactions":
+      if (!network.supportsTransactionsHistory) {
+        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
+      }
+      break;
   }
 };
 
@@ -58,7 +77,7 @@ const resolvers = {
       const { address, fiat } = args;
       const network = deriveNetworkFromAddress(address);
 
-      blockUnsupportedNetworks(network);
+      blockUnsupportedNetworks(network, "portfolio");
 
       let sanitizedAddress = address;
       if (network.name === "TERRA") {
@@ -107,7 +126,7 @@ const resolvers = {
     ): Promise<IQuery["transaction"]> => {
       const { txHash } = args;
       const network = getNetworkDefinitionFromIdentifier(args.network);
-      blockUnsupportedNetworks(network);
+      blockUnsupportedNetworks(network, "transactions");
       return COSMOS_EXTRACTOR.getTransactionByHash(txHash, network);
     },
 
@@ -119,7 +138,7 @@ const resolvers = {
     ): Promise<IQuery["transactions"]> => {
       const { address } = args;
       const network = deriveNetworkFromAddress(address);
-      blockUnsupportedNetworks(network);
+      blockUnsupportedNetworks(network, "transactions");
       return COSMOS_EXTRACTOR.getTransactions(address, network);
     },
 
@@ -130,7 +149,7 @@ const resolvers = {
     ): Promise<IQuery["transactionsPagination"]> => {
       const { address, startingPage, pageSize } = args;
       const network = deriveNetworkFromAddress(address);
-      blockUnsupportedNetworks(network);
+      blockUnsupportedNetworks(network, "transactions");
       return COSMOS_EXTRACTOR.getTransactionsPagination(
         address,
         pageSize || 25,
@@ -353,6 +372,37 @@ const resolvers = {
 
     fiatCurrencies: async (_: void): Promise<IQuery["fiatCurrencies"]> => {
       return FIAT_CURRENCIES;
+    },
+
+    // Oasis Resolvers
+    oasisTransactions: async (
+      _: void,
+      args: IOasisTransactionsQueryVariables,
+    ): Promise<IQuery["oasisTransactions"]> => {
+      const { address, startingPage, pageSize } = args;
+      console.log(`Oasis Transactions Resolver for address: ${address}`);
+
+      const network = deriveNetworkFromAddress(address);
+      blockUnsupportedNetworks(network, "transactions");
+
+      // Mock response:
+      return {
+        page: 1,
+        limit: 25,
+        data: [
+          {
+            date: new Date().toISOString(),
+            height: 1,
+            type: IOasisTransactionType.Transfer,
+            data: {
+              from: "abc",
+              to: "xyz",
+              tokens: "500",
+            },
+          },
+        ],
+        moreResultsExist: true,
+      };
     },
   },
 };

@@ -115,7 +115,7 @@ const NETWORKS: NetworksMap = {
     supportsFiatPrices: false,
     supportsBalances: true,
     supportsPortfolio: false,
-    supportsTransactionsHistory: false,
+    supportsTransactionsHistory: true,
   },
   CELO: {
     // available: true,
