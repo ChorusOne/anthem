@@ -68,7 +68,11 @@ class TransactionList extends React.PureComponent<IProps> {
                 Prev
               </Button>
             )}
-            <PaginationText>Page {transactionsPage}</PaginationText>
+            {moreResultsExist ? (
+              <PaginationText>Page {transactionsPage}</PaginationText>
+            ) : (
+              <AllResultsText>- All Results Displayed -</AllResultsText>
+            )}
             {moreResultsExist && (
               <Button icon="caret-right" onClick={this.pageForward}>
                 Next
@@ -172,6 +176,11 @@ const PaginationText = styled.p`
   margin: 0px;
   margin-left: 8px;
   margin-right: 8px;
+`;
+
+const AllResultsText = styled.p`
+  font-size: 12px;
+  margin: 0px;
 `;
 
 /** ===========================================================================
