@@ -32,6 +32,81 @@ type Query {
   coins: [Coin!]
 
   fiatCurrencies: [FiatCurrency!]!
+
+  # Oasis APIs
+  oasisTransactions(
+    address: String!
+    startingPage: Float
+    pageSize: Float
+  ): OasisTransactionResult!
+}
+
+# *****************************************************************************
+# Cosmos APIs
+
+type OasisTransactionResult {
+  page: Float!
+  limit: Float!
+  data: [OasisTransaction!]!
+  moreResultsExist: Boolean!
+}
+
+type OasisTransaction {
+  date: String!
+  height: Int!
+  type: OasisTransactionType!
+  data: OasisTransactionData!
+}
+
+enum OasisTransactionType {
+  TRANSFER
+  BURN
+  ESCROW
+  STAKING
+  ADD_ESCROW
+  TAKE_ESCROW
+  RECLAIM_ESCROW
+}
+
+union OasisTransactionData =
+    OasisTransferEvent
+  | OasisBurnEvent
+  | OasisEscrowEvent
+  | OasisStakingEvent
+  | OasisAddEscrowEvent
+  | OasisTakeEscrowEvent
+  | ReclaimEscrowEvent
+
+type OasisTransferEvent {
+  from: String!
+  to: String!
+  tokens: String!
+}
+
+type OasisBurnEvent {
+  data: String! # TODO: Placeholder type...
+}
+
+type OasisEscrowEvent {
+  data: String! # TODO: Placeholder type...
+}
+
+type OasisStakingEvent {
+  data: String! # TODO: Placeholder type...
+}
+
+type OasisAddEscrowEvent {
+  owner: String!
+  escrow: String!
+  tokens: String!
+}
+
+type OasisTakeEscrowEvent {
+  data: String! # TODO: Placeholder type...
+}
+
+type ReclaimEscrowEvent {
+  data: String! # TODO: Placeholder type...
 }
 
 # *****************************************************************************
