@@ -41,6 +41,18 @@ class TransactionList extends React.PureComponent<IProps> {
     this.validatorOperatorAddressMap = validatorOperatorAddressMap;
   }
 
+  componentDidUpdate(prevProps: IProps) {
+    if (this.props.extraLiveTransactions.length > 0) {
+      /**
+       * 1. Check if any of the live transactions are in the transactions list
+       * -> if they are there, remove them from the live transactions cache.
+       *
+       * -> When the transactions update after a Leger transaction is confirmed,
+       * reset the transactionsPage to 0 again.
+       */
+    }
+  }
+
   render(): JSX.Element {
     const {
       isDetailView,
@@ -49,7 +61,11 @@ class TransactionList extends React.PureComponent<IProps> {
       moreResultsExist,
       extraLiveTransactions,
     } = this.props;
-    // Combine transactions with live fetched transactions...
+    /**
+     * - Combine the transactions list with the extraLiveTransactions cache,
+     * but do not show any transaction from the live cache which exists in the
+     * transactions list. OK!
+     */
     const txs = extraLiveTransactions.concat(transactions);
     const TXS_EXIST = txs && txs.length > 0;
     return (
