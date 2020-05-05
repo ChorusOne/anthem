@@ -43,13 +43,7 @@ class TransactionList extends React.PureComponent<IProps> {
 
   componentDidUpdate() {
     if (this.props.extraLiveTransactions.length > 0) {
-      /**
-       * 1. Check if any of the live transactions are in the transactions list
-       * -> if they are there, remove them from the live transactions cache.
-       *
-       * -> When the transactions update after a Leger transaction is confirmed,
-       * reset the transactionsPage to 0 again.
-       */
+      // Handle possibly removing any local copies of transactions
       this.findAndRemoveLocalTransactionCopies(
         this.props.transactions,
         this.props.extraLiveTransactions,
@@ -66,11 +60,7 @@ class TransactionList extends React.PureComponent<IProps> {
       extraLiveTransactions,
     } = this.props;
 
-    /**
-     * Combine the transactions list with the extraLiveTransactions cache,
-     * but do not show any transaction from the live cache which exists in the
-     * transactions list. OK!
-     */
+    // Get the combined list of transactions to render:
     const txs = this.combineTransactionRecords(
       transactions,
       extraLiveTransactions,
@@ -109,6 +99,15 @@ class TransactionList extends React.PureComponent<IProps> {
     );
   }
 
+  /**
+   * Filter the local transactions data every time this component updates
+   * and dispatch actions to remove any local copies of transactions which
+   * exist in the GraphQL transactions list.
+   *
+   * This is part of the logic to preemptively show transactions after a user
+   * submits a Ledger transaction before the extractor has persisted the
+   * transaction in our database.
+   */
   findAndRemoveLocalTransactionCopies = (
     transactions: readonly ITransaction[],
     localTransactions: ITransaction[],
@@ -121,6 +120,15 @@ class TransactionList extends React.PureComponent<IProps> {
     }
   };
 
+  /**
+   * Combine the GraphQL transactions list with the list of local transactions,
+   * excluding any transactions which exist locally and also exist in the
+   * GraphQL data.
+   *
+   * This is part of the logic to preemptively show transactions after a user
+   * submits a Ledger transaction before the extractor has persisted the
+   * transaction in our database.
+   */
   combineTransactionRecords = (
     transactions: readonly ITransaction[],
     localTransactions: ITransaction[],
