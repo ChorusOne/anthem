@@ -71,7 +71,14 @@ class TransactionList extends React.PureComponent<IProps> {
             }}
           >
             {transactionsPage > 1 && (
-              <Button rightIcon="caret-left">Prev</Button>
+              <Button
+                onClick={() => {
+                  this.props.setTransactionsPage(transactionsPage - 1);
+                }}
+                rightIcon="caret-left"
+              >
+                Prev
+              </Button>
             )}
             <p
               style={{
@@ -83,7 +90,16 @@ class TransactionList extends React.PureComponent<IProps> {
             >
               Page {transactionsPage}
             </p>
-            {moreResultsExist && <Button icon="caret-right">Next</Button>}
+            {moreResultsExist && (
+              <Button
+                onClick={() => {
+                  this.props.setTransactionsPage(transactionsPage + 1);
+                }}
+                icon="caret-right"
+              >
+                Next
+              </Button>
+            )}
           </div>
         )}
       </React.Fragment>

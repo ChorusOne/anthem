@@ -27,6 +27,8 @@ enum ActionTypesEnum {
   POLL_FOR_TRANSACTION = "POLL_FOR_TRANSACTION",
   TRANSACTION_CONFIRMED = "TRANSACTION_CONFIRMED",
   TRANSACTION_FAILED = "TRANSACTION_FAILED",
+
+  SET_TRANSACTIONS_PAGE = "SET_TRANSACTIONS_PAGE",
 }
 
 /** ===========================================================================
@@ -76,6 +78,10 @@ const transactionFailed = createStandardAction(
   ActionTypesEnum.TRANSACTION_FAILED,
 )();
 
+const setTransactionsPage = createStandardAction(
+  ActionTypesEnum.SET_TRANSACTIONS_PAGE,
+)<number>();
+
 const actions = {
   setTransactionData,
   setTransactionStage,
@@ -88,6 +94,7 @@ const actions = {
   pollForTransaction,
   transactionConfirmed,
   transactionFailed,
+  setTransactionsPage,
 };
 
 /** ===========================================================================
