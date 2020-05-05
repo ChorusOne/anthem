@@ -113,6 +113,9 @@ $ yarn record
 
 # Rebuild the utils package
 $ yarn utils:build
+
+# Note that if you update the client data you may have to update the client
+# test snapshots, since some of the tests use this mock data.
 ```
 
 The development can be run with the command:
