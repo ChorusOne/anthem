@@ -42,7 +42,7 @@ import OASIS from "./sources/oasis";
  */
 
 const blockUnsupportedNetworks = (network: NetworkDefinition) => {
-  if (network.portfolioUnsupported) {
+  if (network.supportsPortfolio) {
     throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
   }
 };
