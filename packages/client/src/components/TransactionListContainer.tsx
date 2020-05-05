@@ -70,7 +70,6 @@ class TransactionListContainer extends React.Component<IProps, IState> {
       validators,
       transactions,
       fiatPriceHistory,
-      extraLiveTransactions,
     } = this.props;
     const { tString } = i18n;
     const { network } = ledger;
@@ -100,7 +99,10 @@ class TransactionListContainer extends React.Component<IProps, IState> {
           return (
             <TransactionList
               {...this.props}
-              transactions={transactions.transactions!}
+              transactions={transactions.transactionsPagination.data}
+              moreResultsExist={
+                transactions.transactionsPagination.moreResultsExist
+              }
             />
           );
         }}

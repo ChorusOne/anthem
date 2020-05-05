@@ -60,8 +60,6 @@ export const queryPostgresCosmosSdkPool = async (
       return assertUnreachable(network);
   }
 
-  console.log(response);
-
   return response.rows;
 };
 
@@ -265,6 +263,11 @@ export const getTransactionsPagination = async (
   const transactionsQuery = getTransactionsPaginationQuery();
   const query = transactionsQuery(variables);
   const response = await queryPostgresCosmosSdkPool(network.name, query);
+
+  /**
+   * NOTE: The query fetches one more than the pageSize in order to
+   * determine if more results exist or not.
+   */
   const result = response.slice(0, pageSize).map(formatTransactionResponse);
   return {
     page: startingPage,

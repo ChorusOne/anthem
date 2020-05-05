@@ -136,10 +136,10 @@ type AccountCoin {
 }
 
 type TransactionsPaginationResult {
-  page: Float
-  limit: Float
+  page: Float!
+  limit: Float!
   data: [Transaction!]!
-  moreResultsExist: Boolean
+  moreResultsExist: Boolean!
 }
 
 type Transaction {

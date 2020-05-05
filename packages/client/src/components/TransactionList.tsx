@@ -45,6 +45,7 @@ class TransactionList extends React.PureComponent<IProps> {
       isDetailView,
       transactions,
       transactionsPage,
+      moreResultsExist,
       extraLiveTransactions,
     } = this.props;
     // Combine transactions with live fetched transactions...
@@ -81,7 +82,7 @@ class TransactionList extends React.PureComponent<IProps> {
             >
               Page {transactionsPage}
             </p>
-            <Button icon="caret-right">Next</Button>
+            {moreResultsExist && <Button icon="caret-right">Next</Button>}
           </div>
         )}
       </React.Fragment>
@@ -162,7 +163,7 @@ class TransactionList extends React.PureComponent<IProps> {
 interface ComponentProps extends TransactionListProps {
   isDetailView?: boolean;
   extraLiveTransactions: ITransaction[];
-  // transactionsPage: number;
+  moreResultsExist?: boolean;
   transactions: ReadonlyArray<ITransaction>;
 }
 

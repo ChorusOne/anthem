@@ -9,6 +9,7 @@ import {
   PricesDocument,
   RewardsByValidatorDocument,
   TransactionsDocument,
+  TransactionsPaginationDocument,
   ValidatorsDocument,
 } from "@anthem/utils";
 import ENV from "lib/client-env";
@@ -24,16 +25,19 @@ import { createSelector } from "reselect";
 
 const addressSelector = (state: ReduxStoreState) => state.ledger.ledger.address;
 const networkSelector = (state: ReduxStoreState) => state.ledger.ledger.network;
+const transactionsPageSelectors = (state: ReduxStoreState) =>
+  state.transaction.transactionsPage;
 const fiatSelector = (state: ReduxStoreState) =>
   state.settings.fiatCurrency.symbol;
 
 export const graphqlSelector = createSelector(
-  [addressSelector, networkSelector, fiatSelector],
-  (address, network, fiat) => {
+  [addressSelector, networkSelector, fiatSelector, transactionsPageSelectors],
+  (address, network, fiat, startingPage) => {
     return {
       fiat,
       address,
       versus: fiat,
+      startingPage,
       network: network.name,
       crypto: network.ticker,
       networkDefinition: network,
@@ -59,7 +63,7 @@ const getQueryConfig = (pollInterval: number | undefined) => (
   variableKeys?: ReadonlyArray<VariablesKeys>,
 ) => ({
   options: (props: GraphQLConfigProps): QueryOpts => {
-    const variables: { [k: string]: string } = {};
+    const variables: { [k: string]: string | number } = {};
 
     if (variableKeys) {
       for (const key of variableKeys) {
@@ -83,7 +87,8 @@ type VariablesKeys =
   | "crypto"
   | "currency"
   | "versus"
-  | "network";
+  | "network"
+  | "startingPage";
 
 const slowPollingConfig = (variableKeys: ReadonlyArray<VariablesKeys>) => {
   return getQueryConfig(ENV.SLOW_POLL_INTERVAL)(variableKeys);
@@ -250,21 +255,21 @@ export const withAccountInformation = graphql(AccountInformationDocument, {
 });
 
 /**
- * Transactions
+ * Transactions with Pagination
  */
 
 interface TransactionsQueryResult extends QueryResult {
   data: void;
-  transactions: IQuery["transactions"];
+  transactionsPagination: IQuery["transactionsPagination"];
 }
 
 export interface TransactionsProps {
   transactions: TransactionsQueryResult;
 }
 
-export const withTransactions = graphql(TransactionsDocument, {
+export const withTransactions = graphql(TransactionsPaginationDocument, {
   name: "transactions",
-  ...noPollingConfig(["address"]),
+  ...noPollingConfig(["address", "startingPage"]),
 });
 
 /**

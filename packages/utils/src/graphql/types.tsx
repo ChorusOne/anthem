@@ -476,10 +476,10 @@ export interface ITransaction {
 
 export interface ITransactionsPaginationResult {
    __typename?: "TransactionsPaginationResult";
-  page: Maybe<Scalars["Float"]>;
-  limit: Maybe<Scalars["Float"]>;
+  page: Scalars["Float"];
+  limit: Scalars["Float"];
   data: ITransaction[];
-  moreResultsExist: Maybe<Scalars["Boolean"]>;
+  moreResultsExist: Scalars["Boolean"];
 }
 
 export interface ITx {

@@ -155,8 +155,10 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
     const { transactions } = this.props;
     let result = null;
 
-    if (transactions && transactions.transactions) {
-      result = transactions.transactions.find(t => t.hash === hash);
+    if (transactions && transactions.transactionsPagination) {
+      result = transactions.transactionsPagination.data.find(
+        t => t.hash === hash,
+      );
     }
 
     return result || null;
