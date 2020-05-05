@@ -3,6 +3,7 @@ import { Button, H5 } from "@blueprintjs/core";
 import { Centered } from "components/SharedComponents";
 import Toast from "components/Toast";
 import React from "react";
+import styled from "styled-components";
 import {
   formatAddressString,
   getFiatPriceHistoryMap,
@@ -61,50 +62,31 @@ class TransactionList extends React.PureComponent<IProps> {
           </Centered>
         )}
         {!isDetailView && TXS_EXIST && (
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+          <PaginationBar>
             {transactionsPage > 1 && (
-              <Button
-                onClick={() => {
-                  this.props.setTransactionsPage(transactionsPage - 1);
-                }}
-                rightIcon="caret-left"
-              >
+              <Button rightIcon="caret-left" onClick={this.pageBack}>
                 Prev
               </Button>
             )}
-            <p
-              style={{
-                fontSize: 14,
-                margin: 0,
-                marginLeft: 8,
-                marginRight: 8,
-              }}
-            >
-              Page {transactionsPage}
-            </p>
+            <PaginationText>Page {transactionsPage}</PaginationText>
             {moreResultsExist && (
-              <Button
-                onClick={() => {
-                  this.props.setTransactionsPage(transactionsPage + 1);
-                }}
-                icon="caret-right"
-              >
+              <Button icon="caret-right" onClick={this.pageForward}>
                 Next
               </Button>
             )}
-          </div>
+          </PaginationBar>
         )}
       </React.Fragment>
     );
   }
+
+  pageBack = () => {
+    this.props.setTransactionsPage(this.props.transactionsPage - 1);
+  };
+
+  pageForward = () => {
+    this.props.setTransactionsPage(this.props.transactionsPage + 1);
+  };
 
   renderTransactionItem = (transaction: ITransaction) => {
     const { ledger, settings, i18n, isDetailView, setAddress } = this.props;
@@ -171,6 +153,26 @@ class TransactionList extends React.PureComponent<IProps> {
     );
   };
 }
+
+/** ===========================================================================
+ * Styles
+ * ============================================================================
+ */
+
+const PaginationBar = styled.p`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
+const PaginationText = styled.p`
+  font-size: 14px;
+  margin: 0px;
+  margin-left: 8px;
+  margin-right: 8px;
+`;
 
 /** ===========================================================================
  * Props
