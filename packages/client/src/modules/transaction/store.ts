@@ -78,19 +78,23 @@ const transaction = createReducer<
     broadcastingTransaction: false,
     transactionStage: TRANSACTION_STAGES.PENDING,
   }))
-  .handleAction(
-    Actions.broadcastTransactionFailure,
-    (state, action) => initialState,
-  )
+  .handleAction(Actions.broadcastTransactionFailure, state => ({
+    ...initialState,
+    liveTransactionRecord: state.liveTransactionRecord,
+  }))
   .handleAction(Actions.transactionConfirmed, (state, action) => ({
     ...state,
+    transactionPage: 1, // Reset page to 1
     confirmedTransactionHeight: action.payload.height,
     liveTransactionRecord: state.liveTransactionRecord.concat(action.payload),
     transactionStage: TRANSACTION_STAGES.SUCCESS,
   }))
   .handleAction(
     [Actions.transactionFailed, LedgerActions.closeLedgerDialog],
-    () => initialState,
+    state => ({
+      ...initialState,
+      liveTransactionRecord: state.liveTransactionRecord,
+    }),
   );
 
 /** ===========================================================================

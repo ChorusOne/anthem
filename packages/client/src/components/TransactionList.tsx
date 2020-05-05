@@ -41,8 +41,10 @@ class TransactionList extends React.PureComponent<IProps> {
     this.validatorOperatorAddressMap = validatorOperatorAddressMap;
   }
 
-  componentDidUpdate(prevProps: IProps) {
+  componentDidUpdate() {
     if (this.props.extraLiveTransactions.length > 0) {
+      console.log(this.props.extraLiveTransactions);
+
       /**
        * 1. Check if any of the live transactions are in the transactions list
        * -> if they are there, remove them from the live transactions cache.

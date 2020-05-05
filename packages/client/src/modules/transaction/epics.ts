@@ -127,7 +127,7 @@ const pollTransactionEpic: EpicSignature = (action$, state$, deps) => {
           memo: result.tx.value.memo,
           msgs: result.tx.value.msg,
           tags: result.tags,
-          timestamp: result.timestamp,
+          timestamp: String(new Date(result.timestamp).getTime()),
         };
 
         if (result.error && result.error.includes("not found")) {
