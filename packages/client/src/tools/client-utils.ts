@@ -24,7 +24,11 @@ import {
   formatCurrencyAmount,
 } from "./currency-utils";
 import { formatFiatPriceDate } from "./date-utils";
-import { isGreaterThanOrEqualTo } from "./math-utils";
+import {
+  addValuesInList,
+  isGreaterThanOrEqualTo,
+  toBigNumber,
+} from "./math-utils";
 
 /** ===========================================================================
  * Types & Config
@@ -149,14 +153,24 @@ const findDenomsInList = (
 /**
  * Aggregate multiple values in a list and add them up.
  */
-const aggregateCurrencyValuesFromList = <T>(
+const aggregateCurrencyValuesFromList = <T extends any>(
   balances: ReadonlyArray<T>,
   key: keyof T,
+  denom: string,
 ) => {
-  return balances.reduce((sum, balance) => {
-    // The field may be nullable, hence defaulting to 0:
-    return sum.plus(new BigNumber(`${balance[key] || 0}`));
-  }, new BigNumber(0));
+  const values = balances
+    // Filter by denom, if the entry has a denom field
+    .filter(b => {
+      if (b.denom !== undefined) {
+        return b.denom === denom;
+      } else {
+        return false;
+      }
+    })
+    .map(b => b[key]);
+
+  // Add all the values
+  return addValuesInList(values, toBigNumber);
 };
 
 interface AccountBalancesResult {
@@ -218,18 +232,27 @@ export const getAccountBalances = (
 
   const atomsBalance = findDenomsInList(denom, data.balance);
   if (atomsBalance) {
-    balanceResult = aggregateCurrencyValuesFromList(atomsBalance, "amount");
+    balanceResult = aggregateCurrencyValuesFromList(
+      atomsBalance,
+      "amount",
+      denom,
+    );
   }
 
   const rewardsBalance = findDenomsInList(denom, data.rewards);
   if (rewardsBalance) {
-    rewardsResult = aggregateCurrencyValuesFromList(rewardsBalance, "amount");
+    rewardsResult = aggregateCurrencyValuesFromList(
+      rewardsBalance,
+      "amount",
+      denom,
+    );
   }
 
   if (data.delegations) {
     delegationResult = aggregateCurrencyValuesFromList<IDelegation>(
       data.delegations,
       "shares",
+      denom,
     );
   }
 
@@ -243,13 +266,14 @@ export const getAccountBalances = (
 
     unbondingResult = aggregateCurrencyValuesFromList<
       IUnbondingDelegationEntry
-    >(unbondingBalances, "balance");
+    >(unbondingBalances, "balance", denom);
   }
 
   if (data.commissions) {
     commissionsResult = aggregateCurrencyValuesFromList(
       data.commissions,
       "amount",
+      denom,
     );
   }
 
