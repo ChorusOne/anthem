@@ -5,6 +5,7 @@ import {
   IBalance,
   IDelegation,
   IQuery,
+  ITransaction,
   IUnbondingDelegationEntry,
   IValidator,
   NETWORK_NAME,
@@ -650,4 +651,35 @@ export const parseGraphQLError = (error?: {
   }
 
   return null;
+};
+
+/**
+ * Try to convert a raw transaction result fetched from the LCD API to
+ * the data model which matches our GraphQL transaction data.
+ *
+ * If this fails just return null, and the result will be disregarded.
+ */
+export const adaptRawTransactionData = (
+  rawTransaction: any,
+  chainId: string,
+): Nullable<ITransaction> => {
+  try {
+    const adaptedTransactionResult = {
+      chain: chainId,
+      fees: rawTransaction.tx.value.fee,
+      gasused: rawTransaction.gas_used,
+      gaswanted: rawTransaction.gas_wanted,
+      hash: rawTransaction.txhash,
+      height: rawTransaction.height,
+      log: rawTransaction.logs,
+      memo: rawTransaction.tx.value.memo,
+      msgs: rawTransaction.tx.value.msg,
+      tags: rawTransaction.tags,
+      timestamp: String(new Date(rawTransaction.timestamp).getTime()),
+    };
+
+    return adaptedTransactionResult;
+  } catch (err) {
+    return null;
+  }
 };

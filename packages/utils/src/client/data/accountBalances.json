@@ -2,8 +2,8 @@
   "accountBalances": {
     "balance": [{ "denom": "uatom", "amount": "348592170" }],
     "rewards": [
-      { "denom": "uatom", "amount": "30640930.496400145525097508" },
-      { "denom": "uatom", "amount": "26574.117483904636000000" }
+      { "denom": "uatom", "amount": "46074854.071099651748100927" },
+      { "denom": "uatom", "amount": "29412.916005500885000000" }
     ],
     "delegations": [
       {
@@ -19,7 +19,7 @@
     ],
     "unbonding": [],
     "commissions": [
-      { "denom": "uatom", "amount": "2393862288.772721593934235660" }
+      { "denom": "uatom", "amount": "3590795956.143526671966160591" }
     ]
   }
 }

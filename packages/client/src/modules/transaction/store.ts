@@ -1,3 +1,4 @@
+import { ITransaction } from "@anthem/utils";
 import { TransactionData, TxPostBody } from "tools/cosmos-utils";
 import { TRANSACTION_STAGES } from "tools/transaction-utils";
 import { createReducer } from "typesafe-actions";
@@ -12,6 +13,8 @@ import Actions, { ActionTypes } from "./actions";
  */
 
 export interface TransactionState {
+  transactionsPage: number;
+  liveTransactionRecord: ITransaction[];
   transactionPostBody: Nullable<TxPostBody>;
   transactionData: Nullable<TransactionData>;
   transactionStage: TRANSACTION_STAGES;
@@ -23,6 +26,8 @@ export interface TransactionState {
 }
 
 const initialState: TransactionState = {
+  transactionsPage: 1,
+  liveTransactionRecord: [],
   transactionPostBody: null,
   transactionData: null,
   transactionStage: TRANSACTION_STAGES.SETUP,
@@ -64,24 +69,41 @@ const transaction = createReducer<
     ...state,
     broadcastingTransaction: true,
   }))
+  .handleAction(Actions.setTransactionsPage, (state, action) => ({
+    ...state,
+    transactionsPage: action.payload,
+  }))
   .handleAction(Actions.broadcastTransactionSuccess, (state, action) => ({
     ...state,
     transactionHash: action.payload,
     broadcastingTransaction: false,
     transactionStage: TRANSACTION_STAGES.PENDING,
   }))
-  .handleAction(
-    Actions.broadcastTransactionFailure,
-    (state, action) => initialState,
-  )
+  .handleAction(Actions.broadcastTransactionFailure, state => ({
+    ...initialState,
+    liveTransactionRecord: state.liveTransactionRecord,
+  }))
   .handleAction(Actions.transactionConfirmed, (state, action) => ({
     ...state,
-    confirmedTransactionHeight: action.payload,
+    transactionPage: 1, // Reset page to 1
+    confirmedTransactionHeight: action.payload.height,
+    liveTransactionRecord: action.payload.transaction
+      ? state.liveTransactionRecord.concat(action.payload.transaction)
+      : state.liveTransactionRecord,
     transactionStage: TRANSACTION_STAGES.SUCCESS,
+  }))
+  .handleAction(Actions.removeLocalCopyOfTransaction, (state, action) => ({
+    ...state,
+    liveTransactionRecord: state.liveTransactionRecord.filter(
+      tx => tx.hash !== action.payload.hash,
+    ),
   }))
   .handleAction(
     [Actions.transactionFailed, LedgerActions.closeLedgerDialog],
-    () => initialState,
+    state => ({
+      ...initialState,
+      liveTransactionRecord: state.liveTransactionRecord,
+    }),
   );
 
 /** ===========================================================================

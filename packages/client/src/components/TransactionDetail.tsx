@@ -141,6 +141,8 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
         <TransactionList
           {...this.props}
           isDetailView
+          transactionsPage={0}
+          extraLiveTransactions={[]}
           transactions={transaction ? [transaction] : []}
         />
       </View>
@@ -153,8 +155,10 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
     const { transactions } = this.props;
     let result = null;
 
-    if (transactions && transactions.transactions) {
-      result = transactions.transactions.find(t => t.hash === hash);
+    if (transactions && transactions.transactionsPagination) {
+      result = transactions.transactionsPagination.data.find(
+        t => t.hash === hash,
+      );
     }
 
     return result || null;
@@ -241,6 +245,9 @@ const mapStateToProps = (state: ReduxStoreState) => ({
 
 const dispatchProps = {
   setAddress: Modules.actions.ledger.setAddress,
+  setTransactionsPage: Modules.actions.transaction.setTransactionsPage,
+  removeLocalCopyOfTransaction:
+    Modules.actions.transaction.removeLocalCopyOfTransaction,
 };
 
 const withProps = connect(mapStateToProps, dispatchProps);

@@ -4,9 +4,9 @@
  */
 
 interface NetworkFeatureMeta {
-  balancesUnsupported?: boolean;
-  portfolioUnsupported?: boolean;
-  transactionsListUnsupported?: boolean;
+  supportsBalances: boolean;
+  supportsPortfolio: boolean;
+  supportsTransactionsHistory: boolean;
 }
 
 export interface NetworkDefinition extends NetworkFeatureMeta {
@@ -58,6 +58,9 @@ const NETWORKS: NetworksMap = {
       "https://hub.cosmos.network/master/resources/ledger.html#install-the-cosmos-ledger-application",
     supportsLedger: true,
     supportsFiatPrices: true,
+    supportsBalances: true,
+    supportsPortfolio: true,
+    supportsTransactionsHistory: true,
   },
   TERRA: {
     available: true,
@@ -73,8 +76,9 @@ const NETWORKS: NetworksMap = {
     ledgerDocsLink: "https://docs.terra.money/docs/node-ledger-nano-support",
     supportsLedger: true,
     supportsFiatPrices: true,
-    balancesUnsupported: true,
-    portfolioUnsupported: true,
+    supportsBalances: true,
+    supportsPortfolio: false,
+    supportsTransactionsHistory: false,
   },
   KAVA: {
     available: true,
@@ -91,8 +95,9 @@ const NETWORKS: NetworksMap = {
       "https://medium.com/kava-labs/configure-ledger-nano-s-for-use-with-kava-4c3b00aeca32",
     supportsLedger: true,
     supportsFiatPrices: true,
-    balancesUnsupported: true,
-    portfolioUnsupported: true,
+    supportsBalances: true,
+    supportsPortfolio: false,
+    supportsTransactionsHistory: false,
   },
   OASIS: {
     available: false,
@@ -108,8 +113,9 @@ const NETWORKS: NetworksMap = {
     ledgerDocsLink: "n/a",
     supportsLedger: false,
     supportsFiatPrices: false,
-    portfolioUnsupported: true,
-    transactionsListUnsupported: true,
+    supportsBalances: true,
+    supportsPortfolio: false,
+    supportsTransactionsHistory: false,
   },
   CELO: {
     // available: true,
@@ -127,9 +133,9 @@ const NETWORKS: NetworksMap = {
     // supportsLedger: true,
     supportsLedger: false,
     supportsFiatPrices: false,
-    balancesUnsupported: true,
-    portfolioUnsupported: true,
-    transactionsListUnsupported: true,
+    supportsBalances: true,
+    supportsPortfolio: false,
+    supportsTransactionsHistory: false,
   },
 };
 

@@ -74,7 +74,7 @@ class TransactionListContainer extends React.Component<IProps, IState> {
     const { tString } = i18n;
     const { network } = ledger;
 
-    if (network.transactionsListUnsupported) {
+    if (!network.supportsTransactionsHistory) {
       return (
         <Centered style={{ flexDirection: "column" }}>
           <p>
@@ -95,12 +95,17 @@ class TransactionListContainer extends React.Component<IProps, IState> {
           [fiatPriceHistory, "fiatPriceHistory"],
         ]}
       >
-        {() => (
-          <TransactionList
-            {...this.props}
-            transactions={transactions.transactions!}
-          />
-        )}
+        {() => {
+          return (
+            <TransactionList
+              {...this.props}
+              transactions={transactions.transactionsPagination.data}
+              moreResultsExist={
+                transactions.transactionsPagination.moreResultsExist
+              }
+            />
+          );
+        }}
       </GraphQLGuardComponentMultipleQueries>
     );
   }
@@ -115,10 +120,17 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   settings: Modules.selectors.settings(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
+  transactionsPage: Modules.selectors.transaction.transactionsPage(state),
+  extraLiveTransactions: Modules.selectors.transaction.liveTransactionsRecordSelector(
+    state,
+  ),
 });
 
 const dispatchProps = {
   setAddress: Modules.actions.ledger.setAddress,
+  setTransactionsPage: Modules.actions.transaction.setTransactionsPage,
+  removeLocalCopyOfTransaction:
+    Modules.actions.transaction.removeLocalCopyOfTransaction,
 };
 
 const withProps = connect(mapStateToProps, dispatchProps);

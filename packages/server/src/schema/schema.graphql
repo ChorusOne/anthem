@@ -8,6 +8,11 @@ type Query {
   accountInformation(address: String!): AccountInformation!
   transaction(txHash: String!, network: String!): Transaction
   transactions(address: String!): [Transaction!]!
+  transactionsPagination(
+    address: String!
+    startingPage: Float
+    pageSize: Float
+  ): TransactionsPaginationResult!
   validatorDistribution(validatorAddress: String!): ValidatorDistribution!
   validators(network: String!): [Validator!]!
   validatorSets(network: String!): ValidatorSet!
@@ -128,6 +133,13 @@ type Account {
 type AccountCoin {
   denom: String!
   amount: String!
+}
+
+type TransactionsPaginationResult {
+  page: Float!
+  limit: Float!
+  data: [Transaction!]!
+  moreResultsExist: Boolean!
 }
 
 type Transaction {

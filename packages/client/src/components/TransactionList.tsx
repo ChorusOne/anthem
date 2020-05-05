@@ -1,8 +1,9 @@
 import { ITransaction } from "@anthem/utils";
-import { H5 } from "@blueprintjs/core";
+import { Button, H5 } from "@blueprintjs/core";
 import { Centered } from "components/SharedComponents";
 import Toast from "components/Toast";
 import React from "react";
+import styled from "styled-components";
 import {
   formatAddressString,
   getFiatPriceHistoryMap,
@@ -40,20 +41,112 @@ class TransactionList extends React.PureComponent<IProps> {
     this.validatorOperatorAddressMap = validatorOperatorAddressMap;
   }
 
+  componentDidUpdate() {
+    if (this.props.extraLiveTransactions.length > 0) {
+      // Handle possibly removing any local copies of transactions
+      this.findAndRemoveLocalTransactionCopies(
+        this.props.transactions,
+        this.props.extraLiveTransactions,
+      );
+    }
+  }
+
   render(): JSX.Element {
-    const { transactions } = this.props;
+    const {
+      isDetailView,
+      transactions,
+      transactionsPage,
+      moreResultsExist,
+      extraLiveTransactions,
+    } = this.props;
+
+    // Get the combined list of transactions to render:
+    const txs = this.combineTransactionRecords(
+      transactions,
+      extraLiveTransactions,
+    );
+    const TXS_EXIST = txs && txs.length > 0;
+
     return (
       <React.Fragment>
-        {transactions && transactions.length > 0 ? (
-          transactions.map(this.renderTransactionItem)
+        {TXS_EXIST ? (
+          txs.map(this.renderTransactionItem)
         ) : (
           <Centered>
             <H5>No transactions exist</H5>
           </Centered>
         )}
+        {!isDetailView && TXS_EXIST && (
+          <PaginationBar>
+            {transactionsPage > 1 && (
+              <Button rightIcon="caret-left" onClick={this.pageBack}>
+                Prev
+              </Button>
+            )}
+            {moreResultsExist ? (
+              <PaginationText>Page {transactionsPage}</PaginationText>
+            ) : (
+              <AllResultsText>- All Results Displayed -</AllResultsText>
+            )}
+            {moreResultsExist && (
+              <Button icon="caret-right" onClick={this.pageForward}>
+                Next
+              </Button>
+            )}
+          </PaginationBar>
+        )}
       </React.Fragment>
     );
   }
+
+  /**
+   * Filter the local transactions data every time this component updates
+   * and dispatch actions to remove any local copies of transactions which
+   * exist in the GraphQL transactions list.
+   *
+   * This is part of the logic to preemptively show transactions after a user
+   * submits a Ledger transaction before the extractor has persisted the
+   * transaction in our database.
+   */
+  findAndRemoveLocalTransactionCopies = (
+    transactions: readonly ITransaction[],
+    localTransactions: ITransaction[],
+  ) => {
+    const hashSet = new Set(transactions.map(tx => tx.hash));
+    for (const tx of localTransactions) {
+      if (hashSet.has(tx.hash)) {
+        this.props.removeLocalCopyOfTransaction({ hash: tx.hash });
+      }
+    }
+  };
+
+  /**
+   * Combine the GraphQL transactions list with the list of local transactions,
+   * excluding any transactions which exist locally and also exist in the
+   * GraphQL data.
+   *
+   * This is part of the logic to preemptively show transactions after a user
+   * submits a Ledger transaction before the extractor has persisted the
+   * transaction in our database.
+   */
+  combineTransactionRecords = (
+    transactions: readonly ITransaction[],
+    localTransactions: ITransaction[],
+  ) => {
+    const hashSet = new Set(transactions.map(tx => tx.hash));
+    const localUniqueTransactions = localTransactions.filter(
+      tx => !hashSet.has(tx.hash),
+    );
+    return localUniqueTransactions.concat(transactions);
+  };
+
+  pageBack = () => {
+    this.props.setTransactionsPage(this.props.transactionsPage - 1);
+  };
+
+  pageForward = () => {
+    this.props.setTransactionsPage(this.props.transactionsPage + 1);
+  };
 
   renderTransactionItem = (transaction: ITransaction) => {
     const { ledger, settings, i18n, isDetailView, setAddress } = this.props;
@@ -122,12 +215,39 @@ class TransactionList extends React.PureComponent<IProps> {
 }
 
 /** ===========================================================================
+ * Styles
+ * ============================================================================
+ */
+
+const PaginationBar = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
+const PaginationText = styled.p`
+  font-size: 14px;
+  margin: 0px;
+  margin-left: 8px;
+  margin-right: 8px;
+`;
+
+const AllResultsText = styled.p`
+  font-size: 12px;
+  margin: 0px;
+`;
+
+/** ===========================================================================
  * Props
  * ============================================================================
  */
 
 interface ComponentProps extends TransactionListProps {
   isDetailView?: boolean;
+  extraLiveTransactions: ITransaction[];
+  moreResultsExist?: boolean;
   transactions: ReadonlyArray<ITransaction>;
 }
 

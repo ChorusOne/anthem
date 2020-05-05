@@ -78,10 +78,24 @@ const getTransactionByHashQuery = () => (variables: SQLVariables): string => {
 
 const getTransactionsQuery = () => (variables: SQLVariables): string => {
   const sql = `
-  SELECT * FROM transactions
-  WHERE hash IN (SELECT hash FROM message_addresses WHERE address = @address)
-  ORDER BY timestamp DESC
-  LIMIT 25
+    SELECT * FROM transactions
+    WHERE hash IN (SELECT hash FROM message_addresses WHERE address = @address)
+    ORDER BY timestamp DESC
+    LIMIT 25
+  `;
+
+  return getSqlQueryString(sql, variables);
+};
+
+const getTransactionsPaginationQuery = () => (
+  variables: SQLVariables,
+): string => {
+  const sql = `
+    SELECT * FROM transactions
+    WHERE hash IN (SELECT hash FROM message_addresses WHERE address = @address)
+    ORDER BY timestamp DESC
+    OFFSET @startingPage
+    LIMIT @pageSize + 1
   `;
 
   return getSqlQueryString(sql, variables);
@@ -239,6 +253,30 @@ export const getTransactions = async (
   return result;
 };
 
+export const getTransactionsPagination = async (
+  address: string,
+  pageSize: number,
+  startingPage: number,
+  network: NetworkDefinition,
+): Promise<IQuery["transactionsPagination"]> => {
+  const variables = { address, startingPage, pageSize };
+  const transactionsQuery = getTransactionsPaginationQuery();
+  const query = transactionsQuery(variables);
+  const response = await queryPostgresCosmosSdkPool(network.name, query);
+
+  /**
+   * NOTE: The query fetches one more than the pageSize in order to
+   * determine if more results exist or not.
+   */
+  const result = response.slice(0, pageSize).map(formatTransactionResponse);
+  return {
+    page: startingPage,
+    limit: pageSize,
+    data: result,
+    moreResultsExist: response.length > pageSize,
+  };
+};
+
 /** ===========================================================================
  * Export
  * ============================================================================
@@ -252,6 +290,7 @@ const COSMOS_EXTRACTOR = {
   getPortfolioBalanceHistory,
   getPortfolioDelegatorRewards,
   getPortfolioValidatorRewards,
+  getTransactionsPagination,
 };
 
 export default COSMOS_EXTRACTOR;

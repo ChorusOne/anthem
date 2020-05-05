@@ -2,6 +2,7 @@ export default [
   "portfolioHistory",
   "transaction",
   "transactions",
+  "transactionsPagination",
   "rewardsByValidator",
   "accountBalances",
   "accountInformation",

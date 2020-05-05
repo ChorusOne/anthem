@@ -22,6 +22,7 @@ import {
   IStakingParametersQueryVariables,
   IStakingPoolQueryVariables,
   ITransactionQueryVariables,
+  ITransactionsPaginationQueryVariables,
   IValidatorDistributionQueryVariables,
   IValidatorSetsQueryVariables,
   IValidatorsQueryVariables,
@@ -41,7 +42,7 @@ import OASIS from "./sources/oasis";
  */
 
 const blockUnsupportedNetworks = (network: NetworkDefinition) => {
-  if (network.portfolioUnsupported) {
+  if (!network.supportsPortfolio) {
     throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
   }
 };
@@ -110,6 +111,8 @@ const resolvers = {
       return COSMOS_EXTRACTOR.getTransactionByHash(txHash, network);
     },
 
+    // NOTE: This is deprecated
+    // TODO: Remove this API
     transactions: async (
       _: void,
       args: IAccountInformationQueryVariables,
@@ -118,6 +121,22 @@ const resolvers = {
       const network = deriveNetworkFromAddress(address);
       blockUnsupportedNetworks(network);
       return COSMOS_EXTRACTOR.getTransactions(address, network);
+    },
+
+    // TODO: Replace for transactions API after update
+    transactionsPagination: async (
+      _: void,
+      args: ITransactionsPaginationQueryVariables,
+    ): Promise<IQuery["transactionsPagination"]> => {
+      const { address, startingPage, pageSize } = args;
+      const network = deriveNetworkFromAddress(address);
+      blockUnsupportedNetworks(network);
+      return COSMOS_EXTRACTOR.getTransactionsPagination(
+        address,
+        pageSize || 25,
+        startingPage || 1,
+        network,
+      );
     },
 
     rewardsByValidator: async (

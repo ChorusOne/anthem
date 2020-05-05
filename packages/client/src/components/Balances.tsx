@@ -45,7 +45,7 @@ class Balance extends React.Component<IProps, {}> {
     const { t, tString } = i18n;
     const { isDesktop, currencySetting } = settings;
 
-    if (network.balancesUnsupported) {
+    if (!network.supportsBalances) {
       return (
         <Centered style={{ flexDirection: "column", marginTop: -25 }}>
           <p>
