@@ -292,7 +292,7 @@ export interface IQuery {
   accountInformation: IAccountInformation;
   transaction: Maybe<ITransaction>;
   transactions: ITransaction[];
-  transactionsPagination: ITransaction[];
+  transactionsPagination: ITransactionsPaginationResult;
   validatorDistribution: IValidatorDistribution;
   validators: IValidator[];
   validatorSets: IValidatorSet;
@@ -472,6 +472,14 @@ export interface ITransaction {
   msgs: ITxMsg[];
   timestamp: Scalars["String"];
   chain: Scalars["String"];
+}
+
+export interface ITransactionsPaginationResult {
+   __typename?: "TransactionsPaginationResult";
+  page: Maybe<Scalars["Float"]>;
+  limit: Maybe<Scalars["Float"]>;
+  data: ITransaction[];
+  moreResultsExist: Maybe<Scalars["Boolean"]>;
 }
 
 export interface ITx {
@@ -1023,71 +1031,75 @@ export interface ITransactionsPaginationQueryVariables {
 
 export type ITransactionsPaginationQuery = (
   { __typename?: "Query" }
-  & { transactionsPagination: Array<(
-    { __typename?: "Transaction" }
-    & Pick<ITransaction, "hash" | "height" | "gaswanted" | "gasused" | "memo" | "timestamp" | "chain">
-    & { log: Array<Maybe<(
-      { __typename?: "LogMessage" }
-      & Pick<ILogMessage, "code" | "message" | "success" | "log" | "msg_index">
-    )>>, fees: (
-      { __typename?: "TxFee" }
-      & Pick<ITxFee, "gas">
-      & { amount: Maybe<Array<(
-        { __typename?: "Balance" }
-        & Pick<IBalance, "denom" | "amount">
-      )>> }
-    ), tags: Maybe<Array<(
-      { __typename?: "Tag" }
-      & Pick<ITag, "key" | "value">
-    )>>, msgs: Array<(
-      { __typename?: "TxMsg" }
-      & Pick<ITxMsg, "type">
-      & { value: Maybe<(
-        { __typename?: "MsgSend" }
-        & Pick<IMsgSend, "to_address" | "from_address">
-        & { amounts: Maybe<Array<(
+  & { transactionsPagination: (
+    { __typename?: "TransactionsPaginationResult" }
+    & Pick<ITransactionsPaginationResult, "page" | "limit" | "moreResultsExist">
+    & { data: Array<(
+      { __typename?: "Transaction" }
+      & Pick<ITransaction, "hash" | "height" | "gaswanted" | "gasused" | "memo" | "timestamp" | "chain">
+      & { log: Array<Maybe<(
+        { __typename?: "LogMessage" }
+        & Pick<ILogMessage, "code" | "message" | "success" | "log" | "msg_index">
+      )>>, fees: (
+        { __typename?: "TxFee" }
+        & Pick<ITxFee, "gas">
+        & { amount: Maybe<Array<(
           { __typename?: "Balance" }
           & Pick<IBalance, "denom" | "amount">
         )>> }
-      ) | (
-        { __typename?: "MsgVote" }
-        & Pick<IMsgVote, "proposal_id" | "voter" | "option">
-      ) | (
-        { __typename?: "MsgDelegate" }
-        & Pick<IMsgDelegate, "delegator_address" | "validator_address">
-        & { amount: (
-          { __typename?: "Balance" }
-          & Pick<IBalance, "denom" | "amount">
-        ) }
-      ) | (
-        { __typename?: "MsgSubmitProposal" }
-        & Pick<IMsgSubmitProposal, "title" | "description" | "proposal_type" | "proposer">
-        & { initial_deposit: Maybe<Array<(
-          { __typename?: "Balance" }
-          & Pick<IBalance, "denom" | "amount">
-        )>> }
-      ) | (
-        { __typename?: "MsgBeginRedelegate" }
-        & Pick<IMsgBeginRedelegate, "delegator_address" | "validator_src_address" | "validator_dst_address">
-        & { amount: (
-          { __typename?: "Balance" }
-          & Pick<IBalance, "denom" | "amount">
-        ) }
-      ) | (
-        { __typename?: "MsgModifyWithdrawAddress" }
-        & Pick<IMsgModifyWithdrawAddress, "withdraw_address" | "validator_address">
-      ) | (
-        { __typename?: "MsgBeginRedelegateLegacy" }
-        & Pick<IMsgBeginRedelegateLegacy, "shares_amount" | "delegator_address" | "validator_src_address" | "validator_dst_address">
-      ) | (
-        { __typename?: "MsgWithdrawDelegationReward" }
-        & Pick<IMsgWithdrawDelegationReward, "delegator_address" | "validator_address">
-      ) | (
-        { __typename?: "MsgWithdrawValidatorCommission" }
-        & Pick<IMsgWithdrawValidatorCommission, "validator_address">
+      ), tags: Maybe<Array<(
+        { __typename?: "Tag" }
+        & Pick<ITag, "key" | "value">
+      )>>, msgs: Array<(
+        { __typename?: "TxMsg" }
+        & Pick<ITxMsg, "type">
+        & { value: Maybe<(
+          { __typename?: "MsgSend" }
+          & Pick<IMsgSend, "to_address" | "from_address">
+          & { amounts: Maybe<Array<(
+            { __typename?: "Balance" }
+            & Pick<IBalance, "denom" | "amount">
+          )>> }
+        ) | (
+          { __typename?: "MsgVote" }
+          & Pick<IMsgVote, "proposal_id" | "voter" | "option">
+        ) | (
+          { __typename?: "MsgDelegate" }
+          & Pick<IMsgDelegate, "delegator_address" | "validator_address">
+          & { amount: (
+            { __typename?: "Balance" }
+            & Pick<IBalance, "denom" | "amount">
+          ) }
+        ) | (
+          { __typename?: "MsgSubmitProposal" }
+          & Pick<IMsgSubmitProposal, "title" | "description" | "proposal_type" | "proposer">
+          & { initial_deposit: Maybe<Array<(
+            { __typename?: "Balance" }
+            & Pick<IBalance, "denom" | "amount">
+          )>> }
+        ) | (
+          { __typename?: "MsgBeginRedelegate" }
+          & Pick<IMsgBeginRedelegate, "delegator_address" | "validator_src_address" | "validator_dst_address">
+          & { amount: (
+            { __typename?: "Balance" }
+            & Pick<IBalance, "denom" | "amount">
+          ) }
+        ) | (
+          { __typename?: "MsgModifyWithdrawAddress" }
+          & Pick<IMsgModifyWithdrawAddress, "withdraw_address" | "validator_address">
+        ) | (
+          { __typename?: "MsgBeginRedelegateLegacy" }
+          & Pick<IMsgBeginRedelegateLegacy, "shares_amount" | "delegator_address" | "validator_src_address" | "validator_dst_address">
+        ) | (
+          { __typename?: "MsgWithdrawDelegationReward" }
+          & Pick<IMsgWithdrawDelegationReward, "delegator_address" | "validator_address">
+        ) | (
+          { __typename?: "MsgWithdrawValidatorCommission" }
+          & Pick<IMsgWithdrawValidatorCommission, "validator_address">
+        )> }
       )> }
     )> }
-  )> }
+  ) }
 );
 
 export interface IValidatorDistributionQueryVariables {
@@ -2514,93 +2526,98 @@ export type TransactionsQueryResult = ApolloReactCommon.QueryResult<ITransaction
 export const TransactionsPaginationDocument = gql`
     query transactionsPagination($address: String!, $startingPage: Float, $pageSize: Float) {
   transactionsPagination(address: $address, startingPage: $startingPage, pageSize: $pageSize) {
-    hash
-    height
-    log {
-      code
-      message
-      success
-      log
-      msg_index
-    }
-    gaswanted
-    gasused
-    memo
-    fees {
-      amount {
-        denom
-        amount
+    page
+    limit
+    data {
+      hash
+      height
+      log {
+        code
+        message
+        success
+        log
+        msg_index
       }
-      gas
-    }
-    tags {
-      key
-      value
-    }
-    msgs {
-      type
-      value {
-        ... on MsgSend {
-          amounts {
-            denom
-            amount
+      gaswanted
+      gasused
+      memo
+      fees {
+        amount {
+          denom
+          amount
+        }
+        gas
+      }
+      tags {
+        key
+        value
+      }
+      msgs {
+        type
+        value {
+          ... on MsgSend {
+            amounts {
+              denom
+              amount
+            }
+            to_address
+            from_address
           }
-          to_address
-          from_address
-        }
-        ... on MsgVote {
-          proposal_id
-          voter
-          option
-        }
-        ... on MsgDelegate {
-          amount {
-            denom
-            amount
+          ... on MsgVote {
+            proposal_id
+            voter
+            option
           }
-          delegator_address
-          validator_address
-        }
-        ... on MsgSubmitProposal {
-          title
-          description
-          proposal_type
-          proposer
-          initial_deposit {
-            denom
-            amount
+          ... on MsgDelegate {
+            amount {
+              denom
+              amount
+            }
+            delegator_address
+            validator_address
           }
-        }
-        ... on MsgBeginRedelegate {
-          amount {
-            denom
-            amount
+          ... on MsgSubmitProposal {
+            title
+            description
+            proposal_type
+            proposer
+            initial_deposit {
+              denom
+              amount
+            }
           }
-          delegator_address
-          validator_src_address
-          validator_dst_address
-        }
-        ... on MsgModifyWithdrawAddress {
-          withdraw_address
-          validator_address
-        }
-        ... on MsgBeginRedelegateLegacy {
-          shares_amount
-          delegator_address
-          validator_src_address
-          validator_dst_address
-        }
-        ... on MsgWithdrawDelegationReward {
-          delegator_address
-          validator_address
-        }
-        ... on MsgWithdrawValidatorCommission {
-          validator_address
+          ... on MsgBeginRedelegate {
+            amount {
+              denom
+              amount
+            }
+            delegator_address
+            validator_src_address
+            validator_dst_address
+          }
+          ... on MsgModifyWithdrawAddress {
+            withdraw_address
+            validator_address
+          }
+          ... on MsgBeginRedelegateLegacy {
+            shares_amount
+            delegator_address
+            validator_src_address
+            validator_dst_address
+          }
+          ... on MsgWithdrawDelegationReward {
+            delegator_address
+            validator_address
+          }
+          ... on MsgWithdrawValidatorCommission {
+            validator_address
+          }
         }
       }
+      timestamp
+      chain
     }
-    timestamp
-    chain
+    moreResultsExist
   }
 }
     `;

@@ -12,7 +12,7 @@ type Query {
     address: String!
     startingPage: Float
     pageSize: Float
-  ): [Transaction!]!
+  ): TransactionsPaginationResult!
   validatorDistribution(validatorAddress: String!): ValidatorDistribution!
   validators(network: String!): [Validator!]!
   validatorSets(network: String!): ValidatorSet!
@@ -133,6 +133,13 @@ type Account {
 type AccountCoin {
   denom: String!
   amount: String!
+}
+
+type TransactionsPaginationResult {
+  page: Float
+  limit: Float
+  data: [Transaction!]!
+  moreResultsExist: Boolean
 }
 
 type Transaction {

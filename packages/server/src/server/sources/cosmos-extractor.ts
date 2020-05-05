@@ -80,10 +80,10 @@ const getTransactionByHashQuery = () => (variables: SQLVariables): string => {
 
 const getTransactionsQuery = () => (variables: SQLVariables): string => {
   const sql = `
-  SELECT * FROM transactions
-  WHERE hash IN (SELECT hash FROM message_addresses WHERE address = @address)
-  ORDER BY timestamp DESC
-  LIMIT 25
+    SELECT * FROM transactions
+    WHERE hash IN (SELECT hash FROM message_addresses WHERE address = @address)
+    ORDER BY timestamp DESC
+    LIMIT 25
   `;
 
   return getSqlQueryString(sql, variables);
@@ -93,11 +93,11 @@ const getTransactionsPaginationQuery = () => (
   variables: SQLVariables,
 ): string => {
   const sql = `
-  SELECT * FROM transactions
-  WHERE hash IN (SELECT hash FROM message_addresses WHERE address = @address)
-  ORDER BY timestamp DESC
-  OFFSET @startingPage
-  LIMIT @pageSize
+    SELECT * FROM transactions
+    WHERE hash IN (SELECT hash FROM message_addresses WHERE address = @address)
+    ORDER BY timestamp DESC
+    OFFSET @startingPage
+    LIMIT @pageSize + 1
   `;
 
   return getSqlQueryString(sql, variables);
@@ -260,13 +260,18 @@ export const getTransactionsPagination = async (
   pageSize: number,
   startingPage: number,
   network: NetworkDefinition,
-): Promise<IQuery["transactions"]> => {
+): Promise<IQuery["transactionsPagination"]> => {
   const variables = { address, startingPage, pageSize };
   const transactionsQuery = getTransactionsPaginationQuery();
   const query = transactionsQuery(variables);
   const response = await queryPostgresCosmosSdkPool(network.name, query);
-  const result = response.map(formatTransactionResponse);
-  return result;
+  const result = response.slice(0, pageSize).map(formatTransactionResponse);
+  return {
+    page: startingPage,
+    limit: pageSize,
+    data: result,
+    moreResultsExist: response.length > pageSize,
+  };
 };
 
 /** ===========================================================================
