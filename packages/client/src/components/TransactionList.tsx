@@ -1,5 +1,5 @@
 import { ITransaction } from "@anthem/utils";
-import { H5 } from "@blueprintjs/core";
+import { Button, H5 } from "@blueprintjs/core";
 import { Centered } from "components/SharedComponents";
 import Toast from "components/Toast";
 import React from "react";
@@ -58,7 +58,32 @@ class TransactionList extends React.PureComponent<IProps> {
             <H5>No transactions exist</H5>
           </Centered>
         )}
-        {!isDetailView && <p>Page {transactionsPage}</p>}
+        {!isDetailView && (
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {transactionsPage > 1 && (
+              <Button rightIcon="caret-left">Prev</Button>
+            )}
+            <p
+              style={{
+                fontSize: 14,
+                margin: 0,
+                marginLeft: 8,
+                marginRight: 8,
+              }}
+            >
+              Page {transactionsPage}
+            </p>
+            <Button icon="caret-right">Next</Button>
+          </div>
+        )}
       </React.Fragment>
     );
   }

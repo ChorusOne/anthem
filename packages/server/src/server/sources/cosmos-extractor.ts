@@ -60,6 +60,8 @@ export const queryPostgresCosmosSdkPool = async (
       return assertUnreachable(network);
   }
 
+  console.log(response);
+
   return response.rows;
 };
 
