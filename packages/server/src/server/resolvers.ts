@@ -111,6 +111,8 @@ const resolvers = {
       return COSMOS_EXTRACTOR.getTransactionByHash(txHash, network);
     },
 
+    // NOTE: This is deprecated
+    // TODO: Remove this API
     transactions: async (
       _: void,
       args: IAccountInformationQueryVariables,
@@ -121,6 +123,7 @@ const resolvers = {
       return COSMOS_EXTRACTOR.getTransactions(address, network);
     },
 
+    // TODO: Replace for transactions API after update
     transactionsPagination: async (
       _: void,
       args: ITransactionsPaginationQueryVariables,

@@ -163,7 +163,7 @@ class TransactionList extends React.PureComponent<IProps> {
  * ============================================================================
  */
 
-const PaginationBar = styled.p`
+const PaginationBar = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
