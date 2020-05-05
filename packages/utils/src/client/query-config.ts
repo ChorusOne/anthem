@@ -33,8 +33,7 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   {
     variables: {
       fiat: "USD",
-      crypto: "ATOM",
-      network: "COSMOS",
+      crypto: "atom",
     },
     test: (s: string) => {
       return s.includes("$crypto") && s.includes("$fiat");

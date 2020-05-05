@@ -134,7 +134,7 @@ const resolvers = {
       return COSMOS_EXTRACTOR.getTransactionsPagination(
         address,
         pageSize || 25,
-        startingPage || 0,
+        startingPage || 1,
         network,
       );
     },
