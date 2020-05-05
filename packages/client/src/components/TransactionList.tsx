@@ -50,16 +50,17 @@ class TransactionList extends React.PureComponent<IProps> {
     } = this.props;
     // Combine transactions with live fetched transactions...
     const txs = extraLiveTransactions.concat(transactions);
+    const TXS_EXIST = txs && txs.length > 0;
     return (
       <React.Fragment>
-        {txs && txs.length > 0 ? (
+        {TXS_EXIST ? (
           txs.map(this.renderTransactionItem)
         ) : (
           <Centered>
             <H5>No transactions exist</H5>
           </Centered>
         )}
-        {!isDetailView && (
+        {!isDetailView && TXS_EXIST && (
           <div
             style={{
               width: "100%",
