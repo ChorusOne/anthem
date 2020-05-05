@@ -43,8 +43,6 @@ class TransactionList extends React.PureComponent<IProps> {
 
   componentDidUpdate() {
     if (this.props.extraLiveTransactions.length > 0) {
-      console.log(this.props.extraLiveTransactions);
-
       /**
        * 1. Check if any of the live transactions are in the transactions list
        * -> if they are there, remove them from the live transactions cache.
@@ -52,6 +50,10 @@ class TransactionList extends React.PureComponent<IProps> {
        * -> When the transactions update after a Leger transaction is confirmed,
        * reset the transactionsPage to 0 again.
        */
+      this.findAndRemoveLocalTransactionCopies(
+        this.props.transactions,
+        this.props.extraLiveTransactions,
+      );
     }
   }
 
@@ -106,6 +108,18 @@ class TransactionList extends React.PureComponent<IProps> {
       </React.Fragment>
     );
   }
+
+  findAndRemoveLocalTransactionCopies = (
+    transactions: readonly ITransaction[],
+    localTransactions: ITransaction[],
+  ) => {
+    const hashSet = new Set(transactions.map(tx => tx.hash));
+    for (const tx of localTransactions) {
+      if (hashSet.has(tx.hash)) {
+        this.props.removeLocalCopyOfTransaction({ hash: tx.hash });
+      }
+    }
+  };
 
   combineTransactionRecords = (
     transactions: readonly ITransaction[],

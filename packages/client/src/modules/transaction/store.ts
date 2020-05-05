@@ -89,6 +89,12 @@ const transaction = createReducer<
     liveTransactionRecord: state.liveTransactionRecord.concat(action.payload),
     transactionStage: TRANSACTION_STAGES.SUCCESS,
   }))
+  .handleAction(Actions.removeLocalCopyOfTransaction, (state, action) => ({
+    ...state,
+    liveTransactionRecord: state.liveTransactionRecord.filter(
+      tx => tx.hash !== action.payload.hash,
+    ),
+  }))
   .handleAction(
     [Actions.transactionFailed, LedgerActions.closeLedgerDialog],
     state => ({

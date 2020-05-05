@@ -129,6 +129,8 @@ const mapStateToProps = (state: ReduxStoreState) => ({
 const dispatchProps = {
   setAddress: Modules.actions.ledger.setAddress,
   setTransactionsPage: Modules.actions.transaction.setTransactionsPage,
+  removeLocalCopyOfTransaction:
+    Modules.actions.transaction.removeLocalCopyOfTransaction,
 };
 
 const withProps = connect(mapStateToProps, dispatchProps);
