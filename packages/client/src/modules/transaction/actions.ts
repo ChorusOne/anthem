@@ -75,7 +75,7 @@ const pollForTransaction = createStandardAction(
 
 const transactionConfirmed = createStandardAction(
   ActionTypesEnum.TRANSACTION_CONFIRMED,
-)<ITransaction>();
+)<{ height: string; transaction: Nullable<ITransaction> }>();
 
 const transactionFailed = createStandardAction(
   ActionTypesEnum.TRANSACTION_FAILED,

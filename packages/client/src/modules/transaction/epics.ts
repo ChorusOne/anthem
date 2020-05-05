@@ -4,7 +4,7 @@ import { EpicSignature } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import { combineEpics } from "redux-observable";
 import { filter, mergeMap, pluck } from "rxjs/operators";
-import { wait } from "tools/client-utils";
+import { adaptRawTransactionData, wait } from "tools/client-utils";
 import { createSignMessage } from "tools/cosmos-ledger-utils";
 import { createCosmosTransactionPostBody } from "tools/cosmos-utils";
 import { isActionOf } from "typesafe-actions";
@@ -109,33 +109,24 @@ const pollTransactionEpic: EpicSignature = (action$, state$, deps) => {
     mergeMap(async () => {
       try {
         const txHash = state$.value.transaction.transactionHash;
-        const networkName = state$.value.ledger.ledger.network.name;
+        const { network } = state$.value.ledger.ledger;
+        const result = await deps.cosmos.pollTransaction(txHash, network.name);
 
-        const result = await deps.cosmos.pollTransaction(txHash, networkName);
-        logger(result);
-
-        // Try to convert the transaction result to match the GraphQL/extractor
-        // transaction data model...
-        const adaptedTransactionResult = {
-          chain: "cosmoshub-3",
-          fees: result.tx.value.fee,
-          gasused: result.gas_used,
-          gaswanted: result.gas_wanted,
-          hash: result.txhash,
-          height: result.height,
-          log: result.logs,
-          memo: result.tx.value.memo,
-          msgs: result.tx.value.msg,
-          tags: result.tags,
-          timestamp: String(new Date(result.timestamp).getTime()),
-        };
+        // Try to convert the transaction result to match the GraphQL/extractor:
+        const adaptedTransactionResult = adaptRawTransactionData(
+          result,
+          network.chainId,
+        );
 
         if (result.error && result.error.includes("not found")) {
           logger("Transaction not found, re-polling...");
           await wait(1500);
           return Actions.pollForTransaction();
         } else if (result.logs && result.logs[0].success) {
-          return Actions.transactionConfirmed(adaptedTransactionResult);
+          return Actions.transactionConfirmed({
+            height: result.height,
+            transaction: adaptedTransactionResult,
+          });
         } else {
           const rawLog = result.raw_log;
           if (rawLog.includes("out of gas")) {

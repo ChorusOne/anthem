@@ -1,3 +1,4 @@
+import { ITransaction } from "@anthem/utils";
 import { TransactionData, TxPostBody } from "tools/cosmos-utils";
 import { TRANSACTION_STAGES } from "tools/transaction-utils";
 import { createReducer } from "typesafe-actions";
@@ -13,7 +14,7 @@ import Actions, { ActionTypes } from "./actions";
 
 export interface TransactionState {
   transactionsPage: number;
-  liveTransactionRecord: any[];
+  liveTransactionRecord: ITransaction[];
   transactionPostBody: Nullable<TxPostBody>;
   transactionData: Nullable<TransactionData>;
   transactionStage: TRANSACTION_STAGES;
@@ -86,7 +87,9 @@ const transaction = createReducer<
     ...state,
     transactionPage: 1, // Reset page to 1
     confirmedTransactionHeight: action.payload.height,
-    liveTransactionRecord: state.liveTransactionRecord.concat(action.payload),
+    liveTransactionRecord: action.payload.transaction
+      ? state.liveTransactionRecord.concat(action.payload.transaction)
+      : state.liveTransactionRecord,
     transactionStage: TRANSACTION_STAGES.SUCCESS,
   }))
   .handleAction(Actions.removeLocalCopyOfTransaction, (state, action) => ({
