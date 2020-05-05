@@ -97,8 +97,6 @@ class TransactionListContainer extends React.Component<IProps, IState> {
         ]}
       >
         {() => {
-          console.log(extraLiveTransactions);
-          console.log(transactions.transactions);
           return (
             <TransactionList
               {...this.props}
@@ -120,6 +118,7 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   settings: Modules.selectors.settings(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
+  transactionsPage: Modules.selectors.transaction.transactionsPage(state),
   extraLiveTransactions: Modules.selectors.transaction.liveTransactionsRecordSelector(
     state,
   ),

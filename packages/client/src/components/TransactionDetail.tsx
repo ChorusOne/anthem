@@ -141,6 +141,7 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
         <TransactionList
           {...this.props}
           isDetailView
+          transactionsPage={0}
           extraLiveTransactions={[]}
           transactions={transaction ? [transaction] : []}
         />

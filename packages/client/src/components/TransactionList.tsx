@@ -41,7 +41,12 @@ class TransactionList extends React.PureComponent<IProps> {
   }
 
   render(): JSX.Element {
-    const { transactions, extraLiveTransactions } = this.props;
+    const {
+      isDetailView,
+      transactions,
+      transactionsPage,
+      extraLiveTransactions,
+    } = this.props;
     // Combine transactions with live fetched transactions...
     const txs = extraLiveTransactions.concat(transactions);
     return (
@@ -53,6 +58,7 @@ class TransactionList extends React.PureComponent<IProps> {
             <H5>No transactions exist</H5>
           </Centered>
         )}
+        {!isDetailView && <p>Page {transactionsPage}</p>}
       </React.Fragment>
     );
   }
@@ -131,6 +137,7 @@ class TransactionList extends React.PureComponent<IProps> {
 interface ComponentProps extends TransactionListProps {
   isDetailView?: boolean;
   extraLiveTransactions: ITransaction[];
+  // transactionsPage: number;
   transactions: ReadonlyArray<ITransaction>;
 }
 

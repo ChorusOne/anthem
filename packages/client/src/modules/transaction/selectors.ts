@@ -18,6 +18,11 @@ const liveTransactionsRecordSelector = createSelector(
   txs => txs.liveTransactionRecord,
 );
 
+const transactionsPage = createSelector(
+  transactionState,
+  txs => txs.transactionsPage,
+);
+
 /** ===========================================================================
  * Export
  * ============================================================================
@@ -25,5 +30,6 @@ const liveTransactionsRecordSelector = createSelector(
 
 export default {
   transactionsSelector,
+  transactionsPage,
   liveTransactionsRecordSelector,
 };

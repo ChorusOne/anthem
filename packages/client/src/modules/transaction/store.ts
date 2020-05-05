@@ -12,6 +12,7 @@ import Actions, { ActionTypes } from "./actions";
  */
 
 export interface TransactionState {
+  transactionsPage: number;
   liveTransactionRecord: any[];
   transactionPostBody: Nullable<TxPostBody>;
   transactionData: Nullable<TransactionData>;
@@ -24,6 +25,7 @@ export interface TransactionState {
 }
 
 const initialState: TransactionState = {
+  transactionsPage: 1,
   liveTransactionRecord: [],
   transactionPostBody: null,
   transactionData: null,
