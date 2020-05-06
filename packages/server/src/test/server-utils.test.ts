@@ -6,6 +6,7 @@ import {
   mapSumToBalance,
   objectHasKeys,
   standardizeTimestamps,
+  validatePaginationParams,
 } from "../tools/server-utils";
 import { fiatPriceResponseData, transactionsResponseData } from "./test-data";
 
@@ -87,5 +88,13 @@ describe("Utils test", () => {
   test("getAveragePrice", () => {
     const result = fiatPriceResponseData.map(getAveragePrice);
     expect(result).toMatchSnapshot();
+  });
+
+  test("validatePaginationParams", () => {
+    expect(validatePaginationParams(5.2, 15)).toBe(15);
+    expect(validatePaginationParams(5, 15)).toBe(5);
+    expect(validatePaginationParams(-5, 15)).toBe(15);
+    expect(validatePaginationParams(-5.25324524, 15)).toBe(15);
+    expect(validatePaginationParams(0, 15)).toBe(15);
   });
 });
