@@ -28,7 +28,10 @@ import {
   IValidatorsQueryVariables,
   NetworkDefinition,
 } from "@anthem/utils";
-import { standardizeTimestamps } from "../tools/server-utils";
+import {
+  standardizeTimestamps,
+  validatePaginationParams,
+} from "../tools/server-utils";
 import UnionResolvers from "./resolve-types";
 import COSMOS_EXTRACTOR from "./sources/cosmos-extractor";
 import COSMOS_SDK from "./sources/cosmos-sdk";
@@ -116,14 +119,11 @@ const resolvers = {
       args: ICosmosTransactionsQueryVariables,
     ): Promise<IQuery["cosmosTransactions"]> => {
       const { address, startingPage, pageSize } = args;
+      const size = validatePaginationParams(pageSize, 25);
+      const start = validatePaginationParams(startingPage, 1);
       const network = deriveNetworkFromAddress(address);
       blockUnsupportedNetworks(network);
-      return COSMOS_EXTRACTOR.getTransactions(
-        address,
-        pageSize || 25,
-        startingPage || 1,
-        network,
-      );
+      return COSMOS_EXTRACTOR.getTransactions(address, size, start, network);
     },
 
     rewardsByValidator: async (
