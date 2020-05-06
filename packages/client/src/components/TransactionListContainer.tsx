@@ -47,8 +47,6 @@ class TransactionListContainer extends React.Component<IProps, IState> {
   }
 
   componentDidCatch(error: Error) {
-    console.log(error);
-
     // Log the error to Sentry.
     Sentry.captureException(error);
   }
@@ -90,7 +88,7 @@ class TransactionListContainer extends React.Component<IProps, IState> {
         loadingComponent={<DashboardLoader />}
         errorComponent={<DashboardError tString={tString} />}
         results={[
-          [transactions, "transactions"],
+          [transactions, "cosmosTransactions"],
           [validators, "validators"],
           [fiatPriceHistory, "fiatPriceHistory"],
         ]}
