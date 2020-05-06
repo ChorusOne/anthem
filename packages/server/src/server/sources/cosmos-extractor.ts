@@ -81,19 +81,6 @@ const getTransactionsQuery = () => (variables: SQLVariables): string => {
     SELECT * FROM transactions
     WHERE hash IN (SELECT hash FROM message_addresses WHERE address = @address)
     ORDER BY timestamp DESC
-    LIMIT 25
-  `;
-
-  return getSqlQueryString(sql, variables);
-};
-
-const getTransactionsPaginationQuery = () => (
-  variables: SQLVariables,
-): string => {
-  const sql = `
-    SELECT * FROM transactions
-    WHERE hash IN (SELECT hash FROM message_addresses WHERE address = @address)
-    ORDER BY timestamp DESC
     OFFSET @startingPage
     LIMIT @pageSize + 1
   `;
@@ -243,22 +230,10 @@ export const getTransactionByHash = async (
 
 export const getTransactions = async (
   address: string,
-  network: NetworkDefinition,
-): Promise<IQuery["transactions"]> => {
-  const variables = { address };
-  const transactionsQuery = getTransactionsQuery();
-  const query = transactionsQuery(variables);
-  const response = await queryPostgresCosmosSdkPool(network.name, query);
-  const result = response.map(formatTransactionResponse);
-  return result;
-};
-
-export const getTransactionsPagination = async (
-  address: string,
   pageSize: number,
   startingPage: number,
   network: NetworkDefinition,
-): Promise<IQuery["transactionsPagination"]> => {
+): Promise<IQuery["cosmosTransactions"]> => {
   /**
    * Determine the offset from the starting page, adjust by 1 and the requested
    * page size. For example, the 1st page offset should be 0,
@@ -270,7 +245,7 @@ export const getTransactionsPagination = async (
     pageSize,
     startingPage: offset,
   };
-  const transactionsQuery = getTransactionsPaginationQuery();
+  const transactionsQuery = getTransactionsQuery();
   const query = transactionsQuery(variables);
   const response = await queryPostgresCosmosSdkPool(network.name, query);
 
@@ -302,7 +277,6 @@ const COSMOS_EXTRACTOR = {
   getPortfolioBalanceHistory,
   getPortfolioDelegatorRewards,
   getPortfolioValidatorRewards,
-  getTransactionsPagination,
 };
 
 export default COSMOS_EXTRACTOR;

@@ -7,8 +7,7 @@ type Query {
   rewardsByValidator(address: String!): [AvailableReward!]!
   accountInformation(address: String!): AccountInformation!
   transaction(txHash: String!, network: String!): Transaction
-  transactions(address: String!): [Transaction!]!
-  transactionsPagination(
+  cosmosTransactions(
     address: String!
     startingPage: Float
     pageSize: Float

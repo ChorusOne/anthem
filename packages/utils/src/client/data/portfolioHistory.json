@@ -3564,6 +3564,24 @@
         "height": 1766814,
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "timestamp": "2020-05-04T16:00:00.000Z"
+      },
+      {
+        "balance": "46152200",
+        "height": 1772056,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-05T02:18:34.000Z"
+      },
+      {
+        "balance": "46440839",
+        "height": 1775246,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-05T08:35:14.000Z"
+      },
+      {
+        "balance": "46783084",
+        "height": 1779027,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-05T16:00:01.000Z"
       }
     ],
     "validatorCommissions": [
@@ -6242,6 +6260,24 @@
         "height": 1766814,
         "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
         "timestamp": "2020-05-04T16:00:00.000Z"
+      },
+      {
+        "balance": "3594485546",
+        "height": 1772056,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-05T02:18:34.000Z"
+      },
+      {
+        "balance": "3616702717",
+        "height": 1775246,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-05T08:35:14.000Z"
+      },
+      {
+        "balance": "3643046076",
+        "height": 1779027,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-05T16:00:01.000Z"
       }
     ],
     "fiatPriceHistory": [
@@ -6685,7 +6721,8 @@
       { "price": 2.8554999999999997, "timestamp": "2020-05-02T00:00:00.000Z" },
       { "price": 2.82375, "timestamp": "2020-05-03T00:00:00.000Z" },
       { "price": 2.73325, "timestamp": "2020-05-04T00:00:00.000Z" },
-      { "price": 2.7565, "timestamp": "2020-05-05T00:00:00.000Z" }
+      { "price": 2.7325, "timestamp": "2020-05-05T00:00:00.000Z" },
+      { "price": 2.7159999999999997, "timestamp": "2020-05-06T00:00:00.000Z" }
     ]
   }
 }

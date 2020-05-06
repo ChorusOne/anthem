@@ -2,9 +2,9 @@ import { ITransaction } from "@anthem/utils";
 import { ENGLISH } from "i18n/english";
 import { tFn } from "tools/i18n-utils";
 import { getHumanReadableMessageFromTransaction } from "tools/transaction-utils";
-import transactions from "../../../utils/src/client/data/transactions.json";
+import { cosmosTransactions } from "../../../utils/src/client/data/cosmosTransactions.json";
 
-const txs = transactions.transactions;
+const txs = cosmosTransactions.data;
 
 interface TxTypeMap {
   [key: string]: ReadonlyArray<ITransaction>;

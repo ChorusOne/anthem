@@ -1,6 +1,7 @@
 import {
   AccountBalancesDocument,
   AccountInformationDocument,
+  CosmosTransactionsDocument,
   DailyPercentChangeDocument,
   FiatCurrenciesDocument,
   FiatPriceHistoryDocument,
@@ -8,7 +9,6 @@ import {
   PortfolioHistoryDocument,
   PricesDocument,
   RewardsByValidatorDocument,
-  TransactionsPaginationDocument,
   ValidatorsDocument,
 } from "@anthem/utils";
 import ENV from "lib/client-env";
@@ -257,16 +257,16 @@ export const withAccountInformation = graphql(AccountInformationDocument, {
  * Transactions with Pagination
  */
 
-interface TransactionsQueryResult extends QueryResult {
+interface CosmosTransactionsQueryResult extends QueryResult {
   data: void;
-  transactionsPagination: IQuery["transactionsPagination"];
+  cosmosTransactions: IQuery["cosmosTransactions"];
 }
 
-export interface TransactionsProps {
-  transactions: TransactionsQueryResult;
+export interface CosmosTransactionsProps {
+  transactions: CosmosTransactionsQueryResult;
 }
 
-export const withTransactions = graphql(TransactionsPaginationDocument, {
+export const withCosmosTransactions = graphql(CosmosTransactionsDocument, {
   name: "transactions",
   ...noPollingConfig(["address", "startingPage"]),
 });
