@@ -367,29 +367,13 @@ const resolvers = {
       args: IOasisTransactionsQueryVariables,
     ): Promise<IQuery["oasisTransactions"]> => {
       const { address, startingPage, pageSize } = args;
+      const network = deriveNetworkFromAddress(address);
+      const size = validatePaginationParams(pageSize, 25);
+      const start = validatePaginationParams(startingPage, 1);
       console.log(`Oasis Transactions Resolver for address: ${address}`);
 
-      const network = deriveNetworkFromAddress(address);
       blockUnsupportedNetworks(network, "transactions");
-
-      // Mock response:
-      return {
-        page: 1,
-        limit: 25,
-        data: [
-          {
-            date: new Date().toISOString(),
-            height: 1,
-            type: IOasisTransactionType.Transfer,
-            data: {
-              from: "abc",
-              to: "xyz",
-              tokens: "500",
-            },
-          },
-        ],
-        moreResultsExist: true,
-      };
+      return OASIS.fetchTransactions(address, start, size, network);
     },
   },
 };

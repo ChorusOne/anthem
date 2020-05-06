@@ -56,6 +56,64 @@ const fetchAccountBalances = async (
   };
 };
 
+interface TxBurn {
+  owner: string;
+  tokens: string;
+}
+
+interface TxEscrow {
+  add?: {
+    owner: string;
+    escrow: string;
+    tokens: string;
+  };
+  take?: {
+    owner: string;
+    tokens: string;
+  };
+  reclaim?: {
+    owner: string;
+    escrow: string;
+    tokens: string;
+  };
+}
+
+interface TxTransfer {
+  to: string;
+  from: string;
+  tokens: string;
+}
+
+interface OasisTransaction {
+  date: string;
+  height?: string;
+  escrow?: TxEscrow;
+  burn?: TxBurn;
+  transfer?: TxTransfer;
+}
+
+const fetchTransactions = async (
+  address: string,
+  pageSize: number,
+  startingPage: number,
+  network: NetworkDefinition,
+): Promise<IQuery["oasisTransactions"]> => {
+  const host = getHostFromNetworkName(network.name);
+  const response = await AxiosUtil.get<OasisTransaction>(
+    `${host}/account/${address}/events`,
+  );
+
+  console.log(response);
+  // return OASIS_TXS;
+
+  return {
+    page: 1,
+    limit: 25,
+    data: [],
+    moreResultsExist: true,
+  };
+};
+
 /** ===========================================================================
  * Export
  * ============================================================================
@@ -63,6 +121,7 @@ const fetchAccountBalances = async (
 
 const OASIS = {
   fetchAccountBalances,
+  fetchTransactions,
 };
 
 export default OASIS;
