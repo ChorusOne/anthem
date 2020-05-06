@@ -6,6 +6,7 @@ import {
   IAccountBalancesQueryVariables,
   IAccountInformationQueryVariables,
   ICoinsQueryVariables,
+  ICosmosTransactionsQueryVariables,
   IDailyPercentChangeQueryVariables,
   IDistributionCommunityPoolQueryVariables,
   IDistributionParametersQueryVariables,
@@ -22,7 +23,6 @@ import {
   IStakingParametersQueryVariables,
   IStakingPoolQueryVariables,
   ITransactionQueryVariables,
-  ITransactionsPaginationQueryVariables,
   IValidatorDistributionQueryVariables,
   IValidatorSetsQueryVariables,
   IValidatorsQueryVariables,
@@ -111,27 +111,14 @@ const resolvers = {
       return COSMOS_EXTRACTOR.getTransactionByHash(txHash, network);
     },
 
-    // NOTE: This is deprecated
-    // TODO: Remove this API
-    transactions: async (
+    cosmosTransactions: async (
       _: void,
-      args: IAccountInformationQueryVariables,
-    ): Promise<IQuery["transactions"]> => {
-      const { address } = args;
-      const network = deriveNetworkFromAddress(address);
-      blockUnsupportedNetworks(network);
-      return COSMOS_EXTRACTOR.getTransactions(address, network);
-    },
-
-    // TODO: Replace for transactions API after update
-    transactionsPagination: async (
-      _: void,
-      args: ITransactionsPaginationQueryVariables,
-    ): Promise<IQuery["transactionsPagination"]> => {
+      args: ICosmosTransactionsQueryVariables,
+    ): Promise<IQuery["cosmosTransactions"]> => {
       const { address, startingPage, pageSize } = args;
       const network = deriveNetworkFromAddress(address);
       blockUnsupportedNetworks(network);
-      return COSMOS_EXTRACTOR.getTransactionsPagination(
+      return COSMOS_EXTRACTOR.getTransactions(
         address,
         pageSize || 25,
         startingPage || 1,

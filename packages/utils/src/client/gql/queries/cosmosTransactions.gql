@@ -1,5 +1,5 @@
-query transactionsPagination($address: String!, $startingPage: Float, $pageSize: Float){
-    transactionsPagination(address: $address, startingPage: $startingPage, pageSize: $pageSize){
+query cosmosTransactions($address: String!, $startingPage: Float, $pageSize: Float){
+    cosmosTransactions(address: $address, startingPage: $startingPage, pageSize: $pageSize){
         page
         limit
         data{
