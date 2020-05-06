@@ -1,3 +1,4 @@
+import { IOasisTransactionEvent, IOasisTransactionType } from "@anthem/utils";
 import { objectHasKeys } from "../tools/server-utils";
 
 /** ===========================================================================
@@ -81,12 +82,23 @@ const TxMsgValue = {
 
 /**
  * Oasis Transaction Resolver:
- *
- * TODO: Complete this.
  */
-const OasisTransactionData = {
-  __resolveType(obj: any) {
-    return "OasisTransferEvent";
+const OasisTransactionEvent = {
+  __resolveType(event: IOasisTransactionEvent) {
+    const { type } = event;
+
+    switch (type) {
+      case IOasisTransactionType.Burn:
+        return "OasisBurnEvent";
+      case IOasisTransactionType.Transfer:
+        return "OasisTransferEvent";
+      case IOasisTransactionType.EscrowAdd:
+        return "OasisEscrowAddEvent";
+      case IOasisTransactionType.EscrowTake:
+        return "OasisEscrowTakeEvent";
+      case IOasisTransactionType.EscrowReclaim:
+        return "OasisEscrowReclaimEvent";
+    }
   },
 };
 
@@ -95,6 +107,6 @@ const OasisTransactionData = {
  * ============================================================================
  */
 
-const UnionResolvers = { TxMsgValue, OasisTransactionData };
+const UnionResolvers = { TxMsgValue, OasisTransactionEvent };
 
 export default UnionResolvers;

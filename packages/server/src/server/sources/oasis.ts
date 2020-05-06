@@ -145,8 +145,8 @@ const adaptOasisTransaction = (
     return {
       height: 1,
       date: tx.date,
-      type: IOasisTransactionType.Burn,
-      data: {
+      event: {
+        type: IOasisTransactionType.Burn,
         owner: tx.burn.owner,
         tokens: tx.burn.tokens,
       },
@@ -156,8 +156,8 @@ const adaptOasisTransaction = (
     return {
       height: 1,
       date: tx.date,
-      type: IOasisTransactionType.Transfer,
-      data: {
+      event: {
+        type: IOasisTransactionType.Transfer,
         to: tx.transfer.to,
         from: tx.transfer.from,
         tokens: tx.transfer.tokens,
@@ -171,11 +171,11 @@ const adaptOasisTransaction = (
       return {
         height: 1,
         date: tx.date,
-        type: IOasisTransactionType.EscrowAdd,
-        data: {
+        event: {
           owner: escrow.add.owner,
           escrow: escrow.add.escrow,
           tokens: escrow.add.tokens,
+          type: IOasisTransactionType.EscrowAdd,
         },
       };
     } else if (!!escrow.take) {
@@ -183,8 +183,8 @@ const adaptOasisTransaction = (
       return {
         height: 1,
         date: tx.date,
-        type: IOasisTransactionType.EscrowTake,
-        data: {
+        event: {
+          type: IOasisTransactionType.EscrowTake,
           owner: escrow.take.owner,
           tokens: escrow.take.tokens,
         },
@@ -194,8 +194,8 @@ const adaptOasisTransaction = (
       return {
         height: 1,
         date: tx.date,
-        type: IOasisTransactionType.EscrowReclaim,
-        data: {
+        event: {
+          type: IOasisTransactionType.EscrowReclaim,
           owner: escrow.reclaim.owner,
           escrow: escrow.reclaim.escrow,
           tokens: escrow.reclaim.tokens,

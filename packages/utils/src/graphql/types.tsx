@@ -230,12 +230,14 @@ export interface IMsgWithdrawValidatorCommission {
 
 export interface IOasisBurnEvent {
    __typename?: "OasisBurnEvent";
+  type: IOasisTransactionType;
   owner: Scalars["String"];
   tokens: Scalars["String"];
 }
 
 export interface IOasisEscrowAddEvent {
    __typename?: "OasisEscrowAddEvent";
+  type: IOasisTransactionType;
   owner: Scalars["String"];
   escrow: Scalars["String"];
   tokens: Scalars["String"];
@@ -243,6 +245,7 @@ export interface IOasisEscrowAddEvent {
 
 export interface IOasisEscrowReclaimEvent {
    __typename?: "OasisEscrowReclaimEvent";
+  type: IOasisTransactionType;
   owner: Scalars["String"];
   escrow: Scalars["String"];
   tokens: Scalars["String"];
@@ -250,20 +253,19 @@ export interface IOasisEscrowReclaimEvent {
 
 export interface IOasisEscrowTakeEvent {
    __typename?: "OasisEscrowTakeEvent";
+  type: IOasisTransactionType;
   owner: Scalars["String"];
   tokens: Scalars["String"];
 }
 
-/** Reference: https://github.com/ChorusOne/Hippias/blob/master/pkg/oasis/types.go */
 export interface IOasisTransaction {
    __typename?: "OasisTransaction";
   date: Scalars["String"];
   height: Scalars["Int"];
-  type: IOasisTransactionType;
-  data: IOasisTransactionData;
+  event: IOasisTransactionEvent;
 }
 
-export type IOasisTransactionData = IOasisBurnEvent | IOasisTransferEvent | IOasisEscrowAddEvent | IOasisEscrowTakeEvent | IOasisEscrowReclaimEvent;
+export type IOasisTransactionEvent = IOasisBurnEvent | IOasisTransferEvent | IOasisEscrowAddEvent | IOasisEscrowTakeEvent | IOasisEscrowReclaimEvent;
 
 export interface IOasisTransactionResult {
    __typename?: "OasisTransactionResult";
@@ -283,6 +285,7 @@ export enum IOasisTransactionType {
 
 export interface IOasisTransferEvent {
    __typename?: "OasisTransferEvent";
+  type: IOasisTransactionType;
   from: Scalars["String"];
   to: Scalars["String"];
   tokens: Scalars["String"];
@@ -935,22 +938,22 @@ export type IOasisTransactionsQuery = (
     & Pick<IOasisTransactionResult, "page" | "limit" | "moreResultsExist">
     & { data: Array<(
       { __typename?: "OasisTransaction" }
-      & Pick<IOasisTransaction, "date" | "height" | "type">
-      & { data: (
+      & Pick<IOasisTransaction, "date" | "height">
+      & { event: (
         { __typename?: "OasisBurnEvent" }
-        & Pick<IOasisBurnEvent, "owner" | "tokens">
+        & Pick<IOasisBurnEvent, "type" | "owner" | "tokens">
       ) | (
         { __typename?: "OasisTransferEvent" }
-        & Pick<IOasisTransferEvent, "from" | "to" | "tokens">
+        & Pick<IOasisTransferEvent, "type" | "from" | "to" | "tokens">
       ) | (
         { __typename?: "OasisEscrowAddEvent" }
-        & Pick<IOasisEscrowAddEvent, "owner" | "escrow" | "tokens">
+        & Pick<IOasisEscrowAddEvent, "type" | "owner" | "escrow" | "tokens">
       ) | (
         { __typename?: "OasisEscrowTakeEvent" }
-        & Pick<IOasisEscrowTakeEvent, "owner" | "tokens">
+        & Pick<IOasisEscrowTakeEvent, "type" | "owner" | "tokens">
       ) | (
         { __typename?: "OasisEscrowReclaimEvent" }
-        & Pick<IOasisEscrowReclaimEvent, "owner" | "escrow" | "tokens">
+        & Pick<IOasisEscrowReclaimEvent, "type" | "owner" | "escrow" | "tokens">
       ) }
     )> }
   ) }
@@ -2067,27 +2070,31 @@ export const OasisTransactionsDocument = gql`
     data {
       date
       height
-      type
-      data {
+      event {
         ... on OasisBurnEvent {
+          type
           owner
           tokens
         }
         ... on OasisTransferEvent {
+          type
           from
           to
           tokens
         }
         ... on OasisEscrowAddEvent {
+          type
           owner
           escrow
           tokens
         }
         ... on OasisEscrowTakeEvent {
+          type
           owner
           tokens
         }
         ... on OasisEscrowReclaimEvent {
+          type
           owner
           escrow
           tokens

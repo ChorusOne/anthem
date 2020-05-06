@@ -53,8 +53,7 @@ type OasisTransactionResult {
 type OasisTransaction {
   date: String!
   height: Int!
-  type: OasisTransactionType!
-  data: OasisTransactionData!
+  event: OasisTransactionEvent!
 }
 
 enum OasisTransactionType {
@@ -65,7 +64,7 @@ enum OasisTransactionType {
   ESCROW_RECLAIM
 }
 
-union OasisTransactionData =
+union OasisTransactionEvent =
     OasisBurnEvent
   | OasisTransferEvent
   | OasisEscrowAddEvent
@@ -73,28 +72,33 @@ union OasisTransactionData =
   | OasisEscrowReclaimEvent
 
 type OasisTransferEvent {
+  type: OasisTransactionType!
   from: String!
   to: String!
   tokens: String!
 }
 
 type OasisBurnEvent {
+  type: OasisTransactionType!
   owner: String!
   tokens: String!
 }
 
 type OasisEscrowAddEvent {
+  type: OasisTransactionType!
   owner: String!
   escrow: String!
   tokens: String!
 }
 
 type OasisEscrowTakeEvent {
+  type: OasisTransactionType!
   owner: String!
   tokens: String!
 }
 
 type OasisEscrowReclaimEvent {
+  type: OasisTransactionType!
   owner: String!
   escrow: String!
   tokens: String!
