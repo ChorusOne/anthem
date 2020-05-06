@@ -96,14 +96,14 @@ class AppContainer extends React.Component<IProps, IState> {
   };
 
   setAddressQueryParams = (props: IProps) => {
+    const { transactionPage } = props;
     const { address } = props.ledger;
     const { pathname } = props.location;
-
     // Only set the current address param if the user is on a /dashboard route.
     if (!!address && onPath(pathname, "/dashboard")) {
       this.props.history.push({
         pathname: props.location.pathname,
-        search: `?address=${address}`,
+        search: `?address=${address}&page=${transactionPage}`,
       });
     }
   };
@@ -143,6 +143,7 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   loading: Modules.selectors.app.loadingSelector(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
+  transactionPage: Modules.selectors.transaction.transactionsPage(state),
 });
 
 const dispatchProps = {

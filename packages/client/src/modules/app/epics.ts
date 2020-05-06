@@ -66,9 +66,14 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
         network = deriveNetworkFromAddress(address);
       }
 
+      // Try to initialize the transactions page from the url
+      const paramsPage = Number(params.page);
+      const page = typeof paramsPage === "number" ? paramsPage : 1;
+
       return Actions.initializeSuccess({
         address,
         network,
+        page,
       });
     }),
   );
