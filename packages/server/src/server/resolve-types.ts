@@ -1,4 +1,8 @@
-import { IOasisTransactionEvent, IOasisTransactionType } from "@anthem/utils";
+import {
+  assertUnreachable,
+  IOasisTransactionEvent,
+  IOasisTransactionType,
+} from "@anthem/utils";
 import { hasKeys } from "../tools/server-utils";
 
 /** ===========================================================================
@@ -96,6 +100,8 @@ const OasisTransactionEvent = {
         return "OasisEscrowTakeEvent";
       case IOasisTransactionType.EscrowReclaim:
         return "OasisEscrowReclaimEvent";
+      default:
+        assertUnreachable(type);
     }
   },
 };
