@@ -164,7 +164,7 @@ const aggregateCurrencyValuesFromList = <T extends any>(
       if (b.denom !== undefined) {
         return b.denom === denom;
       } else {
-        return false;
+        return true;
       }
     })
     .map(b => b[key]);

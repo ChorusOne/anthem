@@ -1,8 +1,8 @@
 import {
   AccountBalancesDocument,
+  CosmosTransactionsDocument,
   deriveNetworkFromAddress,
   NETWORKS,
-  TransactionsDocument,
   validatorAddressToOperatorAddress,
 } from "@anthem/utils";
 import Toast from "components/Toast";
@@ -66,9 +66,14 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
         network = deriveNetworkFromAddress(address);
       }
 
+      // Try to initialize the transactions page from the url
+      const paramsPage = Number(params.page);
+      const page = !isNaN(paramsPage) ? paramsPage : 1;
+
       return Actions.initializeSuccess({
         address,
         network,
+        page,
       });
     }),
   );
@@ -242,7 +247,7 @@ const refreshBalanceAndTransactionsEpic: EpicSignature = (
           });
 
           client.query({
-            query: TransactionsDocument,
+            query: CosmosTransactionsDocument,
             variables: {
               address,
             },

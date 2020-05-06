@@ -173,3 +173,16 @@ export const getAveragePrice = (price: Price) => {
   const { open, high, low, close } = price;
   return (open + high + low + close) / 4;
 };
+
+/**
+ * Validate a pagination param. Param must be a non-decimal positive
+ * whole number.
+ */
+export const validatePaginationParams = (param: any, defaultValue: number) => {
+  const candidate = Number(param);
+  if (!isNaN(candidate) && candidate % 1 === 0 && candidate > 0) {
+    return candidate;
+  } else {
+    return defaultValue;
+  }
+};

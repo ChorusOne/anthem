@@ -2,12 +2,12 @@ import * as Sentry from "@sentry/browser";
 import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
 import { Centered, DashboardLoader } from "components/SharedComponents";
 import {
+  CosmosTransactionsProps,
   FiatPriceHistoryProps,
-  TransactionsProps,
   ValidatorsProps,
+  withCosmosTransactions,
   withFiatPriceHistory,
   withGraphQLVariables,
-  withTransactions,
   withValidators,
 } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
@@ -88,7 +88,7 @@ class TransactionListContainer extends React.Component<IProps, IState> {
         loadingComponent={<DashboardLoader />}
         errorComponent={<DashboardError tString={tString} />}
         results={[
-          [transactions, "transactions"],
+          [transactions, "cosmosTransactions"],
           [validators, "validators"],
           [fiatPriceHistory, "fiatPriceHistory"],
         ]}
@@ -97,9 +97,9 @@ class TransactionListContainer extends React.Component<IProps, IState> {
           return (
             <TransactionList
               {...this.props}
-              transactions={transactions.transactionsPagination.data}
+              transactions={transactions.cosmosTransactions.data}
               moreResultsExist={
-                transactions.transactionsPagination.moreResultsExist
+                transactions.cosmosTransactions.moreResultsExist
               }
             />
           );
@@ -144,7 +144,7 @@ export type TransactionListProps = ConnectProps &
 
 interface IProps
   extends TransactionListProps,
-    TransactionsProps,
+    CosmosTransactionsProps,
     ComponentProps {}
 
 /** ===========================================================================
@@ -156,6 +156,6 @@ export default composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
   withValidators,
-  withTransactions,
+  withCosmosTransactions,
   withFiatPriceHistory,
 )(TransactionListContainer);

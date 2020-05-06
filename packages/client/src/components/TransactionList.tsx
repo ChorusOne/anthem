@@ -85,6 +85,8 @@ class TransactionList extends React.PureComponent<IProps> {
             )}
             {moreResultsExist ? (
               <PaginationText>Page {transactionsPage}</PaginationText>
+            ) : transactionsPage > 1 ? (
+              <PaginationText>Page {transactionsPage}</PaginationText>
             ) : (
               <AllResultsText>- All Results Displayed -</AllResultsText>
             )}

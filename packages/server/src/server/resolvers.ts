@@ -6,6 +6,7 @@ import {
   IAccountBalancesQueryVariables,
   IAccountInformationQueryVariables,
   ICoinsQueryVariables,
+  ICosmosTransactionsQueryVariables,
   IDailyPercentChangeQueryVariables,
   IDistributionCommunityPoolQueryVariables,
   IDistributionParametersQueryVariables,
@@ -24,13 +25,15 @@ import {
   IStakingParametersQueryVariables,
   IStakingPoolQueryVariables,
   ITransactionQueryVariables,
-  ITransactionsPaginationQueryVariables,
   IValidatorDistributionQueryVariables,
   IValidatorSetsQueryVariables,
   IValidatorsQueryVariables,
   NetworkDefinition,
 } from "@anthem/utils";
-import { standardizeTimestamps } from "../tools/server-utils";
+import {
+  standardizeTimestamps,
+  validatePaginationParams,
+} from "../tools/server-utils";
 import UnionResolvers from "./resolve-types";
 import COSMOS_EXTRACTOR from "./sources/cosmos-extractor";
 import COSMOS_SDK from "./sources/cosmos-sdk";
@@ -130,32 +133,16 @@ const resolvers = {
       return COSMOS_EXTRACTOR.getTransactionByHash(txHash, network);
     },
 
-    // NOTE: This is deprecated
-    // TODO: Remove this API
-    transactions: async (
+    cosmosTransactions: async (
       _: void,
-      args: IAccountInformationQueryVariables,
-    ): Promise<IQuery["transactions"]> => {
-      const { address } = args;
-      const network = deriveNetworkFromAddress(address);
-      blockUnsupportedNetworks(network, "transactions");
-      return COSMOS_EXTRACTOR.getTransactions(address, network);
-    },
-
-    // TODO: Replace for transactions API after update
-    transactionsPagination: async (
-      _: void,
-      args: ITransactionsPaginationQueryVariables,
-    ): Promise<IQuery["transactionsPagination"]> => {
+      args: ICosmosTransactionsQueryVariables,
+    ): Promise<IQuery["cosmosTransactions"]> => {
       const { address, startingPage, pageSize } = args;
+      const size = validatePaginationParams(pageSize, 25);
+      const start = validatePaginationParams(startingPage, 1);
       const network = deriveNetworkFromAddress(address);
       blockUnsupportedNetworks(network, "transactions");
-      return COSMOS_EXTRACTOR.getTransactionsPagination(
-        address,
-        pageSize || 25,
-        startingPage || 1,
-        network,
-      );
+      return COSMOS_EXTRACTOR.getTransactions(address, size, start, network);
     },
 
     rewardsByValidator: async (

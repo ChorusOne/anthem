@@ -58,16 +58,16 @@ describe("currency-utils", () => {
 
   test("convertAtomsToUsd", () => {
     let result = convertCryptoToFiat(prices.prices, new BigNumber(5000));
-    expect(result).toMatchInlineSnapshot(`"0.0138"`);
+    expect(result).toMatchInlineSnapshot(`"0.0137"`);
 
     result = convertCryptoToFiat(prices.prices, new BigNumber(15));
-    expect(result).toMatchInlineSnapshot(`"0.0000414"`);
+    expect(result).toMatchInlineSnapshot(`"0.0000411"`);
 
     result = convertCryptoToFiat(prices.prices, new BigNumber(1000000));
-    expect(result).toMatchInlineSnapshot(`"2.76"`);
+    expect(result).toMatchInlineSnapshot(`"2.74"`);
 
     result = convertCryptoToFiat(prices.prices, new BigNumber(100000000));
-    expect(result).toMatchInlineSnapshot(`"276"`);
+    expect(result).toMatchInlineSnapshot(`"274"`);
   });
 
   test("atomsToDenom", () => {

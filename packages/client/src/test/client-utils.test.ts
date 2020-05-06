@@ -25,10 +25,10 @@ import {
   wait,
 } from "tools/client-utils";
 import accountBalances from "../../../utils/src/client/data/accountBalances.json";
+import { cosmosTransactions } from "../../../utils/src/client/data/cosmosTransactions.json";
 import { fiatPriceHistory } from "../../../utils/src/client/data/fiatPriceHistory.json";
 import prices from "../../../utils/src/client/data/prices.json";
 import { rewardsByValidator } from "../../../utils/src/client/data/rewardsByValidator.json";
-import { transactions } from "../../../utils/src/client/data/transactions.json";
 import { validators } from "../../../utils/src/client/data/validators.json";
 
 describe("utils", () => {
@@ -96,19 +96,19 @@ describe("utils", () => {
   test("getPriceFromTransactionTimestamp", () => {
     const priceMap = getFiatPriceHistoryMap(fiatPriceHistory);
     let result = getPriceFromTransactionTimestamp(
-      transactions[0].timestamp,
+      cosmosTransactions.data[0].timestamp,
       priceMap,
     );
     expect(result).toMatchInlineSnapshot(`2.17075`);
 
     result = getPriceFromTransactionTimestamp(
-      transactions[1].timestamp,
+      cosmosTransactions.data[1].timestamp,
       priceMap,
     );
     expect(result).toMatchInlineSnapshot(`2.17075`);
 
     result = getPriceFromTransactionTimestamp(
-      transactions[2].timestamp,
+      cosmosTransactions.data[2].timestamp,
       priceMap,
     );
     expect(result).toMatchInlineSnapshot(`3.5997500000000002`);
@@ -208,22 +208,22 @@ describe("utils", () => {
     expect(result).toMatchInlineSnapshot(`
       Object {
         "balance": "348.59",
-        "balanceFiat": "962.11",
-        "commissions": "3,590.80",
-        "commissionsFiat": "9,910.60",
-        "delegations": "0",
-        "delegationsFiat": "0",
+        "balanceFiat": "955.14",
+        "commissions": "3,670.10",
+        "commissionsFiat": "10,056.08",
+        "delegations": "5,000.00",
+        "delegationsFiat": "13,700.00",
         "percentages": Array [
-          8.746527043956505,
+          3.84512159785309,
+          55.152150966042434,
+          0.5199148887874526,
           0,
-          1.1568022828639735,
-          0,
-          90.09667067317952,
+          40.482812547317025,
         ],
-        "rewards": "46.10",
-        "rewardsFiat": "127.25",
-        "total": "3,985.49",
-        "totalFiat": "10,999.96",
+        "rewards": "47.13",
+        "rewardsFiat": "129.15",
+        "total": "9,065.83",
+        "totalFiat": "24,840.37",
         "unbonding": "0",
         "unbondingFiat": "0",
       }

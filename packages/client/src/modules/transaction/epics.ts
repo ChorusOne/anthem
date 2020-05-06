@@ -3,7 +3,7 @@ import logger from "lib/logger-lib";
 import { EpicSignature } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import { combineEpics } from "redux-observable";
-import { filter, mergeMap, pluck } from "rxjs/operators";
+import { filter, ignoreElements, mergeMap, pluck, tap } from "rxjs/operators";
 import { adaptRawTransactionData, wait } from "tools/client-utils";
 import { createSignMessage } from "tools/cosmos-ledger-utils";
 import { createCosmosTransactionPostBody } from "tools/cosmos-utils";
@@ -156,6 +156,23 @@ const pollTransactionEpic: EpicSignature = (action$, state$, deps) => {
   );
 };
 
+const syncTransactionPageEpic: EpicSignature = (action$, state$, deps) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.setTransactionsPage)),
+    pluck("payload"),
+    tap(() => {
+      const { router } = deps;
+      const address = state$.value.ledger.ledger.address;
+      const page = state$.value.transaction.transactionsPage;
+      router.push({
+        pathname: router.location.pathname,
+        search: `address=${address}&page=${page}`,
+      });
+    }),
+    ignoreElements(),
+  );
+};
+
 /** ===========================================================================
  * Export
  * ============================================================================
@@ -165,4 +182,5 @@ export default combineEpics(
   signTransactionEpic,
   broadcastTransactionEpic,
   pollTransactionEpic,
+  syncTransactionPageEpic,
 );

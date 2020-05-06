@@ -5,8 +5,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqmq2l5ehgl3rxwjgzgr6sgzp69qwjl5ufvtyvacc9ms8p3phazl2qh3ulfw",
       "jailed": false,
       "status": 2,
-      "tokens": "94068991804",
-      "delegator_shares": "94068991804.000000000000000000",
+      "tokens": "74843655191",
+      "delegator_shares": "74843655191.000000000000000000",
       "description": {
         "moniker": "真本聪&IOSG",
         "identity": "8A79F44CC25D26DF",
@@ -30,8 +30,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqwrjpn0slu86e32zfu5xxg8l42uk40guuw6er44vw2yl6s7wc38est6l0ux",
       "jailed": false,
       "status": 2,
-      "tokens": "5603931478937",
-      "delegator_shares": "5603931478937.000000000000000000",
+      "tokens": "5601876912537",
+      "delegator_shares": "5601876912537.000000000000000000",
       "description": {
         "moniker": "Certus One",
         "identity": "ABD51DF68C0D1ECF",
@@ -80,8 +80,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqgx5wxl6eygqf6rx4gura2dy5vzelthjgqntk7q9l2hnpjqam6atsq8u0lx",
       "jailed": false,
       "status": 2,
-      "tokens": "67620300547",
-      "delegator_shares": "67620300547.000000000000000000",
+      "tokens": "67605300547",
+      "delegator_shares": "67605300547.000000000000000000",
       "description": {
         "moniker": "CCN",
         "identity": "",
@@ -105,8 +105,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqv03r9c26w884sqw0zdqg9cdx4xxwgn3dd2s6wa3x346tm83nxudqwhm3jl",
       "jailed": false,
       "status": 2,
-      "tokens": "252323416401",
-      "delegator_shares": "252323416401.000000000000000000",
+      "tokens": "252362566166",
+      "delegator_shares": "252362566166.000000000000000000",
       "description": {
         "moniker": "Cobo",
         "identity": "3B7C85200D5B57A9",
@@ -155,8 +155,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqtcsm8lp7n6ph98vd59qa9esgyuysuntww9juz5wynxrhzpspmuuq6g5pzg",
       "jailed": false,
       "status": 2,
-      "tokens": "927561148945",
-      "delegator_shares": "927561148945.000000000000000000",
+      "tokens": "927682749903",
+      "delegator_shares": "927682749903.000000000000000000",
       "description": {
         "moniker": "WeStaking",
         "identity": "DA9C5AD3E308E426",
@@ -205,8 +205,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqmy5ja8dee3sprtmxkekcuvwz20y2x9d6llcsjl6p6553rpqev0eql6qccf",
       "jailed": false,
       "status": 2,
-      "tokens": "111382429426",
-      "delegator_shares": "111415850696.697876620381510693",
+      "tokens": "109630135630",
+      "delegator_shares": "109663031109.640883790731611220",
       "description": {
         "moniker": "Cosmos Suisse",
         "identity": "2D875495A911A943",
@@ -305,8 +305,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepq5kg8xls9l35ftulkm2rt70hexeeyr5cqqkcv4h7936z5uasvvazqla8eck",
       "jailed": false,
       "status": 2,
-      "tokens": "5267304877461",
-      "delegator_shares": "5267304877461.000000000000000000",
+      "tokens": "5243230608650",
+      "delegator_shares": "5243230608650.000000000000000000",
       "description": {
         "moniker": "SparkPool",
         "identity": "DE8E37240061B04E",
@@ -355,8 +355,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqqhkzzgfc876q287ny2v9lqwmjpenuzkzlsnstrmg7krwrrf0pfqs9fxvs0",
       "jailed": false,
       "status": 2,
-      "tokens": "21080008146",
-      "delegator_shares": "21080008146.000000000000000000",
+      "tokens": "20799516316",
+      "delegator_shares": "20799516316.000000000000000000",
       "description": {
         "moniker": "Swiss Staking",
         "identity": "165F85FC0194320D",
@@ -405,8 +405,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqlecm0rrfrr0vfgl624s7su9xvd3ycsaetndeuw2c7us0v8vfyfsq7cqz80",
       "jailed": false,
       "status": 2,
-      "tokens": "106487682562",
-      "delegator_shares": "106519635080.112743543176128129",
+      "tokens": "106509301058",
+      "delegator_shares": "106541260062.922939718603319119",
       "description": {
         "moniker": "HLT",
         "identity": "",
@@ -480,8 +480,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepq9ge7uqrfp9qkdapzd29tjtwrqpt2mm9meptx395ygxgm40tdc8ysrzj40a",
       "jailed": false,
       "status": 2,
-      "tokens": "441511406408",
-      "delegator_shares": "441511406408.000000000000000000",
+      "tokens": "441511816408",
+      "delegator_shares": "441511816408.000000000000000000",
       "description": {
         "moniker": "syncnode",
         "identity": "F422F328C14AFBFA",
@@ -555,8 +555,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepq8xpk5nh78lmgg0s0qqdyh4xtcw66xemt8anjsr6hrvlhauq252kstq7zr7",
       "jailed": false,
       "status": 2,
-      "tokens": "942894240131",
-      "delegator_shares": "942894240131.000000000000000000",
+      "tokens": "943387429998",
+      "delegator_shares": "943387429998.000000000000000000",
       "description": {
         "moniker": "cosmosgbt",
         "identity": "",
@@ -605,8 +605,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqny59kv2elgh89tq9qr4jje2n0my4gyvh2hlnydzljtt542a5plwswtas48",
       "jailed": false,
       "status": 2,
-      "tokens": "148298393037",
-      "delegator_shares": "148298393037.000000000000000000",
+      "tokens": "143298393037",
+      "delegator_shares": "143298393037.000000000000000000",
       "description": {
         "moniker": "MathWallet麦子钱包",
         "identity": "58320327FF6C928C",
@@ -655,8 +655,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqlsvqw4vacnv2qtwxmm8tq32lrcdhau3szqxevrrzy8u0jvwz69pqphnkzk",
       "jailed": false,
       "status": 2,
-      "tokens": "94190082952",
-      "delegator_shares": "94190082952.000000000000000000",
+      "tokens": "95398446357",
+      "delegator_shares": "95398446357.000000000000000000",
       "description": {
         "moniker": "zugerselfdelegation",
         "identity": "",
@@ -730,8 +730,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqzu34dgs2p6ysz52hpdycls4jcfwgnf2pvxv0eh539ypmadkjfmes6mwaa3",
       "jailed": false,
       "status": 2,
-      "tokens": "1272587271133",
-      "delegator_shares": "1272587271133.000000000000000000",
+      "tokens": "1273200374019",
+      "delegator_shares": "1273200374019.000000000000000000",
       "description": {
         "moniker": "Stakin by POS Bakerz",
         "identity": "83D300CB42D06962",
@@ -755,8 +755,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepquuc5k7egx8ymejamr27c3sgw6tyhmt0eq0ak4qvflvhxx56nvjzsx9etmd",
       "jailed": false,
       "status": 2,
-      "tokens": "3519363067937",
-      "delegator_shares": "3519363067937.000000000000000000",
+      "tokens": "3482978021172",
+      "delegator_shares": "3482978021172.000000000000000000",
       "description": {
         "moniker": "Huobi Wallet",
         "identity": "CF01514DBF6583FE",
@@ -805,8 +805,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqwcvy8hyw2phdp080ggj7prxv972rvqc9gwyjnl0uwf7uxn63s8vqdctdcw",
       "jailed": false,
       "status": 2,
-      "tokens": "165151454748",
-      "delegator_shares": "165151454748.000000000000000000",
+      "tokens": "166012383748",
+      "delegator_shares": "166012383748.000000000000000000",
       "description": {
         "moniker": "Everstake",
         "identity": "",
@@ -855,8 +855,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqjg26g27dtvjqstyqktmp4jsn98473vfz0mek2eyklfp0yqapav5szdrvpd",
       "jailed": false,
       "status": 2,
-      "tokens": "3493974716523",
-      "delegator_shares": "3493974716523.000000000000000000",
+      "tokens": "3491307751567",
+      "delegator_shares": "3491307751567.000000000000000000",
       "description": {
         "moniker": "CoinoneNode",
         "identity": "F4E86EE9BD73A11F",
@@ -880,8 +880,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepq2hfnf0rvk6nksvtzkqly4vy362sencfkt7tgsrvx30krj5vxw0asa7hmjh",
       "jailed": false,
       "status": 2,
-      "tokens": "343742763228",
-      "delegator_shares": "343742763228.000000000000000000",
+      "tokens": "343242763228",
+      "delegator_shares": "343242763228.000000000000000000",
       "description": {
         "moniker": "SSSnodes",
         "identity": "C5B68615F8828EC0",
@@ -905,8 +905,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqtj2urav4g9wex3hku588au0x4sucrc9lpky46zp5u8w4mvd584sqmcxxhs",
       "jailed": false,
       "status": 2,
-      "tokens": "7310904051666",
-      "delegator_shares": "7310904051666.000000000000000000",
+      "tokens": "7310945074930",
+      "delegator_shares": "7310945074930.000000000000000000",
       "description": {
         "moniker": "MultiChain Ventures",
         "identity": "",
@@ -980,8 +980,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepql9j7qpwvfl0pspymhesj48t3t0aazjx0m2jwjuyxd7zw53hqnkss4hmasl",
       "jailed": false,
       "status": 2,
-      "tokens": "191760955886",
-      "delegator_shares": "191780133732.881461147837213385",
+      "tokens": "191761255886",
+      "delegator_shares": "191780433762.884200954050198102",
       "description": {
         "moniker": "Stir",
         "identity": "",
@@ -1030,8 +1030,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqwr5p8j076mfydn7wckqz748lr0j50zwgsftnfpvgz6rz0rkvvqwqg5fyaf",
       "jailed": false,
       "status": 2,
-      "tokens": "386469230041",
-      "delegator_shares": "386469230041.000000000000000000",
+      "tokens": "386469264104",
+      "delegator_shares": "386469264104.000000000000000000",
       "description": {
         "moniker": "Cosmic Validator",
         "identity": "FF4B91B50B71CEDA",
@@ -1230,8 +1230,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqqaffdhuhdtr0d6nl8twpraxps74q3mxn68qknrex465yd9cc9l0qeh6lkk",
       "jailed": false,
       "status": 2,
-      "tokens": "169090517713",
-      "delegator_shares": "169090517713.000000000000000000",
+      "tokens": "169190865393",
+      "delegator_shares": "169190865393.000000000000000000",
       "description": {
         "moniker": "DappPub",
         "identity": "BB2D113EFC6DFDC4",
@@ -1255,8 +1255,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepq9weu2v0za8fdcvx0w3ps972k5v7sm6h5as9qaznc437vwpfxu37q0f3lyg",
       "jailed": false,
       "status": 2,
-      "tokens": "419446199323",
-      "delegator_shares": "419446199323.000000000000000000",
+      "tokens": "419435199323",
+      "delegator_shares": "419435199323.000000000000000000",
       "description": {
         "moniker": "Ztake.org",
         "identity": "09A303A2C724C591",
@@ -1355,8 +1355,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqteacnywz7urnac46wtrcy34myyj82j250ny7866yffypdgavae5s0lf4a0",
       "jailed": false,
       "status": 2,
-      "tokens": "3590702838624",
-      "delegator_shares": "3590702838624.000000000000000000",
+      "tokens": "3590743740559",
+      "delegator_shares": "3590743740559.000000000000000000",
       "description": {
         "moniker": "B-Harvest",
         "identity": "8957C5091FBF4192",
@@ -1405,8 +1405,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepq8y846wm58fmmuctxp7csqmaz3594xnykcean0lp722ntf6u5ycaqss4prd",
       "jailed": false,
       "status": 2,
-      "tokens": "1054782024363",
-      "delegator_shares": "1054782024363.000000000000000000",
+      "tokens": "1054956385676",
+      "delegator_shares": "1054956385676.000000000000000000",
       "description": {
         "moniker": "InfStones (Infinity Stones)",
         "identity": "39A41C2FDE0AD040",
@@ -1430,8 +1430,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqgx5xdrx0xktl5r8e3w7vj329fgh3fnep8ahgx8027nd5nkjxzuqs5us5en",
       "jailed": false,
       "status": 2,
-      "tokens": "557174762805",
-      "delegator_shares": "557174762805.000000000000000000",
+      "tokens": "557186721805",
+      "delegator_shares": "557186721805.000000000000000000",
       "description": {
         "moniker": "Wetez",
         "identity": "26FA2B24F46A98EF",
@@ -1455,8 +1455,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqrgyyjxpe0ujefxwnkpmqz9m0hj03y09tdz9lwc0s7mvy469hulfq69f8sd",
       "jailed": false,
       "status": 2,
-      "tokens": "1515889266517",
-      "delegator_shares": "1515889266517.000000000000000000",
+      "tokens": "1516059266517",
+      "delegator_shares": "1516059266517.000000000000000000",
       "description": {
         "moniker": "IRISnet-Bianjie",
         "identity": "DB667A6F239969F5",
@@ -1480,8 +1480,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepq6fpkt3qn9xd7u44478ypkhrvtx45uhfj3uhdny420hzgsssrvh3qnzwdpe",
       "jailed": false,
       "status": 2,
-      "tokens": "12691946528647",
-      "delegator_shares": "12691946528647.000000000000000000",
+      "tokens": "12689992177321",
+      "delegator_shares": "12689992177321.000000000000000000",
       "description": {
         "moniker": "🐠stake.fish",
         "identity": "90B597A673FC950E",
@@ -1605,8 +1605,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepq9xu9z6ky3nz3k544ar4zhupjehkxdlpmt2l90kekxkrvuu7hxfgslcdqwy",
       "jailed": false,
       "status": 2,
-      "tokens": "2784530147881",
-      "delegator_shares": "2784530147881.000000000000000000",
+      "tokens": "2785933862668",
+      "delegator_shares": "2785933862668.000000000000000000",
       "description": {
         "moniker": "P2P.ORG - P2P Validator",
         "identity": "E12F4695036D8072",
@@ -1780,8 +1780,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqghz45rfwczrvwl7u2xsm8dpamqg8gtzej66dtn57ax99g59klpfsm3yxyu",
       "jailed": false,
       "status": 2,
-      "tokens": "16050051563",
-      "delegator_shares": "16051656728.672867286728672860",
+      "tokens": "16071388577",
+      "delegator_shares": "16072995876.587658765876587650",
       "description": {
         "moniker": "AirGap 🛡",
         "identity": "",
@@ -1855,8 +1855,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqjcp9ez3dzmvsdfcw2h5kllmqvjgqnhtlvhad4q9wzcqf34gf6ewq6zl5mm",
       "jailed": false,
       "status": 2,
-      "tokens": "731461406153",
-      "delegator_shares": "731461406153.000000000000000000",
+      "tokens": "731465206153",
+      "delegator_shares": "731465206153.000000000000000000",
       "description": {
         "moniker": "DragonStake",
         "identity": "EA61A46F31742B22",
@@ -1905,8 +1905,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqtw8862dhw8uty58d6t2szfd6kqram2t234zjteaaeem6l45wclaq8l60gn",
       "jailed": false,
       "status": 2,
-      "tokens": "9801161961268",
-      "delegator_shares": "9801161961268.000000000000000000",
+      "tokens": "9835597626311",
+      "delegator_shares": "9835597626311.000000000000000000",
       "description": {
         "moniker": "Binance Staking",
         "identity": "",
@@ -1951,12 +1951,37 @@
       "min_self_delegation": "10"
     },
     {
+      "operator_address": "cosmosvaloper1402ggxz5u6vm29sqztwqq8vxs3ke6dmwl2z5dk",
+      "consensus_pubkey": "cosmosvalconspub1zcjduepqd4qh9dqgyce948kn48r2aqk7qlgtuwdmfeewj0z9aj4dr30v33cq6pmlql",
+      "jailed": false,
+      "status": 2,
+      "tokens": "9891798892",
+      "delegator_shares": "9892788087.020363284344580307",
+      "description": {
+        "moniker": "Cosmoon",
+        "identity": "8935A6F323FA0881",
+        "website": "https://cosmoon.org/",
+        "details": " Professional Stake Rewards Service "
+      },
+      "unbonding_height": "1770884",
+      "unbonding_time": "2020-05-26T08:00:11.702477098Z",
+      "commission": {
+        "update_time": "2020-01-27T22:18:16.158833459Z",
+        "commission_rates": {
+          "rate": "0.000000000000000000",
+          "max_rate": "0.300000000000000000",
+          "max_change_rate": "0.050000000000000000"
+        }
+      },
+      "min_self_delegation": "1"
+    },
+    {
       "operator_address": "cosmosvaloper14kn0kk33szpwus9nh8n87fjel8djx0y070ymmj",
       "consensus_pubkey": "cosmosvalconspub1zcjduepqmfxl36td7rcdzszzrk6c7kzp5l3jlw4lnxz8zms3py7qcsa9xlns7zxfd6",
       "jailed": false,
       "status": 2,
-      "tokens": "2270854514147",
-      "delegator_shares": "2270854514147.000000000000000000",
+      "tokens": "2270854515147",
+      "delegator_shares": "2270854515147.000000000000000000",
       "description": {
         "moniker": "Forbole",
         "identity": "2861F5EE06627224",
@@ -1980,8 +2005,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepquhlqdhjw4qp2c2t6qh5z7tfk52qc72623f0etc8f3n7hy8uuh25ql34fvu",
       "jailed": false,
       "status": 2,
-      "tokens": "11377223864207",
-      "delegator_shares": "11377223864207.000000000000000000",
+      "tokens": "11376902609207",
+      "delegator_shares": "11376902609207.000000000000000000",
       "description": {
         "moniker": "Polychain Labs",
         "identity": "A51CE3B9CD649C3F",
@@ -2005,8 +2030,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqfc7vnpgls3an0w2pv60pu4vr30p2dxqlmhmlrdv0m38y3tg689vs5qg4u5",
       "jailed": false,
       "status": 2,
-      "tokens": "85905500898",
-      "delegator_shares": "85905500898.000000000000000000",
+      "tokens": "85907400798",
+      "delegator_shares": "85907400798.000000000000000000",
       "description": {
         "moniker": "🌐 KysenPool.io",
         "identity": "2474A8FCC4426BC5",
@@ -2055,8 +2080,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepq7jsrkl9fgqk0wj3ahmfr8pgxj6vakj2wzn656s8pehh0zhv2w5as5gd80a",
       "jailed": false,
       "status": 2,
-      "tokens": "2123836535506",
-      "delegator_shares": "2123836535506.000000000000000000",
+      "tokens": "2123883195922",
+      "delegator_shares": "2123883195922.000000000000000000",
       "description": {
         "moniker": "ATEAM",
         "identity": "0CB9A4E7643FF992",
@@ -2080,8 +2105,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqp0j4vum7ryt6nl6zsgq9ar347afmq2c5z6jmzeavv2p2ns6m0dgs5zmg4z",
       "jailed": false,
       "status": 2,
-      "tokens": "11209406667871",
-      "delegator_shares": "11209406667871.000000000000000000",
+      "tokens": "11209087267871",
+      "delegator_shares": "11209087267871.000000000000000000",
       "description": {
         "moniker": "DokiaCapital",
         "identity": "25422F4ADF3F6765",
@@ -2230,8 +2255,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqc8slfqdszcd85wzzweuanv0em4h4gdc5wkh3et6e7t8z93z24u0s0rdlx2",
       "jailed": false,
       "status": 2,
-      "tokens": "2157247086780",
-      "delegator_shares": "2157247086780.000000000000000000",
+      "tokens": "2152843401026",
+      "delegator_shares": "2152843401026.000000000000000000",
       "description": {
         "moniker": "HuobiPool",
         "identity": "23536C5BDE3EB949",
@@ -2280,8 +2305,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqnltddase4lqjcfhup8ymg0qex3srakg54ppv06pstvwdjxkm6tmq08znvs",
       "jailed": false,
       "status": 2,
-      "tokens": "4536090712175",
-      "delegator_shares": "4536090712175.000000000000000000",
+      "tokens": "4536703712175",
+      "delegator_shares": "4536703712175.000000000000000000",
       "description": {
         "moniker": "Figment Networks",
         "identity": "E5F274B870BDA01D",
@@ -2305,8 +2330,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqt0fpxxufuuhavfqh8zg3pjnnwdvvzw9huemzxe59kpjt5e3xprhs7d8khn",
       "jailed": false,
       "status": 2,
-      "tokens": "448242381318",
-      "delegator_shares": "448242381318.000000000000000000",
+      "tokens": "449542381318",
+      "delegator_shares": "449542381318.000000000000000000",
       "description": {
         "moniker": "Bison Trails",
         "identity": "A296556FF603197C",
@@ -2330,8 +2355,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepq3f6wnsk6k6qu6g8n5vly4z7ajw7q930wh3qx6zkxhktnh49l40kszf5lry",
       "jailed": false,
       "status": 2,
-      "tokens": "931437761969",
-      "delegator_shares": "931437761969.000000000000000000",
+      "tokens": "930959827223",
+      "delegator_shares": "930959827223.000000000000000000",
       "description": {
         "moniker": "HashQuark",
         "identity": "31AFBBE0A52FA1ED",
@@ -2355,8 +2380,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepq0dc9apn3pz2x2qyujcnl2heqq4aceput2uaucuvhrjts75q0rv5smjjn7v",
       "jailed": false,
       "status": 2,
-      "tokens": "6048096793324",
-      "delegator_shares": "6048096793324.000000000000000000",
+      "tokens": "6048134115466",
+      "delegator_shares": "6048134115466.000000000000000000",
       "description": {
         "moniker": "Cosmostation",
         "identity": "AE4C403A6E7AA1AC",
@@ -2380,8 +2405,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqg6y8magedjwr9p6s2c28zp28jdjtecxhn97ew6tnuzqklg63zgfspp9y3n",
       "jailed": false,
       "status": 2,
-      "tokens": "10347357129358",
-      "delegator_shares": "10347357127930.011963893088932282",
+      "tokens": "10366206632198",
+      "delegator_shares": "10366206630755.400966850174925098",
       "description": {
         "moniker": "Sikka",
         "identity": "https://keybase.io/team/sikka",
@@ -2480,8 +2505,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepq8hu49qdl5594rzxmdsww3hleu8phxrajjfsseqjere9mjrrrv9tq35mll4",
       "jailed": false,
       "status": 2,
-      "tokens": "2150125268872",
-      "delegator_shares": "2150125268872.000000000000000000",
+      "tokens": "2150160122357",
+      "delegator_shares": "2150160122357.000000000000000000",
       "description": {
         "moniker": "BouBouNode",
         "identity": "",
@@ -2580,8 +2605,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqxh4s2zj52uhfssu7u2xyhmnk5f7g9ty368twxkkcfllsq3fqaw9sdl6rj9",
       "jailed": false,
       "status": 2,
-      "tokens": "10436837080",
-      "delegator_shares": "10436837080.000000000000000000",
+      "tokens": "10436840479",
+      "delegator_shares": "10436840479.000000000000000000",
       "description": {
         "moniker": "IZ0",
         "identity": "BF964D76855711CC",
@@ -2605,8 +2630,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqwnhw3azrlhnx9kaujvn0es9u26e4a3af6hye6e9j0pl2tlpx9k3s59zwh0",
       "jailed": false,
       "status": 2,
-      "tokens": "331910374471",
-      "delegator_shares": "331910374471.000000000000000000",
+      "tokens": "331948374471",
+      "delegator_shares": "331948374471.000000000000000000",
       "description": {
         "moniker": "KIRA Staking",
         "identity": "C86C8FF08A5269DC",
@@ -2680,8 +2705,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqf8llkc4p43lksktsqzr5nmgmw4ln9pzym2vp4kqfrny8xrgnqrsq76djjc",
       "jailed": false,
       "status": 2,
-      "tokens": "975802425957",
-      "delegator_shares": "975900015891.961329920130499362",
+      "tokens": "976300040677",
+      "delegator_shares": "976397680378.375994214431878690",
       "description": {
         "moniker": "Any Labs",
         "identity": "B2D07CA3CCC907CE",
@@ -2780,8 +2805,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqxtu8am2qmf0qnglqtvkar9gaclhccfn29tsp7n82vasrtnc8m2fsulp4h2",
       "jailed": false,
       "status": 2,
-      "tokens": "3441547066715",
-      "delegator_shares": "3441547066715.000000000000000000",
+      "tokens": "3441549066715",
+      "delegator_shares": "3441549066715.000000000000000000",
       "description": {
         "moniker": "hashtower",
         "identity": "0BBBAE1FD11AEBAF",
@@ -2880,18 +2905,18 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqarrl0ppddzyczwvcqwf3jwd9qwkhxfy6lcv8ep4msk293mlxg39qgf77y3",
       "jailed": false,
       "status": 2,
-      "tokens": "908219878835",
-      "delegator_shares": "908219878835.000000000000000000",
+      "tokens": "908222778835",
+      "delegator_shares": "908222778835.000000000000000000",
       "description": {
         "moniker": "Delega Networks♾ ",
         "identity": "1BED7C08416A619F",
         "website": "https://delega.io",
-        "details": "Nodes managed by wimel"
+        "details": "Validador con énfasis en la comunidad de habla hispana, validando bloques en Cosmos desde el 2018. Mantenemos nuestra infraestructura segura y fiable el 99% del tiempo. Nodos manejados por Wimel.|N0∞D0|"
       },
       "unbonding_height": "0",
       "unbonding_time": "1970-01-01T00:00:00Z",
       "commission": {
-        "update_time": "2020-04-08T07:42:19.631611932Z",
+        "update_time": "2020-05-06T03:25:11.392136982Z",
         "commission_rates": {
           "rate": "0.200000000000000000",
           "max_rate": "0.200000000000000000",
@@ -2905,8 +2930,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepq0cet8ez89wj4yz8uencych7aldc5wyyrpx6jvh6n6kxxslumln5sxkq922",
       "jailed": false,
       "status": 2,
-      "tokens": "1216988448656",
-      "delegator_shares": "1216988448656.000000000000000000",
+      "tokens": "1217035694451",
+      "delegator_shares": "1217035694451.000000000000000000",
       "description": {
         "moniker": "HyperblocksPro",
         "identity": "B073FA5BAD230585",
@@ -2955,8 +2980,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqc9ppxzktam9v39d9q07h6n98cdm7cgg4l65vq5yvtgruxp5h0yhs8tup68",
       "jailed": false,
       "status": 2,
-      "tokens": "576962555889",
-      "delegator_shares": "576962555889.000000000000000000",
+      "tokens": "577560168981",
+      "delegator_shares": "577560168981.000000000000000000",
       "description": {
         "moniker": "FRESHATOMS",
         "identity": "63575EE3F0F9FAFC",
@@ -2971,31 +2996,6 @@
           "rate": "0.000000000000000000",
           "max_rate": "0.200000000000000000",
           "max_change_rate": "0.010000000000000000"
-        }
-      },
-      "min_self_delegation": "1"
-    },
-    {
-      "operator_address": "cosmosvaloper17cy09npjq4sylkt56kwcuqcd74hlxj3fq4hwjd",
-      "consensus_pubkey": "cosmosvalconspub1zcjduepq4hwm4ev9d9cmg4v5sqkscmsy6g0qnhrskmhgacjux2l35lulfg8svx5ywk",
-      "jailed": false,
-      "status": 2,
-      "tokens": "13005279400",
-      "delegator_shares": "13006580000.000000000000000000",
-      "description": {
-        "moniker": "topool",
-        "identity": "9A866486C2AADA48",
-        "website": "http://topool.io",
-        "details": "The world's top PoS and Staking service providers in the future"
-      },
-      "unbonding_height": "1730449",
-      "unbonding_time": "2020-05-23T00:47:32.712517821Z",
-      "commission": {
-        "update_time": "2020-05-01T03:41:16.979171357Z",
-        "commission_rates": {
-          "rate": "0.150000000000000000",
-          "max_rate": "1.000000000000000000",
-          "max_change_rate": "0.200000000000000000"
         }
       },
       "min_self_delegation": "1"
@@ -3030,8 +3030,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqfjgjrj4heptaw6h9nhtkng8hw2zsq5c6e9xzwvnjjx2n6pc7x6yq4ny2qc",
       "jailed": false,
       "status": 2,
-      "tokens": "10244983273",
-      "delegator_shares": "10244983273.000000000000000000",
+      "tokens": "10394983273",
+      "delegator_shares": "10394983273.000000000000000000",
       "description": {
         "moniker": "CosmosLink",
         "identity": "3F7807C66CE770B0",
@@ -3055,8 +3055,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqelcwpat987h9yq0ck6g9fsc8t0mththk547gwvk0w4wnkpl0stnspr3hdc",
       "jailed": false,
       "status": 2,
-      "tokens": "1658363609720",
-      "delegator_shares": "1658363609720.000000000000000000",
+      "tokens": "1658370430696",
+      "delegator_shares": "1658370430696.000000000000000000",
       "description": {
         "moniker": "Umbrella ☔",
         "identity": "A530AC4D75991FE2",
@@ -3080,8 +3080,8 @@
       "consensus_pubkey": "cosmosvalconspub1zcjduepqh3jg5ld5xg5q5mcxrzn6fcuq696qqa3ut3azskphpdrty37ervjqcn8mfj",
       "jailed": false,
       "status": 2,
-      "tokens": "10418082544",
-      "delegator_shares": "10418082544.000000000000000000",
+      "tokens": "10468082544",
+      "delegator_shares": "10468082544.000000000000000000",
       "description": {
         "moniker": "stake.zone",
         "identity": "0A888728046018EC",
