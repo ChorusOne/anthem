@@ -4,13 +4,11 @@ import {
   IQuery,
   NetworkDefinition,
 } from "@anthem/utils";
+import { logSentryMessage } from "src/tools/server-utils";
 import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
 
 /** ===========================================================================
- * Oasis REST API Utils
- * ----------------------------------------------------------------------------
- * This file contains REST API utils for fetching data using the Oasis
- * blockchain APIs.
+ * Types & Config
  * ============================================================================
  */
 
@@ -30,6 +28,49 @@ interface OasisAccountResponse {
     is_delegator: boolean;
   };
 }
+
+interface OasisTransaction {
+  date: string;
+  height?: string;
+  escrow?: TxEscrow;
+  burn?: TxBurn;
+  transfer?: TxTransfer;
+}
+
+interface TxTransfer {
+  to: string;
+  from: string;
+  tokens: string;
+}
+
+interface TxBurn {
+  owner: string;
+  tokens: string;
+}
+
+interface TxEscrow {
+  add?: {
+    owner: string;
+    escrow: string;
+    tokens: string;
+  };
+  take?: {
+    owner: string;
+    tokens: string;
+  };
+  reclaim?: {
+    owner: string;
+    escrow: string;
+    tokens: string;
+  };
+}
+
+/** ===========================================================================
+ * Oasis REST API Utils
+ * ----------------------------------------------------------------------------
+ * This file contains the utils for fetching Oasis Network data.
+ * ============================================================================
+ */
 
 /**
  * Fetch Oasis account balances.
@@ -61,42 +102,38 @@ const fetchAccountBalances = async (
   };
 };
 
-interface TxBurn {
-  owner: string;
-  tokens: string;
-}
+const fetchTransactions = async (
+  address: string,
+  pageSize: number,
+  startingPage: number,
+  network: NetworkDefinition,
+): Promise<IQuery["oasisTransactions"]> => {
+  const host = getHostFromNetworkName(network.name);
+  const response = await AxiosUtil.get<OasisTransaction[]>(
+    `${host}/account/${address}/events`,
+  );
 
-interface TxEscrow {
-  add?: {
-    owner: string;
-    escrow: string;
-    tokens: string;
+  // Transform the response data
+  const convertedTransactions = response
+    .map(adaptOasisTransaction)
+    .filter(x => x !== null) as IOasisTransaction[];
+
+  return {
+    page: 1,
+    limit: 25,
+    moreResultsExist: true,
+    data: convertedTransactions,
   };
-  take?: {
-    owner: string;
-    tokens: string;
-  };
-  reclaim?: {
-    owner: string;
-    escrow: string;
-    tokens: string;
-  };
-}
+};
 
-interface TxTransfer {
-  to: string;
-  from: string;
-  tokens: string;
-}
+/** ===========================================================================
+ * Utils
+ * ============================================================================
+ */
 
-interface OasisTransaction {
-  date: string;
-  height?: string;
-  escrow?: TxEscrow;
-  burn?: TxBurn;
-  transfer?: TxTransfer;
-}
-
+/**
+ * Transform the original transaction records to match the GraphQL schema.
+ */
 const adaptOasisTransaction = (
   tx: OasisTransaction,
 ): Nullable<IOasisTransaction> => {
@@ -164,32 +201,14 @@ const adaptOasisTransaction = (
     }
   }
 
-  // Unrecognized transaction data -
-  return null;
-};
-
-const fetchTransactions = async (
-  address: string,
-  pageSize: number,
-  startingPage: number,
-  network: NetworkDefinition,
-): Promise<IQuery["oasisTransactions"]> => {
-  const host = getHostFromNetworkName(network.name);
-  const response = await AxiosUtil.get<OasisTransaction[]>(
-    `${host}/account/${address}/events`,
+  // Unrecognized transaction data:
+  logSentryMessage(
+    `Unrecognized Oasis transaction received, original transaction data: ${JSON.stringify(
+      tx,
+    )}`,
   );
 
-  // Transform the response data
-  const convertedTransactions = response
-    .map(adaptOasisTransaction)
-    .filter(x => x !== null) as IOasisTransaction[];
-
-  return {
-    page: 1,
-    limit: 25,
-    moreResultsExist: true,
-    data: convertedTransactions,
-  };
+  return null;
 };
 
 /** ===========================================================================

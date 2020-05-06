@@ -45,6 +45,13 @@ export const requestErrorHandler = (error: GraphQLError): GraphQLError => {
 };
 
 /**
+ * Send a message to Sentry.
+ */
+export const logSentryMessage = (message: string) => {
+  Sentry.captureMessage(message);
+};
+
+/**
  * Logger util for standard logging for server requests.
  */
 export const requestLogger = (

@@ -370,8 +370,6 @@ const resolvers = {
       const network = deriveNetworkFromAddress(address);
       const size = validatePaginationParams(pageSize, 25);
       const start = validatePaginationParams(startingPage, 1);
-      console.log(`Oasis Transactions Resolver for address: ${address}`);
-
       blockUnsupportedNetworks(network, "transactions");
       return OASIS.fetchTransactions(address, start, size, network);
     },
