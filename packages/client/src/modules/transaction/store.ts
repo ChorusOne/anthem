@@ -83,6 +83,10 @@ const transaction = createReducer<
     ...initialState,
     liveTransactionRecord: state.liveTransactionRecord,
   }))
+  .handleAction(LedgerActions.setAddressSuccess, state => ({
+    ...initialState,
+    transactionsPage: 1,
+  }))
   .handleAction(Actions.transactionConfirmed, (state, action) => ({
     ...state,
     transactionPage: 1, // Reset page to 1

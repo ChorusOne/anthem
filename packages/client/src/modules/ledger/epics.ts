@@ -266,12 +266,13 @@ const setAddressNavigationEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.setAddressSuccess)),
     pluck("payload"),
+    pluck("address"),
     tap(address => {
       const { router } = deps;
       if (!router.location.pathname.includes("dashboard") && !!address) {
         router.push({
           pathname: "/dashboard/total/",
-          search: `?address=${address}`,
+          search: `address=${address}&page=1`,
         });
       }
     }),
