@@ -72,7 +72,7 @@ const refreshBalanceAndTransactionsSuccess = createStandardAction(
 const initializeApp = createStandardAction(ActionTypesEnum.INITIALIZING_APP)();
 const initializeSuccess = createStandardAction(
   ActionTypesEnum.INITIALIZING_APP_SUCCESS,
-)<{ address: string; network: NetworkDefinition }>();
+)<{ address: string; network: NetworkDefinition; page: number }>();
 
 const newsletterSignup = createStandardAction(
   ActionTypesEnum.NEWSLETTER_SIGNUP,

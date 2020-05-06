@@ -2,6 +2,7 @@ import { ITransaction } from "@anthem/utils";
 import { TransactionData, TxPostBody } from "tools/cosmos-utils";
 import { TRANSACTION_STAGES } from "tools/transaction-utils";
 import { createReducer } from "typesafe-actions";
+import AppActions, { ActionTypes as AppActionTypes } from "../app/actions";
 import LedgerActions, {
   ActionTypes as LedgerActionTypes,
 } from "../ledger/actions";
@@ -40,7 +41,7 @@ const initialState: TransactionState = {
 
 const transaction = createReducer<
   TransactionState,
-  ActionTypes | LedgerActionTypes
+  ActionTypes | LedgerActionTypes | AppActionTypes
 >(initialState)
   .handleAction(Actions.setTransactionStage, (state, action) => ({
     ...state,
@@ -86,6 +87,10 @@ const transaction = createReducer<
   .handleAction(LedgerActions.setAddressSuccess, state => ({
     ...initialState,
     transactionsPage: 1,
+  }))
+  .handleAction(AppActions.initializeSuccess, (state, action) => ({
+    ...initialState,
+    transactionsPage: action.payload.page,
   }))
   .handleAction(Actions.transactionConfirmed, (state, action) => ({
     ...state,
