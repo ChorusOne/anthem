@@ -39,25 +39,19 @@
         "name": "OasisTransactionData",
         "possibleTypes": [
           {
-            "name": "OasisTransferEvent"
-          },
-          {
             "name": "OasisBurnEvent"
           },
           {
-            "name": "OasisEscrowEvent"
+            "name": "OasisTransferEvent"
           },
           {
-            "name": "OasisStakingEvent"
+            "name": "OasisEscrowAddEvent"
           },
           {
-            "name": "OasisAddEscrowEvent"
+            "name": "OasisEscrowTakeEvent"
           },
           {
-            "name": "OasisTakeEscrowEvent"
-          },
-          {
-            "name": "ReclaimEscrowEvent"
+            "name": "OasisEscrowReclaimEvent"
           }
         ]
       }

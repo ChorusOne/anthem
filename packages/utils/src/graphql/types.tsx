@@ -228,31 +228,30 @@ export interface IMsgWithdrawValidatorCommission {
   validator_address: Maybe<Scalars["String"]>;
 }
 
-export interface IOasisAddEscrowEvent {
-   __typename?: "OasisAddEscrowEvent";
+export interface IOasisBurnEvent {
+   __typename?: "OasisBurnEvent";
+  owner: Scalars["String"];
+  tokens: Scalars["String"];
+}
+
+export interface IOasisEscrowAddEvent {
+   __typename?: "OasisEscrowAddEvent";
   owner: Scalars["String"];
   escrow: Scalars["String"];
   tokens: Scalars["String"];
 }
 
-export interface IOasisBurnEvent {
-   __typename?: "OasisBurnEvent";
-  data: Scalars["String"];
+export interface IOasisEscrowReclaimEvent {
+   __typename?: "OasisEscrowReclaimEvent";
+  owner: Scalars["String"];
+  escrow: Scalars["String"];
+  tokens: Scalars["String"];
 }
 
-export interface IOasisEscrowEvent {
-   __typename?: "OasisEscrowEvent";
-  data: Scalars["String"];
-}
-
-export interface IOasisStakingEvent {
-   __typename?: "OasisStakingEvent";
-  data: Scalars["String"];
-}
-
-export interface IOasisTakeEscrowEvent {
-   __typename?: "OasisTakeEscrowEvent";
-  data: Scalars["String"];
+export interface IOasisEscrowTakeEvent {
+   __typename?: "OasisEscrowTakeEvent";
+  owner: Scalars["String"];
+  tokens: Scalars["String"];
 }
 
 /** Reference: https://github.com/ChorusOne/Hippias/blob/master/pkg/oasis/types.go */
@@ -264,7 +263,7 @@ export interface IOasisTransaction {
   data: IOasisTransactionData;
 }
 
-export type IOasisTransactionData = IOasisTransferEvent | IOasisBurnEvent | IOasisEscrowEvent | IOasisStakingEvent | IOasisAddEscrowEvent | IOasisTakeEscrowEvent | IReclaimEscrowEvent;
+export type IOasisTransactionData = IOasisBurnEvent | IOasisTransferEvent | IOasisEscrowAddEvent | IOasisEscrowTakeEvent | IOasisEscrowReclaimEvent;
 
 export interface IOasisTransactionResult {
    __typename?: "OasisTransactionResult";
@@ -275,13 +274,11 @@ export interface IOasisTransactionResult {
 }
 
 export enum IOasisTransactionType {
-  Transfer = "TRANSFER",
   Burn = "BURN",
-  Escrow = "ESCROW",
-  Staking = "STAKING",
-  AddEscrow = "ADD_ESCROW",
-  TakeEscrow = "TAKE_ESCROW",
-  ReclaimEscrow = "RECLAIM_ESCROW",
+  Transfer = "TRANSFER",
+  EscrowAdd = "ESCROW_ADD",
+  EscrowTake = "ESCROW_TAKE",
+  EscrowReclaim = "ESCROW_RECLAIM",
 }
 
 export interface IOasisTransferEvent {
@@ -475,11 +472,6 @@ export interface IQueryOasisTransactionsArgs {
   address: Scalars["String"];
   startingPage: Maybe<Scalars["Float"]>;
   pageSize: Maybe<Scalars["Float"]>;
-}
-
-export interface IReclaimEscrowEvent {
-   __typename?: "ReclaimEscrowEvent";
-  data: Scalars["String"];
 }
 
 export interface ISlashingParameters {
@@ -945,26 +937,20 @@ export type IOasisTransactionsQuery = (
       { __typename?: "OasisTransaction" }
       & Pick<IOasisTransaction, "date" | "height" | "type">
       & { data: (
+        { __typename?: "OasisBurnEvent" }
+        & Pick<IOasisBurnEvent, "owner" | "tokens">
+      ) | (
         { __typename?: "OasisTransferEvent" }
         & Pick<IOasisTransferEvent, "from" | "to" | "tokens">
       ) | (
-        { __typename?: "OasisBurnEvent" }
-        & Pick<IOasisBurnEvent, "data">
+        { __typename?: "OasisEscrowAddEvent" }
+        & Pick<IOasisEscrowAddEvent, "owner" | "escrow" | "tokens">
       ) | (
-        { __typename?: "OasisEscrowEvent" }
-        & Pick<IOasisEscrowEvent, "data">
+        { __typename?: "OasisEscrowTakeEvent" }
+        & Pick<IOasisEscrowTakeEvent, "owner" | "tokens">
       ) | (
-        { __typename?: "OasisStakingEvent" }
-        & Pick<IOasisStakingEvent, "data">
-      ) | (
-        { __typename?: "OasisAddEscrowEvent" }
-        & Pick<IOasisAddEscrowEvent, "owner" | "escrow" | "tokens">
-      ) | (
-        { __typename?: "OasisTakeEscrowEvent" }
-        & Pick<IOasisTakeEscrowEvent, "data">
-      ) | (
-        { __typename?: "ReclaimEscrowEvent" }
-        & Pick<IReclaimEscrowEvent, "data">
+        { __typename?: "OasisEscrowReclaimEvent" }
+        & Pick<IOasisEscrowReclaimEvent, "owner" | "escrow" | "tokens">
       ) }
     )> }
   ) }
@@ -2083,30 +2069,28 @@ export const OasisTransactionsDocument = gql`
       height
       type
       data {
+        ... on OasisBurnEvent {
+          owner
+          tokens
+        }
         ... on OasisTransferEvent {
           from
           to
           tokens
         }
-        ... on OasisBurnEvent {
-          data
-        }
-        ... on OasisEscrowEvent {
-          data
-        }
-        ... on OasisStakingEvent {
-          data
-        }
-        ... on OasisAddEscrowEvent {
+        ... on OasisEscrowAddEvent {
           owner
           escrow
           tokens
         }
-        ... on OasisTakeEscrowEvent {
-          data
+        ... on OasisEscrowTakeEvent {
+          owner
+          tokens
         }
-        ... on ReclaimEscrowEvent {
-          data
+        ... on OasisEscrowReclaimEvent {
+          owner
+          escrow
+          tokens
         }
       }
     }

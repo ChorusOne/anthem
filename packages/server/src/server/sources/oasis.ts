@@ -1,4 +1,9 @@
-import { IQuery, NetworkDefinition } from "@anthem/utils";
+import {
+  IOasisTransaction,
+  IOasisTransactionType,
+  IQuery,
+  NetworkDefinition,
+} from "@anthem/utils";
 import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
 
 /** ===========================================================================
@@ -92,6 +97,77 @@ interface OasisTransaction {
   transfer?: TxTransfer;
 }
 
+const adaptOasisTransaction = (
+  tx: OasisTransaction,
+): Nullable<IOasisTransaction> => {
+  if (!!tx.burn) {
+    // BURN Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      type: IOasisTransactionType.Burn,
+      data: {
+        owner: tx.burn.owner,
+        tokens: tx.burn.tokens,
+      },
+    };
+  } else if (!!tx.transfer) {
+    // TRANSFER Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      type: IOasisTransactionType.Transfer,
+      data: {
+        to: tx.transfer.to,
+        from: tx.transfer.from,
+        tokens: tx.transfer.tokens,
+      },
+    };
+  } else if (!!tx.escrow) {
+    // ESCROW Transactions
+    const { escrow } = tx;
+    if (!!escrow.add) {
+      // ESCROW ADD Transaction
+      return {
+        height: 1,
+        date: tx.date,
+        type: IOasisTransactionType.EscrowAdd,
+        data: {
+          owner: escrow.add.owner,
+          escrow: escrow.add.escrow,
+          tokens: escrow.add.tokens,
+        },
+      };
+    } else if (!!escrow.take) {
+      // ESCROW TAKE Transaction
+      return {
+        height: 1,
+        date: tx.date,
+        type: IOasisTransactionType.EscrowTake,
+        data: {
+          owner: escrow.take.owner,
+          tokens: escrow.take.tokens,
+        },
+      };
+    } else if (!!escrow.reclaim) {
+      // ESCROW RECLAIM Transaction
+      return {
+        height: 1,
+        date: tx.date,
+        type: IOasisTransactionType.EscrowReclaim,
+        data: {
+          owner: escrow.reclaim.owner,
+          escrow: escrow.reclaim.escrow,
+          tokens: escrow.reclaim.tokens,
+        },
+      };
+    }
+  }
+
+  // Unrecognized transaction data -
+  return null;
+};
+
 const fetchTransactions = async (
   address: string,
   pageSize: number,
@@ -99,18 +175,20 @@ const fetchTransactions = async (
   network: NetworkDefinition,
 ): Promise<IQuery["oasisTransactions"]> => {
   const host = getHostFromNetworkName(network.name);
-  const response = await AxiosUtil.get<OasisTransaction>(
+  const response = await AxiosUtil.get<OasisTransaction[]>(
     `${host}/account/${address}/events`,
   );
 
-  console.log(response);
-  // return OASIS_TXS;
+  // Transform the response data
+  const convertedTransactions = response
+    .map(adaptOasisTransaction)
+    .filter(x => x !== null) as IOasisTransaction[];
 
   return {
     page: 1,
     limit: 25,
-    data: [],
     moreResultsExist: true,
+    data: convertedTransactions,
   };
 };
 

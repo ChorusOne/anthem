@@ -59,23 +59,19 @@ type OasisTransaction {
 }
 
 enum OasisTransactionType {
-  TRANSFER
   BURN
-  ESCROW
-  STAKING
-  ADD_ESCROW
-  TAKE_ESCROW
-  RECLAIM_ESCROW
+  TRANSFER
+  ESCROW_ADD
+  ESCROW_TAKE
+  ESCROW_RECLAIM
 }
 
 union OasisTransactionData =
-    OasisTransferEvent
-  | OasisBurnEvent
-  | OasisEscrowEvent
-  | OasisStakingEvent
-  | OasisAddEscrowEvent
-  | OasisTakeEscrowEvent
-  | ReclaimEscrowEvent
+    OasisBurnEvent
+  | OasisTransferEvent
+  | OasisEscrowAddEvent
+  | OasisEscrowTakeEvent
+  | OasisEscrowReclaimEvent
 
 type OasisTransferEvent {
   from: String!
@@ -84,29 +80,25 @@ type OasisTransferEvent {
 }
 
 type OasisBurnEvent {
-  data: String! # TODO: Placeholder type...
+  owner: String!
+  tokens: String!
 }
 
-type OasisEscrowEvent {
-  data: String! # TODO: Placeholder type...
-}
-
-type OasisStakingEvent {
-  data: String! # TODO: Placeholder type...
-}
-
-type OasisAddEscrowEvent {
+type OasisEscrowAddEvent {
   owner: String!
   escrow: String!
   tokens: String!
 }
 
-type OasisTakeEscrowEvent {
-  data: String! # TODO: Placeholder type...
+type OasisEscrowTakeEvent {
+  owner: String!
+  tokens: String!
 }
 
-type ReclaimEscrowEvent {
-  data: String! # TODO: Placeholder type...
+type OasisEscrowReclaimEvent {
+  owner: String!
+  escrow: String!
+  tokens: String!
 }
 
 # *****************************************************************************
