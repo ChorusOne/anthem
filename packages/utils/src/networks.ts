@@ -133,7 +133,7 @@ const NETWORKS: NetworksMap = {
     // supportsLedger: true,
     supportsLedger: false,
     supportsFiatPrices: false,
-    supportsBalances: true,
+    supportsBalances: false,
     supportsPortfolio: false,
     supportsTransactionsHistory: false,
   },
