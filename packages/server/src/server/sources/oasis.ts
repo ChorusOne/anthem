@@ -4,11 +4,14 @@ import {
   IQuery,
   NetworkDefinition,
 } from "@anthem/utils";
-import { logSentryMessage } from "src/tools/server-utils";
+import { logSentryMessage } from "../../tools/server-utils";
 import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
 
 /** ===========================================================================
  * Types & Config
+ * ----------------------------------------------------------------------------
+ * Reference:
+ * - https://github.com/ChorusOne/Hippias/blob/master/pkg/oasis/types.go
  * ============================================================================
  */
 
