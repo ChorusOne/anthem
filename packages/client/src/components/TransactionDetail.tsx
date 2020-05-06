@@ -10,12 +10,12 @@ import {
 import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
 import {
+  CosmosTransactionsProps,
   FiatPriceHistoryProps,
-  TransactionsProps,
   ValidatorsProps,
+  withCosmosTransactions,
   withFiatPriceHistory,
   withGraphQLVariables,
-  withTransactions,
   withValidators,
 } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
@@ -155,10 +155,8 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
     const { transactions } = this.props;
     let result = null;
 
-    if (transactions && transactions.transactionsPagination) {
-      result = transactions.transactionsPagination.data.find(
-        t => t.hash === hash,
-      );
+    if (transactions && transactions.cosmosTransactions) {
+      result = transactions.cosmosTransactions.data.find(t => t.hash === hash);
     }
 
     return result || null;
@@ -260,7 +258,7 @@ interface IProps
   extends ConnectProps,
     FiatPriceHistoryProps,
     ValidatorsProps,
-    TransactionsProps,
+    CosmosTransactionsProps,
     RouteComponentProps,
     ComponentProps {}
 
@@ -273,6 +271,6 @@ export default composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
   withValidators,
-  withTransactions,
+  withCosmosTransactions,
   withFiatPriceHistory,
 )(TransactionDetailLoadingContainer);
