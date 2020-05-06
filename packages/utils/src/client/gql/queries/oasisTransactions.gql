@@ -7,30 +7,28 @@ query oasisTransactions($address: String!, $startingPage: Float, $pageSize: Floa
             height
             type
             data{
+                ... on OasisBurnEvent {
+                    owner
+                    tokens
+                }
                 ... on OasisTransferEvent {
                     from
                     to
                     tokens
                 }
-                ... on OasisBurnEvent {
-                    data
-                }
-                ... on OasisEscrowEvent {
-                    data
-                }
-                ... on OasisStakingEvent {
-                    data
-                }
-                ... on OasisAddEscrowEvent {
+                ... on OasisEscrowAddEvent {
                     owner
                     escrow
                     tokens
                 }
-                ... on OasisTakeEscrowEvent {
-                    data
+                ... on OasisEscrowTakeEvent {
+                    owner
+                    tokens
                 }
-                ... on ReclaimEscrowEvent {
-                    data
+                ... on OasisEscrowReclaimEvent {
+                    owner
+                    escrow
+                    tokens
                 }
             }
         }
