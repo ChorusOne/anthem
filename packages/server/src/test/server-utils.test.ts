@@ -3,8 +3,8 @@ import {
   filterSanityCheckHeights,
   formatTransactionResponse,
   getAveragePrice,
+  hasKeys,
   mapSumToBalance,
-  objectHasKeys,
   standardizeTimestamps,
   validatePaginationParams,
 } from "../tools/server-utils";
@@ -51,13 +51,13 @@ describe("Utils test", () => {
 
   test("objectHasKeys", () => {
     const obj = { a: "a", b: "b", c: "c" };
-    let result = objectHasKeys(obj, ["a", "b", "c"]);
+    let result = hasKeys(obj, ["a", "b", "c"]);
     expect(result).toBeTruthy();
 
-    result = objectHasKeys(obj, ["a", "b"]);
+    result = hasKeys(obj, ["a", "b"]);
     expect(result).toBeTruthy();
 
-    result = objectHasKeys(obj, ["a", "b", "c", "d"]);
+    result = hasKeys(obj, ["a", "b", "c", "d"]);
     expect(result).toBeFalsy();
   });
 

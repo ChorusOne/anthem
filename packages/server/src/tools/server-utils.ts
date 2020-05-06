@@ -130,10 +130,7 @@ export const mapSumToBalance = (item: { sum: number }): { balance: number } => {
 /**
  * Verify an object contains all of the given keys.
  */
-export const objectHasKeys = (
-  obj: any,
-  keys: ReadonlyArray<string>,
-): boolean => {
+export const hasKeys = (obj: any, keys: ReadonlyArray<string>): boolean => {
   for (const key of keys) {
     if (!(key in obj)) {
       return false;

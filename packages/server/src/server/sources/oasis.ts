@@ -1,4 +1,5 @@
 import {
+  IDelegation,
   IOasisTransaction,
   IOasisTransactionType,
   IQuery,
@@ -87,19 +88,17 @@ const fetchAccountBalances = async (
     `${host}/account/${address}`,
   );
 
+  const { balance, delegations } = response;
+
   return {
     balance: [
       {
-        denom: "oasis",
-        amount: response.balance,
+        denom: network.denom,
+        amount: balance,
       },
     ],
     rewards: [],
-    delegations: response.delegations.map(d => ({
-      delegator_address: d.delegator,
-      validator_address: d.validator,
-      shares: d.amount,
-    })),
+    delegations: delegations.map(convertDelegations),
     unbonding: [],
     commissions: [],
   };
@@ -135,7 +134,20 @@ const fetchTransactions = async (
  */
 
 /**
- * Transform the original transaction records to match the GraphQL schema.
+ * Transform the delegations to match the expected GraphQL schema
+ * definition.
+ */
+const convertDelegations = (delegation: OasisDelegation): IDelegation => {
+  return {
+    delegator_address: delegation.delegator,
+    validator_address: delegation.validator,
+    shares: delegation.amount,
+  };
+};
+
+/**
+ * Transform the original transaction records to match the GraphQL schema
+ * definition.
  */
 const adaptOasisTransaction = (
   tx: OasisTransaction,

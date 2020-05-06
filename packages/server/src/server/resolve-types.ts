@@ -1,8 +1,8 @@
 import { IOasisTransactionEvent, IOasisTransactionType } from "@anthem/utils";
-import { objectHasKeys } from "../tools/server-utils";
+import { hasKeys } from "../tools/server-utils";
 
 /** ===========================================================================
- * __resolverType Methods
+ * Union Type Resolvers
  * ----------------------------------------------------------------------------
  * Helper resolvers for resolving union types.
  *
@@ -12,7 +12,7 @@ import { objectHasKeys } from "../tools/server-utils";
  */
 
 /**
- * Cosmos TxMsgValue resolver:
+ * Cosmos Transaction Resolver:
  */
 const TxMsgValue = {
   __resolveType(obj: any) {
@@ -21,7 +21,7 @@ const TxMsgValue = {
     }
 
     if (
-      objectHasKeys(obj, [
+      hasKeys(obj, [
         "amount",
         "delegator_address",
         "validator_src_address",
@@ -32,7 +32,7 @@ const TxMsgValue = {
     }
 
     if (
-      objectHasKeys(obj, [
+      hasKeys(obj, [
         "shares_amount",
         "delegator_address",
         "validator_src_address",
@@ -42,30 +42,28 @@ const TxMsgValue = {
       return "MsgBeginRedelegateLegacy";
     }
 
-    if (
-      objectHasKeys(obj, ["amount", "delegator_address", "validator_address"])
-    ) {
+    if (hasKeys(obj, ["amount", "delegator_address", "validator_address"])) {
       return "MsgDelegate";
     }
 
-    if (objectHasKeys(obj, ["delegator_address", "validator_address"])) {
+    if (hasKeys(obj, ["delegator_address", "validator_address"])) {
       return "MsgWithdrawDelegationReward";
     }
 
-    if (objectHasKeys(obj, ["delegator_address", "withdraw_address"])) {
+    if (hasKeys(obj, ["delegator_address", "withdraw_address"])) {
       return "MsgModifyWithdrawAddress";
     }
 
-    if (objectHasKeys(obj, ["validator_address"])) {
+    if (hasKeys(obj, ["validator_address"])) {
       return "MsgWithdrawValidatorCommission";
     }
 
-    if (objectHasKeys(obj, ["proposal_id", "voter", "option"])) {
+    if (hasKeys(obj, ["proposal_id", "voter", "option"])) {
       return "MsgVote";
     }
 
     if (
-      objectHasKeys(obj, [
+      hasKeys(obj, [
         "title",
         "description",
         "proposal_type",
