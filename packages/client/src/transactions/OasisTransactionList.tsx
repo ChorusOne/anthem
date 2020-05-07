@@ -1,11 +1,11 @@
-import { IOasisTransaction, ITransaction } from "@anthem/utils";
+import { IOasisTransaction } from "@anthem/utils";
 import { Button, H5 } from "@blueprintjs/core";
 import { Centered } from "components/SharedComponents";
 import Toast from "components/Toast";
 import React from "react";
 import styled from "styled-components";
-import { TransactionListProps } from "./CosmosTransactionContainer";
-import TransactionListItem from "./CosmosTransactionListItem";
+import { TransactionListProps } from "./OasisTransactionContainer";
+import OasisTransactionListItem from "./OasisTransactionListItem";
 
 /** ===========================================================================
  * React Component
@@ -71,14 +71,14 @@ class OasisTransactionList extends React.PureComponent<IProps> {
     const { t, tString, locale } = i18n;
     const { isDesktop, fiatCurrency } = settings;
     return (
-      <TransactionListItem
+      <OasisTransactionListItem
         t={t}
         locale={locale}
         tString={tString}
         address={address}
         network={network}
         isDesktop={isDesktop}
-        key={transaction.hash}
+        key={transaction.date}
         setAddress={setAddress}
         transaction={transaction}
         fiatCurrency={fiatCurrency}

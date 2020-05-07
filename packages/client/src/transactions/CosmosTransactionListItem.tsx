@@ -71,7 +71,7 @@ interface IProps extends TranslateMethodProps {
  * ============================================================================
  */
 
-class TransactionListItem extends React.PureComponent<IProps, {}> {
+class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   render(): Nullable<JSX.Element> {
     const { isDesktop, transaction } = this.props;
     const messages = this.getTransactionMessages(transaction);
@@ -658,4 +658,4 @@ const EventText = styled.p`
  * ============================================================================
  */
 
-export default TransactionListItem;
+export default CosmosTransactionListItem;
