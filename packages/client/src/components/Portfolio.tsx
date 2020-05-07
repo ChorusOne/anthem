@@ -167,13 +167,12 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     );
   }
 
-  componentWillReceiveProps(nextProps: IProps) {
-    if (this.props.fullSize && !nextProps.fullSize) {
+  componentDidUpdate(prevProps: IProps) {
+    // Redraw portfolio is switching back to regular size
+    if (prevProps.fullSize && !this.props.fullSize) {
       this.throttledPortfolioRedrawFunction(true);
     }
-  }
 
-  componentDidUpdate(prevProps: IProps) {
     // If address data or currencySetting changed, update the portfolio data
     if (
       prevProps.portfolioHistory !== this.props.portfolioHistory ||

@@ -65,7 +65,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
     this.setDashboardTabRoute();
   }
 
-  componentWillReceiveProps() {
+  componentDidUpdate() {
     /**
      * Update the current dashboard tab route whenever SideMenuComponent
      * re-renders.
@@ -330,7 +330,9 @@ class SideMenuComponent extends React.Component<IProps, IState> {
     let dashboardTab = "";
     if (onDashboard) {
       dashboardTab = pathname.replace("/dashboard", "");
-      this.setState({ dashboardRoute: dashboardTab });
+      if (dashboardTab !== this.state.dashboardRoute) {
+        this.setState({ dashboardRoute: dashboardTab });
+      }
     }
   };
 
