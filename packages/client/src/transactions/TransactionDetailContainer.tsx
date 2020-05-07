@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
-import AddressInputDashboardBar from "./AddressInputDashboardBar";
+import AddressInputDashboardBar from "../components/AddressInputDashboardBar";
 import CosmosTransactionDetail from "./CosmosTransactionDetail";
 
 /** ===========================================================================

@@ -3,7 +3,6 @@ import LedgerDialogComponents from "components/LedgerDialogWorkflow";
 import LogoutAlertComponent from "components/LogoutAlert";
 import NotificationsBanner from "components/NotificationsBanner";
 import SideMenuComponent from "components/SideMenu";
-import TransactionDetailContainer from "components/TransactionDetailContainer";
 import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
 import ENV from "lib/client-env";
@@ -24,6 +23,7 @@ import {
 } from "react-router-dom";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
+import TransactionDetailContainer from "transactions/TransactionDetailContainer";
 
 /** ===========================================================================
  * React Component

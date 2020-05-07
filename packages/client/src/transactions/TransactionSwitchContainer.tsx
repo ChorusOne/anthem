@@ -1,5 +1,4 @@
 import * as Sentry from "@sentry/browser";
-import CosmosTransactionListContainer from "components/CosmosTransactionContainer";
 import { Centered } from "components/SharedComponents";
 import {
   CosmosTransactionsProps,
@@ -12,6 +11,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
+import CosmosTransactionListContainer from "transactions/CosmosTransactionContainer";
 
 /** ===========================================================================
  * Types & Config

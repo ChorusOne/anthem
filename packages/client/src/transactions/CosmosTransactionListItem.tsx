@@ -44,7 +44,7 @@ import {
   ValidatorCreateOrEditMessageData,
   ValidatorModifyWithdrawAddressMessageData,
 } from "tools/transaction-utils";
-import AddressIconComponent from "./AddressIconComponent";
+import AddressIconComponent from "../components/AddressIconComponent";
 
 /** ===========================================================================
  * Types & Config

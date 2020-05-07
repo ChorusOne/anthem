@@ -17,7 +17,6 @@ import { KeyActionMap } from "components/KeyboardShortcutsPopover";
 import LoginStart from "components/LoginStart";
 import Portfolio from "components/Portfolio";
 import { Centered, View } from "components/SharedComponents";
-import TransactionSwitchContainer from "components/TransactionSwitchContainer";
 import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
 import {
@@ -41,6 +40,7 @@ import {
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { tFnString } from "tools/i18n-utils";
+import TransactionSwitchContainer from "transactions/TransactionSwitchContainer";
 
 /** ===========================================================================
  * Types & Config
