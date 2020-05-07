@@ -264,13 +264,13 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderTypeAndTimestamp = (data: TransactionItemProps["data"]) => {
     const { tString } = this.props;
-    const Icon = getTransactionTypeIcon(data.type);
+    const Icon = getCosmosTransactionTypeIcon(data.type);
     return (
       <TxRowItem style={{ minWidth: 230 }}>
         <IconBox>{Icon}</IconBox>
         <ContextBox>
           <TxText style={{ fontWeight: "bold" }}>
-            {getTransactionLabelFromType(data.type, tString)}
+            {getCosmosTransactionLabelFromType(data.type, tString)}
           </TxText>
           <TxText data-cy="transaction-timestamp">
             {formatDate(Number(data.timestamp))}{" "}
@@ -547,7 +547,7 @@ const ClickableEventRow = styled.div`
 /**
  * Return the icon for a given transaction type.
  */
-const getTransactionTypeIcon = (type: COSMOS_TRANSACTION_TYPES) => {
+const getCosmosTransactionTypeIcon = (type: COSMOS_TRANSACTION_TYPES) => {
   switch (type) {
     case COSMOS_TRANSACTION_TYPES.SEND:
       return <TxSendIcon />;
@@ -577,7 +577,7 @@ const getTransactionTypeIcon = (type: COSMOS_TRANSACTION_TYPES) => {
 /**
  * Convert a transaction type to its internationalized string label.
  */
-export const getTransactionLabelFromType = (
+export const getCosmosTransactionLabelFromType = (
   transactionType: COSMOS_TRANSACTION_TYPES,
   tString: tFnString,
 ): string => {

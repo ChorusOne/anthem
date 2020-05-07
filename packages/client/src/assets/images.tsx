@@ -149,6 +149,46 @@ export const TxWithdrawalStakeIcon = () => (
   />
 );
 
+export const OasisBurnIcon = () => (
+  <Image
+    width={32}
+    alt="Transfer"
+    src={require("../assets/transactions/send-icon.svg")}
+  />
+);
+
+export const OasisTransferIcon = () => (
+  <Image
+    width={32}
+    alt="Transfer"
+    src={require("../assets/transactions/change-validator.svg")}
+  />
+);
+
+export const OasisEscrowTakeIcon = () => (
+  <Image
+    width={32}
+    alt="Transfer"
+    src={require("../assets/transactions/stake-icon.svg")}
+  />
+);
+
+export const OasisEscrowAddIcon = () => (
+  <Image
+    width={32}
+    alt="Transfer"
+    src={require("../assets/transactions/reward-withdrawal.svg")}
+  />
+);
+
+export const OasisEscrowReclaimIcon = () => (
+  <Image
+    width={32}
+    alt="Transfer"
+    src={require("../assets/transactions/withdrawal-stake.svg")}
+  />
+);
+
 export const CopyIcon = () => (
   <Image
     width={22}

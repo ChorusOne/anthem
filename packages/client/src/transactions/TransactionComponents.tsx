@@ -1,4 +1,6 @@
-import { Button } from "@blueprintjs/core";
+import { Button, Colors } from "@blueprintjs/core";
+import { COLORS } from "constants/colors";
+import { IThemeProps } from "containers/ThemeContainer";
 import React from "react";
 import styled from "styled-components";
 
@@ -44,6 +46,7 @@ export const TransactionPaginationControls = (
 };
 
 const PaginationBar = styled.div`
+  margin-top: 20px;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -61,4 +64,85 @@ const PaginationText = styled.p`
 const AllResultsText = styled.p`
   font-size: 12px;
   margin: 0px;
+`;
+
+/** ===========================================================================
+ * Transaction List Item Components
+ * ============================================================================
+ */
+
+export const TransactionCardStyles = {
+  padding: 0,
+  borderRadius: 0,
+  marginBottom: 14,
+};
+
+export const EventRow = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  height: 70px;
+  padding-left: 16px;
+  padding-right: 16px;
+`;
+
+export const EventRowItem = styled.div`
+  min-width: 230px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: flex-start;
+`;
+
+export const EventText = styled.p`
+  margin: 0;
+  padding: 0;
+
+  color: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? COLORS.LIGHT_TEXT : COLORS.DARK_TEXT};
+`;
+
+export const EventIconBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  min-width: 32px;
+  height: 32px;
+
+  &:hover {
+    cursor: ${(props: { interactive?: boolean }) => {
+      return props.interactive ? "pointer" : "auto";
+    }};
+  }
+`;
+
+export const EventIcon = styled.img`
+  width: 32px;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+export const EventContextBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+export const ClickableEventRow = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding: 15px;
+  min-width: 230px;
+
+  &:hover {
+    cursor: pointer;
+    background: ${(props: { theme: IThemeProps }) => {
+      return props.theme.isDarkTheme ? Colors.DARK_GRAY2 : Colors.LIGHT_GRAY3;
+    }};
+  }
 `;

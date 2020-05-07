@@ -123,7 +123,7 @@ const fetchTransactions = async (
   return {
     page: 1,
     limit: 25,
-    moreResultsExist: true,
+    moreResultsExist: false,
     data: convertedTransactions,
   };
 };
