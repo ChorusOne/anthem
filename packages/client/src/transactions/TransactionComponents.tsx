@@ -95,12 +95,54 @@ export const EventRowItem = styled.div`
   justify-content: flex-start;
 `;
 
+export const EventRowBottom = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  height: 70px;
+  padding-left: 16px;
+  padding-right: 16px;
+
+  background: ${(props: { theme: IThemeProps }) => {
+    return props.theme.isDarkTheme ? Colors.DARK_GRAY3 : Colors.LIGHT_GRAY4;
+  }};
+`;
+
+export const TransactionFailedStatusBar = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  height: 25px;
+  padding-left: 16px;
+  padding-right: 16px;
+  background: ${COLORS.ERROR};
+`;
+
 export const EventText = styled.p`
   margin: 0;
   padding: 0;
 
   color: ${(props: { theme: IThemeProps }) =>
     props.theme.isDarkTheme ? COLORS.LIGHT_TEXT : COLORS.DARK_TEXT};
+`;
+
+export const EventDescriptionText = styled(EventText)`
+  width: 1000px;
+  min-width: 900px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
+
+export const TransactionLinkText = styled.p`
+  margin: 0;
+
+  color: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? COLORS.LIGHT_TEXT : COLORS.DARK_TEXT};
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export const EventIconBox = styled.div`
