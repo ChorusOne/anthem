@@ -16,7 +16,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
-import TransactionList from "./CosmosTransactionList";
+import CosmosTransactionList from "./CosmosTransactionList";
 
 /** ===========================================================================
  * React Component
@@ -41,7 +41,7 @@ class CosmosTransactionsContainer extends React.Component<IProps, {}> {
       >
         {() => {
           return (
-            <TransactionList
+            <CosmosTransactionList
               {...this.props}
               transactions={transactions.cosmosTransactions.data}
               moreResultsExist={

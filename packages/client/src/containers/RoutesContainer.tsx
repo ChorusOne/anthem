@@ -3,7 +3,7 @@ import LedgerDialogComponents from "components/LedgerDialogWorkflow";
 import LogoutAlertComponent from "components/LogoutAlert";
 import NotificationsBanner from "components/NotificationsBanner";
 import SideMenuComponent from "components/SideMenu";
-import TransactionDetail from "components/TransactionDetail";
+import TransactionDetailContainer from "components/TransactionDetailContainer";
 import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
 import ENV from "lib/client-env";
@@ -72,7 +72,11 @@ class RoutesContainer extends React.Component<IProps> {
               path="/dashboard/*"
               component={DashboardPage}
             />
-            <Route key={3} path="/txs/*" component={TransactionDetail} />
+            <Route
+              key={3}
+              path="/txs/*"
+              component={TransactionDetailContainer}
+            />
             {/* <Route key={4} path="/validators" component={ValidatorsListPage} /> */}
             <Route key={4} path="/help" component={HelpPage} />
             <Route key={5} path="/settings" component={SettingsPage} />

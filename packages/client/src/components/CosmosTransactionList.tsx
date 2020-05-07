@@ -22,7 +22,7 @@ import TransactionListItem from "./CosmosTransactionListItem";
  * ============================================================================
  */
 
-class TransactionList extends React.PureComponent<IProps> {
+class CosmosTransactionList extends React.PureComponent<IProps> {
   priceHistoryMap: PriceHistoryMap = {};
   validatorOperatorAddressMap: ValidatorOperatorAddressMap = {};
 
@@ -260,4 +260,4 @@ type IProps = ComponentProps;
  * ============================================================================
  */
 
-export default TransactionList;
+export default CosmosTransactionList;
