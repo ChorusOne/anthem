@@ -45,6 +45,13 @@ export const requestErrorHandler = (error: GraphQLError): GraphQLError => {
 };
 
 /**
+ * Send a message to Sentry.
+ */
+export const logSentryMessage = (message: string) => {
+  Sentry.captureMessage(message);
+};
+
+/**
  * Logger util for standard logging for server requests.
  */
 export const requestLogger = (
@@ -123,10 +130,7 @@ export const mapSumToBalance = (item: { sum: number }): { balance: number } => {
 /**
  * Verify an object contains all of the given keys.
  */
-export const objectHasKeys = (
-  obj: any,
-  keys: ReadonlyArray<string>,
-): boolean => {
+export const hasKeys = (obj: any, keys: ReadonlyArray<string>): boolean => {
   for (const key of keys) {
     if (!(key in obj)) {
       return false;

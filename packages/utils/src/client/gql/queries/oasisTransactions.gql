@@ -1,0 +1,41 @@
+query oasisTransactions($address: String!, $startingPage: Float, $pageSize: Float){
+    oasisTransactions(address: $address, startingPage: $startingPage, pageSize: $pageSize){
+        page
+        limit
+        data{
+            date
+            height
+            event{
+                ... on OasisBurnEvent {
+                    type
+                    owner
+                    tokens
+                }
+                ... on OasisTransferEvent {
+                    type
+                    from
+                    to
+                    tokens
+                }
+                ... on OasisEscrowAddEvent {
+                    type
+                    owner
+                    escrow
+                    tokens
+                }
+                ... on OasisEscrowTakeEvent {
+                    type
+                    owner
+                    tokens
+                }
+                ... on OasisEscrowReclaimEvent {
+                    type
+                    owner
+                    escrow
+                    tokens
+                }
+            }
+        }
+        moreResultsExist
+    }
+}

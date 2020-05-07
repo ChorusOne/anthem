@@ -33,6 +33,27 @@
             "name": "MsgWithdrawValidatorCommission"
           }
         ]
+      },
+      {
+        "kind": "UNION",
+        "name": "OasisTransactionEvent",
+        "possibleTypes": [
+          {
+            "name": "OasisBurnEvent"
+          },
+          {
+            "name": "OasisTransferEvent"
+          },
+          {
+            "name": "OasisEscrowAddEvent"
+          },
+          {
+            "name": "OasisEscrowTakeEvent"
+          },
+          {
+            "name": "OasisEscrowReclaimEvent"
+          }
+        ]
       }
     ]
   }
