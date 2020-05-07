@@ -1,9 +1,8 @@
 import { ITransaction } from "@anthem/utils";
-import { Button, H5 } from "@blueprintjs/core";
+import { H5 } from "@blueprintjs/core";
 import { Centered } from "components/SharedComponents";
 import Toast from "components/Toast";
 import React from "react";
-import styled from "styled-components";
 import {
   formatAddressString,
   getFiatPriceHistoryMap,
@@ -16,6 +15,7 @@ import {
 import { atomsToDenom, convertCryptoToFiat } from "tools/currency-utils";
 import { TransactionListProps } from "./CosmosTransactionContainer";
 import TransactionListItem from "./CosmosTransactionListItem";
+import { TransactionPaginationControls } from "./TransactionComponents";
 
 /** ===========================================================================
  * React Component
@@ -77,25 +77,12 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
           </Centered>
         )}
         {!isDetailView && TXS_EXIST && (
-          <PaginationBar>
-            {transactionsPage > 1 && (
-              <Button rightIcon="caret-left" onClick={this.pageBack}>
-                Prev
-              </Button>
-            )}
-            {moreResultsExist ? (
-              <PaginationText>Page {transactionsPage}</PaginationText>
-            ) : transactionsPage > 1 ? (
-              <PaginationText>Page {transactionsPage}</PaginationText>
-            ) : (
-              <AllResultsText>- All Results Displayed -</AllResultsText>
-            )}
-            {moreResultsExist && (
-              <Button icon="caret-right" onClick={this.pageForward}>
-                Next
-              </Button>
-            )}
-          </PaginationBar>
+          <TransactionPaginationControls
+            back={this.pageBack}
+            forward={this.pageForward}
+            page={transactionsPage}
+            moreResultsExist={!!moreResultsExist}
+          />
         )}
       </React.Fragment>
     );
@@ -215,31 +202,6 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
     );
   };
 }
-
-/** ===========================================================================
- * Styles
- * ============================================================================
- */
-
-const PaginationBar = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-`;
-
-const PaginationText = styled.p`
-  font-size: 14px;
-  margin: 0px;
-  margin-left: 8px;
-  margin-right: 8px;
-`;
-
-const AllResultsText = styled.p`
-  font-size: 12px;
-  margin: 0px;
-`;
 
 /** ===========================================================================
  * Props

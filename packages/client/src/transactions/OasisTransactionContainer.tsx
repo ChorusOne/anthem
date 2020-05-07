@@ -32,7 +32,6 @@ class OasisTransactionsContainer extends React.Component<IProps, {}> {
         results={[[transactions, "oasisTransactions"]]}
       >
         {() => {
-          console.log(transactions.oasisTransactions);
           return (
             <OasisTransactionList
               {...this.props}

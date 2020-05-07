@@ -29,7 +29,7 @@ interface IProps extends TranslateMethodProps {
 
 class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
   render(): Nullable<JSX.Element> {
-    const { isDesktop, transaction } = this.props;
+    const { transaction } = this.props;
     console.log(transaction);
     return <p>Oasis Transaction!</p>;
   }
