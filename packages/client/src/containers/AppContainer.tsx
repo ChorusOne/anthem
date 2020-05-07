@@ -62,9 +62,9 @@ class AppContainer extends React.Component<IProps, IState> {
     const maybeAddress = queryParams.address;
 
     if (maybeAddress === undefined) {
-      this.setAddressQueryParams(prevProps);
-    } else if (maybeAddress !== prevProps.ledger.address) {
-      this.setAddressQueryParams(prevProps);
+      this.setAddressQueryParams(this.props);
+    } else if (maybeAddress !== this.props.ledger.address) {
+      this.setAddressQueryParams(this.props);
     }
   }
 
@@ -96,15 +96,17 @@ class AppContainer extends React.Component<IProps, IState> {
   };
 
   setAddressQueryParams = (props: IProps) => {
-    const { transactionPage } = props;
+    const { location, transactionPage } = props;
     const { address } = props.ledger;
-    const { pathname } = props.location;
     // Only set the current address param if the user is on a /dashboard route.
-    if (!!address && onPath(pathname, "/dashboard")) {
-      this.props.history.push({
-        pathname: props.location.pathname,
-        search: `?address=${address}&page=${transactionPage}`,
-      });
+    if (!!address && onPath(location.pathname, "/dashboard")) {
+      const search = `?address=${address}&page=${transactionPage}`;
+      if (search !== location.search) {
+        this.props.history.push({
+          search,
+          pathname: props.location.pathname,
+        });
+      }
     }
   };
 

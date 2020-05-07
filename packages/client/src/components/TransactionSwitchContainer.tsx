@@ -65,9 +65,7 @@ class TransactionSwitchContainer extends React.Component<IProps, IState> {
       );
     }
 
-    const { i18n, ledger } = this.props;
-    const { tString } = i18n;
-    const { network } = ledger;
+    const { network } = this.props.ledger;
 
     if (!network.supportsTransactionsHistory) {
       return (
