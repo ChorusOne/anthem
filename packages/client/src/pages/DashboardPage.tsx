@@ -17,7 +17,7 @@ import { KeyActionMap } from "components/KeyboardShortcutsPopover";
 import LoginStart from "components/LoginStart";
 import Portfolio from "components/Portfolio";
 import { Centered, View } from "components/SharedComponents";
-import TransactionListContainer from "components/TransactionListContainer";
+import TransactionSwitchContainer from "components/TransactionSwitchContainer";
 import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
 import {
@@ -154,7 +154,7 @@ class DashboardPage extends React.Component<IProps, IState> {
               )}
             </Row>
             <TransactionsContainer fullSize={transactionExpanded}>
-              <TransactionListContainer />
+              <TransactionSwitchContainer />
             </TransactionsContainer>
           </View>
         )}

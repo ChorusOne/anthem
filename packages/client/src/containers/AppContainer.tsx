@@ -56,15 +56,15 @@ class AppContainer extends React.Component<IProps, IState> {
     Sentry.captureException(error);
   }
 
-  componentWillReceiveProps(nextProps: IProps) {
+  componentDidUpdate(prevProps: IProps) {
     // Update the address param in the url when the address changes.
-    const queryParams = getQueryParamsFromUrl(nextProps.location.search);
+    const queryParams = getQueryParamsFromUrl(prevProps.location.search);
     const maybeAddress = queryParams.address;
 
     if (maybeAddress === undefined) {
-      this.setAddressQueryParams(nextProps);
-    } else if (maybeAddress !== nextProps.ledger.address) {
-      this.setAddressQueryParams(nextProps);
+      this.setAddressQueryParams(prevProps);
+    } else if (maybeAddress !== prevProps.ledger.address) {
+      this.setAddressQueryParams(prevProps);
     }
   }
 
