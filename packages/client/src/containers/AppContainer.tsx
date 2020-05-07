@@ -56,15 +56,15 @@ class AppContainer extends React.Component<IProps, IState> {
     Sentry.captureException(error);
   }
 
-  componentWillReceiveProps(nextProps: IProps) {
+  componentDidUpdate(prevProps: IProps) {
     // Update the address param in the url when the address changes.
-    const queryParams = getQueryParamsFromUrl(nextProps.location.search);
+    const queryParams = getQueryParamsFromUrl(prevProps.location.search);
     const maybeAddress = queryParams.address;
 
     if (maybeAddress === undefined) {
-      this.setAddressQueryParams(nextProps);
-    } else if (maybeAddress !== nextProps.ledger.address) {
-      this.setAddressQueryParams(nextProps);
+      this.setAddressQueryParams(this.props);
+    } else if (maybeAddress !== this.props.ledger.address) {
+      this.setAddressQueryParams(this.props);
     }
   }
 
@@ -96,15 +96,17 @@ class AppContainer extends React.Component<IProps, IState> {
   };
 
   setAddressQueryParams = (props: IProps) => {
-    const { transactionPage } = props;
+    const { location, transactionPage } = props;
     const { address } = props.ledger;
-    const { pathname } = props.location;
     // Only set the current address param if the user is on a /dashboard route.
-    if (!!address && onPath(pathname, "/dashboard")) {
-      this.props.history.push({
-        pathname: props.location.pathname,
-        search: `?address=${address}&page=${transactionPage}`,
-      });
+    if (!!address && onPath(location.pathname, "/dashboard")) {
+      const search = `?address=${address}&page=${transactionPage}`;
+      if (search !== location.search) {
+        this.props.history.push({
+          search,
+          pathname: props.location.pathname,
+        });
+      }
     }
   };
 

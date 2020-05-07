@@ -1,14 +1,9 @@
-import * as Sentry from "@sentry/browser";
 import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
-import { Centered, DashboardLoader } from "components/SharedComponents";
+import { DashboardLoader } from "components/SharedComponents";
 import {
-  CosmosTransactionsProps,
-  FiatPriceHistoryProps,
-  ValidatorsProps,
-  withCosmosTransactions,
-  withFiatPriceHistory,
+  OasisTransactionsProps,
   withGraphQLVariables,
-  withValidators,
+  withOasisTransactions,
 } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
@@ -17,90 +12,31 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
-import TransactionList from "./TransactionList";
-
-/** ===========================================================================
- * Types & Config
- * ============================================================================
- */
-
-interface IState {
-  hasError: boolean;
-}
+import OasisTransactionList from "./OasisTransactionList";
 
 /** ===========================================================================
  * React Component
  * ============================================================================
  */
 
-class TransactionListContainer extends React.Component<IProps, IState> {
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true };
-  }
-
-  constructor(props: IProps) {
-    super(props);
-
-    this.state = {
-      hasError: false,
-    };
-  }
-
-  componentDidCatch(error: Error) {
-    // Log the error to Sentry.
-    Sentry.captureException(error);
-  }
-
+class OasisTransactionsContainer extends React.Component<IProps, {}> {
   render(): Nullable<JSX.Element> {
-    if (this.state.hasError) {
-      return (
-        <Centered>
-          <p style={{ fontSize: 16, fontWeight: 500 }}>
-            {this.props.i18n.tString("Error fetching data...")}
-          </p>
-        </Centered>
-      );
-    }
-
-    const {
-      i18n,
-      ledger,
-      validators,
-      transactions,
-      fiatPriceHistory,
-    } = this.props;
+    const { i18n, transactions } = this.props;
     const { tString } = i18n;
-    const { network } = ledger;
-
-    if (!network.supportsTransactionsHistory) {
-      return (
-        <Centered style={{ flexDirection: "column" }}>
-          <p>
-            <b>{network.name}</b> transaction history is not supported yet.
-          </p>
-        </Centered>
-      );
-    }
 
     return (
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
         loadingComponent={<DashboardLoader />}
         errorComponent={<DashboardError tString={tString} />}
-        results={[
-          [transactions, "cosmosTransactions"],
-          [validators, "validators"],
-          [fiatPriceHistory, "fiatPriceHistory"],
-        ]}
+        results={[[transactions, "oasisTransactions"]]}
       >
         {() => {
           return (
-            <TransactionList
+            <OasisTransactionList
               {...this.props}
-              transactions={transactions.cosmosTransactions.data}
-              moreResultsExist={
-                transactions.cosmosTransactions.moreResultsExist
-              }
+              transactions={transactions.oasisTransactions.data}
+              moreResultsExist={transactions.oasisTransactions.moreResultsExist}
             />
           );
         }}
@@ -137,14 +73,11 @@ interface ComponentProps {}
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
-export type TransactionListProps = ConnectProps &
-  FiatPriceHistoryProps &
-  ValidatorsProps &
-  RouteComponentProps;
+export type TransactionListProps = ConnectProps & RouteComponentProps;
 
 interface IProps
   extends TransactionListProps,
-    CosmosTransactionsProps,
+    OasisTransactionsProps,
     ComponentProps {}
 
 /** ===========================================================================
@@ -155,7 +88,5 @@ interface IProps
 export default composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
-  withValidators,
-  withCosmosTransactions,
-  withFiatPriceHistory,
-)(TransactionListContainer);
+  withOasisTransactions,
+)(OasisTransactionsContainer);

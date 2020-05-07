@@ -29,9 +29,6 @@ import {
   justFormatChainString,
   ValidatorOperatorAddressMap,
 } from "tools/client-utils";
-import { denomToAtoms, formatCurrencyAmount } from "tools/currency-utils";
-import { formatDate, formatTime } from "tools/date-utils";
-import { tFnString, TranslateMethodProps } from "tools/i18n-utils";
 import {
   COSMOS_TRANSACTION_TYPES,
   getHumanReadableMessageFromTransaction,
@@ -43,8 +40,24 @@ import {
   TransactionItemProps,
   ValidatorCreateOrEditMessageData,
   ValidatorModifyWithdrawAddressMessageData,
-} from "tools/transaction-utils";
-import AddressIconComponent from "./AddressIconComponent";
+} from "tools/cosmos-transaction-utils";
+import { denomToAtoms, formatCurrencyAmount } from "tools/currency-utils";
+import { formatDate, formatTime } from "tools/date-utils";
+import { tFnString, TranslateMethodProps } from "tools/i18n-utils";
+import AddressIconComponent from "../components/AddressIconComponent";
+import {
+  ClickableEventRow,
+  EventContextBox,
+  EventDescriptionText,
+  EventIcon,
+  EventIconBox,
+  EventRow,
+  EventRowBottom,
+  EventRowItem,
+  TransactionCardStyles,
+  TransactionFailedStatusBar,
+  TransactionLinkText,
+} from "./TransactionComponents";
 
 /** ===========================================================================
  * Types & Config
@@ -71,7 +84,7 @@ interface IProps extends TranslateMethodProps {
  * ============================================================================
  */
 
-class TransactionListItem extends React.PureComponent<IProps, {}> {
+class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   render(): Nullable<JSX.Element> {
     const { isDesktop, transaction } = this.props;
     const messages = this.getTransactionMessages(transaction);
@@ -109,7 +122,7 @@ class TransactionListItem extends React.PureComponent<IProps, {}> {
     const fees = getTxFee(transaction);
     const transactionFailedLog = getTransactionFailedLogMessage(transaction);
     return (
-      <Card style={cardStyles} elevation={Elevation.TWO}>
+      <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
         {transactionFailedLog && (
           <TransactionFailedStatusBar>
             <p style={{ margin: 0, color: COLORS.WHITE }}>
@@ -179,20 +192,20 @@ class TransactionListItem extends React.PureComponent<IProps, {}> {
     return (
       <EventRow data-cy="transaction-list-item">
         {this.renderTypeAndTimestamp(data)}
-        <TxRowItem>
-          <IconBox />
-          <ContextBox>
-            <TxText>{t("Voted")}</TxText>
-            <TxText style={{ fontWeight: "bold" }}>{option}</TxText>
-          </ContextBox>
-        </TxRowItem>
-        <TxRowItem>
-          <IconBox />
-          <ContextBox>
-            <TxText>{t("Proposal ID")}</TxText>
-            <TxText style={{ fontWeight: "bold" }}>{proposal_id}</TxText>
-          </ContextBox>
-        </TxRowItem>
+        <EventRowItem>
+          <EventIconBox />
+          <EventContextBox>
+            <EventText>{t("Voted")}</EventText>
+            <EventText style={{ fontWeight: "bold" }}>{option}</EventText>
+          </EventContextBox>
+        </EventRowItem>
+        <EventRowItem>
+          <EventIconBox />
+          <EventContextBox>
+            <EventText>{t("Proposal ID")}</EventText>
+            <EventText style={{ fontWeight: "bold" }}>{proposal_id}</EventText>
+          </EventContextBox>
+        </EventRowItem>
       </EventRow>
     );
   };
@@ -210,22 +223,24 @@ class TransactionListItem extends React.PureComponent<IProps, {}> {
           {this.renderAddressBox(proposer, "from")}
         </EventRow>
         <EventRow>
-          <TxRowItem>
-            <IconBox />
-            <ContextBox>
-              <TxText style={{ fontWeight: "bold" }}>{t("Title")}</TxText>
-              <TxText>{title}</TxText>
-            </ContextBox>
-          </TxRowItem>
+          <EventRowItem>
+            <EventIconBox />
+            <EventContextBox>
+              <EventText style={{ fontWeight: "bold" }}>{t("Title")}</EventText>
+              <EventText>{title}</EventText>
+            </EventContextBox>
+          </EventRowItem>
         </EventRow>
         <EventRow>
-          <TxRowItem style={{ width: 1000, minWidth: 900 }}>
-            <IconBox />
-            <ContextBox>
-              <TxText style={{ fontWeight: "bold" }}>{t("Description")}</TxText>
-              <DescriptionText>{description}</DescriptionText>
-            </ContextBox>
-          </TxRowItem>
+          <EventRowItem style={{ width: 1000, minWidth: 900 }}>
+            <EventIconBox />
+            <EventContextBox>
+              <EventText style={{ fontWeight: "bold" }}>
+                {t("Description")}
+              </EventText>
+              <EventDescriptionText>{description}</EventDescriptionText>
+            </EventContextBox>
+          </EventRowItem>
         </EventRow>
       </View>
     );
@@ -264,43 +279,43 @@ class TransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderTypeAndTimestamp = (data: TransactionItemProps["data"]) => {
     const { tString } = this.props;
-    const Icon = getTransactionTypeIcon(data.type);
+    const Icon = getCosmosTransactionTypeIcon(data.type);
     return (
-      <TxRowItem style={{ minWidth: 230 }}>
-        <IconBox>{Icon}</IconBox>
-        <ContextBox>
-          <TxText style={{ fontWeight: "bold" }}>
-            {getTransactionLabelFromType(data.type, tString)}
-          </TxText>
-          <TxText data-cy="transaction-timestamp">
+      <EventRowItem style={{ minWidth: 230 }}>
+        <EventIconBox>{Icon}</EventIconBox>
+        <EventContextBox>
+          <EventText style={{ fontWeight: "bold" }}>
+            {getCosmosTransactionLabelFromType(data.type, tString)}
+          </EventText>
+          <EventText data-cy="transaction-timestamp">
             {formatDate(Number(data.timestamp))}{" "}
             {formatTime(Number(data.timestamp))}
-          </TxText>
-        </ContextBox>
-      </TxRowItem>
+          </EventText>
+        </EventContextBox>
+      </EventRowItem>
     );
   };
 
   renderTransactionAmount = (amount: Nullable<string>, timestamp: string) => {
     if (!amount) {
-      return <TxRowItem style={{ minWidth: 275 }} />;
+      return <EventRowItem style={{ minWidth: 275 }} />;
     }
 
     const { fiatCurrency } = this.props;
     return (
-      <TxRowItem style={{ minWidth: 275 }}>
-        <IconBox>
-          <TxIcon src={CosmosLogo} />
-        </IconBox>
-        <ContextBox>
-          <TxText style={{ fontWeight: "bold" }}>
+      <EventRowItem style={{ minWidth: 275 }}>
+        <EventIconBox>
+          <EventIcon src={CosmosLogo} />
+        </EventIconBox>
+        <EventContextBox>
+          <EventText style={{ fontWeight: "bold" }}>
             {formatCurrencyAmount(denomToAtoms(amount))} ATOM
-          </TxText>
-          <TxText>
+          </EventText>
+          <EventText>
             {this.getFiatAmount(amount, timestamp)} {fiatCurrency.symbol}
-          </TxText>
-        </ContextBox>
-      </TxRowItem>
+          </EventText>
+        </EventContextBox>
+      </EventRowItem>
     );
   };
 
@@ -310,19 +325,19 @@ class TransactionListItem extends React.PureComponent<IProps, {}> {
         style={{ width: "auto" }}
         onClick={this.handleLinkToAddress(address)}
       >
-        <IconBox>
+        <EventIconBox>
           <AddressIconComponent
             address={address}
             networkName={this.props.network.name}
             validatorOperatorAddressMap={this.props.validatorOperatorAddressMap}
           />
-        </IconBox>
-        <ContextBox>
-          <TxText>{titleText}</TxText>
-          <TxText style={{ fontWeight: "bold" }}>
+        </EventIconBox>
+        <EventContextBox>
+          <EventText>{titleText}</EventText>
+          <EventText style={{ fontWeight: "bold" }}>
             {this.props.addressOrValidator(address)}
-          </TxText>
-        </ContextBox>
+          </EventText>
+        </EventContextBox>
       </ClickableEventRow>
     );
   };
@@ -332,19 +347,21 @@ class TransactionListItem extends React.PureComponent<IProps, {}> {
       <React.Fragment>
         <Tooltip position={Position.TOP} content="Click to copy hash">
           <ClickableEventRow onClick={() => copyTextToClipboard(hash)}>
-            <IconBox>
+            <EventIconBox>
               <LinkIcon />
-            </IconBox>
-            <ContextBox>
-              <TxText style={{ fontWeight: "bold" }}>Transaction Hash</TxText>
+            </EventIconBox>
+            <EventContextBox>
+              <EventText style={{ fontWeight: "bold" }}>
+                Transaction Hash
+              </EventText>
               <TransactionLinkText>{hash.slice(0, 15)}...</TransactionLinkText>
-            </ContextBox>
+            </EventContextBox>
           </ClickableEventRow>
         </Tooltip>
         <EventRow>
-          <IconBox />
+          <EventIconBox />
           <Row key={hash} data-cy="transaction-list-item">
-            <TxText>{justFormatChainString(chain)}</TxText>
+            <EventText>{justFormatChainString(chain)}</EventText>
           </Row>
         </EventRow>
       </React.Fragment>
@@ -359,23 +376,23 @@ class TransactionListItem extends React.PureComponent<IProps, {}> {
 
     return (
       <EventRowBottom>
-        <TxRowItem style={{ minWidth: 230 }}>
-          <IconBox />
-          <ContextBox>
-            <TxText style={{ fontWeight: "bold" }}>Block Height</TxText>
-            <TxText>{height}</TxText>
-          </ContextBox>
-        </TxRowItem>
-        <TxRowItem style={{ minWidth: 275 }}>
-          <IconBox />
-          <ContextBox>
-            <TxText style={{ fontWeight: "bold" }}>{t("Fees")}</TxText>
-            <TxText>
+        <EventRowItem style={{ minWidth: 230 }}>
+          <EventIconBox />
+          <EventContextBox>
+            <EventText style={{ fontWeight: "bold" }}>Block Height</EventText>
+            <EventText>{height}</EventText>
+          </EventContextBox>
+        </EventRowItem>
+        <EventRowItem style={{ minWidth: 275 }}>
+          <EventIconBox />
+          <EventContextBox>
+            <EventText style={{ fontWeight: "bold" }}>{t("Fees")}</EventText>
+            <EventText>
               {formatCurrencyAmount(atomFees, 6)} ATOM (
               {formatCurrencyAmount(fiatFees, 2)} {fiatCurrency.symbol})
-            </TxText>
-          </ContextBox>
-        </TxRowItem>
+            </EventText>
+          </EventContextBox>
+        </EventRowItem>
         {this.renderTransactionHashLink(hash, chain)}
       </EventRowBottom>
     );
@@ -426,128 +443,10 @@ class TransactionListItem extends React.PureComponent<IProps, {}> {
  * ============================================================================
  */
 
-const cardStyles = {
-  padding: 0,
-  borderRadius: 0,
-  marginBottom: 14,
-};
-
-const EventRow = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  height: 70px;
-  padding-left: 16px;
-  padding-right: 16px;
-`;
-
-const TransactionFailedStatusBar = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  height: 25px;
-  padding-left: 16px;
-  padding-right: 16px;
-  background: ${COLORS.ERROR};
-`;
-
-const EventRowBottom = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  height: 70px;
-  padding-left: 16px;
-  padding-right: 16px;
-
-  background: ${(props: { theme: IThemeProps }) => {
-    return props.theme.isDarkTheme ? Colors.DARK_GRAY3 : Colors.LIGHT_GRAY4;
-  }};
-`;
-
-const TxText = styled.p`
-  margin: 0;
-  padding: 0;
-
-  color: ${(props: { theme: IThemeProps }) =>
-    props.theme.isDarkTheme ? COLORS.LIGHT_TEXT : COLORS.DARK_TEXT};
-`;
-
-const DescriptionText = styled(TxText)`
-  width: 1000px;
-  min-width: 900px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-`;
-
-const TransactionLinkText = styled.p`
-  margin: 0;
-
-  color: ${(props: { theme: IThemeProps }) =>
-    props.theme.isDarkTheme ? COLORS.LIGHT_TEXT : COLORS.DARK_TEXT};
-
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
-const TxRowItem = styled.div`
-  min-width: 230px;
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: flex-start;
-`;
-
-const IconBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 12px;
-  min-width: 32px;
-  height: 32px;
-
-  &:hover {
-    cursor: ${(props: { interactive?: boolean }) => {
-      return props.interactive ? "pointer" : "auto";
-    }};
-  }
-`;
-
-const ContextBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
-
-const TxIcon = styled.img`
-  width: 32px;
-
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
-const ClickableEventRow = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  padding: 15px;
-  min-width: 230px;
-
-  &:hover {
-    cursor: pointer;
-    background: ${(props: { theme: IThemeProps }) => {
-      return props.theme.isDarkTheme ? Colors.DARK_GRAY2 : Colors.LIGHT_GRAY3;
-    }};
-  }
-`;
-
 /**
  * Return the icon for a given transaction type.
  */
-const getTransactionTypeIcon = (type: COSMOS_TRANSACTION_TYPES) => {
+const getCosmosTransactionTypeIcon = (type: COSMOS_TRANSACTION_TYPES) => {
   switch (type) {
     case COSMOS_TRANSACTION_TYPES.SEND:
       return <TxSendIcon />;
@@ -577,7 +476,7 @@ const getTransactionTypeIcon = (type: COSMOS_TRANSACTION_TYPES) => {
 /**
  * Convert a transaction type to its internationalized string label.
  */
-export const getTransactionLabelFromType = (
+export const getCosmosTransactionLabelFromType = (
   transactionType: COSMOS_TRANSACTION_TYPES,
   tString: tFnString,
 ): string => {
@@ -658,4 +557,4 @@ const EventText = styled.p`
  * ============================================================================
  */
 
-export default TransactionListItem;
+export default CosmosTransactionListItem;

@@ -21,7 +21,7 @@ import { connect } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
 import { formatAddressString, onPath } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
-import { TRANSACTION_STAGES } from "tools/transaction-utils";
+import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import CreateTransactionForm from "./CreateTransactionForm";
 import LoginSetup from "./LoginStart";
 import NetworkSelect from "./NetworkSelect";

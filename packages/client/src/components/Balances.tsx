@@ -3,8 +3,8 @@ import { IconNames } from "@blueprintjs/icons";
 import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
 import {
   Button,
-  Centered,
   DashboardLoader,
+  PanelMessageText,
   View,
 } from "components/SharedComponents";
 import { COLORS } from "constants/colors";
@@ -47,11 +47,9 @@ class Balance extends React.Component<IProps, {}> {
 
     if (!network.supportsBalances) {
       return (
-        <Centered style={{ flexDirection: "column", marginTop: -25 }}>
-          <p>
-            <b>{network.name}</b> balances are not supported yet.
-          </p>
-        </Centered>
+        <PanelMessageText>
+          <b>{network.name}</b> balances are not supported yet.
+        </PanelMessageText>
       );
     }
 

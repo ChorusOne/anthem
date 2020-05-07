@@ -17,7 +17,6 @@ import { KeyActionMap } from "components/KeyboardShortcutsPopover";
 import LoginStart from "components/LoginStart";
 import Portfolio from "components/Portfolio";
 import { Centered, View } from "components/SharedComponents";
-import TransactionListContainer from "components/TransactionListContainer";
 import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
 import {
@@ -41,6 +40,7 @@ import {
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { tFnString } from "tools/i18n-utils";
+import TransactionSwitchContainer from "transactions/TransactionSwitchContainer";
 
 /** ===========================================================================
  * Types & Config
@@ -115,10 +115,7 @@ class DashboardPage extends React.Component<IProps, IState> {
         {this.renderDashboardNavigationLinks()}
         {DISPLAY_PORTFOLIO && (
           <PortfolioBalanceView>
-            <Card
-              elevation={Elevation.TWO}
-              style={getPortfolioCardStyles(portfolioExpanded)}
-            >
+            <Card elevation={Elevation.TWO} style={getPortfolioCardStyles()}>
               <Row style={{ marginBottom: 10 }}>
                 <H5 style={{ margin: 0 }}>{tString("Portfolio")}</H5>
                 {isDesktop && (
@@ -154,7 +151,7 @@ class DashboardPage extends React.Component<IProps, IState> {
               )}
             </Row>
             <TransactionsContainer fullSize={transactionExpanded}>
-              <TransactionListContainer />
+              <TransactionSwitchContainer />
             </TransactionsContainer>
           </View>
         )}
@@ -373,7 +370,7 @@ const PortfolioBalanceView = styled.div`
     props.theme.isDesktop ? "row" : "column"};
 `;
 
-const getPortfolioCardStyles = (expanded: boolean) => ({
+const getPortfolioCardStyles = () => ({
   flex: 2,
   margin: 6,
   borderRadius: 0,

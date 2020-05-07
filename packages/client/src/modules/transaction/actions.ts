@@ -1,6 +1,6 @@
 import { ITransaction } from "@anthem/utils";
+import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { TxPostBody } from "tools/cosmos-utils";
-import { TRANSACTION_STAGES } from "tools/transaction-utils";
 import { ActionType, createStandardAction } from "typesafe-actions";
 
 /** ===========================================================================

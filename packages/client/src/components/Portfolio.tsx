@@ -41,6 +41,7 @@ import {
   Button,
   Centered,
   DashboardLoader,
+  PanelMessageText,
   Row,
   View,
 } from "./SharedComponents";
@@ -94,11 +95,9 @@ class PortfolioLoadingContainer extends React.PureComponent<
   render(): JSX.Element {
     if (this.state.hasError) {
       return (
-        <Centered>
-          <p style={{ fontSize: 16, fontWeight: 500 }}>
-            {this.props.i18n.tString("Error fetching data...")}
-          </p>
-        </Centered>
+        <PanelMessageText>
+          {this.props.i18n.tString("Error fetching data...")}
+        </PanelMessageText>
       );
     }
 
@@ -107,11 +106,9 @@ class PortfolioLoadingContainer extends React.PureComponent<
 
     if (!network.supportsPortfolio) {
       return (
-        <Centered style={{ flexDirection: "column", marginTop: -25 }}>
-          <p>
-            <b>{network.name}</b> portfolio is not supported yet.
-          </p>
-        </Centered>
+        <PanelMessageText>
+          <b>{network.name}</b> portfolio is not supported yet.
+        </PanelMessageText>
       );
     }
 
@@ -167,13 +164,12 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     );
   }
 
-  componentWillReceiveProps(nextProps: IProps) {
-    if (this.props.fullSize && !nextProps.fullSize) {
+  componentDidUpdate(prevProps: IProps) {
+    // Redraw portfolio is switching back to regular size
+    if (prevProps.fullSize && !this.props.fullSize) {
       this.throttledPortfolioRedrawFunction(true);
     }
-  }
 
-  componentDidUpdate(prevProps: IProps) {
     // If address data or currencySetting changed, update the portfolio data
     if (
       prevProps.portfolioHistory !== this.props.portfolioHistory ||

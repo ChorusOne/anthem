@@ -46,6 +46,7 @@ import {
   mapRewardsToAvailableRewards,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
+import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import {
   createDelegationTransactionMessage,
   createRewardsClaimTransaction,
@@ -57,7 +58,6 @@ import {
   formatCurrencyAmount,
 } from "tools/currency-utils";
 import { bold } from "tools/i18n-utils";
-import { TRANSACTION_STAGES } from "tools/transaction-utils";
 import { validateLedgerTransactionAmount } from "tools/validation-utils";
 import {
   Button,
