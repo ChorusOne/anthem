@@ -21,6 +21,7 @@ import { FiatCurrency } from "constants/fiat";
 import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
 import React from "react";
+import { formatAddressString } from "tools/client-utils";
 import { formatCurrencyAmount } from "tools/currency-utils";
 import { formatDate, formatTime } from "tools/date-utils";
 import { TranslateMethodProps } from "tools/i18n-utils";
@@ -155,7 +156,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
         <EventContextBox>
           <EventText>{titleText}</EventText>
           <EventText style={{ fontWeight: 100, fontSize: 12 }}>
-            {address}
+            {formatAddressString(address, true)}
           </EventText>
         </EventContextBox>
       </ClickableEventRow>
