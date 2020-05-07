@@ -94,12 +94,26 @@ export const identity = <T extends {}>(x: T): T => x;
  * Parse the query parameters from the current url.
  */
 export const getQueryParamsFromUrl = (paramString: string) => {
-  // TODO: How to handle Oasis addresses?
-  const addressSlice = paramString.replace("?address=", "");
-  const oasisProxy = addressSlice.length === 44;
-  if (oasisProxy) {
-    const result = { address: addressSlice };
-    return result as ParsedQuery<string>;
+  // Parse manually to check Oasis addresses, which can contain unusual characters
+  const qs = paramString.replace("?", "");
+  const pairs = qs.split("&");
+  const params: { [key: string]: string } = pairs.reduce((result, pair) => {
+    // Oasis address may have +, /, and = characters...
+    if (pair.includes("address=")) {
+      const address = pair.replace("address=", "");
+      return { ...result, address };
+    } else {
+      const [key, value] = pair.split("=");
+      return { ...result, [key]: value };
+    }
+  }, {});
+
+  if (!!params.address) {
+    const { address } = params;
+    const oasisAddressProxyTest = address.length === 44;
+    if (oasisAddressProxyTest) {
+      return params as ParsedQuery<string>;
+    }
   }
 
   return queryString.parse(paramString);
