@@ -1,7 +1,7 @@
 import { ITransaction } from "@anthem/utils";
 import { ENGLISH } from "i18n/english";
+import { getHumanReadableMessageFromTransaction } from "tools/cosmos-transaction-utils";
 import { tFn } from "tools/i18n-utils";
-import { getHumanReadableMessageFromTransaction } from "tools/transaction-utils";
 import { cosmosTransactions } from "../../../utils/src/client/data/cosmosTransactions.json";
 
 const txs = cosmosTransactions.data;

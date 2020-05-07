@@ -1,6 +1,6 @@
 import { ITransaction } from "@anthem/utils";
+import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { TransactionData, TxPostBody } from "tools/cosmos-utils";
-import { TRANSACTION_STAGES } from "tools/transaction-utils";
 import { createReducer } from "typesafe-actions";
 import AppActions, { ActionTypes as AppActionTypes } from "../app/actions";
 import LedgerActions, {

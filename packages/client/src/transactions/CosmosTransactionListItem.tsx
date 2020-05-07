@@ -29,9 +29,6 @@ import {
   justFormatChainString,
   ValidatorOperatorAddressMap,
 } from "tools/client-utils";
-import { denomToAtoms, formatCurrencyAmount } from "tools/currency-utils";
-import { formatDate, formatTime } from "tools/date-utils";
-import { tFnString, TranslateMethodProps } from "tools/i18n-utils";
 import {
   COSMOS_TRANSACTION_TYPES,
   getHumanReadableMessageFromTransaction,
@@ -43,7 +40,10 @@ import {
   TransactionItemProps,
   ValidatorCreateOrEditMessageData,
   ValidatorModifyWithdrawAddressMessageData,
-} from "tools/transaction-utils";
+} from "tools/cosmos-transaction-utils";
+import { denomToAtoms, formatCurrencyAmount } from "tools/currency-utils";
+import { formatDate, formatTime } from "tools/date-utils";
+import { tFnString, TranslateMethodProps } from "tools/i18n-utils";
 import AddressIconComponent from "../components/AddressIconComponent";
 
 /** ===========================================================================
