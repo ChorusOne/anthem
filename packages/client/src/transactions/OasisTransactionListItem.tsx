@@ -59,38 +59,42 @@ interface IProps extends TranslateMethodProps {
 
 class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
   render(): Nullable<JSX.Element> {
-    const { transaction } = this.props;
+    const { isDesktop } = this.props;
     return (
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
-        <EventRow>
-          {this.renderTypeAndTimestamp(transaction)}
-          {this.renderTransactionAmount(transaction.event.tokens)}
-          {this.renderAddressBlocks(transaction)}
+        <EventRow isDesktop={isDesktop}>
+          {this.renderTypeAndTimestamp()}
+          {this.renderTransactionAmount()}
+          {this.renderAddressBlocks()}
         </EventRow>
       </Card>
     );
   }
 
-  renderTypeAndTimestamp = (tx: IOasisTransaction) => {
-    const Icon = getOasisTransactionTypeIcon(tx.event.type);
+  renderTypeAndTimestamp = () => {
+    const { transaction, isDesktop } = this.props;
+    const Icon = getOasisTransactionTypeIcon(transaction.event.type);
     return (
-      <EventRowItem style={{ minWidth: 230 }}>
+      <EventRowItem style={{ minWidth: 275 }} isDesktop={isDesktop}>
         <EventIconBox>{Icon}</EventIconBox>
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>
-            {getOasisTransactionLabelFromType(tx.event.type)}
+            {getOasisTransactionLabelFromType(transaction.event.type)}
           </EventText>
           <EventText data-cy="transaction-timestamp">
-            {formatDate(Number(tx.date))} {formatTime(Number(tx.date))}
+            {formatDate(Number(transaction.date))}{" "}
+            {formatTime(Number(transaction.date))}
           </EventText>
         </EventContextBox>
       </EventRowItem>
     );
   };
 
-  renderTransactionAmount = (amount: string) => {
+  renderTransactionAmount = () => {
+    const { transaction, isDesktop } = this.props;
+    const amount = transaction.event.tokens;
     return (
-      <EventRowItem style={{ minWidth: 275 }}>
+      <EventRowItem style={{ minWidth: 275 }} isDesktop={isDesktop}>
         <EventIconBox>
           <EventIcon src={OasisLogo} />
         </EventIconBox>
@@ -102,16 +106,17 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderAddressBlocks = (tx: IOasisTransaction) => {
-    const { type } = tx.event;
+  renderAddressBlocks = () => {
+    const { transaction } = this.props;
+    const { type } = transaction.event;
     switch (type) {
       case IOasisTransactionType.EscrowTake:
       case IOasisTransactionType.Burn: {
-        const event = tx.event as IOasisBurnEvent;
+        const event = transaction.event as IOasisBurnEvent;
         return this.renderAddressBox(event.owner, "Owner");
       }
       case IOasisTransactionType.Transfer: {
-        const event = tx.event as IOasisTransferEvent;
+        const event = transaction.event as IOasisTransferEvent;
         return (
           <>
             {this.renderAddressBox(event.from, "From")}
@@ -121,7 +126,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
       }
       case IOasisTransactionType.EscrowAdd:
       case IOasisTransactionType.EscrowReclaim: {
-        const event = tx.event as IOasisEscrowAddEvent;
+        const event = transaction.event as IOasisEscrowAddEvent;
         return (
           <>
             {this.renderAddressBox(event.owner, "Owner")}

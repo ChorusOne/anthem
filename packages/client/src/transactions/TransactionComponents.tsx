@@ -77,22 +77,39 @@ export const TransactionCardStyles = {
   marginBottom: 14,
 };
 
-export const EventRow = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  height: 70px;
+export const EventRow = styled.div<{ isDesktop?: boolean }>`
   padding-left: 16px;
   padding-right: 16px;
+  display: flex;
+  align-items: center;
+  height: ${props => (props.isDesktop ? 70 : "auto")};
+  flex-direction: ${props => (props.isDesktop ? "row" : "column")};
 `;
 
-export const EventRowItem = styled.div`
-  min-width: 230px;
-  padding: 15px;
+export const EventRowItem = styled.div<{ isDesktop?: boolean }>`
   display: flex;
   align-items: center;
   flex-direction: row;
-  justify-content: flex-start;
+  padding: 15px;
+  min-width: 230px;
+  padding-left: ${props => (props.isDesktop ? 15 : 0)};
+  padding-right: ${props => (props.isDesktop ? 15 : 0)};
+  width: ${props => (props.isDesktop ? "auto" : "100%")};
+`;
+
+export const ClickableEventRow = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding: 15px;
+  min-width: 230px;
+
+  &:hover {
+    cursor: pointer;
+    background: ${(props: { theme: IThemeProps }) => {
+      return props.theme.isDarkTheme ? Colors.DARK_GRAY2 : Colors.LIGHT_GRAY3;
+    }};
+  }
 `;
 
 export const EventRowBottom = styled.div`
@@ -172,19 +189,4 @@ export const EventContextBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-`;
-
-export const ClickableEventRow = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  padding: 15px;
-  min-width: 230px;
-
-  &:hover {
-    cursor: pointer;
-    background: ${(props: { theme: IThemeProps }) => {
-      return props.theme.isDarkTheme ? Colors.DARK_GRAY2 : Colors.LIGHT_GRAY3;
-    }};
-  }
 `;
