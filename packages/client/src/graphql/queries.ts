@@ -6,6 +6,7 @@ import {
   FiatCurrenciesDocument,
   FiatPriceHistoryDocument,
   IQuery,
+  OasisTransactionsDocument,
   PortfolioHistoryDocument,
   PricesDocument,
   RewardsByValidatorDocument,
@@ -254,7 +255,7 @@ export const withAccountInformation = graphql(AccountInformationDocument, {
 });
 
 /**
- * Transactions with Pagination
+ * Cosmos Transactions
  */
 
 interface CosmosTransactionsQueryResult extends QueryResult {
@@ -267,6 +268,24 @@ export interface CosmosTransactionsProps {
 }
 
 export const withCosmosTransactions = graphql(CosmosTransactionsDocument, {
+  name: "transactions",
+  ...noPollingConfig(["address", "startingPage"]),
+});
+
+/**
+ * Oasis Transactions
+ */
+
+interface OasisTransactionsQueryResult extends QueryResult {
+  data: void;
+  oasisTransactions: IQuery["oasisTransactions"];
+}
+
+export interface OasisTransactionsProps {
+  transactions: OasisTransactionsQueryResult;
+}
+
+export const withOasisTransactions = graphql(OasisTransactionsDocument, {
   name: "transactions",
   ...noPollingConfig(["address", "startingPage"]),
 });
