@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/browser";
+import CosmosTransactionListContainer from "components/CosmosTransactionContainer";
 import { Centered } from "components/SharedComponents";
-import TransactionListContainer from "components/TransactionListContainer";
 import {
   CosmosTransactionsProps,
   FiatPriceHistoryProps,
@@ -79,7 +79,7 @@ class TransactionSwitchContainer extends React.Component<IProps, IState> {
 
     switch (network.name) {
       case "COSMOS":
-        return <TransactionListContainer />;
+        return <CosmosTransactionListContainer />;
       case "OASIS":
         return null;
       default:

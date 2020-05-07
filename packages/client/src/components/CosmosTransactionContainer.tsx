@@ -16,7 +16,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
-import TransactionList from "./TransactionList";
+import TransactionList from "./CosmosTransactionList";
 
 /** ===========================================================================
  * React Component

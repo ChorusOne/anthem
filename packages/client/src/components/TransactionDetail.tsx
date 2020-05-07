@@ -27,7 +27,7 @@ import { RouteComponentProps } from "react-router";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 import AddressInputDashboardBar from "./AddressInputDashboardBar";
-import TransactionList from "./TransactionList";
+import TransactionList from "./CosmosTransactionList";
 
 /** ===========================================================================
  * React Component

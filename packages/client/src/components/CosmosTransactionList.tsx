@@ -14,8 +14,8 @@ import {
   ValidatorOperatorAddressMap,
 } from "tools/client-utils";
 import { atomsToDenom, convertCryptoToFiat } from "tools/currency-utils";
-import { TransactionListProps } from "./TransactionListContainer";
-import TransactionListItem from "./TransactionListItem";
+import { TransactionListProps } from "./CosmosTransactionContainer";
+import TransactionListItem from "./CosmosTransactionListItem";
 
 /** ===========================================================================
  * React Component
