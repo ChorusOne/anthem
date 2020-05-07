@@ -12,6 +12,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
+import OasisTransactionList from "./OasisTransactionList";
 
 /** ===========================================================================
  * React Component
@@ -32,16 +33,13 @@ class OasisTransactionsContainer extends React.Component<IProps, {}> {
       >
         {() => {
           console.log(transactions.oasisTransactions);
-          return null;
-          // return (
-          //   <CosmosTransactionList
-          //     {...this.props}
-          //     transactions={transactions.oasisTransactions.data}
-          //     moreResultsExist={
-          //       transactions.oasisTransactions.moreResultsExist
-          //     }
-          //   />
-          // );
+          return (
+            <OasisTransactionList
+              {...this.props}
+              transactions={transactions.oasisTransactions.data}
+              moreResultsExist={transactions.oasisTransactions.moreResultsExist}
+            />
+          );
         }}
       </GraphQLGuardComponentMultipleQueries>
     );
