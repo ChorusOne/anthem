@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/browser";
-import { Centered } from "components/SharedComponents";
+import { Centered, PanelMessageText } from "components/SharedComponents";
 import {
   CosmosTransactionsProps,
   FiatPriceHistoryProps,
@@ -59,9 +59,9 @@ class TransactionSwitchContainer extends React.Component<IProps, IState> {
     if (this.state.hasError) {
       return (
         <Centered>
-          <p style={{ fontSize: 16, fontWeight: 500 }}>
+          <PanelMessageText>
             {this.props.i18n.tString("Error fetching data...")}
-          </p>
+          </PanelMessageText>
         </Centered>
       );
     }
@@ -70,11 +70,9 @@ class TransactionSwitchContainer extends React.Component<IProps, IState> {
 
     if (!network.supportsTransactionsHistory) {
       return (
-        <Centered style={{ flexDirection: "column" }}>
-          <p>
-            <b>{network.name}</b> transaction history is not supported yet.
-          </p>
-        </Centered>
+        <PanelMessageText>
+          <b>{network.name}</b> transaction history is not supported yet.
+        </PanelMessageText>
       );
     }
 

@@ -115,10 +115,7 @@ class DashboardPage extends React.Component<IProps, IState> {
         {this.renderDashboardNavigationLinks()}
         {DISPLAY_PORTFOLIO && (
           <PortfolioBalanceView>
-            <Card
-              elevation={Elevation.TWO}
-              style={getPortfolioCardStyles(portfolioExpanded)}
-            >
+            <Card elevation={Elevation.TWO} style={getPortfolioCardStyles()}>
               <Row style={{ marginBottom: 10 }}>
                 <H5 style={{ margin: 0 }}>{tString("Portfolio")}</H5>
                 {isDesktop && (
@@ -373,7 +370,7 @@ const PortfolioBalanceView = styled.div`
     props.theme.isDesktop ? "row" : "column"};
 `;
 
-const getPortfolioCardStyles = (expanded: boolean) => ({
+const getPortfolioCardStyles = () => ({
   flex: 2,
   margin: 6,
   borderRadius: 0,
