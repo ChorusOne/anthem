@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@anthem/utils": "^0.0.1",
+    "@celo/contractkit": "^0.4.4",
     "@ledgerhq/hw-app-eth": "^5.14.0",
     "@ledgerhq/hw-transport-u2f": "^5.13.1",
     "@lunie/cosmos-ledger": "0.1.7",
