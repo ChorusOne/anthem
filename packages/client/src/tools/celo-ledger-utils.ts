@@ -1,7 +1,11 @@
+import { newKitFromWeb3 } from "@celo/contractkit";
 import Eth from "@ledgerhq/hw-app-eth";
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
+
+// Debug:
+console.log(`typeof newKitFromWeb3: ${typeof newKitFromWeb3}`);
 
 /** ===========================================================================
  * Celo Ledger Utils
