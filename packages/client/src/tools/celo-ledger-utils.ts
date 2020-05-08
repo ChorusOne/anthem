@@ -1,11 +1,19 @@
 import { newKitFromWeb3 } from "@celo/contractkit";
+import { newLedgerWalletWithSetup } from "@celo/contractkit/lib/wallets/ledger-wallet";
 import Eth from "@ledgerhq/hw-app-eth";
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
+import Web3 from "web3";
+
+const web3 = new Web3("https://baklava-forno.celo-testnet.org");
+
+// @ts-ignore
+const kit = newKitFromWeb3(web3, newLedgerWalletWithSetup(Eth));
 
 // Debug:
-console.log(`typeof newKitFromWeb3: ${typeof newKitFromWeb3}`);
+console.log("@celo/contract kit:");
+console.log(kit);
 
 /** ===========================================================================
  * Celo Ledger Utils
