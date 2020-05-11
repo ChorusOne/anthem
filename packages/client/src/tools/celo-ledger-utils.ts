@@ -68,6 +68,10 @@ const getKit = async () => {
       // @ts-ignore
       const kit = newKitFromWeb3(web3, newLedgerWalletWithSetup(eth.transport));
 
+      const goldTokenContract = await kit.contracts.getGoldToken();
+      const balance = await goldTokenContract.balanceOf(address);
+      console.log(balance.toString());
+
       // Init Kit
       CELO_KIT.init(kit, eth, address);
 
