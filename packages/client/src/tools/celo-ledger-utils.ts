@@ -1,7 +1,10 @@
+import { newKitFromWeb3 } from "@celo/contractkit";
+import { newLedgerWalletWithSetup } from "@celo/contractkit/lib/wallets/ledger-wallet";
 import Eth from "@ledgerhq/hw-app-eth";
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
+import Web3 from "web3";
 
 /** ===========================================================================
  * Celo Ledger Utils
@@ -28,16 +31,48 @@ const getCeloLedgerTransport = () => {
   throw new Error(LEDGER_ERRORS.BROWSER_NOT_SUPPORTED);
 };
 
+const getKit = async () => {
+  console.log("Getting Web3");
+  const web3 = new Web3("https://baklava-forno.celo-testnet.org");
+
+  console.log("Getting Transport");
+  const transport = await getCeloLedgerTransport();
+
+  const eth = new Eth(transport);
+  console.log("Eth:");
+  console.log(eth);
+
+  // @ts-ignore
+  const kit = newKitFromWeb3(web3, newLedgerWalletWithSetup(eth.transport));
+
+  // Debug:
+  try {
+    console.log("KIT:");
+    console.log(kit);
+
+    console.log("Getting balances:");
+    const addresses = await kit.getTotalBalance(
+      "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2",
+    );
+    console.log(addresses);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 /**
  * Connect to the Celo Ledger App and retrieve the account address.
  */
 export const connectCeloAddress = async () => {
   try {
-    const transport = await getCeloLedgerTransport();
-    const eth = new Eth(transport);
-    const { address } = await eth.getAddress("44'/52752'/0'/0/1", true);
-    console.log(`Got Celo Address! ${address}`);
-    return address;
+    console.log("GETTING KIT");
+    await getKit();
+    // const transport = await getCeloLedgerTransport();
+    // const eth = new Eth(transport);
+    // const { address } = await eth.getAddress("44'/52752'/0'/0/1", true);
+    // console.log(`Got Celo Address! ${address}`);
+    // return address;
+    return "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2";
   } catch (error) {
     // Escalate the error. Try to identify and handle screensaver mode errors.
     if (error.message === "Invalid channel") {
