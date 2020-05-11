@@ -1,6 +1,6 @@
 import { ITransaction } from "@anthem/utils";
 import { ENGLISH } from "i18n/english";
-import { getHumanReadableMessageFromTransaction } from "tools/cosmos-transaction-utils";
+import { transformCosmosTransactionToRenderElements } from "tools/cosmos-transaction-utils";
 import { tFn } from "tools/i18n-utils";
 import { cosmosTransactions } from "../../../utils/src/client/data/cosmosTransactions.json";
 
@@ -65,7 +65,7 @@ describe("transaction-utils", () => {
       .filter(Boolean) as ReadonlyArray<ITransaction>;
 
     for (const testTx of testTxs) {
-      const result = getHumanReadableMessageFromTransaction({
+      const result = transformCosmosTransactionToRenderElements({
         t,
         tString,
         msgIndex: 0,

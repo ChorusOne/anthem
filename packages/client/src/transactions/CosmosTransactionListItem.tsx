@@ -3,7 +3,7 @@ import {
   ITransaction,
   NetworkDefinition,
 } from "@anthem/utils";
-import { Card, Colors, Elevation, Position, Tooltip } from "@blueprintjs/core";
+import { Card, Elevation, Position, Tooltip } from "@blueprintjs/core";
 import { CosmosLogo } from "assets/icons";
 import {
   LinkIcon,
@@ -17,12 +17,9 @@ import {
 import { Row, View } from "components/SharedComponents";
 import { COLORS } from "constants/colors";
 import { FiatCurrency } from "constants/fiat";
-import { IThemeProps } from "containers/ThemeContainer";
 import { ILocale } from "i18n/catalog";
-import Analytics from "lib/analytics-lib";
 import Modules from "modules/root";
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import {
   copyTextToClipboard,
@@ -31,13 +28,13 @@ import {
 } from "tools/client-utils";
 import {
   COSMOS_TRANSACTION_TYPES,
-  getHumanReadableMessageFromTransaction,
+  CosmosTransactionItemData,
   getTransactionFailedLogMessage,
   getTxFee,
   GovernanceSubmitProposalMessageData,
   GovernanceVoteMessageData,
   TransactionItemData,
-  TransactionItemProps,
+  transformCosmosTransactionToRenderElements,
   ValidatorCreateOrEditMessageData,
   ValidatorModifyWithdrawAddressMessageData,
 } from "tools/cosmos-transaction-utils";
@@ -86,24 +83,17 @@ interface IProps extends TranslateMethodProps {
 
 class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   render(): Nullable<JSX.Element> {
-    const { isDesktop, transaction } = this.props;
+    const { transaction } = this.props;
     const messages = this.getTransactionMessages(transaction);
-
     return this.renderTransaction(transaction, messages);
-
-    // return isDesktop
-    //   ? this.renderTransaction(transaction, messages)
-    //   : this.renderMobileTransactionView(transaction, messages);
   }
 
   getTransactionMessages = (transaction: ITransaction) => {
     const { t, address, tString, network } = this.props;
-    let results: ReadonlyArray<TransactionItemProps> = [];
+    let results: ReadonlyArray<CosmosTransactionItemData> = [];
 
     for (let i = 0; i < transaction.msgs.length; i++) {
-      const result = getHumanReadableMessageFromTransaction({
-        t,
-        tString,
+      const result = transformCosmosTransactionToRenderElements({
         address,
         transaction,
         msgIndex: i,
@@ -119,7 +109,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderTransaction = (
     transaction: ITransaction,
-    messages: ReadonlyArray<TransactionItemProps>,
+    messages: ReadonlyArray<CosmosTransactionItemData>,
   ) => {
     const fees = getTxFee(transaction);
     const transactionFailedLog = getTransactionFailedLogMessage(transaction);
@@ -137,7 +127,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
             </p>
           </TransactionFailedStatusBar>
         )}
-        {messages.map(({ data }, index) => {
+        {messages.map((data, index) => {
           return (
             <View key={`${transaction.hash}${index}`}>
               {this.renderMessage(data)}
@@ -149,7 +139,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderMessage = (data: TransactionItemProps["data"]) => {
+  renderMessage = (data: CosmosTransactionItemData) => {
     if (data.type === COSMOS_TRANSACTION_TYPES.SUBMIT_PROPOSAL) {
       return this.renderGovernanceSubmitProposalTransaction(
         data as GovernanceSubmitProposalMessageData,
@@ -279,7 +269,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderTypeAndTimestamp = (data: TransactionItemProps["data"]) => {
+  renderTypeAndTimestamp = (data: CosmosTransactionItemData) => {
     const { tString } = this.props;
     const Icon = getCosmosTransactionTypeIcon(data.type);
     return (
@@ -407,35 +397,6 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderMobileTransactionView = (
-    transaction: ITransaction,
-    messages: ReadonlyArray<TransactionItemProps>,
-  ) => {
-    const { hash, timestamp } = transaction;
-    return (
-      <Link to={`/txs/${hash}`} onClick={Analytics.openTransactionDetails}>
-        <EventRowMobile key={hash} data-cy="transaction-list-item">
-          <View style={{ minWidth: 150 }}>
-            <EventTimestamp
-              style={{ color: Colors.GRAY3 }}
-              data-cy="transaction-timestamp"
-            >
-              {formatDate(Number(timestamp))}
-            </EventTimestamp>
-          </View>
-          <EventText
-            style={{ color: Colors.GRAY3 }}
-            data-cy="transaction-message"
-          >
-            {messages.map((msg, i) => (
-              <span key={i}>{msg.text}</span>
-            ))}
-          </EventText>
-        </EventRowMobile>
-      </Link>
-    );
-  };
-
   getFiatAmount = (amount: string, timestamp: string) => {
     return formatCurrencyAmount(
       this.props.getFiatPriceForTransaction(timestamp, denomToAtoms(amount)),
@@ -518,43 +479,6 @@ export const getCosmosTransactionLabelFromType = (
       return assertUnreachable(transactionType);
   }
 };
-
-/** ===========================================================================
- * Mobile
- * ============================================================================
- */
-
-const EventRowMobile = styled.div`
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  background: ${(props: { theme: IThemeProps }) => {
-    return props.theme.isDarkTheme ? Colors.DARK_GRAY4 : Colors.LIGHT_GRAY3;
-  }};
-
-  &:nth-child(2n + 1) {
-    background: ${(props: { theme: IThemeProps }) => {
-      return props.theme.isDarkTheme ? Colors.DARK_GRAY3 : Colors.LIGHT_GRAY4;
-    }};
-  }
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-`;
-
-const EventTimestamp = styled.p`
-  margin: 0;
-  padding: 0;
-  font-size: 12px;
-  font-weight: bold;
-
-  @media (max-width: 768px) {
-    margin-bottom: 8px;
-  }
-`;
 
 const EventText = styled.p`
   margin: 0;
