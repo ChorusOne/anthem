@@ -1,7 +1,5 @@
 import { ITransaction } from "@anthem/utils";
-import { ENGLISH } from "i18n/english";
-import { getHumanReadableMessageFromTransaction } from "tools/cosmos-transaction-utils";
-import { tFn } from "tools/i18n-utils";
+import { transformCosmosTransactionToRenderElements } from "tools/cosmos-transaction-utils";
 import { cosmosTransactions } from "../../../utils/src/client/data/cosmosTransactions.json";
 
 const txs = cosmosTransactions.data;
@@ -39,13 +37,6 @@ const txsByType: TxTypeMap = txs.reduce(
 
 describe("transaction-utils", () => {
   test.skip("getHumanReadableMessageFromTransaction", () => {
-    /**
-     * TODO: Refactor these to test helpers.
-     */
-    const mockT = (s: string, vars: { [key: string]: any }) => [s, vars];
-    const t = (mockT as unknown) as tFn;
-    const tString = (...text: ENGLISH) => String(text);
-
     const txTypes: ReadonlyArray<string> = [
       "cosmos-sdk/MsgDelegate",
       "cosmos-sdk/MsgSend",
@@ -65,9 +56,7 @@ describe("transaction-utils", () => {
       .filter(Boolean) as ReadonlyArray<ITransaction>;
 
     for (const testTx of testTxs) {
-      const result = getHumanReadableMessageFromTransaction({
-        t,
-        tString,
+      const result = transformCosmosTransactionToRenderElements({
         msgIndex: 0,
         denom: "uatom",
         transaction: testTx,

@@ -77,33 +77,32 @@ export const TransactionCardStyles = {
   marginBottom: 14,
 };
 
-export const EventRow = styled.div<{ isDesktop?: boolean }>`
+export const EventRow = styled.div`
   padding-left: 16px;
   padding-right: 16px;
   display: flex;
   align-items: center;
-  height: ${props => (props.isDesktop ? 70 : "auto")};
-  flex-direction: ${props => (props.isDesktop ? "row" : "column")};
+  height: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDesktop ? 70 : "auto"};
+  flex-direction: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDesktop ? "row" : "column"};
 `;
 
-export const EventRowItem = styled.div<{ isDesktop?: boolean }>`
+export const EventRowItem = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
   padding: 15px;
   min-width: 230px;
-  padding-left: ${props => (props.isDesktop ? 15 : 0)};
-  padding-right: ${props => (props.isDesktop ? 15 : 0)};
-  width: ${props => (props.isDesktop ? "auto" : "100%")};
+  padding-left: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDesktop ? 15 : 0};
+  padding-right: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDesktop ? 15 : 0};
+  width: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDesktop ? "auto" : "100%"};
 `;
 
-export const ClickableEventRow = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  padding: 15px;
-  min-width: 230px;
-
+export const ClickableEventRow = styled(EventRowItem)`
   &:hover {
     cursor: pointer;
     background: ${(props: { theme: IThemeProps }) => {
@@ -112,14 +111,7 @@ export const ClickableEventRow = styled.div`
   }
 `;
 
-export const EventRowBottom = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  height: 70px;
-  padding-left: 16px;
-  padding-right: 16px;
-
+export const EventRowBottom = styled(EventRow)`
   background: ${(props: { theme: IThemeProps }) => {
     return props.theme.isDarkTheme ? Colors.DARK_GRAY3 : Colors.LIGHT_GRAY4;
   }};
