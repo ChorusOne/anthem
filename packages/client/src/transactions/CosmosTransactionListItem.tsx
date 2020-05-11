@@ -346,27 +346,33 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderTransactionHashLink = (hash: string, chain: string) => {
+    const TxHashLink = (
+      <ClickableEventRow onClick={() => copyTextToClipboard(hash)}>
+        <EventIconBox>
+          <LinkIcon />
+        </EventIconBox>
+        <EventContextBox>
+          <EventText style={{ fontWeight: "bold" }}>Transaction Hash</EventText>
+          <TransactionLinkText>{hash.slice(0, 15)}...</TransactionLinkText>
+        </EventContextBox>
+      </ClickableEventRow>
+    );
+
     return (
       <React.Fragment>
-        <Tooltip position={Position.TOP} content="Click to copy hash">
-          <ClickableEventRow onClick={() => copyTextToClipboard(hash)}>
-            <EventIconBox>
-              <LinkIcon />
-            </EventIconBox>
-            <EventContextBox>
-              <EventText style={{ fontWeight: "bold" }}>
-                Transaction Hash
-              </EventText>
-              <TransactionLinkText>{hash.slice(0, 15)}...</TransactionLinkText>
-            </EventContextBox>
-          </ClickableEventRow>
-        </Tooltip>
-        <EventRow>
+        {this.props.isDesktop ? (
+          <Tooltip position={Position.TOP} content="Click to copy hash">
+            {TxHashLink}
+          </Tooltip>
+        ) : (
+          TxHashLink
+        )}
+        <EventRowItem>
           <EventIconBox />
           <Row key={hash} data-cy="transaction-list-item">
             <EventText>{justFormatChainString(chain)}</EventText>
           </Row>
-        </EventRow>
+        </EventRowItem>
       </React.Fragment>
     );
   };

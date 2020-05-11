@@ -111,14 +111,7 @@ export const ClickableEventRow = styled(EventRowItem)`
   }
 `;
 
-export const EventRowBottom = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  height: 70px;
-  padding-left: 16px;
-  padding-right: 16px;
-
+export const EventRowBottom = styled(EventRow)`
   background: ${(props: { theme: IThemeProps }) => {
     return props.theme.isDarkTheme ? Colors.DARK_GRAY3 : Colors.LIGHT_GRAY4;
   }};
