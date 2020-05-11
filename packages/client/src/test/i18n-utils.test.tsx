@@ -45,7 +45,8 @@ describe("i18nContainer utils", () => {
 
     expect(() => {
       const text = "Confirm to submit your transaction to {{network}}.";
-      const args = { network: "COSMOS" };
+      const args = { network: <b>COSMOS</b> };
+      // @ts-ignore
       tEnglish(text, args);
     }).toThrow();
   });

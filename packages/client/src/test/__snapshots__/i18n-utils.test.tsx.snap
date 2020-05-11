@@ -3,31 +3,10 @@
 exports[`i18nContainer utils createTranslationMethodFromLocale 1`] = `
 Array [
   <span>
-    Voted “
+    Warning! Transaction failed, log: 
   </span>,
   <span>
-    <b>
-      Yes
-    </b>
-  </span>,
-  <span>
-    ” on governance proposal 
-  </span>,
-  <span>
-    <b>
-      5
-    </b>
-  </span>,
-  <span>
-    . Fees spent: 
-  </span>,
-  <span>
-    <b>
-      235531
-    </b>
-  </span>,
-  <span>
-     ATOM.
+    FAILED!
   </span>,
 ]
 `;
@@ -35,31 +14,10 @@ Array [
 exports[`i18nContainer utils createTranslationMethodFromLocale 2`] = `
 Array [
   <span>
-    Voted “
+    Warnung! Transaktion fehlgeschlagen, Log:
   </span>,
   <span>
-    <b>
-      Yes
-    </b>
-  </span>,
-  <span>
-    ” on governance proposal 
-  </span>,
-  <span>
-    <b>
-      5
-    </b>
-  </span>,
-  <span>
-    . Fees spent: 
-  </span>,
-  <span>
-    <b>
-      235531
-    </b>
-  </span>,
-  <span>
-     ATOM.
+    FAILED!
   </span>,
 ]
 `;
