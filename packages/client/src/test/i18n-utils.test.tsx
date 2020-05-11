@@ -17,12 +17,9 @@ describe("i18nContainer utils", () => {
       catalogs["en-US"].catalog,
     );
 
-    const text =
-      "Voted “{{option}}” on governance proposal {{proposalId}}. Fees spent: {{fees}} ATOM.";
+    const text = "Warning! Transaction failed, log: {{transactionFailedLog}}";
     const args = {
-      proposalId: <b>5</b>,
-      option: <b>Yes</b>,
-      fees: <b>235531</b>,
+      transactionFailedLog: "FAILED!",
     };
 
     const english = tEnglish(text, args);
@@ -47,14 +44,8 @@ describe("i18nContainer utils", () => {
     expect(typeof german).toBe("string");
 
     expect(() => {
-      const text =
-        "Voted “{{option}}” on governance proposal {{proposalId}}. Fees spent: {{fees}} ATOM.";
-      const args = {
-        proposalId: <b>5</b>,
-        option: <b>Yes</b>,
-        fees: <b>235531</b>,
-      };
-
+      const text = "Confirm to submit your transaction to {{network}}.";
+      const args = { network: "COSMOS" };
       tEnglish(text, args);
     }).toThrow();
   });
