@@ -31,32 +31,53 @@ const getCeloLedgerTransport = () => {
   throw new Error(LEDGER_ERRORS.BROWSER_NOT_SUPPORTED);
 };
 
+const CELO_KIT = {
+  address: "",
+  initialized: false,
+  kit: null,
+  eth: null,
+
+  init(kit: any, eth: any, address: string) {
+    this.kit = kit;
+    this.eth = eth;
+    this.address = address;
+    this.initialized = true;
+  },
+
+  get() {
+    return {
+      kit: this.kit,
+      eth: this.eth,
+      address: this.address,
+    };
+  },
+};
+
 const getKit = async () => {
-  console.log("Getting Web3");
-  const web3 = new Web3("https://baklava-forno.celo-testnet.org");
-
-  console.log("Getting Transport");
-  const transport = await getCeloLedgerTransport();
-
-  const eth = new Eth(transport);
-  console.log("Eth:");
-  console.log(eth);
-
-  // @ts-ignore
-  const kit = newKitFromWeb3(web3, newLedgerWalletWithSetup(eth.transport));
-
   // Debug:
   try {
-    console.log("KIT:");
-    console.log(kit);
+    if (CELO_KIT.initialized) {
+      const { kit, eth, address } = CELO_KIT.get();
+    } else {
+      const web3 = new Web3("https://baklava-forno.celo-testnet.org");
+      const transport = await getCeloLedgerTransport();
+      const eth = new Eth(transport);
+      const { address } = await eth.getAddress("44'/52752'/0'/0/1", true);
+      console.log(`Got Celo Address! ${address}`);
 
-    console.log("Getting balances:");
-    const addresses = await kit.getTotalBalance(
-      "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2",
-    );
-    console.log(addresses);
+      // @ts-ignore
+      const kit = newKitFromWeb3(web3, newLedgerWalletWithSetup(eth.transport));
+
+      // Init Kit
+      CELO_KIT.init(kit, eth, address);
+
+      const balances = await kit.getTotalBalance(address);
+      console.log(balances);
+      return address;
+    }
   } catch (err) {
     console.log(err);
+    throw err;
   }
 };
 
@@ -65,14 +86,8 @@ const getKit = async () => {
  */
 export const connectCeloAddress = async () => {
   try {
-    console.log("GETTING KIT");
-    await getKit();
-    // const transport = await getCeloLedgerTransport();
-    // const eth = new Eth(transport);
-    // const { address } = await eth.getAddress("44'/52752'/0'/0/1", true);
-    // console.log(`Got Celo Address! ${address}`);
-    // return address;
-    return "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2";
+    const address = await getKit();
+    return address;
   } catch (error) {
     // Escalate the error. Try to identify and handle screensaver mode errors.
     if (error.message === "Invalid channel") {
