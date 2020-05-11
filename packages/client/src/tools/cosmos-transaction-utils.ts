@@ -13,9 +13,7 @@ import {
   IMsgWithdrawValidatorCommission,
   ITransaction,
 } from "@anthem/utils";
-import { tFn, tFnString } from "tools/i18n-utils";
 import { formatAddressString } from "./client-utils";
-import { bold } from "./i18n-utils";
 import { addValuesInList } from "./math-utils";
 
 /** ===========================================================================
@@ -89,15 +87,12 @@ export interface ValidatorModifyWithdrawAddressMessageData {
   validatorAddress: string | null;
 }
 
-export interface TransactionItemProps {
-  text: ReadonlyArray<JSX.Element> | string;
-  data:
-    | TransactionItemData
-    | GovernanceVoteMessageData
-    | GovernanceSubmitProposalMessageData
-    | ValidatorCreateOrEditMessageData
-    | ValidatorModifyWithdrawAddressMessageData;
-}
+export type CosmosTransactionItemData =
+  | TransactionItemData
+  | GovernanceVoteMessageData
+  | GovernanceSubmitProposalMessageData
+  | ValidatorCreateOrEditMessageData
+  | ValidatorModifyWithdrawAddressMessageData;
 
 /** ===========================================================================
  * Utils
@@ -467,180 +462,64 @@ const getChangeWithdrawAddressMessage = (
  * Primary method to handle converting a transaction to the relevant data
  * and text to render.
  */
-export const getHumanReadableMessageFromTransaction = ({
-  t,
-  tString,
+export const transformCosmosTransactionToRenderElements = ({
   address,
   transaction,
   msgIndex,
   denom,
 }: {
-  t: tFn;
   address: string;
   msgIndex: number;
   denom: COIN_DENOMS;
-  tString: tFnString;
   transaction: ITransaction;
-}): TransactionItemProps => {
+}): CosmosTransactionItemData => {
   const TX_TYPE = transaction.msgs[msgIndex].type as COSMOS_TRANSACTION_TYPES;
 
   switch (TX_TYPE) {
-    case COSMOS_TRANSACTION_TYPES.RECEIVE: /* NOTE: Receive is not a real type */
+    // NOTE: Receive is not a real type
+    case COSMOS_TRANSACTION_TYPES.RECEIVE:
     case COSMOS_TRANSACTION_TYPES.SEND: {
-      const data = getTransactionSendMessage(transaction, address, msgIndex);
-      const text = t(
-        "{{transactionType}} {{amount}} ATOM from {{recipient}} to {{sender}} with a fee of {{fee}} ATOM.",
-        {
-          transactionType:
-            data.fromAddress === address
-              ? tString("Sent")
-              : tString("Received"),
-          sender: bold(formatAddressString(data.fromAddress, true)),
-          recipient: bold(formatAddressString(data.toAddress, true)),
-          amount: bold(data.amount || "Undetermined"),
-          fee: bold(data.fees),
-        },
-      );
-      return { text, data };
+      return getTransactionSendMessage(transaction, address, msgIndex);
     }
 
     case COSMOS_TRANSACTION_TYPES.DELEGATE: {
-      const data = getDelegationTransactionMessage(transaction, msgIndex);
-      const text = t(
-        "Delegated {{delegationAmount}} ATOM to validator {{validatorAddress}}. Fees spent: {{fees}} ATOM.",
-        {
-          fees: bold(data.fees),
-          delegationAmount: bold(formatAddressString(data.fromAddress, true)),
-          validatorAddress: bold(formatAddressString(data.toAddress, true)),
-        },
-      );
-      return { text, data };
+      return getDelegationTransactionMessage(transaction, msgIndex);
     }
 
     case COSMOS_TRANSACTION_TYPES.VOTE: {
-      const data = getGovernanceVoteMessage(transaction, msgIndex);
-      const text = t(
-        "Voted “{{option}}” on governance proposal {{proposalId}}. Fees spent: {{fees}} ATOM.",
-        {
-          fees: bold(data.fees),
-          option: bold(data.option),
-          proposalId: bold(data.proposal_id),
-        },
-      );
-      return { text, data };
+      return getGovernanceVoteMessage(transaction, msgIndex);
     }
 
     case COSMOS_TRANSACTION_TYPES.UNDELEGATE: {
-      const data = getUndelegateMessage(transaction, msgIndex);
-      const text = t(
-        "Unbonded {{amount}} ATOM from validator {{validatorAddress}}. Fees spent: {{fees}} ATOM.",
-        {
-          fees: bold(data.fees),
-          amount: bold(data.amount || "Undetermined"),
-          validatorAddress: bold(formatAddressString(data.fromAddress, true)),
-        },
-      );
-      return { text, data };
+      return getUndelegateMessage(transaction, msgIndex);
     }
 
     case COSMOS_TRANSACTION_TYPES.SUBMIT_PROPOSAL: {
-      const data = getGovernanceSubmitProposalMessage(transaction, msgIndex);
-      const text = t(
-        "Governance proposal submitted by proposer {{proposer}} entitled {{title}} with a deposit of {{deposit}}",
-        {
-          proposer: bold(data.proposer),
-          deposit: bold(data.deposit),
-          title: bold(data.title),
-        },
-      );
-      return { text, data };
+      return getGovernanceSubmitProposalMessage(transaction, msgIndex);
     }
 
     case COSMOS_TRANSACTION_TYPES.BEGIN_REDELEGATE: {
-      const data = getRedelegateMessageData(transaction, msgIndex);
-      const text = t(
-        "Redelegated from validator {{sourceValidator}} to {{destinationValidator}}. Fees spent: {{fees}} ATOM.",
-        {
-          fees: bold(data.fees),
-          sourceValidator: bold(formatAddressString(data.fromAddress, true)),
-          destinationValidator: bold(formatAddressString(data.toAddress, true)),
-        },
-      );
-      return { text, data };
+      return getRedelegateMessageData(transaction, msgIndex);
     }
 
     case COSMOS_TRANSACTION_TYPES.CLAIM_REWARDS: {
-      const data = getClaimRewardsMessageData(transaction, msgIndex, denom);
-      const text = t(
-        "Withdrew {{rewards}} ATOM rewards from validator {{validatorAddress}}. Fees spent: {{fees}} ATOM",
-        {
-          fees: bold(data.fees),
-          amount: bold(data.amount || "Undetermined"),
-          validatorAddress: bold(formatAddressString(data.fromAddress, true)),
-        },
-      );
-      return { text, data };
+      return getClaimRewardsMessageData(transaction, msgIndex, denom);
     }
 
     case COSMOS_TRANSACTION_TYPES.CLAIM_COMMISSION: {
-      const data = getValidatorClaimRewardsMessageData(
-        transaction,
-        msgIndex,
-        denom,
-      );
-      const text = t(
-        "Withdrew {{rewards}} ATOM rewards from validator {{validatorAddress}}. Fees spent: {{fees}} ATOM",
-        {
-          fees: bold(data.fees),
-          amount: bold(data.amount || "Undetermined"),
-          validatorAddress: bold(formatAddressString(data.fromAddress, true)),
-        },
-      );
-      return { text, data };
+      return getValidatorClaimRewardsMessageData(transaction, msgIndex, denom);
     }
 
     case COSMOS_TRANSACTION_TYPES.CREATE_VALIDATOR: {
-      const data = getValidatorCreateOrEditMessage(transaction, msgIndex);
-      const text = t(
-        "Created validator with address {{validatorAddress}}. Fees spent: {{fees}} ATOM.",
-        {
-          fees: bold(data.fees),
-          validatorAddress: bold(
-            formatAddressString(data.validatorAddress, true),
-          ),
-        },
-      );
-      return { text, data };
+      return getValidatorCreateOrEditMessage(transaction, msgIndex);
     }
 
     case COSMOS_TRANSACTION_TYPES.EDIT_VALIDATOR: {
-      const data = getValidatorCreateOrEditMessage(transaction, msgIndex);
-      const text = t(
-        "Edited validator with address {{validatorAddress}}. Fees spent: {{fees}} ATOM.",
-        {
-          fees: bold(data.fees),
-          validatorAddress: bold(
-            formatAddressString(data.validatorAddress, true),
-          ),
-        },
-      );
-      return { text, data };
+      return getValidatorCreateOrEditMessage(transaction, msgIndex);
     }
 
     case COSMOS_TRANSACTION_TYPES.MODIFY_WITHDRAW_ADDRESS: {
-      const data = getChangeWithdrawAddressMessage(transaction, msgIndex);
-      const text =
-        "Modified withdraw address for validator, new address: {{withdrawAddress}}. Fees spent: {{fees}} ATOM.";
-      // const text = t(
-      //   "Modified withdraw address for validator, new address: {{withdrawAddress}}. Fees spent: {{fees}} ATOM.",
-      //   {
-      //     fees: bold(data.fees),
-      //     withdrawAddress: bold(
-      //       formatAddressString(data.withdrawAddress, true),
-      //     ),
-      //   },
-      // );
-      return { text, data };
+      return getChangeWithdrawAddressMessage(transaction, msgIndex);
     }
 
     default:

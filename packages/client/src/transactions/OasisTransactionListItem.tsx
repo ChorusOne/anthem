@@ -60,10 +60,9 @@ interface IProps extends TranslateMethodProps {
 
 class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
   render(): Nullable<JSX.Element> {
-    const { isDesktop } = this.props;
     return (
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
-        <EventRow isDesktop={isDesktop}>
+        <EventRow>
           {this.renderTypeAndTimestamp()}
           {this.renderTransactionAmount()}
           {this.renderAddressBlocks()}
@@ -73,10 +72,10 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
   }
 
   renderTypeAndTimestamp = () => {
-    const { transaction, isDesktop } = this.props;
+    const { transaction } = this.props;
     const Icon = getOasisTransactionTypeIcon(transaction.event.type);
     return (
-      <EventRowItem style={{ minWidth: 275 }} isDesktop={isDesktop}>
+      <EventRowItem style={{ minWidth: 275 }}>
         <EventIconBox>{Icon}</EventIconBox>
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>
@@ -92,10 +91,10 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderTransactionAmount = () => {
-    const { transaction, isDesktop } = this.props;
+    const { transaction } = this.props;
     const amount = transaction.event.tokens;
     return (
-      <EventRowItem style={{ minWidth: 275 }} isDesktop={isDesktop}>
+      <EventRowItem style={{ minWidth: 275 }}>
         <EventIconBox>
           <EventIcon src={OasisLogo} />
         </EventIconBox>
@@ -142,10 +141,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderAddressBox = (address: string, titleText: string) => {
     return (
-      <ClickableEventRow
-        style={{ width: "auto" }}
-        onClick={this.handleLinkToAddress(address)}
-      >
+      <ClickableEventRow onClick={this.handleLinkToAddress(address)}>
         <EventIconBox>
           <AddressIconComponent
             address={address}
