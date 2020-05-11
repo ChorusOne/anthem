@@ -35,7 +35,7 @@ Array [
 exports[`i18nContainer utils createTranslationMethodFromLocale 2`] = `
 Array [
   <span>
-    “
+    Voted “
   </span>,
   <span>
     <b>
@@ -43,7 +43,7 @@ Array [
     </b>
   </span>,
   <span>
-    ” bei der Abstimmung 
+    ” on governance proposal 
   </span>,
   <span>
     <b>
@@ -51,7 +51,7 @@ Array [
     </b>
   </span>,
   <span>
-     abgestimmt. Gezahlte Gebühr: 
+    . Fees spent: 
   </span>,
   <span>
     <b>

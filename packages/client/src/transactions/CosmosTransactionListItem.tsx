@@ -89,7 +89,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   }
 
   getTransactionMessages = (transaction: ITransaction) => {
-    const { t, address, tString, network } = this.props;
+    const { address, network } = this.props;
     let results: ReadonlyArray<CosmosTransactionItemData> = [];
 
     for (let i = 0; i < transaction.msgs.length; i++) {
