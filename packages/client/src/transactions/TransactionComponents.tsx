@@ -102,13 +102,7 @@ export const EventRowItem = styled.div`
     props.theme.isDesktop ? "auto" : "100%"};
 `;
 
-export const ClickableEventRow = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  padding: 15px;
-  min-width: 230px;
-
+export const ClickableEventRow = styled(EventRowItem)`
   &:hover {
     cursor: pointer;
     background: ${(props: { theme: IThemeProps }) => {

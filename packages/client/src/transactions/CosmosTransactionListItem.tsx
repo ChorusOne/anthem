@@ -89,9 +89,11 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     const { isDesktop, transaction } = this.props;
     const messages = this.getTransactionMessages(transaction);
 
-    return isDesktop
-      ? this.renderTransaction(transaction, messages)
-      : this.renderMobileTransactionView(transaction, messages);
+    return this.renderTransaction(transaction, messages);
+
+    // return isDesktop
+    //   ? this.renderTransaction(transaction, messages)
+    //   : this.renderMobileTransactionView(transaction, messages);
   }
 
   getTransactionMessages = (transaction: ITransaction) => {
@@ -298,7 +300,11 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderTransactionAmount = (amount: Nullable<string>, timestamp: string) => {
     if (!amount) {
-      return <EventRowItem style={{ minWidth: 275 }} />;
+      if (this.props.isDesktop) {
+        return <EventRowItem style={{ minWidth: 275 }} />;
+      } else {
+        return null;
+      }
     }
 
     const { fiatCurrency } = this.props;
@@ -321,10 +327,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderAddressBox = (address: string, titleText: string) => {
     return (
-      <ClickableEventRow
-        style={{ width: "auto" }}
-        onClick={this.handleLinkToAddress(address)}
-      >
+      <ClickableEventRow onClick={this.handleLinkToAddress(address)}>
         <EventIconBox>
           <AddressIconComponent
             address={address}

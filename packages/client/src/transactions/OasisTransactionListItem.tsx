@@ -141,10 +141,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderAddressBox = (address: string, titleText: string) => {
     return (
-      <ClickableEventRow
-        style={{ width: "auto" }}
-        onClick={this.handleLinkToAddress(address)}
-      >
+      <ClickableEventRow onClick={this.handleLinkToAddress(address)}>
         <EventIconBox>
           <AddressIconComponent
             address={address}
