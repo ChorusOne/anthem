@@ -2,6 +2,7 @@ import axios from "axios";
 import express from "express";
 import { logger } from "../tools/server-utils";
 import { AxiosUtil, getHostFromNetworkName } from "./axios-utils";
+import { getAllTransactions } from "./sources/cosmos-extractor";
 
 /** ===========================================================================
  * Types & Config
@@ -62,6 +63,20 @@ Router.post("/poll-tx", async (req, res) => {
     logger.error(err, true);
     res.status(400);
     res.send(formatLcdRequestError(err));
+  }
+});
+
+// API to download all transaction history as JSON
+Router.get("/tx-history/:address", async (req, res) => {
+  try {
+    const { address } = req.params;
+    console.log(`Fetching transaction history for address: ${address}`);
+    const txs = await getAllTransactions(address);
+    console.log(`Received ${txs.length} results`);
+    return res.json(txs);
+  } catch (err) {
+    res.status(400);
+    res.send(err);
   }
 });
 
