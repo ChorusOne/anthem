@@ -18,6 +18,12 @@ import Web3 from "web3";
  * ============================================================================
  */
 
+const Alfajores = "https://alfajores-forno.celo-testnet.org";
+const Baklava = "https://baklava-forno.celo-testnet.org";
+
+const ADDRESS_1 = "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2";
+const ADDRESS_2 = "0x40981A4e814c03F3791bd5267DD1D2b62F8F4211";
+
 /**
  * Handle getting the Celo Ledger transport.
  */
@@ -59,17 +65,43 @@ const getKit = async () => {
     if (CELO_KIT.initialized) {
       const { kit, eth, address } = CELO_KIT.get();
     } else {
-      const web3 = new Web3("https://baklava-forno.celo-testnet.org");
+      const web3 = new Web3(Alfajores);
       const transport = await getCeloLedgerTransport();
       const eth = new Eth(transport);
-      const { address } = await eth.getAddress("44'/52752'/0'/0/1", true);
+      const { address } = await eth.getAddress("44'/52752'/0'/0/2", true);
       console.log(`Got Celo Address! ${address}`);
 
+      const wallet = await newLedgerWalletWithSetup(eth.transport);
+      console.log(wallet);
+
       // @ts-ignore
-      const kit = newKitFromWeb3(web3, newLedgerWalletWithSetup(eth.transport));
+      const kit = newKitFromWeb3(web3, wallet);
 
       const goldTokenContract = await kit.contracts.getGoldToken();
-      const balance = await goldTokenContract.balanceOf(address);
+      let balance = await goldTokenContract.balanceOf(address);
+
+      // // Get starting balance:
+      console.log(balance.toString());
+
+      console.log("~ Transferring");
+      const tx = await goldTokenContract
+        .transfer(ADDRESS_2, 1000)
+        // @ts-ignore
+        .send({ from: ADDRESS_1 });
+
+      console.log(tx);
+      console.log("~ Waiting for receipt");
+      // Wait for the transaction to be processed
+      const receipt = await tx.waitReceipt();
+
+      // 5000000000000000000
+      // 4999762869999999000
+
+      // Print receipt
+      console.log("Transaction receipt: ", receipt);
+
+      //  your new balance
+      balance = await goldTokenContract.balanceOf(ADDRESS_1);
       console.log(balance.toString());
 
       // Init Kit
@@ -101,9 +133,6 @@ export const connectCeloAddress = async () => {
     }
   }
 };
-
-// Alfajores = "https://alfajores-forno.celo-testnet.org";
-// Baklava = "https://baklava-forno.celo-testnet.org";
 
 // From web3-core library types:
 // Reference on RLP encoding: https://github.com/ethereum/wiki/wiki/RLP
