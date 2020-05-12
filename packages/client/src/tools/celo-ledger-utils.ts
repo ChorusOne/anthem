@@ -19,6 +19,7 @@ import Web3 from "web3";
  * - Contract Kit: https://www.npmjs.com/package/@celo/contractkit
  * - Contract Kit Guide: https://docs.celo.org/developer-guide/start/hellocelo
  * - Ledger ETH App: https://www.npmjs.com/package/@ledgerhq/hw-app-eth
+ * - Testnet Faucet: https://celo.org/developers/faucet
  * ============================================================================
  */
 
