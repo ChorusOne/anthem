@@ -136,19 +136,58 @@ class CeloLedgerClass {
     return result;
   }
 
-  async getTotalBalances() {
-    if (this.kit && this.address) {
-      const balances = await this.kit.getTotalBalance(this.address);
-      return balances;
-    } else {
+  async lock(amount: string) {
+    if (!this.kit) {
       throw new Error("Not initialized yet.");
     }
+
+    const lockedGold = await this.kit.contracts.getLockedGold();
+    console.log(`Locking ${amount} gold for address ${this.address}`);
+    const receipt = await lockedGold
+      .lock()
+      // @ts-ignore
+      .sendAndWaitForReceipt({ from: this.address, value: amount });
+    return receipt;
   }
 
-  log() {
+  async unlock(amount: string) {
+    if (!this.kit) {
+      throw new Error("Not initialized yet.");
+    }
+
+    const lockedGold = await this.kit.contracts.getLockedGold();
+    console.log(`Unlocking ${amount} gold for address ${this.address}`);
+    const receipt = await lockedGold.unlock(amount).sendAndWaitForReceipt();
+    return receipt;
+  }
+
+  async getAccountSummary() {
+    if (!this.kit) {
+      throw new Error("Not initialized yet.");
+    }
+
+    const lockedGold = await this.kit.contracts.getLockedGold();
+    const summary = await lockedGold.getAccountSummary(this.address);
+    console.log("Account Summary:");
+    console.log(summary);
+    return summary;
+  }
+
+  async getTotalBalances() {
+    if (!this.kit || !this.address) {
+      throw new Error("Not initialized yet.");
+    }
+
+    const balances = await this.kit.getTotalBalance(this.address);
+    console.log("Account Balances:");
+    console.log(balances);
+    return balances;
+  }
+
+  info() {
     console.log(this.eth);
-    console.log(this.kit);
     console.log(this.wallet);
+    console.log(this.kit);
   }
 }
 
@@ -162,7 +201,7 @@ export const connectCeloAddress = async () => {
   try {
     await celoLedgerProvider.connect();
     const address = await celoLedgerProvider.getAddress();
-    celoLedgerProvider.log();
+    celoLedgerProvider.info();
     return address;
   } catch (error) {
     // Escalate the error. Try to identify and handle screensaver mode errors.
