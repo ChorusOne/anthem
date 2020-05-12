@@ -1,5 +1,8 @@
-import { newKitFromWeb3 } from "@celo/contractkit";
-import { newLedgerWalletWithSetup } from "@celo/contractkit/lib/wallets/ledger-wallet";
+import { ContractKit, newKitFromWeb3 } from "@celo/contractkit";
+import {
+  LedgerWallet,
+  newLedgerWalletWithSetup,
+} from "@celo/contractkit/lib/wallets/ledger-wallet";
 import Eth from "@ledgerhq/hw-app-eth";
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
@@ -18,11 +21,13 @@ import Web3 from "web3";
  * ============================================================================
  */
 
-const Alfajores = "https://alfajores-forno.celo-testnet.org";
-const Baklava = "https://baklava-forno.celo-testnet.org";
+const TEST_NETS = {
+  ALFAJORES: "https://alfajores-forno.celo-testnet.org",
+  BAKLAVA: "https://baklava-forno.celo-testnet.org",
+};
 
-const ADDRESS_1 = "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2";
-const ADDRESS_2 = "0x40981A4e814c03F3791bd5267DD1D2b62F8F4211";
+// const ADDRESS_1 = "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2";
+// const ADDRESS_2 = "0x40981A4e814c03F3791bd5267DD1D2b62F8F4211";
 
 /**
  * Handle getting the Celo Ledger transport.
@@ -37,93 +42,90 @@ const getCeloLedgerTransport = () => {
   throw new Error(LEDGER_ERRORS.BROWSER_NOT_SUPPORTED);
 };
 
-const CELO_KIT = {
-  address: "",
-  initialized: false,
-  kit: null,
-  eth: null,
+interface CeloTransferArguments {
+  from: string;
+  to: string;
+  amount: number;
+}
 
-  init(kit: any, eth: any, address: string) {
-    this.kit = kit;
-    this.eth = eth;
-    this.address = address;
-    this.initialized = true;
-  },
+class CeloLedgerClass {
+  private address = "";
+  private kit: Nullable<ContractKit> = null;
+  private eth: Nullable<any> = null;
+  private wallet: Nullable<LedgerWallet> = null;
+  private readonly provider: string;
 
-  get() {
-    return {
-      kit: this.kit,
-      eth: this.eth,
-      address: this.address,
-    };
-  },
-};
-
-const getKit = async () => {
-  // Debug:
-  try {
-    if (CELO_KIT.initialized) {
-      const { kit, eth, address } = CELO_KIT.get();
-    } else {
-      const web3 = new Web3(Alfajores);
-      const transport = await getCeloLedgerTransport();
-      const eth = new Eth(transport);
-      const { address } = await eth.getAddress("44'/52752'/0'/0/2", true);
-      console.log(`Got Celo Address! ${address}`);
-
-      const wallet = await newLedgerWalletWithSetup(eth.transport);
-      console.log(wallet);
-
-      // @ts-ignore
-      const kit = newKitFromWeb3(web3, wallet);
-
-      const goldTokenContract = await kit.contracts.getGoldToken();
-      let balance = await goldTokenContract.balanceOf(address);
-
-      // // Get starting balance:
-      console.log(balance.toString());
-
-      console.log("~ Transferring");
-      const tx = await goldTokenContract
-        .transfer(ADDRESS_2, 1000)
-        // @ts-ignore
-        .send({ from: ADDRESS_1 });
-
-      console.log(tx);
-      console.log("~ Waiting for receipt");
-      // Wait for the transaction to be processed
-      const receipt = await tx.waitReceipt();
-
-      // 5000000000000000000
-      // 4999762869999999000
-
-      // Print receipt
-      console.log("Transaction receipt: ", receipt);
-
-      //  your new balance
-      balance = await goldTokenContract.balanceOf(ADDRESS_1);
-      console.log(balance.toString());
-
-      // Init Kit
-      CELO_KIT.init(kit, eth, address);
-
-      const balances = await kit.getTotalBalance(address);
-      console.log(balances);
-      return address;
-    }
-  } catch (err) {
-    console.log(err);
-    throw err;
+  constructor(provider: string) {
+    this.provider = provider;
   }
-};
+
+  async connect() {
+    const web3 = new Web3(this.provider);
+    const transport = await getCeloLedgerTransport();
+    const eth = new Eth(transport);
+    const wallet = await newLedgerWalletWithSetup(eth.transport);
+    // @ts-ignore
+    const kit = newKitFromWeb3(web3, wallet);
+
+    this.eth = eth;
+    this.kit = kit;
+    this.wallet = wallet;
+  }
+
+  async getAddress() {
+    if (this.eth) {
+      const { address } = await this.eth.getAddress("44'/52752'/0'/0/1", true);
+      this.address = address;
+      return address;
+    } else {
+      throw new Error("Not initialized yet.");
+    }
+  }
+
+  async transfer(args: CeloTransferArguments) {
+    if (!this.kit) {
+      throw new Error("Not initialized yet.");
+    }
+
+    const { to, from, amount } = args;
+    const goldTokenContract = await this.kit.contracts.getGoldToken();
+    const tx = await goldTokenContract
+      .transfer(to, amount)
+      // @ts-ignore
+      .send({ from });
+
+    // Wait for the transaction to be processed
+    const receipt = await tx.waitReceipt();
+    console.log("Transaction complete, receipt: ", receipt);
+    return receipt;
+  }
+
+  async getTotalBalances() {
+    if (this.kit && this.address) {
+      const balances = await this.kit.getTotalBalance(this.address);
+      return balances;
+    } else {
+      throw new Error("Not initialized yet.");
+    }
+  }
+
+  log() {
+    console.log(this.eth);
+    console.log(this.kit);
+    console.log(this.wallet);
+  }
+}
+
+// Create a Celo Ledger provider
+const celoLedgerProvider = new CeloLedgerClass(TEST_NETS.ALFAJORES);
 
 /**
  * Connect to the Celo Ledger App and retrieve the account address.
  */
 export const connectCeloAddress = async () => {
   try {
-    const address = await getKit();
-    return address;
+    await celoLedgerProvider.connect();
+    return celoLedgerProvider.getAddress();
   } catch (error) {
     // Escalate the error. Try to identify and handle screensaver mode errors.
     if (error.message === "Invalid channel") {
