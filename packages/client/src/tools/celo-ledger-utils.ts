@@ -3,6 +3,7 @@ import {
   LedgerWallet,
   newLedgerWalletWithSetup,
 } from "@celo/contractkit/lib/wallets/ledger-wallet";
+import { VoteValue } from "@celo/contractkit/lib/wrappers/Governance";
 import Eth from "@ledgerhq/hw-app-eth";
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
@@ -48,6 +49,9 @@ interface CeloTransferArguments {
   amount: number;
 }
 
+/**
+ * Helper class to connect and interact with Celo Ledger App.
+ */
 class CeloLedgerClass {
   private address = "";
   private kit: Nullable<ContractKit> = null;
@@ -72,9 +76,19 @@ class CeloLedgerClass {
     this.wallet = wallet;
   }
 
-  async getAddress() {
+  disconnect() {
+    this.eth = null;
+    this.kit = null;
+    this.wallet = null;
+    this.address = "";
+  }
+
+  async getAddress(derivationPath: "0" | "1" | "2" | "3" | "4" = "0") {
     if (this.eth) {
-      const { address } = await this.eth.getAddress("44'/52752'/0'/0/1", true);
+      const { address } = await this.eth.getAddress(
+        `44'/52752'/0'/0/${derivationPath}`,
+        true,
+      );
       this.address = address;
       return address;
     } else {
@@ -98,6 +112,28 @@ class CeloLedgerClass {
     const receipt = await tx.waitReceipt();
     console.log("Transaction complete, receipt: ", receipt);
     return receipt;
+  }
+
+  async vote(proposalId: string, vote: keyof typeof VoteValue) {
+    if (!this.kit) {
+      throw new Error("Not initialized yet.");
+    }
+
+    const governance = await this.kit.contracts.getGovernance();
+    console.log(`Voting for proposal ID: ${proposalId}`);
+    const result = await governance.vote(proposalId, vote);
+    return result;
+  }
+
+  async upvote(proposalId: string, upvoter: string) {
+    if (!this.kit) {
+      throw new Error("Not initialized yet.");
+    }
+
+    const governance = await this.kit.contracts.getGovernance();
+    console.log(`Upvoting proposal ID: ${proposalId}`);
+    const result = await governance.upvote(proposalId, upvoter);
+    return result;
   }
 
   async getTotalBalances() {
@@ -125,7 +161,9 @@ const celoLedgerProvider = new CeloLedgerClass(TEST_NETS.ALFAJORES);
 export const connectCeloAddress = async () => {
   try {
     await celoLedgerProvider.connect();
-    return celoLedgerProvider.getAddress();
+    const address = await celoLedgerProvider.getAddress();
+    celoLedgerProvider.log();
+    return address;
   } catch (error) {
     // Escalate the error. Try to identify and handle screensaver mode errors.
     if (error.message === "Invalid channel") {
