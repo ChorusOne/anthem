@@ -117,7 +117,7 @@ const fetchTransactions = async (
 
   // Transform the response data
   const convertedTransactions = response
-    .map(adaptOasisTransaction)
+    .map(x => adaptOasisTransaction(x, address))
     .filter(x => x !== null) as IOasisTransaction[];
 
   return {
@@ -151,6 +151,7 @@ const convertDelegations = (delegation: OasisDelegation): IDelegation => {
  */
 const adaptOasisTransaction = (
   tx: OasisTransaction,
+  address: string,
 ): Nullable<IOasisTransaction> => {
   if (!!tx.burn) {
     // BURN Transaction
@@ -218,7 +219,7 @@ const adaptOasisTransaction = (
 
   // Unrecognized transaction data:
   logSentryMessage(
-    `Unrecognized Oasis transaction received, original transaction data: ${JSON.stringify(
+    `Unrecognized Oasis transaction received for address ${address}. Original transaction data: ${JSON.stringify(
       tx,
     )}`,
   );
