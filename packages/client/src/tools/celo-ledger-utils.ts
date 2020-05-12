@@ -27,9 +27,6 @@ const TEST_NETS = {
   BAKLAVA: "https://baklava-forno.celo-testnet.org",
 };
 
-// const ADDRESS_1 = "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2";
-// const ADDRESS_2 = "0x40981A4e814c03F3791bd5267DD1D2b62F8F4211";
-
 /**
  * Handle getting the Celo Ledger transport.
  */
@@ -81,6 +78,11 @@ class CeloLedgerClass {
     this.kit = null;
     this.wallet = null;
     this.address = "";
+  }
+
+  async getCeloAppVersion() {
+    const appConfig = await this.eth.getAppConfiguration();
+    return appConfig.version;
   }
 
   async getAddress(derivationPath: "0" | "1" | "2" | "3" | "4" = "0") {
@@ -205,7 +207,7 @@ export const connectCeloAddress = async () => {
     return address;
   } catch (error) {
     // Escalate the error. Try to identify and handle screensaver mode errors.
-    if (error.message === "Invalid channel") {
+    if (error.statusCode === 26628) {
       throw new Error(LEDGER_ERRORS.COSMOS_LEDGER_SCREENSAVER_ERROR);
     } else {
       throw error;
