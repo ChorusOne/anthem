@@ -93,8 +93,8 @@ const connectLedger = createStandardAction(ActionTypesEnum.CONNECT_LEDGER)();
 const connectLedgerSuccess = createStandardAction(
   ActionTypesEnum.CONNECT_LEDGER_SUCCESS,
 )<{
-  cosmosAddress: string;
-  cosmosAppVersion: string;
+  ledgerAddress: string;
+  ledgerAppVersion: string;
   network: NetworkDefinition;
 }>();
 

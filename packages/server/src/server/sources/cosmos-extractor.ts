@@ -5,6 +5,7 @@ import {
   IPortfolioCommission,
   IPortfolioReward,
   IQuery,
+  ITransaction,
   NETWORK_NAME,
   NetworkDefinition,
 } from "@anthem/utils";
@@ -262,6 +263,23 @@ export const getTransactions = async (
     moreResultsExist,
     page: startingPage,
   };
+};
+
+/**
+ * Helper method to fetch all the transactions for an address.
+ */
+export const getAllTransactions = async (
+  address: string,
+): Promise<ITransaction[]> => {
+  const variables = {
+    address,
+    pageSize: 10000,
+    startingPage: 0,
+  };
+  const transactionsQuery = getTransactionsQuery();
+  const query = transactionsQuery(variables);
+  const response = await queryPostgresCosmosSdkPool("COSMOS", query);
+  return response.map(formatTransactionResponse);
 };
 
 /** ===========================================================================

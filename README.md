@@ -2,7 +2,9 @@
 
 ### Welcome to the Anthem codebase!
 
-Anthem is a multi-network platform for managing Proof-of-Stake participation and data for blockchains like [Oasis](https://oasisprotocol.org/), [Celo](https://celo.org/), [Cosmos](https://cosmos.network/), [Terra](https://terra.money/), [Kava](https://www.kava.io/), and others. Anthem is open source and built and maintained by [Chorus One](https://chorus.one/). Try it out at https://anthem.chorus.one
+Anthem is a multi-network platform for managing Proof-of-Stake participation and data for blockchains like [Oasis](https://oasisprotocol.org/), [Celo](https://celo.org/), [Cosmos](https://cosmos.network/), [Terra](https://terra.money/), [Kava](https://www.kava.io/), and others. Anthem is open source and built and maintained by [Chorus One](https://chorus.one/).
+
+**Try out Anthem now at:** https://anthem.chorus.one
 
 <img width="1439" alt="anthem" src="https://user-images.githubusercontent.com/18126719/79953826-0ff3ca80-84af-11ea-9059-2eee118618cd.png" />
 

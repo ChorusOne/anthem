@@ -124,11 +124,14 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
             }
 
             let ledgerAddress;
+            let ledgerAppVersion = "0.0.0";
+
             // TODO: Refactor this to a separate function, e.g. getAddressFromLedger
             switch (signinNetworkName) {
               case "COSMOS": {
                 await ledger.connectDevice();
                 ledgerAddress = await ledger.getCosmosAddress();
+                ledgerAppVersion = await ledger.getCosmosAppVersion();
                 break;
               }
               case "KAVA":
@@ -144,10 +147,13 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
                   ledgerAddress = getAccAddress(pk, signinNetworkName);
                 }
 
+                ledgerAppVersion = await ledger.getCosmosAppVersion();
                 break;
               }
               case "CELO": {
                 ledgerAddress = await connectCeloAddress();
+                // TODO: How to get Celo App version?
+                ledgerAppVersion = "1.0.1";
                 break;
               }
               case "OASIS": {
@@ -158,7 +164,6 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
               }
             }
 
-            const ledgerAppVersion = await ledger.getCosmosAppVersion();
             const network = deriveNetworkFromAddress(ledgerAddress);
             const versionValid = validateLedgerAppVersion(
               ledgerAppVersion,
@@ -181,11 +186,12 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
             return resolve(
               Actions.connectLedgerSuccess({
                 network,
-                cosmosAppVersion: ledgerAppVersion,
-                cosmosAddress: ledgerAddress,
+                ledgerAppVersion,
+                ledgerAddress,
               }),
             );
           } catch (error) {
+            console.log(error);
             let retryDelay = 500;
             const { message } = error;
 
@@ -249,8 +255,8 @@ const saveAddressEpic: EpicSignature = action$ => {
     pluck("payload"),
     tap(payload => {
       let address = "";
-      if ("cosmosAddress" in payload) {
-        address = payload.cosmosAddress;
+      if ("ledgerAddress" in payload) {
+        address = payload.ledgerAddress;
       } else {
         address = payload.address;
       }

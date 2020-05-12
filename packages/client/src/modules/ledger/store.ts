@@ -57,7 +57,7 @@ const ledger = createReducer<LedgerState, ActionTypes | LoadingActionTypes>(
     addressError: "",
     connected: true,
     network: action.payload.network,
-    address: action.payload.cosmosAddress,
+    address: action.payload.ledgerAddress,
     recentAddresses: StorageModule.getRecentAddresses(),
   }))
   .handleAction(actions.setAddressSuccess, (state, { payload }) => ({
