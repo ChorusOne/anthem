@@ -9,6 +9,7 @@ import {
   PageScrollableContent,
   View,
 } from "components/SharedComponents";
+import { IThemeProps } from "containers/ThemeContainer";
 import {
   StakingPoolProps,
   ValidatorsProps,
@@ -71,7 +72,7 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                     <H5>Commission</H5>
                   </RowItem>
                 </ValidatorRow>
-                <Card style={{ width: 600, padding: 8 }}>
+                <ValidatorListCard>
                   <PageScrollableContent>
                     {formatValidatorsList(validatorList).map(v => (
                       <ValidatorRow key={v.operator_address}>
@@ -103,7 +104,7 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                       </ValidatorRow>
                     ))}
                   </PageScrollableContent>
-                </Card>
+                </ValidatorListCard>
               </View>
             );
           }}
@@ -117,6 +118,12 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
  * Styles and Helpers
  * ============================================================================
  */
+
+const ValidatorListCard = styled(Card)`
+  padding: 8px;
+  width: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDesktop ? "600px" : "auto"};
+`;
 
 const ValidatorRow = styled.div`
   height: 70px;
