@@ -27,6 +27,7 @@ import { formatFiatPriceDate } from "./date-utils";
 import {
   addValuesInList,
   isGreaterThanOrEqualTo,
+  multiply,
   toBigNumber,
 } from "./math-utils";
 
@@ -720,4 +721,11 @@ export const adaptRawTransactionData = (
   } catch (err) {
     return null;
   }
+};
+
+/**
+ * Format a validator commission rate.
+ */
+export const formatCommissionRate = (rate: string) => {
+  return multiply(rate, 100, Number).toFixed(2);
 };

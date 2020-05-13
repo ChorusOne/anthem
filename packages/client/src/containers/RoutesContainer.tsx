@@ -11,7 +11,7 @@ import DashboardPage from "pages/DashboardPage";
 import HelpPage from "pages/HelpPage";
 import LandingPage from "pages/LandingPage";
 import SettingsPage from "pages/SettingsPage";
-// import ValidatorsListPage from "pages/ValidatorsListPage";
+import ValidatorsListPage from "pages/ValidatorsListPage";
 import React from "react";
 import { connect } from "react-redux";
 import {
@@ -77,11 +77,11 @@ class RoutesContainer extends React.Component<IProps> {
               path="/txs/*"
               component={TransactionDetailContainer}
             />
-            {/* <Route key={4} path="/validators" component={ValidatorsListPage} /> */}
-            <Route key={4} path="/help" component={HelpPage} />
-            <Route key={5} path="/settings" component={SettingsPage} />
+            <Route key={4} path="/validators" component={ValidatorsListPage} />
+            <Route key={5} path="/help" component={HelpPage} />
+            <Route key={6} path="/settings" component={SettingsPage} />
             <Route
-              key={6}
+              key={7}
               component={() =>
                 !!address ? (
                   <Redirect to="/dashboard/total" />
