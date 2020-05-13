@@ -134,6 +134,7 @@ const fetchValidatorLogoUrl = async (
  */
 
 const LoadingPlaceholderIcon = styled.div`
+  height: 32px;
   width: 32px;
   border-radius: 50%;
   background: ${COLORS.LIGHT_GRAY};
