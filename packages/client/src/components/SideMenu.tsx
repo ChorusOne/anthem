@@ -370,6 +370,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
   };
 
   setupMobileSwipeHandler = () => {
+    // Don't do this on desktop
     if (this.props.settings.isDesktop) {
       return;
     }
