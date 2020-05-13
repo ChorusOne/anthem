@@ -223,13 +223,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
                   />
                 </Centered>
               ) : (
-                <View
-                  style={{
-                    marginTop: 48,
-                    display: "flex",
-                    flexDirection: "row",
-                  }}
-                >
+                <MobileCopyAddressBox>
                   <Icon
                     icon="duplicate"
                     color={COLORS.LIGHT_GRAY}
@@ -238,7 +232,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
                     style={{ marginRight: 8 }}
                   />
                   <p style={{ margin: 0 }}>{t("Copy Address")}</p>
-                </View>
+                </MobileCopyAddressBox>
               )}
             </CopyToClipboard>
           )}
@@ -561,6 +555,12 @@ const renderValidatorName = (moniker: string) => {
     ? `${moniker.slice(0, 16)}... Validator`
     : `${moniker} Validator`;
 };
+
+const MobileCopyAddressBox = styled.div`
+  margin-top: 75px;
+  display: flex;
+  flex-direction: row;
+`;
 
 /** ===========================================================================
  * Props

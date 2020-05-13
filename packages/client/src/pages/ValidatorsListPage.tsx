@@ -72,7 +72,7 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                     <H5>Commission</H5>
                   </RowItem>
                 </ValidatorRow>
-                <ValidatorListCard>
+                <ValidatorListCard style={{ padding: 8 }}>
                   <PageScrollableContent>
                     {formatValidatorsList(validatorList).map(v => (
                       <ValidatorRow key={v.operator_address}>
