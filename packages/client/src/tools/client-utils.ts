@@ -26,6 +26,7 @@ import {
 import { formatFiatPriceDate } from "./date-utils";
 import {
   addValuesInList,
+  divide,
   isGreaterThanOrEqualTo,
   multiply,
   toBigNumber,
@@ -728,4 +729,13 @@ export const adaptRawTransactionData = (
  */
 export const formatCommissionRate = (rate: string) => {
   return multiply(rate, 100, Number).toFixed(2);
+};
+
+/**
+ * Format the validators voting power.
+ */
+export const formatVotingPower = (staked: string, totalStake: string) => {
+  const share = divide(staked, totalStake);
+  const power = multiply(share, 100, Number).toFixed(2);
+  return power;
 };

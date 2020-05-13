@@ -95,7 +95,6 @@ export const ErrorText = styled.p`
  * ============================================================================
  */
 export const PageContainer = styled.div`
-  /* height: 100vh; */
   padding-left: 4px;
 `;
 

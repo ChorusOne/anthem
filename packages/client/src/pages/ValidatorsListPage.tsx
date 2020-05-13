@@ -20,6 +20,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import {
   formatCommissionRate,
+  formatVotingPower,
   getValidatorOperatorAddressMap,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
@@ -32,6 +33,7 @@ import { composeWithProps } from "tools/context-utils";
 class ValidatorsListPage extends React.Component<IProps, {}> {
   render(): JSX.Element {
     const { i18n, network, validators } = this.props;
+    const STAKED = "184117466747846";
     return (
       <PageContainer>
         <PageAddressBar pageTitle="Validators" />
@@ -48,19 +50,22 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
             return (
               <View>
                 <ValidatorRow style={{ paddingLeft: 20 }}>
-                  <RowItem minWidth={40} />
-                  <RowItem minWidth={200}>
+                  <RowItem width={40} />
+                  <RowItem width={200}>
                     <H5>Validator</H5>
                   </RowItem>
-                  <RowItem>
+                  <RowItem width={125}>
+                    <H5>Voting Power</H5>
+                  </RowItem>
+                  <RowItem width={125}>
                     <H5>Commission</H5>
                   </RowItem>
                 </ValidatorRow>
-                <Card style={{ width: 500 }}>
+                <Card style={{ width: 600 }}>
                   <PageScrollableContent>
                     {validatorList.map(v => (
                       <ValidatorRow key={v.operator_address}>
-                        <RowItem>
+                        <RowItem width={40}>
                           <AddressIconComponent
                             networkName={network.name}
                             address={v.operator_address}
@@ -69,10 +74,15 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                             }
                           />
                         </RowItem>
-                        <RowItem minWidth={200}>
+                        <RowItem width={200}>
                           <H5 style={{ margin: 0 }}>{v.description.moniker}</H5>
                         </RowItem>
-                        <RowItem>
+                        <RowItem width={125}>
+                          <p style={{ margin: 0 }}>
+                            {formatVotingPower(v.tokens, STAKED)}%
+                          </p>
+                        </RowItem>
+                        <RowItem width={125}>
                           <p style={{ margin: 0 }}>
                             {formatCommissionRate(
                               v.commission.commission_rates.rate,
@@ -106,10 +116,10 @@ const ValidatorRow = styled.div`
   flex-direction: row;
 `;
 
-const RowItem = styled.div<{ minWidth?: number }>`
+const RowItem = styled.div<{ width?: number }>`
   padding-left: 4px;
   padding-right: 4px;
-  width: ${props => (props.minWidth ? `${props.minWidth}px` : "auto")};
+  width: ${props => (props.width ? `${props.width}px` : "auto")};
 `;
 
 /** ===========================================================================
