@@ -2,12 +2,8 @@ import { IQuery } from "@anthem/utils";
 import { H5 } from "@blueprintjs/core";
 import AddressIconComponent from "components/AddressIconComponent";
 import { GraphQLGuardComponent } from "components/GraphQLGuardComponents";
-import {
-  Line,
-  PageContainer,
-  PageTitle,
-  View,
-} from "components/SharedComponents";
+import PageAddressBar from "components/PageAddressBar";
+import { PageContainer, View } from "components/SharedComponents";
 import {
   ValidatorsProps,
   withGraphQLVariables,
@@ -21,7 +17,6 @@ import styled from "styled-components";
 import {
   formatCommissionRate,
   getValidatorOperatorAddressMap,
-  trimZeroes,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 
@@ -35,8 +30,9 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
     const { i18n, network, validators } = this.props;
     return (
       <PageContainer>
-        <PageTitle data-cy="validators-page-title">Validators</PageTitle>
-        <Line style={{ marginBottom: 12 }} />
+        <PageAddressBar pageTitle="Validators" />
+        {/* <PageTitle data-cy="validators-page-title">Validators</PageTitle>
+        <Line style={{ marginBottom: 12 }} /> */}
         <GraphQLGuardComponent
           dataKey="validators"
           result={validators}

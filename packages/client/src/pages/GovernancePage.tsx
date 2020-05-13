@@ -1,4 +1,7 @@
-import { PageContainer, PageTitle } from "components/SharedComponents";
+import {
+  PageContainerScrollable,
+  PageTitle,
+} from "components/SharedComponents";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
@@ -18,11 +21,11 @@ import { composeWithProps } from "tools/context-utils";
 class GovernancePage extends React.Component<IProps, {}> {
   render(): JSX.Element {
     return (
-      <PageContainer>
+      <PageContainerScrollable>
         <PageTitle data-cy="governance-page-title">
           {this.props.i18n.tString("Governance")}
         </PageTitle>
-      </PageContainer>
+      </PageContainerScrollable>
     );
   }
 }

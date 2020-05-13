@@ -96,9 +96,16 @@ export const ErrorText = styled.p`
  */
 export const PageContainer = styled.div`
   height: 100vh;
-  overflow-y: scroll;
   padding-left: 4px;
   padding-bottom: 50px;
+`;
+
+/** ===========================================================================
+ * PageContainer with scrolling
+ * ============================================================================
+ */
+export const PageContainerScrollable = styled(PageContainer)`
+  overflow-y: scroll;
 `;
 
 /** ===========================================================================

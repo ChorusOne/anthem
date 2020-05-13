@@ -1,5 +1,9 @@
 import { Classes, H5, Tooltip } from "@blueprintjs/core";
-import { Link, PageContainer, PageTitle } from "components/SharedComponents";
+import {
+  Link,
+  PageContainerScrollable,
+  PageTitle,
+} from "components/SharedComponents";
 import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
 import Modules, { ReduxStoreState } from "modules/root";
@@ -17,7 +21,7 @@ import { composeWithProps } from "tools/context-utils";
 const HelpPage: React.FC<IProps> = (props: IProps) => {
   const { t, tString } = props.i18n;
   return (
-    <PageContainer>
+    <PageContainerScrollable>
       <PageTitle data-cy="help-page-title">
         {props.i18n.tString("Help")}
       </PageTitle>
@@ -202,7 +206,7 @@ const HelpPage: React.FC<IProps> = (props: IProps) => {
           address.
         </p>
       </RowContainer>
-    </PageContainer>
+    </PageContainerScrollable>
   );
 };
 
