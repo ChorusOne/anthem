@@ -34,7 +34,7 @@ const Relative = styled.div`
 const BannerPosition = styled.div<{ mobile: boolean }>`
   z-index: 100;
   position: absolute;
-  top: ${({ mobile }) => (mobile ? 12 : 52)}px;
+  top: ${({ mobile }) => (mobile ? 10 : 52)}px;
   left: ${({ mobile }) => (mobile ? 190 : 62)}px;
   height: 20px;
   padding: 2px;

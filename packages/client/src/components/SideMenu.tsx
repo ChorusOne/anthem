@@ -392,7 +392,7 @@ const MobileNavContainer = styled.div`
   padding-left: 16px;
   padding-right: 16px;
   top: 0;
-  height: 60px;
+  height: 62px;
   width: 100%;
   display: flex;
   align-items: center;
