@@ -1,10 +1,8 @@
 import { IQuery } from "@anthem/utils";
 import { Card, H5 } from "@blueprintjs/core";
+import { NetworkLogoIcon } from "assets/images";
 import AddressIconComponent from "components/AddressIconComponent";
-import {
-  GraphQLGuardComponent,
-  GraphQLGuardComponentMultipleQueries,
-} from "components/GraphQLGuardComponents";
+import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
 import PageAddressBar from "components/PageAddressBar";
 import {
   PageContainer,
@@ -48,19 +46,20 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
             [stakingPool, "stakingPool"],
           ]}
         >
-          {(
-            validatorList: IQuery["validators"],
-            stakingPoolResponse: IQuery["stakingPool"],
-          ) => {
+          {([validatorList, stakingPoolResponse]: [
+            IQuery["validators"],
+            IQuery["stakingPool"],
+          ]) => {
             const stake = stakingPoolResponse.bonded_tokens || "";
-            console.log(validatorList);
             const validatorOperatorAddressMap = getValidatorOperatorAddressMap(
               validatorList,
             );
             return (
               <View>
-                <ValidatorRow style={{ paddingLeft: 20 }}>
-                  <RowItem width={40} />
+                <ValidatorRow style={{ paddingLeft: 14 }}>
+                  <RowItem width={45}>
+                    <NetworkLogoIcon network={network.name} />
+                  </RowItem>
                   <RowItem width={200}>
                     <H5>Validator</H5>
                   </RowItem>
@@ -71,11 +70,11 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                     <H5>Commission</H5>
                   </RowItem>
                 </ValidatorRow>
-                <Card style={{ width: 600 }}>
+                <Card style={{ width: 600, padding: 8 }}>
                   <PageScrollableContent>
                     {validatorList.map(v => (
                       <ValidatorRow key={v.operator_address}>
-                        <RowItem width={40}>
+                        <RowItem width={45}>
                           <AddressIconComponent
                             networkName={network.name}
                             address={v.operator_address}
@@ -88,17 +87,17 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                           <H5 style={{ margin: 0 }}>{v.description.moniker}</H5>
                         </RowItem>
                         <RowItem width={125}>
-                          <p style={{ margin: 0 }}>
+                          <b style={{ margin: 0 }}>
                             {formatVotingPower(v.tokens, stake)}%
-                          </p>
+                          </b>
                         </RowItem>
                         <RowItem width={125}>
-                          <p style={{ margin: 0 }}>
+                          <b style={{ margin: 0 }}>
                             {formatCommissionRate(
                               v.commission.commission_rates.rate,
                             )}
                             %
-                          </p>
+                          </b>
                         </RowItem>
                       </ValidatorRow>
                     ))}

@@ -324,5 +324,5 @@ export interface StakingPoolProps {
 
 export const withStakingPool = graphql(StakingPoolDocument, {
   name: "stakingPool",
-  ...noPollingConfig(),
+  ...noPollingConfig(["network"]),
 });
