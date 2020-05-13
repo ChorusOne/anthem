@@ -23,6 +23,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import {
   formatCommissionRate,
+  formatValidatorsList,
   formatVotingPower,
   getValidatorOperatorAddressMap,
 } from "tools/client-utils";
@@ -72,7 +73,7 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                 </ValidatorRow>
                 <Card style={{ width: 600, padding: 8 }}>
                   <PageScrollableContent>
-                    {validatorList.map(v => (
+                    {formatValidatorsList(validatorList).map(v => (
                       <ValidatorRow key={v.operator_address}>
                         <RowItem width={45}>
                           <AddressIconComponent
