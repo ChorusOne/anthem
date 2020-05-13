@@ -25,6 +25,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { connect } from "react-redux";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
+import Swipy from "swipyjs";
 import {
   abbreviateAddress,
   copyTextToClipboard,
@@ -63,6 +64,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
 
   componentDidMount() {
     this.setDashboardTabRoute();
+    this.setupMobileSwipeHandler();
   }
 
   componentDidUpdate() {
@@ -365,6 +367,29 @@ class SideMenuComponent extends React.Component<IProps, IState> {
     );
 
     return validator;
+  };
+
+  setupMobileSwipeHandler = () => {
+    if (this.props.settings.isDesktop) {
+      return;
+    }
+
+    // Attach handler to the document
+    const swipeHandler = new Swipy(document.documentElement);
+
+    // Respond to swipe gestures
+    swipeHandler.on("swiperight", () => {
+      if (!this.state.mobileMenuOpen) {
+        this.setMobileMenuState(true);
+      }
+    });
+
+    // Respond to swipe gestures
+    swipeHandler.on("swipeleft", () => {
+      if (this.state.mobileMenuOpen) {
+        this.setMobileMenuState(false);
+      }
+    });
   };
 }
 

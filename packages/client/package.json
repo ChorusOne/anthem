@@ -72,6 +72,7 @@
     "secp256k1": "^3.7.1",
     "semver": "^6.3.0",
     "styled-components": "^4.3.2",
+    "swipyjs": "^0.0.5",
     "throttle-debounce": "^2.1.0",
     "typesafe-actions": "^4.4.2",
     "typescript": "3.5.2",
