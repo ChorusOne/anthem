@@ -95,9 +95,8 @@ export const ErrorText = styled.p`
  * ============================================================================
  */
 export const PageContainer = styled.div`
-  height: 100vh;
+  /* height: 100vh; */
   padding-left: 4px;
-  padding-bottom: 50px;
 `;
 
 /** ===========================================================================
@@ -106,6 +105,19 @@ export const PageContainer = styled.div`
  */
 export const PageContainerScrollable = styled(PageContainer)`
   overflow-y: scroll;
+  padding-bottom: 50px;
+`;
+
+/** ===========================================================================
+ * PageContainerScrollable
+ * ============================================================================
+ */
+export const PageScrollableContent = styled.div`
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  height: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDesktop ? `calc(100vh - 250px)` : "100%"};
 `;
 
 /** ===========================================================================

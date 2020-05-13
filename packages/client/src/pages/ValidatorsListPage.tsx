@@ -1,9 +1,13 @@
 import { IQuery } from "@anthem/utils";
-import { H5 } from "@blueprintjs/core";
+import { Card, H5 } from "@blueprintjs/core";
 import AddressIconComponent from "components/AddressIconComponent";
 import { GraphQLGuardComponent } from "components/GraphQLGuardComponents";
 import PageAddressBar from "components/PageAddressBar";
-import { PageContainer, View } from "components/SharedComponents";
+import {
+  PageContainer,
+  PageScrollableContent,
+  View,
+} from "components/SharedComponents";
 import {
   ValidatorsProps,
   withGraphQLVariables,
@@ -31,8 +35,6 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
     return (
       <PageContainer>
         <PageAddressBar pageTitle="Validators" />
-        {/* <PageTitle data-cy="validators-page-title">Validators</PageTitle>
-        <Line style={{ marginBottom: 12 }} /> */}
         <GraphQLGuardComponent
           dataKey="validators"
           result={validators}
@@ -45,7 +47,7 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
             );
             return (
               <View>
-                <ValidatorRow>
+                <ValidatorRow style={{ paddingLeft: 20 }}>
                   <RowItem minWidth={40} />
                   <RowItem minWidth={200}>
                     <H5>Validator</H5>
@@ -54,30 +56,34 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                     <H5>Commission</H5>
                   </RowItem>
                 </ValidatorRow>
-                {validatorList.map(v => (
-                  <ValidatorRow key={v.operator_address}>
-                    <RowItem>
-                      <AddressIconComponent
-                        networkName={network.name}
-                        address={v.operator_address}
-                        validatorOperatorAddressMap={
-                          validatorOperatorAddressMap
-                        }
-                      />
-                    </RowItem>
-                    <RowItem minWidth={200}>
-                      <H5 style={{ margin: 0 }}>{v.description.moniker}</H5>
-                    </RowItem>
-                    <RowItem>
-                      <p style={{ margin: 0 }}>
-                        {formatCommissionRate(
-                          v.commission.commission_rates.rate,
-                        )}
-                        %
-                      </p>
-                    </RowItem>
-                  </ValidatorRow>
-                ))}
+                <Card style={{ width: 500 }}>
+                  <PageScrollableContent>
+                    {validatorList.map(v => (
+                      <ValidatorRow key={v.operator_address}>
+                        <RowItem>
+                          <AddressIconComponent
+                            networkName={network.name}
+                            address={v.operator_address}
+                            validatorOperatorAddressMap={
+                              validatorOperatorAddressMap
+                            }
+                          />
+                        </RowItem>
+                        <RowItem minWidth={200}>
+                          <H5 style={{ margin: 0 }}>{v.description.moniker}</H5>
+                        </RowItem>
+                        <RowItem>
+                          <p style={{ margin: 0 }}>
+                            {formatCommissionRate(
+                              v.commission.commission_rates.rate,
+                            )}
+                            %
+                          </p>
+                        </RowItem>
+                      </ValidatorRow>
+                    ))}
+                  </PageScrollableContent>
+                </Card>
               </View>
             );
           }}
