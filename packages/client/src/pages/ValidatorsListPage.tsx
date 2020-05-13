@@ -38,6 +38,18 @@ import { composeWithProps } from "tools/context-utils";
 class ValidatorsListPage extends React.Component<IProps, {}> {
   render(): JSX.Element {
     const { i18n, network, validators, stakingPool } = this.props;
+
+    // Render a fallback message if network does not support validators list UI
+    if (!network.supportsValidatorsList) {
+      return (
+        <div style={{ marginTop: 50, marginLeft: 5 }}>
+          <p style={{ fontSize: 16 }}>
+            Validators list is not supported yet for {network.name} network.
+          </p>
+        </div>
+      );
+    }
+
     return (
       <PageContainer>
         <PageAddressBar pageTitle="Validators" />
