@@ -732,7 +732,8 @@ export const formatCommissionRate = (rate: string) => {
 };
 
 /**
- * Format the validators voting power.
+ * Format the validators voting power. The voting power is the validator
+ * stake divided by the entire network stake.
  */
 export const formatVotingPower = (staked: string, totalStake: string) => {
   const share = divide(staked, totalStake);

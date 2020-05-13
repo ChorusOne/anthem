@@ -313,16 +313,16 @@ export const withValidators = graphql(ValidatorsDocument, {
  * Staking Pool
  */
 
-// interface ValidatorsQueryResult extends QueryResult {
-//   data: void;
-//   validators: IQuery["stakingPool"];
-// }
+interface StakingPoolQueryResult extends QueryResult {
+  data: void;
+  stakingPool: IQuery["stakingPool"];
+}
 
-// export interface ValidatorsProps {
-//   validators: ValidatorsQueryResult;
-// }
+export interface StakingPoolProps {
+  stakingPool: StakingPoolQueryResult;
+}
 
-// export const withStakingPool = graphql(StakingPoolDocument, {
-//   name: "validators",
-//   ...noPollingConfig(["network"]),
-// });
+export const withStakingPool = graphql(StakingPoolDocument, {
+  name: "stakingPool",
+  ...noPollingConfig(),
+});

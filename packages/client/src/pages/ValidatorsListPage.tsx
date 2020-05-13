@@ -1,7 +1,10 @@
 import { IQuery } from "@anthem/utils";
 import { Card, H5 } from "@blueprintjs/core";
 import AddressIconComponent from "components/AddressIconComponent";
-import { GraphQLGuardComponent } from "components/GraphQLGuardComponents";
+import {
+  GraphQLGuardComponent,
+  GraphQLGuardComponentMultipleQueries,
+} from "components/GraphQLGuardComponents";
 import PageAddressBar from "components/PageAddressBar";
 import {
   PageContainer,
@@ -9,8 +12,10 @@ import {
   View,
 } from "components/SharedComponents";
 import {
+  StakingPoolProps,
   ValidatorsProps,
   withGraphQLVariables,
+  withStakingPool,
   withValidators,
 } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
@@ -32,17 +37,22 @@ import { composeWithProps } from "tools/context-utils";
 
 class ValidatorsListPage extends React.Component<IProps, {}> {
   render(): JSX.Element {
-    const { i18n, network, validators } = this.props;
-    const STAKED = "184117466747846";
+    const { i18n, network, validators, stakingPool } = this.props;
     return (
       <PageContainer>
         <PageAddressBar pageTitle="Validators" />
-        <GraphQLGuardComponent
-          dataKey="validators"
-          result={validators}
+        <GraphQLGuardComponentMultipleQueries
           tString={i18n.tString}
+          results={[
+            [validators, "validators"],
+            [stakingPool, "stakingPool"],
+          ]}
         >
-          {(validatorList: IQuery["validators"]) => {
+          {(
+            validatorList: IQuery["validators"],
+            stakingPoolResponse: IQuery["stakingPool"],
+          ) => {
+            const stake = stakingPoolResponse.bonded_tokens || "";
             console.log(validatorList);
             const validatorOperatorAddressMap = getValidatorOperatorAddressMap(
               validatorList,
@@ -79,7 +89,7 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                         </RowItem>
                         <RowItem width={125}>
                           <p style={{ margin: 0 }}>
-                            {formatVotingPower(v.tokens, STAKED)}%
+                            {formatVotingPower(v.tokens, stake)}%
                           </p>
                         </RowItem>
                         <RowItem width={125}>
@@ -97,7 +107,7 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
               </View>
             );
           }}
-        </GraphQLGuardComponent>
+        </GraphQLGuardComponentMultipleQueries>
       </PageContainer>
     );
   }
@@ -142,7 +152,11 @@ const withProps = connect(mapStateToProps, dispatchProps);
 
 interface ComponentProps {}
 
-interface IProps extends ComponentProps, ValidatorsProps, ConnectProps {}
+interface IProps
+  extends ComponentProps,
+    ValidatorsProps,
+    StakingPoolProps,
+    ConnectProps {}
 
 /** ===========================================================================
  * Export
@@ -153,4 +167,5 @@ export default composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
   withValidators,
+  withStakingPool,
 )(ValidatorsListPage);
