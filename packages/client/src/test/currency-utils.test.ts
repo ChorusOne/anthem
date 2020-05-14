@@ -1,11 +1,11 @@
 import BigNumber from "bignumber.js";
 import {
-  atomsToDenom,
   calculateTransactionAmount,
   convertCryptoToFiat,
-  denomToAtoms,
+  denomToUnit,
   findCurrencyFromCoinsList,
   formatCurrencyAmount,
+  unitToDenom,
 } from "tools/currency-utils";
 import { coins } from "../../../utils/src/client/data/coins.json";
 import prices from "../../../utils/src/client/data/prices.json";
@@ -46,13 +46,13 @@ describe("currency-utils", () => {
   });
 
   test("denomToAtoms", () => {
-    let result = denomToAtoms(5000, String);
+    let result = denomToUnit(5000, String);
     expect(result).toMatchInlineSnapshot(`"0.005"`);
 
-    result = denomToAtoms(0, String);
+    result = denomToUnit(0, String);
     expect(result).toMatchInlineSnapshot(`"0"`);
 
-    result = denomToAtoms(5.9082649012634, String);
+    result = denomToUnit(5.9082649012634, String);
     expect(result).toMatchInlineSnapshot(`"0.0000059082649012634"`);
   });
 
@@ -71,7 +71,7 @@ describe("currency-utils", () => {
   });
 
   test("atomsToDenom", () => {
-    const result = atomsToDenom("500");
+    const result = unitToDenom("500");
     expect(result).toMatchInlineSnapshot(`"500000000"`);
   });
 

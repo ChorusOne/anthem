@@ -12,7 +12,7 @@ import {
   PriceHistoryMap,
   ValidatorOperatorAddressMap,
 } from "tools/client-utils";
-import { atomsToDenom, convertCryptoToFiat } from "tools/currency-utils";
+import { convertCryptoToFiat, unitToDenom } from "tools/currency-utils";
 import { TransactionListProps } from "./CosmosTransactionContainer";
 import TransactionListItem from "./CosmosTransactionListItem";
 import { TransactionPaginationControls } from "./TransactionComponents";
@@ -173,7 +173,7 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
       {
         price: Number(transactionPrice),
       },
-      atomsToDenom(amount),
+      unitToDenom(amount),
     );
 
     return fiatPrice;

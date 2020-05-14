@@ -86,8 +86,8 @@ interface CurrencyConversionMethodTypes {
 /**
  * Convert an ATOM denomination to the normal ATOM amount.
  */
-export const denomToAtoms: CurrencyConversionMethodTypes = (
-  denoms: any,
+export const denomToUnit: CurrencyConversionMethodTypes = (
+  denoms: GenericNumberType,
   targetConstructorFn: any = String,
 ) => {
   const amount = valueToBigNumber(denoms);
@@ -98,8 +98,8 @@ export const denomToAtoms: CurrencyConversionMethodTypes = (
 /**
  * Convert an ATOM amount back to the raw ATOM denomination.
  */
-export const atomsToDenom: CurrencyConversionMethodTypes = (
-  amount: any,
+export const unitToDenom: CurrencyConversionMethodTypes = (
+  amount: GenericNumberType,
   targetConstructorFn: any = String,
 ) => {
   const value = valueToBigNumber(amount);
@@ -118,7 +118,7 @@ export const convertCryptoToFiat = (
   if (priceQuery) {
     const { price } = priceQuery;
     if (price) {
-      const atoms = denomToAtoms(amount);
+      const atoms = denomToUnit(amount);
       const fiat = multiply(atoms, price);
       return fiat;
     }
@@ -142,9 +142,9 @@ export const calculateTransactionAmount = (
   ].map(valueToBigNumber);
 
   const fee = multiply(gasPrice, gasAmount);
-  const denoms = atomsToDenom(available, toBigNumber);
+  const denoms = unitToDenom(available, toBigNumber);
   const availableAmountDenom = subtract(denoms, fee);
-  const availableAmount = denomToAtoms(availableAmountDenom);
+  const availableAmount = denomToUnit(availableAmountDenom);
 
   return availableAmount;
 };

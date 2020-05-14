@@ -20,7 +20,7 @@ import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import queryString, { ParsedQuery } from "query-string";
 import {
   convertCryptoToFiat,
-  denomToAtoms,
+  denomToUnit,
   formatCurrencyAmount,
 } from "./currency-utils";
 import { formatFiatPriceDate } from "./date-utils";
@@ -313,12 +313,12 @@ export const getAccountBalances = (
     commissionsFiat,
     totalFiat,
   ]: ReadonlyArray<string> = [
-    denomToAtoms(balanceResult, String),
-    denomToAtoms(rewardsResult, String),
-    denomToAtoms(delegationResult, String),
-    denomToAtoms(unbondingResult, String),
-    denomToAtoms(commissionsResult, String),
-    denomToAtoms(totalResult, String),
+    denomToUnit(balanceResult, String),
+    denomToUnit(rewardsResult, String),
+    denomToUnit(delegationResult, String),
+    denomToUnit(unbondingResult, String),
+    denomToUnit(commissionsResult, String),
+    denomToUnit(totalResult, String),
     // The rate is undefined for non fiat supported networks
     rate ? convertCryptoToFiat(rate, balanceResult) : "0",
     rate ? convertCryptoToFiat(rate, delegationResult) : "0",

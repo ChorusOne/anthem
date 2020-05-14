@@ -2,7 +2,7 @@ import { PortfolioChartData } from "components/Portfolio";
 import { PortfolioHistoryQueryResult } from "graphql/queries";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import moment from "moment-timezone";
-import { denomToAtoms } from "./currency-utils";
+import { denomToUnit } from "./currency-utils";
 import { toDateKey, toDateKeyBackOneDay } from "./date-utils";
 import {
   add,
@@ -177,7 +177,7 @@ export const mapBalancesToChartData = (
   const data: ChartSeries = {};
 
   balanceHistory.forEach(({ balance, timestamp, fiatPrice }) => {
-    const x = denomToAtoms(balance, Number);
+    const x = denomToUnit(balance, Number);
     const value = displayFiat ? Number(fiatPrice) * x : x;
     const reward = Number(value);
     const time = toDateKey(timestamp);
@@ -209,13 +209,13 @@ export const mapDelegationsToChartData = (
   let rewardsByTime: Set<string> = new Set();
 
   for (const { balance, timestamp, fiatPrice } of delegationsData) {
-    const x = denomToAtoms(balance, Number);
+    const x = denomToUnit(balance, Number);
     const value = displayFiat ? multiply(fiatPrice, x, Number) : x;
     const time = toDateKey(timestamp);
     data[time] = value;
 
     if (isLessThan(balance, lastRewards)) {
-      const diff = denomToAtoms(subtract(lastRewards, balance));
+      const diff = denomToUnit(subtract(lastRewards, balance));
       const displayDiff = displayFiat ? multiply(fiatPrice, diff) : diff;
       withdrawalsMap[time] = displayDiff;
     }
@@ -271,7 +271,7 @@ export const mapRewardsToChartData = (
 
     if (isLessThan(value, lastRewards)) {
       const denoms = subtract(lastRewards, value);
-      const atoms = denomToAtoms(denoms);
+      const atoms = denomToUnit(denoms);
 
       const displayValue = displayFiat ? multiply(fiatPrice, atoms) : atoms;
 
@@ -294,7 +294,7 @@ export const mapRewardsToChartData = (
 
   // Create a map of all earned rewards by date.
   for (const { balance, timestamp, fiatPrice } of rewardsData) {
-    const atomReward = denomToAtoms(balance, Number);
+    const atomReward = denomToUnit(balance, Number);
 
     /**
      * Determine the timestamp string based on the duration of the
@@ -348,7 +348,7 @@ export const mapRewardsToDailySummary = (
   const data: ChartSeries = {};
 
   rewardsHistory.forEach(({ balance, timestamp, fiatPrice }) => {
-    const x = denomToAtoms(balance, Number);
+    const x = denomToUnit(balance, Number);
     const value = displayFiat ? Number(fiatPrice) * x : x;
     const reward = Number(value);
     const time = toDateKeyBackOneDay(timestamp);

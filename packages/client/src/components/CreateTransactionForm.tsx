@@ -54,7 +54,7 @@ import {
 } from "tools/cosmos-utils";
 import {
   calculateTransactionAmount,
-  denomToAtoms,
+  denomToUnit,
   formatCurrencyAmount,
 } from "tools/currency-utils";
 import { bold } from "tools/i18n-utils";
@@ -257,7 +257,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     <b>{validator.description.moniker}</b>
                     <p style={{ margin: 0, marginLeft: 4 }}>
                       {formatCurrencyAmount(
-                        denomToAtoms(result.amount, String),
+                        denomToUnit(result.amount, String),
                         4,
                       )}{" "}
                       {ledger.network.descriptor}
