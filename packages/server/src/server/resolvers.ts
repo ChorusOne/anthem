@@ -171,6 +171,8 @@ const resolvers = {
 
       if (network.name === "OASIS") {
         return OASIS.fetchAccountBalances(address, network);
+      } else if (network.name === "CELO") {
+        return CELO.fetchAccountBalances(address, network);
       } else {
         const [
           balance,
