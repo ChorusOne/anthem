@@ -1,5 +1,8 @@
 FROM node:10-alpine AS build
 
+# Install git
+RUN apk add --no-cache git
+
 # Create app directory
 WORKDIR /usr/src/app
 
