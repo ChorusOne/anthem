@@ -17,7 +17,7 @@ describe("cosmos-utils", () => {
       gasAmount: "1500",
       gasPrice: "150000",
       denom: "uatom",
-      network: "COSMOS",
+      network: NETWORKS.COSMOS,
       validatorOperatorAddress:
         "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
     });

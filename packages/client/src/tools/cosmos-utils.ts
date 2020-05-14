@@ -117,7 +117,7 @@ export const createDelegationTransactionMessage = (args: {
   gasAmount: string;
   gasPrice: string;
   denom: COIN_DENOMS;
-  network: NETWORK_NAME;
+  network: NetworkDefinition;
   validatorOperatorAddress: string;
 }): ITxValue => {
   const {
@@ -130,7 +130,7 @@ export const createDelegationTransactionMessage = (args: {
     validatorOperatorAddress,
   } = args;
 
-  const type = getTransactionMessageTypeForNetwork(network, "DELEGATE");
+  const type = getTransactionMessageTypeForNetwork(network.name, "DELEGATE");
 
   return {
     fee: {
@@ -152,7 +152,7 @@ export const createDelegationTransactionMessage = (args: {
           validator_address: validatorOperatorAddress,
           amount: {
             denom,
-            amount: unitToDenom(amount, String),
+            amount: unitToDenom(amount, network.denominationSize, String),
           },
         },
       },

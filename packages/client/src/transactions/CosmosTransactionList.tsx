@@ -164,6 +164,7 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
   };
 
   getFiatPriceForTransaction = (timestamp: string, amount: string): string => {
+    const { network } = this.props.ledger;
     const transactionPrice = getPriceFromTransactionTimestamp(
       timestamp,
       this.priceHistoryMap,
@@ -173,7 +174,8 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
       {
         price: Number(transactionPrice),
       },
-      unitToDenom(amount),
+      unitToDenom(amount, network.denominationSize),
+      network,
     );
 
     return fiatPrice;

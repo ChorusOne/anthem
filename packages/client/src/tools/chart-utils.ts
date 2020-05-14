@@ -1,3 +1,4 @@
+import { NetworkDefinition } from "@anthem/utils";
 import { PortfolioChartData } from "components/Portfolio";
 import { PortfolioHistoryQueryResult } from "graphql/queries";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
@@ -69,6 +70,7 @@ export interface PortfolioHistoryChartData {
 export const processPortfolioHistoryData = (
   portfolioData: PortfolioHistoryQueryResult,
   displayFiat: boolean,
+  network: NetworkDefinition,
 ): PortfolioHistoryChartData | null => {
   if (!portfolioData || !portfolioData.portfolioHistory) {
     return null;
@@ -101,6 +103,7 @@ export const processPortfolioHistoryData = (
   const availableChartData = mapBalancesToChartData(
     adjustedBalances,
     displayFiat,
+    network,
   );
 
   // Process delegations
@@ -112,6 +115,7 @@ export const processPortfolioHistoryData = (
   const delegationsChartData = mapDelegationsToChartData(
     adjustedDelegations,
     displayFiat,
+    network,
     true,
   );
 
@@ -124,6 +128,7 @@ export const processPortfolioHistoryData = (
   const unbondingChartData = mapDelegationsToChartData(
     adjustedUnbondings,
     displayFiat,
+    network,
   );
 
   // Process rewards
@@ -134,11 +139,13 @@ export const processPortfolioHistoryData = (
   const rewardsChartData = mapRewardsToChartData(
     rewardsWithFiatPrices,
     displayFiat,
+    network,
     "REWARDS",
   );
   const rewardsDailySummary = mapRewardsToDailySummary(
     rewardsWithFiatPrices,
     displayFiat,
+    network,
   );
 
   // Process commissions
@@ -149,11 +156,13 @@ export const processPortfolioHistoryData = (
   const validatorRewardsChartData = mapRewardsToChartData(
     commissionsWithFiatPrices,
     displayFiat,
+    network,
     "COMMISSIONS",
   );
   const validatorDailySummary = mapRewardsToDailySummary(
     commissionsWithFiatPrices,
     displayFiat,
+    network,
   );
 
   return {
@@ -173,11 +182,12 @@ export const processPortfolioHistoryData = (
 export const mapBalancesToChartData = (
   balanceHistory: ChartDataItem[],
   displayFiat: boolean,
+  network: NetworkDefinition,
 ): ChartData => {
   const data: ChartSeries = {};
 
   balanceHistory.forEach(({ balance, timestamp, fiatPrice }) => {
-    const x = denomToUnit(balance, Number);
+    const x = denomToUnit(balance, network.denominationSize, Number);
     const value = displayFiat ? Number(fiatPrice) * x : x;
     const reward = Number(value);
     const time = toDateKey(timestamp);
@@ -198,6 +208,7 @@ export const mapBalancesToChartData = (
 export const mapDelegationsToChartData = (
   delegationsData: ChartDataItem[],
   displayFiat: boolean,
+  network: NetworkDefinition,
   renderUnbondingLines: boolean = false,
 ): ChartData => {
   let lastRewards = "0";
@@ -209,13 +220,16 @@ export const mapDelegationsToChartData = (
   let rewardsByTime: Set<string> = new Set();
 
   for (const { balance, timestamp, fiatPrice } of delegationsData) {
-    const x = denomToUnit(balance, Number);
+    const x = denomToUnit(balance, network.denominationSize, Number);
     const value = displayFiat ? multiply(fiatPrice, x, Number) : x;
     const time = toDateKey(timestamp);
     data[time] = value;
 
     if (isLessThan(balance, lastRewards)) {
-      const diff = denomToUnit(subtract(lastRewards, balance));
+      const diff = denomToUnit(
+        subtract(lastRewards, balance),
+        network.denominationSize,
+      );
       const displayDiff = displayFiat ? multiply(fiatPrice, diff) : diff;
       withdrawalsMap[time] = displayDiff;
     }
@@ -252,6 +266,7 @@ export const mapDelegationsToChartData = (
 export const mapRewardsToChartData = (
   rewardsData: ChartDataItem[],
   displayFiat: boolean,
+  network: NetworkDefinition,
   type: "REWARDS" | "COMMISSIONS" | "STAKING",
 ): ChartData => {
   let lastRewards = 0;
@@ -271,7 +286,7 @@ export const mapRewardsToChartData = (
 
     if (isLessThan(value, lastRewards)) {
       const denoms = subtract(lastRewards, value);
-      const atoms = denomToUnit(denoms);
+      const atoms = denomToUnit(denoms, network.denominationSize);
 
       const displayValue = displayFiat ? multiply(fiatPrice, atoms) : atoms;
 
@@ -294,7 +309,7 @@ export const mapRewardsToChartData = (
 
   // Create a map of all earned rewards by date.
   for (const { balance, timestamp, fiatPrice } of rewardsData) {
-    const atomReward = denomToUnit(balance, Number);
+    const atomReward = denomToUnit(balance, network.denominationSize, Number);
 
     /**
      * Determine the timestamp string based on the duration of the
@@ -344,11 +359,12 @@ export const mapRewardsToChartData = (
 export const mapRewardsToDailySummary = (
   rewardsHistory: ChartDataItem[],
   displayFiat: boolean,
+  network: NetworkDefinition,
 ): ChartData => {
   const data: ChartSeries = {};
 
   rewardsHistory.forEach(({ balance, timestamp, fiatPrice }) => {
-    const x = denomToUnit(balance, Number);
+    const x = denomToUnit(balance, network.denominationSize, Number);
     const value = displayFiat ? Number(fiatPrice) * x : x;
     const reward = Number(value);
     const time = toDateKeyBackOneDay(timestamp);
