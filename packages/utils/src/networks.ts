@@ -64,7 +64,7 @@ const NETWORKS: NetworksMap = {
     supportsPortfolio: true,
     supportsTransactionsHistory: true,
     supportsValidatorsList: true,
-    denominationSize: 1e6,
+    denominationSize: 1e6, // 1 ATOM = 1,000,000 uatom
   },
   TERRA: {
     available: true,
@@ -125,7 +125,7 @@ const NETWORKS: NetworksMap = {
     supportsPortfolio: false,
     supportsTransactionsHistory: true,
     supportsValidatorsList: false,
-    denominationSize: 1e6,
+    denominationSize: 1e6, // TODO: What is the denomination size?
   },
   CELO: {
     // available: true,
