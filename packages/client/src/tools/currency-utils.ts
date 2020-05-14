@@ -110,10 +110,11 @@ export const denomToUnit: CurrencyConversionMethodTypes = (
  */
 export const unitToDenom: CurrencyConversionMethodTypes = (
   amount: GenericNumberType,
+  networkDenominationSize: GenericNumberType,
   targetConstructorFn: any = String,
 ) => {
   const value = valueToBigNumber(amount);
-  const result = multiply(value, 1e6);
+  const result = multiply(value, networkDenominationSize);
   return targetConstructorFn(result);
 };
 
