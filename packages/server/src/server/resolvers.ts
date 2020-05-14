@@ -5,6 +5,8 @@ import {
   getNetworkDefinitionFromTicker,
   IAccountBalancesQueryVariables,
   IAccountInformationQueryVariables,
+  ICeloAccountHistoryQueryVariables,
+  ICeloTransactionsQueryVariables,
   ICoinsQueryVariables,
   ICosmosTransactionsQueryVariables,
   IDailyPercentChangeQueryVariables,
@@ -35,6 +37,7 @@ import {
   validatePaginationParams,
 } from "../tools/server-utils";
 import UnionResolvers from "./resolve-types";
+import CELO from "./sources/celo";
 import COSMOS_EXTRACTOR from "./sources/cosmos-extractor";
 import COSMOS_SDK from "./sources/cosmos-sdk";
 import EXCHANGE_DATA_API from "./sources/exchange-data";
@@ -73,6 +76,11 @@ const resolvers = {
   ...UnionResolvers,
 
   Query: {
+    /** =======================================================================
+     * Cosmos Resolvers
+     * ========================================================================
+     */
+
     portfolioHistory: async (
       _: void,
       args: IPortfolioHistoryQueryVariables,
@@ -361,7 +369,11 @@ const resolvers = {
       return FIAT_CURRENCIES;
     },
 
-    // Oasis Resolvers
+    /** =======================================================================
+     * Oasis Resolvers
+     * ========================================================================
+     */
+
     oasisTransactions: async (
       _: void,
       args: IOasisTransactionsQueryVariables,
@@ -372,6 +384,33 @@ const resolvers = {
       const start = validatePaginationParams(startingPage, 1);
       blockUnsupportedNetworks(network, "transactions");
       return OASIS.fetchTransactions(address, start, size, network);
+    },
+
+    /** =======================================================================
+     * Celo Resolvers
+     * ========================================================================
+     */
+
+    celoAccountHistory: async (
+      _: void,
+      args: ICeloAccountHistoryQueryVariables,
+    ): Promise<IQuery["celoAccountHistory"]> => {
+      const { address } = args;
+      const network = deriveNetworkFromAddress(address);
+      blockUnsupportedNetworks(network, "portfolio");
+      return CELO.fetchAccountHistory(address, network);
+    },
+
+    celoTransactions: async (
+      _: void,
+      args: ICeloTransactionsQueryVariables,
+    ): Promise<IQuery["celoTransactions"]> => {
+      const { address, startingPage, pageSize } = args;
+      const network = deriveNetworkFromAddress(address);
+      const size = validatePaginationParams(pageSize, 25);
+      const start = validatePaginationParams(startingPage, 1);
+      blockUnsupportedNetworks(network, "transactions");
+      return CELO.fetchTransactions(address, start, size, network);
     },
   },
 };
