@@ -147,7 +147,7 @@ const NETWORKS: NetworksMap = {
     supportsPortfolio: false,
     supportsTransactionsHistory: false,
     supportsValidatorsList: false,
-    denominationSize: 1e12,
+    denominationSize: 1e18, // 1 cGLD = 1000000000000000000 wei
   },
 };
 
