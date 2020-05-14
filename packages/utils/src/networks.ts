@@ -7,6 +7,7 @@ interface NetworkFeatureMeta {
   supportsBalances: boolean;
   supportsPortfolio: boolean;
   supportsTransactionsHistory: boolean;
+  supportsValidatorsList: boolean;
 }
 
 export interface NetworkDefinition extends NetworkFeatureMeta {
@@ -61,6 +62,7 @@ const NETWORKS: NetworksMap = {
     supportsBalances: true,
     supportsPortfolio: true,
     supportsTransactionsHistory: true,
+    supportsValidatorsList: true,
   },
   TERRA: {
     available: true,
@@ -79,6 +81,7 @@ const NETWORKS: NetworksMap = {
     supportsBalances: true,
     supportsPortfolio: false,
     supportsTransactionsHistory: false,
+    supportsValidatorsList: true,
   },
   KAVA: {
     available: true,
@@ -98,6 +101,7 @@ const NETWORKS: NetworksMap = {
     supportsBalances: true,
     supportsPortfolio: false,
     supportsTransactionsHistory: false,
+    supportsValidatorsList: true,
   },
   OASIS: {
     available: false,
@@ -116,6 +120,7 @@ const NETWORKS: NetworksMap = {
     supportsBalances: true,
     supportsPortfolio: false,
     supportsTransactionsHistory: true,
+    supportsValidatorsList: false,
   },
   CELO: {
     // available: true,
@@ -136,6 +141,7 @@ const NETWORKS: NetworksMap = {
     supportsBalances: false,
     supportsPortfolio: false,
     supportsTransactionsHistory: false,
+    supportsValidatorsList: false,
   },
 };
 

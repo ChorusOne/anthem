@@ -26,7 +26,9 @@ import {
 import { formatFiatPriceDate } from "./date-utils";
 import {
   addValuesInList,
+  divide,
   isGreaterThanOrEqualTo,
+  multiply,
   toBigNumber,
 } from "./math-utils";
 
@@ -720,4 +722,21 @@ export const adaptRawTransactionData = (
   } catch (err) {
     return null;
   }
+};
+
+/**
+ * Format a validator commission rate.
+ */
+export const formatCommissionRate = (rate: string) => {
+  return multiply(rate, 100, Number).toFixed(2);
+};
+
+/**
+ * Format the validators voting power. The voting power is the validator
+ * stake divided by the entire network stake.
+ */
+export const formatVotingPower = (staked: string, totalStake: string) => {
+  const share = divide(staked, totalStake);
+  const power = multiply(share, 100, Number).toFixed(2);
+  return power;
 };

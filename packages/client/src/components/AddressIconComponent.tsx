@@ -1,6 +1,7 @@
 import { deriveNetworkFromAddress, NETWORK_NAME } from "@anthem/utils";
 import { NetworkLogoIcon } from "assets/images";
 import axios from "axios";
+import { COLORS } from "constants/colors";
 import Identicon from "identicon.js";
 import md5 from "js-md5";
 import React from "react";
@@ -133,8 +134,10 @@ const fetchValidatorLogoUrl = async (
  */
 
 const LoadingPlaceholderIcon = styled.div`
+  height: 32px;
   width: 32px;
   border-radius: 50%;
+  background: ${COLORS.LIGHT_GRAY};
 `;
 
 const TxIcon = styled.img`

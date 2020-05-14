@@ -95,10 +95,28 @@ export const ErrorText = styled.p`
  * ============================================================================
  */
 export const PageContainer = styled.div`
-  height: 100vh;
-  overflow-y: scroll;
   padding-left: 4px;
+`;
+
+/** ===========================================================================
+ * PageContainer with scrolling
+ * ============================================================================
+ */
+export const PageContainerScrollable = styled(PageContainer)`
+  overflow-y: scroll;
   padding-bottom: 50px;
+`;
+
+/** ===========================================================================
+ * PageContainerScrollable
+ * ============================================================================
+ */
+export const PageScrollableContent = styled.div`
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  height: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDesktop ? `calc(100vh - 250px)` : "100%"};
 `;
 
 /** ===========================================================================

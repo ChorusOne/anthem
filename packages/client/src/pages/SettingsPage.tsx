@@ -5,7 +5,7 @@ import LanguageSelectMenu from "components/LanguageSelect";
 import {
   Button,
   Line,
-  PageContainer,
+  PageContainerScrollable,
   PageTitle,
   TextInput,
   View,
@@ -70,7 +70,7 @@ class SettingsPage extends React.Component<IProps, IState> {
     const emailLoading = newsletterSignup;
     const { loading, error, fiatCurrencies } = this.props.fiatCurrencies;
     return (
-      <PageContainer>
+      <PageContainerScrollable>
         <PageTitle data-cy="settings-page-title">
           Anthem {tString("Settings")}
         </PageTitle>
@@ -242,7 +242,7 @@ class SettingsPage extends React.Component<IProps, IState> {
             </View>
           )}
         </RowContainer>
-      </PageContainer>
+      </PageContainerScrollable>
     );
   }
 

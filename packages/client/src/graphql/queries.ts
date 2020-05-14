@@ -10,6 +10,7 @@ import {
   PortfolioHistoryDocument,
   PricesDocument,
   RewardsByValidatorDocument,
+  StakingPoolDocument,
   ValidatorsDocument,
 } from "@anthem/utils";
 import ENV from "lib/client-env";
@@ -305,5 +306,23 @@ export interface ValidatorsProps {
 
 export const withValidators = graphql(ValidatorsDocument, {
   name: "validators",
+  ...noPollingConfig(["network"]),
+});
+
+/**
+ * Staking Pool
+ */
+
+interface StakingPoolQueryResult extends QueryResult {
+  data: void;
+  stakingPool: IQuery["stakingPool"];
+}
+
+export interface StakingPoolProps {
+  stakingPool: StakingPoolQueryResult;
+}
+
+export const withStakingPool = graphql(StakingPoolDocument, {
+  name: "stakingPool",
   ...noPollingConfig(["network"]),
 });

@@ -5,7 +5,9 @@ import {
   canRenderGraphQL,
   capitalizeString,
   formatAddressString,
+  formatCommissionRate,
   formatValidatorsList,
+  formatVotingPower,
   getAccountBalances,
   getBlockExplorerUrlForTransaction,
   getFiatPriceHistoryMap,
@@ -319,5 +321,32 @@ describe("utils", () => {
     await wait(500);
     const expected = then + 500;
     expect(Date.now() - expected < 10).toBeTruthy();
+  });
+
+  test("formatCommissionRate", () => {
+    expect(formatCommissionRate("0.0025000000")).toBe("0.25");
+    expect(formatCommissionRate("0.00750")).toBe("0.75");
+    expect(formatCommissionRate("0.08")).toBe("8.00");
+    expect(formatCommissionRate("0.075000000000")).toBe("7.50");
+    expect(formatCommissionRate("0.075250000000")).toBe("7.53");
+  });
+
+  test("formatVotingPower", () => {
+    const total = "184117466747846";
+    expect(formatVotingPower("74843655191", total)).toMatchInlineSnapshot(
+      `"0.04"`,
+    );
+    expect(formatVotingPower("5601876912537", total)).toMatchInlineSnapshot(
+      `"3.04"`,
+    );
+    expect(formatVotingPower("1604729095336", total)).toMatchInlineSnapshot(
+      `"0.87"`,
+    );
+    expect(formatVotingPower("67605300547", total)).toMatchInlineSnapshot(
+      `"0.04"`,
+    );
+    expect(formatVotingPower("252362566166", total)).toMatchInlineSnapshot(
+      `"0.14"`,
+    );
   });
 });

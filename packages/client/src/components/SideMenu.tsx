@@ -25,6 +25,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { connect } from "react-redux";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
+import Swipy from "swipyjs";
 import {
   abbreviateAddress,
   copyTextToClipboard,
@@ -63,6 +64,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
 
   componentDidMount() {
     this.setDashboardTabRoute();
+    this.setupMobileSwipeHandler();
   }
 
   componentDidUpdate() {
@@ -100,14 +102,14 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         title={tString("Dashboard")}
         icon={IconNames.TIMELINE_BAR_CHART}
       />,
-      // <NavItem
-      //   path={pathname}
-      //   closeHandler={close}
-      //   key="Validators"
-      //   route="Validators"
-      //   title="Validators"
-      //   icon={IconNames.OFFICE}
-      // />,
+      <NavItem
+        path={pathname}
+        closeHandler={close}
+        key="Validators"
+        route="Validators"
+        title="Validators"
+        icon={IconNames.BANK_ACCOUNT}
+      />,
       // <NavItem
       //   path={pathname}
       //   closeHandler={close}
@@ -223,13 +225,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
                   />
                 </Centered>
               ) : (
-                <View
-                  style={{
-                    marginTop: 48,
-                    display: "flex",
-                    flexDirection: "row",
-                  }}
-                >
+                <MobileCopyAddressBox>
                   <Icon
                     icon="duplicate"
                     color={COLORS.LIGHT_GRAY}
@@ -238,7 +234,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
                     style={{ marginRight: 8 }}
                   />
                   <p style={{ margin: 0 }}>{t("Copy Address")}</p>
-                </View>
+                </MobileCopyAddressBox>
               )}
             </CopyToClipboard>
           )}
@@ -372,6 +368,30 @@ class SideMenuComponent extends React.Component<IProps, IState> {
 
     return validator;
   };
+
+  setupMobileSwipeHandler = () => {
+    // Don't do this on desktop
+    if (this.props.settings.isDesktop) {
+      return;
+    }
+
+    // Attach handler to the document
+    const swipeHandler = new Swipy(document.documentElement);
+
+    // Respond to swipe gestures
+    swipeHandler.on("swiperight", () => {
+      if (!this.state.mobileMenuOpen) {
+        this.setMobileMenuState(true);
+      }
+    });
+
+    // Respond to swipe gestures
+    swipeHandler.on("swipeleft", () => {
+      if (this.state.mobileMenuOpen) {
+        this.setMobileMenuState(false);
+      }
+    });
+  };
 }
 
 /** ===========================================================================
@@ -398,7 +418,7 @@ const MobileNavContainer = styled.div`
   padding-left: 16px;
   padding-right: 16px;
   top: 0;
-  height: 60px;
+  height: 62px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -561,6 +581,12 @@ const renderValidatorName = (moniker: string) => {
     ? `${moniker.slice(0, 16)}... Validator`
     : `${moniker} Validator`;
 };
+
+const MobileCopyAddressBox = styled.div`
+  margin-top: 75px;
+  display: flex;
+  flex-direction: row;
+`;
 
 /** ===========================================================================
  * Props
