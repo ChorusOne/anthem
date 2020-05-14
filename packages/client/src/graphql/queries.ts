@@ -1,6 +1,8 @@
 import {
   AccountBalancesDocument,
   AccountInformationDocument,
+  CeloAccountHistoryDocument,
+  CeloTransactionsDocument,
   CosmosTransactionsDocument,
   DailyPercentChangeDocument,
   FiatCurrenciesDocument,
@@ -20,7 +22,10 @@ import { connect } from "react-redux";
 import { createSelector } from "reselect";
 
 /** ===========================================================================
- * GraphQL Data:
+ * Query Providers
+ * ----------------------------------------------------------------------------
+ * These are helpers to make it easy to fetch data from GraphQL APIs and
+ * provide the response data components.
  * ============================================================================
  */
 
@@ -54,11 +59,6 @@ const mapGraphQLVariablesToProps = (state: ReduxStoreState) => ({
 export type GraphQLConfigProps = ReturnType<typeof mapGraphQLVariablesToProps>;
 
 export const withGraphQLVariables = connect(mapGraphQLVariablesToProps);
-
-/** ===========================================================================
- * Types & Config
- * ============================================================================
- */
 
 const getQueryConfig = (pollInterval: number | undefined) => (
   variableKeys?: ReadonlyArray<VariablesKeys>,
@@ -104,15 +104,8 @@ const noPollingConfig = (variableKeys?: ReadonlyArray<VariablesKeys>) => {
 };
 
 /** ===========================================================================
- * Query Providers
- * ----------------------------------------------------------------------------
- * These are helpers to make it easy to fetch data from GraphQL APIs and
- * provide the response data components.
- * ============================================================================
- */
-
-/**
  * AccountBalance
+ * ============================================================================
  */
 
 interface AccountBalancesQueryResult extends QueryResult {
@@ -129,8 +122,9 @@ export const withAccountBalances = graphql(AccountBalancesDocument, {
   ...fastPollingConfig(["address"]),
 });
 
-/**
+/** ===========================================================================
  * AtomPriceData
+ * ============================================================================
  */
 
 interface AtomPriceDataQueryResult extends QueryResult {
@@ -147,8 +141,9 @@ export const withAtomPriceData = graphql(PricesDocument, {
   ...fastPollingConfig(["versus", "currency"]),
 });
 
-/**
+/** ===========================================================================
  * DailyPercentageChange
+ * ============================================================================
  */
 
 interface DailyPercentChangeQueryResult extends QueryResult {
@@ -165,8 +160,9 @@ export const withDailyPercentChange = graphql(DailyPercentChangeDocument, {
   ...fastPollingConfig(["crypto", "fiat"]),
 });
 
-/**
+/** ===========================================================================
  * RewardsByValidator
+ * ============================================================================
  */
 
 interface RewardsByValidatorQueryResult extends QueryResult {
@@ -183,8 +179,9 @@ export const withRewardsByValidatorQuery = graphql(RewardsByValidatorDocument, {
   ...slowPollingConfig(["address"]),
 });
 
-/**
+/** ===========================================================================
  * Portfolio History
+ * ============================================================================
  */
 
 export interface PortfolioHistoryQueryResult extends QueryResult {
@@ -201,8 +198,9 @@ export const withPortfolioHistoryDataQuery = graphql(PortfolioHistoryDocument, {
   ...slowPollingConfig(["address", "fiat"]),
 });
 
-/**
+/** ===========================================================================
  * FiatPriceHistory
+ * ============================================================================
  */
 
 interface FiatPriceHistoryQueryResult extends QueryResult {
@@ -219,8 +217,9 @@ export const withFiatPriceHistory = graphql(FiatPriceHistoryDocument, {
   ...noPollingConfig(["fiat", "network"]),
 });
 
-/**
+/** ===========================================================================
  * FiatCurrencies
+ * ============================================================================
  */
 
 interface FiatCurrenciesQueryResult extends QueryResult {
@@ -237,8 +236,9 @@ export const withFiatCurrencies = graphql(FiatCurrenciesDocument, {
   ...noPollingConfig(),
 });
 
-/**
+/** ===========================================================================
  * AccountInformation
+ * ============================================================================
  */
 
 interface AccountInformationQueryResult extends QueryResult {
@@ -255,8 +255,9 @@ export const withAccountInformation = graphql(AccountInformationDocument, {
   ...slowPollingConfig(["address"]),
 });
 
-/**
+/** ===========================================================================
  * Cosmos Transactions
+ * ============================================================================
  */
 
 interface CosmosTransactionsQueryResult extends QueryResult {
@@ -273,26 +274,9 @@ export const withCosmosTransactions = graphql(CosmosTransactionsDocument, {
   ...noPollingConfig(["address", "startingPage"]),
 });
 
-/**
- * Oasis Transactions
- */
-
-interface OasisTransactionsQueryResult extends QueryResult {
-  data: void;
-  oasisTransactions: IQuery["oasisTransactions"];
-}
-
-export interface OasisTransactionsProps {
-  transactions: OasisTransactionsQueryResult;
-}
-
-export const withOasisTransactions = graphql(OasisTransactionsDocument, {
-  name: "transactions",
-  ...noPollingConfig(["address", "startingPage"]),
-});
-
-/**
+/** ===========================================================================
  * Validators
+ * ============================================================================
  */
 
 interface ValidatorsQueryResult extends QueryResult {
@@ -309,8 +293,9 @@ export const withValidators = graphql(ValidatorsDocument, {
   ...noPollingConfig(["network"]),
 });
 
-/**
+/** ===========================================================================
  * Staking Pool
+ * ============================================================================
  */
 
 interface StakingPoolQueryResult extends QueryResult {
@@ -325,4 +310,61 @@ export interface StakingPoolProps {
 export const withStakingPool = graphql(StakingPoolDocument, {
   name: "stakingPool",
   ...noPollingConfig(["network"]),
+});
+
+/** ===========================================================================
+ * Oasis Transactions
+ * ============================================================================
+ */
+
+interface OasisTransactionsQueryResult extends QueryResult {
+  data: void;
+  oasisTransactions: IQuery["oasisTransactions"];
+}
+
+export interface OasisTransactionsProps {
+  transactions: OasisTransactionsQueryResult;
+}
+
+export const withOasisTransactions = graphql(OasisTransactionsDocument, {
+  name: "transactions",
+  ...noPollingConfig(["address", "startingPage"]),
+});
+
+/** ===========================================================================
+ * Celo Account History
+ * ============================================================================
+ */
+
+interface CeloAccountHistoryQueryResult extends QueryResult {
+  data: void;
+  celoAccountHistory: IQuery["celoAccountHistory"];
+}
+
+export interface CeoTransactionsProps {
+  celoAccountHistory: CeloAccountHistoryQueryResult;
+}
+
+export const withCeloAccountHistory = graphql(CeloAccountHistoryDocument, {
+  name: "celoAccountHistory",
+  ...noPollingConfig(["address", "fiat"]),
+});
+
+/** ===========================================================================
+ * Celo Transactions
+ * ============================================================================
+ */
+
+interface CeloTransactionsQueryResult extends QueryResult {
+  data: void;
+  celoTransactions: IQuery["celoTransactions"];
+}
+
+export interface CeoTransactionsProps {
+  transactions: CeloTransactionsQueryResult;
+}
+
+export const withCeloTransactions = graphql(CeloTransactionsDocument, {
+  name: "transactions",
+  ...noPollingConfig(["address", "startingPage"]),
 });

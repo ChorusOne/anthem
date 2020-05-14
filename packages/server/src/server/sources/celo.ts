@@ -1,11 +1,4 @@
-import {
-  IDelegation,
-  IOasisTransaction,
-  IOasisTransactionType,
-  IQuery,
-  NetworkDefinition,
-} from "@anthem/utils";
-import { logSentryMessage } from "../../tools/server-utils";
+import { IDelegation, IQuery, NetworkDefinition } from "@anthem/utils";
 import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
 
 /** ===========================================================================
