@@ -52,6 +52,30 @@
           },
           {
             "name": "OasisEscrowReclaimEvent"
+          },
+          {
+            "name": "OasisRegisterEntityEvent"
+          },
+          {
+            "name": "OasisRegisterNodeEvent"
+          },
+          {
+            "name": "OasisUnfreezeNodeEvent"
+          },
+          {
+            "name": "OasisRegisterRuntimeEvent"
+          },
+          {
+            "name": "OasisRateEvent"
+          },
+          {
+            "name": "OasisBoundEvent"
+          },
+          {
+            "name": "OasisAmendCommissionScheduleEvent"
+          },
+          {
+            "name": "OasisUnknownEvent"
           }
         ]
       }

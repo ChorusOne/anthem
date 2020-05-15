@@ -342,7 +342,7 @@ export interface IOasisTransaction {
   event: IOasisTransactionEvent;
 }
 
-export type IOasisTransactionEvent = IOasisBurnEvent | IOasisTransferEvent | IOasisEscrowAddEvent | IOasisEscrowTakeEvent | IOasisEscrowReclaimEvent;
+export type IOasisTransactionEvent = IOasisBurnEvent | IOasisTransferEvent | IOasisEscrowAddEvent | IOasisEscrowTakeEvent | IOasisEscrowReclaimEvent | IOasisRegisterEntityEvent | IOasisRegisterNodeEvent | IOasisUnfreezeNodeEvent | IOasisRegisterRuntimeEvent | IOasisRateEvent | IOasisBoundEvent | IOasisAmendCommissionScheduleEvent | IOasisUnknownEvent;
 
 export interface IOasisTransactionResult {
    __typename?: "OasisTransactionResult";
@@ -358,6 +358,13 @@ export enum IOasisTransactionType {
   EscrowAdd = "ESCROW_ADD",
   EscrowTake = "ESCROW_TAKE",
   EscrowReclaim = "ESCROW_RECLAIM",
+  RegisterEntity = "REGISTER_ENTITY",
+  RegisterNode = "REGISTER_NODE",
+  RegisterRuntime = "REGISTER_RUNTIME",
+  RateEvent = "RATE_EVENT",
+  BoundEvent = "BOUND_EVENT",
+  AdmendCommissionSchedule = "ADMEND_COMMISSION_SCHEDULE",
+  UnknownEvent = "UNKNOWN_EVENT",
 }
 
 export interface IOasisTransferEvent {
@@ -1090,6 +1097,30 @@ export type IOasisTransactionsQuery = (
       ) | (
         { __typename?: "OasisEscrowReclaimEvent" }
         & Pick<IOasisEscrowReclaimEvent, "type" | "owner" | "escrow" | "tokens">
+      ) | (
+        { __typename?: "OasisRegisterEntityEvent" }
+        & Pick<IOasisRegisterEntityEvent, "id" | "nodes" | "allow_entity_signed_nodes">
+      ) | (
+        { __typename?: "OasisRegisterNodeEvent" }
+        & Pick<IOasisRegisterNodeEvent, "id" | "entity_idnodes" | "expiration">
+      ) | (
+        { __typename?: "OasisUnfreezeNodeEvent" }
+        & Pick<IOasisUnfreezeNodeEvent, "id">
+      ) | (
+        { __typename?: "OasisRegisterRuntimeEvent" }
+        & Pick<IOasisRegisterRuntimeEvent, "id" | "version">
+      ) | (
+        { __typename?: "OasisRateEvent" }
+        & Pick<IOasisRateEvent, "start" | "rate">
+      ) | (
+        { __typename?: "OasisBoundEvent" }
+        & Pick<IOasisBoundEvent, "start" | "rate_min" | "rate_max">
+      ) | (
+        { __typename?: "OasisAmendCommissionScheduleEvent" }
+        & Pick<IOasisAmendCommissionScheduleEvent, "rates" | "bounds">
+      ) | (
+        { __typename?: "OasisUnknownEvent" }
+        & Pick<IOasisUnknownEvent, "method_name">
       ) }
     )> }
   ) }
@@ -2358,6 +2389,39 @@ export const OasisTransactionsDocument = gql`
           owner
           escrow
           tokens
+        }
+        ... on OasisRegisterEntityEvent {
+          id
+          nodes
+          allow_entity_signed_nodes
+        }
+        ... on OasisRegisterNodeEvent {
+          id
+          entity_idnodes
+          expiration
+        }
+        ... on OasisUnfreezeNodeEvent {
+          id
+        }
+        ... on OasisRegisterRuntimeEvent {
+          id
+          version
+        }
+        ... on OasisRateEvent {
+          start
+          rate
+        }
+        ... on OasisBoundEvent {
+          start
+          rate_min
+          rate_max
+        }
+        ... on OasisAmendCommissionScheduleEvent {
+          rates
+          bounds
+        }
+        ... on OasisUnknownEvent {
+          method_name
         }
       }
     }

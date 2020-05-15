@@ -107,6 +107,13 @@ enum OasisTransactionType {
   ESCROW_ADD
   ESCROW_TAKE
   ESCROW_RECLAIM
+  REGISTER_ENTITY
+  REGISTER_NODE
+  REGISTER_RUNTIME
+  RATE_EVENT
+  BOUND_EVENT
+  ADMEND_COMMISSION_SCHEDULE
+  UNKNOWN_EVENT
 }
 
 union OasisTransactionEvent =
@@ -115,6 +122,14 @@ union OasisTransactionEvent =
   | OasisEscrowAddEvent
   | OasisEscrowTakeEvent
   | OasisEscrowReclaimEvent
+  | OasisRegisterEntityEvent
+  | OasisRegisterNodeEvent
+  | OasisUnfreezeNodeEvent
+  | OasisRegisterRuntimeEvent
+  | OasisRateEvent
+  | OasisBoundEvent
+  | OasisAmendCommissionScheduleEvent
+  | OasisUnknownEvent
 
 type OasisTransferEvent {
   type: OasisTransactionType!
