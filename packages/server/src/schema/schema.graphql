@@ -149,6 +149,47 @@ type OasisEscrowReclaimEvent {
   tokens: String!
 }
 
+type OasisRegisterEntityEvent {
+  id: String!
+  nodes: [String!]!
+  allow_entity_signed_nodes: Boolean!
+}
+
+type OasisRegisterNodeEvent {
+  id: String!
+  entity_idnodes: String!
+  expiration: Float!
+}
+
+type OasisUnfreezeNodeEvent {
+  id: String!
+}
+
+type OasisRegisterRuntimeEvent {
+  id: String!
+  version: String!
+}
+
+type OasisRateEvent {
+  start: String!
+  rate: String!
+}
+
+type OasisBoundEvent {
+  start: String!
+  rate_min: String!
+  rate_max: String!
+}
+
+type OasisAmendCommissionScheduleEvent {
+  rates: [String!]!
+  bounds: [String!]!
+}
+
+type OasisUnknownEvent {
+  method_name: String!
+}
+
 # *****************************************************************************
 # Cosmos APIs
 
