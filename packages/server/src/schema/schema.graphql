@@ -172,7 +172,7 @@ type OasisRegisterEntityEvent {
 
 type OasisRegisterNodeEvent {
   id: String!
-  entity_idnodes: String!
+  entity_id: String!
   expiration: Float!
 }
 

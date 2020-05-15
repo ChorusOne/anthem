@@ -39,6 +39,13 @@ interface OasisTransaction {
   escrow?: TxEscrow;
   burn?: TxBurn;
   transfer?: TxTransfer;
+  register_entity?: TxRegister;
+  deregister_entity?: TxDeregister;
+  register_node?: TxRegisterNode;
+  unfreeze_node?: TxUnfreezeNode;
+  register_runtime?: TxRegisterRuntime;
+  amend_commission_schedule?: TxAmendCommissionSchedule;
+  unknown_method?: TxUnknown;
 }
 
 interface TxTransfer {
@@ -67,6 +74,42 @@ interface TxEscrow {
     escrow: string;
     tokens: string;
   };
+}
+
+interface TxRegister {
+  id: string;
+  nodes: string[];
+  allow_entity_signed_nodes: boolean;
+}
+
+interface TxDeregister {
+  id: string;
+  nodes: string[];
+  allow_entity_signed_nodes: boolean;
+}
+
+interface TxRegisterNode {
+  id: string;
+  entity_id: string;
+  expiration: number;
+}
+
+interface TxUnfreezeNode {
+  id: string;
+}
+
+interface TxRegisterRuntime {
+  id: string;
+  version: string;
+}
+
+interface TxAmendCommissionSchedule {
+  rates: string[];
+  bounds: string[];
+}
+
+interface TxUnknown {
+  method_name: string;
 }
 
 /** ===========================================================================
@@ -174,6 +217,76 @@ const adaptOasisTransaction = (
         to: tx.transfer.to,
         from: tx.transfer.from,
         tokens: tx.transfer.tokens,
+      },
+    };
+  } else if (!!tx.register_entity) {
+    // REGISTER ENTITY Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.Transfer,
+        ...tx.register_entity,
+      },
+    };
+  } else if (!!tx.deregister_entity) {
+    // DEREGISTER ENTITY Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.Transfer,
+        ...tx.deregister_entity,
+      },
+    };
+  } else if (!!tx.register_node) {
+    // REGISTER NODE Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.Transfer,
+        ...tx.register_node,
+      },
+    };
+  } else if (!!tx.unfreeze_node) {
+    // UNFREEZE NODE Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.Transfer,
+        ...tx.unfreeze_node,
+      },
+    };
+  } else if (!!tx.register_runtime) {
+    // REGISTER RUNTIME Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.Transfer,
+        ...tx.register_runtime,
+      },
+    };
+  } else if (!!tx.amend_commission_schedule) {
+    // AMEND COMMISSION SCHEDULE Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.Transfer,
+        ...tx.amend_commission_schedule,
+      },
+    };
+  } else if (!!tx.unknown_method) {
+    // UNKNOWN Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.Transfer,
+        ...tx.unknown_method,
       },
     };
   } else if (!!tx.escrow) {
