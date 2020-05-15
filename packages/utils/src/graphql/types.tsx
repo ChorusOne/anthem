@@ -268,12 +268,14 @@ export interface IMsgWithdrawValidatorCommission {
 
 export interface IOasisAmendCommissionScheduleEvent {
    __typename?: "OasisAmendCommissionScheduleEvent";
+  type: IOasisTransactionType;
   rates: Array<Scalars["String"]>;
   bounds: Array<Scalars["String"]>;
 }
 
 export interface IOasisBoundEvent {
    __typename?: "OasisBoundEvent";
+  type: IOasisTransactionType;
   start: Scalars["String"];
   rate_min: Scalars["String"];
   rate_max: Scalars["String"];
@@ -311,12 +313,14 @@ export interface IOasisEscrowTakeEvent {
 
 export interface IOasisRateEvent {
    __typename?: "OasisRateEvent";
+  type: IOasisTransactionType;
   start: Scalars["String"];
   rate: Scalars["String"];
 }
 
 export interface IOasisRegisterEntityEvent {
    __typename?: "OasisRegisterEntityEvent";
+  type: IOasisTransactionType;
   id: Scalars["String"];
   nodes: Array<Scalars["String"]>;
   allow_entity_signed_nodes: Scalars["Boolean"];
@@ -324,13 +328,15 @@ export interface IOasisRegisterEntityEvent {
 
 export interface IOasisRegisterNodeEvent {
    __typename?: "OasisRegisterNodeEvent";
+  type: IOasisTransactionType;
   id: Scalars["String"];
-  entity_idnodes: Scalars["String"];
+  entity_id: Scalars["String"];
   expiration: Scalars["Float"];
 }
 
 export interface IOasisRegisterRuntimeEvent {
    __typename?: "OasisRegisterRuntimeEvent";
+  type: IOasisTransactionType;
   id: Scalars["String"];
   version: Scalars["String"];
 }
@@ -363,7 +369,7 @@ export enum IOasisTransactionType {
   RegisterRuntime = "REGISTER_RUNTIME",
   RateEvent = "RATE_EVENT",
   BoundEvent = "BOUND_EVENT",
-  AdmendCommissionSchedule = "ADMEND_COMMISSION_SCHEDULE",
+  AmendCommissionSchedule = "AMEND_COMMISSION_SCHEDULE",
   UnknownEvent = "UNKNOWN_EVENT",
 }
 
@@ -377,11 +383,13 @@ export interface IOasisTransferEvent {
 
 export interface IOasisUnfreezeNodeEvent {
    __typename?: "OasisUnfreezeNodeEvent";
+  type: IOasisTransactionType;
   id: Scalars["String"];
 }
 
 export interface IOasisUnknownEvent {
    __typename?: "OasisUnknownEvent";
+  type: IOasisTransactionType;
   method_name: Scalars["String"];
 }
 
@@ -1099,28 +1107,28 @@ export type IOasisTransactionsQuery = (
         & Pick<IOasisEscrowReclaimEvent, "type" | "owner" | "escrow" | "tokens">
       ) | (
         { __typename?: "OasisRegisterEntityEvent" }
-        & Pick<IOasisRegisterEntityEvent, "id" | "nodes" | "allow_entity_signed_nodes">
+        & Pick<IOasisRegisterEntityEvent, "type" | "id" | "nodes" | "allow_entity_signed_nodes">
       ) | (
         { __typename?: "OasisRegisterNodeEvent" }
-        & Pick<IOasisRegisterNodeEvent, "id" | "entity_idnodes" | "expiration">
+        & Pick<IOasisRegisterNodeEvent, "type" | "id" | "entity_id" | "expiration">
       ) | (
         { __typename?: "OasisUnfreezeNodeEvent" }
-        & Pick<IOasisUnfreezeNodeEvent, "id">
+        & Pick<IOasisUnfreezeNodeEvent, "type" | "id">
       ) | (
         { __typename?: "OasisRegisterRuntimeEvent" }
-        & Pick<IOasisRegisterRuntimeEvent, "id" | "version">
+        & Pick<IOasisRegisterRuntimeEvent, "type" | "id" | "version">
       ) | (
         { __typename?: "OasisRateEvent" }
-        & Pick<IOasisRateEvent, "start" | "rate">
+        & Pick<IOasisRateEvent, "type" | "start" | "rate">
       ) | (
         { __typename?: "OasisBoundEvent" }
-        & Pick<IOasisBoundEvent, "start" | "rate_min" | "rate_max">
+        & Pick<IOasisBoundEvent, "type" | "start" | "rate_min" | "rate_max">
       ) | (
         { __typename?: "OasisAmendCommissionScheduleEvent" }
-        & Pick<IOasisAmendCommissionScheduleEvent, "rates" | "bounds">
+        & Pick<IOasisAmendCommissionScheduleEvent, "type" | "rates" | "bounds">
       ) | (
         { __typename?: "OasisUnknownEvent" }
-        & Pick<IOasisUnknownEvent, "method_name">
+        & Pick<IOasisUnknownEvent, "type" | "method_name">
       ) }
     )> }
   ) }
@@ -2391,36 +2399,44 @@ export const OasisTransactionsDocument = gql`
           tokens
         }
         ... on OasisRegisterEntityEvent {
+          type
           id
           nodes
           allow_entity_signed_nodes
         }
         ... on OasisRegisterNodeEvent {
+          type
           id
-          entity_idnodes
+          entity_id
           expiration
         }
         ... on OasisUnfreezeNodeEvent {
+          type
           id
         }
         ... on OasisRegisterRuntimeEvent {
+          type
           id
           version
         }
         ... on OasisRateEvent {
+          type
           start
           rate
         }
         ... on OasisBoundEvent {
+          type
           start
           rate_min
           rate_max
         }
         ... on OasisAmendCommissionScheduleEvent {
+          type
           rates
           bounds
         }
         ... on OasisUnknownEvent {
+          type
           method_name
         }
       }

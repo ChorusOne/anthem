@@ -100,6 +100,20 @@ const OasisTransactionEvent = {
         return "OasisEscrowTakeEvent";
       case IOasisTransactionType.EscrowReclaim:
         return "OasisEscrowReclaimEvent";
+      case IOasisTransactionType.RegisterEntity:
+        return "REGISTER_ENTITY";
+      case IOasisTransactionType.RegisterNode:
+        return "REGISTER_NODE";
+      case IOasisTransactionType.RegisterRuntime:
+        return "REGISTER_RUNTIME";
+      case IOasisTransactionType.RateEvent:
+        return "RATE_EVENT";
+      case IOasisTransactionType.BoundEvent:
+        return "BOUND_EVENT";
+      case IOasisTransactionType.AmendCommissionSchedule:
+        return "AMEND_COMMISSION_SCHEDULE";
+      case IOasisTransactionType.UnknownEvent:
+        return "UNKNOWN_EVENT";
       default:
         assertUnreachable(type);
     }

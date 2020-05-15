@@ -112,7 +112,7 @@ enum OasisTransactionType {
   REGISTER_RUNTIME
   RATE_EVENT
   BOUND_EVENT
-  ADMEND_COMMISSION_SCHEDULE
+  AMEND_COMMISSION_SCHEDULE
   UNKNOWN_EVENT
 }
 
@@ -165,43 +165,51 @@ type OasisEscrowReclaimEvent {
 }
 
 type OasisRegisterEntityEvent {
+  type: OasisTransactionType!
   id: String!
   nodes: [String!]!
   allow_entity_signed_nodes: Boolean!
 }
 
 type OasisRegisterNodeEvent {
+  type: OasisTransactionType!
   id: String!
   entity_id: String!
   expiration: Float!
 }
 
 type OasisUnfreezeNodeEvent {
+  type: OasisTransactionType!
   id: String!
 }
 
 type OasisRegisterRuntimeEvent {
+  type: OasisTransactionType!
   id: String!
   version: String!
 }
 
 type OasisRateEvent {
+  type: OasisTransactionType!
   start: String!
   rate: String!
 }
 
 type OasisBoundEvent {
+  type: OasisTransactionType!
   start: String!
   rate_min: String!
   rate_max: String!
 }
 
 type OasisAmendCommissionScheduleEvent {
+  type: OasisTransactionType!
   rates: [String!]!
   bounds: [String!]!
 }
 
 type OasisUnknownEvent {
+  type: OasisTransactionType!
   method_name: String!
 }
 
