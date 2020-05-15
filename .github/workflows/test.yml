@@ -21,9 +21,9 @@ jobs:
           node-version: 12.x
 
       # Run install and build steps
-      - name: Install dependencies and build the application
+      - name: Build the application and run unit tests
         run: yarn docker:build
 
-      # Run all tests
-      - name: Run all static, unit and e2e tests
+      # Run Cypress e2e tests
+      - name: Run Cypress e2e tests
         run: yarn docker:cypress
