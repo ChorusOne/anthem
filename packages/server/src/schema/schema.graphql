@@ -79,7 +79,7 @@ type CeloTransactionResult {
   moreResultsExist: Boolean!
 }
 
-# TODO: Complete the transaction/events types for Celo
+# TODO: Complete the transaction/events types for Celo Network
 type CeloTransaction {
   date: String!
   height: Int!
