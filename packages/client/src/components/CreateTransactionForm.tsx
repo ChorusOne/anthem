@@ -54,7 +54,7 @@ import {
 } from "tools/cosmos-utils";
 import {
   calculateTransactionAmount,
-  denomToAtoms,
+  denomToUnit,
   formatCurrencyAmount,
 } from "tools/currency-utils";
 import { bold } from "tools/i18n-utils";
@@ -181,7 +181,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           const balances = getAccountBalances(
             accountBalancesData,
             atomsConversionRate,
-            ledger.network.denom,
+            ledger.network,
             6,
           );
           const { rewards, rewardsFiat } = balances;
@@ -257,7 +257,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     <b>{validator.description.moniker}</b>
                     <p style={{ margin: 0, marginLeft: 4 }}>
                       {formatCurrencyAmount(
-                        denomToAtoms(result.amount, String),
+                        denomToUnit(
+                          result.amount,
+                          network.denominationSize,
+                          String,
+                        ),
                         4,
                       )}{" "}
                       {ledger.network.descriptor}
@@ -333,7 +337,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const balances = getAccountBalances(
       accountBalances.accountBalances,
       atomsConversionRate,
-      ledger.network.denom,
+      ledger.network,
       6,
     );
     const { balance, balanceFiat } = balances;
@@ -703,7 +707,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const balances = getAccountBalances(
       accountBalances.accountBalances,
       atomsConversionRate,
-      ledger.network.denom,
+      ledger.network,
       6,
     );
 
@@ -713,6 +717,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       targetValue,
       this.state.gasPrice,
       this.state.gasAmount,
+      ledger.network,
     );
 
     return maximumAmountAfterFees;
@@ -739,6 +744,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   updateValues = () => {
+    const { network } = this.props.ledger;
     const { amount, gasPrice, gasAmount, useFullBalance } = this.state;
     const doNotUpdate = gasPrice === "" || gasAmount === "";
 
@@ -748,6 +754,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         useFullBalance ? maximumAmount : amount,
         gasPrice,
         gasAmount,
+        network,
       );
 
       this.setState(
@@ -833,7 +840,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         address,
         gasAmount,
         gasPrice,
-        network: network.name,
+        network,
         validatorOperatorAddress:
           selectedValidatorForDelegation.operator_address,
       });

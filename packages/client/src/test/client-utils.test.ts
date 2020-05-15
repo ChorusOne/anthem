@@ -205,7 +205,7 @@ describe("utils", () => {
     const result = getAccountBalances(
       accountBalances.accountBalances,
       prices.prices,
-      "uatom",
+      NETWORKS.COSMOS,
     );
     expect(result).toMatchInlineSnapshot(`
       Object {

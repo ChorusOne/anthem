@@ -71,11 +71,10 @@ class Balance extends React.Component<IProps, {}> {
 
           const fiatConversionRate = prices.prices;
           const data = accountBalances.accountBalances;
-          const { denom } = this.props.ledger.network;
           const balances = getAccountBalances(
             data,
             fiatConversionRate,
-            denom,
+            network,
             2,
           );
 

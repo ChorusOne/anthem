@@ -85,6 +85,44 @@ export interface IBlockHeader {
   proposer_address: Scalars["String"];
 }
 
+export interface ICeloAccountSnapshot {
+   __typename?: "CeloAccountSnapshot";
+  snapshotDate: Scalars["String"];
+  address: Scalars["String"];
+  height: Scalars["String"];
+  snapshotReward: Scalars["String"];
+  goldTokenBalance: Scalars["String"];
+  totalLockedGoldBalance: Scalars["String"];
+  nonVotingLockedGoldBalance: Scalars["String"];
+  votingLockedGoldBalance: Scalars["String"];
+  pendingWithdrawalBalance: Scalars["String"];
+  celoUSDValue: Scalars["String"];
+  delegations: ICeloDelegation[];
+}
+
+export interface ICeloDelegation {
+   __typename?: "CeloDelegation";
+  group: Scalars["String"];
+  totalVotes: Scalars["String"];
+  activeVotes: Scalars["String"];
+  pendingVotes: Scalars["String"];
+}
+
+/** TODO: Complete the transaction/events types for Celo */
+export interface ICeloTransaction {
+   __typename?: "CeloTransaction";
+  date: Scalars["String"];
+  height: Scalars["Int"];
+}
+
+export interface ICeloTransactionResult {
+   __typename?: "CeloTransactionResult";
+  page: Scalars["Float"];
+  limit: Scalars["Float"];
+  data: ICeloTransaction[];
+  moreResultsExist: Scalars["Boolean"];
+}
+
 export interface ICoin {
    __typename?: "Coin";
   id: Scalars["String"];
@@ -374,6 +412,9 @@ export interface IQuery {
   fiatCurrencies: IFiatCurrency[];
   /** Oasis APIs */
   oasisTransactions: IOasisTransactionResult;
+  /** Celo APIs */
+  celoAccountHistory: ICeloAccountSnapshot[];
+  celoTransactions: ICeloTransactionResult;
 }
 
 export interface IQueryPortfolioHistoryArgs {
@@ -472,6 +513,17 @@ export interface IQueryPricesArgs {
 }
 
 export interface IQueryOasisTransactionsArgs {
+  address: Scalars["String"];
+  startingPage: Maybe<Scalars["Float"]>;
+  pageSize: Maybe<Scalars["Float"]>;
+}
+
+export interface IQueryCeloAccountHistoryArgs {
+  address: Scalars["String"];
+  fiat: Scalars["String"];
+}
+
+export interface IQueryCeloTransactionsArgs {
   address: Scalars["String"];
   startingPage: Maybe<Scalars["Float"]>;
   pageSize: Maybe<Scalars["Float"]>;
@@ -699,6 +751,41 @@ export type IAccountInformationQuery = (
         & Pick<IPubKey, "type">
       )> }
     ) }
+  ) }
+);
+
+export interface ICeloAccountHistoryQueryVariables {
+  address: Scalars["String"];
+  fiat: Scalars["String"];
+}
+
+export type ICeloAccountHistoryQuery = (
+  { __typename?: "Query" }
+  & { celoAccountHistory: Array<(
+    { __typename?: "CeloAccountSnapshot" }
+    & Pick<ICeloAccountSnapshot, "snapshotDate" | "address" | "height" | "snapshotReward" | "goldTokenBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
+    & { delegations: Array<(
+      { __typename?: "CeloDelegation" }
+      & Pick<ICeloDelegation, "group" | "totalVotes" | "activeVotes" | "pendingVotes">
+    )> }
+  )> }
+);
+
+export interface ICeloTransactionsQueryVariables {
+  address: Scalars["String"];
+  startingPage: Maybe<Scalars["Float"]>;
+  pageSize: Maybe<Scalars["Float"]>;
+}
+
+export type ICeloTransactionsQuery = (
+  { __typename?: "Query" }
+  & { celoTransactions: (
+    { __typename?: "CeloTransactionResult" }
+    & Pick<ICeloTransactionResult, "page" | "limit" | "moreResultsExist">
+    & { data: Array<(
+      { __typename?: "CeloTransaction" }
+      & Pick<ICeloTransaction, "date" | "height">
+    )> }
   ) }
 );
 
@@ -1325,6 +1412,130 @@ export function useAccountInformationLazyQuery(baseOptions?: ApolloReactHooks.La
 export type AccountInformationQueryHookResult = ReturnType<typeof useAccountInformationQuery>;
 export type AccountInformationLazyQueryHookResult = ReturnType<typeof useAccountInformationLazyQuery>;
 export type AccountInformationQueryResult = ApolloReactCommon.QueryResult<IAccountInformationQuery, IAccountInformationQueryVariables>;
+export const CeloAccountHistoryDocument = gql`
+    query celoAccountHistory($address: String!, $fiat: String!) {
+  celoAccountHistory(address: $address, fiat: $fiat) {
+    snapshotDate
+    address
+    height
+    snapshotReward
+    goldTokenBalance
+    totalLockedGoldBalance
+    nonVotingLockedGoldBalance
+    votingLockedGoldBalance
+    pendingWithdrawalBalance
+    celoUSDValue
+    delegations {
+      group
+      totalVotes
+      activeVotes
+      pendingVotes
+    }
+  }
+}
+    `;
+export type CeloAccountHistoryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloAccountHistoryQuery, ICeloAccountHistoryQueryVariables>, "query"> & ({ variables: ICeloAccountHistoryQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+export const CeloAccountHistoryComponent = (props: CeloAccountHistoryComponentProps) => (
+      <ApolloReactComponents.Query<ICeloAccountHistoryQuery, ICeloAccountHistoryQueryVariables> query={CeloAccountHistoryDocument} {...props} />
+    );
+
+export type ICeloAccountHistoryProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICeloAccountHistoryQuery, ICeloAccountHistoryQueryVariables> & TChildProps;
+export function withCeloAccountHistory<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ICeloAccountHistoryQuery,
+  ICeloAccountHistoryQueryVariables,
+  ICeloAccountHistoryProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, ICeloAccountHistoryQuery, ICeloAccountHistoryQueryVariables, ICeloAccountHistoryProps<TChildProps>>(CeloAccountHistoryDocument, {
+      alias: "celoAccountHistory",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useCeloAccountHistoryQuery__
+ *
+ * To run a query within a React component, call `useCeloAccountHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCeloAccountHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCeloAccountHistoryQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *      fiat: // value for 'fiat'
+ *   },
+ * });
+ */
+export function useCeloAccountHistoryQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ICeloAccountHistoryQuery, ICeloAccountHistoryQueryVariables>) {
+        return ApolloReactHooks.useQuery<ICeloAccountHistoryQuery, ICeloAccountHistoryQueryVariables>(CeloAccountHistoryDocument, baseOptions);
+      }
+export function useCeloAccountHistoryLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ICeloAccountHistoryQuery, ICeloAccountHistoryQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ICeloAccountHistoryQuery, ICeloAccountHistoryQueryVariables>(CeloAccountHistoryDocument, baseOptions);
+        }
+export type CeloAccountHistoryQueryHookResult = ReturnType<typeof useCeloAccountHistoryQuery>;
+export type CeloAccountHistoryLazyQueryHookResult = ReturnType<typeof useCeloAccountHistoryLazyQuery>;
+export type CeloAccountHistoryQueryResult = ApolloReactCommon.QueryResult<ICeloAccountHistoryQuery, ICeloAccountHistoryQueryVariables>;
+export const CeloTransactionsDocument = gql`
+    query celoTransactions($address: String!, $startingPage: Float, $pageSize: Float) {
+  celoTransactions(address: $address, startingPage: $startingPage, pageSize: $pageSize) {
+    page
+    limit
+    data {
+      date
+      height
+    }
+    moreResultsExist
+  }
+}
+    `;
+export type CeloTransactionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloTransactionsQuery, ICeloTransactionsQueryVariables>, "query"> & ({ variables: ICeloTransactionsQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+export const CeloTransactionsComponent = (props: CeloTransactionsComponentProps) => (
+      <ApolloReactComponents.Query<ICeloTransactionsQuery, ICeloTransactionsQueryVariables> query={CeloTransactionsDocument} {...props} />
+    );
+
+export type ICeloTransactionsProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICeloTransactionsQuery, ICeloTransactionsQueryVariables> & TChildProps;
+export function withCeloTransactions<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ICeloTransactionsQuery,
+  ICeloTransactionsQueryVariables,
+  ICeloTransactionsProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, ICeloTransactionsQuery, ICeloTransactionsQueryVariables, ICeloTransactionsProps<TChildProps>>(CeloTransactionsDocument, {
+      alias: "celoTransactions",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useCeloTransactionsQuery__
+ *
+ * To run a query within a React component, call `useCeloTransactionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCeloTransactionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCeloTransactionsQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *      startingPage: // value for 'startingPage'
+ *      pageSize: // value for 'pageSize'
+ *   },
+ * });
+ */
+export function useCeloTransactionsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ICeloTransactionsQuery, ICeloTransactionsQueryVariables>) {
+        return ApolloReactHooks.useQuery<ICeloTransactionsQuery, ICeloTransactionsQueryVariables>(CeloTransactionsDocument, baseOptions);
+      }
+export function useCeloTransactionsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ICeloTransactionsQuery, ICeloTransactionsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ICeloTransactionsQuery, ICeloTransactionsQueryVariables>(CeloTransactionsDocument, baseOptions);
+        }
+export type CeloTransactionsQueryHookResult = ReturnType<typeof useCeloTransactionsQuery>;
+export type CeloTransactionsLazyQueryHookResult = ReturnType<typeof useCeloTransactionsLazyQuery>;
+export type CeloTransactionsQueryResult = ApolloReactCommon.QueryResult<ICeloTransactionsQuery, ICeloTransactionsQueryVariables>;
 export const CoinsDocument = gql`
     query coins {
   coins {

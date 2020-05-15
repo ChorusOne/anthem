@@ -296,7 +296,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
   };
 
   calculatePortfolioData = () => {
-    const { settings, portfolioHistory } = this.props;
+    const { settings, network, portfolioHistory } = this.props;
 
     if (portfolioHistory && portfolioHistory.portfolioHistory) {
       const { validatorCommissions } = portfolioHistory.portfolioHistory;
@@ -321,6 +321,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
       const result = processPortfolioHistoryData(
         this.props.portfolioHistory,
         displayFiat,
+        network,
       );
 
       this.setState({ portfolioChartData: result });
@@ -359,6 +360,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
       const portfolioData = processPortfolioHistoryData(
         portfolioHistory,
         false,
+        network,
       );
 
       if (

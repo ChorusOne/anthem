@@ -38,10 +38,55 @@ type Query {
     startingPage: Float
     pageSize: Float
   ): OasisTransactionResult!
+
+  # Celo APIs
+  celoAccountHistory(address: String!, fiat: String!): [CeloAccountSnapshot!]!
+  celoTransactions(
+    address: String!
+    startingPage: Float
+    pageSize: Float
+  ): CeloTransactionResult!
 }
 
 # *****************************************************************************
-# Cosmos APIs
+# Celo APIs
+
+type CeloDelegation {
+  group: String!
+  totalVotes: String!
+  activeVotes: String!
+  pendingVotes: String!
+}
+
+type CeloAccountSnapshot {
+  snapshotDate: String!
+  address: String!
+  height: String!
+  snapshotReward: String!
+  goldTokenBalance: String!
+  totalLockedGoldBalance: String!
+  nonVotingLockedGoldBalance: String!
+  votingLockedGoldBalance: String!
+  pendingWithdrawalBalance: String!
+  celoUSDValue: String!
+  delegations: [CeloDelegation!]!
+}
+
+type CeloTransactionResult {
+  page: Float!
+  limit: Float!
+  data: [CeloTransaction!]!
+  moreResultsExist: Boolean!
+}
+
+# TODO: Complete the transaction/events types for Celo
+type CeloTransaction {
+  date: String!
+  height: Int!
+}
+
+# *****************************************************************************
+# Oasis APIs
 
 type OasisTransactionResult {
   page: Float!

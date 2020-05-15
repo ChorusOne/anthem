@@ -20,7 +20,7 @@ import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import queryString, { ParsedQuery } from "query-string";
 import {
   convertCryptoToFiat,
-  denomToAtoms,
+  denomToUnit,
   formatCurrencyAmount,
 } from "./currency-utils";
 import { formatFiatPriceDate } from "./date-utils";
@@ -211,9 +211,10 @@ interface AccountBalancesResult {
 export const getAccountBalances = (
   accountBalancesData: IQuery["accountBalances"] | undefined,
   rate: IQuery["prices"] | undefined,
-  denom: COIN_DENOMS,
+  network: NetworkDefinition,
   maximumFractionDigits?: number,
 ): AccountBalancesResult => {
+  const { denom, denominationSize } = network;
   const defaultResult = {
     balance: "",
     rewards: "",
@@ -313,19 +314,19 @@ export const getAccountBalances = (
     commissionsFiat,
     totalFiat,
   ]: ReadonlyArray<string> = [
-    denomToAtoms(balanceResult, String),
-    denomToAtoms(rewardsResult, String),
-    denomToAtoms(delegationResult, String),
-    denomToAtoms(unbondingResult, String),
-    denomToAtoms(commissionsResult, String),
-    denomToAtoms(totalResult, String),
+    denomToUnit(balanceResult, denominationSize, String),
+    denomToUnit(rewardsResult, denominationSize, String),
+    denomToUnit(delegationResult, denominationSize, String),
+    denomToUnit(unbondingResult, denominationSize, String),
+    denomToUnit(commissionsResult, denominationSize, String),
+    denomToUnit(totalResult, denominationSize, String),
     // The rate is undefined for non fiat supported networks
-    rate ? convertCryptoToFiat(rate, balanceResult) : "0",
-    rate ? convertCryptoToFiat(rate, delegationResult) : "0",
-    rate ? convertCryptoToFiat(rate, rewardsResult) : "0",
-    rate ? convertCryptoToFiat(rate, unbondingResult) : "0",
-    rate ? convertCryptoToFiat(rate, commissionsResult) : "0",
-    rate ? convertCryptoToFiat(rate, totalResult) : "0",
+    rate ? convertCryptoToFiat(rate, balanceResult, network) : "0",
+    rate ? convertCryptoToFiat(rate, delegationResult, network) : "0",
+    rate ? convertCryptoToFiat(rate, rewardsResult, network) : "0",
+    rate ? convertCryptoToFiat(rate, unbondingResult, network) : "0",
+    rate ? convertCryptoToFiat(rate, commissionsResult, network) : "0",
+    rate ? convertCryptoToFiat(rate, totalResult, network) : "0",
   ].map(x => formatCurrencyAmount(x, maximumFractionDigits));
 
   const getPercentage = (value: BigNumber) => {

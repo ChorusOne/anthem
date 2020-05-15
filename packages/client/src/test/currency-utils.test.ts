@@ -1,11 +1,12 @@
+import { NETWORKS } from "@anthem/utils";
 import BigNumber from "bignumber.js";
 import {
-  atomsToDenom,
   calculateTransactionAmount,
   convertCryptoToFiat,
-  denomToAtoms,
+  denomToUnit,
   findCurrencyFromCoinsList,
   formatCurrencyAmount,
+  unitToDenom,
 } from "tools/currency-utils";
 import { coins } from "../../../utils/src/client/data/coins.json";
 import prices from "../../../utils/src/client/data/prices.json";
@@ -46,37 +47,58 @@ describe("currency-utils", () => {
   });
 
   test("denomToAtoms", () => {
-    let result = denomToAtoms(5000, String);
+    let result = denomToUnit(5000, 1e6, String);
     expect(result).toMatchInlineSnapshot(`"0.005"`);
 
-    result = denomToAtoms(0, String);
+    result = denomToUnit(0, 1e6, String);
     expect(result).toMatchInlineSnapshot(`"0"`);
 
-    result = denomToAtoms(5.9082649012634, String);
+    result = denomToUnit(5.9082649012634, 1e6, String);
     expect(result).toMatchInlineSnapshot(`"0.0000059082649012634"`);
   });
 
   test("convertAtomsToUsd", () => {
-    let result = convertCryptoToFiat(prices.prices, new BigNumber(5000));
+    let result = convertCryptoToFiat(
+      prices.prices,
+      new BigNumber(5000),
+      NETWORKS.COSMOS,
+    );
     expect(result).toMatchInlineSnapshot(`"0.0137"`);
 
-    result = convertCryptoToFiat(prices.prices, new BigNumber(15));
+    result = convertCryptoToFiat(
+      prices.prices,
+      new BigNumber(15),
+      NETWORKS.COSMOS,
+    );
     expect(result).toMatchInlineSnapshot(`"0.0000411"`);
 
-    result = convertCryptoToFiat(prices.prices, new BigNumber(1000000));
+    result = convertCryptoToFiat(
+      prices.prices,
+      new BigNumber(1000000),
+      NETWORKS.COSMOS,
+    );
     expect(result).toMatchInlineSnapshot(`"2.74"`);
 
-    result = convertCryptoToFiat(prices.prices, new BigNumber(100000000));
+    result = convertCryptoToFiat(
+      prices.prices,
+      new BigNumber(100000000),
+      NETWORKS.COSMOS,
+    );
     expect(result).toMatchInlineSnapshot(`"274"`);
   });
 
   test("atomsToDenom", () => {
-    const result = atomsToDenom("500");
+    const result = unitToDenom("500", 1e6);
     expect(result).toMatchInlineSnapshot(`"500000000"`);
   });
 
   test("calculateTransactionAmount", () => {
-    const result = calculateTransactionAmount("500000", "1500", "150000");
+    const result = calculateTransactionAmount(
+      "500000",
+      "1500",
+      "150000",
+      NETWORKS.COSMOS,
+    );
     expect(result).toMatchInlineSnapshot(`"499775"`);
   });
 });

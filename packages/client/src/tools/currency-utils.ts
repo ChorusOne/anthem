@@ -1,4 +1,4 @@
-import { ICoin, IQuery } from "@anthem/utils";
+import { ICoin, IQuery, NetworkDefinition } from "@anthem/utils";
 import BigNumber from "bignumber.js";
 import { trimZeroes } from "./client-utils";
 import {
@@ -75,50 +75,63 @@ export const findCurrencyFromCoinsList = (
 };
 
 interface CurrencyConversionMethodTypes {
-  (amount: GenericNumberType, targetConstructorFn?: typeof String): string;
-  (amount: GenericNumberType, targetConstructorFn: typeof Number): number;
   (
     amount: GenericNumberType,
+    denomSize: GenericNumberType,
+    targetConstructorFn?: typeof String,
+  ): string;
+  (
+    amount: GenericNumberType,
+    denomSize: GenericNumberType,
+    targetConstructorFn: typeof Number,
+  ): number;
+  (
+    amount: GenericNumberType,
+    denomSize: GenericNumberType,
     targetConstructorFn: typeof toBigNumber,
   ): BigNumber;
 }
 
 /**
- * Convert an ATOM denomination to the normal ATOM amount.
+ * Convert a denomination to the normal network display amount.
  */
-export const denomToAtoms: CurrencyConversionMethodTypes = (
-  denoms: any,
+export const denomToUnit: CurrencyConversionMethodTypes = (
+  denoms: GenericNumberType,
+  networkDenominationSize: GenericNumberType,
   targetConstructorFn: any = String,
 ) => {
   const amount = valueToBigNumber(denoms);
-  const result = divide(amount, 1e6);
+  const result = divide(amount, networkDenominationSize);
   return targetConstructorFn(result);
 };
 
 /**
- * Convert an ATOM amount back to the raw ATOM denomination.
+ * Convert a network display amount back to the network denomination amount.
  */
-export const atomsToDenom: CurrencyConversionMethodTypes = (
-  amount: any,
+export const unitToDenom: CurrencyConversionMethodTypes = (
+  amount: GenericNumberType,
+  networkDenominationSize: GenericNumberType,
   targetConstructorFn: any = String,
 ) => {
   const value = valueToBigNumber(amount);
-  const result = multiply(value, 1e6);
+  const result = multiply(value, networkDenominationSize);
   return targetConstructorFn(result);
 };
 
 /**
- * Convert raw ATOMs amount to fiat price given the exchange rate.
+ * Convert a network currency amount to fiat price given the network
+ * exchange rate.
  */
 export const convertCryptoToFiat = (
   priceQuery: IQuery["prices"] | undefined,
   denom: string | BigNumber,
+  network: NetworkDefinition,
 ): string => {
   const amount = valueToBigNumber(denom);
   if (priceQuery) {
     const { price } = priceQuery;
     if (price) {
-      const atoms = denomToAtoms(amount);
+      const atoms = denomToUnit(amount, network.denominationSize);
       const fiat = multiply(atoms, price);
       return fiat;
     }
@@ -134,6 +147,7 @@ export const calculateTransactionAmount = (
   availableInput: string,
   gasPriceInput: string,
   gasAmountInput: string,
+  network: NetworkDefinition,
 ): string => {
   const [available, gasPrice, gasAmount] = [
     availableInput,
@@ -142,9 +156,12 @@ export const calculateTransactionAmount = (
   ].map(valueToBigNumber);
 
   const fee = multiply(gasPrice, gasAmount);
-  const denoms = atomsToDenom(available, toBigNumber);
+  const denoms = unitToDenom(available, network.denominationSize, toBigNumber);
   const availableAmountDenom = subtract(denoms, fee);
-  const availableAmount = denomToAtoms(availableAmountDenom);
+  const availableAmount = denomToUnit(
+    availableAmountDenom,
+    network.denominationSize,
+  );
 
   return availableAmount;
 };

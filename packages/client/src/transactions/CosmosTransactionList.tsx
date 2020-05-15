@@ -12,7 +12,7 @@ import {
   PriceHistoryMap,
   ValidatorOperatorAddressMap,
 } from "tools/client-utils";
-import { atomsToDenom, convertCryptoToFiat } from "tools/currency-utils";
+import { convertCryptoToFiat, unitToDenom } from "tools/currency-utils";
 import { TransactionListProps } from "./CosmosTransactionContainer";
 import TransactionListItem from "./CosmosTransactionListItem";
 import { TransactionPaginationControls } from "./TransactionComponents";
@@ -164,6 +164,7 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
   };
 
   getFiatPriceForTransaction = (timestamp: string, amount: string): string => {
+    const { network } = this.props.ledger;
     const transactionPrice = getPriceFromTransactionTimestamp(
       timestamp,
       this.priceHistoryMap,
@@ -173,7 +174,8 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
       {
         price: Number(transactionPrice),
       },
-      atomsToDenom(amount),
+      unitToDenom(amount, network.denominationSize),
+      network,
     );
 
     return fiatPrice;

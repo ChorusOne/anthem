@@ -38,7 +38,7 @@ import {
   ValidatorCreateOrEditMessageData,
   ValidatorModifyWithdrawAddressMessageData,
 } from "tools/cosmos-transaction-utils";
-import { denomToAtoms, formatCurrencyAmount } from "tools/currency-utils";
+import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
 import { formatDate, formatTime } from "tools/date-utils";
 import { tFnString, TranslateMethodProps } from "tools/i18n-utils";
 import AddressIconComponent from "../components/AddressIconComponent";
@@ -289,8 +289,9 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderTransactionAmount = (amount: Nullable<string>, timestamp: string) => {
+    const { network, isDesktop } = this.props;
     if (!amount) {
-      if (this.props.isDesktop) {
+      if (isDesktop) {
         return <EventRowItem style={{ minWidth: 275 }} />;
       } else {
         return null;
@@ -305,7 +306,10 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
         </EventIconBox>
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>
-            {formatCurrencyAmount(denomToAtoms(amount))} ATOM
+            {formatCurrencyAmount(
+              denomToUnit(amount, network.denominationSize),
+            )}{" "}
+            ATOM
           </EventText>
           <EventText>
             {this.getFiatAmount(amount, timestamp)} {fiatCurrency.symbol}
@@ -369,8 +373,8 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderTransactionFeesRow = (fees: string, transaction: ITransaction) => {
     const { hash, height, timestamp, chain } = transaction;
-    const { t, fiatCurrency } = this.props;
-    const atomFees = denomToAtoms(fees);
+    const { t, network, fiatCurrency } = this.props;
+    const atomFees = denomToUnit(fees, network.denominationSize);
     const fiatFees = this.props.getFiatPriceForTransaction(timestamp, atomFees);
 
     return (
@@ -398,8 +402,12 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   getFiatAmount = (amount: string, timestamp: string) => {
+    const { denominationSize } = this.props.network;
     return formatCurrencyAmount(
-      this.props.getFiatPriceForTransaction(timestamp, denomToAtoms(amount)),
+      this.props.getFiatPriceForTransaction(
+        timestamp,
+        denomToUnit(amount, denominationSize),
+      ),
     );
   };
 

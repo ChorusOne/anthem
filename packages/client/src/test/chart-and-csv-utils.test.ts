@@ -9,6 +9,7 @@ describe("chart-and-csv-utils", () => {
     const portfolioChartHistory: any = processPortfolioHistoryData(
       portfolioHistory as any,
       false,
+      NETWORKS.COSMOS,
     );
 
     const result = chartExportBuilder({

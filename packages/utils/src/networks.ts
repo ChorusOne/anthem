@@ -24,6 +24,7 @@ export interface NetworkDefinition extends NetworkFeatureMeta {
   supportsLedger: boolean;
   ledgerAppName: string;
   ledgerDocsLink: string;
+  denominationSize: number;
 }
 
 interface NetworksMap {
@@ -63,6 +64,7 @@ const NETWORKS: NetworksMap = {
     supportsPortfolio: true,
     supportsTransactionsHistory: true,
     supportsValidatorsList: true,
+    denominationSize: 1e6, // 1 ATOM = 1,000,000 uatom
   },
   TERRA: {
     available: true,
@@ -82,6 +84,7 @@ const NETWORKS: NetworksMap = {
     supportsPortfolio: false,
     supportsTransactionsHistory: false,
     supportsValidatorsList: true,
+    denominationSize: 1e6,
   },
   KAVA: {
     available: true,
@@ -102,6 +105,7 @@ const NETWORKS: NetworksMap = {
     supportsPortfolio: false,
     supportsTransactionsHistory: false,
     supportsValidatorsList: true,
+    denominationSize: 1e6,
   },
   OASIS: {
     available: false,
@@ -121,6 +125,7 @@ const NETWORKS: NetworksMap = {
     supportsPortfolio: false,
     supportsTransactionsHistory: true,
     supportsValidatorsList: false,
+    denominationSize: 1e6, // TODO: What is the denomination size?
   },
   CELO: {
     // available: true,
@@ -138,10 +143,11 @@ const NETWORKS: NetworksMap = {
     // supportsLedger: true,
     supportsLedger: false,
     supportsFiatPrices: false,
-    supportsBalances: false,
+    supportsBalances: true,
     supportsPortfolio: false,
     supportsTransactionsHistory: false,
     supportsValidatorsList: false,
+    denominationSize: 1e18, // 1 cGLD = 1000000000000000000 wei
   },
 };
 

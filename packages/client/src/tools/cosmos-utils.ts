@@ -11,7 +11,7 @@ import {
 } from "@anthem/utils";
 import { AvailableReward } from "components/CreateTransactionForm";
 import { LEDGER_ACTION_TYPE } from "modules/ledger/actions";
-import { atomsToDenom } from "./currency-utils";
+import { unitToDenom } from "./currency-utils";
 import { multiply } from "./math-utils";
 
 /** ===========================================================================
@@ -117,7 +117,7 @@ export const createDelegationTransactionMessage = (args: {
   gasAmount: string;
   gasPrice: string;
   denom: COIN_DENOMS;
-  network: NETWORK_NAME;
+  network: NetworkDefinition;
   validatorOperatorAddress: string;
 }): ITxValue => {
   const {
@@ -130,7 +130,7 @@ export const createDelegationTransactionMessage = (args: {
     validatorOperatorAddress,
   } = args;
 
-  const type = getTransactionMessageTypeForNetwork(network, "DELEGATE");
+  const type = getTransactionMessageTypeForNetwork(network.name, "DELEGATE");
 
   return {
     fee: {
@@ -152,7 +152,7 @@ export const createDelegationTransactionMessage = (args: {
           validator_address: validatorOperatorAddress,
           amount: {
             denom,
-            amount: atomsToDenom(amount, String),
+            amount: unitToDenom(amount, network.denominationSize, String),
           },
         },
       },
