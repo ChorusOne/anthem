@@ -108,7 +108,7 @@ export interface ICeloDelegation {
   pendingVotes: Scalars["String"];
 }
 
-/** TODO: Complete the transaction/events types for Celo */
+/** TODO: Complete the transaction/events types for Celo Network */
 export interface ICeloTransaction {
    __typename?: "CeloTransaction";
   date: Scalars["String"];
@@ -266,6 +266,19 @@ export interface IMsgWithdrawValidatorCommission {
   validator_address: Maybe<Scalars["String"]>;
 }
 
+export interface IOasisAmendCommissionScheduleEvent {
+   __typename?: "OasisAmendCommissionScheduleEvent";
+  rates: Array<Scalars["String"]>;
+  bounds: Array<Scalars["String"]>;
+}
+
+export interface IOasisBoundEvent {
+   __typename?: "OasisBoundEvent";
+  start: Scalars["String"];
+  rate_min: Scalars["String"];
+  rate_max: Scalars["String"];
+}
+
 export interface IOasisBurnEvent {
    __typename?: "OasisBurnEvent";
   type: IOasisTransactionType;
@@ -294,6 +307,32 @@ export interface IOasisEscrowTakeEvent {
   type: IOasisTransactionType;
   owner: Scalars["String"];
   tokens: Scalars["String"];
+}
+
+export interface IOasisRateEvent {
+   __typename?: "OasisRateEvent";
+  start: Scalars["String"];
+  rate: Scalars["String"];
+}
+
+export interface IOasisRegisterEntityEvent {
+   __typename?: "OasisRegisterEntityEvent";
+  id: Scalars["String"];
+  nodes: Array<Scalars["String"]>;
+  allow_entity_signed_nodes: Scalars["Boolean"];
+}
+
+export interface IOasisRegisterNodeEvent {
+   __typename?: "OasisRegisterNodeEvent";
+  id: Scalars["String"];
+  entity_idnodes: Scalars["String"];
+  expiration: Scalars["Float"];
+}
+
+export interface IOasisRegisterRuntimeEvent {
+   __typename?: "OasisRegisterRuntimeEvent";
+  id: Scalars["String"];
+  version: Scalars["String"];
 }
 
 export interface IOasisTransaction {
@@ -327,6 +366,16 @@ export interface IOasisTransferEvent {
   from: Scalars["String"];
   to: Scalars["String"];
   tokens: Scalars["String"];
+}
+
+export interface IOasisUnfreezeNodeEvent {
+   __typename?: "OasisUnfreezeNodeEvent";
+  id: Scalars["String"];
+}
+
+export interface IOasisUnknownEvent {
+   __typename?: "OasisUnknownEvent";
+  method_name: Scalars["String"];
 }
 
 export interface IPortfolioBalance {
