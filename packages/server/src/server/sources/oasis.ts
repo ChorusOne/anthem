@@ -226,7 +226,9 @@ const adaptOasisTransaction = (
       date: tx.date,
       event: {
         type: IOasisTransactionType.Transfer,
-        ...tx.register_entity,
+        id: tx.register_entity.id,
+        nodes: tx.register_entity.nodes,
+        allow_entity_signed_nodes: tx.register_entity.allow_entity_signed_nodes,
       },
     };
   } else if (!!tx.deregister_entity) {
@@ -236,7 +238,10 @@ const adaptOasisTransaction = (
       date: tx.date,
       event: {
         type: IOasisTransactionType.Transfer,
-        ...tx.deregister_entity,
+        id: tx.deregister_entity.id,
+        nodes: tx.deregister_entity.nodes,
+        allow_entity_signed_nodes:
+          tx.deregister_entity.allow_entity_signed_nodes,
       },
     };
   } else if (!!tx.register_node) {
@@ -246,7 +251,9 @@ const adaptOasisTransaction = (
       date: tx.date,
       event: {
         type: IOasisTransactionType.Transfer,
-        ...tx.register_node,
+        id: tx.register_node.id,
+        entity_id: tx.register_node.entity_id,
+        expiration: tx.register_node.expiration,
       },
     };
   } else if (!!tx.unfreeze_node) {
@@ -256,7 +263,7 @@ const adaptOasisTransaction = (
       date: tx.date,
       event: {
         type: IOasisTransactionType.Transfer,
-        ...tx.unfreeze_node,
+        id: tx.unfreeze_node.id,
       },
     };
   } else if (!!tx.register_runtime) {
@@ -266,7 +273,8 @@ const adaptOasisTransaction = (
       date: tx.date,
       event: {
         type: IOasisTransactionType.Transfer,
-        ...tx.register_runtime,
+        id: tx.register_runtime.id,
+        version: tx.register_runtime.version,
       },
     };
   } else if (!!tx.amend_commission_schedule) {
@@ -276,7 +284,8 @@ const adaptOasisTransaction = (
       date: tx.date,
       event: {
         type: IOasisTransactionType.Transfer,
-        ...tx.amend_commission_schedule,
+        rates: tx.amend_commission_schedule.rates,
+        bounds: tx.amend_commission_schedule.bounds,
       },
     };
   } else if (!!tx.unknown_method) {
@@ -286,7 +295,7 @@ const adaptOasisTransaction = (
       date: tx.date,
       event: {
         type: IOasisTransactionType.Transfer,
-        ...tx.unknown_method,
+        method_name: tx.unknown_method.method_name,
       },
     };
   } else if (!!tx.escrow) {
