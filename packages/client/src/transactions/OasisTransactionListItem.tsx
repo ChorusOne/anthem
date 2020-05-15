@@ -14,6 +14,7 @@ import {
   OasisEscrowAddIcon,
   OasisEscrowReclaimIcon,
   OasisEscrowTakeIcon,
+  OasisGenericEvent,
   OasisTransferIcon,
 } from "assets/images";
 import AddressIconComponent from "components/AddressIconComponent";
@@ -91,19 +92,23 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderTransactionAmount = () => {
-    const { transaction } = this.props;
-    const amount = transaction.event.tokens;
-    return (
-      <EventRowItem style={{ minWidth: 275 }}>
-        <EventIconBox>
-          <EventIcon src={OasisLogo} />
-        </EventIconBox>
-        <EventContextBox>
-          <EventText style={{ fontWeight: "bold" }}>Amount</EventText>
-          <EventText>{formatCurrencyAmount(amount)}</EventText>
-        </EventContextBox>
-      </EventRowItem>
-    );
+    const { event } = this.props.transaction;
+    if ("tokens" in event) {
+      const amount = event.tokens;
+      return (
+        <EventRowItem style={{ minWidth: 275 }}>
+          <EventIconBox>
+            <EventIcon src={OasisLogo} />
+          </EventIconBox>
+          <EventContextBox>
+            <EventText style={{ fontWeight: "bold" }}>Amount</EventText>
+            <EventText>{formatCurrencyAmount(amount)}</EventText>
+          </EventContextBox>
+        </EventRowItem>
+      );
+    } else {
+      return null;
+    }
   };
 
   renderAddressBlocks = () => {
@@ -134,6 +139,15 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
           </>
         );
       }
+      case IOasisTransactionType.RegisterEntity:
+      case IOasisTransactionType.RegisterNode:
+      case IOasisTransactionType.RegisterRuntime:
+      case IOasisTransactionType.RateEvent:
+      case IOasisTransactionType.BoundEvent:
+      case IOasisTransactionType.AmendCommissionSchedule:
+      case IOasisTransactionType.UnknownEvent:
+        console.warn(`[OASIS]: Handle this transaction type: ${type}`);
+        return null;
       default:
         return assertUnreachable(type);
     }
@@ -181,6 +195,20 @@ export const getOasisTransactionTypeIcon = (type: IOasisTransactionType) => {
       return <OasisEscrowTakeIcon />;
     case IOasisTransactionType.EscrowReclaim:
       return <OasisEscrowReclaimIcon />;
+    case IOasisTransactionType.RegisterEntity:
+      return <OasisGenericEvent />;
+    case IOasisTransactionType.RegisterNode:
+      return <OasisGenericEvent />;
+    case IOasisTransactionType.RegisterRuntime:
+      return <OasisGenericEvent />;
+    case IOasisTransactionType.RateEvent:
+      return <OasisGenericEvent />;
+    case IOasisTransactionType.BoundEvent:
+      return <OasisGenericEvent />;
+    case IOasisTransactionType.AmendCommissionSchedule:
+      return <OasisGenericEvent />;
+    case IOasisTransactionType.UnknownEvent:
+      return <OasisGenericEvent />;
     default:
       return assertUnreachable(type);
   }
@@ -200,6 +228,20 @@ export const getOasisTransactionLabelFromType = (
       return "Escrow Take";
     case IOasisTransactionType.EscrowReclaim:
       return "Escrow Reclaim";
+    case IOasisTransactionType.RegisterEntity:
+      return "Register Entity";
+    case IOasisTransactionType.RegisterNode:
+      return "Register Node";
+    case IOasisTransactionType.RegisterRuntime:
+      return "Register Runtime";
+    case IOasisTransactionType.RateEvent:
+      return "Rate Event";
+    case IOasisTransactionType.BoundEvent:
+      return "Bound Event";
+    case IOasisTransactionType.AmendCommissionSchedule:
+      return "Amend Commission Schedule";
+    case IOasisTransactionType.UnknownEvent:
+      return "Unknown Event Type";
     default:
       return assertUnreachable(type);
   }

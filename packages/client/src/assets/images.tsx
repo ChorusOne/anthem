@@ -189,6 +189,14 @@ export const OasisEscrowReclaimIcon = () => (
   />
 );
 
+export const OasisGenericEvent = () => (
+  <Image
+    width={32}
+    alt="Oasis Event"
+    src={require("../assets/transactions/vote-icon.svg")}
+  />
+);
+
 export const CopyIcon = () => (
   <Image
     width={22}
