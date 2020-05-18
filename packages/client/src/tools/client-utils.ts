@@ -596,6 +596,7 @@ export const defaultSortValidatorsList = (
 export const sortValidatorsList = (
   validators: IValidator[],
   sortField: VALIDATORS_LIST_SORT_FILTER,
+  sortAscending: boolean,
   totalStake: string,
 ) => {
   const list = validators.slice();
@@ -604,19 +605,25 @@ export const sortValidatorsList = (
       return defaultSortValidatorsList(list);
     case VALIDATORS_LIST_SORT_FILTER.NAME:
       return list.sort((a, b) => {
-        return a.description.moniker.localeCompare(b.description.moniker);
+        const aName = a.description.moniker;
+        const bName = b.description.moniker;
+        if (sortAscending) {
+          return aName.localeCompare(bName);
+        } else {
+          return bName.localeCompare(aName);
+        }
       });
     case VALIDATORS_LIST_SORT_FILTER.VOTING_POWER:
       return list.sort((a, b) => {
         const aPower = divide(a.tokens, totalStake, Number);
         const bPower = divide(b.tokens, totalStake, Number);
-        return aPower - bPower;
+        return sortAscending ? aPower - bPower : bPower - aPower;
       });
     case VALIDATORS_LIST_SORT_FILTER.COMMISSION:
       return list.sort((a, b) => {
         const aRate = Number(a.commission.commission_rates.rate);
         const bRate = Number(b.commission.commission_rates.rate);
-        return aRate - bRate;
+        return sortAscending ? aRate - bRate : bRate - aRate;
       });
     default:
       return assertUnreachable(sortField);

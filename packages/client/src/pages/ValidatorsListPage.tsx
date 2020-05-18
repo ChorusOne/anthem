@@ -46,6 +46,7 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
       network,
       validators,
       stakingPool,
+      sortListAscending,
       validatorSortField,
     } = this.props;
 
@@ -82,6 +83,7 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
             const list = sortValidatorsList(
               validatorList,
               validatorSortField,
+              sortListAscending,
               stake,
             );
             return (
@@ -232,6 +234,8 @@ const SortFilterIcon = ({ active }: { active: boolean }) =>
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   network: Modules.selectors.ledger.networkSelector(state),
+  sortListAscending: Modules.selectors.app.appSelector(state)
+    .sortValidatorsListAscending,
   validatorSortField: Modules.selectors.app.appSelector(state)
     .validatorsListSortFilter,
 });

@@ -49,6 +49,11 @@ export enum VALIDATORS_LIST_SORT_FILTER {
   COMMISSION = "COMMISSION",
 }
 
+export enum SORT_DIRECTION {
+  ASCENDING = "ASCENDING",
+  DESCENDING = "DESCENDING",
+}
+
 interface AppState {
   activeBannerKey: Nullable<BANNER_NOTIFICATIONS_KEYS>;
   notificationsBannerVisible: boolean;
@@ -57,6 +62,7 @@ interface AppState {
   showMonthlySignupTooltip: boolean;
   showDataIntegrityHelpLabel: boolean;
   validatorsListSortFilter: VALIDATORS_LIST_SORT_FILTER;
+  sortValidatorsListAscending: boolean;
 }
 
 const initialAppState = {
@@ -67,6 +73,7 @@ const initialAppState = {
   notificationsBannerVisible: false,
   dismissedBannerKeys: StorageModule.getDismissedNotifications(),
   validatorsListSortFilter: VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT,
+  sortValidatorsListAscending: true,
 };
 
 const app = createReducer<AppState, ActionTypes>(initialAppState)
@@ -78,10 +85,18 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
     ...state,
     showDataIntegrityHelpLabel: action.payload,
   }))
-  .handleAction(actions.setValidatorListSortType, (state, action) => ({
-    ...state,
-    validatorsListSortFilter: action.payload,
-  }))
+  .handleAction(actions.setValidatorListSortType, (state, action) => {
+    let sortDirection = true;
+    if (action.payload === state.validatorsListSortFilter) {
+      sortDirection = !state.sortValidatorsListAscending;
+    }
+
+    return {
+      ...state,
+      validatorsListSortFilter: action.payload,
+      sortValidatorsListAscending: sortDirection,
+    };
+  })
   .handleAction(
     actions.setDashboardAddressInputFocusState,
     (state, action) => ({
