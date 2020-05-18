@@ -1,6 +1,9 @@
 import { NetworkDefinition } from "@anthem/utils";
 import { ActionType, createStandardAction } from "typesafe-actions";
-import { BANNER_NOTIFICATIONS_KEYS } from "./store";
+import {
+  BANNER_NOTIFICATIONS_KEYS,
+  VALIDATORS_LIST_SORT_FILTER,
+} from "./store";
 
 /** ===========================================================================
  * Action Types
@@ -29,6 +32,8 @@ enum ActionTypesEnum {
   NEWSLETTER_SIGNUP = "NEWSLETTER_SIGNUP",
   NEWSLETTER_SIGNUP_SUCCESS = "NEWSLETTER_SIGNUP_SUCCESS",
   NEWSLETTER_SIGNUP_FAILURE = "NEWSLETTER_SIGNUP_FAILURE",
+
+  SET_VALIDATOR_LIST_SORT_TYPE = "SET_VALIDATOR_LIST_SORT_TYPE",
 }
 
 /** ===========================================================================
@@ -86,6 +91,10 @@ const newsletterSignupFailure = createStandardAction(
   ActionTypesEnum.NEWSLETTER_SIGNUP_FAILURE,
 )();
 
+const setValidatorListSortType = createStandardAction(
+  ActionTypesEnum.SET_VALIDATOR_LIST_SORT_TYPE,
+)<VALIDATORS_LIST_SORT_FILTER>();
+
 const actions = {
   empty,
   initializeApp,
@@ -101,6 +110,7 @@ const actions = {
   refreshBalanceAndTransactions,
   setDashboardAddressInputFocusState,
   refreshBalanceAndTransactionsSuccess,
+  setValidatorListSortType,
 };
 
 /** ===========================================================================

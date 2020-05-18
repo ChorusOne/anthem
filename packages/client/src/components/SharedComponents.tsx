@@ -146,8 +146,8 @@ export const LoaderBars = ({ style }: { style?: CSSProperties }) => (
  * DashboardLoader
  * ============================================================================
  */
-export const DashboardLoader = () => (
-  <View style={{ marginTop: 85 }}>
+export const DashboardLoader = ({ style }: { style?: React.CSSProperties }) => (
+  <View style={{ marginTop: 85, ...style }}>
     <Spinner />
   </View>
 );

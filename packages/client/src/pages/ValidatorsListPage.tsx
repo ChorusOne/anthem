@@ -1,14 +1,16 @@
 import { IQuery } from "@anthem/utils";
-import { Card, H5 } from "@blueprintjs/core";
+import { Card, H5, Icon } from "@blueprintjs/core";
 import { NetworkLogoIcon } from "assets/images";
 import AddressIconComponent from "components/AddressIconComponent";
 import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
 import PageAddressBar from "components/PageAddressBar";
 import {
+  DashboardLoader,
   PageContainer,
   PageScrollableContent,
   View,
 } from "components/SharedComponents";
+import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
 import {
   StakingPoolProps,
@@ -17,6 +19,7 @@ import {
   withStakingPool,
   withValidators,
 } from "graphql/queries";
+import { VALIDATORS_LIST_SORT_FILTER } from "modules/app/store";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
@@ -24,9 +27,9 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import {
   formatCommissionRate,
-  formatValidatorsList,
   formatVotingPower,
   getValidatorOperatorAddressMap,
+  sortValidatorsList,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 
@@ -37,7 +40,14 @@ import { composeWithProps } from "tools/context-utils";
 
 class ValidatorsListPage extends React.Component<IProps, {}> {
   render(): JSX.Element {
-    const { i18n, network, validators, stakingPool } = this.props;
+    const {
+      i18n,
+      network,
+      validators,
+      stakingPool,
+      sortListAscending,
+      validatorSortField,
+    } = this.props;
 
     // Render a fallback message if network does not support validators list UI
     if (!network.supportsValidatorsList) {
@@ -54,6 +64,7 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
       <PageContainer>
         <PageAddressBar pageTitle="Validators" />
         <GraphQLGuardComponentMultipleQueries
+          loadingComponent={<DashboardLoader style={{ marginTop: 150 }} />}
           tString={i18n.tString}
           results={[
             [validators, "validators"],
@@ -68,25 +79,71 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
             const validatorOperatorAddressMap = getValidatorOperatorAddressMap(
               validatorList,
             );
+
+            // Sort the validators list based on the current sort settings
+            const sortedValidatorsList = sortValidatorsList(
+              validatorList,
+              validatorSortField,
+              sortListAscending,
+              stake,
+            );
             return (
               <View>
                 <ValidatorRow style={{ paddingLeft: 14 }}>
                   <RowItem width={45}>
                     <NetworkLogoIcon network={network.name} />
                   </RowItem>
-                  <RowItem width={200}>
-                    <H5>Validator</H5>
-                  </RowItem>
-                  <RowItem width={125}>
-                    <H5>Voting Power</H5>
-                  </RowItem>
-                  <RowItem width={125}>
-                    <H5>Commission</H5>
-                  </RowItem>
+                  <RowItemHeader
+                    width={200}
+                    onClick={this.setSortFilter(
+                      VALIDATORS_LIST_SORT_FILTER.NAME,
+                    )}
+                  >
+                    <H5 style={{ margin: 0 }}>Validator</H5>
+                    <SortFilterIcon
+                      ascending={sortListAscending}
+                      active={
+                        validatorSortField ===
+                          VALIDATORS_LIST_SORT_FILTER.NAME ||
+                        validatorSortField ===
+                          VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT
+                      }
+                    />
+                  </RowItemHeader>
+                  <RowItemHeader
+                    width={150}
+                    onClick={this.setSortFilter(
+                      VALIDATORS_LIST_SORT_FILTER.VOTING_POWER,
+                    )}
+                  >
+                    <H5 style={{ margin: 0 }}>Voting Power</H5>
+                    <SortFilterIcon
+                      ascending={sortListAscending}
+                      active={
+                        validatorSortField ===
+                        VALIDATORS_LIST_SORT_FILTER.VOTING_POWER
+                      }
+                    />
+                  </RowItemHeader>
+                  <RowItemHeader
+                    width={150}
+                    onClick={this.setSortFilter(
+                      VALIDATORS_LIST_SORT_FILTER.COMMISSION,
+                    )}
+                  >
+                    <H5 style={{ margin: 0 }}>Commission</H5>
+                    <SortFilterIcon
+                      ascending={sortListAscending}
+                      active={
+                        validatorSortField ===
+                        VALIDATORS_LIST_SORT_FILTER.COMMISSION
+                      }
+                    />
+                  </RowItemHeader>
                 </ValidatorRow>
                 <ValidatorListCard style={{ padding: 8 }}>
                   <PageScrollableContent>
-                    {formatValidatorsList(validatorList).map(v => (
+                    {sortedValidatorsList.map(v => (
                       <ValidatorRow key={v.operator_address}>
                         <RowItem width={45}>
                           <AddressIconComponent
@@ -100,12 +157,12 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                         <RowItem width={200}>
                           <H5 style={{ margin: 0 }}>{v.description.moniker}</H5>
                         </RowItem>
-                        <RowItem width={125}>
+                        <RowItem width={150}>
                           <b style={{ margin: 0 }}>
                             {formatVotingPower(v.tokens, stake)}%
                           </b>
                         </RowItem>
-                        <RowItem width={125}>
+                        <RowItem width={150}>
                           <b style={{ margin: 0 }}>
                             {formatCommissionRate(
                               v.commission.commission_rates.rate,
@@ -124,6 +181,10 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
       </PageContainer>
     );
   }
+
+  setSortFilter = (filter: VALIDATORS_LIST_SORT_FILTER) => () => {
+    this.props.setValidatorListSortType(filter);
+  };
 }
 
 /** ===========================================================================
@@ -151,6 +212,33 @@ const RowItem = styled.div<{ width?: number }>`
   width: ${props => (props.width ? `${props.width}px` : "auto")};
 `;
 
+const RowItemHeader = styled(RowItem)`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+
+  &:hover {
+    cursor: pointer;
+
+    h5 {
+      color: ${COLORS.LIGHT_GRAY};
+    }
+  }
+`;
+
+const SortFilterIcon = ({
+  active,
+  ascending,
+}: {
+  active: boolean;
+  ascending: boolean;
+}) => {
+  return active ? (
+    <Icon color={COLORS.PRIMARY} icon={ascending ? "caret-down" : "caret-up"} />
+  ) : null;
+};
+
 /** ===========================================================================
  * Props
  * ============================================================================
@@ -159,10 +247,15 @@ const RowItem = styled.div<{ width?: number }>`
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   network: Modules.selectors.ledger.networkSelector(state),
+  sortListAscending: Modules.selectors.app.appSelector(state)
+    .sortValidatorsListAscending,
+  validatorSortField: Modules.selectors.app.appSelector(state)
+    .validatorsListSortFilter,
 });
 
 const dispatchProps = {
   setLocale: Modules.actions.settings.setLocale,
+  setValidatorListSortType: Modules.actions.app.setValidatorListSortType,
 };
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
