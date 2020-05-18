@@ -1,5 +1,5 @@
 import { IQuery } from "@anthem/utils";
-import { Card, H5 } from "@blueprintjs/core";
+import { Card, H5, Icon } from "@blueprintjs/core";
 import { NetworkLogoIcon } from "assets/images";
 import AddressIconComponent from "components/AddressIconComponent";
 import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
@@ -9,6 +9,7 @@ import {
   PageScrollableContent,
   View,
 } from "components/SharedComponents";
+import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
 import {
   StakingPoolProps,
@@ -17,6 +18,7 @@ import {
   withStakingPool,
   withValidators,
 } from "graphql/queries";
+import { VALIDATORS_LIST_SORT_FILTER } from "modules/app/store";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
@@ -86,15 +88,50 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                   <RowItem width={45}>
                     <NetworkLogoIcon network={network.name} />
                   </RowItem>
-                  <RowItem width={200}>
-                    <H5>Validator</H5>
-                  </RowItem>
-                  <RowItem width={125}>
-                    <H5>Voting Power</H5>
-                  </RowItem>
-                  <RowItem width={125}>
-                    <H5>Commission</H5>
-                  </RowItem>
+                  <RowItemHeader
+                    width={200}
+                    onClick={this.setSortFilter(
+                      VALIDATORS_LIST_SORT_FILTER.NAME,
+                    )}
+                  >
+                    <H5 style={{ margin: 0 }}>Validator</H5>
+                    <SortFilterIcon
+                      active={
+                        validatorSortField ===
+                          VALIDATORS_LIST_SORT_FILTER.NAME ||
+                        validatorSortField ===
+                          VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT
+                      }
+                    />
+                  </RowItemHeader>
+                  <RowItemHeader
+                    width={150}
+                    onClick={this.setSortFilter(
+                      VALIDATORS_LIST_SORT_FILTER.VOTING_POWER,
+                    )}
+                  >
+                    <H5 style={{ margin: 0 }}>Voting Power</H5>
+                    <SortFilterIcon
+                      active={
+                        validatorSortField ===
+                        VALIDATORS_LIST_SORT_FILTER.VOTING_POWER
+                      }
+                    />
+                  </RowItemHeader>
+                  <RowItemHeader
+                    width={150}
+                    onClick={this.setSortFilter(
+                      VALIDATORS_LIST_SORT_FILTER.COMMISSION,
+                    )}
+                  >
+                    <H5 style={{ margin: 0 }}>Commission</H5>
+                    <SortFilterIcon
+                      active={
+                        validatorSortField ===
+                        VALIDATORS_LIST_SORT_FILTER.COMMISSION
+                      }
+                    />
+                  </RowItemHeader>
                 </ValidatorRow>
                 <ValidatorListCard style={{ padding: 8 }}>
                   <PageScrollableContent>
@@ -112,12 +149,12 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                         <RowItem width={200}>
                           <H5 style={{ margin: 0 }}>{v.description.moniker}</H5>
                         </RowItem>
-                        <RowItem width={125}>
+                        <RowItem width={150}>
                           <b style={{ margin: 0 }}>
                             {formatVotingPower(v.tokens, stake)}%
                           </b>
                         </RowItem>
-                        <RowItem width={125}>
+                        <RowItem width={150}>
                           <b style={{ margin: 0 }}>
                             {formatCommissionRate(
                               v.commission.commission_rates.rate,
@@ -136,6 +173,10 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
       </PageContainer>
     );
   }
+
+  setSortFilter = (filter: VALIDATORS_LIST_SORT_FILTER) => () => {
+    this.props.setValidatorListSortType(filter);
+  };
 }
 
 /** ===========================================================================
@@ -162,6 +203,20 @@ const RowItem = styled.div<{ width?: number }>`
   padding-right: 4px;
   width: ${props => (props.width ? `${props.width}px` : "auto")};
 `;
+
+const RowItemHeader = styled(RowItem)`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const SortFilterIcon = ({ active }: { active: boolean }) =>
+  active ? <Icon color={COLORS.PRIMARY} icon="caret-up" /> : null;
 
 /** ===========================================================================
  * Props
