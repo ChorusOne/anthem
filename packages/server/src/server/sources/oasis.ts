@@ -112,6 +112,54 @@ interface TxUnknown {
   method_name: string;
 }
 
+const deregister: TxDeregister = {
+  id: "sa8df70af7as0",
+  nodes: ["sa980df7a0", "sa9d67f89a", "as9df76sa9"],
+  allow_entity_signed_nodes: true,
+};
+
+const reg: TxRegister = {
+  id: "sa8df70af7as0",
+  nodes: ["sa980df7a0", "sa9d67f89a", "as9df76sa9"],
+  allow_entity_signed_nodes: true,
+};
+
+const unknown: TxUnknown = {
+  method_name: "HEIST",
+};
+
+const amend: TxAmendCommissionSchedule = {
+  rates: ["1", "2", "3"],
+  bounds: ["1", "2", "3"],
+};
+
+const runtime: TxRegisterRuntime = {
+  id: "as9fd7as97f6sad0",
+  version: "1.2.4",
+};
+
+const unfreeze: TxUnfreezeNode = {
+  id: "s76fd9af9s8ad",
+};
+
+const register: TxRegisterNode = {
+  id: "s0a9f780sa97f0sad",
+  entity_id: "saf967as986f784as67d5f",
+  expiration: 15000,
+};
+
+const date = new Date().toISOString();
+
+const T = [
+  { date, register_entity: reg },
+  { date, deregister_entity: deregister },
+  { date, register_node: register },
+  { date, unfreeze_node: unfreeze },
+  { date, register_runtime: runtime },
+  { date, amend_commission_schedule: amend },
+  { date, unknown_method: unknown },
+];
+
 /** ===========================================================================
  * Oasis REST API Utils
  * ----------------------------------------------------------------------------
@@ -153,10 +201,12 @@ const fetchTransactions = async (
   startingPage: number,
   network: NetworkDefinition,
 ): Promise<IQuery["oasisTransactions"]> => {
-  const host = getHostFromNetworkName(network.name);
-  const response = await AxiosUtil.get<OasisTransaction[]>(
-    `${host}/account/${address}/events`,
-  );
+  // const host = getHostFromNetworkName(network.name);
+  // const response = await AxiosUtil.get<OasisTransaction[]>(
+  //   `${host}/account/${address}/events`,
+  // );
+
+  const response = T;
 
   // Transform the response data
   const convertedTransactions = response
@@ -225,7 +275,7 @@ const adaptOasisTransaction = (
       height: 1,
       date: tx.date,
       event: {
-        type: IOasisTransactionType.Transfer,
+        type: IOasisTransactionType.RegisterEntity,
         id: tx.register_entity.id,
         nodes: tx.register_entity.nodes,
         allow_entity_signed_nodes: tx.register_entity.allow_entity_signed_nodes,
@@ -237,7 +287,7 @@ const adaptOasisTransaction = (
       height: 1,
       date: tx.date,
       event: {
-        type: IOasisTransactionType.Transfer,
+        type: IOasisTransactionType.RegisterEntity,
         id: tx.deregister_entity.id,
         nodes: tx.deregister_entity.nodes,
         allow_entity_signed_nodes:
@@ -250,7 +300,7 @@ const adaptOasisTransaction = (
       height: 1,
       date: tx.date,
       event: {
-        type: IOasisTransactionType.Transfer,
+        type: IOasisTransactionType.RegisterNode,
         id: tx.register_node.id,
         entity_id: tx.register_node.entity_id,
         expiration: tx.register_node.expiration,
@@ -262,7 +312,7 @@ const adaptOasisTransaction = (
       height: 1,
       date: tx.date,
       event: {
-        type: IOasisTransactionType.Transfer,
+        type: IOasisTransactionType.UnfreezeNode,
         id: tx.unfreeze_node.id,
       },
     };
@@ -272,7 +322,7 @@ const adaptOasisTransaction = (
       height: 1,
       date: tx.date,
       event: {
-        type: IOasisTransactionType.Transfer,
+        type: IOasisTransactionType.RegisterRuntime,
         id: tx.register_runtime.id,
         version: tx.register_runtime.version,
       },
@@ -283,7 +333,7 @@ const adaptOasisTransaction = (
       height: 1,
       date: tx.date,
       event: {
-        type: IOasisTransactionType.Transfer,
+        type: IOasisTransactionType.AmendCommissionSchedule,
         rates: tx.amend_commission_schedule.rates,
         bounds: tx.amend_commission_schedule.bounds,
       },
@@ -294,7 +344,7 @@ const adaptOasisTransaction = (
       height: 1,
       date: tx.date,
       event: {
-        type: IOasisTransactionType.Transfer,
+        type: IOasisTransactionType.UnknownEvent,
         method_name: tx.unknown_method.method_name,
       },
     };

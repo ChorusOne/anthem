@@ -102,6 +102,8 @@ const OasisTransactionEvent = {
         return "OasisEscrowReclaimEvent";
       case IOasisTransactionType.RegisterEntity:
         return "REGISTER_ENTITY";
+      case IOasisTransactionType.UnfreezeNode:
+        return "UNFREEZE_NODE";
       case IOasisTransactionType.RegisterNode:
         return "REGISTER_NODE";
       case IOasisTransactionType.RegisterRuntime:

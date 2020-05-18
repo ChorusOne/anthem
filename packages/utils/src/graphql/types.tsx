@@ -366,6 +366,7 @@ export enum IOasisTransactionType {
   EscrowReclaim = "ESCROW_RECLAIM",
   RegisterEntity = "REGISTER_ENTITY",
   RegisterNode = "REGISTER_NODE",
+  UnfreezeNode = "UNFREEZE_NODE",
   RegisterRuntime = "REGISTER_RUNTIME",
   RateEvent = "RATE_EVENT",
   BoundEvent = "BOUND_EVENT",

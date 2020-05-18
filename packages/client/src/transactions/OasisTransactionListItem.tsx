@@ -142,6 +142,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
       case IOasisTransactionType.RegisterEntity:
       case IOasisTransactionType.RegisterNode:
       case IOasisTransactionType.RegisterRuntime:
+      case IOasisTransactionType.UnfreezeNode:
       case IOasisTransactionType.RateEvent:
       case IOasisTransactionType.BoundEvent:
       case IOasisTransactionType.AmendCommissionSchedule:
@@ -196,17 +197,12 @@ export const getOasisTransactionTypeIcon = (type: IOasisTransactionType) => {
     case IOasisTransactionType.EscrowReclaim:
       return <OasisEscrowReclaimIcon />;
     case IOasisTransactionType.RegisterEntity:
-      return <OasisGenericEvent />;
     case IOasisTransactionType.RegisterNode:
-      return <OasisGenericEvent />;
     case IOasisTransactionType.RegisterRuntime:
-      return <OasisGenericEvent />;
+    case IOasisTransactionType.UnfreezeNode:
     case IOasisTransactionType.RateEvent:
-      return <OasisGenericEvent />;
     case IOasisTransactionType.BoundEvent:
-      return <OasisGenericEvent />;
     case IOasisTransactionType.AmendCommissionSchedule:
-      return <OasisGenericEvent />;
     case IOasisTransactionType.UnknownEvent:
       return <OasisGenericEvent />;
     default:
@@ -232,6 +228,8 @@ export const getOasisTransactionLabelFromType = (
       return "Register Entity";
     case IOasisTransactionType.RegisterNode:
       return "Register Node";
+    case IOasisTransactionType.UnfreezeNode:
+      return "Unfreeze Node";
     case IOasisTransactionType.RegisterRuntime:
       return "Register Runtime";
     case IOasisTransactionType.RateEvent:
