@@ -2,9 +2,13 @@ import {
   assertUnreachable,
   IOasisBurnEvent,
   IOasisEscrowAddEvent,
+  IOasisRateEvent,
+  IOasisRegisterEntityEvent,
+  IOasisRegisterRuntimeEvent,
   IOasisTransaction,
   IOasisTransactionType,
   IOasisTransferEvent,
+  IOasisUnfreezeNodeEvent,
   NetworkDefinition,
 } from "@anthem/utils";
 import { Card, Elevation } from "@blueprintjs/core";
@@ -139,10 +143,22 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
           </>
         );
       }
-      case IOasisTransactionType.RegisterEntity:
-      case IOasisTransactionType.RegisterNode:
-      case IOasisTransactionType.RegisterRuntime:
-      case IOasisTransactionType.UnfreezeNode:
+      case IOasisTransactionType.RegisterEntity: {
+        const event = transaction.event as IOasisRegisterEntityEvent;
+        return this.renderEventInfoBox(event.id, "Entity id");
+      }
+      case IOasisTransactionType.RegisterNode: {
+        const event = transaction.event as IOasisRegisterEntityEvent;
+        return this.renderEventInfoBox(event.id, "Node id");
+      }
+      case IOasisTransactionType.RegisterRuntime: {
+        const event = transaction.event as IOasisRegisterRuntimeEvent;
+        return this.renderEventInfoBox(event.id, "Runtime id");
+      }
+      case IOasisTransactionType.UnfreezeNode: {
+        const event = transaction.event as IOasisUnfreezeNodeEvent;
+        return this.renderEventInfoBox(event.id, "Node id");
+      }
       case IOasisTransactionType.RateEvent:
       case IOasisTransactionType.BoundEvent:
       case IOasisTransactionType.AmendCommissionSchedule:
@@ -152,6 +168,22 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
       default:
         return assertUnreachable(type);
     }
+  };
+
+  renderEventInfoBox = (info: string, titleText: string) => {
+    return (
+      <EventRow>
+        <EventIconBox>
+          <EventIcon src={OasisLogo} />
+        </EventIconBox>
+        <EventContextBox>
+          <EventText>{titleText}</EventText>
+          <EventText style={{ fontWeight: 100, fontSize: 12 }}>
+            {info}
+          </EventText>
+        </EventContextBox>
+      </EventRow>
+    );
   };
 
   renderAddressBox = (address: string, titleText: string) => {

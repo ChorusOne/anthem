@@ -103,6 +103,11 @@ interface TxRegisterRuntime {
   version: string;
 }
 
+interface TxRateEvent {
+  start: string;
+  rate: string;
+}
+
 interface TxAmendCommissionSchedule {
   rates: string[];
   bounds: string[];
@@ -368,6 +373,11 @@ const register: TxRegister = {
   allow_entity_signed_nodes: true,
 };
 
+const rateEvent: TxRateEvent = {
+  start: "Start",
+  rate: "Rate",
+};
+
 const amend: TxAmendCommissionSchedule = {
   rates: ["1", "2", "3"],
   bounds: ["1", "2", "3"],
@@ -401,6 +411,7 @@ const MOCK_OASIS_EVENTS = [
   { date: d(), unfreeze_node: unfreezeNode },
   { date: d(), register_runtime: registerRuntime },
   { date: d(), amend_commission_schedule: amend },
+  { date: d(), amend_commission_schedule: rateEvent },
   { date: d(), unknown_method: unknown },
 ];
 
