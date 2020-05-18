@@ -1,9 +1,7 @@
 import {
   assertUnreachable,
-  IOasisBoundEvent,
   IOasisBurnEvent,
   IOasisEscrowAddEvent,
-  IOasisRateEvent,
   IOasisRegisterEntityEvent,
   IOasisRegisterRuntimeEvent,
   IOasisTransaction,
