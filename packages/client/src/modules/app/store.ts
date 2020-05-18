@@ -78,6 +78,10 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
     ...state,
     showDataIntegrityHelpLabel: action.payload,
   }))
+  .handleAction(actions.setValidatorListSortType, (state, action) => ({
+    ...state,
+    validatorsListSortFilter: action.payload,
+  }))
   .handleAction(
     actions.setDashboardAddressInputFocusState,
     (state, action) => ({

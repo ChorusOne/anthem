@@ -216,7 +216,7 @@ const RowItemHeader = styled(RowItem)`
 `;
 
 const SortFilterIcon = ({ active }: { active: boolean }) =>
-  active ? <Icon color={COLORS.PRIMARY} icon="caret-up" /> : null;
+  active ? <Icon color={COLORS.PRIMARY} icon="caret-down" /> : null;
 
 /** ===========================================================================
  * Props
