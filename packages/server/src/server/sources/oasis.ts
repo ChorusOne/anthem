@@ -392,16 +392,16 @@ const unknown: TxUnknown = {
   method_name: "HEIST",
 };
 
-const date = String(1564313356000);
+const d = () => String(Date.now() - Math.round(Math.random() * 1e8));
 
 const MOCK_OASIS_EVENTS = [
-  { date, register_entity: register },
-  { date, deregister_entity: deregister },
-  { date, register_node: registerNode },
-  { date, unfreeze_node: unfreezeNode },
-  { date, register_runtime: registerRuntime },
-  { date, amend_commission_schedule: amend },
-  { date, unknown_method: unknown },
+  { date: d(), register_entity: register },
+  { date: d(), deregister_entity: deregister },
+  { date: d(), register_node: registerNode },
+  { date: d(), unfreeze_node: unfreezeNode },
+  { date: d(), register_runtime: registerRuntime },
+  { date: d(), amend_commission_schedule: amend },
+  { date: d(), unknown_method: unknown },
 ];
 
 /** ===========================================================================
