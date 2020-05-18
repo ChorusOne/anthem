@@ -6,9 +6,6 @@ Anthem is a multi-network platform for managing Proof-of-Stake participation and
 
 **Try out Anthem now at:** https://anthem.chorus.one
 
-![Build and Deploy Client](https://github.com/ChorusOne/anthem/workflows/Build%20and%20Deploy%20Client/badge.svg)
-![Build and Deploy Server](https://github.com/ChorusOne/anthem/workflows/Build%20and%20Deploy%20Server/badge.svg)
-
 <img width="1439" alt="anthem" src="https://user-images.githubusercontent.com/18126719/79953826-0ff3ca80-84af-11ea-9059-2eee118618cd.png" />
 
 ## 👩‍🚀 Getting Started
