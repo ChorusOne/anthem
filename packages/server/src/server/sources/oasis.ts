@@ -39,6 +39,15 @@ interface OasisTransaction {
   escrow?: TxEscrow;
   burn?: TxBurn;
   transfer?: TxTransfer;
+  register_entity?: TxRegister;
+  deregister_entity?: TxDeregister;
+  register_node?: TxRegisterNode;
+  unfreeze_node?: TxUnfreezeNode;
+  rate?: TxRateEvent;
+  bound?: TxBoundEvent;
+  register_runtime?: TxRegisterRuntime;
+  amend_commission_schedule?: TxAmendCommissionSchedule;
+  unknown_method?: TxUnknown;
 }
 
 interface TxTransfer {
@@ -67,6 +76,53 @@ interface TxEscrow {
     escrow: string;
     tokens: string;
   };
+}
+
+interface TxRegister {
+  id: string;
+  nodes: string[];
+  allow_entity_signed_nodes: boolean;
+}
+
+interface TxDeregister {
+  id: string;
+  nodes: string[];
+  allow_entity_signed_nodes: boolean;
+}
+
+interface TxRegisterNode {
+  id: string;
+  entity_id: string;
+  expiration: number;
+}
+
+interface TxUnfreezeNode {
+  id: string;
+}
+
+interface TxRegisterRuntime {
+  id: string;
+  version: string;
+}
+
+interface TxBoundEvent {
+  start: string;
+  rate_min: string;
+  rate_max: string;
+}
+
+interface TxRateEvent {
+  start: string;
+  rate: string;
+}
+
+interface TxAmendCommissionSchedule {
+  rates: string[];
+  bounds: string[];
+}
+
+interface TxUnknown {
+  method_name: string;
 }
 
 /** ===========================================================================
@@ -110,10 +166,12 @@ const fetchTransactions = async (
   startingPage: number,
   network: NetworkDefinition,
 ): Promise<IQuery["oasisTransactions"]> => {
-  const host = getHostFromNetworkName(network.name);
-  const response = await AxiosUtil.get<OasisTransaction[]>(
-    `${host}/account/${address}/events`,
-  );
+  // const host = getHostFromNetworkName(network.name);
+  // const response = await AxiosUtil.get<OasisTransaction[]>(
+  //   `${host}/account/${address}/events`,
+  // );
+
+  const response = MOCK_OASIS_EVENTS;
 
   // Transform the response data
   const convertedTransactions = response
@@ -176,6 +234,108 @@ const adaptOasisTransaction = (
         tokens: tx.transfer.tokens,
       },
     };
+  } else if (!!tx.register_entity) {
+    // REGISTER ENTITY Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.RegisterEntity,
+        id: tx.register_entity.id,
+        nodes: tx.register_entity.nodes,
+        allow_entity_signed_nodes: tx.register_entity.allow_entity_signed_nodes,
+      },
+    };
+  } else if (!!tx.deregister_entity) {
+    // DEREGISTER ENTITY Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.RegisterEntity,
+        id: tx.deregister_entity.id,
+        nodes: tx.deregister_entity.nodes,
+        allow_entity_signed_nodes:
+          tx.deregister_entity.allow_entity_signed_nodes,
+      },
+    };
+  } else if (!!tx.register_node) {
+    // REGISTER NODE Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.RegisterNode,
+        id: tx.register_node.id,
+        entity_id: tx.register_node.entity_id,
+        expiration: tx.register_node.expiration,
+      },
+    };
+  } else if (!!tx.unfreeze_node) {
+    // UNFREEZE NODE Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.UnfreezeNode,
+        id: tx.unfreeze_node.id,
+      },
+    };
+  } else if (!!tx.register_runtime) {
+    // REGISTER RUNTIME Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.RegisterRuntime,
+        id: tx.register_runtime.id,
+        version: tx.register_runtime.version,
+      },
+    };
+  } else if (!!tx.rate) {
+    // RATE Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.RateEvent,
+        start: tx.rate.start,
+        rate: tx.rate.rate,
+      },
+    };
+  } else if (!!tx.bound) {
+    // BOUND Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.BoundEvent,
+        start: tx.bound.start,
+        rate_min: tx.bound.rate_min,
+        rate_max: tx.bound.rate_max,
+      },
+    };
+  } else if (!!tx.amend_commission_schedule) {
+    // AMEND COMMISSION SCHEDULE Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.AmendCommissionSchedule,
+        rates: tx.amend_commission_schedule.rates,
+        bounds: tx.amend_commission_schedule.bounds,
+      },
+    };
+  } else if (!!tx.unknown_method) {
+    // UNKNOWN Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.UnknownEvent,
+        method_name: tx.unknown_method.method_name,
+      },
+    };
   } else if (!!tx.escrow) {
     // ESCROW Transactions
     const { escrow } = tx;
@@ -226,6 +386,72 @@ const adaptOasisTransaction = (
 
   return null;
 };
+
+/** ===========================================================================
+ * Mock Transactions for Testing
+ * ============================================================================
+ */
+
+const deregister: TxDeregister = {
+  id: "sa8df70af7as0",
+  nodes: ["sa980df7a0", "sa9d67f89a", "as9df76sa9"],
+  allow_entity_signed_nodes: true,
+};
+
+const register: TxRegister = {
+  id: "sa8df70af7as0",
+  nodes: ["sa980df7a0", "sa9d67f89a", "as9df76sa9"],
+  allow_entity_signed_nodes: true,
+};
+
+const rateEvent: TxRateEvent = {
+  start: "Start",
+  rate: "Rate",
+};
+
+const amend: TxAmendCommissionSchedule = {
+  rates: ["1", "2", "3"],
+  bounds: ["1", "2", "3"],
+};
+
+const registerRuntime: TxRegisterRuntime = {
+  id: "as9fd7as97f6sad0",
+  version: "1.2.4",
+};
+
+const boundEvent: TxBoundEvent = {
+  start: "Start",
+  rate_min: "Rate Min",
+  rate_max: "Rate Max",
+};
+
+const unfreezeNode: TxUnfreezeNode = {
+  id: "s76fd9af9s8ad",
+};
+
+const registerNode: TxRegisterNode = {
+  id: "s0a9f780sa97f0sad",
+  entity_id: "saf967as986f784as67d5f",
+  expiration: 15000,
+};
+
+const unknown: TxUnknown = {
+  method_name: "HEIST",
+};
+
+const d = () => String(Date.now() - Math.round(Math.random() * 1e8));
+
+const MOCK_OASIS_EVENTS: OasisTransaction[] = [
+  { date: d(), register_entity: register },
+  { date: d(), deregister_entity: deregister },
+  { date: d(), register_node: registerNode },
+  { date: d(), unfreeze_node: unfreezeNode },
+  { date: d(), register_runtime: registerRuntime },
+  { date: d(), amend_commission_schedule: amend },
+  { date: d(), rate: rateEvent },
+  { date: d(), bound: boundEvent },
+  { date: d(), unknown_method: unknown },
+];
 
 /** ===========================================================================
  * Export

@@ -106,38 +106,46 @@ class DashboardPage extends React.Component<IProps, IState> {
     const { t, tString } = this.props.i18n;
     const { portfolioExpanded, transactionExpanded } = this.state;
 
-    const DISPLAY_PORTFOLIO = !transactionExpanded;
-    const DISPLAY_BALANCES = !portfolioExpanded;
+    const HIDE_TOP_PANEL = transactionExpanded;
+    const IS_PORTFOLIO_EXPANDED = portfolioExpanded;
     const DISPLAY_TRANSACTIONS = !portfolioExpanded;
+
+    const PortfolioPanel = (
+      <Card elevation={Elevation.TWO} style={getPortfolioCardStyles()}>
+        <Row style={{ marginBottom: 10 }}>
+          <H5 style={{ margin: 0 }}>{tString("Portfolio")}</H5>
+          {isDesktop && (
+            <ExpandCollapseIcon onClick={this.togglePortfolioViewSize} />
+          )}
+        </Row>
+        <Portfolio fullSize={portfolioExpanded} />
+      </Card>
+    );
+
+    const BalancesPanel = (
+      <Card elevation={Elevation.TWO} style={getBalanceCardStyles()}>
+        <Row>
+          <H5 style={{ margin: 0 }}>
+            {tString("Balance")} (
+            {currencySetting === "crypto"
+              ? ledger.network.descriptor
+              : fiatCurrency.symbol}
+            )
+          </H5>
+        </Row>
+        <Balance address={this.props.address} />
+      </Card>
+    );
 
     return (
       <View>
         {this.renderDashboardNavigationLinks()}
-        {DISPLAY_PORTFOLIO && (
+        {HIDE_TOP_PANEL ? null : IS_PORTFOLIO_EXPANDED ? (
+          PortfolioPanel
+        ) : (
           <PortfolioBalanceView>
-            <Card elevation={Elevation.TWO} style={getPortfolioCardStyles()}>
-              <Row style={{ marginBottom: 10 }}>
-                <H5 style={{ margin: 0 }}>{tString("Portfolio")}</H5>
-                {isDesktop && (
-                  <ExpandCollapseIcon onClick={this.togglePortfolioViewSize} />
-                )}
-              </Row>
-              <Portfolio fullSize={portfolioExpanded} />
-            </Card>
-            {DISPLAY_BALANCES && (
-              <Card elevation={Elevation.TWO} style={getBalanceCardStyles()}>
-                <Row>
-                  <H5 style={{ margin: 0 }}>
-                    {tString("Balance")} (
-                    {currencySetting === "crypto"
-                      ? ledger.network.descriptor
-                      : fiatCurrency.symbol}
-                    )
-                  </H5>
-                </Row>
-                <Balance address={this.props.address} />
-              </Card>
-            )}
+            {PortfolioPanel}
+            {BalancesPanel}
           </PortfolioBalanceView>
         )}
         {DISPLAY_TRANSACTIONS && (

@@ -108,7 +108,7 @@ export interface ICeloDelegation {
   pendingVotes: Scalars["String"];
 }
 
-/** TODO: Complete the transaction/events types for Celo */
+/** TODO: Complete the transaction/events types for Celo Network */
 export interface ICeloTransaction {
    __typename?: "CeloTransaction";
   date: Scalars["String"];
@@ -266,6 +266,21 @@ export interface IMsgWithdrawValidatorCommission {
   validator_address: Maybe<Scalars["String"]>;
 }
 
+export interface IOasisAmendCommissionScheduleEvent {
+   __typename?: "OasisAmendCommissionScheduleEvent";
+  type: IOasisTransactionType;
+  rates: Array<Scalars["String"]>;
+  bounds: Array<Scalars["String"]>;
+}
+
+export interface IOasisBoundEvent {
+   __typename?: "OasisBoundEvent";
+  type: IOasisTransactionType;
+  start: Scalars["String"];
+  rate_min: Scalars["String"];
+  rate_max: Scalars["String"];
+}
+
 export interface IOasisBurnEvent {
    __typename?: "OasisBurnEvent";
   type: IOasisTransactionType;
@@ -296,6 +311,36 @@ export interface IOasisEscrowTakeEvent {
   tokens: Scalars["String"];
 }
 
+export interface IOasisRateEvent {
+   __typename?: "OasisRateEvent";
+  type: IOasisTransactionType;
+  start: Scalars["String"];
+  rate: Scalars["String"];
+}
+
+export interface IOasisRegisterEntityEvent {
+   __typename?: "OasisRegisterEntityEvent";
+  type: IOasisTransactionType;
+  id: Scalars["String"];
+  nodes: Array<Scalars["String"]>;
+  allow_entity_signed_nodes: Scalars["Boolean"];
+}
+
+export interface IOasisRegisterNodeEvent {
+   __typename?: "OasisRegisterNodeEvent";
+  type: IOasisTransactionType;
+  id: Scalars["String"];
+  entity_id: Scalars["String"];
+  expiration: Scalars["Float"];
+}
+
+export interface IOasisRegisterRuntimeEvent {
+   __typename?: "OasisRegisterRuntimeEvent";
+  type: IOasisTransactionType;
+  id: Scalars["String"];
+  version: Scalars["String"];
+}
+
 export interface IOasisTransaction {
    __typename?: "OasisTransaction";
   date: Scalars["String"];
@@ -303,7 +348,7 @@ export interface IOasisTransaction {
   event: IOasisTransactionEvent;
 }
 
-export type IOasisTransactionEvent = IOasisBurnEvent | IOasisTransferEvent | IOasisEscrowAddEvent | IOasisEscrowTakeEvent | IOasisEscrowReclaimEvent;
+export type IOasisTransactionEvent = IOasisBurnEvent | IOasisTransferEvent | IOasisEscrowAddEvent | IOasisEscrowTakeEvent | IOasisEscrowReclaimEvent | IOasisRegisterEntityEvent | IOasisRegisterNodeEvent | IOasisUnfreezeNodeEvent | IOasisRegisterRuntimeEvent | IOasisRateEvent | IOasisBoundEvent | IOasisAmendCommissionScheduleEvent | IOasisUnknownEvent;
 
 export interface IOasisTransactionResult {
    __typename?: "OasisTransactionResult";
@@ -319,6 +364,14 @@ export enum IOasisTransactionType {
   EscrowAdd = "ESCROW_ADD",
   EscrowTake = "ESCROW_TAKE",
   EscrowReclaim = "ESCROW_RECLAIM",
+  RegisterEntity = "REGISTER_ENTITY",
+  RegisterNode = "REGISTER_NODE",
+  UnfreezeNode = "UNFREEZE_NODE",
+  RegisterRuntime = "REGISTER_RUNTIME",
+  RateEvent = "RATE_EVENT",
+  BoundEvent = "BOUND_EVENT",
+  AmendCommissionSchedule = "AMEND_COMMISSION_SCHEDULE",
+  UnknownEvent = "UNKNOWN_EVENT",
 }
 
 export interface IOasisTransferEvent {
@@ -327,6 +380,18 @@ export interface IOasisTransferEvent {
   from: Scalars["String"];
   to: Scalars["String"];
   tokens: Scalars["String"];
+}
+
+export interface IOasisUnfreezeNodeEvent {
+   __typename?: "OasisUnfreezeNodeEvent";
+  type: IOasisTransactionType;
+  id: Scalars["String"];
+}
+
+export interface IOasisUnknownEvent {
+   __typename?: "OasisUnknownEvent";
+  type: IOasisTransactionType;
+  method_name: Scalars["String"];
 }
 
 export interface IPortfolioBalance {
@@ -1041,6 +1106,30 @@ export type IOasisTransactionsQuery = (
       ) | (
         { __typename?: "OasisEscrowReclaimEvent" }
         & Pick<IOasisEscrowReclaimEvent, "type" | "owner" | "escrow" | "tokens">
+      ) | (
+        { __typename?: "OasisRegisterEntityEvent" }
+        & Pick<IOasisRegisterEntityEvent, "type" | "id" | "nodes" | "allow_entity_signed_nodes">
+      ) | (
+        { __typename?: "OasisRegisterNodeEvent" }
+        & Pick<IOasisRegisterNodeEvent, "type" | "id" | "entity_id" | "expiration">
+      ) | (
+        { __typename?: "OasisUnfreezeNodeEvent" }
+        & Pick<IOasisUnfreezeNodeEvent, "type" | "id">
+      ) | (
+        { __typename?: "OasisRegisterRuntimeEvent" }
+        & Pick<IOasisRegisterRuntimeEvent, "type" | "id" | "version">
+      ) | (
+        { __typename?: "OasisRateEvent" }
+        & Pick<IOasisRateEvent, "type" | "start" | "rate">
+      ) | (
+        { __typename?: "OasisBoundEvent" }
+        & Pick<IOasisBoundEvent, "type" | "start" | "rate_min" | "rate_max">
+      ) | (
+        { __typename?: "OasisAmendCommissionScheduleEvent" }
+        & Pick<IOasisAmendCommissionScheduleEvent, "type" | "rates" | "bounds">
+      ) | (
+        { __typename?: "OasisUnknownEvent" }
+        & Pick<IOasisUnknownEvent, "type" | "method_name">
       ) }
     )> }
   ) }
@@ -2309,6 +2398,47 @@ export const OasisTransactionsDocument = gql`
           owner
           escrow
           tokens
+        }
+        ... on OasisRegisterEntityEvent {
+          type
+          id
+          nodes
+          allow_entity_signed_nodes
+        }
+        ... on OasisRegisterNodeEvent {
+          type
+          id
+          entity_id
+          expiration
+        }
+        ... on OasisUnfreezeNodeEvent {
+          type
+          id
+        }
+        ... on OasisRegisterRuntimeEvent {
+          type
+          id
+          version
+        }
+        ... on OasisRateEvent {
+          type
+          start
+          rate
+        }
+        ... on OasisBoundEvent {
+          type
+          start
+          rate_min
+          rate_max
+        }
+        ... on OasisAmendCommissionScheduleEvent {
+          type
+          rates
+          bounds
+        }
+        ... on OasisUnknownEvent {
+          type
+          method_name
         }
       }
     }

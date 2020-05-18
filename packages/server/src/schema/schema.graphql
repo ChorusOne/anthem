@@ -79,7 +79,7 @@ type CeloTransactionResult {
   moreResultsExist: Boolean!
 }
 
-# TODO: Complete the transaction/events types for Celo
+# TODO: Complete the transaction/events types for Celo Network
 type CeloTransaction {
   date: String!
   height: Int!
@@ -107,6 +107,14 @@ enum OasisTransactionType {
   ESCROW_ADD
   ESCROW_TAKE
   ESCROW_RECLAIM
+  REGISTER_ENTITY
+  REGISTER_NODE
+  UNFREEZE_NODE
+  REGISTER_RUNTIME
+  RATE_EVENT
+  BOUND_EVENT
+  AMEND_COMMISSION_SCHEDULE
+  UNKNOWN_EVENT
 }
 
 union OasisTransactionEvent =
@@ -115,6 +123,14 @@ union OasisTransactionEvent =
   | OasisEscrowAddEvent
   | OasisEscrowTakeEvent
   | OasisEscrowReclaimEvent
+  | OasisRegisterEntityEvent
+  | OasisRegisterNodeEvent
+  | OasisUnfreezeNodeEvent
+  | OasisRegisterRuntimeEvent
+  | OasisRateEvent
+  | OasisBoundEvent
+  | OasisAmendCommissionScheduleEvent
+  | OasisUnknownEvent
 
 type OasisTransferEvent {
   type: OasisTransactionType!
@@ -147,6 +163,55 @@ type OasisEscrowReclaimEvent {
   owner: String!
   escrow: String!
   tokens: String!
+}
+
+type OasisRegisterEntityEvent {
+  type: OasisTransactionType!
+  id: String!
+  nodes: [String!]!
+  allow_entity_signed_nodes: Boolean!
+}
+
+type OasisRegisterNodeEvent {
+  type: OasisTransactionType!
+  id: String!
+  entity_id: String!
+  expiration: Float!
+}
+
+type OasisUnfreezeNodeEvent {
+  type: OasisTransactionType!
+  id: String!
+}
+
+type OasisRegisterRuntimeEvent {
+  type: OasisTransactionType!
+  id: String!
+  version: String!
+}
+
+type OasisRateEvent {
+  type: OasisTransactionType!
+  start: String!
+  rate: String!
+}
+
+type OasisBoundEvent {
+  type: OasisTransactionType!
+  start: String!
+  rate_min: String!
+  rate_max: String!
+}
+
+type OasisAmendCommissionScheduleEvent {
+  type: OasisTransactionType!
+  rates: [String!]!
+  bounds: [String!]!
+}
+
+type OasisUnknownEvent {
+  type: OasisTransactionType!
+  method_name: String!
 }
 
 # *****************************************************************************
