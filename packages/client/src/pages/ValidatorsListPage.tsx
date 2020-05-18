@@ -5,6 +5,7 @@ import AddressIconComponent from "components/AddressIconComponent";
 import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
 import PageAddressBar from "components/PageAddressBar";
 import {
+  DashboardLoader,
   PageContainer,
   PageScrollableContent,
   View,
@@ -63,6 +64,7 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
       <PageContainer>
         <PageAddressBar pageTitle="Validators" />
         <GraphQLGuardComponentMultipleQueries
+          loadingComponent={<DashboardLoader style={{ marginTop: 150 }} />}
           tString={i18n.tString}
           results={[
             [validators, "validators"],
@@ -212,6 +214,10 @@ const RowItemHeader = styled(RowItem)`
 
   &:hover {
     cursor: pointer;
+
+    h5 {
+      color: ${COLORS.LIGHT_GRAY};
+    }
   }
 `;
 
