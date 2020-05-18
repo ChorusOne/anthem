@@ -42,6 +42,13 @@ const loading = createReducer<LoadingState, ActionTypes>(initialState)
 
 export type BANNER_NOTIFICATIONS_KEYS = "monthly_summary_newsletter";
 
+export enum VALIDATORS_LIST_SORT_FILTER {
+  CUSTOM_DEFAULT = "CUSTOM_DEFAULT", // Sort Chorus and Certus on the top
+  NAME = "NAME",
+  VOTING_POWER = "VOTING_POWER",
+  COMMISSION = "COMMISSION",
+}
+
 interface AppState {
   activeBannerKey: Nullable<BANNER_NOTIFICATIONS_KEYS>;
   notificationsBannerVisible: boolean;
@@ -49,6 +56,7 @@ interface AppState {
   dismissedBannerKeys: Set<BANNER_NOTIFICATIONS_KEYS>;
   showMonthlySignupTooltip: boolean;
   showDataIntegrityHelpLabel: boolean;
+  validatorsListSortFilter: VALIDATORS_LIST_SORT_FILTER;
 }
 
 const initialAppState = {
@@ -58,6 +66,7 @@ const initialAppState = {
   showMonthlySignupTooltip: false,
   notificationsBannerVisible: false,
   dismissedBannerKeys: StorageModule.getDismissedNotifications(),
+  validatorsListSortFilter: VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT,
 };
 
 const app = createReducer<AppState, ActionTypes>(initialAppState)

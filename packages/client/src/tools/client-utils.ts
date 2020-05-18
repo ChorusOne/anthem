@@ -17,6 +17,7 @@ import BigNumber from "bignumber.js";
 import { AvailableReward } from "components/CreateTransactionForm";
 import Toast from "components/Toast";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
+import { VALIDATORS_LIST_SORT_FILTER } from "modules/app/store";
 import queryString, { ParsedQuery } from "query-string";
 import {
   convertCryptoToFiat,
@@ -569,7 +570,9 @@ const isCertusOne = (moniker: string) => moniker === "Certus One";
  * Sort validators list and put Chorus 1st and Certus 2nd. Apply no sorting
  * to the rest of the list.
  */
-export const formatValidatorsList = (validators: ReadonlyArray<IValidator>) => {
+export const defaultSortValidatorsList = (
+  validators: ReadonlyArray<IValidator>,
+): IValidator[] => {
   if (!validators) {
     return [];
   }
@@ -588,6 +591,36 @@ export const formatValidatorsList = (validators: ReadonlyArray<IValidator>) => {
   }
 
   return reordered;
+};
+
+export const sortValidatorsList = (
+  validators: IValidator[],
+  sortField: VALIDATORS_LIST_SORT_FILTER,
+  totalStake: string,
+) => {
+  const list = validators.slice();
+  switch (sortField) {
+    case VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT:
+      return defaultSortValidatorsList(list);
+    case VALIDATORS_LIST_SORT_FILTER.NAME:
+      return list.sort((a, b) => {
+        return a.description.moniker.localeCompare(b.description.moniker);
+      });
+    case VALIDATORS_LIST_SORT_FILTER.VOTING_POWER:
+      return list.sort((a, b) => {
+        const aPower = divide(a.tokens, totalStake, Number);
+        const bPower = divide(b.tokens, totalStake, Number);
+        return aPower - bPower;
+      });
+    case VALIDATORS_LIST_SORT_FILTER.COMMISSION:
+      return list.sort((a, b) => {
+        const aRate = Number(a.commission.commission_rates.rate);
+        const bRate = Number(b.commission.commission_rates.rate);
+        return aRate - bRate;
+      });
+    default:
+      return assertUnreachable(sortField);
+  }
 };
 
 /**

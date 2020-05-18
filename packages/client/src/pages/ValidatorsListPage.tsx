@@ -23,10 +23,11 @@ import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import {
+  defaultSortValidatorsList,
   formatCommissionRate,
-  formatValidatorsList,
   formatVotingPower,
   getValidatorOperatorAddressMap,
+  sortValidatorsList,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 
@@ -37,7 +38,13 @@ import { composeWithProps } from "tools/context-utils";
 
 class ValidatorsListPage extends React.Component<IProps, {}> {
   render(): JSX.Element {
-    const { i18n, network, validators, stakingPool } = this.props;
+    const {
+      i18n,
+      network,
+      validators,
+      stakingPool,
+      validatorSortField,
+    } = this.props;
 
     // Render a fallback message if network does not support validators list UI
     if (!network.supportsValidatorsList) {
@@ -68,6 +75,11 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
             const validatorOperatorAddressMap = getValidatorOperatorAddressMap(
               validatorList,
             );
+            const list = sortValidatorsList(
+              validatorList,
+              validatorSortField,
+              stake,
+            );
             return (
               <View>
                 <ValidatorRow style={{ paddingLeft: 14 }}>
@@ -86,7 +98,7 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                 </ValidatorRow>
                 <ValidatorListCard style={{ padding: 8 }}>
                   <PageScrollableContent>
-                    {formatValidatorsList(validatorList).map(v => (
+                    {list.map(v => (
                       <ValidatorRow key={v.operator_address}>
                         <RowItem width={45}>
                           <AddressIconComponent
@@ -159,10 +171,13 @@ const RowItem = styled.div<{ width?: number }>`
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   network: Modules.selectors.ledger.networkSelector(state),
+  validatorSortField: Modules.selectors.app.appSelector(state)
+    .validatorsListSortFilter,
 });
 
 const dispatchProps = {
   setLocale: Modules.actions.settings.setLocale,
+  setValidatorListSortType: Modules.actions.app.setValidatorListSortType,
 };
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
