@@ -86,6 +86,7 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
     showDataIntegrityHelpLabel: action.payload,
   }))
   .handleAction(actions.setValidatorListSortType, (state, action) => {
+    // Flip the sort direction unless the sort category changes
     let sortDirection = true;
     if (action.payload === state.validatorsListSortFilter) {
       sortDirection = !state.sortValidatorsListAscending;

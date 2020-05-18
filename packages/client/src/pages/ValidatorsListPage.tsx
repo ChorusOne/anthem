@@ -26,7 +26,6 @@ import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import {
-  defaultSortValidatorsList,
   formatCommissionRate,
   formatVotingPower,
   getValidatorOperatorAddressMap,
@@ -80,7 +79,9 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
             const validatorOperatorAddressMap = getValidatorOperatorAddressMap(
               validatorList,
             );
-            const list = sortValidatorsList(
+
+            // Sort the validators list based on the current sort settings
+            const sortedValidatorsList = sortValidatorsList(
               validatorList,
               validatorSortField,
               sortListAscending,
@@ -100,6 +101,7 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                   >
                     <H5 style={{ margin: 0 }}>Validator</H5>
                     <SortFilterIcon
+                      ascending={sortListAscending}
                       active={
                         validatorSortField ===
                           VALIDATORS_LIST_SORT_FILTER.NAME ||
@@ -116,6 +118,7 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                   >
                     <H5 style={{ margin: 0 }}>Voting Power</H5>
                     <SortFilterIcon
+                      ascending={sortListAscending}
                       active={
                         validatorSortField ===
                         VALIDATORS_LIST_SORT_FILTER.VOTING_POWER
@@ -130,6 +133,7 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                   >
                     <H5 style={{ margin: 0 }}>Commission</H5>
                     <SortFilterIcon
+                      ascending={sortListAscending}
                       active={
                         validatorSortField ===
                         VALIDATORS_LIST_SORT_FILTER.COMMISSION
@@ -139,7 +143,7 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                 </ValidatorRow>
                 <ValidatorListCard style={{ padding: 8 }}>
                   <PageScrollableContent>
-                    {list.map(v => (
+                    {sortedValidatorsList.map(v => (
                       <ValidatorRow key={v.operator_address}>
                         <RowItem width={45}>
                           <AddressIconComponent
@@ -223,8 +227,17 @@ const RowItemHeader = styled(RowItem)`
   }
 `;
 
-const SortFilterIcon = ({ active }: { active: boolean }) =>
-  active ? <Icon color={COLORS.PRIMARY} icon="caret-down" /> : null;
+const SortFilterIcon = ({
+  active,
+  ascending,
+}: {
+  active: boolean;
+  ascending: boolean;
+}) => {
+  return active ? (
+    <Icon color={COLORS.PRIMARY} icon={ascending ? "caret-down" : "caret-up"} />
+  ) : null;
+};
 
 /** ===========================================================================
  * Props

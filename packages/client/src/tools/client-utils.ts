@@ -593,6 +593,9 @@ export const defaultSortValidatorsList = (
   return reordered;
 };
 
+/**
+ * Handle sorting the validators list by different parameters.
+ */
 export const sortValidatorsList = (
   validators: IValidator[],
   sortField: VALIDATORS_LIST_SORT_FILTER,
