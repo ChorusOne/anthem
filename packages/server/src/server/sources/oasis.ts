@@ -43,6 +43,8 @@ interface OasisTransaction {
   deregister_entity?: TxDeregister;
   register_node?: TxRegisterNode;
   unfreeze_node?: TxUnfreezeNode;
+  rate?: TxRateEvent;
+  bound?: TxBoundEvent;
   register_runtime?: TxRegisterRuntime;
   amend_commission_schedule?: TxAmendCommissionSchedule;
   unknown_method?: TxUnknown;
@@ -101,6 +103,12 @@ interface TxUnfreezeNode {
 interface TxRegisterRuntime {
   id: string;
   version: string;
+}
+
+interface TxBoundEvent {
+  start: string;
+  rate_min: string;
+  rate_max: string;
 }
 
 interface TxRateEvent {
@@ -284,6 +292,29 @@ const adaptOasisTransaction = (
         version: tx.register_runtime.version,
       },
     };
+  } else if (!!tx.rate) {
+    // RATE Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.RateEvent,
+        start: tx.rate.start,
+        rate: tx.rate.rate,
+      },
+    };
+  } else if (!!tx.bound) {
+    // BOUND Transaction
+    return {
+      height: 1,
+      date: tx.date,
+      event: {
+        type: IOasisTransactionType.BoundEvent,
+        start: tx.bound.start,
+        rate_min: tx.bound.rate_min,
+        rate_max: tx.bound.rate_max,
+      },
+    };
   } else if (!!tx.amend_commission_schedule) {
     // AMEND COMMISSION SCHEDULE Transaction
     return {
@@ -388,6 +419,12 @@ const registerRuntime: TxRegisterRuntime = {
   version: "1.2.4",
 };
 
+const boundEvent: TxBoundEvent = {
+  start: "Start",
+  rate_min: "Rate Min",
+  rate_max: "Rate Max",
+};
+
 const unfreezeNode: TxUnfreezeNode = {
   id: "s76fd9af9s8ad",
 };
@@ -404,14 +441,15 @@ const unknown: TxUnknown = {
 
 const d = () => String(Date.now() - Math.round(Math.random() * 1e8));
 
-const MOCK_OASIS_EVENTS = [
+const MOCK_OASIS_EVENTS: OasisTransaction[] = [
   { date: d(), register_entity: register },
   { date: d(), deregister_entity: deregister },
   { date: d(), register_node: registerNode },
   { date: d(), unfreeze_node: unfreezeNode },
   { date: d(), register_runtime: registerRuntime },
   { date: d(), amend_commission_schedule: amend },
-  { date: d(), amend_commission_schedule: rateEvent },
+  { date: d(), rate: rateEvent },
+  { date: d(), bound: boundEvent },
   { date: d(), unknown_method: unknown },
 ];
 

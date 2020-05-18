@@ -1,5 +1,6 @@
 import {
   assertUnreachable,
+  IOasisBoundEvent,
   IOasisBurnEvent,
   IOasisEscrowAddEvent,
   IOasisRateEvent,
@@ -9,6 +10,7 @@ import {
   IOasisTransactionType,
   IOasisTransferEvent,
   IOasisUnfreezeNodeEvent,
+  IOasisUnknownEvent,
   NetworkDefinition,
 } from "@anthem/utils";
 import { Card, Elevation } from "@blueprintjs/core";
@@ -159,31 +161,18 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
         const event = transaction.event as IOasisUnfreezeNodeEvent;
         return this.renderEventInfoBox(event.id, "Node id");
       }
+      case IOasisTransactionType.UnknownEvent: {
+        const event = transaction.event as IOasisUnknownEvent;
+        return this.renderEventInfoBox(event.method_name, "Method Name");
+      }
       case IOasisTransactionType.RateEvent:
       case IOasisTransactionType.BoundEvent:
       case IOasisTransactionType.AmendCommissionSchedule:
-      case IOasisTransactionType.UnknownEvent:
         console.warn(`[OASIS]: Handle this transaction type: ${type}`);
         return null;
       default:
         return assertUnreachable(type);
     }
-  };
-
-  renderEventInfoBox = (info: string, titleText: string) => {
-    return (
-      <EventRow>
-        <EventIconBox>
-          <EventIcon src={OasisLogo} />
-        </EventIconBox>
-        <EventContextBox>
-          <EventText>{titleText}</EventText>
-          <EventText style={{ fontWeight: 100, fontSize: 12 }}>
-            {info}
-          </EventText>
-        </EventContextBox>
-      </EventRow>
-    );
   };
 
   renderAddressBox = (address: string, titleText: string) => {
@@ -203,6 +192,22 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
           </EventText>
         </EventContextBox>
       </ClickableEventRow>
+    );
+  };
+
+  renderEventInfoBox = (info: string, titleText: string) => {
+    return (
+      <EventRow>
+        <EventIconBox>
+          <EventIcon src={OasisLogo} />
+        </EventIconBox>
+        <EventContextBox>
+          <EventText>{titleText}</EventText>
+          <EventText style={{ fontWeight: 100, fontSize: 12 }}>
+            {info}
+          </EventText>
+        </EventContextBox>
+      </EventRow>
     );
   };
 
