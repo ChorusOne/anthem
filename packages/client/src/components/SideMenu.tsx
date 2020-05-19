@@ -105,9 +105,9 @@ class SideMenuComponent extends React.Component<IProps, IState> {
       <NavItem
         path={pathname}
         closeHandler={close}
-        key="Validators"
-        route="Validators"
-        title="Validators"
+        key="Staking"
+        route="Staking"
+        title="Staking"
         icon={IconNames.BANK_ACCOUNT}
       />,
       // <NavItem
