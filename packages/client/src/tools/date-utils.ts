@@ -27,10 +27,17 @@ export const toDateKey = (date: string | number | Date) => {
 };
 
 /**
- * Convert a date to a string date key, on the previous day.
+ * Convert a date to a string date key, on the previous day. We adjust
+ * backwards by 1 minute because the Cosmos Extractor extracts rewards
+ * values on the first bloch height of every day, but we need to 'adjust'
+ * these values backwards because they actually represent the rewards
+ * accumulated at the end of the previous day. This first block will occur
+ * within 5-10 seconds of the start of the day, so by adjusting backwards
+ * by 1 minute this should adjust this timestamp backwards to the previous
+ * day.
  */
 export const toDateKeyBackOneDay = (date: string | number | Date) => {
-  const tz = setTimeZone(date).subtract(60, "minutes");
+  const tz = setTimeZone(date).subtract(1, "minutes");
   return tz.format(DATE_FORMAT);
 };
 
