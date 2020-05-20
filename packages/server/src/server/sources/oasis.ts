@@ -210,7 +210,7 @@ const convertDelegations = (delegation: OasisDelegation): IDelegation => {
 const adaptOasisTransaction = (
   tx: OasisTransaction,
   address: string,
-): Nullable<IOasisTransaction> => {
+): IOasisTransaction | null => {
   if (!!tx.burn) {
     // BURN Transaction
     return {

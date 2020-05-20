@@ -4,9 +4,9 @@
     "value": {
       "account_number": "16451",
       "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-      "coins": [{ "denom": "uatom", "amount": "348592170" }],
+      "coins": [{ "denom": "uatom", "amount": "348588595" }],
       "public_key": { "type": "tendermint/PubKeySecp256k1" },
-      "sequence": "71"
+      "sequence": "72"
     }
   }
 }

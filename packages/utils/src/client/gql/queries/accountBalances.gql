@@ -38,12 +38,6 @@ query accountBalances($address: String!){
             votingLockedGoldBalance
             pendingWithdrawalBalance
             celoUSDValue
-            delegations{
-                group
-                totalVotes
-                activeVotes
-                pendingVotes
-            }
         }
     }
 }

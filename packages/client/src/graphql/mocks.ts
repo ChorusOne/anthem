@@ -122,32 +122,43 @@ const mocks = {
   Query: () => mockQueryResolvers,
 };
 
+/**
+ * Provide union type resolvers to handle resolving union types. The logic
+ * here is basically the same as that found in the resolve-types file.
+ */
 const typeResolvers = {
   TxMsgValue: {
-    /**
-     * This has to be overridden here because the logic is different since
-     * the recorded response JSON has already been processed and transformed.
-     */
-    __resolveType(obj: any) {
-      if (obj.amounts && obj.amounts.length) {
+    __resolveType(x: any) {
+      if (x.amounts && x.amounts.length) {
         return "MsgSend";
-      } else if (obj.amount) {
+      } else if (x.amount) {
         return "MsgDelegate";
       }
 
-      if (obj.delegator_address) {
+      if (x.delegator_address) {
         return "MsgWithdrawDelegationReward";
       }
 
-      if (obj.validator_address) {
+      if (x.validator_address) {
         return "MsgWithdrawValidatorCommission";
       }
 
-      if (obj.proposal_id) {
+      if (x.proposal_id) {
         return "MsgVote";
       }
 
       return null;
+    },
+  },
+
+  AccountBalanceResponseType: {
+    __resolveType(x: any) {
+      const PROXY_FOR_CELO = "totalLockedGoldBalance" in x;
+      if (PROXY_FOR_CELO) {
+        return "CeloAccountBalances";
+      } else {
+        return "CosmosAccountBalances";
+      }
     },
   },
 };
