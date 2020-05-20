@@ -50,6 +50,124 @@ interface OasisTransaction {
   unknown_method?: TxUnknown;
 }
 
+enum OasisTransactionMethod {
+  ADD_ESCROW = "staking.AddEscrow",
+  RECLAIM_ESCROW = "staking.ReclaimEscrow",
+  TAKE_ESCROW = "staking.TakeEscrow",
+  TRANSFER = "staking.Transfer",
+  // I guessed at these method names:
+  REGISTER_ENTITY = "staking.RegisterEntity",
+  DE_REGISTER_ENTITY = "staking.DeregisterEntity",
+  UN_FREEZE_NODE = "staking.UnfreezeNode",
+  RATE = "staking.Rate",
+  BOUND = "staking.Bound",
+  REGISTER_RUNTIME = "staking.RegisterRuntime",
+  AMEND_COMMISSION_SCHEDULE = "staking.AmendCommissionSchedule",
+  UNKNOWN_METHOD = "UnknownMethod",
+}
+
+interface OasisTransactionBase {
+  amount: string;
+  gas: number;
+  gas_price: string;
+  height: number;
+  method: OasisTransactionMethod;
+  date: string;
+}
+
+interface TxTransfer extends OasisTransactionBase {
+  method: OasisTransactionMethod.TRANSFER;
+  data: {
+    from: string;
+    to: string;
+    tokens: string;
+  };
+}
+
+interface TxAddEscrow extends OasisTransactionBase {
+  method: OasisTransactionMethod.ADD_ESCROW;
+  data: {
+    to: string;
+    tokens: string;
+  };
+}
+
+interface TxTakeEscrow extends OasisTransactionBase {
+  method: OasisTransactionMethod.TAKE_ESCROW;
+  data: {
+    from: string;
+    to: string;
+    tokens: string;
+  };
+}
+
+interface TxReclaimEscrow extends OasisTransactionBase {
+  method: OasisTransactionMethod.RECLAIM_ESCROW;
+  data: {
+    from: string;
+    shares: string;
+  };
+}
+
+interface TxRegisterEntity extends OasisTransactionBase {
+  method: OasisTransactionMethod.REGISTER_ENTITY;
+  data: null;
+}
+
+interface TxDeregisterEntity extends OasisTransactionBase {
+  method: OasisTransactionMethod.DE_REGISTER_ENTITY;
+  data: null;
+}
+
+interface TxUnfreezeNode extends OasisTransactionBase {
+  method: OasisTransactionMethod.UN_FREEZE_NODE;
+  data: null;
+}
+
+interface TxRate extends OasisTransactionBase {
+  method: OasisTransactionMethod.RATE;
+  data: null;
+}
+
+interface TxBound extends OasisTransactionBase {
+  method: OasisTransactionMethod.BOUND;
+  data: null;
+}
+
+interface TxRegisterRuntime extends OasisTransactionBase {
+  method: OasisTransactionMethod.REGISTER_RUNTIME;
+  data: null;
+}
+
+interface TxAmendCommissionSchedule extends OasisTransactionBase {
+  method: OasisTransactionMethod.AMEND_COMMISSION_SCHEDULE;
+  data: null;
+}
+
+interface TxUnknownMethod extends OasisTransactionBase {
+  method: OasisTransactionMethod.UNKNOWN_METHOD;
+  data: null;
+}
+
+type OasisTransactionTypeUnion =
+  | TxTransfer
+  | TxAddEscrow
+  | TxTakeEscrow
+  | TxReclaimEscrow
+  | TxRegisterEntity
+  | TxDeregisterEntity
+  | TxUnfreezeNode
+  | TxRate
+  | TxBound
+  | TxRegisterRuntime
+  | TxAmendCommissionSchedule
+  | TxUnknownMethod;
+
+/** ===========================================================================
+ * Legacy Types:
+ * ============================================================================
+ */
+
 interface TxTransfer {
   to: string;
   from: string;
