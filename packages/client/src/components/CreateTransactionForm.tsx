@@ -1,4 +1,9 @@
-import { IAccountInformation, IQuery, IValidator } from "@anthem/utils";
+import {
+  IAccountInformation,
+  ICosmosAccountBalances,
+  IQuery,
+  IValidator,
+} from "@anthem/utils";
 import {
   Checkbox,
   Classes,
@@ -179,7 +184,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           IQuery["rewardsByValidator"],
         ]) => {
           const balances = getAccountBalances(
-            accountBalancesData,
+            accountBalancesData as ICosmosAccountBalances,
             atomsConversionRate,
             ledger.network,
             6,
@@ -335,7 +340,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
     const atomsConversionRate = prices.prices;
     const balances = getAccountBalances(
-      accountBalances.accountBalances,
+      accountBalances.accountBalances as ICosmosAccountBalances,
       atomsConversionRate,
       ledger.network,
       6,
@@ -705,7 +710,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const IS_DELEGATION = ledgerActionType === "DELEGATE";
 
     const balances = getAccountBalances(
-      accountBalances.accountBalances,
+      accountBalances.accountBalances as ICosmosAccountBalances,
       atomsConversionRate,
       ledger.network,
       6,
