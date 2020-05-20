@@ -286,60 +286,70 @@ class CeloBalances extends React.Component<CeloBalancesProps> {
     ];
 
     return (
-      <SummaryContainer>
-        <BalanceContainer>
-          <View>
-            <BalanceLine>
-              <Icon
-                icon={IconNames.DOT}
-                style={{ marginRight: 2 }}
-                color={COLORS.BALANCE_SHADE_ONE}
-              />
-              <BalanceTitle>Gold Balance:</BalanceTitle>
-              <BalanceText data-cy="celo-gold-balance-available">
-                {renderCurrency(goldTokenBalance)}
-              </BalanceText>
-            </BalanceLine>
-            <BalanceLine>
-              <Icon
-                icon={IconNames.DOT}
-                style={{ marginRight: 2 }}
-                color={COLORS.BALANCE_SHADE_TWO}
-              />
-              <BalanceTitle>Locked Gold:</BalanceTitle>
-              <BalanceText data-cy="celo-gold-balance-locked">
-                {renderCurrency(totalLockedGoldBalance)}
-              </BalanceText>
-            </BalanceLine>
-            <BalanceLine>
-              <Icon
-                icon={IconNames.DOT}
-                style={{ marginRight: 2 }}
-                color={COLORS.BALANCE_SHADE_THREE}
-              />
-              <BalanceTitle>Pending:</BalanceTitle>
-              <BalanceText data-cy="celo-gold-balance-pending">
-                {renderCurrency(pendingWithdrawalBalance)}
-              </BalanceText>
-            </BalanceLine>
-            <BalanceLine>
-              <Icon
-                icon={IconNames.DOT}
-                style={{ marginRight: 2 }}
-                color={COLORS.BALANCE_SHADE_FOUR}
-              />
-              <BalanceTitle>cUSD Balance:</BalanceTitle>
-              <BalanceText data-cy="celo-usd-balance-available">
-                {renderCurrency(celoUSDValue)}
-              </BalanceText>
-            </BalanceLine>
-          </View>
-          <BalancePieChart
-            percentages={percentages}
-            total={renderCurrency(total)}
-          />
-        </BalanceContainer>
-      </SummaryContainer>
+      <>
+        <SummaryContainer>
+          <BalanceContainer>
+            <View>
+              <BalanceLine>
+                <Icon
+                  icon={IconNames.DOT}
+                  style={{ marginRight: 2 }}
+                  color={COLORS.BALANCE_SHADE_ONE}
+                />
+                <BalanceTitle>Gold Balance:</BalanceTitle>
+                <BalanceText data-cy="celo-gold-balance-available">
+                  {renderCurrency(goldTokenBalance)}
+                </BalanceText>
+              </BalanceLine>
+              <BalanceLine>
+                <Icon
+                  icon={IconNames.DOT}
+                  style={{ marginRight: 2 }}
+                  color={COLORS.BALANCE_SHADE_TWO}
+                />
+                <BalanceTitle>Locked Gold:</BalanceTitle>
+                <BalanceText data-cy="celo-gold-balance-locked">
+                  {renderCurrency(totalLockedGoldBalance)}
+                </BalanceText>
+              </BalanceLine>
+              <BalanceLine>
+                <Icon
+                  icon={IconNames.DOT}
+                  style={{ marginRight: 2 }}
+                  color={COLORS.BALANCE_SHADE_THREE}
+                />
+                <BalanceTitle>Pending:</BalanceTitle>
+                <BalanceText data-cy="celo-gold-balance-pending">
+                  {renderCurrency(pendingWithdrawalBalance)}
+                </BalanceText>
+              </BalanceLine>
+              <BalanceLine>
+                <Icon
+                  icon={IconNames.DOT}
+                  style={{ marginRight: 2 }}
+                  color={COLORS.BALANCE_SHADE_FOUR}
+                />
+                <BalanceTitle>cUSD Balance:</BalanceTitle>
+                <BalanceText data-cy="celo-usd-balance-available">
+                  {renderCurrency(celoUSDValue)}
+                </BalanceText>
+              </BalanceLine>
+            </View>
+            <BalancePieChart
+              percentages={percentages}
+              total={renderCurrency(total)}
+            />
+          </BalanceContainer>
+        </SummaryContainer>
+        <ActionContainer>
+          <H5>Celo Ledger Transactions</H5>
+          <DelegationControlsContainer>
+            <Button onClick={() => null} data-cy="celo-delegation-button">
+              Coming Soon!
+            </Button>
+          </DelegationControlsContainer>
+        </ActionContainer>
+      </>
     );
   }
 }
