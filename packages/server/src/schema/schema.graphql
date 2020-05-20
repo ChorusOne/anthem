@@ -114,9 +114,14 @@ type OasisTransactionResult {
 }
 
 type OasisTransaction {
-  date: String!
+  amount: String!
+  gas: Int!
+  gas_price: String!
   height: Int!
-  event: OasisTransactionEvent!
+  method: String!
+  date: String!
+  sender: String!
+  data: OasisTransactionEventData!
 }
 
 enum OasisTransactionType {
@@ -135,7 +140,7 @@ enum OasisTransactionType {
   UNKNOWN_EVENT
 }
 
-union OasisTransactionEvent =
+union OasisTransactionEventData =
     OasisBurnEvent
   | OasisTransferEvent
   | OasisEscrowAddEvent
