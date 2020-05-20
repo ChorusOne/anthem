@@ -6,7 +6,7 @@
         "name": "AccountBalanceResponseType",
         "possibleTypes": [
           {
-            "name": "AccountBalances"
+            "name": "CosmosAccountBalances"
           },
           {
             "name": "CeloAccountBalances"

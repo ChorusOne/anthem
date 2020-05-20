@@ -3,6 +3,7 @@ import {
   COIN_DENOMS,
   getValidatorAddressFromDelegatorAddress,
   IBalance,
+  ICosmosAccountBalances,
   IDelegation,
   IQuery,
   ITransaction,
@@ -210,7 +211,7 @@ interface AccountBalancesResult {
  * values for all the address balances.
  */
 export const getAccountBalances = (
-  accountBalancesData: IQuery["accountBalances"] | undefined,
+  accountBalancesData: ICosmosAccountBalances | undefined,
   rate: IQuery["prices"] | undefined,
   network: NetworkDefinition,
   maximumFractionDigits?: number,

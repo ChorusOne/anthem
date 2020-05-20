@@ -24,16 +24,7 @@ export interface IAccount {
   sequence: Scalars["String"];
 }
 
-export type IAccountBalanceResponseType = IAccountBalances | ICeloAccountBalances;
-
-export interface IAccountBalances {
-   __typename?: "AccountBalances";
-  balance: Maybe<IBalance[]>;
-  rewards: Maybe<IBalance[]>;
-  delegations: Maybe<IDelegation[]>;
-  unbonding: Maybe<IUnbondingDelegation[]>;
-  commissions: Maybe<IBalance[]>;
-}
+export type IAccountBalanceResponseType = ICosmosAccountBalances | ICeloAccountBalances;
 
 export interface IAccountCoin {
    __typename?: "AccountCoin";
@@ -149,6 +140,15 @@ export interface ICommissionRates {
   rate: Scalars["String"];
   max_rate: Scalars["String"];
   max_change_rate: Scalars["String"];
+}
+
+export interface ICosmosAccountBalances {
+   __typename?: "CosmosAccountBalances";
+  balance: Maybe<IBalance[]>;
+  rewards: Maybe<IBalance[]>;
+  delegations: Maybe<IDelegation[]>;
+  unbonding: Maybe<IUnbondingDelegation[]>;
+  commissions: Maybe<IBalance[]>;
 }
 
 export interface IDelegation {
@@ -786,7 +786,7 @@ export interface IAccountBalancesQueryVariables {
 export type IAccountBalancesQuery = (
   { __typename?: "Query" }
   & { accountBalances: Maybe<(
-    { __typename?: "AccountBalances" }
+    { __typename?: "CosmosAccountBalances" }
     & { balance: Maybe<Array<(
       { __typename?: "Balance" }
       & Pick<IBalance, "denom" | "amount">
@@ -1383,7 +1383,7 @@ export type IValidatorsQuery = (
 export const AccountBalancesDocument = gql`
     query accountBalances($address: String!) {
   accountBalances(address: $address) {
-    ... on AccountBalances {
+    ... on CosmosAccountBalances {
       balance {
         denom
         amount
