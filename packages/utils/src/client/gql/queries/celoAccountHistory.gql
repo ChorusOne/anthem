@@ -1,0 +1,20 @@
+query celoAccountHistory($address: String!, $fiat: String!){
+    celoAccountHistory(address: $address, fiat: $fiat){
+        snapshotDate
+        address
+        height
+        snapshotReward
+        goldTokenBalance
+        totalLockedGoldBalance
+        nonVotingLockedGoldBalance
+        votingLockedGoldBalance
+        pendingWithdrawalBalance
+        celoUSDValue
+        delegations{
+            group
+            totalVotes
+            activeVotes
+            pendingVotes
+        }
+    }
+}

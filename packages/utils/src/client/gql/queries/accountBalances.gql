@@ -1,31 +1,43 @@
 query accountBalances($address: String!){
     accountBalances(address: $address){
-        balance{
-            denom
-            amount
-        }
-        rewards{
-            denom
-            amount
-        }
-        delegations{
-            delegator_address
-            validator_address
-            shares
-        }
-        unbonding{
-            delegator_address
-            validator_address
-            entries{
-                balance
-                initial_balance
-                creation_height
-                completion_time
+        ... on AccountBalances {
+            balance{
+                denom
+                amount
+            }
+            rewards{
+                denom
+                amount
+            }
+            delegations{
+                delegator_address
+                validator_address
+                shares
+            }
+            unbonding{
+                delegator_address
+                validator_address
+                entries{
+                    balance
+                    initial_balance
+                    creation_height
+                    completion_time
+                }
+            }
+            commissions{
+                denom
+                amount
             }
         }
-        commissions{
-            denom
-            amount
+        ... on CeloAccountBalances {
+            address
+            height
+            goldTokenBalance
+            totalLockedGoldBalance
+            nonVotingLockedGoldBalance
+            votingLockedGoldBalance
+            pendingWithdrawalBalance
+            celoUSDValue
         }
     }
 }

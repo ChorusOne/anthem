@@ -83,6 +83,19 @@ const TxMsgValue = {
 };
 
 /**
+ * Account Balances Resolver:
+ */
+const AccountBalanceResponseType = {
+  __resolveType(balances: any) {
+    if (balances.totalLockedGoldBalance) {
+      return "CeloAccountBalances";
+    } else {
+      return "AccountBalances";
+    }
+  },
+};
+
+/**
  * Oasis Transaction Resolver:
  */
 const OasisTransactionEvent = {
@@ -127,6 +140,10 @@ const OasisTransactionEvent = {
  * ============================================================================
  */
 
-const UnionResolvers = { TxMsgValue, OasisTransactionEvent };
+const UnionResolvers = {
+  TxMsgValue,
+  OasisTransactionEvent,
+  AccountBalanceResponseType,
+};
 
 export default UnionResolvers;

@@ -1,4 +1,9 @@
-import { IDelegation, IQuery, NetworkDefinition } from "@anthem/utils";
+import {
+  ICeloAccountBalances,
+  IDelegation,
+  IQuery,
+  NetworkDefinition,
+} from "@anthem/utils";
 import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
 
 /** ===========================================================================
@@ -52,38 +57,40 @@ interface CeloAccountSnapshot {
 const fetchAccountBalances = async (
   address: string,
   network: NetworkDefinition,
-): Promise<IQuery["accountBalances"]> => {
+): Promise<ICeloAccountBalances> => {
   const host = getHostFromNetworkName(network.name);
-  const response = await AxiosUtil.get<CeloAccountResponse>(
+  const response = await AxiosUtil.get<ICeloAccountBalances>(
     `${host}/account/${address}`,
   );
 
-  const {
-    delegations,
-    goldTokenBalance,
-    totalLockedGoldBalance,
-    nonVotingLockedGoldBalance,
-    votingLockedGoldBalance,
-    pendingWithdrawalBalance,
-  } = response;
+  return response;
 
-  return {
-    balance: [
-      {
-        denom: network.denom,
-        amount: goldTokenBalance,
-      },
-    ],
-    rewards: [
-      {
-        denom: network.denom,
-        amount: pendingWithdrawalBalance,
-      },
-    ],
-    delegations: delegations.map(x => convertDelegations(x, address)),
-    unbonding: [],
-    commissions: [],
-  };
+  // const {
+  //   delegations,
+  //   goldTokenBalance,
+  //   totalLockedGoldBalance,
+  //   nonVotingLockedGoldBalance,
+  //   votingLockedGoldBalance,
+  //   pendingWithdrawalBalance,
+  // } = response;
+
+  // return {
+  //   balance: [
+  //     {
+  //       denom: network.denom,
+  //       amount: goldTokenBalance,
+  //     },
+  //   ],
+  //   rewards: [
+  //     {
+  //       denom: network.denom,
+  //       amount: pendingWithdrawalBalance,
+  //     },
+  //   ],
+  //   delegations: delegations.map(x => convertDelegations(x, address)),
+  //   unbonding: [],
+  //   commissions: [],
+  // };
 };
 
 /**
