@@ -24,9 +24,10 @@ import React from "react";
 import PieChart from "react-minimal-pie-chart";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { getAccountBalances } from "tools/client-utils";
+import { getAccountBalances, getPercentage } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
+import { addValuesInList } from "tools/math-utils";
 
 /** ===========================================================================
  * React Component
@@ -281,6 +282,20 @@ class CeloBalances extends React.Component<CeloBalancesProps> {
     const renderCurrency = (value: string) => {
       return formatCurrencyAmount(denomToUnit(value, denomSize), 8);
     };
+
+    const total = addValuesInList([
+      goldTokenBalance,
+      totalLockedGoldBalance,
+      pendingWithdrawalBalance,
+    ]);
+
+    const percentages: ReadonlyArray<number> = [
+      getPercentage(goldTokenBalance, total),
+      getPercentage(totalLockedGoldBalance, total),
+      getPercentage(pendingWithdrawalBalance, total),
+    ];
+
+    console.log(percentages);
 
     return (
       <SummaryContainer>

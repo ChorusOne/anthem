@@ -29,6 +29,7 @@ import { formatFiatPriceDate } from "./date-utils";
 import {
   addValuesInList,
   divide,
+  GenericNumberType,
   isGreaterThanOrEqualTo,
   multiply,
   toBigNumber,
@@ -191,6 +192,19 @@ const aggregateCurrencyValuesFromList = <T extends any>(
   return addValuesInList(values, toBigNumber);
 };
 
+/**
+ * Get a percentage from a total.
+ */
+export const getPercentage = (
+  value: GenericNumberType,
+  total: GenericNumberType,
+) => {
+  return toBigNumber(value)
+    .dividedBy(toBigNumber(total))
+    .multipliedBy(100)
+    .toNumber();
+};
+
 interface AccountBalancesResult {
   balance: string;
   rewards: string;
@@ -331,19 +345,12 @@ export const getAccountBalances = (
     rate ? convertCryptoToFiat(rate, totalResult, network) : "0",
   ].map(x => formatCurrencyAmount(x, maximumFractionDigits));
 
-  const getPercentage = (value: BigNumber) => {
-    return value
-      .dividedBy(totalResult)
-      .multipliedBy(100)
-      .toNumber();
-  };
-
   const percentages: ReadonlyArray<number> = [
-    getPercentage(balanceResult),
-    getPercentage(delegationResult),
-    getPercentage(rewardsResult),
-    getPercentage(unbondingResult),
-    getPercentage(commissionsResult),
+    getPercentage(balanceResult, totalResult),
+    getPercentage(delegationResult, totalResult),
+    getPercentage(rewardsResult, totalResult),
+    getPercentage(unbondingResult, totalResult),
+    getPercentage(commissionsResult, totalResult),
   ];
 
   return {
