@@ -23,9 +23,16 @@ interface OasisDelegation {
   amount: string;
 }
 
+interface Balance {
+  balance: string;
+  shares: string;
+}
+
 interface OasisAccountResponse {
   address: string;
   balance: string;
+  staked_balance: Balance;
+  debonding_balance: Balance;
   height: number;
   delegations: OasisDelegation[];
   meta: {
@@ -202,6 +209,9 @@ type OasisTransaction =
 
 /**
  * Fetch Oasis account balances.
+ *
+ * TODO: This will probably need to get updated to use a new return type
+ * for the Oasis network.
  */
 const fetchAccountBalances = async (
   address: string,
@@ -272,6 +282,22 @@ const convertDelegations = (delegation: OasisDelegation): IDelegation => {
 };
 
 /**
+ * Map the transaction type onto the transaction data.
+ */
+const combineWithType = (
+  transaction: OasisTransaction,
+  type: IOasisTransactionType,
+) => {
+  const result: IOasisTransaction = {
+    ...transaction,
+    // @ts-ignore
+    data: { ...tx.data, type },
+  };
+
+  return result;
+};
+
+/**
  * Transform the original transaction records to match the GraphQL schema
  * definition.
  */
@@ -280,19 +306,6 @@ const adaptOasisTransaction = (
   address: string,
 ): IOasisTransaction | null => {
   const { method } = tx;
-
-  const combineWithType = (
-    transaction: OasisTransaction,
-    type: IOasisTransactionType,
-  ) => {
-    const result: IOasisTransaction = {
-      ...tx,
-      // @ts-ignore
-      data: { ...tx.data, type },
-    };
-
-    return result;
-  };
 
   switch (method) {
     case OasisTransactionMethod.TRANSFER: {

@@ -357,12 +357,17 @@ export interface IOasisRegisterRuntimeEvent {
 
 export interface IOasisTransaction {
    __typename?: "OasisTransaction";
-  date: Scalars["String"];
+  amount: Scalars["String"];
+  gas: Scalars["Int"];
+  gas_price: Scalars["String"];
   height: Scalars["Int"];
-  event: IOasisTransactionEvent;
+  method: Scalars["String"];
+  date: Scalars["String"];
+  sender: Scalars["String"];
+  data: IOasisTransactionEventData;
 }
 
-export type IOasisTransactionEvent = IOasisBurnEvent | IOasisTransferEvent | IOasisEscrowAddEvent | IOasisEscrowTakeEvent | IOasisEscrowReclaimEvent | IOasisRegisterEntityEvent | IOasisRegisterNodeEvent | IOasisUnfreezeNodeEvent | IOasisRegisterRuntimeEvent | IOasisRateEvent | IOasisBoundEvent | IOasisAmendCommissionScheduleEvent | IOasisUnknownEvent;
+export type IOasisTransactionEventData = IOasisBurnEvent | IOasisTransferEvent | IOasisEscrowAddEvent | IOasisEscrowTakeEvent | IOasisEscrowReclaimEvent | IOasisRegisterEntityEvent | IOasisRegisterNodeEvent | IOasisUnfreezeNodeEvent | IOasisRegisterRuntimeEvent | IOasisRateEvent | IOasisBoundEvent | IOasisAmendCommissionScheduleEvent | IOasisUnknownEvent;
 
 export interface IOasisTransactionResult {
    __typename?: "OasisTransactionResult";
@@ -1107,8 +1112,8 @@ export type IOasisTransactionsQuery = (
     & Pick<IOasisTransactionResult, "page" | "limit" | "moreResultsExist">
     & { data: Array<(
       { __typename?: "OasisTransaction" }
-      & Pick<IOasisTransaction, "date" | "height">
-      & { event: (
+      & Pick<IOasisTransaction, "amount" | "gas" | "gas_price" | "height" | "method" | "date" | "sender">
+      & { data: (
         { __typename?: "OasisBurnEvent" }
         & Pick<IOasisBurnEvent, "type" | "owner" | "tokens">
       ) | (
@@ -2397,9 +2402,14 @@ export const OasisTransactionsDocument = gql`
     page
     limit
     data {
-      date
+      amount
+      gas
+      gas_price
       height
-      event {
+      method
+      date
+      sender
+      data {
         ... on OasisBurnEvent {
           type
           owner
