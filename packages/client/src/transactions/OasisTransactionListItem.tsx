@@ -78,13 +78,13 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderTypeAndTimestamp = () => {
     const { transaction } = this.props;
-    const Icon = getOasisTransactionTypeIcon(transaction.event.type);
+    const Icon = getOasisTransactionTypeIcon(transaction.data.type);
     return (
       <EventRowItem style={{ minWidth: 275 }}>
         <EventIconBox>{Icon}</EventIconBox>
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>
-            {getOasisTransactionLabelFromType(transaction.event.type)}
+            {getOasisTransactionLabelFromType(transaction.data.type)}
           </EventText>
           <EventText data-cy="transaction-timestamp">
             {formatDate(Number(transaction.date))}{" "}
@@ -96,9 +96,9 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderTransactionAmount = () => {
-    const { event } = this.props.transaction;
-    if ("tokens" in event) {
-      const amount = event.tokens;
+    const { data } = this.props.transaction;
+    if ("tokens" in data) {
+      const amount = data.tokens;
       return (
         <EventRowItem style={{ minWidth: 275 }}>
           <EventIconBox>
@@ -117,15 +117,15 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderAddressBlocks = () => {
     const { transaction } = this.props;
-    const { type } = transaction.event;
+    const { type } = transaction.data;
     switch (type) {
       case IOasisTransactionType.EscrowTake:
       case IOasisTransactionType.Burn: {
-        const event = transaction.event as IOasisBurnEvent;
+        const event = transaction.data as IOasisBurnEvent;
         return this.renderAddressBox(event.owner, "Owner");
       }
       case IOasisTransactionType.Transfer: {
-        const event = transaction.event as IOasisTransferEvent;
+        const event = transaction.data as IOasisTransferEvent;
         return (
           <>
             {this.renderAddressBox(event.from, "From")}
@@ -135,7 +135,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
       }
       case IOasisTransactionType.EscrowAdd:
       case IOasisTransactionType.EscrowReclaim: {
-        const event = transaction.event as IOasisEscrowAddEvent;
+        const event = transaction.data as IOasisEscrowAddEvent;
         return (
           <>
             {this.renderAddressBox(event.owner, "Owner")}
@@ -144,23 +144,23 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
         );
       }
       case IOasisTransactionType.RegisterEntity: {
-        const event = transaction.event as IOasisRegisterEntityEvent;
+        const event = transaction.data as IOasisRegisterEntityEvent;
         return this.renderEventInfoBox(event.id, "Entity id");
       }
       case IOasisTransactionType.RegisterNode: {
-        const event = transaction.event as IOasisRegisterEntityEvent;
+        const event = transaction.data as IOasisRegisterEntityEvent;
         return this.renderEventInfoBox(event.id, "Node id");
       }
       case IOasisTransactionType.RegisterRuntime: {
-        const event = transaction.event as IOasisRegisterRuntimeEvent;
+        const event = transaction.data as IOasisRegisterRuntimeEvent;
         return this.renderEventInfoBox(event.id, "Runtime id");
       }
       case IOasisTransactionType.UnfreezeNode: {
-        const event = transaction.event as IOasisUnfreezeNodeEvent;
+        const event = transaction.data as IOasisUnfreezeNodeEvent;
         return this.renderEventInfoBox(event.id, "Node id");
       }
       case IOasisTransactionType.UnknownEvent: {
-        const event = transaction.event as IOasisUnknownEvent;
+        const event = transaction.data as IOasisUnknownEvent;
         return this.renderEventInfoBox(event.method_name, "Method Name");
       }
       case IOasisTransactionType.RateEvent:
