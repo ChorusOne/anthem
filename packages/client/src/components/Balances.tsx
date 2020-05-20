@@ -182,20 +182,10 @@ class Balance extends React.Component<IProps, {}> {
                   {Boolean(address) && (
                     <BalanceContainer>
                       {BalanceLines}
-                      <BalanceTotalWrapper>
-                        <BalanceTotalContainer
-                          style={{ marginTop: isDesktop ? 0 : 24 }}
-                        >
-                          <Pie percentages={percentages} />
-                          <BalanceCircle>
-                            <BalanceTotalBox>
-                              <BalanceTotalText data-cy="balance-total">
-                                {renderBalanceItem(total, totalFiat)}
-                              </BalanceTotalText>
-                            </BalanceTotalBox>
-                          </BalanceCircle>
-                        </BalanceTotalContainer>
-                      </BalanceTotalWrapper>
+                      <BalancePieChart
+                        percentages={percentages}
+                        total={renderBalanceItem(total, totalFiat)}
+                      />
                     </BalanceContainer>
                   )}
                 </SummaryContainer>
@@ -280,7 +270,7 @@ class CeloBalances extends React.Component<CeloBalancesProps> {
 
     // Helper to render Celo currency values
     const renderCurrency = (value: string) => {
-      return formatCurrencyAmount(denomToUnit(value, denomSize), 8);
+      return formatCurrencyAmount(denomToUnit(value, denomSize));
     };
 
     const total = addValuesInList([
@@ -289,60 +279,66 @@ class CeloBalances extends React.Component<CeloBalancesProps> {
       pendingWithdrawalBalance,
     ]);
 
-    const percentages: ReadonlyArray<number> = [
+    const percentages: number[] = [
       getPercentage(goldTokenBalance, total),
       getPercentage(totalLockedGoldBalance, total),
       getPercentage(pendingWithdrawalBalance, total),
     ];
 
-    console.log(percentages);
-
     return (
       <SummaryContainer>
-        <BalanceLine>
-          <Icon
-            icon={IconNames.DOT}
-            style={{ marginRight: 2 }}
-            color={COLORS.BALANCE_SHADE_ONE}
+        <BalanceContainer>
+          <View>
+            <BalanceLine>
+              <Icon
+                icon={IconNames.DOT}
+                style={{ marginRight: 2 }}
+                color={COLORS.BALANCE_SHADE_ONE}
+              />
+              <BalanceTitle>Gold Balance:</BalanceTitle>
+              <BalanceText data-cy="celo-gold-balance-available">
+                {renderCurrency(goldTokenBalance)}
+              </BalanceText>
+            </BalanceLine>
+            <BalanceLine>
+              <Icon
+                icon={IconNames.DOT}
+                style={{ marginRight: 2 }}
+                color={COLORS.BALANCE_SHADE_TWO}
+              />
+              <BalanceTitle>Locked Gold:</BalanceTitle>
+              <BalanceText data-cy="celo-gold-balance-locked">
+                {renderCurrency(totalLockedGoldBalance)}
+              </BalanceText>
+            </BalanceLine>
+            <BalanceLine>
+              <Icon
+                icon={IconNames.DOT}
+                style={{ marginRight: 2 }}
+                color={COLORS.BALANCE_SHADE_THREE}
+              />
+              <BalanceTitle>Pending:</BalanceTitle>
+              <BalanceText data-cy="celo-gold-balance-pending">
+                {renderCurrency(pendingWithdrawalBalance)}
+              </BalanceText>
+            </BalanceLine>
+            <BalanceLine>
+              <Icon
+                icon={IconNames.DOT}
+                style={{ marginRight: 2 }}
+                color={COLORS.BALANCE_SHADE_FOUR}
+              />
+              <BalanceTitle>cUSD Balance:</BalanceTitle>
+              <BalanceText data-cy="celo-usd-balance-available">
+                {renderCurrency(celoUSDValue)}
+              </BalanceText>
+            </BalanceLine>
+          </View>
+          <BalancePieChart
+            percentages={percentages}
+            total={renderCurrency(total)}
           />
-          <BalanceTitle>Gold Balance:</BalanceTitle>
-          <BalanceText data-cy="celo-gold-balance-available">
-            {renderCurrency(goldTokenBalance)}
-          </BalanceText>
-        </BalanceLine>
-        <BalanceLine>
-          <Icon
-            icon={IconNames.DOT}
-            style={{ marginRight: 2 }}
-            color={COLORS.BALANCE_SHADE_TWO}
-          />
-          <BalanceTitle>Locked Gold:</BalanceTitle>
-          <BalanceText data-cy="celo-gold-balance-locked">
-            {renderCurrency(totalLockedGoldBalance)}
-          </BalanceText>
-        </BalanceLine>
-        <BalanceLine>
-          <Icon
-            icon={IconNames.DOT}
-            style={{ marginRight: 2 }}
-            color={COLORS.BALANCE_SHADE_THREE}
-          />
-          <BalanceTitle>Pending:</BalanceTitle>
-          <BalanceText data-cy="celo-gold-balance-pending">
-            {renderCurrency(pendingWithdrawalBalance)}
-          </BalanceText>
-        </BalanceLine>
-        <BalanceLine>
-          <Icon
-            icon={IconNames.DOT}
-            style={{ marginRight: 2 }}
-            color={COLORS.BALANCE_SHADE_FOUR}
-          />
-          <BalanceTitle>cUSD Balance:</BalanceTitle>
-          <BalanceText data-cy="celo-usd-balance-available">
-            {renderCurrency(celoUSDValue)}
-          </BalanceText>
-        </BalanceLine>
+        </BalanceContainer>
       </SummaryContainer>
     );
   }
@@ -408,6 +404,8 @@ const BalanceTotalContainer = styled.div`
   margin: 0;
   padding: 0;
   position: relative;
+  background: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDesktop ? 0 : 24};
 `;
 
 const BalanceCircle = styled.div`
@@ -485,6 +483,27 @@ const Pie = ({ percentages }: { percentages: ReadonlyArray<number> }) => {
       }}
       data={data}
     />
+  );
+};
+
+const BalancePieChart = ({
+  percentages,
+  total,
+}: {
+  percentages: number[];
+  total: string;
+}) => {
+  return (
+    <BalanceTotalWrapper>
+      <BalanceTotalContainer>
+        <Pie percentages={percentages} />
+        <BalanceCircle>
+          <BalanceTotalBox>
+            <BalanceTotalText data-cy="balance-total">{total}</BalanceTotalText>
+          </BalanceTotalBox>
+        </BalanceCircle>
+      </BalanceTotalContainer>
+    </BalanceTotalWrapper>
   );
 };
 

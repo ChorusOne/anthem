@@ -218,7 +218,7 @@ interface AccountBalancesResult {
   unbondingFiat: string;
   commissionsFiat: string;
   totalFiat: string;
-  percentages: ReadonlyArray<number>;
+  percentages: number[];
 }
 /**
  * Parse the account balances data and return string balance
@@ -345,7 +345,7 @@ export const getAccountBalances = (
     rate ? convertCryptoToFiat(rate, totalResult, network) : "0",
   ].map(x => formatCurrencyAmount(x, maximumFractionDigits));
 
-  const percentages: ReadonlyArray<number> = [
+  const percentages: number[] = [
     getPercentage(balanceResult, totalResult),
     getPercentage(delegationResult, totalResult),
     getPercentage(rewardsResult, totalResult),
