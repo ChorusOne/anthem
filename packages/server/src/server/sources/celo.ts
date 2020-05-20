@@ -18,18 +18,6 @@ interface CeloDelegation {
   pendingVotes: string;
 }
 
-interface CeloAccountResponse {
-  address: string;
-  height: string;
-  goldTokenBalance: string;
-  totalLockedGoldBalance: string;
-  nonVotingLockedGoldBalance: string;
-  votingLockedGoldBalance: string;
-  pendingWithdrawalBalance: string;
-  celoUSDValue: string;
-  delegations: CeloDelegation[];
-}
-
 interface CeloAccountSnapshot {
   snapshotDate: string;
   address: string;
@@ -64,33 +52,6 @@ const fetchAccountBalances = async (
   );
 
   return response;
-
-  // const {
-  //   delegations,
-  //   goldTokenBalance,
-  //   totalLockedGoldBalance,
-  //   nonVotingLockedGoldBalance,
-  //   votingLockedGoldBalance,
-  //   pendingWithdrawalBalance,
-  // } = response;
-
-  // return {
-  //   balance: [
-  //     {
-  //       denom: network.denom,
-  //       amount: goldTokenBalance,
-  //     },
-  //   ],
-  //   rewards: [
-  //     {
-  //       denom: network.denom,
-  //       amount: pendingWithdrawalBalance,
-  //     },
-  //   ],
-  //   delegations: delegations.map(x => convertDelegations(x, address)),
-  //   unbonding: [],
-  //   commissions: [],
-  // };
 };
 
 /**

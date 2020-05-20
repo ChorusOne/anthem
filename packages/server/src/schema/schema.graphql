@@ -51,7 +51,7 @@ type Query {
 # *****************************************************************************
 # Shared Untion Types
 
-union AccountBalanceResponseType = AccountBalances | CeloAccountBalances
+union AccountBalanceResponseType = CosmosAccountBalances | CeloAccountBalances
 
 # *****************************************************************************
 # Celo APIs
@@ -282,7 +282,7 @@ type AvailableReward {
   validator_address: String!
 }
 
-type AccountBalances {
+type CosmosAccountBalances {
   balance: [Balance!]
   rewards: [Balance!]
   delegations: [Delegation!]

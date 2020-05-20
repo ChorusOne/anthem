@@ -87,10 +87,11 @@ const TxMsgValue = {
  */
 const AccountBalanceResponseType = {
   __resolveType(balances: any) {
-    if (balances.totalLockedGoldBalance) {
+    const PROXY_FOR_CELO = "totalLockedGoldBalance" in balances;
+    if (PROXY_FOR_CELO) {
       return "CeloAccountBalances";
     } else {
-      return "AccountBalances";
+      return "CosmosAccountBalances";
     }
   },
 };
