@@ -3,6 +3,7 @@ import {
   COIN_DENOMS,
   getValidatorAddressFromDelegatorAddress,
   IBalance,
+  ICosmosAccountBalances,
   IDelegation,
   IQuery,
   ITransaction,
@@ -28,6 +29,7 @@ import { formatFiatPriceDate } from "./date-utils";
 import {
   addValuesInList,
   divide,
+  GenericNumberType,
   isGreaterThanOrEqualTo,
   multiply,
   toBigNumber,
@@ -190,6 +192,19 @@ const aggregateCurrencyValuesFromList = <T extends any>(
   return addValuesInList(values, toBigNumber);
 };
 
+/**
+ * Get a percentage from a total.
+ */
+export const getPercentage = (
+  value: GenericNumberType,
+  total: GenericNumberType,
+) => {
+  return toBigNumber(value)
+    .dividedBy(toBigNumber(total))
+    .multipliedBy(100)
+    .toNumber();
+};
+
 interface AccountBalancesResult {
   balance: string;
   rewards: string;
@@ -203,14 +218,14 @@ interface AccountBalancesResult {
   unbondingFiat: string;
   commissionsFiat: string;
   totalFiat: string;
-  percentages: ReadonlyArray<number>;
+  percentages: number[];
 }
 /**
  * Parse the account balances data and return string balance
  * values for all the address balances.
  */
 export const getAccountBalances = (
-  accountBalancesData: IQuery["accountBalances"] | undefined,
+  accountBalancesData: ICosmosAccountBalances | undefined,
   rate: IQuery["prices"] | undefined,
   network: NetworkDefinition,
   maximumFractionDigits?: number,
@@ -330,19 +345,12 @@ export const getAccountBalances = (
     rate ? convertCryptoToFiat(rate, totalResult, network) : "0",
   ].map(x => formatCurrencyAmount(x, maximumFractionDigits));
 
-  const getPercentage = (value: BigNumber) => {
-    return value
-      .dividedBy(totalResult)
-      .multipliedBy(100)
-      .toNumber();
-  };
-
-  const percentages: ReadonlyArray<number> = [
-    getPercentage(balanceResult),
-    getPercentage(delegationResult),
-    getPercentage(rewardsResult),
-    getPercentage(unbondingResult),
-    getPercentage(commissionsResult),
+  const percentages: number[] = [
+    getPercentage(balanceResult, totalResult),
+    getPercentage(delegationResult, totalResult),
+    getPercentage(rewardsResult, totalResult),
+    getPercentage(unbondingResult, totalResult),
+    getPercentage(commissionsResult, totalResult),
   ];
 
   return {

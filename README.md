@@ -118,10 +118,9 @@ $ yarn utils:build
 
 # Regenerate types
 $ yarn types
-
-# Note that if you update the client data you may have to update the client
-# test snapshots, since some of the tests use this mock data.
 ```
+
+Note that if you update the client data you may have to update the client test snapshots, since some of the tests use this mock data. In addition, if you add a new `union` type to the GraphQL schema, you will need to add union type resolvers. And if this response type is used in the mock development mode, you will need to add a union type resolver in the `client/` codebase as well (see the `graphql/mocks.ts` file).
 
 The development can be run with the command:
 

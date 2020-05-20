@@ -1,3 +1,9 @@
+import {
+  ICeloAccountBalances,
+  ICosmosAccountBalances,
+  IPrice,
+  NetworkDefinition,
+} from "@anthem/utils";
 import { Colors, H5, Icon } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
@@ -8,10 +14,11 @@ import {
   View,
 } from "components/SharedComponents";
 import { COLORS } from "constants/colors";
+import { CURRENCY_SETTING } from "constants/fiat";
 import { IThemeProps } from "containers/ThemeContainer";
 import {
   AccountBalancesProps,
-  AtomPriceDataProps,
+  FiatPriceDataProps,
   withAccountBalances,
   withAtomPriceData,
   withGraphQLVariables,
@@ -23,8 +30,11 @@ import React from "react";
 import PieChart from "react-minimal-pie-chart";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { getAccountBalances } from "tools/client-utils";
+import { getAccountBalances, getPercentage } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
+import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
+import { tFnString } from "tools/i18n-utils";
+import { addValuesInList } from "tools/math-utils";
 
 /** ===========================================================================
  * React Component
@@ -41,8 +51,8 @@ class Balance extends React.Component<IProps, {}> {
       ledger,
       accountBalances,
     } = this.props;
+    const { tString } = i18n;
     const { network } = ledger;
-    const { t, tString } = i18n;
     const { isDesktop, currencySetting } = settings;
 
     if (!network.supportsBalances) {
@@ -60,52 +70,282 @@ class Balance extends React.Component<IProps, {}> {
         loadingComponent={<DashboardLoader />}
         errorComponent={<DashboardError tString={tString} />}
         results={[
-          [prices, "prices"],
           [accountBalances, "accountBalances"],
+          [prices, "prices"],
         ]}
       >
         {() => {
+          // Handle if balances request failed
           if (accountBalances.error) {
             return <DashboardError tString={tString} />;
           }
 
-          const fiatConversionRate = prices.prices;
           const data = accountBalances.accountBalances;
-          const balances = getAccountBalances(
-            data,
-            fiatConversionRate,
-            network,
-            2,
-          );
 
-          const {
-            balance,
-            rewards,
-            delegations,
-            unbonding,
-            commissions,
-            total,
-            balanceFiat,
-            delegationsFiat,
-            rewardsFiat,
-            unbondingFiat,
-            commissionsFiat,
-            totalFiat,
-            percentages,
-          } = balances;
-
-          const renderBalanceItem = (crypto: string, fiat: string) => {
-            if (currencySetting === "crypto") {
-              return crypto;
-            } else {
-              return fiat;
+          if (data) {
+            if (data.__typename === "CeloAccountBalances") {
+              return <CeloBalances network={network} balances={data} />;
+            } else if (data.__typename === "CosmosAccountBalances") {
+              return (
+                <CosmosBalances
+                  address={address}
+                  network={network}
+                  tString={tString}
+                  isDesktop={isDesktop}
+                  prices={prices.prices}
+                  balances={data as ICosmosAccountBalances}
+                  currencySetting={currencySetting}
+                  handleDelegation={this.handleDelegationAction}
+                  handleRewardsClaim={this.handleRewardsClaimAction}
+                />
+              );
             }
-          };
+          }
 
-          const SHOULD_SHOW_LEDGER_ACTIONS =
-            isDesktop && ledger.network.supportsLedger;
+          return null;
+        }}
+      </GraphQLGuardComponentMultipleQueries>
+    );
+  }
 
-          const BalanceLines = (
+  handleDelegationAction = () => {
+    let actionFunction;
+    if (this.props.ledger.connected) {
+      actionFunction = this.props.openLedgerDialog;
+    } else {
+      actionFunction = this.props.openSelectNetworkDialog;
+    }
+
+    actionFunction({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "DELEGATE",
+    });
+  };
+
+  handleRewardsClaimAction = () => {
+    let actionFunction;
+    if (this.props.ledger.connected) {
+      actionFunction = this.props.openLedgerDialog;
+    } else {
+      actionFunction = this.props.openSelectNetworkDialog;
+    }
+
+    actionFunction({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "CLAIM",
+    });
+  };
+}
+
+/** ===========================================================================
+ * Cosmos SDK Networks Account Balances
+ * ============================================================================
+ */
+
+interface CosmosBalancesProps {
+  address: string;
+  network: NetworkDefinition;
+  balances: ICosmosAccountBalances;
+  prices: IPrice;
+  currencySetting: CURRENCY_SETTING;
+  isDesktop: boolean;
+  tString: tFnString;
+  handleDelegation: () => void;
+  handleRewardsClaim: () => void;
+}
+
+class CosmosBalances extends React.Component<CosmosBalancesProps> {
+  render(): JSX.Element {
+    const {
+      prices,
+      network,
+      tString,
+      address,
+      balances,
+      isDesktop,
+      currencySetting,
+      handleDelegation,
+      handleRewardsClaim,
+    } = this.props;
+
+    const fiatConversionRate = prices;
+    const balancesResult = getAccountBalances(
+      balances,
+      fiatConversionRate,
+      network,
+      2,
+    );
+
+    const {
+      balance,
+      rewards,
+      delegations,
+      unbonding,
+      commissions,
+      total,
+      balanceFiat,
+      delegationsFiat,
+      rewardsFiat,
+      unbondingFiat,
+      commissionsFiat,
+      totalFiat,
+      percentages,
+    } = balancesResult;
+
+    const renderBalanceItem = (crypto: string, fiat: string) => {
+      if (currencySetting === "crypto") {
+        return crypto;
+      } else {
+        return fiat;
+      }
+    };
+
+    const SHOULD_SHOW_LEDGER_ACTIONS = isDesktop && network.supportsLedger;
+
+    return (
+      <React.Fragment>
+        <SummaryContainer>
+          {!!address && (
+            <BalanceContainer>
+              <View>
+                <BalanceLine>
+                  <Icon
+                    icon={IconNames.DOT}
+                    style={{ marginRight: 2 }}
+                    color={COLORS.BALANCE_SHADE_ONE}
+                  />
+                  <BalanceTitle>{tString("Available")}:</BalanceTitle>
+                  <BalanceText data-cy="balance-available">
+                    {renderBalanceItem(balance, balanceFiat)}
+                  </BalanceText>
+                </BalanceLine>
+                <BalanceLine>
+                  <Icon
+                    color={COLORS.BALANCE_SHADE_TWO}
+                    style={{ marginRight: 2 }}
+                    icon={IconNames.DOT}
+                  />
+                  <BalanceTitle>{tString("Staking")}:</BalanceTitle>
+                  <BalanceText data-cy="balance-delegations">
+                    {renderBalanceItem(delegations, delegationsFiat)}
+                  </BalanceText>
+                </BalanceLine>
+                <BalanceLine>
+                  <Icon
+                    color={COLORS.BALANCE_SHADE_THREE}
+                    style={{ marginRight: 2 }}
+                    icon={IconNames.DOT}
+                  />
+                  <BalanceTitle>{tString("Rewards")}:</BalanceTitle>
+                  <BalanceText data-cy="balance-rewards">
+                    {renderBalanceItem(rewards, rewardsFiat)}
+                  </BalanceText>
+                </BalanceLine>
+                <BalanceLine>
+                  <Icon
+                    color={COLORS.BALANCE_SHADE_FIVE}
+                    style={{ marginRight: 2 }}
+                    icon={IconNames.DOT}
+                  />
+                  <BalanceTitle>{tString("Unbonding")}:</BalanceTitle>
+                  <BalanceText data-cy="balance-unbonding">
+                    {renderBalanceItem(unbonding, unbondingFiat)}
+                  </BalanceText>
+                </BalanceLine>
+                {commissions !== "0" && (
+                  <BalanceLine>
+                    <Icon
+                      color={COLORS.BALANCE_SHADE_FIVE}
+                      style={{ marginRight: 2 }}
+                      icon={IconNames.DOT}
+                    />
+                    <BalanceTitle>{tString("Commission")}:</BalanceTitle>
+                    <BalanceText data-cy="balance-commissions">
+                      {renderBalanceItem(commissions, commissionsFiat)}
+                    </BalanceText>
+                  </BalanceLine>
+                )}
+              </View>
+              <BalancePieChart
+                percentages={percentages}
+                total={renderBalanceItem(total, totalFiat)}
+              />
+            </BalanceContainer>
+          )}
+        </SummaryContainer>
+        {SHOULD_SHOW_LEDGER_ACTIONS && (
+          <ActionContainer>
+            <H5>{tString("What do you want to do?")}</H5>
+            <DelegationControlsContainer>
+              <Button
+                style={{ marginRight: 16 }}
+                onClick={handleDelegation}
+                data-cy="balances-delegation-button"
+              >
+                {tString("Delegate")}
+              </Button>
+              <Button
+                onClick={handleRewardsClaim}
+                data-cy="balances-rewards-claim-button"
+              >
+                {tString("Claim Rewards")}
+              </Button>
+            </DelegationControlsContainer>
+          </ActionContainer>
+        )}
+      </React.Fragment>
+    );
+  }
+}
+
+/** ===========================================================================
+ * Celo Account Balances
+ * ============================================================================
+ */
+
+interface CeloBalancesProps {
+  network: NetworkDefinition;
+  balances: ICeloAccountBalances;
+}
+
+class CeloBalances extends React.Component<CeloBalancesProps> {
+  render(): JSX.Element {
+    const { balances, network } = this.props;
+
+    const {
+      goldTokenBalance,
+      totalLockedGoldBalance,
+      // nonVotingLockedGoldBalance,
+      // votingLockedGoldBalance,
+      pendingWithdrawalBalance,
+      celoUSDValue,
+    } = balances;
+
+    const denomSize = network.denominationSize;
+
+    // Helper to render Celo currency values
+    const renderCurrency = (value: string) => {
+      return formatCurrencyAmount(denomToUnit(value, denomSize));
+    };
+
+    const total = addValuesInList([
+      goldTokenBalance,
+      totalLockedGoldBalance,
+      pendingWithdrawalBalance,
+    ]);
+
+    const percentages: number[] = [
+      getPercentage(goldTokenBalance, total),
+      getPercentage(totalLockedGoldBalance, total),
+      getPercentage(pendingWithdrawalBalance, total),
+    ];
+
+    return (
+      <>
+        <SummaryContainer>
+          <BalanceContainer>
             <View>
               <BalanceLine>
                 <Icon
@@ -113,135 +353,60 @@ class Balance extends React.Component<IProps, {}> {
                   style={{ marginRight: 2 }}
                   color={COLORS.BALANCE_SHADE_ONE}
                 />
-                <BalanceTitle>{t("Available")}:</BalanceTitle>
-                <BalanceText data-cy="balance-available">
-                  {renderBalanceItem(balance, balanceFiat)}
+                <BalanceTitle>Gold Balance:</BalanceTitle>
+                <BalanceText data-cy="celo-gold-balance-available">
+                  {renderCurrency(goldTokenBalance)}
                 </BalanceText>
               </BalanceLine>
               <BalanceLine>
                 <Icon
+                  icon={IconNames.DOT}
+                  style={{ marginRight: 2 }}
                   color={COLORS.BALANCE_SHADE_TWO}
-                  style={{ marginRight: 2 }}
-                  icon={IconNames.DOT}
                 />
-                <BalanceTitle>{t("Staking")}:</BalanceTitle>
-                <BalanceText data-cy="balance-delegations">
-                  {renderBalanceItem(delegations, delegationsFiat)}
+                <BalanceTitle>Locked Gold:</BalanceTitle>
+                <BalanceText data-cy="celo-gold-balance-locked">
+                  {renderCurrency(totalLockedGoldBalance)}
                 </BalanceText>
               </BalanceLine>
               <BalanceLine>
                 <Icon
+                  icon={IconNames.DOT}
+                  style={{ marginRight: 2 }}
                   color={COLORS.BALANCE_SHADE_THREE}
-                  style={{ marginRight: 2 }}
-                  icon={IconNames.DOT}
                 />
-                <BalanceTitle>{t("Rewards")}:</BalanceTitle>
-                <BalanceText data-cy="balance-rewards">
-                  {renderBalanceItem(rewards, rewardsFiat)}
+                <BalanceTitle>Pending:</BalanceTitle>
+                <BalanceText data-cy="celo-gold-balance-pending">
+                  {renderCurrency(pendingWithdrawalBalance)}
                 </BalanceText>
               </BalanceLine>
               <BalanceLine>
                 <Icon
-                  color={COLORS.BALANCE_SHADE_FIVE}
-                  style={{ marginRight: 2 }}
                   icon={IconNames.DOT}
+                  style={{ marginRight: 2 }}
+                  color={COLORS.BALANCE_SHADE_FOUR}
                 />
-                <BalanceTitle>{t("Unbonding")}:</BalanceTitle>
-                <BalanceText data-cy="balance-unbonding">
-                  {renderBalanceItem(unbonding, unbondingFiat)}
+                <BalanceTitle>cUSD Balance:</BalanceTitle>
+                <BalanceText data-cy="celo-usd-balance-available">
+                  {renderCurrency(celoUSDValue)}
                 </BalanceText>
               </BalanceLine>
-              {commissions !== "0" && (
-                <BalanceLine>
-                  <Icon
-                    color={COLORS.BALANCE_SHADE_FIVE}
-                    style={{ marginRight: 2 }}
-                    icon={IconNames.DOT}
-                  />
-                  <BalanceTitle>{t("Commission")}:</BalanceTitle>
-                  <BalanceText data-cy="balance-commissions">
-                    {renderBalanceItem(commissions, commissionsFiat)}
-                  </BalanceText>
-                </BalanceLine>
-              )}
             </View>
-          );
-
-          return (
-            <React.Fragment>
-              <SummaryContainer>
-                {Boolean(address) && (
-                  <BalanceContainer>
-                    {BalanceLines}
-                    <BalanceTotalWrapper>
-                      <BalanceTotalContainer
-                        style={{ marginTop: isDesktop ? 0 : 24 }}
-                      >
-                        <Pie percentages={percentages} />
-                        <BalanceCircle>
-                          <BalanceTotalBox>
-                            <BalanceTotalText data-cy="balance-total">
-                              {renderBalanceItem(total, totalFiat)}
-                            </BalanceTotalText>
-                          </BalanceTotalBox>
-                        </BalanceCircle>
-                      </BalanceTotalContainer>
-                    </BalanceTotalWrapper>
-                  </BalanceContainer>
-                )}
-              </SummaryContainer>
-              {SHOULD_SHOW_LEDGER_ACTIONS && (
-                <ActionContainer>
-                  <H5>{t("What do you want to do?")}</H5>
-                  <DelegationControlsContainer>
-                    <Button
-                      data-cy="balances-delegation-button"
-                      onClick={() => {
-                        let fn;
-                        if (this.props.ledger.connected) {
-                          fn = this.props.openLedgerDialog;
-                        } else {
-                          fn = this.props.openSelectNetworkDialog;
-                        }
-
-                        fn({
-                          signinType: "LEDGER",
-                          ledgerAccessType: "PERFORM_ACTION",
-                          ledgerActionType: "DELEGATE",
-                        });
-                      }}
-                      style={{
-                        marginRight: 16,
-                      }}
-                    >
-                      {tString("Delegate")}
-                    </Button>
-                    <Button
-                      data-cy="balances-rewards-claim-button"
-                      onClick={() => {
-                        let fn;
-                        if (this.props.ledger.connected) {
-                          fn = this.props.openLedgerDialog;
-                        } else {
-                          fn = this.props.openSelectNetworkDialog;
-                        }
-
-                        fn({
-                          signinType: "LEDGER",
-                          ledgerAccessType: "PERFORM_ACTION",
-                          ledgerActionType: "CLAIM",
-                        });
-                      }}
-                    >
-                      {tString("Claim Rewards")}
-                    </Button>
-                  </DelegationControlsContainer>
-                </ActionContainer>
-              )}
-            </React.Fragment>
-          );
-        }}
-      </GraphQLGuardComponentMultipleQueries>
+            <BalancePieChart
+              percentages={percentages}
+              total={renderCurrency(total)}
+            />
+          </BalanceContainer>
+        </SummaryContainer>
+        <ActionContainer>
+          <H5>Celo Ledger Transactions</H5>
+          <DelegationControlsContainer>
+            <Button onClick={() => null} data-cy="celo-delegation-button">
+              Coming Soon!
+            </Button>
+          </DelegationControlsContainer>
+        </ActionContainer>
+      </>
     );
   }
 }
@@ -306,6 +471,8 @@ const BalanceTotalContainer = styled.div`
   margin: 0;
   padding: 0;
   position: relative;
+  background: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDesktop ? 0 : 24};
 `;
 
 const BalanceCircle = styled.div`
@@ -386,6 +553,27 @@ const Pie = ({ percentages }: { percentages: ReadonlyArray<number> }) => {
   );
 };
 
+const BalancePieChart = ({
+  percentages,
+  total,
+}: {
+  percentages: number[];
+  total: string;
+}) => {
+  return (
+    <BalanceTotalWrapper>
+      <BalanceTotalContainer>
+        <Pie percentages={percentages} />
+        <BalanceCircle>
+          <BalanceTotalBox>
+            <BalanceTotalText data-cy="balance-total">{total}</BalanceTotalText>
+          </BalanceTotalBox>
+        </BalanceCircle>
+      </BalanceTotalContainer>
+    </BalanceTotalWrapper>
+  );
+};
+
 /** ===========================================================================
  * Props
  * ============================================================================
@@ -397,7 +585,7 @@ interface ComponentProps {
 
 interface IProps
   extends ComponentProps,
-    AtomPriceDataProps,
+    FiatPriceDataProps,
     AccountBalancesProps,
     ConnectProps {}
 

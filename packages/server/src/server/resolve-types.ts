@@ -12,6 +12,11 @@ import { hasKeys } from "../tools/server-utils";
  *
  * See: https://www.apollographql.com/docs/apollo-server/features/unions-interfaces/
  * for more details.
+ *
+ * NOTE: If you happen to add new union type resolvers here, you may also need
+ * to add them to the same resolver in the mock Apollo Client setup in the
+ * client/ package to enable to the mock development app mode to continue to
+ * work correctly. See the graphql/mocks.ts file for details on this.
  * ============================================================================
  */
 
@@ -19,13 +24,13 @@ import { hasKeys } from "../tools/server-utils";
  * Cosmos Transaction Resolver:
  */
 const TxMsgValue = {
-  __resolveType(obj: any) {
-    if ("amount" in obj && obj.amount.length) {
+  __resolveType(x: any) {
+    if ("amount" in x && x.amount.length) {
       return "MsgSend";
     }
 
     if (
-      hasKeys(obj, [
+      hasKeys(x, [
         "amount",
         "delegator_address",
         "validator_src_address",
@@ -36,7 +41,7 @@ const TxMsgValue = {
     }
 
     if (
-      hasKeys(obj, [
+      hasKeys(x, [
         "shares_amount",
         "delegator_address",
         "validator_src_address",
@@ -46,28 +51,28 @@ const TxMsgValue = {
       return "MsgBeginRedelegateLegacy";
     }
 
-    if (hasKeys(obj, ["amount", "delegator_address", "validator_address"])) {
+    if (hasKeys(x, ["amount", "delegator_address", "validator_address"])) {
       return "MsgDelegate";
     }
 
-    if (hasKeys(obj, ["delegator_address", "validator_address"])) {
+    if (hasKeys(x, ["delegator_address", "validator_address"])) {
       return "MsgWithdrawDelegationReward";
     }
 
-    if (hasKeys(obj, ["delegator_address", "withdraw_address"])) {
+    if (hasKeys(x, ["delegator_address", "withdraw_address"])) {
       return "MsgModifyWithdrawAddress";
     }
 
-    if (hasKeys(obj, ["validator_address"])) {
+    if (hasKeys(x, ["validator_address"])) {
       return "MsgWithdrawValidatorCommission";
     }
 
-    if (hasKeys(obj, ["proposal_id", "voter", "option"])) {
+    if (hasKeys(x, ["proposal_id", "voter", "option"])) {
       return "MsgVote";
     }
 
     if (
-      hasKeys(obj, [
+      hasKeys(x, [
         "title",
         "description",
         "proposal_type",
@@ -79,6 +84,20 @@ const TxMsgValue = {
     }
 
     return null;
+  },
+};
+
+/**
+ * Account Balances Resolver:
+ */
+const AccountBalanceResponseType = {
+  __resolveType(x: any) {
+    const PROXY_FOR_CELO = "totalLockedGoldBalance" in x;
+    if (PROXY_FOR_CELO) {
+      return "CeloAccountBalances";
+    } else {
+      return "CosmosAccountBalances";
+    }
   },
 };
 
@@ -127,6 +146,10 @@ const OasisTransactionEvent = {
  * ============================================================================
  */
 
-const UnionResolvers = { TxMsgValue, OasisTransactionEvent };
+const UnionResolvers = {
+  TxMsgValue,
+  OasisTransactionEvent,
+  AccountBalanceResponseType,
+};
 
 export default UnionResolvers;

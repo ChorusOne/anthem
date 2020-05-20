@@ -1,0 +1,11 @@
+query celoTransactions($address: String!, $startingPage: Float, $pageSize: Float){
+    celoTransactions(address: $address, startingPage: $startingPage, pageSize: $pageSize){
+        page
+        limit
+        data{
+            date
+            height
+        }
+        moreResultsExist
+    }
+}

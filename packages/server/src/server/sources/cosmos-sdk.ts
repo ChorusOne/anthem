@@ -1,8 +1,8 @@
 import {
   assertUnreachable,
   getValidatorAddressFromDelegatorAddress,
-  IAccountBalances,
   IAccountInformation,
+  ICosmosAccountBalances,
   IGovernanceProposal,
   IQuery,
   NetworkDefinition,
@@ -47,7 +47,7 @@ const postProcessResponse = (response: any, network: NetworkDefinition) => {
 const fetchBalance = async (
   address: string,
   network: NetworkDefinition,
-): Promise<IAccountBalances["balance"]> => {
+): Promise<ICosmosAccountBalances["balance"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(`${host}/bank/balances/${address}`);
   return postProcessResponse(response, network);
@@ -59,7 +59,7 @@ const fetchBalance = async (
 const fetchDelegations = async (
   address: string,
   network: NetworkDefinition,
-): Promise<IAccountBalances["delegations"]> => {
+): Promise<ICosmosAccountBalances["delegations"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(
     `${host}/staking/delegators/${address}/delegations`,
@@ -73,7 +73,7 @@ const fetchDelegations = async (
 const fetchRewards = async (
   address: string,
   network: NetworkDefinition,
-): Promise<IAccountBalances["rewards"]> => {
+): Promise<ICosmosAccountBalances["rewards"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(
     `${host}/distribution/delegators/${address}/rewards`,
@@ -97,7 +97,7 @@ const fetchRewards = async (
 const fetchUnbondingDelegations = async (
   address: string,
   network: NetworkDefinition,
-): Promise<IAccountBalances["unbonding"]> => {
+): Promise<ICosmosAccountBalances["unbonding"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(
     `${host}/staking/delegators/${address}/unbonding_delegations`,
@@ -113,7 +113,7 @@ const fetchUnbondingDelegations = async (
 const fetchCommissionsForValidator = async (
   address: string,
   network: NetworkDefinition,
-): Promise<IAccountBalances["commissions"]> => {
+): Promise<ICosmosAccountBalances["commissions"]> => {
   try {
     const validatorAddress = getValidatorAddressFromDelegatorAddress(
       address,

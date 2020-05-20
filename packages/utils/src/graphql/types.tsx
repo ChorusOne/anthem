@@ -24,14 +24,7 @@ export interface IAccount {
   sequence: Scalars["String"];
 }
 
-export interface IAccountBalances {
-   __typename?: "AccountBalances";
-  balance: Maybe<IBalance[]>;
-  rewards: Maybe<IBalance[]>;
-  delegations: Maybe<IDelegation[]>;
-  unbonding: Maybe<IUnbondingDelegation[]>;
-  commissions: Maybe<IBalance[]>;
-}
+export type IAccountBalanceResponseType = ICosmosAccountBalances | ICeloAccountBalances;
 
 export interface IAccountCoin {
    __typename?: "AccountCoin";
@@ -85,6 +78,18 @@ export interface IBlockHeader {
   proposer_address: Scalars["String"];
 }
 
+export interface ICeloAccountBalances {
+   __typename?: "CeloAccountBalances";
+  address: Scalars["String"];
+  height: Scalars["String"];
+  goldTokenBalance: Scalars["String"];
+  totalLockedGoldBalance: Scalars["String"];
+  nonVotingLockedGoldBalance: Scalars["String"];
+  votingLockedGoldBalance: Scalars["String"];
+  pendingWithdrawalBalance: Scalars["String"];
+  celoUSDValue: Scalars["String"];
+}
+
 export interface ICeloAccountSnapshot {
    __typename?: "CeloAccountSnapshot";
   snapshotDate: Scalars["String"];
@@ -135,6 +140,15 @@ export interface ICommissionRates {
   rate: Scalars["String"];
   max_rate: Scalars["String"];
   max_change_rate: Scalars["String"];
+}
+
+export interface ICosmosAccountBalances {
+   __typename?: "CosmosAccountBalances";
+  balance: Maybe<IBalance[]>;
+  rewards: Maybe<IBalance[]>;
+  delegations: Maybe<IDelegation[]>;
+  unbonding: Maybe<IUnbondingDelegation[]>;
+  commissions: Maybe<IBalance[]>;
 }
 
 export interface IDelegation {
@@ -453,7 +467,7 @@ export interface IQuery {
   portfolioHistory: IPortfolioData;
   fiatPriceHistory: IFiatPrice[];
   dailyPercentChange: Scalars["String"];
-  accountBalances: IAccountBalances;
+  accountBalances: Maybe<IAccountBalanceResponseType>;
   rewardsByValidator: IAvailableReward[];
   accountInformation: IAccountInformation;
   transaction: Maybe<ITransaction>;
@@ -771,8 +785,8 @@ export interface IAccountBalancesQueryVariables {
 
 export type IAccountBalancesQuery = (
   { __typename?: "Query" }
-  & { accountBalances: (
-    { __typename?: "AccountBalances" }
+  & { accountBalances: Maybe<(
+    { __typename?: "CosmosAccountBalances" }
     & { balance: Maybe<Array<(
       { __typename?: "Balance" }
       & Pick<IBalance, "denom" | "amount">
@@ -793,7 +807,10 @@ export type IAccountBalancesQuery = (
       { __typename?: "Balance" }
       & Pick<IBalance, "denom" | "amount">
     )>> }
-  ) }
+  ) | (
+    { __typename?: "CeloAccountBalances" }
+    & Pick<ICeloAccountBalances, "address" | "height" | "goldTokenBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
+  )> }
 );
 
 export interface IAccountInformationQueryVariables {
@@ -1366,32 +1383,44 @@ export type IValidatorsQuery = (
 export const AccountBalancesDocument = gql`
     query accountBalances($address: String!) {
   accountBalances(address: $address) {
-    balance {
-      denom
-      amount
-    }
-    rewards {
-      denom
-      amount
-    }
-    delegations {
-      delegator_address
-      validator_address
-      shares
-    }
-    unbonding {
-      delegator_address
-      validator_address
-      entries {
-        balance
-        initial_balance
-        creation_height
-        completion_time
+    ... on CosmosAccountBalances {
+      balance {
+        denom
+        amount
+      }
+      rewards {
+        denom
+        amount
+      }
+      delegations {
+        delegator_address
+        validator_address
+        shares
+      }
+      unbonding {
+        delegator_address
+        validator_address
+        entries {
+          balance
+          initial_balance
+          creation_height
+          completion_time
+        }
+      }
+      commissions {
+        denom
+        amount
       }
     }
-    commissions {
-      denom
-      amount
+    ... on CeloAccountBalances {
+      address
+      height
+      goldTokenBalance
+      totalLockedGoldBalance
+      nonVotingLockedGoldBalance
+      votingLockedGoldBalance
+      pendingWithdrawalBalance
+      celoUSDValue
     }
   }
 }
