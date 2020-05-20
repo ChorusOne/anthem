@@ -1,6 +1,6 @@
 query accountBalances($address: String!){
     accountBalances(address: $address){
-        ... on AccountBalances {
+        ... on CosmosAccountBalances {
             balance{
                 denom
                 amount
@@ -38,6 +38,12 @@ query accountBalances($address: String!){
             votingLockedGoldBalance
             pendingWithdrawalBalance
             celoUSDValue
+            delegations{
+                group
+                totalVotes
+                activeVotes
+                pendingVotes
+            }
         }
     }
 }

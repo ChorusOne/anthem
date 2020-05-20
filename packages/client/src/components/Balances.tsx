@@ -1,3 +1,4 @@
+import { ICeloAccountBalances } from "@anthem/utils";
 import { Colors, H5, Icon } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
@@ -60,8 +61,8 @@ class Balance extends React.Component<IProps, {}> {
         loadingComponent={<DashboardLoader />}
         errorComponent={<DashboardError tString={tString} />}
         results={[
-          [prices, "prices"],
           [accountBalances, "accountBalances"],
+          [prices, "prices"],
         ]}
       >
         {() => {
@@ -69,8 +70,13 @@ class Balance extends React.Component<IProps, {}> {
             return <DashboardError tString={tString} />;
           }
 
-          const fiatConversionRate = prices.prices;
           const data = accountBalances.accountBalances;
+
+          if (data && data.__typename === "CeloAccountBalances") {
+            return <CeloBalances balances={data} />;
+          }
+
+          const fiatConversionRate = prices.prices;
           const balances = getAccountBalances(
             data,
             fiatConversionRate,
@@ -242,6 +248,74 @@ class Balance extends React.Component<IProps, {}> {
           );
         }}
       </GraphQLGuardComponentMultipleQueries>
+    );
+  }
+}
+
+interface CeloBalancesProps {
+  balances: ICeloAccountBalances;
+}
+
+class CeloBalances extends React.Component<CeloBalancesProps> {
+  render(): JSX.Element {
+    const { balances } = this.props;
+
+    const {
+      goldTokenBalance,
+      totalLockedGoldBalance,
+      nonVotingLockedGoldBalance,
+      votingLockedGoldBalance,
+      pendingWithdrawalBalance,
+      celoUSDValue,
+    } = balances;
+
+    return (
+      <SummaryContainer>
+        <BalanceLine>
+          <Icon
+            icon={IconNames.DOT}
+            style={{ marginRight: 2 }}
+            color={COLORS.BALANCE_SHADE_ONE}
+          />
+          <BalanceTitle>Gold Balance:</BalanceTitle>
+          <BalanceText data-cy="celo-gold-balance-available">
+            {goldTokenBalance}
+          </BalanceText>
+        </BalanceLine>
+        <BalanceLine>
+          <Icon
+            icon={IconNames.DOT}
+            style={{ marginRight: 2 }}
+            color={COLORS.BALANCE_SHADE_ONE}
+          />
+          <BalanceTitle>Locked Gold:</BalanceTitle>
+          <BalanceText data-cy="celo-gold-balance-locked">
+            {totalLockedGoldBalance}
+          </BalanceText>
+        </BalanceLine>
+        <BalanceLine>
+          <Icon
+            icon={IconNames.DOT}
+            style={{ marginRight: 2 }}
+            color={COLORS.BALANCE_SHADE_ONE}
+          />
+          <BalanceTitle>Pending Withdrawal Gold:</BalanceTitle>
+          <BalanceText data-cy="celo-gold-balance-pending">
+            {pendingWithdrawalBalance}
+          </BalanceText>
+        </BalanceLine>
+        <BalanceLine>
+          <Icon
+            icon={IconNames.DOT}
+            style={{ marginRight: 2 }}
+            color={COLORS.BALANCE_SHADE_ONE}
+          />
+          <BalanceTitle>cUSD Balance:</BalanceTitle>
+          <BalanceText data-cy="celo-usd-balance-available">
+            {celoUSDValue}
+          </BalanceText>
+        </BalanceLine>
+      </SummaryContainer>
     );
   }
 }
