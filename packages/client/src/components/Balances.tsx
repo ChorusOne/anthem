@@ -1,4 +1,4 @@
-import { ICeloAccountBalances } from "@anthem/utils";
+import { ICeloAccountBalances, NetworkDefinition } from "@anthem/utils";
 import { Colors, H5, Icon } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
@@ -26,6 +26,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { getAccountBalances } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
+import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
 
 /** ===========================================================================
  * React Component
@@ -75,7 +76,7 @@ class Balance extends React.Component<IProps, {}> {
           if (!data) {
             return null;
           } else if (data.__typename === "CeloAccountBalances") {
-            return <CeloBalances balances={data} />;
+            return <CeloBalances network={network} balances={data} />;
           } else if (data.__typename === "CosmosAccountBalances") {
             const fiatConversionRate = prices.prices;
             const balances = getAccountBalances(
@@ -257,21 +258,29 @@ class Balance extends React.Component<IProps, {}> {
 }
 
 interface CeloBalancesProps {
+  network: NetworkDefinition;
   balances: ICeloAccountBalances;
 }
 
 class CeloBalances extends React.Component<CeloBalancesProps> {
   render(): JSX.Element {
-    const { balances } = this.props;
+    const { balances, network } = this.props;
 
     const {
       goldTokenBalance,
       totalLockedGoldBalance,
-      nonVotingLockedGoldBalance,
-      votingLockedGoldBalance,
+      // nonVotingLockedGoldBalance,
+      // votingLockedGoldBalance,
       pendingWithdrawalBalance,
       celoUSDValue,
     } = balances;
+
+    const denomSize = network.denominationSize;
+
+    // Helper to render Celo currency values
+    const renderCurrency = (value: string) => {
+      return formatCurrencyAmount(denomToUnit(value, denomSize), 8);
+    };
 
     return (
       <SummaryContainer>
@@ -283,40 +292,40 @@ class CeloBalances extends React.Component<CeloBalancesProps> {
           />
           <BalanceTitle>Gold Balance:</BalanceTitle>
           <BalanceText data-cy="celo-gold-balance-available">
-            {goldTokenBalance}
+            {renderCurrency(goldTokenBalance)}
           </BalanceText>
         </BalanceLine>
         <BalanceLine>
           <Icon
             icon={IconNames.DOT}
             style={{ marginRight: 2 }}
-            color={COLORS.BALANCE_SHADE_ONE}
+            color={COLORS.BALANCE_SHADE_TWO}
           />
           <BalanceTitle>Locked Gold:</BalanceTitle>
           <BalanceText data-cy="celo-gold-balance-locked">
-            {totalLockedGoldBalance}
+            {renderCurrency(totalLockedGoldBalance)}
           </BalanceText>
         </BalanceLine>
         <BalanceLine>
           <Icon
             icon={IconNames.DOT}
             style={{ marginRight: 2 }}
-            color={COLORS.BALANCE_SHADE_ONE}
+            color={COLORS.BALANCE_SHADE_THREE}
           />
-          <BalanceTitle>Pending Withdrawal Gold:</BalanceTitle>
+          <BalanceTitle>Pending:</BalanceTitle>
           <BalanceText data-cy="celo-gold-balance-pending">
-            {pendingWithdrawalBalance}
+            {renderCurrency(pendingWithdrawalBalance)}
           </BalanceText>
         </BalanceLine>
         <BalanceLine>
           <Icon
             icon={IconNames.DOT}
             style={{ marginRight: 2 }}
-            color={COLORS.BALANCE_SHADE_ONE}
+            color={COLORS.BALANCE_SHADE_FOUR}
           />
           <BalanceTitle>cUSD Balance:</BalanceTitle>
           <BalanceText data-cy="celo-usd-balance-available">
-            {celoUSDValue}
+            {renderCurrency(celoUSDValue)}
           </BalanceText>
         </BalanceLine>
       </SummaryContainer>

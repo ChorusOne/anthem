@@ -65,6 +65,7 @@ type CeloAccountBalances {
   votingLockedGoldBalance: String!
   pendingWithdrawalBalance: String!
   celoUSDValue: String!
+  # Creates union field type conflict with CosmosAccountBalances!
   # delegations: [CeloDelegation!]!
 }
 
