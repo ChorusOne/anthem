@@ -127,13 +127,13 @@ export const withAccountBalances = graphql(AccountBalancesDocument, {
  * ============================================================================
  */
 
-interface AtomPriceDataQueryResult extends QueryResult {
+interface FiatPriceDataQueryResult extends QueryResult {
   data: void;
   prices: IQuery["prices"];
 }
 
-export interface AtomPriceDataProps {
-  prices: AtomPriceDataQueryResult;
+export interface FiatPriceDataProps {
+  prices: FiatPriceDataQueryResult;
 }
 
 export const withAtomPriceData = graphql(PricesDocument, {

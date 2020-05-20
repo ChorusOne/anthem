@@ -23,7 +23,7 @@ import { IThemeProps } from "containers/ThemeContainer";
 import {
   AccountBalancesProps,
   AccountInformationProps,
-  AtomPriceDataProps,
+  FiatPriceDataProps,
   RewardsByValidatorProps,
   ValidatorsProps,
   withAccountBalances,
@@ -1003,7 +1003,7 @@ interface IProps
     ValidatorsProps,
     AccountBalancesProps,
     AccountInformationProps,
-    AtomPriceDataProps,
+    FiatPriceDataProps,
     RewardsByValidatorProps {}
 
 export default composeWithProps<ComponentProps>(

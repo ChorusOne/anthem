@@ -18,7 +18,7 @@ import { CURRENCY_SETTING } from "constants/fiat";
 import { IThemeProps } from "containers/ThemeContainer";
 import {
   AccountBalancesProps,
-  AtomPriceDataProps,
+  FiatPriceDataProps,
   withAccountBalances,
   withAtomPriceData,
   withGraphQLVariables,
@@ -585,7 +585,7 @@ interface ComponentProps {
 
 interface IProps
   extends ComponentProps,
-    AtomPriceDataProps,
+    FiatPriceDataProps,
     AccountBalancesProps,
     ConnectProps {}
 

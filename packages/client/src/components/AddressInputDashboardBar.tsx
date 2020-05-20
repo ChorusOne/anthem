@@ -4,8 +4,8 @@ import AddressInput from "components/AddressInput";
 import { View } from "components/SharedComponents";
 import { COLORS } from "constants/colors";
 import {
-  AtomPriceDataProps,
   DailyPercentChangeProps,
+  FiatPriceDataProps,
   withAtomPriceData,
   withDailyPercentChange,
   withGraphQLVariables,
@@ -185,7 +185,7 @@ interface ComponentProps {
 interface IProps
   extends ComponentProps,
     ConnectProps,
-    AtomPriceDataProps,
+    FiatPriceDataProps,
     DailyPercentChangeProps {}
 
 /** ===========================================================================
