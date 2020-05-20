@@ -1,4 +1,9 @@
-import { ICeloAccountBalances, NetworkDefinition } from "@anthem/utils";
+import {
+  ICeloAccountBalances,
+  ICosmosAccountBalances,
+  IPrice,
+  NetworkDefinition,
+} from "@anthem/utils";
 import { Colors, H5, Icon } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
@@ -9,6 +14,7 @@ import {
   View,
 } from "components/SharedComponents";
 import { COLORS } from "constants/colors";
+import { CURRENCY_SETTING } from "constants/fiat";
 import { IThemeProps } from "containers/ThemeContainer";
 import {
   AccountBalancesProps,
@@ -27,6 +33,7 @@ import styled from "styled-components";
 import { getAccountBalances, getPercentage } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
+import { tFnString } from "tools/i18n-utils";
 import { addValuesInList } from "tools/math-utils";
 
 /** ===========================================================================
@@ -44,8 +51,8 @@ class Balance extends React.Component<IProps, {}> {
       ledger,
       accountBalances,
     } = this.props;
+    const { tString } = i18n;
     const { network } = ledger;
-    const { t, tString } = i18n;
     const { isDesktop, currencySetting } = settings;
 
     if (!network.supportsBalances) {
@@ -68,53 +75,140 @@ class Balance extends React.Component<IProps, {}> {
         ]}
       >
         {() => {
+          // Handle if balances request failed
           if (accountBalances.error) {
             return <DashboardError tString={tString} />;
           }
 
           const data = accountBalances.accountBalances;
 
-          if (!data) {
-            return null;
-          } else if (data.__typename === "CeloAccountBalances") {
-            return <CeloBalances network={network} balances={data} />;
-          } else if (data.__typename === "CosmosAccountBalances") {
-            const fiatConversionRate = prices.prices;
-            const balances = getAccountBalances(
-              data,
-              fiatConversionRate,
-              network,
-              2,
-            );
+          if (data) {
+            if (data.__typename === "CeloAccountBalances") {
+              return <CeloBalances network={network} balances={data} />;
+            } else if (data.__typename === "CosmosAccountBalances") {
+              return (
+                <CosmosBalances
+                  address={address}
+                  network={network}
+                  tString={tString}
+                  isDesktop={isDesktop}
+                  prices={prices.prices}
+                  balances={data as ICosmosAccountBalances}
+                  currencySetting={currencySetting}
+                  handleDelegation={this.handleDelegationAction}
+                  handleRewardsClaim={this.handleRewardsClaimAction}
+                />
+              );
+            }
+          }
 
-            const {
-              balance,
-              rewards,
-              delegations,
-              unbonding,
-              commissions,
-              total,
-              balanceFiat,
-              delegationsFiat,
-              rewardsFiat,
-              unbondingFiat,
-              commissionsFiat,
-              totalFiat,
-              percentages,
-            } = balances;
+          return null;
+        }}
+      </GraphQLGuardComponentMultipleQueries>
+    );
+  }
 
-            const renderBalanceItem = (crypto: string, fiat: string) => {
-              if (currencySetting === "crypto") {
-                return crypto;
-              } else {
-                return fiat;
-              }
-            };
+  handleDelegationAction = () => {
+    let actionFunction;
+    if (this.props.ledger.connected) {
+      actionFunction = this.props.openLedgerDialog;
+    } else {
+      actionFunction = this.props.openSelectNetworkDialog;
+    }
 
-            const SHOULD_SHOW_LEDGER_ACTIONS =
-              isDesktop && ledger.network.supportsLedger;
+    actionFunction({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "DELEGATE",
+    });
+  };
 
-            const BalanceLines = (
+  handleRewardsClaimAction = () => {
+    let actionFunction;
+    if (this.props.ledger.connected) {
+      actionFunction = this.props.openLedgerDialog;
+    } else {
+      actionFunction = this.props.openSelectNetworkDialog;
+    }
+
+    actionFunction({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "CLAIM",
+    });
+  };
+}
+
+/** ===========================================================================
+ * Cosmos SDK Networks Account Balances
+ * ============================================================================
+ */
+
+interface CosmosBalancesProps {
+  address: string;
+  network: NetworkDefinition;
+  balances: ICosmosAccountBalances;
+  prices: IPrice;
+  currencySetting: CURRENCY_SETTING;
+  isDesktop: boolean;
+  tString: tFnString;
+  handleDelegation: () => void;
+  handleRewardsClaim: () => void;
+}
+
+class CosmosBalances extends React.Component<CosmosBalancesProps> {
+  render(): JSX.Element {
+    const {
+      prices,
+      network,
+      tString,
+      address,
+      balances,
+      isDesktop,
+      currencySetting,
+      handleDelegation,
+      handleRewardsClaim,
+    } = this.props;
+
+    const fiatConversionRate = prices;
+    const balancesResult = getAccountBalances(
+      balances,
+      fiatConversionRate,
+      network,
+      2,
+    );
+
+    const {
+      balance,
+      rewards,
+      delegations,
+      unbonding,
+      commissions,
+      total,
+      balanceFiat,
+      delegationsFiat,
+      rewardsFiat,
+      unbondingFiat,
+      commissionsFiat,
+      totalFiat,
+      percentages,
+    } = balancesResult;
+
+    const renderBalanceItem = (crypto: string, fiat: string) => {
+      if (currencySetting === "crypto") {
+        return crypto;
+      } else {
+        return fiat;
+      }
+    };
+
+    const SHOULD_SHOW_LEDGER_ACTIONS = isDesktop && network.supportsLedger;
+
+    return (
+      <React.Fragment>
+        <SummaryContainer>
+          {!!address && (
+            <BalanceContainer>
               <View>
                 <BalanceLine>
                   <Icon
@@ -122,7 +216,7 @@ class Balance extends React.Component<IProps, {}> {
                     style={{ marginRight: 2 }}
                     color={COLORS.BALANCE_SHADE_ONE}
                   />
-                  <BalanceTitle>{t("Available")}:</BalanceTitle>
+                  <BalanceTitle>{tString("Available")}:</BalanceTitle>
                   <BalanceText data-cy="balance-available">
                     {renderBalanceItem(balance, balanceFiat)}
                   </BalanceText>
@@ -133,7 +227,7 @@ class Balance extends React.Component<IProps, {}> {
                     style={{ marginRight: 2 }}
                     icon={IconNames.DOT}
                   />
-                  <BalanceTitle>{t("Staking")}:</BalanceTitle>
+                  <BalanceTitle>{tString("Staking")}:</BalanceTitle>
                   <BalanceText data-cy="balance-delegations">
                     {renderBalanceItem(delegations, delegationsFiat)}
                   </BalanceText>
@@ -144,7 +238,7 @@ class Balance extends React.Component<IProps, {}> {
                     style={{ marginRight: 2 }}
                     icon={IconNames.DOT}
                   />
-                  <BalanceTitle>{t("Rewards")}:</BalanceTitle>
+                  <BalanceTitle>{tString("Rewards")}:</BalanceTitle>
                   <BalanceText data-cy="balance-rewards">
                     {renderBalanceItem(rewards, rewardsFiat)}
                   </BalanceText>
@@ -155,7 +249,7 @@ class Balance extends React.Component<IProps, {}> {
                     style={{ marginRight: 2 }}
                     icon={IconNames.DOT}
                   />
-                  <BalanceTitle>{t("Unbonding")}:</BalanceTitle>
+                  <BalanceTitle>{tString("Unbonding")}:</BalanceTitle>
                   <BalanceText data-cy="balance-unbonding">
                     {renderBalanceItem(unbonding, unbondingFiat)}
                   </BalanceText>
@@ -167,86 +261,49 @@ class Balance extends React.Component<IProps, {}> {
                       style={{ marginRight: 2 }}
                       icon={IconNames.DOT}
                     />
-                    <BalanceTitle>{t("Commission")}:</BalanceTitle>
+                    <BalanceTitle>{tString("Commission")}:</BalanceTitle>
                     <BalanceText data-cy="balance-commissions">
                       {renderBalanceItem(commissions, commissionsFiat)}
                     </BalanceText>
                   </BalanceLine>
                 )}
               </View>
-            );
-
-            return (
-              <React.Fragment>
-                <SummaryContainer>
-                  {Boolean(address) && (
-                    <BalanceContainer>
-                      {BalanceLines}
-                      <BalancePieChart
-                        percentages={percentages}
-                        total={renderBalanceItem(total, totalFiat)}
-                      />
-                    </BalanceContainer>
-                  )}
-                </SummaryContainer>
-                {SHOULD_SHOW_LEDGER_ACTIONS && (
-                  <ActionContainer>
-                    <H5>{t("What do you want to do?")}</H5>
-                    <DelegationControlsContainer>
-                      <Button
-                        data-cy="balances-delegation-button"
-                        onClick={() => {
-                          let fn;
-                          if (this.props.ledger.connected) {
-                            fn = this.props.openLedgerDialog;
-                          } else {
-                            fn = this.props.openSelectNetworkDialog;
-                          }
-
-                          fn({
-                            signinType: "LEDGER",
-                            ledgerAccessType: "PERFORM_ACTION",
-                            ledgerActionType: "DELEGATE",
-                          });
-                        }}
-                        style={{
-                          marginRight: 16,
-                        }}
-                      >
-                        {tString("Delegate")}
-                      </Button>
-                      <Button
-                        data-cy="balances-rewards-claim-button"
-                        onClick={() => {
-                          let fn;
-                          if (this.props.ledger.connected) {
-                            fn = this.props.openLedgerDialog;
-                          } else {
-                            fn = this.props.openSelectNetworkDialog;
-                          }
-
-                          fn({
-                            signinType: "LEDGER",
-                            ledgerAccessType: "PERFORM_ACTION",
-                            ledgerActionType: "CLAIM",
-                          });
-                        }}
-                      >
-                        {tString("Claim Rewards")}
-                      </Button>
-                    </DelegationControlsContainer>
-                  </ActionContainer>
-                )}
-              </React.Fragment>
-            );
-          } else {
-            return null;
-          }
-        }}
-      </GraphQLGuardComponentMultipleQueries>
+              <BalancePieChart
+                percentages={percentages}
+                total={renderBalanceItem(total, totalFiat)}
+              />
+            </BalanceContainer>
+          )}
+        </SummaryContainer>
+        {SHOULD_SHOW_LEDGER_ACTIONS && (
+          <ActionContainer>
+            <H5>{tString("What do you want to do?")}</H5>
+            <DelegationControlsContainer>
+              <Button
+                style={{ marginRight: 16 }}
+                onClick={handleDelegation}
+                data-cy="balances-delegation-button"
+              >
+                {tString("Delegate")}
+              </Button>
+              <Button
+                onClick={handleRewardsClaim}
+                data-cy="balances-rewards-claim-button"
+              >
+                {tString("Claim Rewards")}
+              </Button>
+            </DelegationControlsContainer>
+          </ActionContainer>
+        )}
+      </React.Fragment>
     );
   }
 }
+
+/** ===========================================================================
+ * Celo Account Balances
+ * ============================================================================
+ */
 
 interface CeloBalancesProps {
   network: NetworkDefinition;
