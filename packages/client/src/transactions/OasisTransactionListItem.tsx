@@ -28,7 +28,7 @@ import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
 import React from "react";
 import { formatAddressString } from "tools/client-utils";
-import { formatCurrencyAmount } from "tools/currency-utils";
+import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
 import { formatDate, formatTime } from "tools/date-utils";
 import { TranslateMethodProps } from "tools/i18n-utils";
 import {
@@ -66,11 +66,13 @@ interface IProps extends TranslateMethodProps {
 
 class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
   render(): Nullable<JSX.Element> {
+    const { transaction } = this.props;
     return (
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
         <EventRow>
           {this.renderTypeAndTimestamp()}
           {this.renderAddressBlocks()}
+          {this.renderFeeAmount(transaction.fee)}
         </EventRow>
       </Card>
     );
@@ -161,7 +163,23 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
+  renderFeeAmount = (amount: string) => {
+    const { denominationSize } = this.props.network;
+    return (
+      <EventRowItem style={{ minWidth: 150 }}>
+        <EventIconBox />
+        <EventContextBox>
+          <EventText style={{ fontWeight: "bold" }}>Fee</EventText>
+          <EventText>
+            {formatCurrencyAmount(denomToUnit(amount, denominationSize))}
+          </EventText>
+        </EventContextBox>
+      </EventRowItem>
+    );
+  };
+
   renderTransactionAmount = (amount: string) => {
+    const { denominationSize } = this.props.network;
     return (
       <EventRowItem style={{ minWidth: 275 }}>
         <EventIconBox>
@@ -169,7 +187,9 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
         </EventIconBox>
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>Amount</EventText>
-          <EventText>{formatCurrencyAmount(amount)}</EventText>
+          <EventText>
+            {formatCurrencyAmount(denomToUnit(amount, denominationSize))}
+          </EventText>
         </EventContextBox>
       </EventRowItem>
     );
