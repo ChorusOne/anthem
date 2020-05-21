@@ -520,14 +520,14 @@ class OasisBalances extends React.Component<OasisBalancesProps> {
             />
           </BalanceContainer>
         </SummaryContainer>
-        <ActionContainer>
+        {/* <ActionContainer>
           <H5>Oasis Ledger Transactions</H5>
           <DelegationControlsContainer>
             <Button onClick={() => null} data-cy="celo-delegation-button">
               Coming Soon!
             </Button>
           </DelegationControlsContainer>
-        </ActionContainer>
+        </ActionContainer> */}
       </>
     );
   }

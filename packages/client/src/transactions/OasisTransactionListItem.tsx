@@ -199,8 +199,6 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
     return (
       <EventRow>
         <EventIconBox />
-        {/* <EventIcon src={OasisLogo} />
-        </EventIconBox> */}
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>{titleText}</EventText>
           <EventText>{info}</EventText>
