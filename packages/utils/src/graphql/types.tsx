@@ -403,7 +403,7 @@ export interface IOasisRegisterRuntimeEvent {
 
 export interface IOasisTransaction {
    __typename?: "OasisTransaction";
-  amount: Scalars["String"];
+  fee: Scalars["String"];
   gas: Scalars["Int"];
   gas_price: Scalars["String"];
   height: Scalars["Int"];
@@ -1187,7 +1187,7 @@ export type IOasisTransactionsQuery = (
     & Pick<IOasisTransactionResult, "page" | "limit" | "moreResultsExist">
     & { data: Array<(
       { __typename?: "OasisTransaction" }
-      & Pick<IOasisTransaction, "amount" | "gas" | "gas_price" | "height" | "method" | "date" | "sender">
+      & Pick<IOasisTransaction, "fee" | "gas" | "gas_price" | "height" | "method" | "date" | "sender">
       & { data: (
         { __typename?: "OasisBurnEvent" }
         & Pick<IOasisBurnEvent, "type" | "owner" | "tokens">
@@ -2511,7 +2511,7 @@ export const OasisTransactionsDocument = gql`
     page
     limit
     data {
-      amount
+      fee
       gas
       gas_price
       height

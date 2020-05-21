@@ -60,7 +60,7 @@ enum OasisTransactionMethod {
 }
 
 interface OasisTransactionBase {
-  amount: string;
+  fee: string;
   gas: number;
   gas_price: string;
   height: number;
@@ -210,9 +210,6 @@ type OasisTransaction =
 
 /**
  * Fetch Oasis account balances.
- *
- * TODO: This will probably need to get updated to use a new return type
- * for the Oasis network.
  */
 const fetchAccountBalances = async (
   address: string,
@@ -251,11 +248,11 @@ const fetchTransactions = async (
   network: NetworkDefinition,
 ): Promise<IQuery["oasisTransactions"]> => {
   const host = getHostFromNetworkName(network.name);
-  // const response = await AxiosUtil.get<OasisTransaction[]>(
-  //   `${host}/account/${address}/events`,
-  // );
+  const response = await AxiosUtil.get<OasisTransaction[]>(
+    `${host}/account/${address}/transactions`,
+  );
 
-  const response = MOCK_OASIS_EVENTS;
+  // const response = MOCK_OASIS_EVENTS;
 
   // Transform the response data
   const convertedTransactions = response
@@ -375,7 +372,7 @@ const adaptOasisTransaction = (
  */
 
 const txBase = {
-  amount: "1",
+  fee: "1",
   gas_price: "0",
   gas: 1000,
   sender: "Xk9WLxZWcLjef1BZQD2PSpgapW5zBvPO1H8lZgkEUWU=",
