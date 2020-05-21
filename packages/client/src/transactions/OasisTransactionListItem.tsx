@@ -87,8 +87,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
             {getOasisTransactionLabelFromType(transaction.data.type)}
           </EventText>
           <EventText data-cy="transaction-timestamp">
-            {formatDate(Number(transaction.date))}{" "}
-            {formatTime(Number(transaction.date))}
+            {formatDate(transaction.date)} {formatTime(transaction.date)}
           </EventText>
         </EventContextBox>
       </EventRowItem>

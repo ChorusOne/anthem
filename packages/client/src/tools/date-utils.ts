@@ -5,6 +5,8 @@ import moment from "moment-timezone";
  * ============================================================================
  */
 
+type GenericDateFormat = string | number | Date;
+
 const UTC_TIMEZONE = "Etc/UTC";
 const DATE_FORMAT = "MMM DD, YYYY";
 
@@ -21,7 +23,7 @@ const setTimeZone = (date: any) => {
 /**
  * Convert a date to a string date key.
  */
-export const toDateKey = (date: string | number | Date) => {
+export const toDateKey = (date: GenericDateFormat) => {
   const tz = setTimeZone(date);
   return tz.format(DATE_FORMAT);
 };
@@ -36,7 +38,7 @@ export const toDateKey = (date: string | number | Date) => {
  * by 1 minute this should adjust this timestamp backwards to the previous
  * day.
  */
-export const toDateKeyBackOneDay = (date: string | number | Date) => {
+export const toDateKeyBackOneDay = (date: GenericDateFormat) => {
   const tz = setTimeZone(date).subtract(1, "minutes");
   return tz.format(DATE_FORMAT);
 };
@@ -51,21 +53,21 @@ export const fromDateKey = (date: string) => {
 /**
  * Format a date.
  */
-export const formatDate = (timestamp: string | number | Date): string => {
+export const formatDate = (timestamp: GenericDateFormat): string => {
   return moment(timestamp).format(DATE_FORMAT);
 };
 
 /**
  * Format a time.
  */
-export const formatTime = (timestamp: number): string => {
+export const formatTime = (timestamp: GenericDateFormat): string => {
   return moment(timestamp).format("HH:mm:ss");
 };
 
 /**
  * Format a fiat price date.
  */
-export const formatFiatPriceDate = (date: string | number | Date) => {
+export const formatFiatPriceDate = (date: GenericDateFormat) => {
   return moment(date).format("MM-DD-YYYY");
 };
 
