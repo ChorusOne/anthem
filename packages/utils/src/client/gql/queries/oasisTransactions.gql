@@ -3,9 +3,14 @@ query oasisTransactions($address: String!, $startingPage: Float, $pageSize: Floa
         page
         limit
         data{
-            date
+            amount
+            gas
+            gas_price
             height
-            event{
+            method
+            date
+            sender
+            data{
                 ... on OasisBurnEvent {
                     type
                     owner
