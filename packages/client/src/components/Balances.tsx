@@ -85,6 +85,9 @@ class Balance extends React.Component<IProps, {}> {
           if (data) {
             if (data.__typename === "CeloAccountBalancesType") {
               return <CeloBalances network={network} balances={data.celo} />;
+            } else if (data.__typename === "OasisAccountBalancesType") {
+              // TODO: Handle Oasis Balances
+              return null;
             } else if (data.__typename === "CosmosAccountBalancesType") {
               return (
                 <CosmosBalances
@@ -96,7 +99,7 @@ class Balance extends React.Component<IProps, {}> {
                   currencySetting={currencySetting}
                   handleDelegation={this.handleDelegationAction}
                   handleRewardsClaim={this.handleRewardsClaimAction}
-                  balances={data.cosmosSdkNetwork as ICosmosAccountBalances}
+                  balances={data.cosmos as ICosmosAccountBalances}
                 />
               );
             }

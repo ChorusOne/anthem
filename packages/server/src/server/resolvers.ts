@@ -197,10 +197,7 @@ const resolvers = {
           commissions,
         };
 
-        const balances: ICosmosAccountBalancesType = {
-          cosmosSdkNetwork: result,
-        };
-
+        const balances: ICosmosAccountBalancesType = { cosmos: result };
         return balances;
       }
     },

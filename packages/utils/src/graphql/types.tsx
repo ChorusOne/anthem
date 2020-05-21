@@ -159,7 +159,7 @@ export interface ICosmosAccountBalances {
 
 export interface ICosmosAccountBalancesType {
    __typename?: "CosmosAccountBalancesType";
-  cosmosSdkNetwork: ICosmosAccountBalances;
+  cosmos: ICosmosAccountBalances;
 }
 
 export interface IDelegation {
@@ -304,7 +304,7 @@ export interface IOasisAccountBalances {
 
 export interface IOasisAccountBalancesType {
    __typename?: "OasisAccountBalancesType";
-  oasis: Maybe<IOasisAccountBalances>;
+  oasis: IOasisAccountBalances;
 }
 
 export interface IOasisAccountMeta {
@@ -518,7 +518,7 @@ export interface IQuery {
   portfolioHistory: IPortfolioData;
   fiatPriceHistory: IFiatPrice[];
   dailyPercentChange: Scalars["String"];
-  accountBalances: Maybe<IAccountBalanceResponseType>;
+  accountBalances: IAccountBalanceResponseType;
   rewardsByValidator: IAvailableReward[];
   accountInformation: IAccountInformation;
   transaction: Maybe<ITransaction>;
@@ -836,9 +836,9 @@ export interface IAccountBalancesQueryVariables {
 
 export type IAccountBalancesQuery = (
   { __typename?: "Query" }
-  & { accountBalances: Maybe<(
+  & { accountBalances: (
     { __typename?: "CosmosAccountBalancesType" }
-    & { cosmosSdkNetwork: (
+    & { cosmos: (
       { __typename?: "CosmosAccountBalances" }
       & { balance: Maybe<Array<(
         { __typename?: "Balance" }
@@ -873,7 +873,7 @@ export type IAccountBalancesQuery = (
     ) }
   ) | (
     { __typename?: "OasisAccountBalancesType" }
-    & { oasis: Maybe<(
+    & { oasis: (
       { __typename?: "OasisAccountBalances" }
       & Pick<IOasisAccountBalances, "available" | "rewards" | "commissions">
       & { staked: (
@@ -889,8 +889,8 @@ export type IAccountBalancesQuery = (
         { __typename?: "OasisDelegation" }
         & Pick<IOasisDelegation, "delegator" | "validator" | "amount">
       )>> }
-    )> }
-  )> }
+    ) }
+  ) }
 );
 
 export interface IAccountInformationQueryVariables {
@@ -1464,7 +1464,7 @@ export const AccountBalancesDocument = gql`
     query accountBalances($address: String!) {
   accountBalances(address: $address) {
     ... on CosmosAccountBalancesType {
-      cosmosSdkNetwork {
+      cosmos {
         balance {
           denom
           amount

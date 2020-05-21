@@ -3,7 +3,7 @@ type Query {
   portfolioHistory(address: String!, fiat: String!): PortfolioData!
   fiatPriceHistory(fiat: String!, network: String!): [FiatPrice!]!
   dailyPercentChange(crypto: String!, fiat: String!): String!
-  accountBalances(address: String!): AccountBalanceResponseType
+  accountBalances(address: String!): AccountBalanceResponseType!
   rewardsByValidator(address: String!): [AvailableReward!]!
   accountInformation(address: String!): AccountInformation!
   transaction(txHash: String!, network: String!): Transaction
@@ -113,7 +113,7 @@ type CeloTransaction {
 # Oasis APIs
 
 type OasisAccountBalancesType {
-  oasis: OasisAccountBalances
+  oasis: OasisAccountBalances!
 }
 
 type OasisAccountBalances {
@@ -325,7 +325,7 @@ type AvailableReward {
 }
 
 type CosmosAccountBalancesType {
-  cosmosSdkNetwork: CosmosAccountBalances!
+  cosmos: CosmosAccountBalances!
 }
 
 type CosmosAccountBalances {
