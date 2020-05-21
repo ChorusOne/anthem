@@ -1,6 +1,6 @@
 import {
   assertUnreachable,
-  IOasisTransactionEvent,
+  IOasisTransactionEventData,
   IOasisTransactionType,
 } from "@anthem/utils";
 import { hasKeys } from "../tools/server-utils";
@@ -105,7 +105,7 @@ const AccountBalanceResponseType = {
  * Oasis Transaction Resolver:
  */
 const OasisTransactionEvent = {
-  __resolveType(event: IOasisTransactionEvent) {
+  __resolveType(event: IOasisTransactionEventData) {
     const { type } = event;
 
     switch (type) {

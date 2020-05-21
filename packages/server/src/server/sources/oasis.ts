@@ -1,4 +1,5 @@
 import {
+  assertUnreachable,
   IDelegation,
   IOasisTransaction,
   IOasisTransactionType,
@@ -22,9 +23,16 @@ interface OasisDelegation {
   amount: string;
 }
 
+interface Balance {
+  balance: string;
+  shares: string;
+}
+
 interface OasisAccountResponse {
   address: string;
   balance: string;
+  staked_balance: Balance;
+  debonding_balance: Balance;
   height: number;
   delegations: OasisDelegation[];
   meta: {
@@ -33,97 +41,164 @@ interface OasisAccountResponse {
   };
 }
 
-interface OasisTransaction {
+enum OasisTransactionMethod {
+  TRANSFER = "staking.Transfer",
+  BURN = "staking.Burn",
+  ADD_ESCROW = "staking.AddEscrow",
+  RECLAIM_ESCROW = "staking.ReclaimEscrow",
+  TAKE_ESCROW = "staking.TakeEscrow",
+  REGISTER_ENTITY = "staking.RegisterEntity",
+  REGISTER_NODE = "staking.RegisterNode",
+  DE_REGISTER_ENTITY = "staking.DeregisterEntity",
+  UN_FREEZE_NODE = "staking.UnfreezeNode",
+  RATE = "staking.Rate",
+  BOUND = "staking.Bound",
+  REGISTER_RUNTIME = "staking.RegisterRuntime",
+  AMEND_COMMISSION_SCHEDULE = "staking.AmendCommissionSchedule",
+  UNKNOWN_METHOD = "UnknownMethod",
+}
+
+interface OasisTransactionBase {
+  amount: string;
+  gas: number;
+  gas_price: string;
+  height: number;
+  sender: string;
+  method: OasisTransactionMethod;
   date: string;
-  height?: string;
-  escrow?: TxEscrow;
-  burn?: TxBurn;
-  transfer?: TxTransfer;
-  register_entity?: TxRegister;
-  deregister_entity?: TxDeregister;
-  register_node?: TxRegisterNode;
-  unfreeze_node?: TxUnfreezeNode;
-  rate?: TxRateEvent;
-  bound?: TxBoundEvent;
-  register_runtime?: TxRegisterRuntime;
-  amend_commission_schedule?: TxAmendCommissionSchedule;
-  unknown_method?: TxUnknown;
 }
 
-interface TxTransfer {
-  to: string;
-  from: string;
-  tokens: string;
-}
-
-interface TxBurn {
-  owner: string;
-  tokens: string;
-}
-
-interface TxEscrow {
-  add?: {
-    owner: string;
-    escrow: string;
-    tokens: string;
-  };
-  take?: {
-    owner: string;
-    tokens: string;
-  };
-  reclaim?: {
-    owner: string;
-    escrow: string;
+interface TxTransfer extends OasisTransactionBase {
+  method: OasisTransactionMethod.TRANSFER;
+  data: {
+    from: string;
+    to: string;
     tokens: string;
   };
 }
 
-interface TxRegister {
-  id: string;
-  nodes: string[];
-  allow_entity_signed_nodes: boolean;
+interface TxAddEscrow extends OasisTransactionBase {
+  method: OasisTransactionMethod.ADD_ESCROW;
+  data: {
+    to: string;
+    tokens: string;
+  };
 }
 
-interface TxDeregister {
-  id: string;
-  nodes: string[];
-  allow_entity_signed_nodes: boolean;
+interface TxTakeEscrow extends OasisTransactionBase {
+  method: OasisTransactionMethod.TAKE_ESCROW;
+  data: {
+    from: string;
+    to: string;
+    tokens: string;
+  };
 }
 
-interface TxRegisterNode {
-  id: string;
-  entity_id: string;
-  expiration: number;
+interface TxReclaimEscrow extends OasisTransactionBase {
+  method: OasisTransactionMethod.RECLAIM_ESCROW;
+  data: {
+    from: string;
+    shares: string;
+  };
 }
 
-interface TxUnfreezeNode {
-  id: string;
+interface TxBurn extends OasisTransactionBase {
+  method: OasisTransactionMethod.BURN;
+  data: {
+    owner: string;
+    tokens: string;
+  };
 }
 
-interface TxRegisterRuntime {
-  id: string;
-  version: string;
+interface TxRegisterNode extends OasisTransactionBase {
+  method: OasisTransactionMethod.REGISTER_NODE;
+  data: {
+    id: string;
+    entity_id: string;
+    expiration: number;
+  };
 }
 
-interface TxBoundEvent {
-  start: string;
-  rate_min: string;
-  rate_max: string;
+interface TxRegisterEntity extends OasisTransactionBase {
+  method: OasisTransactionMethod.REGISTER_ENTITY;
+  data: {
+    id: string;
+    nodes: string[];
+    allow_entity_signed_nodes: boolean;
+  };
 }
 
-interface TxRateEvent {
-  start: string;
-  rate: string;
+interface TxDeregisterEntity extends OasisTransactionBase {
+  method: OasisTransactionMethod.DE_REGISTER_ENTITY;
+  data: {
+    id: string;
+    nodes: string[];
+    allow_entity_signed_nodes: boolean;
+  };
 }
 
-interface TxAmendCommissionSchedule {
-  rates: string[];
-  bounds: string[];
+interface TxUnfreezeNode extends OasisTransactionBase {
+  method: OasisTransactionMethod.UN_FREEZE_NODE;
+  data: {
+    id: string;
+  };
 }
 
-interface TxUnknown {
-  method_name: string;
+interface TxRate extends OasisTransactionBase {
+  method: OasisTransactionMethod.RATE;
+  data: {
+    start: string;
+    rate: string;
+  };
 }
+
+interface TxBound extends OasisTransactionBase {
+  method: OasisTransactionMethod.BOUND;
+  data: {
+    start: string;
+    rate_min: string;
+    rate_max: string;
+  };
+}
+
+interface TxRegisterRuntime extends OasisTransactionBase {
+  method: OasisTransactionMethod.REGISTER_RUNTIME;
+  data: {
+    id: string;
+    version: string;
+  };
+}
+
+interface TxAmendCommissionSchedule extends OasisTransactionBase {
+  method: OasisTransactionMethod.AMEND_COMMISSION_SCHEDULE;
+  data: {
+    rates: string[];
+    bounds: string[];
+  };
+}
+
+interface TxUnknownMethod extends OasisTransactionBase {
+  method: OasisTransactionMethod.UNKNOWN_METHOD;
+  data: {
+    method_name: string;
+  };
+}
+
+type OasisTransaction =
+  | TxBurn
+  | TxTransfer
+  | TxAddEscrow
+  | TxTakeEscrow
+  | TxReclaimEscrow
+  | TxRegisterNode
+  | TxRegisterEntity
+  | TxDeregisterEntity
+  | TxUnfreezeNode
+  | TxRate
+  | TxBound
+  | TxRegisterRuntime
+  | TxAmendCommissionSchedule
+  | TxUnknownMethod;
 
 /** ===========================================================================
  * Oasis REST API Utils
@@ -134,6 +209,9 @@ interface TxUnknown {
 
 /**
  * Fetch Oasis account balances.
+ *
+ * TODO: This will probably need to get updated to use a new return type
+ * for the Oasis network.
  */
 const fetchAccountBalances = async (
   address: string,
@@ -204,6 +282,22 @@ const convertDelegations = (delegation: OasisDelegation): IDelegation => {
 };
 
 /**
+ * Map the transaction type onto the transaction data.
+ */
+const combineWithType = (
+  transaction: OasisTransaction,
+  type: IOasisTransactionType,
+) => {
+  const result: IOasisTransaction = {
+    ...transaction,
+    // @ts-ignore
+    data: { ...tx.data, type },
+  };
+
+  return result;
+};
+
+/**
  * Transform the original transaction records to match the GraphQL schema
  * definition.
  */
@@ -211,180 +305,62 @@ const adaptOasisTransaction = (
   tx: OasisTransaction,
   address: string,
 ): IOasisTransaction | null => {
-  if (!!tx.burn) {
-    // BURN Transaction
-    return {
-      height: 1,
-      date: tx.date,
-      event: {
-        type: IOasisTransactionType.Burn,
-        owner: tx.burn.owner,
-        tokens: tx.burn.tokens,
-      },
-    };
-  } else if (!!tx.transfer) {
-    // TRANSFER Transaction
-    return {
-      height: 1,
-      date: tx.date,
-      event: {
-        type: IOasisTransactionType.Transfer,
-        to: tx.transfer.to,
-        from: tx.transfer.from,
-        tokens: tx.transfer.tokens,
-      },
-    };
-  } else if (!!tx.register_entity) {
-    // REGISTER ENTITY Transaction
-    return {
-      height: 1,
-      date: tx.date,
-      event: {
-        type: IOasisTransactionType.RegisterEntity,
-        id: tx.register_entity.id,
-        nodes: tx.register_entity.nodes,
-        allow_entity_signed_nodes: tx.register_entity.allow_entity_signed_nodes,
-      },
-    };
-  } else if (!!tx.deregister_entity) {
-    // DEREGISTER ENTITY Transaction
-    return {
-      height: 1,
-      date: tx.date,
-      event: {
-        type: IOasisTransactionType.RegisterEntity,
-        id: tx.deregister_entity.id,
-        nodes: tx.deregister_entity.nodes,
-        allow_entity_signed_nodes:
-          tx.deregister_entity.allow_entity_signed_nodes,
-      },
-    };
-  } else if (!!tx.register_node) {
-    // REGISTER NODE Transaction
-    return {
-      height: 1,
-      date: tx.date,
-      event: {
-        type: IOasisTransactionType.RegisterNode,
-        id: tx.register_node.id,
-        entity_id: tx.register_node.entity_id,
-        expiration: tx.register_node.expiration,
-      },
-    };
-  } else if (!!tx.unfreeze_node) {
-    // UNFREEZE NODE Transaction
-    return {
-      height: 1,
-      date: tx.date,
-      event: {
-        type: IOasisTransactionType.UnfreezeNode,
-        id: tx.unfreeze_node.id,
-      },
-    };
-  } else if (!!tx.register_runtime) {
-    // REGISTER RUNTIME Transaction
-    return {
-      height: 1,
-      date: tx.date,
-      event: {
-        type: IOasisTransactionType.RegisterRuntime,
-        id: tx.register_runtime.id,
-        version: tx.register_runtime.version,
-      },
-    };
-  } else if (!!tx.rate) {
-    // RATE Transaction
-    return {
-      height: 1,
-      date: tx.date,
-      event: {
-        type: IOasisTransactionType.RateEvent,
-        start: tx.rate.start,
-        rate: tx.rate.rate,
-      },
-    };
-  } else if (!!tx.bound) {
-    // BOUND Transaction
-    return {
-      height: 1,
-      date: tx.date,
-      event: {
-        type: IOasisTransactionType.BoundEvent,
-        start: tx.bound.start,
-        rate_min: tx.bound.rate_min,
-        rate_max: tx.bound.rate_max,
-      },
-    };
-  } else if (!!tx.amend_commission_schedule) {
-    // AMEND COMMISSION SCHEDULE Transaction
-    return {
-      height: 1,
-      date: tx.date,
-      event: {
-        type: IOasisTransactionType.AmendCommissionSchedule,
-        rates: tx.amend_commission_schedule.rates,
-        bounds: tx.amend_commission_schedule.bounds,
-      },
-    };
-  } else if (!!tx.unknown_method) {
-    // UNKNOWN Transaction
-    return {
-      height: 1,
-      date: tx.date,
-      event: {
-        type: IOasisTransactionType.UnknownEvent,
-        method_name: tx.unknown_method.method_name,
-      },
-    };
-  } else if (!!tx.escrow) {
-    // ESCROW Transactions
-    const { escrow } = tx;
-    if (!!escrow.add) {
-      // ESCROW ADD Transaction
-      return {
-        height: 1,
-        date: tx.date,
-        event: {
-          owner: escrow.add.owner,
-          escrow: escrow.add.escrow,
-          tokens: escrow.add.tokens,
-          type: IOasisTransactionType.EscrowAdd,
-        },
-      };
-    } else if (!!escrow.take) {
-      // ESCROW TAKE Transaction
-      return {
-        height: 1,
-        date: tx.date,
-        event: {
-          type: IOasisTransactionType.EscrowTake,
-          owner: escrow.take.owner,
-          tokens: escrow.take.tokens,
-        },
-      };
-    } else if (!!escrow.reclaim) {
-      // ESCROW RECLAIM Transaction
-      return {
-        height: 1,
-        date: tx.date,
-        event: {
-          type: IOasisTransactionType.EscrowReclaim,
-          owner: escrow.reclaim.owner,
-          escrow: escrow.reclaim.escrow,
-          tokens: escrow.reclaim.tokens,
-        },
-      };
+  const { method } = tx;
+
+  switch (method) {
+    case OasisTransactionMethod.TRANSFER: {
+      return combineWithType(tx, IOasisTransactionType.Transfer);
+    }
+    case OasisTransactionMethod.ADD_ESCROW: {
+      return combineWithType(tx, IOasisTransactionType.EscrowAdd);
+    }
+    case OasisTransactionMethod.RECLAIM_ESCROW: {
+      return combineWithType(tx, IOasisTransactionType.EscrowReclaim);
+    }
+    case OasisTransactionMethod.TAKE_ESCROW: {
+      return combineWithType(tx, IOasisTransactionType.EscrowTake);
+    }
+    case OasisTransactionMethod.BURN: {
+      return combineWithType(tx, IOasisTransactionType.Burn);
+    }
+    case OasisTransactionMethod.REGISTER_NODE: {
+      return combineWithType(tx, IOasisTransactionType.RegisterNode);
+    }
+    case OasisTransactionMethod.REGISTER_ENTITY: {
+      return combineWithType(tx, IOasisTransactionType.RegisterEntity);
+    }
+    case OasisTransactionMethod.DE_REGISTER_ENTITY: {
+      return null;
+    }
+    case OasisTransactionMethod.UN_FREEZE_NODE: {
+      return combineWithType(tx, IOasisTransactionType.UnfreezeNode);
+    }
+    case OasisTransactionMethod.RATE: {
+      return combineWithType(tx, IOasisTransactionType.RateEvent);
+    }
+    case OasisTransactionMethod.BOUND: {
+      return combineWithType(tx, IOasisTransactionType.BoundEvent);
+    }
+    case OasisTransactionMethod.REGISTER_RUNTIME: {
+      return combineWithType(tx, IOasisTransactionType.RegisterRuntime);
+    }
+    case OasisTransactionMethod.AMEND_COMMISSION_SCHEDULE: {
+      return combineWithType(tx, IOasisTransactionType.AmendCommissionSchedule);
+    }
+    case OasisTransactionMethod.UNKNOWN_METHOD: {
+      return combineWithType(tx, IOasisTransactionType.UnknownEvent);
+    }
+
+    default: {
+      // Unrecognized transaction data:
+      logSentryMessage(
+        `Unrecognized Oasis transaction received for address ${address}. Original transaction data: ${JSON.stringify(
+          tx,
+        )}`,
+      );
+      return assertUnreachable(method);
     }
   }
-
-  // Unrecognized transaction data:
-  logSentryMessage(
-    `Unrecognized Oasis transaction received for address ${address}. Original transaction data: ${JSON.stringify(
-      tx,
-    )}`,
-  );
-
-  return null;
 };
 
 /** ===========================================================================
@@ -392,65 +368,108 @@ const adaptOasisTransaction = (
  * ============================================================================
  */
 
-const deregister: TxDeregister = {
-  id: "sa8df70af7as0",
-  nodes: ["sa980df7a0", "sa9d67f89a", "as9df76sa9"],
-  allow_entity_signed_nodes: true,
+const txBase = {
+  amount: "1",
+  gas_price: "0",
+  gas: 1000,
+  sender: "Xk9WLxZWcLjef1BZQD2PSpgapW5zBvPO1H8lZgkEUWU=",
+  date: "2020-05-11T21:35:24Z",
+  height: 2547,
 };
 
-const register: TxRegister = {
-  id: "sa8df70af7as0",
-  nodes: ["sa980df7a0", "sa9d67f89a", "as9df76sa9"],
-  allow_entity_signed_nodes: true,
+const deregister: TxDeregisterEntity = {
+  ...txBase,
+  method: OasisTransactionMethod.DE_REGISTER_ENTITY,
+  data: {
+    id: "sa8df70af7as0",
+    nodes: ["sa980df7a0", "sa9d67f89a", "as9df76sa9"],
+    allow_entity_signed_nodes: true,
+  },
 };
 
-const rateEvent: TxRateEvent = {
-  start: "Start",
-  rate: "Rate",
+const register: TxRegisterEntity = {
+  ...txBase,
+  method: OasisTransactionMethod.REGISTER_ENTITY,
+  data: {
+    id: "sa8df70af7as0",
+    nodes: ["sa980df7a0", "sa9d67f89a", "as9df76sa9"],
+    allow_entity_signed_nodes: true,
+  },
+};
+
+const rateEvent: TxRate = {
+  ...txBase,
+  method: OasisTransactionMethod.RATE,
+  data: {
+    start: "Start",
+    rate: "Rate",
+  },
 };
 
 const amend: TxAmendCommissionSchedule = {
-  rates: ["1", "2", "3"],
-  bounds: ["1", "2", "3"],
+  ...txBase,
+  method: OasisTransactionMethod.AMEND_COMMISSION_SCHEDULE,
+  data: {
+    rates: ["1", "2", "3"],
+    bounds: ["1", "2", "3"],
+  },
 };
 
 const registerRuntime: TxRegisterRuntime = {
-  id: "as9fd7as97f6sad0",
-  version: "1.2.4",
+  ...txBase,
+  method: OasisTransactionMethod.REGISTER_RUNTIME,
+  data: {
+    id: "as9fd7as97f6sad0",
+    version: "1.2.4",
+  },
 };
 
-const boundEvent: TxBoundEvent = {
-  start: "Start",
-  rate_min: "Rate Min",
-  rate_max: "Rate Max",
+const boundEvent: TxBound = {
+  ...txBase,
+  method: OasisTransactionMethod.BOUND,
+  data: {
+    start: "Start",
+    rate_min: "Rate Min",
+    rate_max: "Rate Max",
+  },
 };
 
 const unfreezeNode: TxUnfreezeNode = {
-  id: "s76fd9af9s8ad",
+  ...txBase,
+  method: OasisTransactionMethod.UN_FREEZE_NODE,
+  data: {
+    id: "s76fd9af9s8ad",
+  },
 };
 
 const registerNode: TxRegisterNode = {
-  id: "s0a9f780sa97f0sad",
-  entity_id: "saf967as986f784as67d5f",
-  expiration: 15000,
+  ...txBase,
+  method: OasisTransactionMethod.REGISTER_NODE,
+  data: {
+    id: "s0a9f780sa97f0sad",
+    entity_id: "saf967as986f784as67d5f",
+    expiration: 15000,
+  },
 };
 
-const unknown: TxUnknown = {
-  method_name: "HEIST",
+const unknown: TxUnknownMethod = {
+  ...txBase,
+  method: OasisTransactionMethod.UNKNOWN_METHOD,
+  data: {
+    method_name: "HEIST",
+  },
 };
-
-const d = () => String(Date.now() - Math.round(Math.random() * 1e8));
 
 const MOCK_OASIS_EVENTS: OasisTransaction[] = [
-  { date: d(), register_entity: register },
-  { date: d(), deregister_entity: deregister },
-  { date: d(), register_node: registerNode },
-  { date: d(), unfreeze_node: unfreezeNode },
-  { date: d(), register_runtime: registerRuntime },
-  { date: d(), amend_commission_schedule: amend },
-  { date: d(), rate: rateEvent },
-  { date: d(), bound: boundEvent },
-  { date: d(), unknown_method: unknown },
+  deregister,
+  register,
+  rateEvent,
+  amend,
+  registerRuntime,
+  boundEvent,
+  unfreezeNode,
+  registerNode,
+  unknown,
 ];
 
 /** ===========================================================================

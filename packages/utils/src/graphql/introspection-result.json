@@ -48,7 +48,7 @@
       },
       {
         "kind": "UNION",
-        "name": "OasisTransactionEvent",
+        "name": "OasisTransactionEventData",
         "possibleTypes": [
           {
             "name": "OasisBurnEvent"
