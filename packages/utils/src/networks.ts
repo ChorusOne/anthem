@@ -125,7 +125,7 @@ const NETWORKS: NetworksMap = {
     supportsPortfolio: false,
     supportsTransactionsHistory: true,
     supportsValidatorsList: false,
-    denominationSize: 1e8,
+    denominationSize: 1e9,
   },
   CELO: {
     // available: true,
