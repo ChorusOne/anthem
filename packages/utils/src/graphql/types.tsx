@@ -351,23 +351,22 @@ export interface IOasisDelegation {
 export interface IOasisEscrowAddEvent {
    __typename?: "OasisEscrowAddEvent";
   type: IOasisTransactionType;
-  owner: Scalars["String"];
-  escrow: Scalars["String"];
+  to: Scalars["String"];
   tokens: Scalars["String"];
 }
 
 export interface IOasisEscrowReclaimEvent {
    __typename?: "OasisEscrowReclaimEvent";
   type: IOasisTransactionType;
-  owner: Scalars["String"];
-  escrow: Scalars["String"];
-  tokens: Scalars["String"];
+  from: Scalars["String"];
+  shares: Scalars["String"];
 }
 
 export interface IOasisEscrowTakeEvent {
    __typename?: "OasisEscrowTakeEvent";
   type: IOasisTransactionType;
-  owner: Scalars["String"];
+  from: Scalars["String"];
+  to: Scalars["String"];
   tokens: Scalars["String"];
 }
 
@@ -1196,13 +1195,13 @@ export type IOasisTransactionsQuery = (
         & Pick<IOasisTransferEvent, "type" | "from" | "to" | "tokens">
       ) | (
         { __typename?: "OasisEscrowAddEvent" }
-        & Pick<IOasisEscrowAddEvent, "type" | "owner" | "escrow" | "tokens">
+        & Pick<IOasisEscrowAddEvent, "type" | "to" | "tokens">
       ) | (
         { __typename?: "OasisEscrowTakeEvent" }
-        & Pick<IOasisEscrowTakeEvent, "type" | "owner" | "tokens">
+        & Pick<IOasisEscrowTakeEvent, "type" | "from" | "to" | "tokens">
       ) | (
         { __typename?: "OasisEscrowReclaimEvent" }
-        & Pick<IOasisEscrowReclaimEvent, "type" | "owner" | "escrow" | "tokens">
+        & Pick<IOasisEscrowReclaimEvent, "type" | "from" | "shares">
       ) | (
         { __typename?: "OasisRegisterEntityEvent" }
         & Pick<IOasisRegisterEntityEvent, "type" | "id" | "nodes" | "allow_entity_signed_nodes">
@@ -2532,20 +2531,19 @@ export const OasisTransactionsDocument = gql`
         }
         ... on OasisEscrowAddEvent {
           type
-          owner
-          escrow
+          to
           tokens
         }
         ... on OasisEscrowTakeEvent {
           type
-          owner
+          from
+          to
           tokens
         }
         ... on OasisEscrowReclaimEvent {
           type
-          owner
-          escrow
-          tokens
+          from
+          shares
         }
         ... on OasisRegisterEntityEvent {
           type

@@ -206,22 +206,21 @@ type OasisBurnEvent {
 
 type OasisEscrowAddEvent {
   type: OasisTransactionType!
-  owner: String!
-  escrow: String!
+  to: String!
   tokens: String!
 }
 
 type OasisEscrowTakeEvent {
   type: OasisTransactionType!
-  owner: String!
+  from: String!
+  to: String!
   tokens: String!
 }
 
 type OasisEscrowReclaimEvent {
   type: OasisTransactionType!
-  owner: String!
-  escrow: String!
-  tokens: String!
+  from: String!
+  shares: String!
 }
 
 type OasisRegisterEntityEvent {
