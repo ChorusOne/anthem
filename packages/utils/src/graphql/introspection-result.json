@@ -6,10 +6,13 @@
         "name": "AccountBalanceResponseType",
         "possibleTypes": [
           {
-            "name": "CosmosAccountBalances"
+            "name": "CosmosAccountBalancesType"
           },
           {
-            "name": "CeloAccountBalances"
+            "name": "CeloAccountBalancesType"
+          },
+          {
+            "name": "OasisAccountBalancesType"
           }
         ]
       },

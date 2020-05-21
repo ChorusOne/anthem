@@ -51,10 +51,17 @@ type Query {
 # *****************************************************************************
 # Shared Untion Types
 
-union AccountBalanceResponseType = CosmosAccountBalances | CeloAccountBalances
+union AccountBalanceResponseType =
+    CosmosAccountBalancesType
+  | CeloAccountBalancesType
+  | OasisAccountBalancesType
 
 # *****************************************************************************
 # Celo APIs
+
+type CeloAccountBalancesType {
+  celo: CeloAccountBalances!
+}
 
 type CeloAccountBalances {
   address: String!
@@ -65,8 +72,7 @@ type CeloAccountBalances {
   votingLockedGoldBalance: String!
   pendingWithdrawalBalance: String!
   celoUSDValue: String!
-  # Creates union field type conflict with CosmosAccountBalances!
-  # delegations: [CeloDelegation!]!
+  delegations: [CeloDelegation!]!
 }
 
 type CeloDelegation {
@@ -105,6 +111,36 @@ type CeloTransaction {
 
 # *****************************************************************************
 # Oasis APIs
+
+type OasisAccountBalancesType {
+  oasis: OasisAccountBalances
+}
+
+type OasisAccountBalances {
+  available: String!
+  staked: OasisBalance!
+  unbonding: OasisBalance!
+  rewards: String! # Not available yet
+  commissions: String! # Not available yet
+  meta: OasisAccountMeta!
+  delegations: [OasisDelegation!]
+}
+
+type OasisDelegation {
+  delegator: String!
+  validator: String!
+  amount: String!
+}
+
+type OasisBalance {
+  balance: String!
+  shares: String!
+}
+
+type OasisAccountMeta {
+  is_validator: Boolean!
+  is_delegator: Boolean!
+}
 
 type OasisTransactionResult {
   page: Float!
@@ -286,6 +322,10 @@ type PortfolioData {
 type AvailableReward {
   reward: [Balance!]
   validator_address: String!
+}
+
+type CosmosAccountBalancesType {
+  cosmosSdkNetwork: CosmosAccountBalances!
 }
 
 type CosmosAccountBalances {

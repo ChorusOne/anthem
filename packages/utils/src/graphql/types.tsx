@@ -24,7 +24,7 @@ export interface IAccount {
   sequence: Scalars["String"];
 }
 
-export type IAccountBalanceResponseType = ICosmosAccountBalances | ICeloAccountBalances;
+export type IAccountBalanceResponseType = ICosmosAccountBalancesType | ICeloAccountBalancesType | IOasisAccountBalancesType;
 
 export interface IAccountCoin {
    __typename?: "AccountCoin";
@@ -88,6 +88,12 @@ export interface ICeloAccountBalances {
   votingLockedGoldBalance: Scalars["String"];
   pendingWithdrawalBalance: Scalars["String"];
   celoUSDValue: Scalars["String"];
+  delegations: ICeloDelegation[];
+}
+
+export interface ICeloAccountBalancesType {
+   __typename?: "CeloAccountBalancesType";
+  celo: ICeloAccountBalances;
 }
 
 export interface ICeloAccountSnapshot {
@@ -149,6 +155,11 @@ export interface ICosmosAccountBalances {
   delegations: Maybe<IDelegation[]>;
   unbonding: Maybe<IUnbondingDelegation[]>;
   commissions: Maybe<IBalance[]>;
+}
+
+export interface ICosmosAccountBalancesType {
+   __typename?: "CosmosAccountBalancesType";
+  cosmosSdkNetwork: ICosmosAccountBalances;
 }
 
 export interface IDelegation {
@@ -280,11 +291,39 @@ export interface IMsgWithdrawValidatorCommission {
   validator_address: Maybe<Scalars["String"]>;
 }
 
+export interface IOasisAccountBalances {
+   __typename?: "OasisAccountBalances";
+  available: Scalars["String"];
+  staked: IOasisBalance;
+  unbonding: IOasisBalance;
+  rewards: Scalars["String"];
+  commissions: Scalars["String"];
+  meta: IOasisAccountMeta;
+  delegations: Maybe<IOasisDelegation[]>;
+}
+
+export interface IOasisAccountBalancesType {
+   __typename?: "OasisAccountBalancesType";
+  oasis: Maybe<IOasisAccountBalances>;
+}
+
+export interface IOasisAccountMeta {
+   __typename?: "OasisAccountMeta";
+  is_validator: Scalars["Boolean"];
+  is_delegator: Scalars["Boolean"];
+}
+
 export interface IOasisAmendCommissionScheduleEvent {
    __typename?: "OasisAmendCommissionScheduleEvent";
   type: IOasisTransactionType;
   rates: Array<Scalars["String"]>;
   bounds: Array<Scalars["String"]>;
+}
+
+export interface IOasisBalance {
+   __typename?: "OasisBalance";
+  balance: Scalars["String"];
+  shares: Scalars["String"];
 }
 
 export interface IOasisBoundEvent {
@@ -300,6 +339,13 @@ export interface IOasisBurnEvent {
   type: IOasisTransactionType;
   owner: Scalars["String"];
   tokens: Scalars["String"];
+}
+
+export interface IOasisDelegation {
+   __typename?: "OasisDelegation";
+  delegator: Scalars["String"];
+  validator: Scalars["String"];
+  amount: Scalars["String"];
 }
 
 export interface IOasisEscrowAddEvent {
@@ -791,30 +837,59 @@ export interface IAccountBalancesQueryVariables {
 export type IAccountBalancesQuery = (
   { __typename?: "Query" }
   & { accountBalances: Maybe<(
-    { __typename?: "CosmosAccountBalances" }
-    & { balance: Maybe<Array<(
-      { __typename?: "Balance" }
-      & Pick<IBalance, "denom" | "amount">
-    )>>, rewards: Maybe<Array<(
-      { __typename?: "Balance" }
-      & Pick<IBalance, "denom" | "amount">
-    )>>, delegations: Maybe<Array<(
-      { __typename?: "Delegation" }
-      & Pick<IDelegation, "delegator_address" | "validator_address" | "shares">
-    )>>, unbonding: Maybe<Array<(
-      { __typename?: "UnbondingDelegation" }
-      & Pick<IUnbondingDelegation, "delegator_address" | "validator_address">
-      & { entries: Array<(
-        { __typename?: "UnbondingDelegationEntry" }
-        & Pick<IUnbondingDelegationEntry, "balance" | "initial_balance" | "creation_height" | "completion_time">
-      )> }
-    )>>, commissions: Maybe<Array<(
-      { __typename?: "Balance" }
-      & Pick<IBalance, "denom" | "amount">
-    )>> }
+    { __typename?: "CosmosAccountBalancesType" }
+    & { cosmosSdkNetwork: (
+      { __typename?: "CosmosAccountBalances" }
+      & { balance: Maybe<Array<(
+        { __typename?: "Balance" }
+        & Pick<IBalance, "denom" | "amount">
+      )>>, rewards: Maybe<Array<(
+        { __typename?: "Balance" }
+        & Pick<IBalance, "denom" | "amount">
+      )>>, delegations: Maybe<Array<(
+        { __typename?: "Delegation" }
+        & Pick<IDelegation, "delegator_address" | "validator_address" | "shares">
+      )>>, unbonding: Maybe<Array<(
+        { __typename?: "UnbondingDelegation" }
+        & Pick<IUnbondingDelegation, "delegator_address" | "validator_address">
+        & { entries: Array<(
+          { __typename?: "UnbondingDelegationEntry" }
+          & Pick<IUnbondingDelegationEntry, "balance" | "initial_balance" | "creation_height" | "completion_time">
+        )> }
+      )>>, commissions: Maybe<Array<(
+        { __typename?: "Balance" }
+        & Pick<IBalance, "denom" | "amount">
+      )>> }
+    ) }
   ) | (
-    { __typename?: "CeloAccountBalances" }
-    & Pick<ICeloAccountBalances, "address" | "height" | "goldTokenBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
+    { __typename?: "CeloAccountBalancesType" }
+    & { celo: (
+      { __typename?: "CeloAccountBalances" }
+      & Pick<ICeloAccountBalances, "address" | "height" | "goldTokenBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
+      & { delegations: Array<(
+        { __typename?: "CeloDelegation" }
+        & Pick<ICeloDelegation, "group" | "totalVotes" | "activeVotes" | "pendingVotes">
+      )> }
+    ) }
+  ) | (
+    { __typename?: "OasisAccountBalancesType" }
+    & { oasis: Maybe<(
+      { __typename?: "OasisAccountBalances" }
+      & Pick<IOasisAccountBalances, "available" | "rewards" | "commissions">
+      & { staked: (
+        { __typename?: "OasisBalance" }
+        & Pick<IOasisBalance, "balance" | "shares">
+      ), unbonding: (
+        { __typename?: "OasisBalance" }
+        & Pick<IOasisBalance, "balance" | "shares">
+      ), meta: (
+        { __typename?: "OasisAccountMeta" }
+        & Pick<IOasisAccountMeta, "is_validator" | "is_delegator">
+      ), delegations: Maybe<Array<(
+        { __typename?: "OasisDelegation" }
+        & Pick<IOasisDelegation, "delegator" | "validator" | "amount">
+      )>> }
+    )> }
   )> }
 );
 
@@ -1388,44 +1463,78 @@ export type IValidatorsQuery = (
 export const AccountBalancesDocument = gql`
     query accountBalances($address: String!) {
   accountBalances(address: $address) {
-    ... on CosmosAccountBalances {
-      balance {
-        denom
-        amount
-      }
-      rewards {
-        denom
-        amount
-      }
-      delegations {
-        delegator_address
-        validator_address
-        shares
-      }
-      unbonding {
-        delegator_address
-        validator_address
-        entries {
-          balance
-          initial_balance
-          creation_height
-          completion_time
+    ... on CosmosAccountBalancesType {
+      cosmosSdkNetwork {
+        balance {
+          denom
+          amount
+        }
+        rewards {
+          denom
+          amount
+        }
+        delegations {
+          delegator_address
+          validator_address
+          shares
+        }
+        unbonding {
+          delegator_address
+          validator_address
+          entries {
+            balance
+            initial_balance
+            creation_height
+            completion_time
+          }
+        }
+        commissions {
+          denom
+          amount
         }
       }
-      commissions {
-        denom
-        amount
+    }
+    ... on CeloAccountBalancesType {
+      celo {
+        address
+        height
+        goldTokenBalance
+        totalLockedGoldBalance
+        nonVotingLockedGoldBalance
+        votingLockedGoldBalance
+        pendingWithdrawalBalance
+        celoUSDValue
+        delegations {
+          group
+          totalVotes
+          activeVotes
+          pendingVotes
+        }
       }
     }
-    ... on CeloAccountBalances {
-      address
-      height
-      goldTokenBalance
-      totalLockedGoldBalance
-      nonVotingLockedGoldBalance
-      votingLockedGoldBalance
-      pendingWithdrawalBalance
-      celoUSDValue
+    ... on OasisAccountBalancesType {
+      oasis {
+        available
+        staked {
+          balance
+          shares
+        }
+        unbonding {
+          balance
+          shares
+        }
+        rewards
+        commissions
+        meta {
+          is_validator
+          is_delegator
+        }
+        delegations {
+          delegator
+          validator
+          amount
+        }
+      }
     }
   }
 }

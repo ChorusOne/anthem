@@ -1,5 +1,6 @@
 import {
   ICeloAccountBalances,
+  ICeloAccountBalancesType,
   IDelegation,
   IQuery,
   NetworkDefinition,
@@ -45,13 +46,13 @@ interface CeloAccountSnapshot {
 const fetchAccountBalances = async (
   address: string,
   network: NetworkDefinition,
-): Promise<ICeloAccountBalances> => {
+): Promise<ICeloAccountBalancesType> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get<ICeloAccountBalances>(
     `${host}/account/${address}`,
   );
 
-  return response;
+  return { celo: response };
 };
 
 /**

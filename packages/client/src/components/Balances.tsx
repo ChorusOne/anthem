@@ -83,9 +83,9 @@ class Balance extends React.Component<IProps, {}> {
           const data = accountBalances.accountBalances;
 
           if (data) {
-            if (data.__typename === "CeloAccountBalances") {
-              return <CeloBalances network={network} balances={data} />;
-            } else if (data.__typename === "CosmosAccountBalances") {
+            if (data.__typename === "CeloAccountBalancesType") {
+              return <CeloBalances network={network} balances={data.celo} />;
+            } else if (data.__typename === "CosmosAccountBalancesType") {
               return (
                 <CosmosBalances
                   address={address}
@@ -93,10 +93,10 @@ class Balance extends React.Component<IProps, {}> {
                   tString={tString}
                   isDesktop={isDesktop}
                   prices={prices.prices}
-                  balances={data as ICosmosAccountBalances}
                   currencySetting={currencySetting}
                   handleDelegation={this.handleDelegationAction}
                   handleRewardsClaim={this.handleRewardsClaimAction}
+                  balances={data.cosmosSdkNetwork as ICosmosAccountBalances}
                 />
               );
             }
