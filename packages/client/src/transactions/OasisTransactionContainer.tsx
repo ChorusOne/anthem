@@ -23,8 +23,6 @@ class OasisTransactionsContainer extends React.Component<IProps, {}> {
   render(): Nullable<JSX.Element> {
     const { i18n, transactions } = this.props;
     const { tString } = i18n;
-    console.log(transactions);
-
     return (
       <GraphQLGuardComponentMultipleQueries
         tString={tString}

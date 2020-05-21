@@ -1,6 +1,7 @@
 import {
   ICeloAccountBalances,
   ICosmosAccountBalances,
+  IOasisAccountBalances,
   IPrice,
   NetworkDefinition,
 } from "@anthem/utils";
@@ -86,8 +87,7 @@ class Balance extends React.Component<IProps, {}> {
             if (data.__typename === "CeloAccountBalancesType") {
               return <CeloBalances network={network} balances={data.celo} />;
             } else if (data.__typename === "OasisAccountBalancesType") {
-              // TODO: Handle Oasis Balances
-              return null;
+              return <OasisBalances network={network} balances={data.oasis} />;
             } else if (data.__typename === "CosmosAccountBalancesType") {
               return (
                 <CosmosBalances
@@ -403,6 +403,125 @@ class CeloBalances extends React.Component<CeloBalancesProps> {
         </SummaryContainer>
         <ActionContainer>
           <H5>Celo Ledger Transactions</H5>
+          <DelegationControlsContainer>
+            <Button onClick={() => null} data-cy="celo-delegation-button">
+              Coming Soon!
+            </Button>
+          </DelegationControlsContainer>
+        </ActionContainer>
+      </>
+    );
+  }
+}
+
+/** ===========================================================================
+ * Oasis Account Balances
+ * ============================================================================
+ */
+
+interface OasisBalancesProps {
+  network: NetworkDefinition;
+  balances: IOasisAccountBalances;
+}
+
+class OasisBalances extends React.Component<OasisBalancesProps> {
+  render(): JSX.Element {
+    const { balances, network } = this.props;
+
+    const {
+      available,
+      staked,
+      unbonding,
+      // rewards,
+      // commissions,
+      // meta,
+      // delegations,
+    } = balances;
+
+    const stakedBalance = staked.balance;
+    const unbondingBalance = unbonding.balance;
+    const denomSize = network.denominationSize;
+
+    // Helper to render Celo currency values
+    const renderCurrency = (value: string) => {
+      return formatCurrencyAmount(denomToUnit(value, denomSize));
+    };
+
+    const total = addValuesInList([available, stakedBalance, unbondingBalance]);
+
+    const percentages: number[] = [
+      getPercentage(available, total),
+      getPercentage(stakedBalance, total),
+      getPercentage(unbondingBalance, total),
+    ];
+
+    return (
+      <>
+        <SummaryContainer>
+          <BalanceContainer>
+            <View>
+              <BalanceLine>
+                <Icon
+                  icon={IconNames.DOT}
+                  style={{ marginRight: 2 }}
+                  color={COLORS.BALANCE_SHADE_ONE}
+                />
+                <BalanceTitle>Available:</BalanceTitle>
+                <BalanceText data-cy="oasis-balance-available">
+                  {renderCurrency(available)}
+                </BalanceText>
+              </BalanceLine>
+              <BalanceLine>
+                <Icon
+                  icon={IconNames.DOT}
+                  style={{ marginRight: 2 }}
+                  color={COLORS.BALANCE_SHADE_TWO}
+                />
+                <BalanceTitle>Staked:</BalanceTitle>
+                <BalanceText data-cy="oasis-balance-staked">
+                  {renderCurrency(stakedBalance)}
+                </BalanceText>
+              </BalanceLine>
+              <BalanceLine>
+                <Icon
+                  icon={IconNames.DOT}
+                  style={{ marginRight: 2 }}
+                  color={COLORS.BALANCE_SHADE_THREE}
+                />
+                <BalanceTitle>Debonding:</BalanceTitle>
+                <BalanceText data-cy="oasis-balance-unbonding">
+                  {renderCurrency(unbondingBalance)}
+                </BalanceText>
+              </BalanceLine>
+              <BalanceLine>
+                <Icon
+                  icon={IconNames.DOT}
+                  style={{ marginRight: 2 }}
+                  color={COLORS.BALANCE_SHADE_FIVE}
+                />
+                <BalanceTitle>Rewards:</BalanceTitle>
+                <BalanceText data-cy="oasis-balance-rewards">n/a</BalanceText>
+              </BalanceLine>
+              <BalanceLine>
+                <Icon
+                  icon={IconNames.DOT}
+                  style={{ marginRight: 2 }}
+                  color={COLORS.BALANCE_SHADE_FIVE}
+                />
+                <BalanceTitle>Commissions:</BalanceTitle>
+                <BalanceText data-cy="oasis-balance-commissions">
+                  n/a
+                </BalanceText>
+              </BalanceLine>
+            </View>
+            <BalancePieChart
+              percentages={percentages}
+              total={renderCurrency(total)}
+            />
+          </BalanceContainer>
+        </SummaryContainer>
+        <ActionContainer>
+          <H5>Oasis Ledger Transactions</H5>
           <DelegationControlsContainer>
             <Button onClick={() => null} data-cy="celo-delegation-button">
               Coming Soon!
