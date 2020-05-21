@@ -121,7 +121,7 @@ type OasisTransaction {
   method: String!
   date: String!
   sender: String!
-  data: OasisTransactionEventData!
+  data: OasisTransactionData!
 }
 
 enum OasisTransactionType {
@@ -140,7 +140,7 @@ enum OasisTransactionType {
   UNKNOWN_EVENT
 }
 
-union OasisTransactionEventData =
+union OasisTransactionData =
     OasisBurnEvent
   | OasisTransferEvent
   | OasisEscrowAddEvent
