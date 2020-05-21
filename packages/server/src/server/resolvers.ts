@@ -8,6 +8,7 @@ import {
   ICeloAccountHistoryQueryVariables,
   ICeloTransactionsQueryVariables,
   ICoinsQueryVariables,
+  ICosmosAccountBalancesType,
   ICosmosTransactionsQueryVariables,
   IDailyPercentChangeQueryVariables,
   IDistributionCommunityPoolQueryVariables,
@@ -188,7 +189,7 @@ const resolvers = {
           COSMOS_SDK.fetchCommissionsForValidator(address, network),
         ]);
 
-        const result: IQuery["accountBalances"] = {
+        const result = {
           balance,
           delegations,
           rewards,
@@ -196,7 +197,8 @@ const resolvers = {
           commissions,
         };
 
-        return result;
+        const balances: ICosmosAccountBalancesType = { cosmos: result };
+        return balances;
       }
     },
 

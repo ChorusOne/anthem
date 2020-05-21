@@ -2,6 +2,7 @@ import {
   assertUnreachable,
   IOasisBurnEvent,
   IOasisEscrowAddEvent,
+  IOasisEscrowReclaimEvent,
   IOasisRegisterEntityEvent,
   IOasisRegisterRuntimeEvent,
   IOasisTransaction,
@@ -27,7 +28,7 @@ import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
 import React from "react";
 import { formatAddressString } from "tools/client-utils";
-import { formatCurrencyAmount } from "tools/currency-utils";
+import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
 import { formatDate, formatTime } from "tools/date-utils";
 import { TranslateMethodProps } from "tools/i18n-utils";
 import {
@@ -65,55 +66,17 @@ interface IProps extends TranslateMethodProps {
 
 class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
   render(): Nullable<JSX.Element> {
+    const { transaction } = this.props;
     return (
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
         <EventRow>
           {this.renderTypeAndTimestamp()}
-          {this.renderTransactionAmount()}
           {this.renderAddressBlocks()}
+          {this.renderFeeAmount(transaction.fee)}
         </EventRow>
       </Card>
     );
   }
-
-  renderTypeAndTimestamp = () => {
-    const { transaction } = this.props;
-    const Icon = getOasisTransactionTypeIcon(transaction.data.type);
-    return (
-      <EventRowItem style={{ minWidth: 275 }}>
-        <EventIconBox>{Icon}</EventIconBox>
-        <EventContextBox>
-          <EventText style={{ fontWeight: "bold" }}>
-            {getOasisTransactionLabelFromType(transaction.data.type)}
-          </EventText>
-          <EventText data-cy="transaction-timestamp">
-            {formatDate(Number(transaction.date))}{" "}
-            {formatTime(Number(transaction.date))}
-          </EventText>
-        </EventContextBox>
-      </EventRowItem>
-    );
-  };
-
-  renderTransactionAmount = () => {
-    const { data } = this.props.transaction;
-    if ("tokens" in data) {
-      const amount = data.tokens;
-      return (
-        <EventRowItem style={{ minWidth: 275 }}>
-          <EventIconBox>
-            <EventIcon src={OasisLogo} />
-          </EventIconBox>
-          <EventContextBox>
-            <EventText style={{ fontWeight: "bold" }}>Amount</EventText>
-            <EventText>{formatCurrencyAmount(amount)}</EventText>
-          </EventContextBox>
-        </EventRowItem>
-      );
-    } else {
-      return null;
-    }
-  };
 
   renderAddressBlocks = () => {
     const { transaction } = this.props;
@@ -128,18 +91,27 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
         const event = transaction.data as IOasisTransferEvent;
         return (
           <>
+            {this.renderTransactionAmount(event.tokens)}
             {this.renderAddressBox(event.from, "From")}
             {this.renderAddressBox(event.to, "To")}
           </>
         );
       }
-      case IOasisTransactionType.EscrowAdd:
-      case IOasisTransactionType.EscrowReclaim: {
+      case IOasisTransactionType.EscrowAdd: {
         const event = transaction.data as IOasisEscrowAddEvent;
         return (
           <>
-            {this.renderAddressBox(event.owner, "Owner")}
-            {this.renderAddressBox(event.escrow, "Escrow")}
+            {this.renderTransactionAmount(event.tokens)}
+            {this.renderAddressBox(event.to, "To")}
+          </>
+        );
+      }
+      case IOasisTransactionType.EscrowReclaim: {
+        const event = transaction.data as IOasisEscrowReclaimEvent;
+        return (
+          <>
+            {this.renderTransactionAmount(event.shares)}
+            {this.renderAddressBox(event.from, "From")}
           </>
         );
       }
@@ -173,6 +145,56 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
     }
   };
 
+  renderTypeAndTimestamp = () => {
+    const { transaction } = this.props;
+    const Icon = getOasisTransactionTypeIcon(transaction.data.type);
+    return (
+      <EventRowItem style={{ minWidth: 275 }}>
+        <EventIconBox>{Icon}</EventIconBox>
+        <EventContextBox>
+          <EventText style={{ fontWeight: "bold" }}>
+            {getOasisTransactionLabelFromType(transaction.data.type)}
+          </EventText>
+          <EventText data-cy="transaction-timestamp">
+            {formatDate(transaction.date)} {formatTime(transaction.date)}
+          </EventText>
+        </EventContextBox>
+      </EventRowItem>
+    );
+  };
+
+  renderFeeAmount = (amount: string) => {
+    const { denominationSize } = this.props.network;
+    return (
+      <EventRowItem style={{ minWidth: 150 }}>
+        <EventIconBox />
+        <EventContextBox>
+          <EventText style={{ fontWeight: "bold" }}>Fee</EventText>
+          <EventText>
+            {formatCurrencyAmount(denomToUnit(amount, denominationSize))}
+          </EventText>
+        </EventContextBox>
+      </EventRowItem>
+    );
+  };
+
+  renderTransactionAmount = (amount: string) => {
+    const { denominationSize } = this.props.network;
+    return (
+      <EventRowItem style={{ minWidth: 275 }}>
+        <EventIconBox>
+          <EventIcon src={OasisLogo} />
+        </EventIconBox>
+        <EventContextBox>
+          <EventText style={{ fontWeight: "bold" }}>Amount</EventText>
+          <EventText>
+            {formatCurrencyAmount(denomToUnit(amount, denominationSize))}
+          </EventText>
+        </EventContextBox>
+      </EventRowItem>
+    );
+  };
+
   renderAddressBox = (address: string, titleText: string) => {
     return (
       <ClickableEventRow onClick={this.handleLinkToAddress(address)}>
@@ -184,7 +206,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
           />
         </EventIconBox>
         <EventContextBox>
-          <EventText>{titleText}</EventText>
+          <EventText style={{ fontWeight: "bold" }}>{titleText}</EventText>
           <EventText style={{ fontWeight: 100, fontSize: 12 }}>
             {formatAddressString(address, true)}
           </EventText>
@@ -196,14 +218,10 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
   renderEventInfoBox = (info: string, titleText: string) => {
     return (
       <EventRow>
-        <EventIconBox>
-          <EventIcon src={OasisLogo} />
-        </EventIconBox>
+        <EventIconBox />
         <EventContextBox>
-          <EventText>{titleText}</EventText>
-          <EventText style={{ fontWeight: 100, fontSize: 12 }}>
-            {info}
-          </EventText>
+          <EventText style={{ fontWeight: "bold" }}>{titleText}</EventText>
+          <EventText>{info}</EventText>
         </EventContextBox>
       </EventRow>
     );

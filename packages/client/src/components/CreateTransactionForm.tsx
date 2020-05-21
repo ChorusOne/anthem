@@ -1,6 +1,7 @@
 import {
   IAccountInformation,
   ICosmosAccountBalances,
+  ICosmosAccountBalancesType,
   IQuery,
   IValidator,
 } from "@anthem/utils";
@@ -173,18 +174,18 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
         results={[
-          [validators, "validators"],
           [accountBalances, "accountBalances"],
+          [validators, "validators"],
           [rewardsByValidator, "rewardsByValidator"],
         ]}
       >
-        {([validatorsList, accountBalancesData, rewardsData]: readonly [
+        {([accountBalancesData, validatorsList, rewardsData]: readonly [
+          ICosmosAccountBalancesType,
           IQuery["validators"],
-          IQuery["accountBalances"],
           IQuery["rewardsByValidator"],
         ]) => {
           const balances = getAccountBalances(
-            accountBalancesData as ICosmosAccountBalances,
+            accountBalancesData.cosmos,
             atomsConversionRate,
             ledger.network,
             6,
@@ -337,102 +338,104 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     } = this.props;
     const { t, tString } = i18n;
     const { selectedValidatorForDelegation } = this.state;
-
     const atomsConversionRate = prices.prices;
-    const balances = getAccountBalances(
-      accountBalances.accountBalances as ICosmosAccountBalances,
-      atomsConversionRate,
-      ledger.network,
-      6,
-    );
-    const { balance, balanceFiat } = balances;
-
     return (
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
         results={[
+          [accountBalances, "accountBalances"],
           [prices, "prices"],
           [validators, "validators"],
-          [accountBalances, "accountBalances"],
         ]}
       >
-        <View>
-          <p>
-            {t("Available balance: {{balance}} ({{balanceFiat}})", {
-              balance: bold(`${balance} ${ledger.network.descriptor}`),
-              balanceFiat: `${balanceFiat} ${fiatCurrency.symbol}`,
-            })}
-          </p>
-          <ValidatorSelect
-            popoverProps={{
-              onClose: this.setCanEscapeKeyCloseDialog(true),
-              popoverClassName: "ValidatorCompositionSelect",
-            }}
-            items={defaultSortValidatorsList(validators.validators)}
-            onItemSelect={this.handleSelectValidator}
-            itemRenderer={this.renderValidatorSelectItem}
-            itemPredicate={this.setValidatorSelectItemPredicate}
-          >
-            <Button
-              category="SECONDARY"
-              rightIcon="caret-down"
-              onClick={this.setCanEscapeKeyCloseDialog(false)}
-              data-cy="validator-composition-select-menu"
-            >
-              {selectedValidatorForDelegation
-                ? selectedValidatorForDelegation.description.moniker
-                : t("Choose Validator")}
-            </Button>
-          </ValidatorSelect>
-          <H6 style={{ marginTop: 12, marginBottom: 0 }}>
-            {t("Please enter an amount to delegate")}
-          </H6>
-          <View style={{ marginTop: 12 }}>
-            <FormContainer>
-              <form
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
+        {([accountBalancesData]: [ICosmosAccountBalancesType]) => {
+          const balances = getAccountBalances(
+            accountBalancesData.cosmos,
+            atomsConversionRate,
+            ledger.network,
+            6,
+          );
+          const { balance, balanceFiat } = balances;
+          return (
+            <View>
+              <p>
+                {t("Available balance: {{balance}} ({{balanceFiat}})", {
+                  balance: bold(`${balance} ${ledger.network.descriptor}`),
+                  balanceFiat: `${balanceFiat} ${fiatCurrency.symbol}`,
+                })}
+              </p>
+              <ValidatorSelect
+                popoverProps={{
+                  onClose: this.setCanEscapeKeyCloseDialog(true),
+                  popoverClassName: "ValidatorCompositionSelect",
                 }}
-                data-cy="ledger-action-input-form"
-                onSubmit={(event: ChangeEvent<HTMLFormElement>) => {
-                  event.preventDefault();
-                  this.submitLedgerTransactionAmount();
-                }}
+                items={defaultSortValidatorsList(validators.validators)}
+                onItemSelect={this.handleSelectValidator}
+                itemRenderer={this.renderValidatorSelectItem}
+                itemPredicate={this.setValidatorSelectItemPredicate}
               >
-                <TextInput
-                  autoFocus
-                  label={tString("Transaction Amount (ATOM)")}
-                  onSubmit={this.submitLedgerTransactionAmount}
-                  style={{ ...InputStyles, width: 300 }}
-                  placeholder={tString("Enter an amount")}
-                  data-cy="transaction-amount-input"
-                  value={this.state.amount}
-                  onChange={this.handleEnterLedgerActionAmount}
-                />
-                <Switch
-                  checked={this.state.useFullBalance}
-                  style={{ marginTop: 24 }}
-                  data-cy="transaction-delegate-all-toggle"
-                  label={tString("Delegate All")}
-                  onChange={this.toggleFullBalance}
-                />
-                {this.props.renderConfirmArrow(
-                  tString("Generate My Transaction"),
-                  this.submitLedgerTransactionAmount,
+                <Button
+                  category="SECONDARY"
+                  rightIcon="caret-down"
+                  onClick={this.setCanEscapeKeyCloseDialog(false)}
+                  data-cy="validator-composition-select-menu"
+                >
+                  {selectedValidatorForDelegation
+                    ? selectedValidatorForDelegation.description.moniker
+                    : t("Choose Validator")}
+                </Button>
+              </ValidatorSelect>
+              <H6 style={{ marginTop: 12, marginBottom: 0 }}>
+                {t("Please enter an amount to delegate")}
+              </H6>
+              <View style={{ marginTop: 12 }}>
+                <FormContainer>
+                  <form
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                    data-cy="ledger-action-input-form"
+                    onSubmit={(event: ChangeEvent<HTMLFormElement>) => {
+                      event.preventDefault();
+                      this.submitLedgerTransactionAmount();
+                    }}
+                  >
+                    <TextInput
+                      autoFocus
+                      label={tString("Transaction Amount (ATOM)")}
+                      onSubmit={this.submitLedgerTransactionAmount}
+                      style={{ ...InputStyles, width: 300 }}
+                      placeholder={tString("Enter an amount")}
+                      data-cy="transaction-amount-input"
+                      value={this.state.amount}
+                      onChange={this.handleEnterLedgerActionAmount}
+                    />
+                    <Switch
+                      checked={this.state.useFullBalance}
+                      style={{ marginTop: 24 }}
+                      data-cy="transaction-delegate-all-toggle"
+                      label={tString("Delegate All")}
+                      onChange={this.toggleFullBalance}
+                    />
+                    {this.props.renderConfirmArrow(
+                      tString("Generate My Transaction"),
+                      this.submitLedgerTransactionAmount,
+                    )}
+                  </form>
+                </FormContainer>
+                {this.renderGasPriceSetup()}
+                {this.state.delegationTransactionInputError && (
+                  <div style={{ marginTop: 12 }} className={Classes.LABEL}>
+                    <ErrorText data-cy="amount-transaction-error">
+                      {this.state.delegationTransactionInputError}
+                    </ErrorText>
+                  </div>
                 )}
-              </form>
-            </FormContainer>
-            {this.renderGasPriceSetup()}
-            {this.state.delegationTransactionInputError && (
-              <div style={{ marginTop: 12 }} className={Classes.LABEL}>
-                <ErrorText data-cy="amount-transaction-error">
-                  {this.state.delegationTransactionInputError}
-                </ErrorText>
-              </div>
-            )}
-          </View>
-        </View>
+              </View>
+            </View>
+          );
+        }}
       </GraphQLGuardComponentMultipleQueries>
     );
   };
@@ -709,23 +712,31 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const atomsConversionRate = prices.prices;
     const IS_DELEGATION = ledgerActionType === "DELEGATE";
 
-    const balances = getAccountBalances(
-      accountBalances.accountBalances as ICosmosAccountBalances,
-      atomsConversionRate,
-      ledger.network,
-      6,
-    );
+    const balancesData = accountBalances.accountBalances;
 
-    const { balance, rewards } = balances;
-    const targetValue = (IS_DELEGATION ? balance : rewards).replace(",", "");
-    const maximumAmountAfterFees = calculateTransactionAmount(
-      targetValue,
-      this.state.gasPrice,
-      this.state.gasAmount,
-      ledger.network,
-    );
+    if ("cosmos" in balancesData) {
+      const balances = getAccountBalances(
+        balancesData.cosmos as ICosmosAccountBalances,
+        atomsConversionRate,
+        ledger.network,
+        6,
+      );
 
-    return maximumAmountAfterFees;
+      const { balance, rewards } = balances;
+      const targetValue = (IS_DELEGATION ? balance : rewards).replace(",", "");
+      const maximumAmountAfterFees = calculateTransactionAmount(
+        targetValue,
+        this.state.gasPrice,
+        this.state.gasAmount,
+        ledger.network,
+      );
+
+      return maximumAmountAfterFees;
+    } else {
+      throw new Error(
+        "Received the wrong account balances data in the CreateTransactionForm!",
+      );
+    }
   };
 
   handleEnterLedgerActionAmount = (value: string) => {

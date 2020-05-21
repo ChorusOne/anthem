@@ -1,43 +1,77 @@
 query accountBalances($address: String!){
     accountBalances(address: $address){
-        ... on CosmosAccountBalances {
-            balance{
-                denom
-                amount
-            }
-            rewards{
-                denom
-                amount
-            }
-            delegations{
-                delegator_address
-                validator_address
-                shares
-            }
-            unbonding{
-                delegator_address
-                validator_address
-                entries{
-                    balance
-                    initial_balance
-                    creation_height
-                    completion_time
+        ... on CosmosAccountBalancesType {
+            cosmos{
+                balance{
+                    denom
+                    amount
+                }
+                rewards{
+                    denom
+                    amount
+                }
+                delegations{
+                    delegator_address
+                    validator_address
+                    shares
+                }
+                unbonding{
+                    delegator_address
+                    validator_address
+                    entries{
+                        balance
+                        initial_balance
+                        creation_height
+                        completion_time
+                    }
+                }
+                commissions{
+                    denom
+                    amount
                 }
             }
-            commissions{
-                denom
-                amount
+        }
+        ... on CeloAccountBalancesType {
+            celo{
+                address
+                height
+                goldTokenBalance
+                totalLockedGoldBalance
+                nonVotingLockedGoldBalance
+                votingLockedGoldBalance
+                pendingWithdrawalBalance
+                celoUSDValue
+                delegations{
+                    group
+                    totalVotes
+                    activeVotes
+                    pendingVotes
+                }
             }
         }
-        ... on CeloAccountBalances {
-            address
-            height
-            goldTokenBalance
-            totalLockedGoldBalance
-            nonVotingLockedGoldBalance
-            votingLockedGoldBalance
-            pendingWithdrawalBalance
-            celoUSDValue
+        ... on OasisAccountBalancesType {
+            oasis{
+                available
+                staked{
+                    balance
+                    shares
+                }
+                unbonding{
+                    balance
+                    shares
+                }
+                rewards
+                commissions
+                meta{
+                    is_validator
+                    is_delegator
+                }
+                delegations{
+                    delegator
+                    validator
+                    amount
+                }
+            }
         }
     }
 }

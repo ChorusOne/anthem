@@ -1,6 +1,7 @@
 import {
   assertUnreachable,
   IDelegation,
+  IOasisAccountBalancesType,
   IOasisTransaction,
   IOasisTransactionType,
   IQuery,
@@ -59,7 +60,7 @@ enum OasisTransactionMethod {
 }
 
 interface OasisTransactionBase {
-  amount: string;
+  fee: string;
   gas: number;
   gas_price: string;
   height: number;
@@ -209,33 +210,35 @@ type OasisTransaction =
 
 /**
  * Fetch Oasis account balances.
- *
- * TODO: This will probably need to get updated to use a new return type
- * for the Oasis network.
  */
 const fetchAccountBalances = async (
   address: string,
   network: NetworkDefinition,
-): Promise<IQuery["accountBalances"]> => {
+): Promise<IOasisAccountBalancesType> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get<OasisAccountResponse>(
     `${host}/account/${address}`,
   );
 
-  const { balance, delegations } = response;
+  const {
+    meta,
+    balance,
+    staked_balance,
+    debonding_balance,
+    delegations,
+  } = response;
 
-  return {
-    balance: [
-      {
-        denom: network.denom,
-        amount: balance,
-      },
-    ],
-    rewards: [],
-    delegations: delegations.map(convertDelegations),
-    unbonding: [],
-    commissions: [],
+  const balances = {
+    available: balance,
+    staked: staked_balance,
+    unbonding: debonding_balance,
+    rewards: "0",
+    commissions: "0",
+    meta,
+    delegations,
   };
+
+  return { oasis: balances };
 };
 
 const fetchTransactions = async (
@@ -246,7 +249,7 @@ const fetchTransactions = async (
 ): Promise<IQuery["oasisTransactions"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get<OasisTransaction[]>(
-    `${host}/account/${address}/events`,
+    `${host}/account/${address}/transactions`,
   );
 
   // const response = MOCK_OASIS_EVENTS;
@@ -291,7 +294,7 @@ const combineWithType = (
   const result: IOasisTransaction = {
     ...transaction,
     // @ts-ignore
-    data: { ...tx.data, type },
+    data: { ...transaction.data, type },
   };
 
   return result;
@@ -369,7 +372,7 @@ const adaptOasisTransaction = (
  */
 
 const txBase = {
-  amount: "1",
+  fee: "1",
   gas_price: "0",
   gas: 1000,
   sender: "Xk9WLxZWcLjef1BZQD2PSpgapW5zBvPO1H8lZgkEUWU=",
