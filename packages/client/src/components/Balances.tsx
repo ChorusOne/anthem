@@ -56,6 +56,8 @@ class Balance extends React.Component<IProps, {}> {
     const { network } = ledger;
     const { isDesktop, currencySetting } = settings;
 
+    console.log(accountBalances);
+
     if (!network.supportsBalances) {
       return (
         <PanelMessageText>
