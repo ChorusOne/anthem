@@ -37,7 +37,7 @@ $ yarn server:start
 # Start the client
 $ yarn client:start
 
-# Start the app in development mode (no server required)
+# Start the client app in development mode (no server required)
 $ yarn dev
 ```
 
