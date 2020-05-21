@@ -251,11 +251,11 @@ const fetchTransactions = async (
   network: NetworkDefinition,
 ): Promise<IQuery["oasisTransactions"]> => {
   const host = getHostFromNetworkName(network.name);
-  const response = await AxiosUtil.get<OasisTransaction[]>(
-    `${host}/account/${address}/events`,
-  );
+  // const response = await AxiosUtil.get<OasisTransaction[]>(
+  //   `${host}/account/${address}/events`,
+  // );
 
-  // const response = MOCK_OASIS_EVENTS;
+  const response = MOCK_OASIS_EVENTS;
 
   // Transform the response data
   const convertedTransactions = response
@@ -297,7 +297,7 @@ const combineWithType = (
   const result: IOasisTransaction = {
     ...transaction,
     // @ts-ignore
-    data: { ...tx.data, type },
+    data: { ...transaction.data, type },
   };
 
   return result;
