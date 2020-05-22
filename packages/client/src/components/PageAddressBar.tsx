@@ -48,7 +48,7 @@ class PageAddressBar extends React.PureComponent<IProps> {
             {pageTitle}
           </H3>
         </Row>
-        <AddressInputDashboardBar assignInputRef={this.assignInputRef} />
+        <AddressInputDashboardBar />
       </PageTopBar>
     );
   }

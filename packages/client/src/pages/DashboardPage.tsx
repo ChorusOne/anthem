@@ -209,7 +209,7 @@ class DashboardPage extends React.Component<IProps, IState> {
               ))}
             </DashboardNavigationBar>
           )}
-          <AddressInputDashboardBar assignInputRef={this.assignInputRef} />
+          <AddressInputDashboardBar />
         </TopBar>
       );
     } else {

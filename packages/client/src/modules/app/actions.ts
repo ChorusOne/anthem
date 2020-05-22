@@ -105,7 +105,7 @@ const setDashboardViewOptions = createStandardAction(
 
 const setAddressInputRef = createStandardAction(
   ActionTypesEnum.SET_ADDRESS_INPUT_REF,
-)<HTMLInputElement>();
+)<Nullable<HTMLInputElement>>();
 
 const actions = {
   empty,
