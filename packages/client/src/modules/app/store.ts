@@ -65,6 +65,7 @@ interface AppState {
   sortValidatorsListAscending: boolean;
   transactionsExpanded: boolean;
   portfolioExpanded: boolean;
+  addressInputRef: Nullable<HTMLInputElement>;
 }
 
 const initialAppState = {
@@ -78,12 +79,17 @@ const initialAppState = {
   sortValidatorsListAscending: true,
   transactionsExpanded: false,
   portfolioExpanded: false,
+  addressInputRef: null,
 };
 
 const app = createReducer<AppState, ActionTypes>(initialAppState)
   .handleAction(actions.toggleMonthlySummaryTooltip, (state, action) => ({
     ...state,
     showMonthlySignupTooltip: action.payload,
+  }))
+  .handleAction(actions.setAddressInputRef, (state, action) => ({
+    ...state,
+    addressInputRef: action.payload,
   }))
   .handleAction(actions.toggleDataIntegrityHelpLabel, (state, action) => ({
     ...state,

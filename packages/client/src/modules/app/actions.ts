@@ -36,6 +36,8 @@ enum ActionTypesEnum {
   SET_VALIDATOR_LIST_SORT_TYPE = "SET_VALIDATOR_LIST_SORT_TYPE",
 
   SET_DASHBOARD_VIEW_OPTIONS = "SET_DASHBOARD_VIEW_OPTIONS",
+
+  SET_ADDRESS_INPUT_REF = "SET_ADDRESS_INPUT_REF",
 }
 
 /** ===========================================================================
@@ -101,6 +103,10 @@ const setDashboardViewOptions = createStandardAction(
   ActionTypesEnum.SET_DASHBOARD_VIEW_OPTIONS,
 )<{ transactionsExpanded: boolean; portfolioExpanded: boolean }>();
 
+const setAddressInputRef = createStandardAction(
+  ActionTypesEnum.SET_ADDRESS_INPUT_REF,
+)<HTMLInputElement>();
+
 const actions = {
   empty,
   initializeApp,
@@ -118,6 +124,7 @@ const actions = {
   refreshBalanceAndTransactionsSuccess,
   setValidatorListSortType,
   setDashboardViewOptions,
+  setAddressInputRef,
 };
 
 /** ===========================================================================
