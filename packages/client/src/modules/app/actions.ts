@@ -34,6 +34,8 @@ enum ActionTypesEnum {
   NEWSLETTER_SIGNUP_FAILURE = "NEWSLETTER_SIGNUP_FAILURE",
 
   SET_VALIDATOR_LIST_SORT_TYPE = "SET_VALIDATOR_LIST_SORT_TYPE",
+
+  SET_DASHBOARD_VIEW_OPTIONS = "SET_DASHBOARD_VIEW_OPTIONS",
 }
 
 /** ===========================================================================
@@ -95,6 +97,10 @@ const setValidatorListSortType = createStandardAction(
   ActionTypesEnum.SET_VALIDATOR_LIST_SORT_TYPE,
 )<VALIDATORS_LIST_SORT_FILTER>();
 
+const setDashboardViewOptions = createStandardAction(
+  ActionTypesEnum.SET_DASHBOARD_VIEW_OPTIONS,
+)<{ transactionsExpanded: boolean; portfolioExpanded: boolean }>();
+
 const actions = {
   empty,
   initializeApp,
@@ -111,6 +117,7 @@ const actions = {
   setDashboardAddressInputFocusState,
   refreshBalanceAndTransactionsSuccess,
   setValidatorListSortType,
+  setDashboardViewOptions,
 };
 
 /** ===========================================================================

@@ -63,6 +63,8 @@ interface AppState {
   showDataIntegrityHelpLabel: boolean;
   validatorsListSortFilter: VALIDATORS_LIST_SORT_FILTER;
   sortValidatorsListAscending: boolean;
+  transactionsExpanded: boolean;
+  portfolioExpanded: boolean;
 }
 
 const initialAppState = {
@@ -74,6 +76,8 @@ const initialAppState = {
   dismissedBannerKeys: StorageModule.getDismissedNotifications(),
   validatorsListSortFilter: VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT,
   sortValidatorsListAscending: true,
+  transactionsExpanded: false,
+  portfolioExpanded: false,
 };
 
 const app = createReducer<AppState, ActionTypes>(initialAppState)
@@ -84,6 +88,10 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
   .handleAction(actions.toggleDataIntegrityHelpLabel, (state, action) => ({
     ...state,
     showDataIntegrityHelpLabel: action.payload,
+  }))
+  .handleAction(actions.setDashboardViewOptions, (state, action) => ({
+    ...state,
+    ...action.payload,
   }))
   .handleAction(actions.setValidatorListSortType, (state, action) => {
     // Flip the sort direction unless the sort category changes
