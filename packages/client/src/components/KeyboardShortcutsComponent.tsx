@@ -12,8 +12,6 @@ import { composeWithProps } from "tools/context-utils";
  */
 
 class KeyboardShortcutsComponent extends React.PureComponent<IProps> {
-  addressInput: Nullable<HTMLInputElement> = null;
-
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyDown);
   }
@@ -27,7 +25,17 @@ class KeyboardShortcutsComponent extends React.PureComponent<IProps> {
   }
 
   handleKeyDown = (event: KeyboardEvent) => {
-    if (this.props.app.dashboardInputFocused) {
+    const { app, ledgerDialog } = this.props;
+    const {
+      addressInputRef,
+      portfolioExpanded,
+      transactionsExpanded,
+      dashboardInputFocused,
+    } = app;
+
+    const ANY_INPUT_FOCUSED = isAnyInputFocused();
+
+    if (ANY_INPUT_FOCUSED || ledgerDialog.dialogOpen) {
       return;
     }
 
@@ -44,17 +52,24 @@ class KeyboardShortcutsComponent extends React.PureComponent<IProps> {
        */
       event.preventDefault();
       if (event.keyCode === I) {
-        if (this.addressInput) {
-          this.addressInput.focus();
+        if (addressInputRef) {
+          addressInputRef.focus();
         }
       }
     }
   };
-
-  assignInputRef = (ref: HTMLInputElement) => {
-    this.addressInput = ref;
-  };
 }
+
+/**
+ * Check if the current active element is an input element.
+ */
+const isAnyInputFocused = () => {
+  const { activeElement } = document;
+  if (activeElement) {
+    return activeElement.tagName === "INPUT";
+  }
+  return false;
+};
 
 /** ===========================================================================
  * Props
@@ -64,6 +79,7 @@ class KeyboardShortcutsComponent extends React.PureComponent<IProps> {
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   app: Modules.selectors.app.appSelector(state),
+  ledgerDialog: Modules.selectors.ledger.ledgerDialogSelector(state),
 });
 
 const withProps = connect(mapStateToProps);
