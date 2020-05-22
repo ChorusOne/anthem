@@ -16,6 +16,7 @@ import Balance from "components/Balances";
 import LoginStart from "components/LoginStart";
 import Portfolio from "components/Portfolio";
 import { Centered, View } from "components/SharedComponents";
+import Toast from "components/Toast";
 import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
 import {
@@ -36,6 +37,7 @@ import { getPortfolioTypeFromUrl, onActiveRoute } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { tFnString } from "tools/i18n-utils";
 import TransactionSwitchContainer from "transactions/TransactionSwitchContainer";
+import ENV from "lib/client-env";
 
 /** ===========================================================================
  * Types & Config
@@ -128,7 +130,10 @@ class DashboardPage extends React.Component<IProps> {
               </H5>
               {isDesktop && (
                 <View>
-                  <Button text="Download All (JSON)" />
+                  <Button
+                    text="Download All (JSON)"
+                    onClick={this.fetchAndDownloadTransactionHistory}
+                  />
                   <Button
                     icon="fullscreen"
                     style={{ marginLeft: 4, marginRight: 12 }}
@@ -241,6 +246,23 @@ class DashboardPage extends React.Component<IProps> {
     }
 
     return "";
+  };
+
+  fetchAndDownloadTransactionHistory = async () => {
+    try {
+      const json = encodeURIComponent(JSON.stringify({ data: "hi" }));
+      const dataString = `data:text/json;charset=utf-8,${json}`;
+      const downloadAnchorNode = document.createElement("a");
+      const fileName = `transactions-${this.props.address}.json`;
+      downloadAnchorNode.setAttribute("href", dataString);
+      downloadAnchorNode.setAttribute("download", fileName);
+      document.body.appendChild(downloadAnchorNode);
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+      Toast.success("Transaction history saved!");
+    } catch (err) {
+      Toast.warn("Failed to download transaction history.");
+    }
   };
 }
 
