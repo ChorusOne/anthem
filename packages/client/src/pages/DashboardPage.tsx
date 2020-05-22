@@ -251,15 +251,16 @@ class DashboardPage extends React.Component<IProps> {
 
   fetchAndDownloadTransactionHistory = async () => {
     try {
+      Toast.warn("Starting download...");
       const { address } = this.props;
 
       // Fetch transaction history
       const response = await axios.get(
-        `${ENV.SERVER_URL}/tx-history/${address}`,
+        `${ENV.SERVER_URL}/api/tx-history/${address}`,
       );
 
       // Convert to a JSON string
-      const json = encodeURIComponent(JSON.stringify(response.data));
+      const json = encodeURIComponent(JSON.stringify(response.data, null, 2));
       const dataString = `data:text/json;charset=utf-8,${json}`;
 
       // Create a document node to download
@@ -274,7 +275,7 @@ class DashboardPage extends React.Component<IProps> {
       downloadAnchorNode.remove();
       Toast.success("Transaction history saved!");
     } catch (err) {
-      Toast.warn("Failed to download transaction history.");
+      Toast.danger("Failed to download transaction history.");
     }
   };
 }
