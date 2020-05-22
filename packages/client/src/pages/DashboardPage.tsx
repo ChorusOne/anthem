@@ -11,6 +11,7 @@ import {
   Popover,
   Position,
 } from "@blueprintjs/core";
+import axios from "axios";
 import AddressInputDashboardBar from "components/AddressInputDashboardBar";
 import Balance from "components/Balances";
 import LoginStart from "components/LoginStart";
@@ -27,6 +28,7 @@ import {
 import { History } from "history";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import Analytics from "lib/analytics-lib";
+import ENV from "lib/client-env";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
@@ -37,7 +39,6 @@ import { getPortfolioTypeFromUrl, onActiveRoute } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { tFnString } from "tools/i18n-utils";
 import TransactionSwitchContainer from "transactions/TransactionSwitchContainer";
-import ENV from "lib/client-env";
 
 /** ===========================================================================
  * Types & Config
@@ -250,13 +251,25 @@ class DashboardPage extends React.Component<IProps> {
 
   fetchAndDownloadTransactionHistory = async () => {
     try {
-      const json = encodeURIComponent(JSON.stringify({ data: "hi" }));
+      const { address } = this.props;
+
+      // Fetch transaction history
+      const response = await axios.get(
+        `${ENV.SERVER_URL}/tx-history/${address}`,
+      );
+
+      // Convert to a JSON string
+      const json = encodeURIComponent(JSON.stringify(response.data));
       const dataString = `data:text/json;charset=utf-8,${json}`;
+
+      // Create a document node to download
       const downloadAnchorNode = document.createElement("a");
-      const fileName = `transactions-${this.props.address}.json`;
+      const fileName = `transactions-${address}.json`;
       downloadAnchorNode.setAttribute("href", dataString);
       downloadAnchorNode.setAttribute("download", fileName);
       document.body.appendChild(downloadAnchorNode);
+
+      // Download the file and remove the link
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
       Toast.success("Transaction history saved!");
