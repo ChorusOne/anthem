@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { withRouter } from "react-router-dom";
 import { composeWithProps } from "tools/context-utils";
+import { KeyActionMap } from "./KeyboardShortcutsPopover";
 
 /** ===========================================================================
  * KeyboardShortcutsComponent
@@ -39,24 +40,77 @@ class KeyboardShortcutsComponent extends React.PureComponent<IProps> {
       return;
     }
 
-    const { keyCode } = event;
+    const { keyCode, ctrlKey, altKey, shiftKey, metaKey } = event;
+    const anyExtraKeyPress = ctrlKey || altKey || shiftKey || metaKey;
 
-    /* Keys: */
-    const I = 73;
+    // Allow accept keypress events with no additional keys held down
+    if (anyExtraKeyPress) {
+      return;
+    }
 
-    if (keyCode === I) {
-      /**
-       * Focus the address input only if it is not focused, in which case
-       * also prevent the default keypress behavior (to avoid typing i) in
-       * the input field once the focus event occurs.
-       */
-      event.preventDefault();
-      if (event.keyCode === I) {
+    const { P, T, I, S, C, Q } = KeyActionMap;
+
+    switch (keyCode) {
+      case P.keyCode: {
+        if (transactionsExpanded) {
+          this.setState({ transactionExpanded: false });
+        }
+
+        this.togglePortfolioViewSize();
+        break;
+      }
+      case T.keyCode: {
+        if (portfolioExpanded) {
+          this.setState({ portfolioExpanded: false });
+        }
+
+        this.toggleTransactionSize();
+        break;
+      }
+      case I.keyCode: {
+        /**
+         * Focus the address input only if it is not focused, in which case
+         * also prevent the default keypress behavior (to avoid typing i) in
+         * the input field once the focus event occurs.
+         */
+        event.preventDefault();
         if (addressInputRef) {
           addressInputRef.focus();
         }
+        break;
+      }
+      case S.keyCode: {
+        event.preventDefault();
+        this.props.openLedgerDialog({
+          signinType: "ADDRESS",
+          ledgerAccessType: "SIGNIN",
+        });
+        break;
+      }
+      case Q.keyCode: {
+        this.props.openLogoutMenu();
+        break;
+      }
+      case C.keyCode: {
+        copyTextToClipboard(this.props.address);
+        break;
+      }
+      default: {
+        break;
       }
     }
+  };
+
+  togglePortfolioViewSize = () => {
+    this.setState({
+      portfolioExpanded: !this.state.portfolioExpanded,
+    });
+  };
+
+  toggleTransactionSize = () => {
+    this.setState({
+      transactionExpanded: !this.state.transactionExpanded,
+    });
   };
 }
 
@@ -79,17 +133,23 @@ const isAnyInputFocused = () => {
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   app: Modules.selectors.app.appSelector(state),
+  address: Modules.selectors.ledger.addressSelector(state),
   ledgerDialog: Modules.selectors.ledger.ledgerDialogSelector(state),
 });
 
-const withProps = connect(mapStateToProps);
+const dispatchProps = {
+  openLedgerDialog: Modules.actions.ledger.openLedgerDialog,
+  openLogoutMenu: Modules.actions.ledger.openLogoutMenu,
+};
+
+const withProps = connect(mapStateToProps, dispatchProps);
 
 interface ComponentProps {
   pageTitle: string;
   renderBackSquare?: boolean;
 }
 
-type ConnectProps = ReturnType<typeof mapStateToProps>;
+type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
 interface IProps extends ConnectProps, RouteComponentProps, ComponentProps {}
 

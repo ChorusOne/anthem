@@ -47,11 +47,6 @@ import TransactionSwitchContainer from "transactions/TransactionSwitchContainer"
  * ============================================================================
  */
 
-interface IState {
-  portfolioExpanded: boolean;
-  transactionExpanded: boolean;
-}
-
 const TABS: ReadonlyArray<PORTFOLIO_CHART_TYPES> = [
   "TOTAL",
   "AVAILABLE",
@@ -65,26 +60,7 @@ const TABS: ReadonlyArray<PORTFOLIO_CHART_TYPES> = [
  * ============================================================================
  */
 
-class DashboardPage extends React.Component<IProps, IState> {
-  addressInput: Nullable<HTMLInputElement> = null;
-
-  constructor(props: IProps) {
-    super(props);
-
-    this.state = {
-      portfolioExpanded: false,
-      transactionExpanded: false,
-    };
-  }
-
-  componentDidMount() {
-    document.addEventListener("keydown", this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown);
-  }
-
+class DashboardPage extends React.Component<IProps> {
   render(): JSX.Element {
     const { address, ledger } = this.props;
 
@@ -262,88 +238,6 @@ class DashboardPage extends React.Component<IProps, IState> {
     }
 
     return "";
-  };
-
-  togglePortfolioViewSize = () => {
-    this.setState({
-      portfolioExpanded: !this.state.portfolioExpanded,
-    });
-  };
-
-  toggleTransactionSize = () => {
-    this.setState({
-      transactionExpanded: !this.state.transactionExpanded,
-    });
-  };
-
-  handleKeyDown = (event: KeyboardEvent) => {
-    if (
-      this.props.app.dashboardInputFocused ||
-      this.props.ledgerDialog.dialogOpen
-    ) {
-      return;
-    }
-
-    const { keyCode, ctrlKey, altKey, shiftKey, metaKey } = event;
-    const anyExtraKeyPress = ctrlKey || altKey || shiftKey || metaKey;
-
-    // Allow accept keypress events with no additional keys held down
-    if (anyExtraKeyPress) {
-      return;
-    }
-
-    const { P, T, I, S, C, Q } = KeyActionMap;
-
-    switch (keyCode) {
-      case P.keyCode: {
-        if (this.state.transactionExpanded) {
-          this.setState({ transactionExpanded: false });
-        }
-
-        this.togglePortfolioViewSize();
-        break;
-      }
-      case T.keyCode: {
-        if (this.state.portfolioExpanded) {
-          this.setState({ portfolioExpanded: false });
-        }
-
-        this.toggleTransactionSize();
-        break;
-      }
-      case I.keyCode: {
-        event.preventDefault();
-        if (event.keyCode === I.keyCode) {
-          if (this.addressInput) {
-            this.addressInput.focus();
-          }
-        }
-        break;
-      }
-      case S.keyCode: {
-        event.preventDefault();
-        this.props.openLedgerDialog({
-          signinType: "ADDRESS",
-          ledgerAccessType: "SIGNIN",
-        });
-        break;
-      }
-      case Q.keyCode: {
-        this.props.openLogoutMenu();
-        break;
-      }
-      case C.keyCode: {
-        copyTextToClipboard(this.props.address);
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-  };
-
-  assignInputRef = (ref: HTMLInputElement) => {
-    this.addressInput = ref;
   };
 }
 
