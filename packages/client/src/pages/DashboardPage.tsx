@@ -127,9 +127,14 @@ class DashboardPage extends React.Component<IProps> {
                 {t("Recent Transactions and Events")}
               </H5>
               {isDesktop && (
-                <ExpandCollapseIcon
-                  onClick={this.props.toggleTransactionsSize}
-                />
+                <View>
+                  <Button text="Download All (JSON)" />
+                  <Button
+                    icon="fullscreen"
+                    style={{ marginLeft: 4, marginRight: 12 }}
+                    onClick={this.props.toggleTransactionsSize}
+                  />
+                </View>
               )}
             </Row>
             <TransactionsContainer fullSize={transactionsExpanded}>
