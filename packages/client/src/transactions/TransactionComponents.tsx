@@ -44,11 +44,11 @@ export const TransactionPaginationControls = (
       )}
       {moreResultsExist ? (
         <PaginationText>
-          Page {page} ({dateRangeString})
+          <b>Page {page}</b> ({dateRangeString})
         </PaginationText>
       ) : page > 1 ? (
         <PaginationText>
-          Page {page} ({dateRangeString})
+          <b>Page {page}</b> ({dateRangeString})
         </PaginationText>
       ) : (
         <AllResultsText>- All Results Displayed -</AllResultsText>
