@@ -251,7 +251,7 @@ class DashboardPage extends React.Component<IProps> {
 
   fetchAndDownloadTransactionHistory = async () => {
     try {
-      const { address } = this.props;
+      const { address, ledger } = this.props;
       Toast.warn("Starting download...");
 
       // Track action
@@ -259,7 +259,7 @@ class DashboardPage extends React.Component<IProps> {
 
       // Fetch transaction history
       const response = await axios.get(
-        `${ENV.SERVER_URL}/api/tx-history/${address}`,
+        `${ENV.SERVER_URL}/api/tx-history/${ledger.network.name}/${address}`,
       );
 
       // Convert to a JSON string

@@ -270,6 +270,7 @@ export const getTransactions = async (
  */
 export const getAllTransactions = async (
   address: string,
+  network: NETWORK_NAME,
 ): Promise<ITransaction[]> => {
   const variables = {
     address,
@@ -278,7 +279,7 @@ export const getAllTransactions = async (
   };
   const transactionsQuery = getTransactionsQuery();
   const query = transactionsQuery(variables);
-  const response = await queryPostgresCosmosSdkPool("COSMOS", query);
+  const response = await queryPostgresCosmosSdkPool(network, query);
   return response.map(formatTransactionResponse);
 };
 
