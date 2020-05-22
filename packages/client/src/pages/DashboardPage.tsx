@@ -251,8 +251,11 @@ class DashboardPage extends React.Component<IProps> {
 
   fetchAndDownloadTransactionHistory = async () => {
     try {
-      Toast.warn("Starting download...");
       const { address } = this.props;
+      Toast.warn("Starting download...");
+
+      // Track action
+      Analytics.downloadTransactions();
 
       // Fetch transaction history
       const response = await axios.get(
