@@ -5,7 +5,7 @@ import moment from "moment-timezone";
  * ============================================================================
  */
 
-type GenericDateFormat = string | number | Date;
+export type GenericDateFormat = string | number | Date;
 
 const UTC_TIMEZONE = "Etc/UTC";
 const DATE_FORMAT = "MMM DD, YYYY";

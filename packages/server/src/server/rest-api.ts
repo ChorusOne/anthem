@@ -102,7 +102,7 @@ Router.get("/tx-history/:network/:address", async (req, res) => {
         return assertUnreachable(name);
     }
 
-    console.log(`Received ${transactions.length} results`);
+    console.log(`Received ${transactions.length} results!`);
     return res.json(transactions);
   } catch (err) {
     res.status(400);
