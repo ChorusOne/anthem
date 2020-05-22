@@ -4,6 +4,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { withRouter } from "react-router-dom";
+import { copyTextToClipboard } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { KeyActionMap } from "./KeyboardShortcutsPopover";
 
@@ -27,15 +28,9 @@ class KeyboardShortcutsComponent extends React.PureComponent<IProps> {
 
   handleKeyDown = (event: KeyboardEvent) => {
     const { app, ledgerDialog } = this.props;
-    const {
-      addressInputRef,
-      portfolioExpanded,
-      transactionsExpanded,
-      dashboardInputFocused,
-    } = app;
+    const { addressInputRef } = app;
 
     const ANY_INPUT_FOCUSED = isAnyInputFocused();
-
     if (ANY_INPUT_FOCUSED || ledgerDialog.dialogOpen) {
       return;
     }
@@ -52,19 +47,11 @@ class KeyboardShortcutsComponent extends React.PureComponent<IProps> {
 
     switch (keyCode) {
       case P.keyCode: {
-        if (transactionsExpanded) {
-          this.setState({ transactionExpanded: false });
-        }
-
-        this.togglePortfolioViewSize();
+        this.props.togglePortfolioSize();
         break;
       }
       case T.keyCode: {
-        if (portfolioExpanded) {
-          this.setState({ portfolioExpanded: false });
-        }
-
-        this.toggleTransactionSize();
+        this.props.toggleTransactionsSize();
         break;
       }
       case I.keyCode: {
@@ -100,18 +87,6 @@ class KeyboardShortcutsComponent extends React.PureComponent<IProps> {
       }
     }
   };
-
-  togglePortfolioViewSize = () => {
-    this.setState({
-      portfolioExpanded: !this.state.portfolioExpanded,
-    });
-  };
-
-  toggleTransactionSize = () => {
-    this.setState({
-      transactionExpanded: !this.state.transactionExpanded,
-    });
-  };
 }
 
 /**
@@ -140,6 +115,8 @@ const mapStateToProps = (state: ReduxStoreState) => ({
 const dispatchProps = {
   openLedgerDialog: Modules.actions.ledger.openLedgerDialog,
   openLogoutMenu: Modules.actions.ledger.openLogoutMenu,
+  togglePortfolioSize: Modules.actions.app.togglePortfolioSize,
+  toggleTransactionsSize: Modules.actions.app.toggleTransactionsSize,
 };
 
 const withProps = connect(mapStateToProps, dispatchProps);

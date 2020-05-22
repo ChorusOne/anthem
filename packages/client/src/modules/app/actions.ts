@@ -100,13 +100,13 @@ const setValidatorListSortType = createStandardAction(
   ActionTypesEnum.SET_VALIDATOR_LIST_SORT_TYPE,
 )<VALIDATORS_LIST_SORT_FILTER>();
 
-const setPortfolioSize = createStandardAction(
+const togglePortfolioSize = createStandardAction(
   ActionTypesEnum.SET_PORTFOLIO_SIZE,
-)<boolean>();
+)();
 
-const setTransactionsSize = createStandardAction(
+const toggleTransactionsSize = createStandardAction(
   ActionTypesEnum.SET_TRANSACTIONS_SIZE,
-)<boolean>();
+)();
 
 const setAddressInputRef = createStandardAction(
   ActionTypesEnum.SET_ADDRESS_INPUT_REF,
@@ -128,8 +128,8 @@ const actions = {
   setDashboardAddressInputFocusState,
   refreshBalanceAndTransactionsSuccess,
   setValidatorListSortType,
-  setPortfolioSize,
-  setTransactionsSize,
+  togglePortfolioSize,
+  toggleTransactionsSize,
   setAddressInputRef,
 };
 

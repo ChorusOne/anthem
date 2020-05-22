@@ -13,7 +13,6 @@ import {
 } from "@blueprintjs/core";
 import AddressInputDashboardBar from "components/AddressInputDashboardBar";
 import Balance from "components/Balances";
-import { KeyActionMap } from "components/KeyboardShortcutsPopover";
 import LoginStart from "components/LoginStart";
 import Portfolio from "components/Portfolio";
 import { Centered, View } from "components/SharedComponents";
@@ -33,11 +32,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
-import {
-  copyTextToClipboard,
-  getPortfolioTypeFromUrl,
-  onActiveRoute,
-} from "tools/client-utils";
+import { getPortfolioTypeFromUrl, onActiveRoute } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { tFnString } from "tools/i18n-utils";
 import TransactionSwitchContainer from "transactions/TransactionSwitchContainer";
@@ -78,11 +73,12 @@ class DashboardPage extends React.Component<IProps> {
       );
     }
 
-    const { isDesktop, currencySetting, fiatCurrency } = this.props.settings;
-    const { t, tString } = this.props.i18n;
-    const { portfolioExpanded, transactionExpanded } = this.state;
+    const { i18n, app, settings } = this.props;
+    const { t, tString } = i18n;
+    const { portfolioExpanded, transactionsExpanded } = app;
+    const { isDesktop, currencySetting, fiatCurrency } = settings;
 
-    const HIDE_TOP_PANEL = transactionExpanded;
+    const HIDE_TOP_PANEL = transactionsExpanded;
     const IS_PORTFOLIO_EXPANDED = portfolioExpanded;
     const DISPLAY_TRANSACTIONS = !portfolioExpanded;
 
@@ -91,7 +87,7 @@ class DashboardPage extends React.Component<IProps> {
         <Row style={{ marginBottom: 10 }}>
           <H5 style={{ margin: 0 }}>{tString("Portfolio")}</H5>
           {isDesktop && (
-            <ExpandCollapseIcon onClick={this.togglePortfolioViewSize} />
+            <ExpandCollapseIcon onClick={this.props.togglePortfolioSize} />
           )}
         </Row>
         <Portfolio fullSize={portfolioExpanded} />
@@ -131,10 +127,12 @@ class DashboardPage extends React.Component<IProps> {
                 {t("Recent Transactions and Events")}
               </H5>
               {isDesktop && (
-                <ExpandCollapseIcon onClick={this.toggleTransactionSize} />
+                <ExpandCollapseIcon
+                  onClick={this.props.toggleTransactionsSize}
+                />
               )}
             </Row>
-            <TransactionsContainer fullSize={transactionExpanded}>
+            <TransactionsContainer fullSize={transactionsExpanded}>
               <TransactionSwitchContainer />
             </TransactionsContainer>
           </View>
@@ -170,7 +168,7 @@ class DashboardPage extends React.Component<IProps> {
     if (settings.isDesktop) {
       return (
         <TopBar>
-          {this.state.transactionExpanded ? (
+          {this.props.app.transactionsExpanded ? (
             <DashboardNavigationBar />
           ) : (
             <DashboardNavigationBar>
@@ -443,12 +441,11 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   app: Modules.selectors.app.appSelector(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
   address: Modules.selectors.ledger.addressSelector(state),
-  ledgerDialog: Modules.selectors.ledger.ledgerDialogSelector(state),
 });
 
 const dispatchProps = {
-  openLedgerDialog: Modules.actions.ledger.openLedgerDialog,
-  openLogoutMenu: Modules.actions.ledger.openLogoutMenu,
+  togglePortfolioSize: Modules.actions.app.togglePortfolioSize,
+  toggleTransactionsSize: Modules.actions.app.toggleTransactionsSize,
 };
 
 const withProps = connect(mapStateToProps, dispatchProps);

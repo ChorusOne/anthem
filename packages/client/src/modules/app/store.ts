@@ -95,15 +95,15 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
     ...state,
     showDataIntegrityHelpLabel: action.payload,
   }))
-  .handleAction(actions.setPortfolioSize, (state, { payload }) => ({
+  .handleAction(actions.togglePortfolioSize, state => ({
     ...state,
-    portfolioExpanded: payload,
     transactionsExpanded: false,
+    portfolioExpanded: !state.portfolioExpanded,
   }))
-  .handleAction(actions.setTransactionsSize, (state, action) => ({
+  .handleAction(actions.toggleTransactionsSize, state => ({
     ...state,
     portfolioExpanded: false,
-    transactionsExpanded: action.payload,
+    transactionsExpanded: !state.transactionsExpanded,
   }))
   .handleAction(actions.setValidatorListSortType, (state, action) => {
     // Flip the sort direction unless the sort category changes
