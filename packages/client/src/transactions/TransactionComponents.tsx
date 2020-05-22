@@ -64,7 +64,8 @@ export const TransactionPaginationControls = (
 
 const PaginationBar = styled.div`
   margin-top: 20px;
-  width: 100%;
+  margin: auto;
+  width: 450px;
   display: flex;
   flex-direction: row;
   align-items: center;
