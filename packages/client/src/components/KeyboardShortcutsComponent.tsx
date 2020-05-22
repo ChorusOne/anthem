@@ -121,10 +121,7 @@ const dispatchProps = {
 
 const withProps = connect(mapStateToProps, dispatchProps);
 
-interface ComponentProps {
-  pageTitle: string;
-  renderBackSquare?: boolean;
-}
+interface ComponentProps {}
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
