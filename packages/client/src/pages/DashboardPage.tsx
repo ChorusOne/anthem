@@ -252,6 +252,9 @@ class DashboardPage extends React.Component<IProps> {
   fetchAndDownloadTransactionHistory = async () => {
     try {
       const { address, ledger } = this.props;
+      const { name } = ledger.network;
+
+      // Provide a toast message
       Toast.warn("Starting download...");
 
       // Track action
@@ -259,7 +262,7 @@ class DashboardPage extends React.Component<IProps> {
 
       // Fetch transaction history
       const response = await axios.get(
-        `${ENV.SERVER_URL}/api/tx-history/${ledger.network.name}/${address}`,
+        `${ENV.SERVER_URL}/api/tx-history/${name}/${address}`,
       );
 
       // Convert to a JSON string
@@ -268,7 +271,7 @@ class DashboardPage extends React.Component<IProps> {
 
       // Create a document node to download
       const downloadAnchorNode = document.createElement("a");
-      const fileName = `transactions-${address}.json`;
+      const fileName = `${name.toLowerCase()}-transactions-${address}.json`;
       downloadAnchorNode.setAttribute("href", dataString);
       downloadAnchorNode.setAttribute("download", fileName);
       document.body.appendChild(downloadAnchorNode);

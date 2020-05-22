@@ -1,9 +1,13 @@
-import { getNetworkDefinitionFromIdentifier } from "@anthem/utils";
+import {
+  assertUnreachable,
+  getNetworkDefinitionFromIdentifier,
+} from "@anthem/utils";
 import axios from "axios";
 import express from "express";
 import { logger } from "../tools/server-utils";
 import { AxiosUtil, getHostFromNetworkName } from "./axios-utils";
-import { getAllTransactions } from "./sources/cosmos-extractor";
+import { getAllTransactionsForCosmosSdkNetwork } from "./sources/cosmos-extractor";
+import OASIS from "./sources/oasis";
 
 /** ===========================================================================
  * Types & Config
@@ -70,14 +74,36 @@ Router.post("/poll-tx", async (req, res) => {
 // API to download all transaction history as JSON
 Router.get("/tx-history/:network/:address", async (req, res) => {
   try {
-    const { address, network } = req.params;
-    const { name } = getNetworkDefinitionFromIdentifier(network);
+    const { address, network: networkName } = req.params;
+    const network = getNetworkDefinitionFromIdentifier(networkName);
     console.log(
-      `Fetching transaction history for address: ${address}, network: ${name}`,
+      `Fetching transaction history for address: ${address}, network: ${network.name}`,
     );
-    const txs = await getAllTransactions(address, name);
-    console.log(`Received ${txs.length} results`);
-    return res.json(txs);
+
+    const { name } = network;
+    let transactions: any[] = [];
+
+    switch (name) {
+      case "KAVA":
+      case "TERRA":
+      case "COSMOS":
+        transactions = await getAllTransactionsForCosmosSdkNetwork(
+          address,
+          name,
+        );
+        break;
+      case "OASIS":
+        const result = await OASIS.fetchTransactions(address, 1000, 0, network);
+        transactions = result.data;
+        break;
+      case "CELO":
+        break;
+      default:
+        return assertUnreachable(name);
+    }
+
+    console.log(`Received ${transactions.length} results`);
+    return res.json(transactions);
   } catch (err) {
     res.status(400);
     res.send(err);

@@ -273,18 +273,6 @@ const fetchTransactions = async (
  */
 
 /**
- * Transform the delegations to match the expected GraphQL schema
- * definition.
- */
-const convertDelegations = (delegation: OasisDelegation): IDelegation => {
-  return {
-    delegator_address: delegation.delegator,
-    validator_address: delegation.validator,
-    shares: delegation.amount,
-  };
-};
-
-/**
  * Map the transaction type onto the transaction data.
  */
 const combineWithType = (
