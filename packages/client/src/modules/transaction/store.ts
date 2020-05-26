@@ -1,4 +1,4 @@
-import { ITransaction } from "@anthem/utils";
+import { ITransaction, IValidator } from "@anthem/utils";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { TransactionData, TxPostBody } from "tools/cosmos-utils";
 import { createReducer } from "typesafe-actions";
@@ -38,7 +38,7 @@ const initialState: TransactionState = {
   confirmTx: false,
   signPending: false,
   broadcastingTransaction: false,
-  selectedValidatorForDelegation: "",
+  selectedValidatorForDelegation: null,
 };
 
 const transaction = createReducer<

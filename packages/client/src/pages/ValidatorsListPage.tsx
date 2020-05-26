@@ -1,4 +1,4 @@
-import { IQuery } from "@anthem/utils";
+import { IQuery, IValidator } from "@anthem/utils";
 import { Card, Collapse, Colors, H5, H6, Icon } from "@blueprintjs/core";
 import { CopyIcon, NetworkLogoIcon } from "assets/images";
 import AddressIconComponent from "components/AddressIconComponent";
@@ -292,7 +292,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                 <RowItem width={115}>
                                   <Button
                                     style={{ marginBottom: 6 }}
-                                    onClick={this.handleAddValidator}
+                                    onClick={() => this.handleAddValidator(v)}
                                     data-cy="add-validator-button"
                                   >
                                     Add Validator
@@ -314,8 +314,22 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
     );
   }
 
-  handleAddValidator = () => {
-    console.log("HI");
+  handleAddValidator = (validator: IValidator) => {
+    // Set the selected validator in the transactions workflow
+    this.props.setDelegationValidatorSelection(validator);
+
+    // Default the signin network to the current network, if the ledger
+    // is not connected
+    if (!this.props.ledger.connected) {
+      this.props.setSigninNetworkName(this.props.network.name);
+    }
+
+    // Open the ledger dialog
+    this.props.openLedgerDialog({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "DELEGATE",
+    });
   };
 
   handleClickValidator = (address: string) => {
@@ -415,6 +429,7 @@ const SortFilterIcon = ({
 
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
+  ledger: Modules.selectors.ledger.ledgerSelector(state),
   network: Modules.selectors.ledger.networkSelector(state),
   sortListAscending: Modules.selectors.app.appSelector(state)
     .sortValidatorsListAscending,
@@ -425,6 +440,11 @@ const mapStateToProps = (state: ReduxStoreState) => ({
 const dispatchProps = {
   setLocale: Modules.actions.settings.setLocale,
   setValidatorListSortType: Modules.actions.app.setValidatorListSortType,
+  openLedgerDialog: Modules.actions.ledger.openLedgerDialog,
+  setSigninNetworkName: Modules.actions.ledger.setSigninNetworkName,
+  openSelectNetworkDialog: Modules.actions.ledger.openSelectNetworkDialog,
+  setDelegationValidatorSelection:
+    Modules.actions.transaction.setDelegationValidatorSelection,
 };
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
