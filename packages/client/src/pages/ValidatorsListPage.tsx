@@ -1,5 +1,5 @@
 import { IQuery } from "@anthem/utils";
-import { Card, Collapse, H5, Icon } from "@blueprintjs/core";
+import { Card, Collapse, Colors, H5, Icon } from "@blueprintjs/core";
 import { NetworkLogoIcon } from "assets/images";
 import AddressIconComponent from "components/AddressIconComponent";
 import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
@@ -26,6 +26,7 @@ import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import {
+  formatAddressString,
   formatCommissionRate,
   formatVotingPower,
   getValidatorOperatorAddressMap,
@@ -205,11 +206,23 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                             </RowItem>
                           </ValidatorRow>
                           <Collapse isOpen={expanded}>
-                            <RowItem>
-                              <H5 style={{ margin: 0 }}>
-                                {v.description.details}
-                              </H5>
-                            </RowItem>
+                            <ValidatorDetails>
+                              <ValidatorRowBase>
+                                <RowItem>
+                                  <H5 style={{ margin: 0 }}>
+                                    Operator Address
+                                  </H5>
+                                </RowItem>
+                                <RowItem>
+                                  <Text>
+                                    {formatAddressString(
+                                      v.operator_address,
+                                      true,
+                                    )}
+                                  </Text>
+                                </RowItem>
+                              </ValidatorRowBase>
+                            </ValidatorDetails>
                           </Collapse>
                         </View>
                       );
@@ -248,16 +261,23 @@ const ValidatorListCard = styled(Card)`
     props.theme.isDesktop ? "600px" : "auto"};
 `;
 
-const ValidatorRow = styled.div`
+const ValidatorRowBase = styled.div`
   height: 70px;
   padding: 6px;
   display: flex;
   align-items: center;
   flex-direction: row;
+`;
 
+const ValidatorRow = styled(ValidatorRowBase)`
   &:hover {
     cursor: pointer;
   }
+`;
+
+const ValidatorDetails = styled.div`
+  background: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? Colors.DARK_GRAY3 : Colors.LIGHT_GRAY3};
 `;
 
 const RowItem = styled.div<{ width?: number }>`
@@ -279,6 +299,10 @@ const RowItemHeader = styled(RowItem)`
       color: ${COLORS.LIGHT_GRAY};
     }
   }
+`;
+
+const Text = styled.p`
+  margin: 0;
 `;
 
 const SortFilterIcon = ({
