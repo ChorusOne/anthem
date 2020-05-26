@@ -47,10 +47,10 @@ import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import styled from "styled-components";
 import {
   capitalizeString,
-  sortValidatorsChorusOnTop,
   getAccountBalances,
   getBlockExplorerUrlForTransaction,
   mapRewardsToAvailableRewards,
+  sortValidatorsChorusOnTop,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";

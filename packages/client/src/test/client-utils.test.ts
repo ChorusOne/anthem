@@ -4,7 +4,6 @@ import {
   abbreviateAddress,
   canRenderGraphQL,
   capitalizeString,
-  sortValidatorsChorusOnTop,
   formatAddressString,
   formatCommissionRate,
   formatVotingPower,
@@ -23,6 +22,7 @@ import {
   onActiveRoute,
   onPath,
   race,
+  sortValidatorsChorusOnTop,
   trimZeroes,
   wait,
 } from "tools/client-utils";
