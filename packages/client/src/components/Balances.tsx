@@ -153,7 +153,7 @@ class Balance extends React.Component<IProps, {}> {
     actionFunction({
       signinType: "LEDGER",
       ledgerAccessType: "PERFORM_ACTION",
-      ledgerActionType: "SEND/RECEIVE",
+      ledgerActionType: "SEND",
     });
   };
 }

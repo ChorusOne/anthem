@@ -63,12 +63,14 @@ export const COSMOS_MESSAGE_TYPES = {
   VOTE: "cosmos-sdk/MsgVote",
   DELEGATE: "cosmos-sdk/MsgDelegate",
   CLAIM: "cosmos-sdk/MsgWithdrawDelegationReward",
+  SEND: "cosmos-sdk/MsgSend",
 };
 
 export const TERRA_MESSAGE_TYPES = {
   VOTE: "governance/MsgVote",
   DELEGATE: "staking/MsgDelegate",
   CLAIM: "distribution/MsgWithdrawDelegationReward",
+  SEND: "transfer/MsgSend", // TODO: What type is this?
 };
 
 // TODO: Implement

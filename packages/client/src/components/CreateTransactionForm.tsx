@@ -159,7 +159,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         return this.renderDelegationTransactionSetup();
       case "CLAIM":
         return this.renderRewardsTransactionSetup();
-      case "SEND/RECEIVE":
+      case "SEND":
         return this.renderSendReceiveTransactionSetup();
       case null:
         break;
