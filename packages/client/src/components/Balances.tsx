@@ -99,6 +99,7 @@ class Balance extends React.Component<IProps, {}> {
                   currencySetting={currencySetting}
                   handleDelegation={this.handleDelegationAction}
                   handleRewardsClaim={this.handleRewardsClaimAction}
+                  handleSendReceive={this.handleSendReceiveAction}
                   balances={data.cosmos as ICosmosAccountBalances}
                 />
               );
@@ -140,6 +141,21 @@ class Balance extends React.Component<IProps, {}> {
       ledgerActionType: "CLAIM",
     });
   };
+
+  handleSendReceiveAction = () => {
+    let actionFunction;
+    if (this.props.ledger.connected) {
+      actionFunction = this.props.openLedgerDialog;
+    } else {
+      actionFunction = this.props.openSelectNetworkDialog;
+    }
+
+    actionFunction({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "SEND/RECEIVE",
+    });
+  };
 }
 
 /** ===========================================================================
@@ -157,6 +173,7 @@ interface CosmosBalancesProps {
   tString: tFnString;
   handleDelegation: () => void;
   handleRewardsClaim: () => void;
+  handleSendReceive: () => void;
 }
 
 class CosmosBalances extends React.Component<CosmosBalancesProps> {
@@ -171,6 +188,7 @@ class CosmosBalances extends React.Component<CosmosBalancesProps> {
       currencySetting,
       handleDelegation,
       handleRewardsClaim,
+      handleSendReceive,
     } = this.props;
 
     const fiatConversionRate = prices;
@@ -292,6 +310,12 @@ class CosmosBalances extends React.Component<CosmosBalancesProps> {
               <Button
                 onClick={handleRewardsClaim}
                 data-cy="balances-rewards-claim-button"
+              >
+                {tString("Claim Rewards")}
+              </Button>
+              <Button
+                onClick={handleSendReceive}
+                data-cy="balances-send-receive-button"
               >
                 {tString("Claim Rewards")}
               </Button>
