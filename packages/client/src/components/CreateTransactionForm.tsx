@@ -1,4 +1,5 @@
 import {
+  assertUnreachable,
   IAccountInformation,
   ICosmosAccountBalances,
   ICosmosAccountBalancesType,
@@ -139,6 +140,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
     const IS_DELEGATION = ledgerActionType === "DELEGATE";
 
+    /**
+     * Later Stages:
+     */
     if (transactionStage === TRANSACTION_STAGES.SIGN) {
       return this.renderTransactionSigningComponent();
     } else if (transactionStage === TRANSACTION_STAGES.CONFIRM) {
@@ -149,10 +153,20 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       return this.renderTransactionSuccess();
     }
 
-    if (IS_DELEGATION) {
-      return this.renderDelegationTransactionSetup();
-    } else {
-      return this.renderRewardsTransactionSetup();
+    /**
+     * Setup Stage:
+     */
+    switch (ledgerActionType) {
+      case "DELEGATE":
+        return this.renderDelegationTransactionSetup();
+      case "CLAIM":
+        return this.renderRewardsTransactionSetup();
+      case "SEND/RECEIVE":
+        return this.renderDelegationTransactionSetup();
+      case null:
+        break;
+      default:
+        assertUnreachable(ledgerActionType);
     }
   }
 
