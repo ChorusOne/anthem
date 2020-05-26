@@ -160,55 +160,60 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                 </ValidatorRow>
                 <ValidatorListCard style={{ padding: 8 }}>
                   <PageScrollableContent>
-                    {sortedValidatorsList.map(v => (
-                      <View key={v.operator_address}>
-                        <ValidatorRow
-                          onClick={() =>
-                            this.handleClickValidator(v.operator_address)
-                          }
-                        >
-                          <RowItem width={45}>
-                            <AddressIconComponent
-                              networkName={network.name}
-                              address={v.operator_address}
-                              validatorOperatorAddressMap={
-                                validatorOperatorAddressMap
-                              }
-                            />
-                          </RowItem>
-                          <RowItem width={200}>
-                            <H5 style={{ margin: 0 }}>
-                              {v.description.moniker}
-                            </H5>
-                          </RowItem>
-                          <RowItem width={150}>
-                            <b style={{ margin: 0 }}>
-                              {formatVotingPower(v.tokens, stake)}%
-                            </b>
-                          </RowItem>
-                          <RowItem width={150}>
-                            <b style={{ margin: 0 }}>
-                              {formatCommissionRate(
-                                v.commission.commission_rates.rate,
-                              )}
-                              %
-                            </b>
-                          </RowItem>
-                        </ValidatorRow>
-                        <Collapse
-                          isOpen={
-                            v.operator_address ===
-                            this.state.showValidatorDetailsAddress
-                          }
-                        >
-                          <RowItem>
-                            <H5 style={{ margin: 0 }}>
-                              {v.description.details}
-                            </H5>
-                          </RowItem>
-                        </Collapse>
-                      </View>
-                    ))}
+                    {sortedValidatorsList.map(v => {
+                      const expanded =
+                        v.operator_address ===
+                        this.state.showValidatorDetailsAddress;
+                      return (
+                        <View key={v.operator_address}>
+                          <ValidatorRow
+                            onClick={() =>
+                              this.handleClickValidator(v.operator_address)
+                            }
+                          >
+                            <RowItem width={45}>
+                              <AddressIconComponent
+                                networkName={network.name}
+                                address={v.operator_address}
+                                validatorOperatorAddressMap={
+                                  validatorOperatorAddressMap
+                                }
+                              />
+                            </RowItem>
+                            <RowItem width={200}>
+                              <H5 style={{ margin: 0 }}>
+                                {v.description.moniker}
+                              </H5>
+                            </RowItem>
+                            <RowItem width={150}>
+                              <b style={{ margin: 0 }}>
+                                {formatVotingPower(v.tokens, stake)}%
+                              </b>
+                            </RowItem>
+                            <RowItem width={150}>
+                              <b style={{ margin: 0 }}>
+                                {formatCommissionRate(
+                                  v.commission.commission_rates.rate,
+                                )}
+                                %
+                              </b>
+                            </RowItem>
+                            <RowItem>
+                              <Icon
+                                icon={expanded ? "caret-up" : "caret-down"}
+                              />
+                            </RowItem>
+                          </ValidatorRow>
+                          <Collapse isOpen={expanded}>
+                            <RowItem>
+                              <H5 style={{ margin: 0 }}>
+                                {v.description.details}
+                              </H5>
+                            </RowItem>
+                          </Collapse>
+                        </View>
+                      );
+                    })}
                   </PageScrollableContent>
                 </ValidatorListCard>
               </View>
@@ -249,6 +254,10 @@ const ValidatorRow = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const RowItem = styled.div<{ width?: number }>`
