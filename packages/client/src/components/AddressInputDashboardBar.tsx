@@ -27,6 +27,11 @@ import { GraphQLGuardComponent } from "./GraphQLGuardComponents";
  */
 
 class AddressInputDashboardBar extends React.Component<IProps, {}> {
+  componentWillUnmount() {
+    // Remove the ref when the component unmounts
+    this.props.assignInputRef(null);
+  }
+
   render(): Nullable<JSX.Element> {
     if (!this.props.settings.isDesktop) {
       return null;
@@ -171,6 +176,7 @@ const mapStateToProps = (state: ReduxStoreState) => ({
 });
 
 const dispatchProps = {
+  assignInputRef: Modules.actions.app.setAddressInputRef,
   setAddressInputState: Modules.actions.app.setDashboardAddressInputFocusState,
 };
 
@@ -178,9 +184,7 @@ const withProps = connect(mapStateToProps, dispatchProps);
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
-interface ComponentProps {
-  assignInputRef: (ref: HTMLInputElement) => void;
-}
+interface ComponentProps {}
 
 interface IProps
   extends ComponentProps,

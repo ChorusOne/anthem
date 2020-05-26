@@ -1,4 +1,5 @@
 import { Classes } from "@blueprintjs/core";
+import KeyboardShortcutsComponent from "components/KeyboardShortcutsComponent";
 import LedgerDialogComponents from "components/LedgerDialogWorkflow";
 import LogoutAlertComponent from "components/LogoutAlert";
 import NotificationsBanner from "components/NotificationsBanner";
@@ -57,6 +58,7 @@ class RoutesContainer extends React.Component<IProps> {
       <FixedAppBackgroundPage
         className={settings.isDarkTheme ? Classes.DARK : ""}
       >
+        <KeyboardShortcutsComponent />
         <DevelopmentBanner />
         {settings.isDesktop && <NotificationsBanner />}
         <LedgerDialogComponents />

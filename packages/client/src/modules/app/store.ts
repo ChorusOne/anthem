@@ -63,6 +63,9 @@ interface AppState {
   showDataIntegrityHelpLabel: boolean;
   validatorsListSortFilter: VALIDATORS_LIST_SORT_FILTER;
   sortValidatorsListAscending: boolean;
+  transactionsExpanded: boolean;
+  portfolioExpanded: boolean;
+  addressInputRef: Nullable<HTMLInputElement>;
 }
 
 const initialAppState = {
@@ -74,6 +77,9 @@ const initialAppState = {
   dismissedBannerKeys: StorageModule.getDismissedNotifications(),
   validatorsListSortFilter: VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT,
   sortValidatorsListAscending: true,
+  transactionsExpanded: false,
+  portfolioExpanded: false,
+  addressInputRef: null,
 };
 
 const app = createReducer<AppState, ActionTypes>(initialAppState)
@@ -81,9 +87,23 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
     ...state,
     showMonthlySignupTooltip: action.payload,
   }))
+  .handleAction(actions.setAddressInputRef, (state, action) => ({
+    ...state,
+    addressInputRef: action.payload,
+  }))
   .handleAction(actions.toggleDataIntegrityHelpLabel, (state, action) => ({
     ...state,
     showDataIntegrityHelpLabel: action.payload,
+  }))
+  .handleAction(actions.togglePortfolioSize, state => ({
+    ...state,
+    transactionsExpanded: false,
+    portfolioExpanded: !state.portfolioExpanded,
+  }))
+  .handleAction(actions.toggleTransactionsSize, state => ({
+    ...state,
+    portfolioExpanded: false,
+    transactionsExpanded: !state.transactionsExpanded,
   }))
   .handleAction(actions.setValidatorListSortType, (state, action) => {
     // Flip the sort direction unless the sort category changes

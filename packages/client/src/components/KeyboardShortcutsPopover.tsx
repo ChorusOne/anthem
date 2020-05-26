@@ -3,55 +3,7 @@ import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
 import React from "react";
 import styled from "styled-components";
-
-/** ===========================================================================
- * Types & Config
- * ============================================================================
- */
-
-// Source of truth for supported keyboard keys:
-export type KEYBOARD_SHORTCUT_KEYS = "P" | "T" | "I" | "S" | "C" | "Q";
-
-export interface KeyboardShortcutMetadata {
-  key: KEYBOARD_SHORTCUT_KEYS;
-  keyCode: number;
-  action: string;
-}
-
-export const KeyActionMap: {
-  [key in KEYBOARD_SHORTCUT_KEYS]: KeyboardShortcutMetadata;
-} = {
-  I: {
-    key: "I",
-    keyCode: 73,
-    action: "Focus address input",
-  },
-  S: {
-    key: "S",
-    keyCode: 83,
-    action: "Open address login modal",
-  },
-  C: {
-    key: "C",
-    keyCode: 67,
-    action: "Copy current address",
-  },
-  P: {
-    key: "P",
-    keyCode: 80,
-    action: "Toggle portfolio full size",
-  },
-  T: {
-    key: "T",
-    keyCode: 84,
-    action: "Toggle transactions full size",
-  },
-  Q: {
-    key: "Q",
-    keyCode: 81,
-    action: "Open logout menu",
-  },
-};
+import { KeyActionMap } from "./KeyboardShortcutsComponent";
 
 /** ===========================================================================
  * React Component

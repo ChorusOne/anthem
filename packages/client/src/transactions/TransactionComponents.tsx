@@ -3,6 +3,7 @@ import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
 import React from "react";
 import styled from "styled-components";
+import { formatDate, GenericDateFormat } from "tools/date-utils";
 
 /** ===========================================================================
  * Transaction Components
@@ -14,6 +15,8 @@ import styled from "styled-components";
 interface TransactionPaginationControlsProps {
   page: number;
   moreResultsExist: boolean;
+  firstTxDate: GenericDateFormat;
+  lastTxDate: GenericDateFormat;
   back: () => void;
   forward: () => void;
 }
@@ -21,7 +24,17 @@ interface TransactionPaginationControlsProps {
 export const TransactionPaginationControls = (
   props: TransactionPaginationControlsProps,
 ) => {
-  const { page, moreResultsExist, back, forward } = props;
+  const {
+    page,
+    moreResultsExist,
+    back,
+    forward,
+    firstTxDate,
+    lastTxDate,
+  } = props;
+  const first = formatDate(firstTxDate);
+  const last = formatDate(lastTxDate);
+  const dateRangeString = `${last} - ${first}`;
   return (
     <PaginationBar>
       {page > 1 && (
@@ -30,9 +43,13 @@ export const TransactionPaginationControls = (
         </Button>
       )}
       {moreResultsExist ? (
-        <PaginationText>Page {page}</PaginationText>
+        <PaginationText>
+          <b>Page {page}</b> ({dateRangeString})
+        </PaginationText>
       ) : page > 1 ? (
-        <PaginationText>Page {page}</PaginationText>
+        <PaginationText>
+          <b>Page {page}</b> ({dateRangeString})
+        </PaginationText>
       ) : (
         <AllResultsText>- All Results Displayed -</AllResultsText>
       )}
@@ -47,7 +64,8 @@ export const TransactionPaginationControls = (
 
 const PaginationBar = styled.div`
   margin-top: 20px;
-  width: 100%;
+  margin: auto;
+  width: 450px;
   display: flex;
   flex-direction: row;
   align-items: center;

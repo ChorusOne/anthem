@@ -126,6 +126,18 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
       } else if (transactionStage === TRANSACTION_STAGES.SUCCESS) {
         return tString("Rewards Claim Transaction Confirmed");
       }
+    } else if (ledgerActionType === "SEND") {
+      if (transactionStage === TRANSACTION_STAGES.SETUP) {
+        return "Setup Send Transaction";
+      } else if (transactionStage === TRANSACTION_STAGES.SIGN) {
+        return "Sign Send Transaction";
+      } else if (transactionStage === TRANSACTION_STAGES.CONFIRM) {
+        return "Submit Send Transaction";
+      } else if (transactionStage === TRANSACTION_STAGES.PENDING) {
+        return "Send Transaction Submitted";
+      } else if (transactionStage === TRANSACTION_STAGES.SUCCESS) {
+        return "Send Transaction Confirmed";
+      }
     }
 
     return "";
@@ -189,6 +201,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
     switch (ledgerActionType) {
       case "CLAIM":
       case "DELEGATE":
+      case "SEND":
         if (!this.props.ledger.connected) {
           return this.renderLedgerSignin();
         } else {
@@ -269,7 +282,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
           }}
           href={network.ledgerDocsLink}
         >
-          <span>{network.ledgerAppName} Docs</span>
+          <span>{network.ledgerAppName} App Docs</span>
         </Link>
       </View>
     );

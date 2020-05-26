@@ -82,20 +82,19 @@ const setAddressEpic: EpicSignature = (action$, state$, deps) => {
   );
 };
 
+/**
+ * Epic to handle connecting a Ledger in response to various actions. Maps
+ * to the connect action if the Ledger is not currently connected and
+ * if the Ledger Dialog action has been dispatched.
+ */
 const ledgerDialogConnectionEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.openLedgerDialog)),
     pluck("payload"),
-    map(payload => {
-      if (
-        payload.signinType === "LEDGER" &&
-        payload.ledgerAccessType === "SIGNIN"
-      ) {
-        return Actions.connectLedger();
-      } else {
-        return Actions.empty();
-      }
-    }),
+    pluck("signinType"),
+    filter(x => x === "LEDGER"),
+    filter(() => !state$.value.ledger.ledger.connected),
+    map(() => Actions.connectLedger()),
   );
 };
 

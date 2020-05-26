@@ -11,12 +11,13 @@ import {
   Popover,
   Position,
 } from "@blueprintjs/core";
+import axios from "axios";
 import AddressInputDashboardBar from "components/AddressInputDashboardBar";
 import Balance from "components/Balances";
-import { KeyActionMap } from "components/KeyboardShortcutsPopover";
 import LoginStart from "components/LoginStart";
 import Portfolio from "components/Portfolio";
 import { Centered, View } from "components/SharedComponents";
+import Toast from "components/Toast";
 import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
 import {
@@ -27,17 +28,14 @@ import {
 import { History } from "history";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import Analytics from "lib/analytics-lib";
+import ENV from "lib/client-env";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
-import {
-  copyTextToClipboard,
-  getPortfolioTypeFromUrl,
-  onActiveRoute,
-} from "tools/client-utils";
+import { getPortfolioTypeFromUrl, onActiveRoute } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { tFnString } from "tools/i18n-utils";
 import TransactionSwitchContainer from "transactions/TransactionSwitchContainer";
@@ -46,11 +44,6 @@ import TransactionSwitchContainer from "transactions/TransactionSwitchContainer"
  * Types & Config
  * ============================================================================
  */
-
-interface IState {
-  portfolioExpanded: boolean;
-  transactionExpanded: boolean;
-}
 
 const TABS: ReadonlyArray<PORTFOLIO_CHART_TYPES> = [
   "TOTAL",
@@ -65,28 +58,13 @@ const TABS: ReadonlyArray<PORTFOLIO_CHART_TYPES> = [
  * ============================================================================
  */
 
-class DashboardPage extends React.Component<IProps, IState> {
-  addressInput: Nullable<HTMLInputElement> = null;
-
-  constructor(props: IProps) {
-    super(props);
-
-    this.state = {
-      portfolioExpanded: false,
-      transactionExpanded: false,
-    };
-  }
-
-  componentDidMount() {
-    document.addEventListener("keydown", this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown);
-  }
-
+class DashboardPage extends React.Component<IProps> {
   render(): JSX.Element {
-    const { address, ledger } = this.props;
+    const { address, ledger, i18n, app, settings } = this.props;
+    const { t, tString } = i18n;
+    const { network } = ledger;
+    const { portfolioExpanded, transactionsExpanded } = app;
+    const { isDesktop, currencySetting, fiatCurrency } = settings;
 
     if (!address) {
       return (
@@ -102,20 +80,17 @@ class DashboardPage extends React.Component<IProps, IState> {
       );
     }
 
-    const { isDesktop, currencySetting, fiatCurrency } = this.props.settings;
-    const { t, tString } = this.props.i18n;
-    const { portfolioExpanded, transactionExpanded } = this.state;
-
-    const HIDE_TOP_PANEL = transactionExpanded;
+    const HIDE_TOP_PANEL = transactionsExpanded;
     const IS_PORTFOLIO_EXPANDED = portfolioExpanded;
     const DISPLAY_TRANSACTIONS = !portfolioExpanded;
+    const TRANSACTIONS_SUPPORTED = network.supportsTransactionsHistory;
 
     const PortfolioPanel = (
       <Card elevation={Elevation.TWO} style={getPortfolioCardStyles()}>
         <Row style={{ marginBottom: 10 }}>
           <H5 style={{ margin: 0 }}>{tString("Portfolio")}</H5>
           {isDesktop && (
-            <ExpandCollapseIcon onClick={this.togglePortfolioViewSize} />
+            <ExpandCollapseIcon onClick={this.props.togglePortfolioSize} />
           )}
         </Row>
         <Portfolio fullSize={portfolioExpanded} />
@@ -154,11 +129,21 @@ class DashboardPage extends React.Component<IProps, IState> {
               <H5 style={{ marginTop: 15, marginBottom: 15, marginLeft: 15 }}>
                 {t("Recent Transactions and Events")}
               </H5>
-              {isDesktop && (
-                <ExpandCollapseIcon onClick={this.toggleTransactionSize} />
+              {isDesktop && TRANSACTIONS_SUPPORTED && (
+                <View>
+                  <Button
+                    text="Download All (JSON)"
+                    onClick={this.fetchAndDownloadTransactionHistory}
+                  />
+                  <Button
+                    icon="fullscreen"
+                    style={{ marginLeft: 4, marginRight: 12 }}
+                    onClick={this.props.toggleTransactionsSize}
+                  />
+                </View>
               )}
             </Row>
-            <TransactionsContainer fullSize={transactionExpanded}>
+            <TransactionsContainer fullSize={transactionsExpanded}>
               <TransactionSwitchContainer />
             </TransactionsContainer>
           </View>
@@ -194,7 +179,7 @@ class DashboardPage extends React.Component<IProps, IState> {
     if (settings.isDesktop) {
       return (
         <TopBar>
-          {this.state.transactionExpanded ? (
+          {this.props.app.transactionsExpanded ? (
             <DashboardNavigationBar />
           ) : (
             <DashboardNavigationBar>
@@ -209,7 +194,7 @@ class DashboardPage extends React.Component<IProps, IState> {
               ))}
             </DashboardNavigationBar>
           )}
-          <AddressInputDashboardBar assignInputRef={this.assignInputRef} />
+          <AddressInputDashboardBar />
         </TopBar>
       );
     } else {
@@ -264,86 +249,40 @@ class DashboardPage extends React.Component<IProps, IState> {
     return "";
   };
 
-  togglePortfolioViewSize = () => {
-    this.setState({
-      portfolioExpanded: !this.state.portfolioExpanded,
-    });
-  };
+  fetchAndDownloadTransactionHistory = async () => {
+    try {
+      const { address, ledger } = this.props;
+      const { name } = ledger.network;
 
-  toggleTransactionSize = () => {
-    this.setState({
-      transactionExpanded: !this.state.transactionExpanded,
-    });
-  };
+      // Provide a toast message
+      Toast.warn("Starting download...");
 
-  handleKeyDown = (event: KeyboardEvent) => {
-    if (
-      this.props.app.dashboardInputFocused ||
-      this.props.ledgerDialog.dialogOpen
-    ) {
-      return;
+      // Track action
+      Analytics.downloadTransactions();
+
+      // Fetch transaction history
+      const response = await axios.get(
+        `${ENV.SERVER_URL}/api/tx-history/${name}/${address}`,
+      );
+
+      // Convert to a JSON string
+      const json = encodeURIComponent(JSON.stringify(response.data, null, 2));
+      const dataString = `data:text/json;charset=utf-8,${json}`;
+
+      // Create a document node to download
+      const downloadAnchorNode = document.createElement("a");
+      const fileName = `${name.toLowerCase()}-transactions-${address}.json`;
+      downloadAnchorNode.setAttribute("href", dataString);
+      downloadAnchorNode.setAttribute("download", fileName);
+      document.body.appendChild(downloadAnchorNode);
+
+      // Download the file and remove the link
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+      Toast.success("Transaction history saved!");
+    } catch (err) {
+      Toast.danger("Failed to download transaction history.");
     }
-
-    const { keyCode, ctrlKey, altKey, shiftKey, metaKey } = event;
-    const anyExtraKeyPress = ctrlKey || altKey || shiftKey || metaKey;
-
-    // Allow accept keypress events with no additional keys held down
-    if (anyExtraKeyPress) {
-      return;
-    }
-
-    const { P, T, I, S, C, Q } = KeyActionMap;
-
-    switch (keyCode) {
-      case P.keyCode: {
-        if (this.state.transactionExpanded) {
-          this.setState({ transactionExpanded: false });
-        }
-
-        this.togglePortfolioViewSize();
-        break;
-      }
-      case T.keyCode: {
-        if (this.state.portfolioExpanded) {
-          this.setState({ portfolioExpanded: false });
-        }
-
-        this.toggleTransactionSize();
-        break;
-      }
-      case I.keyCode: {
-        event.preventDefault();
-        if (event.keyCode === I.keyCode) {
-          if (this.addressInput) {
-            this.addressInput.focus();
-          }
-        }
-        break;
-      }
-      case S.keyCode: {
-        event.preventDefault();
-        this.props.openLedgerDialog({
-          signinType: "ADDRESS",
-          ledgerAccessType: "SIGNIN",
-        });
-        break;
-      }
-      case Q.keyCode: {
-        this.props.openLogoutMenu();
-        break;
-      }
-      case C.keyCode: {
-        copyTextToClipboard(this.props.address);
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-  };
-
-  assignInputRef = (ref: HTMLInputElement) => {
-    this.addressInput = ref;
   };
 }
 
@@ -549,12 +488,11 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   app: Modules.selectors.app.appSelector(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
   address: Modules.selectors.ledger.addressSelector(state),
-  ledgerDialog: Modules.selectors.ledger.ledgerDialogSelector(state),
 });
 
 const dispatchProps = {
-  openLedgerDialog: Modules.actions.ledger.openLedgerDialog,
-  openLogoutMenu: Modules.actions.ledger.openLogoutMenu,
+  togglePortfolioSize: Modules.actions.app.togglePortfolioSize,
+  toggleTransactionsSize: Modules.actions.app.toggleTransactionsSize,
 };
 
 const withProps = connect(mapStateToProps, dispatchProps);

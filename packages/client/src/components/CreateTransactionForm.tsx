@@ -1,4 +1,5 @@
 import {
+  assertUnreachable,
   IAccountInformation,
   ICosmosAccountBalances,
   ICosmosAccountBalancesType,
@@ -46,10 +47,10 @@ import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import styled from "styled-components";
 import {
   capitalizeString,
-  defaultSortValidatorsList,
   getAccountBalances,
   getBlockExplorerUrlForTransaction,
   mapRewardsToAvailableRewards,
+  sortValidatorsChorusOnTop,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
@@ -100,7 +101,6 @@ interface IState {
   useFullBalance: boolean;
   selectAllRewards: boolean;
   selectedRewards: ReadonlyArray<AvailableReward>;
-  selectedValidatorForDelegation: Nullable<IValidator>;
 }
 
 const DEFAULT_GAS_PRICE = "0.01";
@@ -128,17 +128,17 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       gasPrice: DEFAULT_GAS_PRICE,
       gasAmount: DEFAULT_GAS_AMOUNT,
       claimsTransactionSetupError: "",
-      selectedValidatorForDelegation: null,
       delegationTransactionInputError: "",
     };
   }
 
-  render(): JSX.Element {
+  render(): Nullable<JSX.Element> {
     const { transactionStage } = this.props.transaction;
     const { ledgerActionType } = this.props.ledgerDialog;
 
-    const IS_DELEGATION = ledgerActionType === "DELEGATE";
-
+    /**
+     * Later Stages:
+     */
     if (transactionStage === TRANSACTION_STAGES.SIGN) {
       return this.renderTransactionSigningComponent();
     } else if (transactionStage === TRANSACTION_STAGES.CONFIRM) {
@@ -149,12 +149,100 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       return this.renderTransactionSuccess();
     }
 
-    if (IS_DELEGATION) {
-      return this.renderDelegationTransactionSetup();
-    } else {
-      return this.renderRewardsTransactionSetup();
+    /**
+     * Setup Stage:
+     */
+    switch (ledgerActionType) {
+      case "DELEGATE":
+        return this.renderDelegationTransactionSetup();
+      case "CLAIM":
+        return this.renderRewardsTransactionSetup();
+      case "SEND":
+        return this.renderSendReceiveTransactionSetup();
+      case null:
+        break;
+      default:
+        assertUnreachable(ledgerActionType);
     }
+
+    return null;
   }
+
+  renderSendReceiveTransactionSetup = () => {
+    const { i18n, prices, ledger, fiatCurrency, accountBalances } = this.props;
+    const { t, tString } = i18n;
+    const atomsConversionRate = prices.prices;
+    return (
+      <GraphQLGuardComponentMultipleQueries
+        tString={tString}
+        results={[
+          [accountBalances, "accountBalances"],
+          [prices, "prices"],
+        ]}
+      >
+        {([accountBalancesData]: [ICosmosAccountBalancesType]) => {
+          const balances = getAccountBalances(
+            accountBalancesData.cosmos,
+            atomsConversionRate,
+            ledger.network,
+            6,
+          );
+          const { balance, balanceFiat } = balances;
+          return (
+            <View>
+              <p>
+                {t("Available balance: {{balance}} ({{balanceFiat}})", {
+                  balance: bold(`${balance} ${ledger.network.descriptor}`),
+                  balanceFiat: `${balanceFiat} ${fiatCurrency.symbol}`,
+                })}
+              </p>
+              <H6 style={{ marginTop: 12, marginBottom: 0 }}>
+                Please enter an amount to send
+              </H6>
+              <View style={{ marginTop: 12 }}>
+                <FormContainer>
+                  <form
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                    data-cy="ledger-action-input-form"
+                    onSubmit={(event: ChangeEvent<HTMLFormElement>) => {
+                      event.preventDefault();
+                      this.submitLedgerTransactionAmount();
+                    }}
+                  >
+                    <TextInput
+                      autoFocus
+                      label={tString("Transaction Amount (ATOM)")}
+                      onSubmit={this.submitLedgerTransactionAmount}
+                      style={{ ...InputStyles, width: 300 }}
+                      placeholder={tString("Enter an amount")}
+                      data-cy="transaction-send-amount-input"
+                      value={this.state.amount}
+                      onChange={this.handleEnterLedgerActionAmount}
+                    />
+                    {this.props.renderConfirmArrow(
+                      tString("Generate My Transaction"),
+                      this.submitLedgerTransactionAmount,
+                    )}
+                  </form>
+                </FormContainer>
+                {this.renderGasPriceSetup()}
+                {this.state.delegationTransactionInputError && (
+                  <div style={{ marginTop: 12 }} className={Classes.LABEL}>
+                    <ErrorText data-cy="amount-transaction-error">
+                      {this.state.delegationTransactionInputError}
+                    </ErrorText>
+                  </div>
+                )}
+              </View>
+            </View>
+          );
+        }}
+      </GraphQLGuardComponentMultipleQueries>
+    );
+  };
 
   renderRewardsTransactionSetup = () => {
     const {
@@ -334,10 +422,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       ledger,
       validators,
       fiatCurrency,
+      transaction,
       accountBalances,
     } = this.props;
     const { t, tString } = i18n;
-    const { selectedValidatorForDelegation } = this.state;
+    const { selectedValidatorForDelegation } = transaction;
     const atomsConversionRate = prices.prices;
     return (
       <GraphQLGuardComponentMultipleQueries
@@ -369,7 +458,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   onClose: this.setCanEscapeKeyCloseDialog(true),
                   popoverClassName: "ValidatorCompositionSelect",
                 }}
-                items={defaultSortValidatorsList(validators.validators)}
+                items={sortValidatorsChorusOnTop(validators.validators)}
                 onItemSelect={this.handleSelectValidator}
                 itemRenderer={this.renderValidatorSelectItem}
                 itemPredicate={this.setValidatorSelectItemPredicate}
@@ -463,10 +552,12 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   handleSelectValidator = (validator: IValidator) => {
-    this.setState({
-      claimsTransactionSetupError: "",
-      selectedValidatorForDelegation: validator,
-    });
+    this.setState(
+      {
+        claimsTransactionSetupError: "",
+      },
+      () => this.props.setDelegationValidatorSelection(validator),
+    );
   };
 
   setCanEscapeKeyCloseDialog = (canClose: boolean) => () => {
@@ -829,13 +920,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   getDelegationTransaction = () => {
-    const {
-      amount,
-      gasAmount,
-      gasPrice,
-      selectedValidatorForDelegation,
-    } = this.state;
-    const { accountInformation } = this.props;
+    const { amount, gasAmount, gasPrice } = this.state;
+    const { accountInformation, transaction } = this.props;
+    const { selectedValidatorForDelegation } = transaction;
     const { network, address } = this.props.ledger;
     const { denom } = network;
 
@@ -871,12 +958,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         network,
       });
 
-      const transaction = {
+      this.props.setTransactionData({
         txMsg,
         txRequestMetadata,
-      };
-
-      this.props.setTransactionData(transaction);
+      });
     } else {
       Toast.warn(
         this.props.i18n.tString(
@@ -995,6 +1080,8 @@ const dispatchProps = {
   signTransaction: Modules.actions.transaction.signTransaction,
   setTransactionData: Modules.actions.transaction.setTransactionData,
   broadcastTransaction: Modules.actions.transaction.broadcastTransaction,
+  setDelegationValidatorSelection:
+    Modules.actions.transaction.setDelegationValidatorSelection,
 };
 
 const withProps = connect(mapStateToProps, dispatchProps);

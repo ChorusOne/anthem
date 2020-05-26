@@ -1,11 +1,13 @@
-import { IQuery } from "@anthem/utils";
-import { Card, H5, Icon } from "@blueprintjs/core";
-import { NetworkLogoIcon } from "assets/images";
+import { IQuery, IValidator } from "@anthem/utils";
+import { Card, Collapse, Colors, H5, H6, Icon } from "@blueprintjs/core";
+import { CopyIcon, NetworkLogoIcon } from "assets/images";
 import AddressIconComponent from "components/AddressIconComponent";
 import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
 import PageAddressBar from "components/PageAddressBar";
 import {
+  Button,
   DashboardLoader,
+  Link,
   PageContainer,
   PageScrollableContent,
   View,
@@ -26,6 +28,8 @@ import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import {
+  copyTextToClipboard,
+  formatAddressString,
   formatCommissionRate,
   formatVotingPower,
   getValidatorOperatorAddressMap,
@@ -34,11 +38,28 @@ import {
 import { composeWithProps } from "tools/context-utils";
 
 /** ===========================================================================
+ * Types & Config
+ * ============================================================================
+ */
+
+interface IState {
+  showValidatorDetailsAddress: string;
+}
+
+/** ===========================================================================
  * React Component
  * ============================================================================
  */
 
-class ValidatorsListPage extends React.Component<IProps, {}> {
+class ValidatorsListPage extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
+
+    this.state = {
+      showValidatorDetailsAddress: "",
+    };
+  }
+
   render(): JSX.Element {
     const {
       i18n,
@@ -143,35 +164,146 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                 </ValidatorRow>
                 <ValidatorListCard style={{ padding: 8 }}>
                   <PageScrollableContent>
-                    {sortedValidatorsList.map(v => (
-                      <ValidatorRow key={v.operator_address}>
-                        <RowItem width={45}>
-                          <AddressIconComponent
-                            networkName={network.name}
-                            address={v.operator_address}
-                            validatorOperatorAddressMap={
-                              validatorOperatorAddressMap
+                    {sortedValidatorsList.map(v => {
+                      const expanded =
+                        v.operator_address ===
+                        this.state.showValidatorDetailsAddress;
+
+                      const copyAddress = () =>
+                        copyTextToClipboard(v.operator_address);
+                      return (
+                        <View key={v.operator_address}>
+                          <ValidatorRow
+                            onClick={() =>
+                              this.handleClickValidator(v.operator_address)
                             }
-                          />
-                        </RowItem>
-                        <RowItem width={200}>
-                          <H5 style={{ margin: 0 }}>{v.description.moniker}</H5>
-                        </RowItem>
-                        <RowItem width={150}>
-                          <b style={{ margin: 0 }}>
-                            {formatVotingPower(v.tokens, stake)}%
-                          </b>
-                        </RowItem>
-                        <RowItem width={150}>
-                          <b style={{ margin: 0 }}>
-                            {formatCommissionRate(
-                              v.commission.commission_rates.rate,
-                            )}
-                            %
-                          </b>
-                        </RowItem>
-                      </ValidatorRow>
-                    ))}
+                          >
+                            <RowItem width={45}>
+                              <AddressIconComponent
+                                networkName={network.name}
+                                address={v.operator_address}
+                                validatorOperatorAddressMap={
+                                  validatorOperatorAddressMap
+                                }
+                              />
+                            </RowItem>
+                            <RowItem width={200}>
+                              <H5 style={{ margin: 0 }}>
+                                {v.description.moniker}
+                              </H5>
+                            </RowItem>
+                            <RowItem width={150}>
+                              <b style={{ margin: 0 }}>
+                                {formatVotingPower(v.tokens, stake)}%
+                              </b>
+                            </RowItem>
+                            <RowItem width={150}>
+                              <b style={{ margin: 0 }}>
+                                {formatCommissionRate(
+                                  v.commission.commission_rates.rate,
+                                )}
+                                %
+                              </b>
+                            </RowItem>
+                            <RowItem>
+                              <Icon
+                                icon={expanded ? "caret-up" : "caret-down"}
+                              />
+                            </RowItem>
+                          </ValidatorRow>
+                          <Collapse isOpen={expanded}>
+                            <ValidatorDetails>
+                              <ValidatorDetailRow>
+                                <RowItem width={200}>
+                                  <H6 style={{ margin: 0 }}>
+                                    Operator Address
+                                  </H6>
+                                </RowItem>
+                                <RowItem width={150}>
+                                  <Text>
+                                    {formatAddressString(
+                                      v.operator_address,
+                                      true,
+                                    )}
+                                  </Text>
+                                </RowItem>
+                                <RowItem onClick={copyAddress}>
+                                  <CopyIcon />
+                                </RowItem>
+                              </ValidatorDetailRow>
+                              <ValidatorDetailRow>
+                                <RowItem width={200}>
+                                  <H6 style={{ margin: 0 }}>Website</H6>
+                                </RowItem>
+                                <RowItem width={350}>
+                                  <Link href={v.description.website}>
+                                    {v.description.website || "n/a"}
+                                  </Link>
+                                </RowItem>
+                              </ValidatorDetailRow>
+                              <ValidatorDetailRow style={{ height: "auto" }}>
+                                <RowItem width={200}>
+                                  <H6 style={{ margin: 0 }}>Description</H6>
+                                </RowItem>
+                                <RowItem width={350}>
+                                  <Text style={{ fontSize: 12 }}>
+                                    {v.description.details || "n/a"}
+                                  </Text>
+                                </RowItem>
+                              </ValidatorDetailRow>
+                              <ValidatorDetailRow>
+                                <RowItem width={200}>
+                                  <H6 style={{ margin: 0 }}>Fee</H6>
+                                </RowItem>
+                                <RowItem width={350}>
+                                  <Text>
+                                    {formatCommissionRate(
+                                      v.commission.commission_rates.rate,
+                                    )}
+                                  </Text>
+                                </RowItem>
+                              </ValidatorDetailRow>
+                              <ValidatorDetailRow>
+                                <RowItem width={200}>
+                                  <H6 style={{ margin: 0 }}>Max. Fee</H6>
+                                </RowItem>
+                                <RowItem width={350}>
+                                  <Text>
+                                    {formatCommissionRate(
+                                      v.commission.commission_rates.max_rate,
+                                    )}
+                                  </Text>
+                                </RowItem>
+                              </ValidatorDetailRow>
+                              <ValidatorDetailRow>
+                                <RowItem width={200}>
+                                  <H6 style={{ margin: 0 }}>
+                                    Max. Daily Fee Change
+                                  </H6>
+                                </RowItem>
+                                <RowItem width={250}>
+                                  <Text>
+                                    {formatCommissionRate(
+                                      v.commission.commission_rates
+                                        .max_change_rate,
+                                    )}
+                                  </Text>
+                                </RowItem>
+                                <RowItem width={115}>
+                                  <Button
+                                    style={{ marginBottom: 6 }}
+                                    onClick={() => this.handleAddValidator(v)}
+                                    data-cy="add-validator-button"
+                                  >
+                                    Add Validator
+                                  </Button>
+                                </RowItem>
+                              </ValidatorDetailRow>
+                            </ValidatorDetails>
+                          </Collapse>
+                        </View>
+                      );
+                    })}
                   </PageScrollableContent>
                 </ValidatorListCard>
               </View>
@@ -181,6 +313,32 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
       </PageContainer>
     );
   }
+
+  handleAddValidator = (validator: IValidator) => {
+    // Set the selected validator in the transactions workflow
+    this.props.setDelegationValidatorSelection(validator);
+
+    // Default the signin network to the current network, if the ledger
+    // is not connected
+    if (!this.props.ledger.connected) {
+      this.props.setSigninNetworkName(this.props.network.name);
+    }
+
+    // Open the ledger dialog
+    this.props.openLedgerDialog({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "DELEGATE",
+    });
+  };
+
+  handleClickValidator = (address: string) => {
+    if (this.state.showValidatorDetailsAddress === address) {
+      this.setState({ showValidatorDetailsAddress: "" });
+    } else {
+      this.setState({ showValidatorDetailsAddress: address });
+    }
+  };
 
   setSortFilter = (filter: VALIDATORS_LIST_SORT_FILTER) => () => {
     this.props.setValidatorListSortType(filter);
@@ -198,12 +356,32 @@ const ValidatorListCard = styled(Card)`
     props.theme.isDesktop ? "600px" : "auto"};
 `;
 
-const ValidatorRow = styled.div`
-  height: 70px;
+const ValidatorRowBase = styled.div`
   padding: 6px;
   display: flex;
   align-items: center;
   flex-direction: row;
+`;
+
+const ValidatorRow = styled(ValidatorRowBase)`
+  height: 70px;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const ValidatorDetailRow = styled(ValidatorRowBase)`
+  height: 35px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+`;
+
+const ValidatorDetails = styled.div`
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? Colors.DARK_GRAY3 : Colors.LIGHT_GRAY3};
 `;
 
 const RowItem = styled.div<{ width?: number }>`
@@ -227,6 +405,11 @@ const RowItemHeader = styled(RowItem)`
   }
 `;
 
+const Text = styled.p`
+  margin: 0;
+  text-align: left;
+`;
+
 const SortFilterIcon = ({
   active,
   ascending,
@@ -246,6 +429,7 @@ const SortFilterIcon = ({
 
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
+  ledger: Modules.selectors.ledger.ledgerSelector(state),
   network: Modules.selectors.ledger.networkSelector(state),
   sortListAscending: Modules.selectors.app.appSelector(state)
     .sortValidatorsListAscending,
@@ -256,6 +440,11 @@ const mapStateToProps = (state: ReduxStoreState) => ({
 const dispatchProps = {
   setLocale: Modules.actions.settings.setLocale,
   setValidatorListSortType: Modules.actions.app.setValidatorListSortType,
+  openLedgerDialog: Modules.actions.ledger.openLedgerDialog,
+  setSigninNetworkName: Modules.actions.ledger.setSigninNetworkName,
+  openSelectNetworkDialog: Modules.actions.ledger.openSelectNetworkDialog,
+  setDelegationValidatorSelection:
+    Modules.actions.transaction.setDelegationValidatorSelection,
 };
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;

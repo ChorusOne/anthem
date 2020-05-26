@@ -25,6 +25,7 @@ enum T {
 
   // Actions
   DOWNLOAD_CSV = "DOWNLOAD_CSV",
+  DOWNLOAD_TRANSACTIONS = "DOWNLOAD_TRANSACTIONS",
   VIEW_BALANCE_PORTFOLIO = "VIEW_BALANCE_PORTFOLIO",
   VIEW_REWARDS_PORTFOLIO = "VIEW_REWARDS_PORTFOLIO",
 
@@ -117,6 +118,10 @@ class SegmentAnalyticsModule {
 
   downloadCSV = () => {
     this.track(T.DOWNLOAD_CSV);
+  };
+
+  downloadTransactions = () => {
+    this.track(T.DOWNLOAD_TRANSACTIONS);
   };
 
   interestedInMonthlySummaryEmail = ({

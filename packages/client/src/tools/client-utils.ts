@@ -572,13 +572,12 @@ export const isGraphQLResponseDataEmpty = (x?: any) => {
 };
 
 const isChorusOne = (moniker: string) => moniker === "Chorus One";
-const isCertusOne = (moniker: string) => moniker === "Certus One";
 
 /**
  * Sort validators list and put Chorus 1st and Certus 2nd. Apply no sorting
  * to the rest of the list.
  */
-export const defaultSortValidatorsList = (
+export const sortValidatorsChorusOnTop = (
   validators: ReadonlyArray<IValidator>,
 ): IValidator[] => {
   if (!validators) {
@@ -591,10 +590,8 @@ export const defaultSortValidatorsList = (
     const validator = validators[i];
     if (isChorusOne(validator.description.moniker)) {
       reordered[0] = validator;
-    } else if (isCertusOne(validator.description.moniker)) {
-      reordered[1] = validator;
     } else {
-      reordered[i + 2] = validator;
+      reordered[i + 1] = validator;
     }
   }
 
@@ -611,11 +608,13 @@ export const sortValidatorsList = (
   totalStake: string,
 ) => {
   const list = validators.slice();
+  let result = [];
+
   switch (sortField) {
     case VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT:
-      return defaultSortValidatorsList(list);
+      return sortValidatorsChorusOnTop(list);
     case VALIDATORS_LIST_SORT_FILTER.NAME:
-      return list.sort((a, b) => {
+      result = list.sort((a, b) => {
         const aName = a.description.moniker;
         const bName = b.description.moniker;
         if (sortAscending) {
@@ -624,21 +623,26 @@ export const sortValidatorsList = (
           return bName.localeCompare(aName);
         }
       });
+      break;
     case VALIDATORS_LIST_SORT_FILTER.VOTING_POWER:
-      return list.sort((a, b) => {
+      result = list.sort((a, b) => {
         const aPower = divide(a.tokens, totalStake, Number);
         const bPower = divide(b.tokens, totalStake, Number);
         return sortAscending ? aPower - bPower : bPower - aPower;
       });
+      break;
     case VALIDATORS_LIST_SORT_FILTER.COMMISSION:
-      return list.sort((a, b) => {
+      result = list.sort((a, b) => {
         const aRate = Number(a.commission.commission_rates.rate);
         const bRate = Number(b.commission.commission_rates.rate);
         return sortAscending ? aRate - bRate : bRate - aRate;
       });
+      break;
     default:
       return assertUnreachable(sortField);
   }
+
+  return sortValidatorsChorusOnTop(result);
 };
 
 /**

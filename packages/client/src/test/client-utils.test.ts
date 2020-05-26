@@ -4,7 +4,6 @@ import {
   abbreviateAddress,
   canRenderGraphQL,
   capitalizeString,
-  defaultSortValidatorsList,
   formatAddressString,
   formatCommissionRate,
   formatVotingPower,
@@ -23,6 +22,7 @@ import {
   onActiveRoute,
   onPath,
   race,
+  sortValidatorsChorusOnTop,
   trimZeroes,
   wait,
 } from "tools/client-utils";
@@ -57,9 +57,8 @@ describe("utils", () => {
   });
 
   test("formatValidatorsList", () => {
-    const result = defaultSortValidatorsList(validators);
+    const result = sortValidatorsChorusOnTop(validators);
     expect(result[0].description.moniker).toBe("Chorus One");
-    expect(result[1].description.moniker).toBe("Certus One");
   });
 
   test("getBlockExplorerUrlForTransaction", () => {
