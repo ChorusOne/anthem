@@ -70,7 +70,7 @@ export const TERRA_MESSAGE_TYPES = {
   VOTE: "governance/MsgVote",
   DELEGATE: "staking/MsgDelegate",
   CLAIM: "distribution/MsgWithdrawDelegationReward",
-  SEND: "transfer/MsgSend", // TODO: What type is this?
+  SEND: "bank/MsgSend",
 };
 
 // TODO: Implement
