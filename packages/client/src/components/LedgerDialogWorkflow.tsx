@@ -189,6 +189,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
     switch (ledgerActionType) {
       case "CLAIM":
       case "DELEGATE":
+      case "SEND":
         if (!this.props.ledger.connected) {
           return this.renderLedgerSignin();
         } else {
