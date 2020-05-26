@@ -59,7 +59,6 @@ describe("utils", () => {
   test("formatValidatorsList", () => {
     const result = sortValidatorsChorusOnTop(validators);
     expect(result[0].description.moniker).toBe("Chorus One");
-    expect(result[1].description.moniker).toBe("Certus One");
   });
 
   test("getBlockExplorerUrlForTransaction", () => {
