@@ -314,12 +314,12 @@ class CosmosBalances extends React.Component<CosmosBalancesProps> {
               >
                 {tString("Claim Rewards")}
               </Button>
-              <Button
+              {/* <Button
                 onClick={handleSendReceive}
                 data-cy="balances-send-receive-button"
               >
                 Send/Receive
-              </Button>
+              </Button> */}
             </DelegationControlsContainer>
           </ActionContainer>
         )}
