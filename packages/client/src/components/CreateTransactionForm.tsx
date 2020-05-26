@@ -171,14 +171,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   }
 
   renderSendReceiveTransactionSetup = () => {
-    const {
-      i18n,
-      prices,
-      ledger,
-      validators,
-      fiatCurrency,
-      accountBalances,
-    } = this.props;
+    const { i18n, prices, ledger, fiatCurrency, accountBalances } = this.props;
     const { t, tString } = i18n;
     const atomsConversionRate = prices.prices;
     return (

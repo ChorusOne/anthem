@@ -60,10 +60,10 @@ export interface TxPostBody {
  */
 
 export const COSMOS_MESSAGE_TYPES = {
+  SEND: "cosmos-sdk/MsgSend",
   VOTE: "cosmos-sdk/MsgVote",
   DELEGATE: "cosmos-sdk/MsgDelegate",
   CLAIM: "cosmos-sdk/MsgWithdrawDelegationReward",
-  SEND: "cosmos-sdk/MsgSend",
 };
 
 export const TERRA_MESSAGE_TYPES = {
