@@ -134,11 +134,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     };
   }
 
-  render(): JSX.Element {
+  render(): Nullable<JSX.Element> {
     const { transactionStage } = this.props.transaction;
     const { ledgerActionType } = this.props.ledgerDialog;
-
-    const IS_DELEGATION = ledgerActionType === "DELEGATE";
 
     /**
      * Later Stages:
@@ -168,6 +166,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       default:
         assertUnreachable(ledgerActionType);
     }
+
+    return null;
   }
 
   renderSendReceiveTransactionSetup = () => {
