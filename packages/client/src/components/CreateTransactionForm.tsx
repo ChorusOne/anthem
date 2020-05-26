@@ -101,7 +101,6 @@ interface IState {
   useFullBalance: boolean;
   selectAllRewards: boolean;
   selectedRewards: ReadonlyArray<AvailableReward>;
-  selectedValidatorForDelegation: Nullable<IValidator>;
 }
 
 const DEFAULT_GAS_PRICE = "0.01";
@@ -129,7 +128,6 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       gasPrice: DEFAULT_GAS_PRICE,
       gasAmount: DEFAULT_GAS_AMOUNT,
       claimsTransactionSetupError: "",
-      selectedValidatorForDelegation: null,
       delegationTransactionInputError: "",
     };
   }
@@ -424,10 +422,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       ledger,
       validators,
       fiatCurrency,
+      transaction,
       accountBalances,
     } = this.props;
     const { t, tString } = i18n;
-    const { selectedValidatorForDelegation } = this.state;
+    const { selectedValidatorForDelegation } = transaction;
     const atomsConversionRate = prices.prices;
     return (
       <GraphQLGuardComponentMultipleQueries
@@ -553,10 +552,12 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   handleSelectValidator = (validator: IValidator) => {
-    this.setState({
-      claimsTransactionSetupError: "",
-      selectedValidatorForDelegation: validator,
-    });
+    this.setState(
+      {
+        claimsTransactionSetupError: "",
+      },
+      () => this.props.setDelegationValidatorSelection(validator),
+    );
   };
 
   setCanEscapeKeyCloseDialog = (canClose: boolean) => () => {
@@ -919,13 +920,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   getDelegationTransaction = () => {
-    const {
-      amount,
-      gasAmount,
-      gasPrice,
-      selectedValidatorForDelegation,
-    } = this.state;
-    const { accountInformation } = this.props;
+    const { amount, gasAmount, gasPrice } = this.state;
+    const { accountInformation, transaction } = this.props;
+    const { selectedValidatorForDelegation } = transaction;
     const { network, address } = this.props.ledger;
     const { denom } = network;
 
@@ -961,12 +958,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         network,
       });
 
-      const transaction = {
+      this.props.setTransactionData({
         txMsg,
         txRequestMetadata,
-      };
-
-      this.props.setTransactionData(transaction);
+      });
     } else {
       Toast.warn(
         this.props.i18n.tString(
@@ -1085,6 +1080,8 @@ const dispatchProps = {
   signTransaction: Modules.actions.transaction.signTransaction,
   setTransactionData: Modules.actions.transaction.setTransactionData,
   broadcastTransaction: Modules.actions.transaction.broadcastTransaction,
+  setDelegationValidatorSelection:
+    Modules.actions.transaction.setDelegationValidatorSelection,
 };
 
 const withProps = connect(mapStateToProps, dispatchProps);
