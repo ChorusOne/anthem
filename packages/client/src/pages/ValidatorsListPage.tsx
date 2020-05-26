@@ -1,11 +1,12 @@
 import { IQuery } from "@anthem/utils";
-import { Card, Collapse, Colors, H5, Icon } from "@blueprintjs/core";
-import { NetworkLogoIcon } from "assets/images";
+import { Card, Collapse, Colors, H5, H6, Icon } from "@blueprintjs/core";
+import { CopyIcon, NetworkLogoIcon } from "assets/images";
 import AddressIconComponent from "components/AddressIconComponent";
 import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
 import PageAddressBar from "components/PageAddressBar";
 import {
   DashboardLoader,
+  Link,
   PageContainer,
   PageScrollableContent,
   View,
@@ -26,6 +27,7 @@ import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import {
+  copyTextToClipboard,
   formatAddressString,
   formatCommissionRate,
   formatVotingPower,
@@ -207,13 +209,13 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                           </ValidatorRow>
                           <Collapse isOpen={expanded}>
                             <ValidatorDetails>
-                              <ValidatorRowBase>
-                                <RowItem>
-                                  <H5 style={{ margin: 0 }}>
+                              <ValidatorDetailRow>
+                                <RowItem width={200}>
+                                  <H6 style={{ margin: 0 }}>
                                     Operator Address
-                                  </H5>
+                                  </H6>
                                 </RowItem>
-                                <RowItem>
+                                <RowItem width={150}>
                                   <Text>
                                     {formatAddressString(
                                       v.operator_address,
@@ -221,7 +223,34 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                     )}
                                   </Text>
                                 </RowItem>
-                              </ValidatorRowBase>
+                                <RowItem
+                                  onClick={() =>
+                                    copyTextToClipboard(v.operator_address)
+                                  }
+                                >
+                                  <CopyIcon />
+                                </RowItem>
+                              </ValidatorDetailRow>
+                              <ValidatorDetailRow>
+                                <RowItem width={200}>
+                                  <H6 style={{ margin: 0 }}>Website</H6>
+                                </RowItem>
+                                <RowItem width={350}>
+                                  <Link href={v.description.website}>
+                                    {v.description.website}
+                                  </Link>
+                                </RowItem>
+                              </ValidatorDetailRow>
+                              <ValidatorDetailRow style={{ height: "auto" }}>
+                                <RowItem width={200}>
+                                  <H6 style={{ margin: 0 }}>Description</H6>
+                                </RowItem>
+                                <RowItem width={350}>
+                                  <Text style={{ fontSize: 12 }}>
+                                    {v.description.details}
+                                  </Text>
+                                </RowItem>
+                              </ValidatorDetailRow>
                             </ValidatorDetails>
                           </Collapse>
                         </View>
@@ -262,7 +291,7 @@ const ValidatorListCard = styled(Card)`
 `;
 
 const ValidatorRowBase = styled.div`
-  height: 70px;
+  height: 45px;
   padding: 6px;
   display: flex;
   align-items: center;
@@ -270,9 +299,16 @@ const ValidatorRowBase = styled.div`
 `;
 
 const ValidatorRow = styled(ValidatorRowBase)`
+  height: 70px;
+
   &:hover {
     cursor: pointer;
   }
+`;
+
+const ValidatorDetailRow = styled(ValidatorRowBase)`
+  margin-top: 2px;
+  margin-bottom: 2px;
 `;
 
 const ValidatorDetails = styled.div`
@@ -303,6 +339,7 @@ const RowItemHeader = styled(RowItem)`
 
 const Text = styled.p`
   margin: 0;
+  text-align: left;
 `;
 
 const SortFilterIcon = ({
