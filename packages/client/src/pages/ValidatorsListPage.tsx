@@ -5,6 +5,7 @@ import AddressIconComponent from "components/AddressIconComponent";
 import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
 import PageAddressBar from "components/PageAddressBar";
 import {
+  Button,
   DashboardLoader,
   Link,
   PageContainer,
@@ -167,6 +168,9 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                       const expanded =
                         v.operator_address ===
                         this.state.showValidatorDetailsAddress;
+
+                      const copyAddress = () =>
+                        copyTextToClipboard(v.operator_address);
                       return (
                         <View key={v.operator_address}>
                           <ValidatorRow
@@ -223,11 +227,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                     )}
                                   </Text>
                                 </RowItem>
-                                <RowItem
-                                  onClick={() =>
-                                    copyTextToClipboard(v.operator_address)
-                                  }
-                                >
+                                <RowItem onClick={copyAddress}>
                                   <CopyIcon />
                                 </RowItem>
                               </ValidatorDetailRow>
@@ -237,7 +237,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                 </RowItem>
                                 <RowItem width={350}>
                                   <Link href={v.description.website}>
-                                    {v.description.website}
+                                    {v.description.website || "n/a"}
                                   </Link>
                                 </RowItem>
                               </ValidatorDetailRow>
@@ -247,8 +247,56 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                 </RowItem>
                                 <RowItem width={350}>
                                   <Text style={{ fontSize: 12 }}>
-                                    {v.description.details}
+                                    {v.description.details || "n/a"}
                                   </Text>
+                                </RowItem>
+                              </ValidatorDetailRow>
+                              <ValidatorDetailRow>
+                                <RowItem width={200}>
+                                  <H6 style={{ margin: 0 }}>Fee</H6>
+                                </RowItem>
+                                <RowItem width={350}>
+                                  <Text>
+                                    {formatCommissionRate(
+                                      v.commission.commission_rates.rate,
+                                    )}
+                                  </Text>
+                                </RowItem>
+                              </ValidatorDetailRow>
+                              <ValidatorDetailRow>
+                                <RowItem width={200}>
+                                  <H6 style={{ margin: 0 }}>Max. Fee</H6>
+                                </RowItem>
+                                <RowItem width={350}>
+                                  <Text>
+                                    {formatCommissionRate(
+                                      v.commission.commission_rates.max_rate,
+                                    )}
+                                  </Text>
+                                </RowItem>
+                              </ValidatorDetailRow>
+                              <ValidatorDetailRow>
+                                <RowItem width={200}>
+                                  <H6 style={{ margin: 0 }}>
+                                    Max. Daily Fee Change
+                                  </H6>
+                                </RowItem>
+                                <RowItem width={250}>
+                                  <Text>
+                                    {formatCommissionRate(
+                                      v.commission.commission_rates
+                                        .max_change_rate,
+                                    )}
+                                  </Text>
+                                </RowItem>
+                                <RowItem width={115}>
+                                  <Button
+                                    style={{ marginBottom: 6 }}
+                                    onClick={this.handleAddValidator}
+                                    data-cy="add-validator-button"
+                                  >
+                                    Add Validator
+                                  </Button>
                                 </RowItem>
                               </ValidatorDetailRow>
                             </ValidatorDetails>
@@ -265,6 +313,10 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
       </PageContainer>
     );
   }
+
+  handleAddValidator = () => {
+    console.log("HI");
+  };
 
   handleClickValidator = (address: string) => {
     if (this.state.showValidatorDetailsAddress === address) {
@@ -291,7 +343,6 @@ const ValidatorListCard = styled(Card)`
 `;
 
 const ValidatorRowBase = styled.div`
-  height: 45px;
   padding: 6px;
   display: flex;
   align-items: center;
@@ -307,11 +358,14 @@ const ValidatorRow = styled(ValidatorRowBase)`
 `;
 
 const ValidatorDetailRow = styled(ValidatorRowBase)`
+  height: 35px;
   margin-top: 2px;
   margin-bottom: 2px;
 `;
 
 const ValidatorDetails = styled.div`
+  padding-top: 4px;
+  padding-bottom: 4px;
   background: ${(props: { theme: IThemeProps }) =>
     props.theme.isDarkTheme ? Colors.DARK_GRAY3 : Colors.LIGHT_GRAY3};
 `;
