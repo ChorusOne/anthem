@@ -224,13 +224,6 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                       value={this.state.amount}
                       onChange={this.handleEnterLedgerActionAmount}
                     />
-                    <Switch
-                      checked={this.state.useFullBalance}
-                      style={{ marginTop: 24 }}
-                      data-cy="transaction-delegate-all-toggle"
-                      label={tString("Delegate All")}
-                      onChange={this.toggleFullBalance}
-                    />
                     {this.props.renderConfirmArrow(
                       tString("Generate My Transaction"),
                       this.submitLedgerTransactionAmount,
