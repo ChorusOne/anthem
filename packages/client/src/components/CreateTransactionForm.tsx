@@ -47,7 +47,7 @@ import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import styled from "styled-components";
 import {
   capitalizeString,
-  defaultSortValidatorsList,
+  sortValidatorsChorusOnTop,
   getAccountBalances,
   getBlockExplorerUrlForTransaction,
   mapRewardsToAvailableRewards,
@@ -459,7 +459,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   onClose: this.setCanEscapeKeyCloseDialog(true),
                   popoverClassName: "ValidatorCompositionSelect",
                 }}
-                items={defaultSortValidatorsList(validators.validators)}
+                items={sortValidatorsChorusOnTop(validators.validators)}
                 onItemSelect={this.handleSelectValidator}
                 itemRenderer={this.renderValidatorSelectItem}
                 itemPredicate={this.setValidatorSelectItemPredicate}
