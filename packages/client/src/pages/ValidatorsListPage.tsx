@@ -1,5 +1,5 @@
 import { IQuery } from "@anthem/utils";
-import { Card, H5, Icon } from "@blueprintjs/core";
+import { Card, Collapse, H5, Icon } from "@blueprintjs/core";
 import { NetworkLogoIcon } from "assets/images";
 import AddressIconComponent from "components/AddressIconComponent";
 import { GraphQLGuardComponentMultipleQueries } from "components/GraphQLGuardComponents";
@@ -34,11 +34,28 @@ import {
 import { composeWithProps } from "tools/context-utils";
 
 /** ===========================================================================
+ * Types & Config
+ * ============================================================================
+ */
+
+interface IState {
+  showValidatorDetailsAddress: string;
+}
+
+/** ===========================================================================
  * React Component
  * ============================================================================
  */
 
-class ValidatorsListPage extends React.Component<IProps, {}> {
+class ValidatorsListPage extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
+
+    this.state = {
+      showValidatorDetailsAddress: "",
+    };
+  }
+
   render(): JSX.Element {
     const {
       i18n,
@@ -144,33 +161,53 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
                 <ValidatorListCard style={{ padding: 8 }}>
                   <PageScrollableContent>
                     {sortedValidatorsList.map(v => (
-                      <ValidatorRow key={v.operator_address}>
-                        <RowItem width={45}>
-                          <AddressIconComponent
-                            networkName={network.name}
-                            address={v.operator_address}
-                            validatorOperatorAddressMap={
-                              validatorOperatorAddressMap
-                            }
-                          />
-                        </RowItem>
-                        <RowItem width={200}>
-                          <H5 style={{ margin: 0 }}>{v.description.moniker}</H5>
-                        </RowItem>
-                        <RowItem width={150}>
-                          <b style={{ margin: 0 }}>
-                            {formatVotingPower(v.tokens, stake)}%
-                          </b>
-                        </RowItem>
-                        <RowItem width={150}>
-                          <b style={{ margin: 0 }}>
-                            {formatCommissionRate(
-                              v.commission.commission_rates.rate,
-                            )}
-                            %
-                          </b>
-                        </RowItem>
-                      </ValidatorRow>
+                      <View key={v.operator_address}>
+                        <ValidatorRow
+                          onClick={() =>
+                            this.handleClickValidator(v.operator_address)
+                          }
+                        >
+                          <RowItem width={45}>
+                            <AddressIconComponent
+                              networkName={network.name}
+                              address={v.operator_address}
+                              validatorOperatorAddressMap={
+                                validatorOperatorAddressMap
+                              }
+                            />
+                          </RowItem>
+                          <RowItem width={200}>
+                            <H5 style={{ margin: 0 }}>
+                              {v.description.moniker}
+                            </H5>
+                          </RowItem>
+                          <RowItem width={150}>
+                            <b style={{ margin: 0 }}>
+                              {formatVotingPower(v.tokens, stake)}%
+                            </b>
+                          </RowItem>
+                          <RowItem width={150}>
+                            <b style={{ margin: 0 }}>
+                              {formatCommissionRate(
+                                v.commission.commission_rates.rate,
+                              )}
+                              %
+                            </b>
+                          </RowItem>
+                        </ValidatorRow>
+                        <Collapse
+                          isOpen={
+                            v.operator_address ===
+                            this.state.showValidatorDetailsAddress
+                          }
+                        >
+                          <RowItem>
+                            <H5 style={{ margin: 0 }}>
+                              {v.description.details}
+                            </H5>
+                          </RowItem>
+                        </Collapse>
+                      </View>
                     ))}
                   </PageScrollableContent>
                 </ValidatorListCard>
@@ -181,6 +218,14 @@ class ValidatorsListPage extends React.Component<IProps, {}> {
       </PageContainer>
     );
   }
+
+  handleClickValidator = (address: string) => {
+    if (this.state.showValidatorDetailsAddress === address) {
+      this.setState({ showValidatorDetailsAddress: "" });
+    } else {
+      this.setState({ showValidatorDetailsAddress: address });
+    }
+  };
 
   setSortFilter = (filter: VALIDATORS_LIST_SORT_FILTER) => () => {
     this.props.setValidatorListSortType(filter);
