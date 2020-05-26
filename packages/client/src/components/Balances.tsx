@@ -188,7 +188,7 @@ class CosmosBalances extends React.Component<CosmosBalancesProps> {
       currencySetting,
       handleDelegation,
       handleRewardsClaim,
-      handleSendReceive,
+      // handleSendReceive,
     } = this.props;
 
     const fiatConversionRate = prices;
