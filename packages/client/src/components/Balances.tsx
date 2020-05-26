@@ -301,13 +301,14 @@ class CosmosBalances extends React.Component<CosmosBalancesProps> {
             <H5>{tString("What do you want to do?")}</H5>
             <DelegationControlsContainer>
               <Button
-                style={{ marginRight: 16 }}
+                style={{ marginRight: 4 }}
                 onClick={handleDelegation}
                 data-cy="balances-delegation-button"
               >
                 {tString("Delegate")}
               </Button>
               <Button
+                style={{ marginRight: 4 }}
                 onClick={handleRewardsClaim}
                 data-cy="balances-rewards-claim-button"
               >
@@ -317,7 +318,7 @@ class CosmosBalances extends React.Component<CosmosBalancesProps> {
                 onClick={handleSendReceive}
                 data-cy="balances-send-receive-button"
               >
-                {tString("Claim Rewards")}
+                Send/Receive
               </Button>
             </DelegationControlsContainer>
           </ActionContainer>
