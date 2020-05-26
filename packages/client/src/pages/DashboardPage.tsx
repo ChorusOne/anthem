@@ -60,7 +60,11 @@ const TABS: ReadonlyArray<PORTFOLIO_CHART_TYPES> = [
 
 class DashboardPage extends React.Component<IProps> {
   render(): JSX.Element {
-    const { address, ledger } = this.props;
+    const { address, ledger, i18n, app, settings } = this.props;
+    const { t, tString } = i18n;
+    const { network } = ledger;
+    const { portfolioExpanded, transactionsExpanded } = app;
+    const { isDesktop, currencySetting, fiatCurrency } = settings;
 
     if (!address) {
       return (
@@ -76,14 +80,10 @@ class DashboardPage extends React.Component<IProps> {
       );
     }
 
-    const { i18n, app, settings } = this.props;
-    const { t, tString } = i18n;
-    const { portfolioExpanded, transactionsExpanded } = app;
-    const { isDesktop, currencySetting, fiatCurrency } = settings;
-
     const HIDE_TOP_PANEL = transactionsExpanded;
     const IS_PORTFOLIO_EXPANDED = portfolioExpanded;
     const DISPLAY_TRANSACTIONS = !portfolioExpanded;
+    const TRANSACTIONS_SUPPORTED = network.supportsTransactionsHistory;
 
     const PortfolioPanel = (
       <Card elevation={Elevation.TWO} style={getPortfolioCardStyles()}>
@@ -129,7 +129,7 @@ class DashboardPage extends React.Component<IProps> {
               <H5 style={{ marginTop: 15, marginBottom: 15, marginLeft: 15 }}>
                 {t("Recent Transactions and Events")}
               </H5>
-              {isDesktop && (
+              {isDesktop && TRANSACTIONS_SUPPORTED && (
                 <View>
                   <Button
                     text="Download All (JSON)"

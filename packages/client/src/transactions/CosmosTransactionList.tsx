@@ -60,8 +60,6 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
       extraLiveTransactions,
     } = this.props;
 
-    console.log(transactions);
-
     // Get the combined list of transactions to render:
     const txs = this.combineTransactionRecords(
       transactions,
