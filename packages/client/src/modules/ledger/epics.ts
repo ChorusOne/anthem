@@ -91,8 +91,9 @@ const ledgerDialogConnectionEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.openLedgerDialog)),
     pluck("payload"),
+    pluck("signinType"),
+    filter(x => x === "LEDGER"),
     filter(() => !state$.value.ledger.ledger.connected),
-    filter(payload => payload.signinType === "LEDGER"),
     map(() => Actions.connectLedger()),
   );
 };
