@@ -70,10 +70,12 @@ const broadcastTransactionEpic: EpicSignature = (action$, state$, deps) => {
           throw new Error("No transaction data exists!");
         }
 
-        // NOTE: Use `block` to debug and `async` in production:
+        console.log(tx.value);
+
         const body = JSON.stringify({
           tx: tx.value,
-          mode: "async",
+          // mode: "async",
+          mode: "block", // NOTE: Use `block` to debug and `async` in production:
         });
 
         logger(body);

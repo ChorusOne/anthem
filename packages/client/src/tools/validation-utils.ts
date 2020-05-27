@@ -115,6 +115,19 @@ export const validateNetworkAddress = (
 };
 
 /**
+ * Perform basic validation on a Cosmos address string.
+ */
+export const validateCosmosAddress = (address: string): boolean => {
+  try {
+    bech32.decode(address);
+  } catch (err) {
+    return false;
+  }
+
+  return true;
+};
+
+/**
  * Validate a ledger transaction amount.
  */
 export const validateLedgerTransactionAmount = (

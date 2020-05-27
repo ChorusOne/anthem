@@ -67,7 +67,10 @@ import {
   formatCurrencyAmount,
 } from "tools/currency-utils";
 import { bold } from "tools/i18n-utils";
-import { validateLedgerTransactionAmount } from "tools/validation-utils";
+import {
+  validateCosmosAddress,
+  validateLedgerTransactionAmount,
+} from "tools/validation-utils";
 import {
   Button,
   Centered,
@@ -854,8 +857,17 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     }
   };
 
-  handleEnterRecipientAddress = (recipientAddress: string) => {
-    this.setState({ recipientAddress });
+  handleEnterRecipientAddress = (recipient: string) => {
+    this.setState({ recipientAddress: recipient }, () => {
+      const { recipientAddress } = this.state;
+      if (recipientAddress) {
+        if (!validateCosmosAddress(recipientAddress)) {
+          Toast.warn(
+            "Please ensure the entered address is a valid Cosmos address.",
+          );
+        }
+      }
+    });
   };
 
   handleEnterLedgerActionAmount = (value: string) => {
