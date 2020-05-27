@@ -11,7 +11,7 @@ import {
 } from "@anthem/utils";
 import { AvailableReward } from "components/CreateTransactionForm";
 import { LEDGER_ACTION_TYPE } from "modules/ledger/actions";
-import { denomToUnit, unitToDenom } from "./currency-utils";
+import { unitToDenom } from "./currency-utils";
 import { multiply } from "./math-utils";
 
 /** ===========================================================================
