@@ -57,6 +57,7 @@ import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import {
   createDelegationTransactionMessage,
   createRewardsClaimTransaction,
+  createSendTransactionMessage,
   createTransactionRequestMetadata,
 } from "tools/cosmos-utils";
 import {
@@ -96,6 +97,8 @@ interface IState {
   gasAmount: string;
   amount: string;
   delegationTransactionInputError: string;
+  recipientAddress: string;
+  sendTransactionInputError: string;
   displayCustomGasSettings: boolean;
   claimsTransactionSetupError: string;
   useFullBalance: boolean;
@@ -127,7 +130,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       displayCustomGasSettings: false,
       gasPrice: DEFAULT_GAS_PRICE,
       gasAmount: DEFAULT_GAS_AMOUNT,
+      recipientAddress: "",
       claimsTransactionSetupError: "",
+      sendTransactionInputError: "",
       delegationTransactionInputError: "",
     };
   }
@@ -917,6 +922,52 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         this.getDelegationTransaction();
       }
     });
+  };
+
+  getSendTransaction = () => {
+    const { amount, gasAmount, gasPrice, recipientAddress } = this.state;
+    const { accountInformation } = this.props;
+    const { network, address } = this.props.ledger;
+    const { denom } = network;
+
+    if (!recipientAddress) {
+      return this.setState({
+        sendTransactionInputError: "Please enter a recipient address",
+      });
+    }
+
+    if (recipientAddress && accountInformation.accountInformation) {
+      const txMsg = createSendTransactionMessage({
+        denom,
+        amount,
+        address,
+        gasAmount,
+        gasPrice,
+        network: network.name,
+        recipient: recipientAddress,
+      });
+
+      const account = accountInformation.accountInformation as IAccountInformation;
+
+      const txRequestMetadata = createTransactionRequestMetadata({
+        address,
+        account,
+        gasAmount,
+        gasPrice,
+        network,
+      });
+
+      this.props.setTransactionData({
+        txMsg,
+        txRequestMetadata,
+      });
+    } else {
+      Toast.warn(
+        this.props.i18n.tString(
+          "Something went wrong... account information is not available right now.",
+        ),
+      );
+    }
   };
 
   getDelegationTransaction = () => {

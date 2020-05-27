@@ -82,7 +82,7 @@ export const CELO_MESSAGE_TYPES = {};
 const getTransactionMessageTypeForNetwork = (
   network: NETWORK_NAME,
   transactionType: LEDGER_ACTION_TYPE,
-) => {
+): string => {
   switch (network) {
     case "COSMOS":
     case "KAVA":
@@ -156,6 +156,55 @@ export const createDelegationTransactionMessage = (args: {
             denom,
             amount: unitToDenom(amount, network.denominationSize, String),
           },
+        },
+      },
+    ],
+  };
+};
+
+/**
+ * Create a send transaction message.
+ */
+export const createSendTransactionMessage = (args: {
+  amount: string;
+  address: string;
+  gasAmount: string;
+  gasPrice: string;
+  recipient: string;
+  denom: COIN_DENOMS;
+  network: NETWORK_NAME;
+}): ITxValue => {
+  const {
+    denom,
+    amount,
+    network,
+    address,
+    gasPrice,
+    gasAmount,
+    recipient,
+  } = args;
+
+  const type = getTransactionMessageTypeForNetwork(network, "SEND");
+
+  return {
+    fee: {
+      amount: [
+        {
+          denom,
+          amount: multiply(gasAmount, gasPrice, String),
+        },
+      ],
+      gas: gasAmount,
+    },
+    signatures: null,
+    memo: TRANSACTION_MEMO,
+    msg: [
+      {
+        type,
+        value: {
+          from_address: address,
+          to_address: recipient,
+          amounts: [{ denom, amount }],
         },
       },
     ],
