@@ -24,6 +24,8 @@ import {
   withGraphQLVariables,
   withStakingPool,
   withValidators,
+  RewardsByValidatorProps,
+  withRewardsByValidatorQuery,
 } from "graphql/queries";
 import { VALIDATORS_LIST_SORT_FILTER } from "modules/app/store";
 import Modules, { ReduxStoreState } from "modules/root";
@@ -571,6 +573,7 @@ interface IProps
     StakingPoolProps,
     FiatPriceDataProps,
     AccountBalancesProps,
+    RewardsByValidatorProps,
     ConnectProps {}
 
 /** ===========================================================================
@@ -585,4 +588,5 @@ export default composeWithProps<ComponentProps>(
   withStakingPool,
   withFiatPriceData,
   withAccountBalances,
+  withRewardsByValidatorQuery,
 )(ValidatorsListPage);
