@@ -47,6 +47,7 @@ import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import styled from "styled-components";
 import {
   capitalizeString,
+  copyTextToClipboard,
   getAccountBalances,
   getBlockExplorerUrlForTransaction,
   mapRewardsToAvailableRewards,
@@ -175,6 +176,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
   renderSendReceiveTransactionSetup = () => {
     const { i18n, prices, ledger, fiatCurrency, accountBalances } = this.props;
+    const { address } = ledger;
     const { t, tString } = i18n;
     const atomsConversionRate = prices.prices;
     return (
@@ -237,6 +239,14 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                       value={this.state.recipientAddress}
                       onChange={this.handleEnterRecipientAddress}
                     />
+                    <Button
+                      icon="duplicate"
+                      data-cy="ledger-dialog-back-button"
+                      onClick={() => copyTextToClipboard(address)}
+                      style={{ bottom: -16, position: "absolute" }}
+                    >
+                      Receive
+                    </Button>
                     {this.props.renderConfirmArrow(
                       tString("Generate My Transaction"),
                       this.submitLedgerTransactionAmount,
