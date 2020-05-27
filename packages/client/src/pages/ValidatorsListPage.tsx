@@ -109,203 +109,236 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
               stake,
             );
             return (
-              <View>
-                <ValidatorRow style={{ paddingLeft: 14 }}>
-                  <RowItem width={45}>
-                    <NetworkLogoIcon network={network.name} />
-                  </RowItem>
-                  <RowItemHeader
-                    width={200}
-                    onClick={this.setSortFilter(
-                      VALIDATORS_LIST_SORT_FILTER.NAME,
-                    )}
-                  >
-                    <H5 style={{ margin: 0 }}>Validator</H5>
-                    <SortFilterIcon
-                      ascending={sortListAscending}
-                      active={
-                        validatorSortField ===
-                          VALIDATORS_LIST_SORT_FILTER.NAME ||
-                        validatorSortField ===
-                          VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT
-                      }
-                    />
-                  </RowItemHeader>
-                  <RowItemHeader
-                    width={150}
-                    onClick={this.setSortFilter(
-                      VALIDATORS_LIST_SORT_FILTER.VOTING_POWER,
-                    )}
-                  >
-                    <H5 style={{ margin: 0 }}>Voting Power</H5>
-                    <SortFilterIcon
-                      ascending={sortListAscending}
-                      active={
-                        validatorSortField ===
-                        VALIDATORS_LIST_SORT_FILTER.VOTING_POWER
-                      }
-                    />
-                  </RowItemHeader>
-                  <RowItemHeader
-                    width={150}
-                    onClick={this.setSortFilter(
-                      VALIDATORS_LIST_SORT_FILTER.COMMISSION,
-                    )}
-                  >
-                    <H5 style={{ margin: 0 }}>Commission</H5>
-                    <SortFilterIcon
-                      ascending={sortListAscending}
-                      active={
-                        validatorSortField ===
-                        VALIDATORS_LIST_SORT_FILTER.COMMISSION
-                      }
-                    />
-                  </RowItemHeader>
-                </ValidatorRow>
-                <ValidatorListCard style={{ padding: 8 }}>
-                  <PageScrollableContent>
-                    {sortedValidatorsList.map(v => {
-                      const expanded =
-                        v.operator_address ===
-                        this.state.showValidatorDetailsAddress;
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                }}
+              >
+                <View>
+                  <ValidatorRow style={{ paddingLeft: 14 }}>
+                    <RowItem width={45}>
+                      <NetworkLogoIcon network={network.name} />
+                    </RowItem>
+                    <RowItemHeader
+                      width={200}
+                      onClick={this.setSortFilter(
+                        VALIDATORS_LIST_SORT_FILTER.NAME,
+                      )}
+                    >
+                      <H5 style={{ margin: 0 }}>Validator</H5>
+                      <SortFilterIcon
+                        ascending={sortListAscending}
+                        active={
+                          validatorSortField ===
+                            VALIDATORS_LIST_SORT_FILTER.NAME ||
+                          validatorSortField ===
+                            VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT
+                        }
+                      />
+                    </RowItemHeader>
+                    <RowItemHeader
+                      width={150}
+                      onClick={this.setSortFilter(
+                        VALIDATORS_LIST_SORT_FILTER.VOTING_POWER,
+                      )}
+                    >
+                      <H5 style={{ margin: 0 }}>Voting Power</H5>
+                      <SortFilterIcon
+                        ascending={sortListAscending}
+                        active={
+                          validatorSortField ===
+                          VALIDATORS_LIST_SORT_FILTER.VOTING_POWER
+                        }
+                      />
+                    </RowItemHeader>
+                    <RowItemHeader
+                      width={150}
+                      onClick={this.setSortFilter(
+                        VALIDATORS_LIST_SORT_FILTER.COMMISSION,
+                      )}
+                    >
+                      <H5 style={{ margin: 0 }}>Commission</H5>
+                      <SortFilterIcon
+                        ascending={sortListAscending}
+                        active={
+                          validatorSortField ===
+                          VALIDATORS_LIST_SORT_FILTER.COMMISSION
+                        }
+                      />
+                    </RowItemHeader>
+                  </ValidatorRow>
+                  <ValidatorListCard style={{ padding: 8 }}>
+                    <PageScrollableContent>
+                      {sortedValidatorsList.map(v => {
+                        const expanded =
+                          v.operator_address ===
+                          this.state.showValidatorDetailsAddress;
 
-                      const copyAddress = () =>
-                        copyTextToClipboard(v.operator_address);
-                      return (
-                        <View key={v.operator_address}>
-                          <ValidatorRow
-                            onClick={() =>
-                              this.handleClickValidator(v.operator_address)
-                            }
-                          >
-                            <RowItem width={45}>
-                              <AddressIconComponent
-                                networkName={network.name}
-                                address={v.operator_address}
-                                validatorOperatorAddressMap={
-                                  validatorOperatorAddressMap
-                                }
-                              />
-                            </RowItem>
-                            <RowItem width={200}>
-                              <H5 style={{ margin: 0 }}>
-                                {v.description.moniker}
-                              </H5>
-                            </RowItem>
-                            <RowItem width={150}>
-                              <b style={{ margin: 0 }}>
-                                {formatVotingPower(v.tokens, stake)}%
-                              </b>
-                            </RowItem>
-                            <RowItem width={150}>
-                              <b style={{ margin: 0 }}>
-                                {formatCommissionRate(
-                                  v.commission.commission_rates.rate,
-                                )}
-                                %
-                              </b>
-                            </RowItem>
-                            <RowItem>
-                              <Icon
-                                icon={expanded ? "caret-up" : "caret-down"}
-                              />
-                            </RowItem>
-                          </ValidatorRow>
-                          <Collapse isOpen={expanded}>
-                            <ValidatorDetails>
-                              <ValidatorDetailRow>
-                                <RowItem width={200}>
-                                  <H6 style={{ margin: 0 }}>
-                                    Operator Address
-                                  </H6>
-                                </RowItem>
-                                <RowItem width={150}>
-                                  <Text>
-                                    {formatAddressString(
-                                      v.operator_address,
-                                      true,
-                                    )}
-                                  </Text>
-                                </RowItem>
-                                <RowItem onClick={copyAddress}>
-                                  <CopyIcon />
-                                </RowItem>
-                              </ValidatorDetailRow>
-                              <ValidatorDetailRow>
-                                <RowItem width={200}>
-                                  <H6 style={{ margin: 0 }}>Website</H6>
-                                </RowItem>
-                                <RowItem width={350}>
-                                  <Link href={v.description.website}>
-                                    {v.description.website || "n/a"}
-                                  </Link>
-                                </RowItem>
-                              </ValidatorDetailRow>
-                              <ValidatorDetailRow style={{ height: "auto" }}>
-                                <RowItem width={200}>
-                                  <H6 style={{ margin: 0 }}>Description</H6>
-                                </RowItem>
-                                <RowItem width={350}>
-                                  <Text style={{ fontSize: 12 }}>
-                                    {v.description.details || "n/a"}
-                                  </Text>
-                                </RowItem>
-                              </ValidatorDetailRow>
-                              <ValidatorDetailRow>
-                                <RowItem width={200}>
-                                  <H6 style={{ margin: 0 }}>Fee</H6>
-                                </RowItem>
-                                <RowItem width={350}>
-                                  <Text>
-                                    {formatCommissionRate(
-                                      v.commission.commission_rates.rate,
-                                    )}
-                                  </Text>
-                                </RowItem>
-                              </ValidatorDetailRow>
-                              <ValidatorDetailRow>
-                                <RowItem width={200}>
-                                  <H6 style={{ margin: 0 }}>Max. Fee</H6>
-                                </RowItem>
-                                <RowItem width={350}>
-                                  <Text>
-                                    {formatCommissionRate(
-                                      v.commission.commission_rates.max_rate,
-                                    )}
-                                  </Text>
-                                </RowItem>
-                              </ValidatorDetailRow>
-                              <ValidatorDetailRow>
-                                <RowItem width={200}>
-                                  <H6 style={{ margin: 0 }}>
-                                    Max. Daily Fee Change
-                                  </H6>
-                                </RowItem>
-                                <RowItem width={250}>
-                                  <Text>
-                                    {formatCommissionRate(
-                                      v.commission.commission_rates
-                                        .max_change_rate,
-                                    )}
-                                  </Text>
-                                </RowItem>
-                                <RowItem width={115}>
-                                  <Button
-                                    style={{ marginBottom: 6 }}
-                                    onClick={() => this.handleAddValidator(v)}
-                                    data-cy="add-validator-button"
-                                  >
-                                    Add Validator
-                                  </Button>
-                                </RowItem>
-                              </ValidatorDetailRow>
-                            </ValidatorDetails>
-                          </Collapse>
-                        </View>
-                      );
-                    })}
-                  </PageScrollableContent>
-                </ValidatorListCard>
+                        const copyAddress = () =>
+                          copyTextToClipboard(v.operator_address);
+                        return (
+                          <View key={v.operator_address}>
+                            <ValidatorRow
+                              onClick={() =>
+                                this.handleClickValidator(v.operator_address)
+                              }
+                            >
+                              <RowItem width={45}>
+                                <AddressIconComponent
+                                  networkName={network.name}
+                                  address={v.operator_address}
+                                  validatorOperatorAddressMap={
+                                    validatorOperatorAddressMap
+                                  }
+                                />
+                              </RowItem>
+                              <RowItem width={200}>
+                                <H5 style={{ margin: 0 }}>
+                                  {v.description.moniker}
+                                </H5>
+                              </RowItem>
+                              <RowItem width={150}>
+                                <b style={{ margin: 0 }}>
+                                  {formatVotingPower(v.tokens, stake)}%
+                                </b>
+                              </RowItem>
+                              <RowItem width={150}>
+                                <b style={{ margin: 0 }}>
+                                  {formatCommissionRate(
+                                    v.commission.commission_rates.rate,
+                                  )}
+                                  %
+                                </b>
+                              </RowItem>
+                              <RowItem>
+                                <Icon
+                                  icon={expanded ? "caret-up" : "caret-down"}
+                                />
+                              </RowItem>
+                            </ValidatorRow>
+                            <Collapse isOpen={expanded}>
+                              <ValidatorDetails>
+                                <ValidatorDetailRow>
+                                  <RowItem width={200}>
+                                    <H6 style={{ margin: 0 }}>
+                                      Operator Address
+                                    </H6>
+                                  </RowItem>
+                                  <RowItem width={150}>
+                                    <Text>
+                                      {formatAddressString(
+                                        v.operator_address,
+                                        true,
+                                      )}
+                                    </Text>
+                                  </RowItem>
+                                  <RowItem onClick={copyAddress}>
+                                    <CopyIcon />
+                                  </RowItem>
+                                </ValidatorDetailRow>
+                                <ValidatorDetailRow>
+                                  <RowItem width={200}>
+                                    <H6 style={{ margin: 0 }}>Website</H6>
+                                  </RowItem>
+                                  <RowItem width={350}>
+                                    <Link href={v.description.website}>
+                                      {v.description.website || "n/a"}
+                                    </Link>
+                                  </RowItem>
+                                </ValidatorDetailRow>
+                                <ValidatorDetailRow style={{ height: "auto" }}>
+                                  <RowItem width={200}>
+                                    <H6 style={{ margin: 0 }}>Description</H6>
+                                  </RowItem>
+                                  <RowItem width={350}>
+                                    <Text style={{ fontSize: 12 }}>
+                                      {v.description.details || "n/a"}
+                                    </Text>
+                                  </RowItem>
+                                </ValidatorDetailRow>
+                                <ValidatorDetailRow>
+                                  <RowItem width={200}>
+                                    <H6 style={{ margin: 0 }}>Fee</H6>
+                                  </RowItem>
+                                  <RowItem width={350}>
+                                    <Text>
+                                      {formatCommissionRate(
+                                        v.commission.commission_rates.rate,
+                                      )}
+                                    </Text>
+                                  </RowItem>
+                                </ValidatorDetailRow>
+                                <ValidatorDetailRow>
+                                  <RowItem width={200}>
+                                    <H6 style={{ margin: 0 }}>Max. Fee</H6>
+                                  </RowItem>
+                                  <RowItem width={350}>
+                                    <Text>
+                                      {formatCommissionRate(
+                                        v.commission.commission_rates.max_rate,
+                                      )}
+                                    </Text>
+                                  </RowItem>
+                                </ValidatorDetailRow>
+                                <ValidatorDetailRow>
+                                  <RowItem width={200}>
+                                    <H6 style={{ margin: 0 }}>
+                                      Max. Daily Fee Change
+                                    </H6>
+                                  </RowItem>
+                                  <RowItem width={250}>
+                                    <Text>
+                                      {formatCommissionRate(
+                                        v.commission.commission_rates
+                                          .max_change_rate,
+                                      )}
+                                    </Text>
+                                  </RowItem>
+                                  <RowItem width={115}>
+                                    <Button
+                                      style={{ marginBottom: 6 }}
+                                      onClick={() => this.handleAddValidator(v)}
+                                      data-cy="add-validator-button"
+                                    >
+                                      Add Validator
+                                    </Button>
+                                  </RowItem>
+                                </ValidatorDetailRow>
+                              </ValidatorDetails>
+                            </Collapse>
+                          </View>
+                        );
+                      })}
+                    </PageScrollableContent>
+                  </ValidatorListCard>
+                </View>
+                <View style={{ marginLeft: 16 }}>
+                  <ValidatorRow style={{ paddingLeft: 14 }}>
+                    <RowItem width={45}>
+                      <NetworkLogoIcon network={network.name} />
+                    </RowItem>
+                    <RowItemHeader width={200}>
+                      <H5 style={{ margin: 0 }}>Balance</H5>
+                    </RowItemHeader>
+                    <RowItemHeader width={150}>
+                      <H5 style={{ margin: 0 }}>Amount</H5>
+                    </RowItemHeader>
+                  </ValidatorRow>
+                  <ValidatorListCard></ValidatorListCard>
+                  <ValidatorRow style={{ paddingLeft: 14 }}>
+                    <RowItem width={45}>
+                      <NetworkLogoIcon network={network.name} />
+                    </RowItem>
+                    <RowItemHeader width={200}>
+                      <H5 style={{ margin: 0 }}>Balance</H5>
+                    </RowItemHeader>
+                    <RowItemHeader width={150}>
+                      <H5 style={{ margin: 0 }}>Amount</H5>
+                    </RowItemHeader>
+                  </ValidatorRow>
+                  <ValidatorListCard></ValidatorListCard>
+                </View>
               </View>
             );
           }}
