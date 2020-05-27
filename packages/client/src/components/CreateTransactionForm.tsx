@@ -209,7 +209,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   <form
                     style={{
                       display: "flex",
-                      flexDirection: "row",
+                      flexDirection: "column",
                     }}
                     data-cy="ledger-action-input-form"
                     onSubmit={(event: ChangeEvent<HTMLFormElement>) => {
@@ -221,11 +221,21 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                       autoFocus
                       label={tString("Transaction Amount (ATOM)")}
                       onSubmit={this.submitLedgerTransactionAmount}
-                      style={{ ...InputStyles, width: 300 }}
+                      style={{ ...InputStyles, marginBottom: 12, width: 150 }}
                       placeholder={tString("Enter an amount")}
                       data-cy="transaction-send-amount-input"
                       value={this.state.amount}
                       onChange={this.handleEnterLedgerActionAmount}
+                    />
+                    <TextInput
+                      autoFocus
+                      label={`Recipient Address (${ledger.network.name})`}
+                      onSubmit={this.submitLedgerTransactionAmount}
+                      style={{ ...InputStyles, width: 400 }}
+                      placeholder="Enter recipient address"
+                      data-cy="transaction-send-recipient-input"
+                      value={this.state.recipientAddress}
+                      onChange={this.handleEnterRecipientAddress}
                     />
                     {this.props.renderConfirmArrow(
                       tString("Generate My Transaction"),
@@ -234,10 +244,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   </form>
                 </FormContainer>
                 {this.renderGasPriceSetup()}
-                {this.state.delegationTransactionInputError && (
+                {this.state.sendTransactionInputError && (
                   <div style={{ marginTop: 12 }} className={Classes.LABEL}>
-                    <ErrorText data-cy="amount-transaction-error">
-                      {this.state.delegationTransactionInputError}
+                    <ErrorText data-cy="amount-send-transaction-error">
+                      {this.state.sendTransactionInputError}
                     </ErrorText>
                   </div>
                 )}
@@ -835,6 +845,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     }
   };
 
+  handleEnterRecipientAddress = (recipientAddress: string) => {
+    this.setState({ recipientAddress });
+  };
+
   handleEnterLedgerActionAmount = (value: string) => {
     if (!isNaN(Number(value)) || value === "") {
       this.setState({
@@ -919,7 +933,12 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
     this.setState({ delegationTransactionInputError: amountError }, () => {
       if (amountError === "") {
-        this.getDelegationTransaction();
+        const { ledgerActionType } = this.props.ledgerDialog;
+        if (ledgerActionType === "SEND") {
+          this.getSendTransaction();
+        } else {
+          this.getDelegationTransaction();
+        }
       }
     });
   };
