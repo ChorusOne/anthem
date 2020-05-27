@@ -83,7 +83,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
 
     return (
       <PageContainer>
-        <PageAddressBar pageTitle="Validators" />
+        <PageAddressBar pageTitle="Staking" />
         <GraphQLGuardComponentMultipleQueries
           loadingComponent={<DashboardLoader style={{ marginTop: 150 }} />}
           tString={i18n.tString}
