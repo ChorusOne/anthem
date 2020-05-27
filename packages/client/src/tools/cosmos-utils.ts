@@ -2,6 +2,7 @@ import {
   assertUnreachable,
   COIN_DENOMS,
   IAccountInformation,
+  IMsgSend,
   ITxFee,
   ITxMsg,
   ITxSignature,
@@ -175,6 +176,10 @@ export const createDelegationTransactionMessage = (args: {
 
 /**
  * Create a send transaction message.
+ *
+ * NOTE: The GraphQL type is not correct for IMsgSend, because there is
+ * an issue mapping overlapping union types so the amount key in Send
+ * transactions gets rewritten as amounts.
  */
 export const createSendTransactionMessage = (args: {
   amount: string;
@@ -196,28 +201,23 @@ export const createSendTransactionMessage = (args: {
   } = args;
 
   const type = getTransactionMessageTypeForNetwork(network.name, "SEND");
+  const value: IMsgSend = {
+    to_address: recipient,
+    from_address: address,
+    // @ts-ignore - the key is amount, not amounts, see NOTE
+    amount: [
+      {
+        denom,
+        amount: unitToDenom(amount, network.denominationSize, String),
+      },
+    ],
+  };
 
   return {
     fee: getFeeData(denom, gasAmount, gasPrice),
     signatures: null,
     memo: TRANSACTION_MEMO,
-    // @ts-ignore
-    msg: [
-      {
-        type,
-        // @ts-ignore
-        value: {
-          to_address: recipient,
-          from_address: address,
-          amount: [
-            {
-              denom,
-              amount: unitToDenom(amount, network.denominationSize, String),
-            },
-          ],
-        },
-      },
-    ],
+    msg: [{ type, value }],
   };
 };
 
