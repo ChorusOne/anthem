@@ -11,7 +11,7 @@ import {
 } from "@anthem/utils";
 import { AvailableReward } from "components/CreateTransactionForm";
 import { LEDGER_ACTION_TYPE } from "modules/ledger/actions";
-import { unitToDenom } from "./currency-utils";
+import { denomToUnit, unitToDenom } from "./currency-utils";
 import { multiply } from "./math-utils";
 
 /** ===========================================================================
@@ -195,7 +195,7 @@ export const createSendTransactionMessage = (args: {
     recipient,
   } = args;
 
-  const type = getTransactionMessageTypeForNetwork(network, "SEND");
+  const type = getTransactionMessageTypeForNetwork(network.name, "SEND");
 
   return {
     fee: getFeeData(denom, gasAmount, gasPrice),
@@ -205,14 +205,14 @@ export const createSendTransactionMessage = (args: {
       {
         type,
         value: {
-          from_address: address,
-          to_address: recipient,
           amounts: [
             {
               denom,
               amount: unitToDenom(amount, network.denominationSize, String),
             },
           ],
+          to_address: recipient,
+          from_address: address,
         },
       },
     ],

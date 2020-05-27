@@ -828,7 +828,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const { prices, accountBalances, ledger } = this.props;
     const { ledgerActionType } = this.props.ledgerDialog;
     const atomsConversionRate = prices.prices;
-    const IS_DELEGATION = ledgerActionType === "DELEGATE";
+    const IS_CLAIM = ledgerActionType === "CLAIM";
 
     const balancesData = accountBalances.accountBalances;
 
@@ -841,7 +841,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       );
 
       const { balance, rewards } = balances;
-      const targetValue = (IS_DELEGATION ? balance : rewards).replace(",", "");
+      const targetValue = (IS_CLAIM ? rewards : balance).replace(",", "");
       const maximumAmountAfterFees = calculateTransactionAmount(
         targetValue,
         this.state.gasPrice,
@@ -952,16 +952,22 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       this.props.i18n.tString,
     );
 
-    this.setState({ delegationTransactionInputError: amountError }, () => {
-      if (amountError === "") {
-        const { ledgerActionType } = this.props.ledgerDialog;
-        if (ledgerActionType === "SEND") {
-          this.getSendTransaction();
-        } else {
-          this.getDelegationTransaction();
+    this.setState(
+      {
+        sendTransactionInputError: amountError,
+        delegationTransactionInputError: amountError,
+      },
+      () => {
+        if (amountError === "") {
+          const { ledgerActionType } = this.props.ledgerDialog;
+          if (ledgerActionType === "SEND") {
+            this.getSendTransaction();
+          } else {
+            this.getDelegationTransaction();
+          }
         }
-      }
-    });
+      },
+    );
   };
 
   getSendTransaction = () => {
