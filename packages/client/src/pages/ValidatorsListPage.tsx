@@ -44,7 +44,11 @@ import {
   sortValidatorsList,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
-import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
+import {
+  denomToUnit,
+  formatCurrencyAmount,
+  unitToDenom,
+} from "tools/currency-utils";
 
 /** ===========================================================================
  * Types & Config
@@ -144,9 +148,6 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
               validatorList,
             );
 
-            console.log(balances);
-            console.log(stakingInformation);
-
             return (
               <View
                 style={{
@@ -239,17 +240,17 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                 </H5>
                               </RowItem>
                               <RowItem width={150}>
-                                <b style={{ margin: 0 }}>
+                                <Text>
                                   {formatVotingPower(v.tokens, stake)}%
-                                </b>
+                                </Text>
                               </RowItem>
                               <RowItem width={150}>
-                                <b style={{ margin: 0 }}>
+                                <Text>
                                   {formatCommissionRate(
                                     v.commission.commission_rates.rate,
                                   )}
                                   %
-                                </b>
+                                </Text>
                               </RowItem>
                               <RowItem>
                                 <Icon
@@ -417,7 +418,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                   <ValidatorRow style={{ paddingLeft: 14 }}>
                     <RowItem width={45} />
                     <RowItemHeader width={150}>
-                      <H5 style={{ margin: 0 }}>Your Validator</H5>
+                      <H5 style={{ margin: 0 }}>Your Validators</H5>
                     </RowItemHeader>
                     <RowItemHeader width={100}>
                       <H5 style={{ margin: 0 }}>Amount</H5>
@@ -447,20 +448,29 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                               </H5>
                             </RowItem>
                             <RowItem width={100}>
-                              <b style={{ margin: 0 }}>
+                              <Text>
                                 {formatCurrencyAmount(
                                   denomToUnit(
                                     rewards,
                                     network.denominationSize,
                                   ),
                                 )}
-                              </b>
+                              </Text>
                             </RowItem>
                             <RowItem width={75}>
-                              <b style={{ margin: 0 }}>Ratio...</b>
+                              <Text>
+                                {formatVotingPower(
+                                  rewards,
+                                  unitToDenom(
+                                    balances.rewards,
+                                    network.denominationSize,
+                                  ),
+                                )}
+                                %
+                              </Text>
                             </RowItem>
                             <RowItem width={75}>
-                              <b style={{ margin: 0 }}>+</b>
+                              <Icon icon="plus" />
                             </RowItem>
                           </ValidatorRow>
                         </View>
