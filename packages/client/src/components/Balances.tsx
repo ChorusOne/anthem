@@ -188,7 +188,7 @@ class CosmosBalances extends React.Component<CosmosBalancesProps> {
       currencySetting,
       handleDelegation,
       handleRewardsClaim,
-      // handleSendReceive,
+      handleSendReceive,
     } = this.props;
 
     const fiatConversionRate = prices;
@@ -314,12 +314,12 @@ class CosmosBalances extends React.Component<CosmosBalancesProps> {
               >
                 {tString("Claim Rewards")}
               </Button>
-              {/* <Button
+              <Button
                 onClick={handleSendReceive}
                 data-cy="balances-send-receive-button"
               >
                 Send/Receive
-              </Button> */}
+              </Button>
             </DelegationControlsContainer>
           </ActionContainer>
         )}
