@@ -1,4 +1,4 @@
-import { IQuery, IValidator } from "@anthem/utils";
+import { ICosmosAccountBalancesType, IQuery, IValidator } from "@anthem/utils";
 import { Card, Collapse, Colors, H5, H6, Icon } from "@blueprintjs/core";
 import { CopyIcon, NetworkLogoIcon } from "assets/images";
 import AddressIconComponent from "components/AddressIconComponent";
@@ -15,8 +15,12 @@ import {
 import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
 import {
+  AccountBalancesProps,
+  FiatPriceDataProps,
   StakingPoolProps,
   ValidatorsProps,
+  withAccountBalances,
+  withFiatPriceData,
   withGraphQLVariables,
   withStakingPool,
   withValidators,
@@ -32,10 +36,12 @@ import {
   formatAddressString,
   formatCommissionRate,
   formatVotingPower,
+  getAccountBalances,
   getValidatorOperatorAddressMap,
   sortValidatorsList,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
+import { isGreaterThan } from "tools/math-utils";
 
 /** ===========================================================================
  * Types & Config
@@ -63,9 +69,11 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
   render(): JSX.Element {
     const {
       i18n,
+      prices,
       network,
       validators,
       stakingPool,
+      accountBalances,
       sortListAscending,
       validatorSortField,
     } = this.props;
@@ -90,12 +98,27 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
           results={[
             [validators, "validators"],
             [stakingPool, "stakingPool"],
+            [accountBalances, "accountBalances"],
+            [prices, "prices"],
           ]}
         >
-          {([validatorList, stakingPoolResponse]: [
+          {([
+            validatorList,
+            stakingPoolResponse,
+            accountBalancesResponse,
+            pricesResponse,
+          ]: [
             IQuery["validators"],
             IQuery["stakingPool"],
+            ICosmosAccountBalancesType,
+            IQuery["prices"],
           ]) => {
+            const balances = getAccountBalances(
+              accountBalancesResponse.cosmos,
+              pricesResponse,
+              network,
+            );
+
             const stake = stakingPoolResponse.bonded_tokens || "";
             const validatorOperatorAddressMap = getValidatorOperatorAddressMap(
               validatorList,
@@ -318,23 +341,79 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                     <RowItem width={45}>
                       <NetworkLogoIcon network={network.name} />
                     </RowItem>
-                    <RowItemHeader width={200}>
+                    <RowItemHeader width={125}>
                       <H5 style={{ margin: 0 }}>Balance</H5>
                     </RowItemHeader>
-                    <RowItemHeader width={150}>
+                    <RowItemHeader width={125}>
                       <H5 style={{ margin: 0 }}>Amount</H5>
                     </RowItemHeader>
                   </ValidatorRow>
-                  <ValidatorListCard></ValidatorListCard>
+                  <ValidatorListCard>
+                    <ValidatorDetailRow>
+                      <RowItem width={45} />
+                      <RowItem width={125}>
+                        <H6 style={{ margin: 0 }}>AVAILABLE</H6>
+                      </RowItem>
+                      <RowItem width={125}>
+                        <Text>{balances.balance}</Text>
+                      </RowItem>
+                    </ValidatorDetailRow>
+                    <ValidatorDetailRow>
+                      <RowItem width={45} />
+                      <RowItem width={125}>
+                        <H6 style={{ margin: 0 }}>REWARDS</H6>
+                      </RowItem>
+                      <RowItem width={125}>
+                        <Text>{balances.rewards}</Text>
+                      </RowItem>
+                      <RowItem width={200}>
+                        <Button
+                          onClick={() => null}
+                          data-cy="claim-rewards-button"
+                        >
+                          Withdraw Rewards
+                        </Button>
+                      </RowItem>
+                    </ValidatorDetailRow>
+                    {balances.commissions !== "0" && (
+                      <ValidatorDetailRow>
+                        <RowItem width={45} />
+                        <RowItem width={125}>
+                          <H6 style={{ margin: 0 }}>COMMISSIONS</H6>
+                        </RowItem>
+                        <RowItem width={125}>
+                          <Text>{balances.commissions}</Text>
+                        </RowItem>
+                        <RowItem width={200}>
+                          <Button
+                            onClick={() => null}
+                            data-cy="claim-rewards-button"
+                          >
+                            Withdraw Commissions
+                          </Button>
+                        </RowItem>
+                      </ValidatorDetailRow>
+                    )}
+                    <ValidatorDetailRow>
+                      <RowItem width={45} />
+                      <RowItem width={125}>
+                        <H6 style={{ margin: 0 }}>UNBONDING</H6>
+                      </RowItem>
+                      <RowItem width={125}>
+                        <Text>{balances.unbonding}</Text>
+                      </RowItem>
+                    </ValidatorDetailRow>
+                  </ValidatorListCard>
                   <ValidatorRow style={{ paddingLeft: 14 }}>
-                    <RowItem width={45}>
-                      <NetworkLogoIcon network={network.name} />
-                    </RowItem>
+                    <RowItem width={45} />
                     <RowItemHeader width={200}>
-                      <H5 style={{ margin: 0 }}>Balance</H5>
+                      <H5 style={{ margin: 0 }}>Your Validators</H5>
                     </RowItemHeader>
                     <RowItemHeader width={150}>
                       <H5 style={{ margin: 0 }}>Amount</H5>
+                    </RowItemHeader>
+                    <RowItemHeader width={150}>
+                      <H5 style={{ margin: 0 }}>Ratio</H5>
                     </RowItemHeader>
                   </ValidatorRow>
                   <ValidatorListCard></ValidatorListCard>
@@ -490,6 +569,8 @@ interface IProps
   extends ComponentProps,
     ValidatorsProps,
     StakingPoolProps,
+    FiatPriceDataProps,
+    AccountBalancesProps,
     ConnectProps {}
 
 /** ===========================================================================
@@ -502,4 +583,6 @@ export default composeWithProps<ComponentProps>(
   withGraphQLVariables,
   withValidators,
   withStakingPool,
+  withFiatPriceData,
+  withAccountBalances,
 )(ValidatorsListPage);

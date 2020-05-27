@@ -21,7 +21,7 @@ import {
   AccountBalancesProps,
   FiatPriceDataProps,
   withAccountBalances,
-  withAtomPriceData,
+  withFiatPriceData,
   withGraphQLVariables,
 } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
@@ -759,6 +759,6 @@ const withProps = connect(mapStateToProps, dispatchProps);
 export default composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
-  withAtomPriceData,
+  withFiatPriceData,
   withAccountBalances,
 )(Balance);
