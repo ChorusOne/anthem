@@ -145,7 +145,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                       <NetworkLogoIcon network={network.name} />
                     </RowItem>
                     <RowItemHeader
-                      width={200}
+                      width={150}
                       onClick={this.setSortFilter(
                         VALIDATORS_LIST_SORT_FILTER.NAME,
                       )}
@@ -217,7 +217,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                   }
                                 />
                               </RowItem>
-                              <RowItem width={200}>
+                              <RowItem width={150}>
                                 <H5 style={{ margin: 0 }}>
                                   {v.description.moniker}
                                 </H5>
@@ -319,7 +319,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                       )}
                                     </Text>
                                   </RowItem>
-                                  <RowItem width={115}>
+                                  <RowItem width={150}>
                                     <Button
                                       style={{ marginBottom: 6 }}
                                       onClick={() => this.handleAddValidator(v)}
@@ -338,10 +338,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                   </ValidatorListCard>
                 </View>
                 <View style={{ marginLeft: 16 }}>
-                  <ValidatorRow style={{ paddingLeft: 14 }}>
-                    <RowItem width={45}>
-                      <NetworkLogoIcon network={network.name} />
-                    </RowItem>
+                  <ValidatorRow style={{ paddingLeft: 20 }}>
                     <RowItemHeader width={125}>
                       <H5 style={{ margin: 0 }}>Balance</H5>
                     </RowItemHeader>
@@ -349,9 +346,8 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                       <H5 style={{ margin: 0 }}>Amount</H5>
                     </RowItemHeader>
                   </ValidatorRow>
-                  <ValidatorListCard>
+                  <ValidatorListCard style={{ width: 475 }}>
                     <ValidatorDetailRow>
-                      <RowItem width={45} />
                       <RowItem width={125}>
                         <H6 style={{ margin: 0 }}>AVAILABLE</H6>
                       </RowItem>
@@ -360,7 +356,6 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                       </RowItem>
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
-                      <RowItem width={45} />
                       <RowItem width={125}>
                         <H6 style={{ margin: 0 }}>REWARDS</H6>
                       </RowItem>
@@ -378,7 +373,6 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                     </ValidatorDetailRow>
                     {balances.commissions !== "0" && (
                       <ValidatorDetailRow>
-                        <RowItem width={45} />
                         <RowItem width={125}>
                           <H6 style={{ margin: 0 }}>COMMISSIONS</H6>
                         </RowItem>
@@ -396,7 +390,6 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                       </ValidatorDetailRow>
                     )}
                     <ValidatorDetailRow>
-                      <RowItem width={45} />
                       <RowItem width={125}>
                         <H6 style={{ margin: 0 }}>UNBONDING</H6>
                       </RowItem>
@@ -406,7 +399,6 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                     </ValidatorDetailRow>
                   </ValidatorListCard>
                   <ValidatorRow style={{ paddingLeft: 14 }}>
-                    <RowItem width={45} />
                     <RowItemHeader width={200}>
                       <H5 style={{ margin: 0 }}>Your Validators</H5>
                     </RowItemHeader>
@@ -417,7 +409,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                       <H5 style={{ margin: 0 }}>Ratio</H5>
                     </RowItemHeader>
                   </ValidatorRow>
-                  <ValidatorListCard></ValidatorListCard>
+                  <ValidatorListCard style={{ width: 475 }}></ValidatorListCard>
                 </View>
               </View>
             );
@@ -466,7 +458,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
 const ValidatorListCard = styled(Card)`
   padding: 8px;
   width: ${(props: { theme: IThemeProps }) =>
-    props.theme.isDesktop ? "600px" : "auto"};
+    props.theme.isDesktop ? "550px" : "auto"};
 `;
 
 const ValidatorRowBase = styled.div`
