@@ -754,6 +754,8 @@ export const parseGraphQLError = (error?: {
  * the data model which matches our GraphQL transaction data.
  *
  * If this fails just return null, and the result will be disregarded.
+ *
+ * TODO: Update this to work with Cosmos Hub 3 transactions data model.
  */
 export const adaptRawTransactionData = (
   rawTransaction: any,
@@ -780,7 +782,6 @@ export const adaptRawTransactionData = (
 
     return adaptedTransactionResult;
   } catch (err) {
-    console.log(err);
     return null;
   }
 };
