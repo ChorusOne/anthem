@@ -352,11 +352,10 @@ describe("utils", () => {
     );
   });
 
-  test.todo("adaptRawTransactionData", () => {
-    // TODO: Perform assertions...
-    // const result = adaptRawTransactionData(
-    //   MOCK_BLOCKCHAIN_TRANSACTION_RESULT,
-    //   "cosmoshub-3",
-    // );
-  });
+  // TODO: Perform assertions...
+  // const result = adaptRawTransactionData(
+  //   MOCK_BLOCKCHAIN_TRANSACTION_RESULT,
+  //   "cosmoshub-3",
+  // );
+  test.todo("adaptRawTransactionData");
 });
