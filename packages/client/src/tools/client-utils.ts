@@ -32,6 +32,7 @@ import {
   GenericNumberType,
   isGreaterThanOrEqualTo,
   multiply,
+  subtract,
   toBigNumber,
 } from "./math-utils";
 
@@ -833,5 +834,6 @@ export const deriveCurrentDelegationsInformation = (
     }
   }
 
-  return delegationsData;
+  // Sort the result by rewards amount
+  return delegationsData.sort((a, b) => subtract(b.rewards, a.rewards, Number));
 };
