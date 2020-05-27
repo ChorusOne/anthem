@@ -201,18 +201,20 @@ export const createSendTransactionMessage = (args: {
     fee: getFeeData(denom, gasAmount, gasPrice),
     signatures: null,
     memo: TRANSACTION_MEMO,
+    // @ts-ignore
     msg: [
       {
         type,
+        // @ts-ignore
         value: {
-          amounts: [
+          to_address: recipient,
+          from_address: address,
+          amount: [
             {
               denom,
               amount: unitToDenom(amount, network.denominationSize, String),
             },
           ],
-          to_address: recipient,
-          from_address: address,
         },
       },
     ],
