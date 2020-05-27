@@ -970,9 +970,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const { network, address } = this.props.ledger;
     const { denom } = network;
 
-    if (!recipientAddress) {
+    if (!validateCosmosAddress(recipientAddress)) {
       return this.setState({
-        sendTransactionInputError: "Please enter a recipient address",
+        sendTransactionInputError: "Please enter a valid recipient address",
       });
     }
 
@@ -983,7 +983,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         address,
         gasAmount,
         gasPrice,
-        network: network.name,
+        network,
         recipient: recipientAddress,
       });
 

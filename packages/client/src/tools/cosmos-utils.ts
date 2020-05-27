@@ -183,7 +183,7 @@ export const createSendTransactionMessage = (args: {
   gasPrice: string;
   recipient: string;
   denom: COIN_DENOMS;
-  network: NETWORK_NAME;
+  network: NetworkDefinition;
 }): ITxValue => {
   const {
     denom,
@@ -207,7 +207,12 @@ export const createSendTransactionMessage = (args: {
         value: {
           from_address: address,
           to_address: recipient,
-          amounts: [{ denom, amount }],
+          amounts: [
+            {
+              denom,
+              amount: unitToDenom(amount, network.denominationSize, String),
+            },
+          ],
         },
       },
     ],
