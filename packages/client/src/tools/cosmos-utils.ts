@@ -111,6 +111,25 @@ const TRANSACTION_MEMO =
  */
 
 /**
+ * Helper to get fee & gas data for a transaction.
+ */
+const getFeeData = (
+  denom: COIN_DENOMS,
+  gasAmount: string,
+  gasPrice: string,
+) => {
+  return {
+    amount: [
+      {
+        denom,
+        amount: multiply(gasAmount, gasPrice, String),
+      },
+    ],
+    gas: gasAmount,
+  };
+};
+
+/**
  * Create the delegation transaction message.
  */
 export const createDelegationTransactionMessage = (args: {
@@ -135,15 +154,7 @@ export const createDelegationTransactionMessage = (args: {
   const type = getTransactionMessageTypeForNetwork(network.name, "DELEGATE");
 
   return {
-    fee: {
-      amount: [
-        {
-          denom,
-          amount: multiply(gasAmount, gasPrice, String),
-        },
-      ],
-      gas: gasAmount,
-    },
+    fee: getFeeData(denom, gasAmount, gasPrice),
     signatures: null,
     memo: TRANSACTION_MEMO,
     msg: [
@@ -187,15 +198,7 @@ export const createSendTransactionMessage = (args: {
   const type = getTransactionMessageTypeForNetwork(network, "SEND");
 
   return {
-    fee: {
-      amount: [
-        {
-          denom,
-          amount: multiply(gasAmount, gasPrice, String),
-        },
-      ],
-      gas: gasAmount,
-    },
+    fee: getFeeData(denom, gasAmount, gasPrice),
     signatures: null,
     memo: TRANSACTION_MEMO,
     msg: [
@@ -234,15 +237,7 @@ export const createRewardsClaimTransaction = (args: {
   const type = getTransactionMessageTypeForNetwork(network, "CLAIM");
 
   return {
-    fee: {
-      amount: [
-        {
-          denom,
-          amount: multiply(gasAmount, gasPrice, String),
-        },
-      ],
-      gas: gasAmount,
-    },
+    fee: getFeeData(denom, gasAmount, gasPrice),
     signatures: null,
     memo: TRANSACTION_MEMO,
     msg: selectedRewards.map(reward => {
