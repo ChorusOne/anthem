@@ -57,7 +57,7 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
       transactions,
       transactionsPage,
       moreResultsExist,
-      extraLiveTransactions,
+      // extraLiveTransactions,
     } = this.props;
 
     /**
