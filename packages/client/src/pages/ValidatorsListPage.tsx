@@ -17,15 +17,15 @@ import { IThemeProps } from "containers/ThemeContainer";
 import {
   AccountBalancesProps,
   FiatPriceDataProps,
+  RewardsByValidatorProps,
   StakingPoolProps,
   ValidatorsProps,
   withAccountBalances,
   withFiatPriceData,
   withGraphQLVariables,
+  withRewardsByValidatorQuery,
   withStakingPool,
   withValidators,
-  RewardsByValidatorProps,
-  withRewardsByValidatorQuery,
 } from "graphql/queries";
 import { VALIDATORS_LIST_SORT_FILTER } from "modules/app/store";
 import Modules, { ReduxStoreState } from "modules/root";
@@ -43,7 +43,6 @@ import {
   sortValidatorsList,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
-import { isGreaterThan } from "tools/math-utils";
 
 /** ===========================================================================
  * Types & Config

@@ -230,7 +230,6 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                       onChange={this.handleEnterLedgerActionAmount}
                     />
                     <TextInput
-                      autoFocus
                       label={`Recipient Address (${ledger.network.name})`}
                       onSubmit={this.submitLedgerTransactionAmount}
                       style={{ ...InputStyles, width: 400 }}
