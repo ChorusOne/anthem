@@ -35,6 +35,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import {
   copyTextToClipboard,
+  deriveCurrentDelegationsInformation,
   formatAddressString,
   formatCommissionRate,
   formatVotingPower,
@@ -77,6 +78,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
       accountBalances,
       sortListAscending,
       validatorSortField,
+      rewardsByValidator,
     } = this.props;
 
     // Render a fallback message if network does not support validators list UI
@@ -101,6 +103,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
             [stakingPool, "stakingPool"],
             [accountBalances, "accountBalances"],
             [prices, "prices"],
+            [rewardsByValidator, "rewardsByValidator"],
           ]}
         >
           {([
@@ -108,11 +111,13 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
             stakingPoolResponse,
             accountBalancesResponse,
             pricesResponse,
+            rewardsByValidatorResponse,
           ]: [
             IQuery["validators"],
             IQuery["stakingPool"],
             ICosmosAccountBalancesType,
             IQuery["prices"],
+            IQuery["rewardsByValidator"],
           ]) => {
             const balances = getAccountBalances(
               accountBalancesResponse.cosmos,
@@ -132,6 +137,15 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
               sortListAscending,
               stake,
             );
+
+            const stakingInformation = deriveCurrentDelegationsInformation(
+              rewardsByValidatorResponse,
+              validatorList,
+            );
+
+            console.log(balances);
+            console.log(stakingInformation);
+
             return (
               <View
                 style={{

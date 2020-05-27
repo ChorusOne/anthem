@@ -802,3 +802,36 @@ export const formatVotingPower = (staked: string, totalStake: string) => {
   const power = multiply(share, 100, Number).toFixed(2);
   return power;
 };
+
+interface StakingInformation {
+  rewards: string;
+  validator: IValidator;
+}
+
+/**
+ * Combine the rewards available for withdrawal with the validators list
+ * to get additional validator metadata.
+ */
+export const deriveCurrentDelegationsInformation = (
+  validatorRewards: IQuery["rewardsByValidator"],
+  validators: IValidator[],
+): StakingInformation[] => {
+  const delegationsData: StakingInformation[] = [];
+
+  for (const data of validatorRewards) {
+    const validator = validators.find(
+      x => x.operator_address === data.validator_address,
+    );
+    const { reward } = data;
+    if (!validator || !reward) {
+      continue;
+    } else {
+      delegationsData.push({
+        validator,
+        rewards: reward[0].amount,
+      });
+    }
+  }
+
+  return delegationsData;
+};
