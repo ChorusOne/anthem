@@ -760,22 +760,27 @@ export const adaptRawTransactionData = (
   chainId: string,
 ): Nullable<ITransaction> => {
   try {
-    const adaptedTransactionResult = {
+    const tx = rawTransaction;
+    const adaptedTransactionResult: ITransaction = {
       chain: chainId,
-      fees: rawTransaction.tx.value.fee,
+      fees: {
+        amount: null,
+        gas: tx.gas,
+      },
       gasused: rawTransaction.gas_used,
       gaswanted: rawTransaction.gas_wanted,
       hash: rawTransaction.txhash,
       height: rawTransaction.height,
       log: rawTransaction.logs,
-      memo: rawTransaction.tx.value.memo,
-      msgs: rawTransaction.tx.value.msg,
-      tags: rawTransaction.tags,
+      memo: "",
+      msgs: [],
+      tags: [],
       timestamp: String(new Date(rawTransaction.timestamp).getTime()),
     };
 
     return adaptedTransactionResult;
   } catch (err) {
+    console.log(err);
     return null;
   }
 };

@@ -2,6 +2,7 @@ import { NETWORKS } from "@anthem/utils";
 import { ApolloError } from "apollo-client";
 import {
   abbreviateAddress,
+  adaptRawTransactionData,
   canRenderGraphQL,
   capitalizeString,
   formatAddressString,
@@ -32,6 +33,7 @@ import { fiatPriceHistory } from "../../../utils/src/client/data/fiatPriceHistor
 import prices from "../../../utils/src/client/data/prices.json";
 import { rewardsByValidator } from "../../../utils/src/client/data/rewardsByValidator.json";
 import { validators } from "../../../utils/src/client/data/validators.json";
+import { MOCK_BLOCKCHAIN_TRANSACTION_RESULT } from "./data/mock-blockchain-transactions-result";
 
 describe("utils", () => {
   test("abbreviateAddress", () => {
@@ -348,5 +350,14 @@ describe("utils", () => {
     expect(formatVotingPower("252362566166", total)).toMatchInlineSnapshot(
       `"0.14"`,
     );
+  });
+
+  test("adaptRawTransactionData", () => {
+    const result = adaptRawTransactionData(
+      MOCK_BLOCKCHAIN_TRANSACTION_RESULT,
+      "cosmoshub-3",
+    );
+    console.log(result);
+    expect(true).toBeTruthy();
   });
 });
