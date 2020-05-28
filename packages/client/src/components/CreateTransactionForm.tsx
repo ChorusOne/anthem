@@ -243,7 +243,6 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     />
                     <Button
                       icon="duplicate"
-                      data-cy="ledger-dialog-back-button"
                       onClick={() => copyTextToClipboard(address)}
                       style={{ bottom: -16, position: "absolute" }}
                     >

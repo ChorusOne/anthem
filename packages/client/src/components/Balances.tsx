@@ -269,7 +269,7 @@ class CosmosBalances extends React.Component<CosmosBalancesProps> {
                 <Button
                   style={{ width: 125, marginRight: 12 }}
                   onClick={() => null}
-                  data-cy="balances-stake-button"
+                  data-cy="stake-button"
                 >
                   Stake
                 </Button>
@@ -277,7 +277,7 @@ class CosmosBalances extends React.Component<CosmosBalancesProps> {
               <Button
                 style={{ width: 125 }}
                 onClick={handleSendReceive}
-                data-cy="balances-send-receive-button"
+                data-cy="send-receive-button"
               >
                 Send/Receive
               </Button>
