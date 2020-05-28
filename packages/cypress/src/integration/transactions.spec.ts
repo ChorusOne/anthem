@@ -16,7 +16,11 @@ describe("Test Ledger Transactions", () => {
 
   // Error with no value:
   it("The delegation transaction workflow can be completed", () => {
-    UTILS.findAndClick("balances-delegation-button");
+    UTILS.findAndClick("balances-stake-button");
+    UTILS.findAndClick(
+      "validator-cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+    );
+    UTILS.findAndClick("delegate-button");
     UTILS.findAndClick("ledger-dialog-confirmation-button");
     UTILS.shouldMatchText(
       "amount-transaction-error",
@@ -50,7 +54,11 @@ describe("Test Ledger Transactions", () => {
   });
 
   it("The rewards claim transaction workflow can be completed", () => {
-    UTILS.findAndClick("balances-rewards-claim-button");
+    UTILS.findAndClick("balances-stake-button");
+    UTILS.findAndClick(
+      "validator-cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+    );
+    UTILS.findAndClick("claim-rewards-button");
     UTILS.findAndClick("ledger-dialog-confirmation-button");
 
     // Error with no validators selected:

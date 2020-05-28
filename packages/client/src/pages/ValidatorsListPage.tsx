@@ -218,6 +218,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                         return (
                           <View key={v.operator_address}>
                             <ValidatorRowExpandable
+                              data-cy={`validator-${v.operator_address}`}
                               onClick={() =>
                                 this.handleClickValidator(v.operator_address)
                               }
@@ -337,7 +338,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                     <Button
                                       style={{ marginBottom: 6 }}
                                       onClick={() => this.handleAddValidator(v)}
-                                      data-cy="add-validator-button"
+                                      data-cy="delegate-button"
                                     >
                                       Add Validator
                                     </Button>
@@ -396,7 +397,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                         <RowItem width={200}>
                           <Button
                             onClick={this.handleRewardsClaimAction}
-                            data-cy="claim-rewards-button"
+                            data-cy="claim-commissions-button"
                           >
                             Withdraw Commissions
                           </Button>
