@@ -7,10 +7,10 @@ import {
   capitalizeString,
   formatAddressString,
   formatCommissionRate,
-  formatVotingPower,
   getAccountBalances,
   getBlockExplorerUrlForTransaction,
   getFiatPriceHistoryMap,
+  getPercentageFromTotal,
   getPortfolioTypeFromUrl,
   getPriceFromTransactionTimestamp,
   getQueryParamsFromUrl,
@@ -335,19 +335,19 @@ describe("utils", () => {
 
   test("formatVotingPower", () => {
     const total = "184117466747846";
-    expect(formatVotingPower("74843655191", total)).toMatchInlineSnapshot(
+    expect(getPercentageFromTotal("74843655191", total)).toMatchInlineSnapshot(
       `"0.04"`,
     );
-    expect(formatVotingPower("5601876912537", total)).toMatchInlineSnapshot(
-      `"3.04"`,
-    );
-    expect(formatVotingPower("1604729095336", total)).toMatchInlineSnapshot(
-      `"0.87"`,
-    );
-    expect(formatVotingPower("67605300547", total)).toMatchInlineSnapshot(
+    expect(
+      getPercentageFromTotal("5601876912537", total),
+    ).toMatchInlineSnapshot(`"3.04"`);
+    expect(
+      getPercentageFromTotal("1604729095336", total),
+    ).toMatchInlineSnapshot(`"0.87"`);
+    expect(getPercentageFromTotal("67605300547", total)).toMatchInlineSnapshot(
       `"0.04"`,
     );
-    expect(formatVotingPower("252362566166", total)).toMatchInlineSnapshot(
+    expect(getPercentageFromTotal("252362566166", total)).toMatchInlineSnapshot(
       `"0.14"`,
     );
   });

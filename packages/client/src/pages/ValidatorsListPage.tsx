@@ -39,8 +39,8 @@ import {
   deriveCurrentDelegationsInformation,
   formatAddressString,
   formatCommissionRate,
-  formatVotingPower,
   getAccountBalances,
+  getPercentageFromTotal,
   getValidatorOperatorAddressMap,
   sortValidatorsList,
 } from "tools/client-utils";
@@ -144,9 +144,10 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
               stake,
             );
 
-            const stakingInformation = deriveCurrentDelegationsInformation(
+            const { total, delegations } = deriveCurrentDelegationsInformation(
               rewardsByValidatorResponse,
               validatorList,
+              network,
             );
 
             return (
@@ -157,7 +158,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                 }}
               >
                 <View>
-                  <ValidatorRow style={{ paddingLeft: 14 }}>
+                  <StakingRow style={{ paddingLeft: 14 }}>
                     <RowItem width={45}>
                       <NetworkLogoIcon network={network.name} />
                     </RowItem>
@@ -208,7 +209,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                         }
                       />
                     </RowItemHeader>
-                  </ValidatorRow>
+                  </StakingRow>
                   <ValidatorListCard style={{ padding: 8 }}>
                     <PageScrollableContent>
                       {sortedValidatorsList.map(v => {
@@ -221,7 +222,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
 
                         return (
                           <View key={v.operator_address}>
-                            <ValidatorRow
+                            <ValidatorRowExpandable
                               onClick={() =>
                                 this.handleClickValidator(v.operator_address)
                               }
@@ -242,7 +243,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                               </RowItem>
                               <RowItem width={150}>
                                 <Text>
-                                  {formatVotingPower(v.tokens, stake)}%
+                                  {getPercentageFromTotal(v.tokens, stake)}%
                                 </Text>
                               </RowItem>
                               <RowItem width={150}>
@@ -258,7 +259,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                   icon={expanded ? "caret-up" : "caret-down"}
                                 />
                               </RowItem>
-                            </ValidatorRow>
+                            </ValidatorRowExpandable>
                             <Collapse isOpen={expanded}>
                               <ValidatorDetails>
                                 <ValidatorDetailRow>
@@ -356,14 +357,14 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                   </ValidatorListCard>
                 </View>
                 <View style={{ marginLeft: 16 }}>
-                  <ValidatorRow style={{ paddingLeft: 14 }}>
+                  <StakingRow style={{ paddingLeft: 14 }}>
                     <RowItemHeader width={125}>
                       <H5 style={{ margin: 0 }}>Balance</H5>
                     </RowItemHeader>
                     <RowItemHeader width={125}>
                       <H5 style={{ margin: 0 }}>Amount</H5>
                     </RowItemHeader>
-                  </ValidatorRow>
+                  </StakingRow>
                   <Card style={{ padding: 8, width: 475 }}>
                     <ValidatorDetailRow>
                       <RowItem width={125}>
@@ -416,7 +417,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                       </RowItem>
                     </ValidatorDetailRow>
                   </Card>
-                  <ValidatorRow style={{ paddingLeft: 14 }}>
+                  <StakingRow style={{ paddingLeft: 14 }}>
                     <RowItem width={45} />
                     <RowItemHeader width={150}>
                       <H5 style={{ margin: 0 }}>Your Validators</H5>
@@ -427,13 +428,24 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                     <RowItemHeader width={75}>
                       <H5 style={{ margin: 0 }}>Ratio</H5>
                     </RowItemHeader>
-                  </ValidatorRow>
+                  </StakingRow>
                   <Card style={{ padding: 8, width: 475 }}>
-                    {stakingInformation.map(staking => {
-                      const { rewards, validator } = staking;
+                    <StakingRowSummary>
+                      <RowItem width={45}>
+                        <NetworkLogoIcon network={network.name} />
+                      </RowItem>
+                      <RowItem width={150}>
+                        <H5 style={{ margin: 0 }}>STAKING</H5>
+                      </RowItem>
+                      <RowItem width={100}>
+                        <Text>{total}</Text>
+                      </RowItem>
+                    </StakingRowSummary>
+                    {delegations.map(staking => {
+                      const { rewards, validator, percentage } = staking;
                       return (
                         <View key={validator.operator_address}>
-                          <ValidatorRow>
+                          <StakingRow>
                             <RowItem width={45}>
                               <AddressIconComponent
                                 networkName={network.name}
@@ -459,16 +471,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                               </Text>
                             </RowItem>
                             <RowItem width={75}>
-                              <Text>
-                                {formatVotingPower(
-                                  rewards,
-                                  unitToDenom(
-                                    balances.rewards,
-                                    network.denominationSize,
-                                  ),
-                                )}
-                                %
-                              </Text>
+                              <Text>{percentage}%</Text>
                             </RowItem>
                             <RowItem width={75}>
                               <Button
@@ -480,7 +483,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                 <Icon icon="plus" color={COLORS.LIGHT_WHITE} />
                               </Button>
                             </RowItem>
-                          </ValidatorRow>
+                          </StakingRow>
                         </View>
                       );
                     })}
@@ -566,7 +569,18 @@ const ValidatorRowBase = styled.div`
   flex-direction: row;
 `;
 
-const ValidatorRow = styled(ValidatorRowBase)`
+const StakingRow = styled(ValidatorRowBase)`
+  height: 70px;
+`;
+
+const StakingRowSummary = styled(StakingRow)`
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? Colors.DARK_GRAY5 : Colors.LIGHT_GRAY5};
+`;
+
+const ValidatorRowExpandable = styled(ValidatorRowBase)`
   height: 70px;
 
   &:hover {

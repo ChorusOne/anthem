@@ -27,6 +27,7 @@ import {
 } from "./currency-utils";
 import { formatFiatPriceDate } from "./date-utils";
 import {
+  add,
   addValuesInList,
   divide,
   GenericNumberType,
@@ -807,15 +808,21 @@ export const formatCommissionRate = (rate: string) => {
  * Format the validators voting power. The voting power is the validator
  * stake divided by the entire network stake.
  */
-export const formatVotingPower = (staked: string, totalStake: string) => {
+export const getPercentageFromTotal = (staked: string, totalStake: string) => {
   const share = divide(staked, totalStake);
   const power = multiply(share, 100, Number).toFixed(2);
   return power;
 };
 
-interface StakingInformation {
+interface Stake {
+  percentage: string;
   rewards: string;
   validator: IValidator;
+}
+
+interface StakingInformation {
+  total: string;
+  delegations: Stake[];
 }
 
 /**
@@ -825,9 +832,12 @@ interface StakingInformation {
 export const deriveCurrentDelegationsInformation = (
   validatorRewards: IQuery["rewardsByValidator"],
   validators: IValidator[],
-): StakingInformation[] => {
-  const delegationsData: StakingInformation[] = [];
+  network: NetworkDefinition,
+): StakingInformation => {
+  const delegationsData = [];
+  let total = 0;
 
+  // Iterate through the rewards and combine with the validator list data
   for (const data of validatorRewards) {
     const validator = validators.find(
       x => x.operator_address === data.validator_address,
@@ -836,13 +846,33 @@ export const deriveCurrentDelegationsInformation = (
     if (!validator || !reward) {
       continue;
     } else {
+      const { amount } = reward[0];
+      total = add(total, amount, Number);
       delegationsData.push({
         validator,
-        rewards: reward[0].amount,
+        rewards: amount,
       });
     }
   }
 
   // Sort the result by rewards amount
-  return delegationsData.sort((a, b) => subtract(b.rewards, a.rewards, Number));
+  const sortedByReward = delegationsData.sort((a, b) =>
+    subtract(b.rewards, a.rewards, Number),
+  );
+
+  // Combine with the percentages
+  const delegations: Stake[] = sortedByReward.map(x => {
+    return {
+      ...x,
+      percentage: getPercentageFromTotal(x.rewards, String(total)),
+    };
+  });
+
+  const denomSize = network.denominationSize;
+
+  // Return the summary result
+  return {
+    total: formatCurrencyAmount(denomToUnit(total, denomSize), 2),
+    delegations,
+  };
 };
