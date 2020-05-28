@@ -92,7 +92,8 @@ export const processPortfolioHistoryData = (
     };
   }, {});
 
-  const startingDate = balanceHistory[0].timestamp;
+  const firstBalance = balanceHistory[0];
+  const startingDate = firstBalance && firstBalance.timestamp;
 
   // Process balanceHistory
   const adjustedBalances = populateMissingDatesInDataSeries(
