@@ -30,6 +30,7 @@ import { DashboardError } from "pages/DashboardPage";
 import React from "react";
 import PieChart from "react-minimal-pie-chart";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { getAccountBalances, getPercentage } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
@@ -300,21 +301,17 @@ class CosmosBalances extends React.Component<CosmosBalancesProps> {
           <ActionContainer>
             <H5>{tString("What do you want to do?")}</H5>
             <DelegationControlsContainer>
+              <Link to="/staking">
+                <Button
+                  style={{ width: 125, marginRight: 12 }}
+                  onClick={() => null}
+                  data-cy="balances-stake-button"
+                >
+                  Stake
+                </Button>
+              </Link>
               <Button
-                style={{ marginRight: 4 }}
-                onClick={handleDelegation}
-                data-cy="balances-delegation-button"
-              >
-                {tString("Delegate")}
-              </Button>
-              <Button
-                style={{ marginRight: 4 }}
-                onClick={handleRewardsClaim}
-                data-cy="balances-rewards-claim-button"
-              >
-                {tString("Claim Rewards")}
-              </Button>
-              <Button
+                style={{ width: 125 }}
                 onClick={handleSendReceive}
                 data-cy="balances-send-receive-button"
               >
