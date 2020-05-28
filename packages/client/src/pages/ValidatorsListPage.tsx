@@ -282,7 +282,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                   <RowItem width={200}>
                                     <H6 style={{ margin: 0 }}>Website</H6>
                                   </RowItem>
-                                  <RowItem width={350}>
+                                  <RowItem width={300}>
                                     <Link href={v.description.website}>
                                       {v.description.website || "n/a"}
                                     </Link>
@@ -292,7 +292,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                   <RowItem width={200}>
                                     <H6 style={{ margin: 0 }}>Description</H6>
                                   </RowItem>
-                                  <RowItem width={350}>
+                                  <RowItem width={300}>
                                     <Text style={{ fontSize: 12 }}>
                                       {v.description.details || "n/a"}
                                     </Text>
@@ -302,7 +302,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                   <RowItem width={200}>
                                     <H6 style={{ margin: 0 }}>Fee</H6>
                                   </RowItem>
-                                  <RowItem width={350}>
+                                  <RowItem width={300}>
                                     <Text>
                                       {formatCommissionRate(
                                         v.commission.commission_rates.rate,
@@ -314,7 +314,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                   <RowItem width={200}>
                                     <H6 style={{ margin: 0 }}>Max. Fee</H6>
                                   </RowItem>
-                                  <RowItem width={350}>
+                                  <RowItem width={300}>
                                     <Text>
                                       {formatCommissionRate(
                                         v.commission.commission_rates.max_rate,
@@ -328,7 +328,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                       Max. Daily Fee Change
                                     </H6>
                                   </RowItem>
-                                  <RowItem width={250}>
+                                  <RowItem width={150}>
                                     <Text>
                                       {formatCommissionRate(
                                         v.commission.commission_rates
