@@ -206,10 +206,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   balanceFiat: `${balanceFiat} ${fiatCurrency.symbol}`,
                 })}
               </p>
-              <H6 style={{ marginTop: 12, marginBottom: 0 }}>
+              <H6 style={{ marginTop: 6, marginBottom: 0 }}>
                 Please enter an amount to send
               </H6>
-              <View style={{ marginTop: 12 }}>
+              <View style={{ marginTop: 6 }}>
                 <FormContainer>
                   <form
                     style={{
@@ -226,7 +226,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                       autoFocus
                       label={tString("Transaction Amount (ATOM)")}
                       onSubmit={this.submitLedgerTransactionAmount}
-                      style={{ ...InputStyles, marginBottom: 12, width: 150 }}
+                      style={{ ...InputStyles, marginBottom: 6, width: 150 }}
                       placeholder={tString("Enter an amount")}
                       data-cy="transaction-send-amount-input"
                       value={this.state.amount}
@@ -257,7 +257,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                 </FormContainer>
                 {this.renderGasPriceSetup()}
                 {this.state.sendTransactionInputError && (
-                  <div style={{ marginTop: 12 }} className={Classes.LABEL}>
+                  <div style={{ marginTop: 6 }} className={Classes.LABEL}>
                     <ErrorText data-cy="amount-send-transaction-error">
                       {this.state.sendTransactionInputError}
                     </ErrorText>
