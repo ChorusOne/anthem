@@ -98,8 +98,6 @@ class Balance extends React.Component<IProps, {}> {
                   isDesktop={isDesktop}
                   prices={prices.prices}
                   currencySetting={currencySetting}
-                  handleDelegation={this.handleDelegationAction}
-                  handleRewardsClaim={this.handleRewardsClaimAction}
                   handleSendReceive={this.handleSendReceiveAction}
                   balances={data.cosmos as ICosmosAccountBalances}
                 />
@@ -112,36 +110,6 @@ class Balance extends React.Component<IProps, {}> {
       </GraphQLGuardComponentMultipleQueries>
     );
   }
-
-  handleDelegationAction = () => {
-    let actionFunction;
-    if (this.props.ledger.connected) {
-      actionFunction = this.props.openLedgerDialog;
-    } else {
-      actionFunction = this.props.openSelectNetworkDialog;
-    }
-
-    actionFunction({
-      signinType: "LEDGER",
-      ledgerAccessType: "PERFORM_ACTION",
-      ledgerActionType: "DELEGATE",
-    });
-  };
-
-  handleRewardsClaimAction = () => {
-    let actionFunction;
-    if (this.props.ledger.connected) {
-      actionFunction = this.props.openLedgerDialog;
-    } else {
-      actionFunction = this.props.openSelectNetworkDialog;
-    }
-
-    actionFunction({
-      signinType: "LEDGER",
-      ledgerAccessType: "PERFORM_ACTION",
-      ledgerActionType: "CLAIM",
-    });
-  };
 
   handleSendReceiveAction = () => {
     let actionFunction;
@@ -172,8 +140,6 @@ interface CosmosBalancesProps {
   currencySetting: CURRENCY_SETTING;
   isDesktop: boolean;
   tString: tFnString;
-  handleDelegation: () => void;
-  handleRewardsClaim: () => void;
   handleSendReceive: () => void;
 }
 
@@ -187,8 +153,6 @@ class CosmosBalances extends React.Component<CosmosBalancesProps> {
       balances,
       isDesktop,
       currencySetting,
-      handleDelegation,
-      handleRewardsClaim,
       handleSendReceive,
     } = this.props;
 

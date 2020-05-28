@@ -12,7 +12,6 @@ import {
   PageScrollableContent,
   View,
 } from "components/SharedComponents";
-import Toast from "components/Toast";
 import { COLORS } from "constants/colors";
 import { IThemeProps } from "containers/ThemeContainer";
 import {
@@ -45,11 +44,7 @@ import {
   sortValidatorsList,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
-import {
-  denomToUnit,
-  formatCurrencyAmount,
-  unitToDenom,
-} from "tools/currency-utils";
+import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
 
 /** ===========================================================================
  * Types & Config
@@ -440,6 +435,9 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                       <RowItem width={100}>
                         <Text>{total}</Text>
                       </RowItem>
+                      <RowItem width={75}>
+                        <Text>100%</Text>
+                      </RowItem>
                     </StakingRowSummary>
                     {delegations.map(staking => {
                       const { rewards, validator, percentage } = staking;
@@ -566,7 +564,7 @@ const StakingRowSummary = styled(StakingRow)`
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-bottom-color: ${(props: { theme: IThemeProps }) =>
-    props.theme.isDarkTheme ? Colors.DARK_GRAY5 : Colors.LIGHT_GRAY5};
+    props.theme.isDarkTheme ? Colors.GRAY1 : Colors.GRAY5};
 `;
 
 const ValidatorRowExpandable = styled(ValidatorRowBase)`

@@ -13,7 +13,14 @@ import { composeWithProps } from "tools/context-utils";
  */
 
 // Source of truth for supported keyboard keys:
-export type KEYBOARD_SHORTCUT_KEYS = "P" | "T" | "I" | "S" | "C" | "Q";
+export type KEYBOARD_SHORTCUT_KEYS =
+  | "P"
+  | "T"
+  | "I"
+  | "S"
+  | "C"
+  | "Q"
+  | "BACK_TICK";
 
 export interface KeyboardShortcutMetadata {
   key: KEYBOARD_SHORTCUT_KEYS;
@@ -54,6 +61,12 @@ export const KeyActionMap: {
     keyCode: 81,
     action: "Open logout menu",
   },
+  BACK_TICK: {
+    // @ts-ignore display ` symbol instead
+    key: "`",
+    keyCode: 192,
+    action: "Toggle theme setting (back tick key)",
+  },
 };
 
 /** ===========================================================================
@@ -75,7 +88,17 @@ class KeyboardShortcutsComponent extends React.PureComponent<IProps> {
   }
 
   handleKeyDown = (event: KeyboardEvent) => {
-    const { app, ledgerDialog } = this.props;
+    const {
+      app,
+      address,
+      settings,
+      ledgerDialog,
+      updateSetting,
+      openLogoutMenu,
+      openLedgerDialog,
+      togglePortfolioSize,
+      toggleTransactionsSize,
+    } = this.props;
     const { addressInputRef } = app;
 
     const ANY_INPUT_FOCUSED = isAnyInputFocused();
@@ -91,15 +114,15 @@ class KeyboardShortcutsComponent extends React.PureComponent<IProps> {
       return;
     }
 
-    const { P, T, I, S, C, Q } = KeyActionMap;
+    const { P, T, I, S, C, Q, BACK_TICK } = KeyActionMap;
 
     switch (keyCode) {
       case P.keyCode: {
-        this.props.togglePortfolioSize();
+        togglePortfolioSize();
         break;
       }
       case T.keyCode: {
-        this.props.toggleTransactionsSize();
+        toggleTransactionsSize();
         break;
       }
       case I.keyCode: {
@@ -116,18 +139,27 @@ class KeyboardShortcutsComponent extends React.PureComponent<IProps> {
       }
       case S.keyCode: {
         event.preventDefault();
-        this.props.openLedgerDialog({
+        openLedgerDialog({
           signinType: "ADDRESS",
           ledgerAccessType: "SIGNIN",
         });
         break;
       }
       case Q.keyCode: {
-        this.props.openLogoutMenu();
+        openLogoutMenu();
         break;
       }
       case C.keyCode: {
-        copyTextToClipboard(this.props.address);
+        copyTextToClipboard(address);
+        break;
+      }
+      case BACK_TICK.keyCode: {
+        const { isDarkTheme } = settings;
+        const theme = !isDarkTheme;
+        updateSetting({
+          isDarkTheme: theme,
+          darkThemeEnabled: theme,
+        });
         break;
       }
       default: {
@@ -155,12 +187,14 @@ const isAnyInputFocused = () => {
 
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
+  settings: Modules.selectors.settings(state),
   app: Modules.selectors.app.appSelector(state),
   address: Modules.selectors.ledger.addressSelector(state),
   ledgerDialog: Modules.selectors.ledger.ledgerDialogSelector(state),
 });
 
 const dispatchProps = {
+  updateSetting: Modules.actions.settings.updateSetting,
   openLedgerDialog: Modules.actions.ledger.openLedgerDialog,
   openLogoutMenu: Modules.actions.ledger.openLogoutMenu,
   togglePortfolioSize: Modules.actions.app.togglePortfolioSize,
