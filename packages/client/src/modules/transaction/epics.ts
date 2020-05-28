@@ -72,8 +72,8 @@ const broadcastTransactionEpic: EpicSignature = (action$, state$, deps) => {
 
         const body = JSON.stringify({
           tx: tx.value,
-          // mode: "async",
-          mode: "block", // NOTE: Use `block` to debug and `async` in production:
+          mode: "async",
+          // mode: "block", // NOTE: Use `block` to debug and `async` in production
         });
 
         logger(body);
@@ -82,6 +82,8 @@ const broadcastTransactionEpic: EpicSignature = (action$, state$, deps) => {
           body,
           networkName,
         );
+
+        console.log(result);
 
         logger(result);
 
@@ -112,6 +114,8 @@ const pollTransactionEpic: EpicSignature = (action$, state$, deps) => {
         const { network } = state$.value.ledger.ledger;
         const result = await deps.cosmos.pollTransaction(txHash, network.name);
 
+        console.log(result);
+
         // Try to convert the transaction result to match the GraphQL/extractor:
         const adaptedTransactionResult = adaptRawTransactionData(
           result,
@@ -129,7 +133,7 @@ const pollTransactionEpic: EpicSignature = (action$, state$, deps) => {
           });
         } else {
           const rawLog = result.raw_log;
-          if (rawLog.includes("out of gas")) {
+          if (typeof rawLog === "string" && rawLog.includes("out of gas")) {
             Toast.danger(
               "Transaction failed because of insufficient gas! Please try again with adjusted gas settings.",
             );

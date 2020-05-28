@@ -92,6 +92,11 @@ export const onActiveRoute = (pathName: string, routeName: string): boolean => {
   return !!path && path.toLowerCase() === routeName.toLowerCase();
 };
 
+export const onActiveTab = (pathName: string, tabName: string): boolean => {
+  const path = pathName.split("/")[2];
+  return !!path && path.toLowerCase() === tabName.toLowerCase();
+};
+
 /**
  * Identity function.
  */

@@ -35,7 +35,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
-import { getPortfolioTypeFromUrl, onActiveRoute } from "tools/client-utils";
+import {
+  getPortfolioTypeFromUrl,
+  onActiveRoute,
+  onActiveTab,
+} from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { tFnString } from "tools/i18n-utils";
 import TransactionSwitchContainer from "transactions/TransactionSwitchContainer";
@@ -375,7 +379,7 @@ const DashboardNavigationLink = ({
   localizedTitle,
 }: INavItemProps) => {
   const params = `?address=${address}`;
-  const active = onActiveRoute(pathname, title);
+  const active = onActiveTab(pathname, title);
   const path = `${title.toLowerCase()}${params}`;
   const onClickFunction = () => runAnalyticsForTab(title);
   return (
