@@ -209,7 +209,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
               <H6 style={{ marginTop: 6, marginBottom: 0 }}>
                 Please enter an amount to send
               </H6>
-              <View style={{ marginTop: 6 }}>
+              <View>
                 <FormContainer>
                   <form
                     style={{
@@ -1121,7 +1121,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
  */
 
 const FormContainer = styled.div`
-  margin-top: 16px;
+  margin-top: 8px;
   display: flex;
   flex-direction: row;
 `;
