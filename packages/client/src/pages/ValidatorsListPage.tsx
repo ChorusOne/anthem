@@ -470,7 +470,14 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                               </Text>
                             </RowItem>
                             <RowItem width={75}>
-                              <Icon icon="plus" />
+                              <Button
+                                style={{ borderRadius: "50%" }}
+                                onClick={() =>
+                                  this.handleAddValidator(validator)
+                                }
+                              >
+                                <Icon icon="plus" color={COLORS.LIGHT_WHITE} />
+                              </Button>
                             </RowItem>
                           </ValidatorRow>
                         </View>
