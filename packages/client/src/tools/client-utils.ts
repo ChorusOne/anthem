@@ -88,8 +88,8 @@ export enum OASIS_ADDRESS_ENUM {
  * Determine if a given route link is on the current active route.
  */
 export const onActiveRoute = (pathName: string, routeName: string) => {
-  const [_, path] = pathName.split("/");
-  return path.toLowerCase() === routeName.toLowerCase();
+  const path = pathName.split("/")[1];
+  return path && path.toLowerCase() === routeName.toLowerCase();
 };
 
 /**
