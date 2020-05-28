@@ -400,7 +400,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                         </RowItem>
                         <RowItem width={200}>
                           <Button
-                            onClick={this.handleCommissionsClaimAction}
+                            onClick={this.handleRewardsClaimAction}
                             data-cy="claim-rewards-button"
                           >
                             Withdraw Commissions
@@ -515,18 +515,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
     });
   };
 
-  handleCommissionsClaimAction = () => {
-    Toast.warn("Coming soon!");
-  };
-
   handleRewardsClaimAction = () => {
-    // let actionFunction;
-    // if (this.props.ledger.connected) {
-    //   actionFunction = this.props.openLedgerDialog;
-    // } else {
-    //   actionFunction = this.props.openSelectNetworkDialog;
-    // }
-
     if (!this.props.ledger.connected) {
       this.props.setSigninNetworkName(this.props.network.name);
     }
