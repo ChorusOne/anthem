@@ -2,6 +2,7 @@ import {
   assertUnreachable,
   COIN_DENOMS,
   IAccountInformation,
+  IMsgSend,
   ITxFee,
   ITxMsg,
   ITxSignature,
@@ -82,7 +83,7 @@ export const CELO_MESSAGE_TYPES = {};
 const getTransactionMessageTypeForNetwork = (
   network: NETWORK_NAME,
   transactionType: LEDGER_ACTION_TYPE,
-) => {
+): string => {
   switch (network) {
     case "COSMOS":
     case "KAVA":
@@ -111,6 +112,25 @@ const TRANSACTION_MEMO =
  */
 
 /**
+ * Helper to get fee & gas data for a transaction.
+ */
+const getFeeData = (
+  denom: COIN_DENOMS,
+  gasAmount: string,
+  gasPrice: string,
+) => {
+  return {
+    amount: [
+      {
+        denom,
+        amount: multiply(gasAmount, gasPrice, String),
+      },
+    ],
+    gas: gasAmount,
+  };
+};
+
+/**
  * Create the delegation transaction message.
  */
 export const createDelegationTransactionMessage = (args: {
@@ -135,15 +155,7 @@ export const createDelegationTransactionMessage = (args: {
   const type = getTransactionMessageTypeForNetwork(network.name, "DELEGATE");
 
   return {
-    fee: {
-      amount: [
-        {
-          denom,
-          amount: multiply(gasAmount, gasPrice, String),
-        },
-      ],
-      gas: gasAmount,
-    },
+    fee: getFeeData(denom, gasAmount, gasPrice),
     signatures: null,
     memo: TRANSACTION_MEMO,
     msg: [
@@ -159,6 +171,53 @@ export const createDelegationTransactionMessage = (args: {
         },
       },
     ],
+  };
+};
+
+/**
+ * Create a send transaction message.
+ *
+ * NOTE: The GraphQL type is not correct for IMsgSend, because there is
+ * an issue mapping overlapping union types so the amount key in Send
+ * transactions gets rewritten as amounts.
+ */
+export const createSendTransactionMessage = (args: {
+  amount: string;
+  address: string;
+  gasAmount: string;
+  gasPrice: string;
+  recipient: string;
+  denom: COIN_DENOMS;
+  network: NetworkDefinition;
+}): ITxValue => {
+  const {
+    denom,
+    amount,
+    network,
+    address,
+    gasPrice,
+    gasAmount,
+    recipient,
+  } = args;
+
+  const type = getTransactionMessageTypeForNetwork(network.name, "SEND");
+  const value: IMsgSend = {
+    to_address: recipient,
+    from_address: address,
+    // @ts-ignore - the key is amount, not amounts, see NOTE
+    amount: [
+      {
+        denom,
+        amount: unitToDenom(amount, network.denominationSize, String),
+      },
+    ],
+  };
+
+  return {
+    fee: getFeeData(denom, gasAmount, gasPrice),
+    signatures: null,
+    memo: TRANSACTION_MEMO,
+    msg: [{ type, value }],
   };
 };
 
@@ -185,15 +244,7 @@ export const createRewardsClaimTransaction = (args: {
   const type = getTransactionMessageTypeForNetwork(network, "CLAIM");
 
   return {
-    fee: {
-      amount: [
-        {
-          denom,
-          amount: multiply(gasAmount, gasPrice, String),
-        },
-      ],
-      gas: gasAmount,
-    },
+    fee: getFeeData(denom, gasAmount, gasPrice),
     signatures: null,
     memo: TRANSACTION_MEMO,
     msg: selectedRewards.map(reward => {

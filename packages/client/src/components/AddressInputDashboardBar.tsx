@@ -6,8 +6,8 @@ import { COLORS } from "constants/colors";
 import {
   DailyPercentChangeProps,
   FiatPriceDataProps,
-  withAtomPriceData,
   withDailyPercentChange,
+  withFiatPriceData,
   withGraphQLVariables,
 } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
@@ -201,6 +201,6 @@ export default composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
   withRouter,
-  withAtomPriceData,
+  withFiatPriceData,
   withDailyPercentChange,
 )(AddressInputDashboardBar);

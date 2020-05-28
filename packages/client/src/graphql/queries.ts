@@ -136,7 +136,7 @@ export interface FiatPriceDataProps {
   prices: FiatPriceDataQueryResult;
 }
 
-export const withAtomPriceData = graphql(PricesDocument, {
+export const withFiatPriceData = graphql(PricesDocument, {
   name: "prices",
   ...fastPollingConfig(["versus", "currency"]),
 });

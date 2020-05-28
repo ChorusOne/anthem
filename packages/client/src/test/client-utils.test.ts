@@ -2,14 +2,15 @@ import { NETWORKS } from "@anthem/utils";
 import { ApolloError } from "apollo-client";
 import {
   abbreviateAddress,
+  adaptRawTransactionData,
   canRenderGraphQL,
   capitalizeString,
   formatAddressString,
   formatCommissionRate,
-  formatVotingPower,
   getAccountBalances,
   getBlockExplorerUrlForTransaction,
   getFiatPriceHistoryMap,
+  getPercentageFromTotal,
   getPortfolioTypeFromUrl,
   getPriceFromTransactionTimestamp,
   getQueryParamsFromUrl,
@@ -32,6 +33,7 @@ import { fiatPriceHistory } from "../../../utils/src/client/data/fiatPriceHistor
 import prices from "../../../utils/src/client/data/prices.json";
 import { rewardsByValidator } from "../../../utils/src/client/data/rewardsByValidator.json";
 import { validators } from "../../../utils/src/client/data/validators.json";
+import { MOCK_BLOCKCHAIN_TRANSACTION_RESULT } from "./data/mock-blockchain-transactions-result";
 
 describe("utils", () => {
   test("abbreviateAddress", () => {
@@ -333,20 +335,27 @@ describe("utils", () => {
 
   test("formatVotingPower", () => {
     const total = "184117466747846";
-    expect(formatVotingPower("74843655191", total)).toMatchInlineSnapshot(
+    expect(getPercentageFromTotal("74843655191", total)).toMatchInlineSnapshot(
       `"0.04"`,
     );
-    expect(formatVotingPower("5601876912537", total)).toMatchInlineSnapshot(
-      `"3.04"`,
-    );
-    expect(formatVotingPower("1604729095336", total)).toMatchInlineSnapshot(
-      `"0.87"`,
-    );
-    expect(formatVotingPower("67605300547", total)).toMatchInlineSnapshot(
+    expect(
+      getPercentageFromTotal("5601876912537", total),
+    ).toMatchInlineSnapshot(`"3.04"`);
+    expect(
+      getPercentageFromTotal("1604729095336", total),
+    ).toMatchInlineSnapshot(`"0.87"`);
+    expect(getPercentageFromTotal("67605300547", total)).toMatchInlineSnapshot(
       `"0.04"`,
     );
-    expect(formatVotingPower("252362566166", total)).toMatchInlineSnapshot(
+    expect(getPercentageFromTotal("252362566166", total)).toMatchInlineSnapshot(
       `"0.14"`,
     );
   });
+
+  // TODO: Perform assertions...
+  // const result = adaptRawTransactionData(
+  //   MOCK_BLOCKCHAIN_TRANSACTION_RESULT,
+  //   "cosmoshub-3",
+  // );
+  test.todo("adaptRawTransactionData");
 });

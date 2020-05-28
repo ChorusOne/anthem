@@ -27,11 +27,13 @@ import {
 } from "./currency-utils";
 import { formatFiatPriceDate } from "./date-utils";
 import {
+  add,
   addValuesInList,
   divide,
   GenericNumberType,
   isGreaterThanOrEqualTo,
   multiply,
+  subtract,
   toBigNumber,
 } from "./math-utils";
 
@@ -86,8 +88,17 @@ export enum OASIS_ADDRESS_ENUM {
 /**
  * Determine if a given route link is on the current active route.
  */
-export const onActiveRoute = (pathName: string, routeName: string) => {
-  return pathName.toLowerCase().includes(routeName.toLowerCase());
+export const onActiveRoute = (pathName: string, routeName: string): boolean => {
+  const path = pathName.split("/")[1];
+  return !!path && path.toLowerCase() === routeName.toLowerCase();
+};
+
+/**
+ * Determine if the given tab is active given the current route.
+ */
+export const onActiveTab = (pathName: string, tabName: string): boolean => {
+  const path = pathName.split("/")[2];
+  return !!path && path.toLowerCase() === tabName.toLowerCase();
 };
 
 /**
@@ -754,23 +765,29 @@ export const parseGraphQLError = (error?: {
  * the data model which matches our GraphQL transaction data.
  *
  * If this fails just return null, and the result will be disregarded.
+ *
+ * TODO: Update this to work with Cosmos Hub 3 transactions data model.
  */
 export const adaptRawTransactionData = (
   rawTransaction: any,
   chainId: string,
 ): Nullable<ITransaction> => {
   try {
-    const adaptedTransactionResult = {
+    const tx = rawTransaction;
+    const adaptedTransactionResult: ITransaction = {
       chain: chainId,
-      fees: rawTransaction.tx.value.fee,
+      fees: {
+        amount: null,
+        gas: tx.gas,
+      },
       gasused: rawTransaction.gas_used,
       gaswanted: rawTransaction.gas_wanted,
       hash: rawTransaction.txhash,
       height: rawTransaction.height,
       log: rawTransaction.logs,
-      memo: rawTransaction.tx.value.memo,
-      msgs: rawTransaction.tx.value.msg,
-      tags: rawTransaction.tags,
+      memo: "",
+      msgs: [],
+      tags: [],
       timestamp: String(new Date(rawTransaction.timestamp).getTime()),
     };
 
@@ -791,8 +808,71 @@ export const formatCommissionRate = (rate: string) => {
  * Format the validators voting power. The voting power is the validator
  * stake divided by the entire network stake.
  */
-export const formatVotingPower = (staked: string, totalStake: string) => {
+export const getPercentageFromTotal = (staked: string, totalStake: string) => {
   const share = divide(staked, totalStake);
   const power = multiply(share, 100, Number).toFixed(2);
   return power;
+};
+
+interface Stake {
+  percentage: string;
+  rewards: string;
+  validator: IValidator;
+}
+
+interface StakingInformation {
+  total: string;
+  delegations: Stake[];
+}
+
+/**
+ * Combine the rewards available for withdrawal with the validators list
+ * to get additional validator metadata.
+ */
+export const deriveCurrentDelegationsInformation = (
+  validatorRewards: IQuery["rewardsByValidator"],
+  validators: IValidator[],
+  network: NetworkDefinition,
+): StakingInformation => {
+  const delegationsData = [];
+  let total = 0;
+
+  // Iterate through the rewards and combine with the validator list data
+  for (const data of validatorRewards) {
+    const validator = validators.find(
+      x => x.operator_address === data.validator_address,
+    );
+    const { reward } = data;
+    if (!validator || !reward) {
+      continue;
+    } else {
+      const { amount } = reward[0];
+      total = add(total, amount, Number);
+      delegationsData.push({
+        validator,
+        rewards: amount,
+      });
+    }
+  }
+
+  // Sort the result by rewards amount
+  const sortedByReward = delegationsData.sort((a, b) =>
+    subtract(b.rewards, a.rewards, Number),
+  );
+
+  // Combine with the percentages
+  const delegations: Stake[] = sortedByReward.map(x => {
+    return {
+      ...x,
+      percentage: getPercentageFromTotal(x.rewards, String(total)),
+    };
+  });
+
+  const denomSize = network.denominationSize;
+
+  // Return the summary result
+  return {
+    total: formatCurrencyAmount(denomToUnit(total, denomSize), 2),
+    delegations,
+  };
 };

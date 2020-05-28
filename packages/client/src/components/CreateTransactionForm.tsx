@@ -30,7 +30,7 @@ import {
   ValidatorsProps,
   withAccountBalances,
   withAccountInformation,
-  withAtomPriceData,
+  withFiatPriceData,
   withGraphQLVariables,
   withRewardsByValidatorQuery,
   withValidators,
@@ -47,6 +47,7 @@ import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import styled from "styled-components";
 import {
   capitalizeString,
+  copyTextToClipboard,
   getAccountBalances,
   getBlockExplorerUrlForTransaction,
   mapRewardsToAvailableRewards,
@@ -57,6 +58,7 @@ import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import {
   createDelegationTransactionMessage,
   createRewardsClaimTransaction,
+  createSendTransactionMessage,
   createTransactionRequestMetadata,
 } from "tools/cosmos-utils";
 import {
@@ -65,7 +67,10 @@ import {
   formatCurrencyAmount,
 } from "tools/currency-utils";
 import { bold } from "tools/i18n-utils";
-import { validateLedgerTransactionAmount } from "tools/validation-utils";
+import {
+  validateCosmosAddress,
+  validateLedgerTransactionAmount,
+} from "tools/validation-utils";
 import {
   Button,
   Centered,
@@ -96,6 +101,8 @@ interface IState {
   gasAmount: string;
   amount: string;
   delegationTransactionInputError: string;
+  recipientAddress: string;
+  sendTransactionInputError: string;
   displayCustomGasSettings: boolean;
   claimsTransactionSetupError: string;
   useFullBalance: boolean;
@@ -127,7 +134,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       displayCustomGasSettings: false,
       gasPrice: DEFAULT_GAS_PRICE,
       gasAmount: DEFAULT_GAS_AMOUNT,
+      recipientAddress: "",
       claimsTransactionSetupError: "",
+      sendTransactionInputError: "",
       delegationTransactionInputError: "",
     };
   }
@@ -170,6 +179,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
   renderSendReceiveTransactionSetup = () => {
     const { i18n, prices, ledger, fiatCurrency, accountBalances } = this.props;
+    const { address } = ledger;
     const { t, tString } = i18n;
     const atomsConversionRate = prices.prices;
     return (
@@ -196,15 +206,15 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   balanceFiat: `${balanceFiat} ${fiatCurrency.symbol}`,
                 })}
               </p>
-              <H6 style={{ marginTop: 12, marginBottom: 0 }}>
+              <H6 style={{ marginTop: 6, marginBottom: 0 }}>
                 Please enter an amount to send
               </H6>
-              <View style={{ marginTop: 12 }}>
+              <View>
                 <FormContainer>
                   <form
                     style={{
                       display: "flex",
-                      flexDirection: "row",
+                      flexDirection: "column",
                     }}
                     data-cy="ledger-action-input-form"
                     onSubmit={(event: ChangeEvent<HTMLFormElement>) => {
@@ -216,12 +226,28 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                       autoFocus
                       label={tString("Transaction Amount (ATOM)")}
                       onSubmit={this.submitLedgerTransactionAmount}
-                      style={{ ...InputStyles, width: 300 }}
+                      style={{ ...InputStyles, marginBottom: 6, width: 150 }}
                       placeholder={tString("Enter an amount")}
                       data-cy="transaction-send-amount-input"
                       value={this.state.amount}
                       onChange={this.handleEnterLedgerActionAmount}
                     />
+                    <TextInput
+                      label={`Recipient Address (${ledger.network.name})`}
+                      onSubmit={this.submitLedgerTransactionAmount}
+                      style={{ ...InputStyles, width: 400 }}
+                      placeholder="Enter recipient address"
+                      data-cy="transaction-send-recipient-input"
+                      value={this.state.recipientAddress}
+                      onChange={this.handleEnterRecipientAddress}
+                    />
+                    <Button
+                      icon="duplicate"
+                      onClick={() => copyTextToClipboard(address)}
+                      style={{ bottom: -16, position: "absolute" }}
+                    >
+                      Receive
+                    </Button>
                     {this.props.renderConfirmArrow(
                       tString("Generate My Transaction"),
                       this.submitLedgerTransactionAmount,
@@ -229,10 +255,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   </form>
                 </FormContainer>
                 {this.renderGasPriceSetup()}
-                {this.state.delegationTransactionInputError && (
-                  <div style={{ marginTop: 12 }} className={Classes.LABEL}>
-                    <ErrorText data-cy="amount-transaction-error">
-                      {this.state.delegationTransactionInputError}
+                {this.state.sendTransactionInputError && (
+                  <div style={{ marginTop: 6 }} className={Classes.LABEL}>
+                    <ErrorText data-cy="amount-send-transaction-error">
+                      {this.state.sendTransactionInputError}
                     </ErrorText>
                   </div>
                 )}
@@ -801,7 +827,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const { prices, accountBalances, ledger } = this.props;
     const { ledgerActionType } = this.props.ledgerDialog;
     const atomsConversionRate = prices.prices;
-    const IS_DELEGATION = ledgerActionType === "DELEGATE";
+    const IS_CLAIM = ledgerActionType === "CLAIM";
 
     const balancesData = accountBalances.accountBalances;
 
@@ -814,7 +840,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       );
 
       const { balance, rewards } = balances;
-      const targetValue = (IS_DELEGATION ? balance : rewards).replace(",", "");
+      const targetValue = (IS_CLAIM ? rewards : balance).replace(",", "");
       const maximumAmountAfterFees = calculateTransactionAmount(
         targetValue,
         this.state.gasPrice,
@@ -828,6 +854,19 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         "Received the wrong account balances data in the CreateTransactionForm!",
       );
     }
+  };
+
+  handleEnterRecipientAddress = (recipient: string) => {
+    this.setState({ recipientAddress: recipient }, () => {
+      const { recipientAddress } = this.state;
+      if (recipientAddress) {
+        if (!validateCosmosAddress(recipientAddress)) {
+          Toast.warn(
+            "Please ensure the entered address is a valid Cosmos address.",
+          );
+        }
+      }
+    });
   };
 
   handleEnterLedgerActionAmount = (value: string) => {
@@ -912,11 +951,68 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       this.props.i18n.tString,
     );
 
-    this.setState({ delegationTransactionInputError: amountError }, () => {
-      if (amountError === "") {
-        this.getDelegationTransaction();
-      }
-    });
+    this.setState(
+      {
+        sendTransactionInputError: amountError,
+        delegationTransactionInputError: amountError,
+      },
+      () => {
+        if (amountError === "") {
+          const { ledgerActionType } = this.props.ledgerDialog;
+          if (ledgerActionType === "SEND") {
+            this.getSendTransaction();
+          } else {
+            this.getDelegationTransaction();
+          }
+        }
+      },
+    );
+  };
+
+  getSendTransaction = () => {
+    const { amount, gasAmount, gasPrice, recipientAddress } = this.state;
+    const { accountInformation } = this.props;
+    const { network, address } = this.props.ledger;
+    const { denom } = network;
+
+    if (!validateCosmosAddress(recipientAddress)) {
+      return this.setState({
+        sendTransactionInputError: "Please enter a valid recipient address",
+      });
+    }
+
+    if (recipientAddress && accountInformation.accountInformation) {
+      const txMsg = createSendTransactionMessage({
+        denom,
+        amount,
+        address,
+        gasAmount,
+        gasPrice,
+        network,
+        recipient: recipientAddress,
+      });
+
+      const account = accountInformation.accountInformation as IAccountInformation;
+
+      const txRequestMetadata = createTransactionRequestMetadata({
+        address,
+        account,
+        gasAmount,
+        gasPrice,
+        network,
+      });
+
+      this.props.setTransactionData({
+        txMsg,
+        txRequestMetadata,
+      });
+    } else {
+      Toast.warn(
+        this.props.i18n.tString(
+          "Something went wrong... account information is not available right now.",
+        ),
+      );
+    }
   };
 
   getDelegationTransaction = () => {
@@ -1024,7 +1120,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
  */
 
 const FormContainer = styled.div`
-  margin-top: 16px;
+  margin-top: 8px;
   display: flex;
   flex-direction: row;
 `;
@@ -1108,7 +1204,7 @@ export default composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
   withValidators,
-  withAtomPriceData,
+  withFiatPriceData,
   withAccountBalances,
   withAccountInformation,
   withRewardsByValidatorQuery,

@@ -21,7 +21,7 @@ import {
   AccountBalancesProps,
   FiatPriceDataProps,
   withAccountBalances,
-  withAtomPriceData,
+  withFiatPriceData,
   withGraphQLVariables,
 } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
@@ -30,6 +30,7 @@ import { DashboardError } from "pages/DashboardPage";
 import React from "react";
 import PieChart from "react-minimal-pie-chart";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { getAccountBalances, getPercentage } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
@@ -97,8 +98,6 @@ class Balance extends React.Component<IProps, {}> {
                   isDesktop={isDesktop}
                   prices={prices.prices}
                   currencySetting={currencySetting}
-                  handleDelegation={this.handleDelegationAction}
-                  handleRewardsClaim={this.handleRewardsClaimAction}
                   handleSendReceive={this.handleSendReceiveAction}
                   balances={data.cosmos as ICosmosAccountBalances}
                 />
@@ -111,36 +110,6 @@ class Balance extends React.Component<IProps, {}> {
       </GraphQLGuardComponentMultipleQueries>
     );
   }
-
-  handleDelegationAction = () => {
-    let actionFunction;
-    if (this.props.ledger.connected) {
-      actionFunction = this.props.openLedgerDialog;
-    } else {
-      actionFunction = this.props.openSelectNetworkDialog;
-    }
-
-    actionFunction({
-      signinType: "LEDGER",
-      ledgerAccessType: "PERFORM_ACTION",
-      ledgerActionType: "DELEGATE",
-    });
-  };
-
-  handleRewardsClaimAction = () => {
-    let actionFunction;
-    if (this.props.ledger.connected) {
-      actionFunction = this.props.openLedgerDialog;
-    } else {
-      actionFunction = this.props.openSelectNetworkDialog;
-    }
-
-    actionFunction({
-      signinType: "LEDGER",
-      ledgerAccessType: "PERFORM_ACTION",
-      ledgerActionType: "CLAIM",
-    });
-  };
 
   handleSendReceiveAction = () => {
     let actionFunction;
@@ -171,8 +140,6 @@ interface CosmosBalancesProps {
   currencySetting: CURRENCY_SETTING;
   isDesktop: boolean;
   tString: tFnString;
-  handleDelegation: () => void;
-  handleRewardsClaim: () => void;
   handleSendReceive: () => void;
 }
 
@@ -186,9 +153,7 @@ class CosmosBalances extends React.Component<CosmosBalancesProps> {
       balances,
       isDesktop,
       currencySetting,
-      handleDelegation,
-      handleRewardsClaim,
-      // handleSendReceive,
+      handleSendReceive,
     } = this.props;
 
     const fiatConversionRate = prices;
@@ -300,26 +265,22 @@ class CosmosBalances extends React.Component<CosmosBalancesProps> {
           <ActionContainer>
             <H5>{tString("What do you want to do?")}</H5>
             <DelegationControlsContainer>
+              <Link to="/staking">
+                <Button
+                  style={{ width: 125, marginRight: 12 }}
+                  onClick={() => null}
+                  data-cy="stake-button"
+                >
+                  Stake
+                </Button>
+              </Link>
               <Button
-                style={{ marginRight: 4 }}
-                onClick={handleDelegation}
-                data-cy="balances-delegation-button"
-              >
-                {tString("Delegate")}
-              </Button>
-              <Button
-                style={{ marginRight: 4 }}
-                onClick={handleRewardsClaim}
-                data-cy="balances-rewards-claim-button"
-              >
-                {tString("Claim Rewards")}
-              </Button>
-              {/* <Button
+                style={{ width: 125 }}
                 onClick={handleSendReceive}
-                data-cy="balances-send-receive-button"
+                data-cy="send-receive-button"
               >
                 Send/Receive
-              </Button> */}
+              </Button>
             </DelegationControlsContainer>
           </ActionContainer>
         )}
@@ -759,6 +720,6 @@ const withProps = connect(mapStateToProps, dispatchProps);
 export default composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
-  withAtomPriceData,
+  withFiatPriceData,
   withAccountBalances,
 )(Balance);

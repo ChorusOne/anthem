@@ -16,7 +16,11 @@ describe("Test Ledger Transactions", () => {
 
   // Error with no value:
   it("The delegation transaction workflow can be completed", () => {
-    UTILS.findAndClick("balances-delegation-button");
+    UTILS.findAndClick("stake-button");
+    UTILS.findAndClick(
+      "validator-cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+    );
+    UTILS.findAndClick("delegate-button");
     UTILS.findAndClick("ledger-dialog-confirmation-button");
     UTILS.shouldMatchText(
       "amount-transaction-error",
@@ -50,7 +54,11 @@ describe("Test Ledger Transactions", () => {
   });
 
   it("The rewards claim transaction workflow can be completed", () => {
-    UTILS.findAndClick("balances-rewards-claim-button");
+    UTILS.findAndClick("stake-button");
+    UTILS.findAndClick(
+      "validator-cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+    );
+    UTILS.findAndClick("claim-rewards-button");
     UTILS.findAndClick("ledger-dialog-confirmation-button");
 
     // Error with no validators selected:
@@ -78,6 +86,44 @@ describe("Test Ledger Transactions", () => {
     // Check both and proceed
     UTILS.findAndClick("validator-check-option-0");
     UTILS.findAndClick("validator-check-option-1");
+
+    UTILS.findAndClick("ledger-dialog-confirmation-button");
+    UTILS.findAndClick("ledger-dialog-confirmation-button");
+    cy.wait(5000);
+    UTILS.findAndClick("transaction-submit-button");
+    cy.wait(5000);
+    UTILS.findAndClick("transaction-dialog-close-button");
+  });
+
+  it("The send transaction workflow can be completed", () => {
+    UTILS.findAndClick("send-receive-button");
+    UTILS.findAndClick("ledger-dialog-confirmation-button");
+
+    // Error with no validators selected:
+    UTILS.shouldMatchText(
+      "amount-send-transaction-error",
+      "Please input an amount.",
+    );
+
+    // Error with very large value added:
+    UTILS.typeText("transaction-send-amount-input", "500000000000");
+    UTILS.findAndClick("ledger-dialog-confirmation-button");
+    UTILS.shouldMatchText(
+      "amount-send-transaction-error",
+      "Final value is greater than the maximum available.",
+    );
+
+    // Enter an amount
+    UTILS.typeText("transaction-send-amount-input", "1");
+    UTILS.typeText(
+      "transaction-send-recipient-input",
+      "cosmos15v50ymp6n5dn73erkqtmq0u8adpl8d3ujv2e74",
+    );
+
+    // Set gas settings
+    UTILS.findAndClick("toggle-custom-gas-settings");
+    UTILS.typeText("custom-gas-price-input", "0.05");
+    UTILS.typeText("custom-gas-amount-input", "200000");
 
     UTILS.findAndClick("ledger-dialog-confirmation-button");
     UTILS.findAndClick("ledger-dialog-confirmation-button");

@@ -57,14 +57,20 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
       transactions,
       transactionsPage,
       moreResultsExist,
-      extraLiveTransactions,
+      // extraLiveTransactions,
     } = this.props;
 
+    /**
+     * NOTE: Disabling the live transaction update workaround for now.
+     * The transactions data model needs to be updated to work with
+     *  Cosmos Hub 3 transactions - then this can be re-enabled.
+     */
     // Get the combined list of transactions to render:
-    const txs = this.combineTransactionRecords(
-      transactions,
-      extraLiveTransactions,
-    );
+    // const txs = this.combineTransactionRecords(
+    //   transactions,
+    //   extraLiveTransactions,
+    // );
+    const txs = transactions;
     const TXS_EXIST = txs && txs.length > 0;
 
     return (

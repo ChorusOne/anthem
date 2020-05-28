@@ -189,7 +189,7 @@ interface IButtonProps {
   disabled?: boolean;
   icon?: IconName;
   rightIcon?: IconName;
-  children: ReactNode;
+  children?: ReactNode;
   onClick?: () => void;
 }
 
@@ -229,8 +229,8 @@ export const Button = (props: IButtonProps) => {
       disabled={props.disabled}
       intent={category === "DANGER" ? Intent.DANGER : Intent.NONE}
       style={{
-        ...props.style,
         ...styles,
+        ...props.style,
       }}
     >
       <Pointer>{props.children}</Pointer>
