@@ -49,7 +49,7 @@ const fetchAccountBalances = async (
 ): Promise<ICeloAccountBalancesType> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get<ICeloAccountBalances>(
-    `${host}/account/${address}`,
+    `${host}/accounts/${address}/balances`,
   );
 
   return { celo: response };
@@ -64,7 +64,7 @@ const fetchAccountHistory = async (
 ): Promise<IQuery["celoAccountHistory"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get<CeloAccountSnapshot[]>(
-    `${host}/history/${address}`,
+    `${host}/accounts/${address}/history`,
   );
 
   return response;
