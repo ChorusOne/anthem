@@ -50,8 +50,6 @@ const fetchAccountBalances = async (
   const host = getHostFromNetworkName(network.name);
   const url = `${host}/accounts/${address}/balances`;
   const response = await AxiosUtil.get<ICeloAccountBalances>(url);
-  console.log(url);
-
   return { celo: response };
 };
 
@@ -63,9 +61,8 @@ const fetchAccountHistory = async (
   network: NetworkDefinition,
 ): Promise<IQuery["celoAccountHistory"]> => {
   const host = getHostFromNetworkName(network.name);
-  const response = await AxiosUtil.get<CeloAccountSnapshot[]>(
-    `${host}/accounts/${address}/history`,
-  );
+  const url = `${host}/accounts/${address}/history`;
+  const response = await AxiosUtil.get<CeloAccountSnapshot[]>(url);
 
   return response;
 };
@@ -81,10 +78,9 @@ const fetchTransactions = async (
 ): Promise<IQuery["celoTransactions"]> => {
   const host = getHostFromNetworkName(network.name);
 
-  // TODO: Implement
-  // const response = await AxiosUtil.get<any[]>(
-  //   `${host}/account/${address}/events`,
-  // );
+  // TODO: Update to use response type
+  // const url = `${host}/accounts/${address}/transactions`;
+  // const response = await AxiosUtil.get<any[]>(url);
 
   return {
     page: 1,
