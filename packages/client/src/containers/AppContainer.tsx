@@ -116,8 +116,6 @@ const ErrorText = styled.p`
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   loading: Modules.selectors.app.loadingSelector(state),
-  ledger: Modules.selectors.ledger.ledgerSelector(state),
-  transactionPage: Modules.selectors.transaction.transactionsPage(state),
 });
 
 const dispatchProps = {

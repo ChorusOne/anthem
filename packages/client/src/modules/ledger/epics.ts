@@ -325,7 +325,7 @@ const setAddressParamsOnInitializeEpic: EpicSignature = (
     filter(isActionOf(Actions.initializeAppSuccess)),
     pluck("payload"),
     pluck("address"),
-    tap(payload => {
+    tap(() => {
       const { address } = state$.value.ledger.ledger;
       const { transactionsPage } = state$.value.transaction;
       const search = `?address=${address}&page=${transactionsPage}`;
