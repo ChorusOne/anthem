@@ -30,6 +30,7 @@ import {
   abbreviateAddress,
   copyTextToClipboard,
   onActiveRoute,
+  onChartView,
   onPath,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
@@ -44,7 +45,7 @@ import Toast from "./Toast";
 
 interface IState {
   mobileMenuOpen: boolean;
-  dashboardRoute: string;
+  dashboardRoute: string; // TODO: Move to global state
 }
 
 /** ===========================================================================
@@ -98,7 +99,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         path={pathname}
         closeHandler={close}
         key="Dashboard"
-        route={`Dashboard${dashboardTab}`}
+        route={`${dashboardTab}`}
         title={tString("Dashboard")}
         icon={IconNames.TIMELINE_BAR_CHART}
       />,
@@ -106,7 +107,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         path={pathname}
         closeHandler={close}
         key="Staking"
-        route="Staking"
+        route="Delegate"
         title="Staking"
         icon={IconNames.BANK_ACCOUNT}
       />,
@@ -267,7 +268,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
       return (
         <DesktopNavigationContainer className={Classes.DARK}>
           <View>
-            <Link to="/dashboard">
+            <Link to={`/${this.state.dashboardRoute}`}>
               <BetaBanner mobile={false} />
               <ChorusTitleImage src={ChorusLogo} alt="Chorus One Logo" />
             </Link>
@@ -322,10 +323,9 @@ class SideMenuComponent extends React.Component<IProps, IState> {
 
   setDashboardTabRoute = () => {
     const { pathname } = this.props.location;
-    const onDashboard = onPath(pathname, "/dashboard");
-    let dashboardTab = "";
+    const onDashboard = onChartView(pathname);
+    const dashboardTab = pathname.split("/")[1];
     if (onDashboard) {
-      dashboardTab = pathname.replace("/dashboard", "");
       if (dashboardTab !== this.state.dashboardRoute) {
         this.setState({ dashboardRoute: dashboardTab });
       }

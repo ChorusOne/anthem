@@ -378,9 +378,8 @@ const DashboardNavigationLink = ({
   pathname,
   localizedTitle,
 }: INavItemProps) => {
-  const params = `?address=${address}`;
   const active = onActiveTab(pathname, title);
-  const path = `${title.toLowerCase()}${params}`;
+  const path = `/${title.toLowerCase()}/${address}`;
   const onClickFunction = () => runAnalyticsForTab(title);
   return (
     <Link

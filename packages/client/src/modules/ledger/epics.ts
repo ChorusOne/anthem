@@ -25,6 +25,7 @@ import { connectCeloAddress } from "tools/celo-ledger-utils";
 import {
   capitalizeString,
   getQueryParamsFromUrl,
+  onChartView,
   onPath,
   wait,
 } from "tools/client-utils";
@@ -297,19 +298,19 @@ const setAddressParamsOnNavigationEpic: EpicSignature = (
   return action$.pipe(
     filter(isActionOf(Actions.onRouteChange)),
     pluck("payload"),
-    tap(payload => {
+    tap(() => {
       const { address } = state$.value.ledger.ledger;
       const { transactionsPage } = state$.value.transaction;
       const { pathname } = state$.value.app.app.locationState;
-      const search = `?address=${address}&page=${transactionsPage}`;
-      // Apply only on dashboard route
-      if (!!address && onPath(pathname, "/dashboard")) {
-        if (search !== payload.search) {
-          deps.router.replace({
-            search,
-            pathname: deps.router.location.pathname,
-          });
-        }
+      const search = `?page=${transactionsPage}`;
+
+      const path = pathname.split("/")[1];
+      const pathAddress = pathname.split("/")[2];
+      if (!!address && pathAddress !== address && onChartView(pathname)) {
+        deps.router.replace({
+          search,
+          pathname: `/${path}/${address}`,
+        });
       }
     }),
     ignoreElements(),
@@ -328,11 +329,24 @@ const setAddressParamsOnInitializeEpic: EpicSignature = (
     tap(() => {
       const { address } = state$.value.ledger.ledger;
       const { transactionsPage } = state$.value.transaction;
-      const search = `?address=${address}&page=${transactionsPage}`;
-      deps.router.replace({
-        search,
-        pathname: deps.router.location.pathname,
-      });
+      const search = `?page=${transactionsPage}`;
+      const { pathname } = deps.router.location;
+      const pathAddress = pathname.split("/")[2];
+      if (!onChartView(pathname)) {
+        return;
+      }
+
+      if (pathAddress !== address) {
+        deps.router.replace({
+          search,
+          pathname: `${deps.router.location.pathname}/${pathAddress}`,
+        });
+      } else if (!pathname.includes(address)) {
+        deps.router.replace({
+          search,
+          pathname: `${deps.router.location.pathname}/${address}`,
+        });
+      }
     }),
     ignoreElements(),
   );
@@ -347,8 +361,8 @@ const setAddressNavigationEpic: EpicSignature = (action$, state$, deps) => {
       const { router } = deps;
       const page = state$.value.transaction.transactionsPage;
       router.push({
-        pathname: "/dashboard/total",
-        search: `address=${address}&page=${page}`,
+        search: `page=${page}`,
+        pathname: `/total/${address}`,
       });
     }),
     ignoreElements(),

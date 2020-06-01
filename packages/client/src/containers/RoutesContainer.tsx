@@ -71,7 +71,7 @@ class RoutesContainer extends React.Component<IProps> {
             <Route
               key={2}
               exact
-              path="/dashboard/*"
+              path="/:path(total|available|staking|rewards|commissions)/*"
               component={DashboardPage}
             />
             <Route
@@ -79,14 +79,14 @@ class RoutesContainer extends React.Component<IProps> {
               path="/txs/*"
               component={TransactionDetailContainer}
             />
-            <Route key={4} path="/staking" component={ValidatorsListPage} />
+            <Route key={4} path="/delegate" component={ValidatorsListPage} />
             <Route key={5} path="/help" component={HelpPage} />
             <Route key={6} path="/settings" component={SettingsPage} />
             <Route
               key={7}
               component={() =>
                 !!address ? (
-                  <Redirect to="/dashboard/total" />
+                  <Redirect to="/total" />
                 ) : (
                   <Redirect to="/welcome" />
                 )
