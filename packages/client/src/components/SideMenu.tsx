@@ -435,7 +435,7 @@ interface INavItemProps {
 }
 
 const NavItem = ({ route, title, icon, path, closeHandler }: INavItemProps) => {
-  const active = onActiveRoute(path, title);
+  const active = onActiveRoute(path, route);
   const cypressLabel = `${title.toLowerCase()}-navigation-link`;
   return (
     <Link
