@@ -1,3 +1,4 @@
+import { Pathname, Search } from "history";
 import StorageModule from "lib/storage-lib";
 import { combineReducers } from "redux";
 import { createReducer } from "typesafe-actions";
@@ -66,9 +67,13 @@ interface AppState {
   transactionsExpanded: boolean;
   portfolioExpanded: boolean;
   addressInputRef: Nullable<HTMLInputElement>;
+  locationState: {
+    pathname: Pathname;
+    search: Search;
+  };
 }
 
-const initialAppState = {
+const initialAppState: AppState = {
   activeBannerKey: null,
   showDataIntegrityHelpLabel: false,
   dashboardInputFocused: false,
@@ -80,6 +85,10 @@ const initialAppState = {
   transactionsExpanded: false,
   portfolioExpanded: false,
   addressInputRef: null,
+  locationState: {
+    pathname: "",
+    search: "",
+  },
 };
 
 const app = createReducer<AppState, ActionTypes>(initialAppState)
@@ -125,6 +134,13 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
       dashboardInputFocused: action.payload,
     }),
   )
+  .handleAction(actions.onRouteChange, (state, action) => ({
+    ...state,
+    routePathname: {
+      search: action.payload.search,
+      pathname: action.payload.pathname,
+    },
+  }))
   .handleAction(actions.toggleNotificationsBanner, (state, { payload }) => ({
     ...state,
     activeBannerKey: payload.visible ? payload.key : null,

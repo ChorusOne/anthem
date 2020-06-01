@@ -25,6 +25,7 @@ import { connectCeloAddress } from "tools/celo-ledger-utils";
 import {
   capitalizeString,
   getQueryParamsFromUrl,
+  onPath,
   wait,
 } from "tools/client-utils";
 import { getAccAddress } from "tools/terra-library/key-utils";
@@ -299,12 +300,16 @@ const setAddressParamsOnNavigationEpic: EpicSignature = (
     tap(payload => {
       const { address } = state$.value.ledger.ledger;
       const { transactionsPage } = state$.value.transaction;
+      const { pathname } = state$.value.app.app.locationState;
       const search = `?address=${address}&page=${transactionsPage}`;
-      if (search !== payload.search) {
-        deps.router.replace({
-          search,
-          pathname: deps.router.location.pathname,
-        });
+      // Apply only on dashboard route
+      if (!!address && onPath(pathname, "/dashboard")) {
+        if (search !== payload.search) {
+          deps.router.replace({
+            search,
+            pathname: deps.router.location.pathname,
+          });
+        }
       }
     }),
     ignoreElements(),

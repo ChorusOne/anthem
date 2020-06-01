@@ -1,4 +1,5 @@
 import { NetworkDefinition } from "@anthem/utils";
+import { Action, Location } from "history";
 import { ActionType, createStandardAction } from "typesafe-actions";
 import {
   BANNER_NOTIFICATIONS_KEYS,
@@ -39,6 +40,8 @@ enum ActionTypesEnum {
   SET_TRANSACTIONS_SIZE = "SET_TRANSACTIONS_SIZE",
 
   SET_ADDRESS_INPUT_REF = "SET_ADDRESS_INPUT_REF",
+
+  ROUTE_CHANGE = "ROUTE_CHANGE",
 }
 
 /** ===========================================================================
@@ -112,6 +115,14 @@ const setAddressInputRef = createStandardAction(
   ActionTypesEnum.SET_ADDRESS_INPUT_REF,
 )<Nullable<HTMLInputElement>>();
 
+interface RouteInformation extends Location {
+  action: Action;
+}
+
+const onRouteChange = createStandardAction(ActionTypesEnum.ROUTE_CHANGE)<
+  RouteInformation
+>();
+
 const actions = {
   empty,
   initializeApp,
@@ -131,6 +142,7 @@ const actions = {
   togglePortfolioSize,
   toggleTransactionsSize,
   setAddressInputRef,
+  onRouteChange,
 };
 
 /** ===========================================================================

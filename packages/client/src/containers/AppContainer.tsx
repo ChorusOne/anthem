@@ -149,7 +149,7 @@ const mapStateToProps = (state: ReduxStoreState) => ({
 
 const dispatchProps = {
   initializeApp: Modules.actions.app.initializeApp,
-  onRouteChange: Modules.actions.settings.onRouteChange,
+  onRouteChange: Modules.actions.app.onRouteChange,
 };
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;

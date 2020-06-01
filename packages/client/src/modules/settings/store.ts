@@ -5,6 +5,7 @@ import {
 } from "constants/fiat";
 import { ILocale } from "i18n/catalog";
 import { createReducer } from "typesafe-actions";
+import AppActions, { ActionTypes as AppActionTypes } from "../app/actions";
 import actions, { ActionTypes } from "./actions";
 
 /** ===========================================================================
@@ -59,16 +60,18 @@ const getInitialState = () => {
 const initialState = getInitialState();
 
 /** ===========================================================================
- * Reducer
+ * Settings Store Reducer
  * ============================================================================
  */
 
-const settings = createReducer<SettingsState, ActionTypes>(initialState)
+const settings = createReducer<SettingsState, ActionTypes | AppActionTypes>(
+  initialState,
+)
   .handleAction(actions.updateSetting, (state, action) => ({
     ...state,
     ...action.payload,
   }))
-  .handleAction(actions.onRouteChange, (state, action) => {
+  .handleAction(AppActions.onRouteChange, (state, action) => {
     /**
      * NOTE: `darkThemeEnabled` is the true theme setting, and `isDarkTheme`
      * is used to actually determine the current app theme. The reason is

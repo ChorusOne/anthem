@@ -1,4 +1,3 @@
-import { Action, Location } from "history";
 import { ILocale } from "i18n/catalog";
 import { ActionType, createStandardAction } from "typesafe-actions";
 import { SettingsState } from "./store";
@@ -11,7 +10,6 @@ import { SettingsState } from "./store";
 enum ActionTypesEnum {
   UPDATE_SETTING = "UPDATE_SETTING",
   UPDATE_SETTING_SUCCESS = "UPDATE_SETTING_SUCCESS",
-  ROUTE_CHANGE = "ROUTE_CHANGE",
 }
 
 /** ===========================================================================
@@ -27,14 +25,6 @@ const updateSettingSuccess = createStandardAction(
   ActionTypesEnum.UPDATE_SETTING_SUCCESS,
 )();
 
-interface RouteInformation extends Location {
-  action: Action;
-}
-
-const onRouteChange = createStandardAction(ActionTypesEnum.ROUTE_CHANGE)<
-  RouteInformation
->();
-
 const setLocale = (locale: ILocale) => {
   return updateSetting({ locale });
 };
@@ -47,7 +37,6 @@ const setLocale = (locale: ILocale) => {
 const actions = {
   updateSetting,
   updateSettingSuccess,
-  onRouteChange,
   setLocale,
 };
 
