@@ -53,6 +53,7 @@ class Balance extends React.Component<IProps, {}> {
       ledger,
       accountBalances,
     } = this.props;
+    console.log(accountBalances);
     const { tString } = i18n;
     const { network } = ledger;
     const { isDesktop, currencySetting } = settings;
@@ -304,7 +305,7 @@ class CeloBalances extends React.Component<CeloBalancesProps> {
     const { balances, network } = this.props;
 
     const {
-      goldTokenBalance,
+      availableGoldBalance,
       totalLockedGoldBalance,
       // nonVotingLockedGoldBalance,
       // votingLockedGoldBalance,
@@ -320,13 +321,13 @@ class CeloBalances extends React.Component<CeloBalancesProps> {
     };
 
     const total = addValuesInList([
-      goldTokenBalance,
+      availableGoldBalance,
       totalLockedGoldBalance,
       pendingWithdrawalBalance,
     ]);
 
     const percentages: number[] = [
-      getPercentage(goldTokenBalance, total),
+      getPercentage(availableGoldBalance, total),
       getPercentage(totalLockedGoldBalance, total),
       getPercentage(pendingWithdrawalBalance, total),
     ];
@@ -344,7 +345,7 @@ class CeloBalances extends React.Component<CeloBalancesProps> {
                 />
                 <BalanceTitle>Gold Balance:</BalanceTitle>
                 <BalanceText data-cy="celo-gold-balance-available">
-                  {renderCurrency(goldTokenBalance)}
+                  {renderCurrency(availableGoldBalance)}
                 </BalanceText>
               </BalanceLine>
               <BalanceLine>

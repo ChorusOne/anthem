@@ -3,7 +3,7 @@ query oasisTransactions($address: String!, $startingPage: Float, $pageSize: Floa
         page
         limit
         data{
-            amount
+            fee
             gas
             gas_price
             height
@@ -24,20 +24,19 @@ query oasisTransactions($address: String!, $startingPage: Float, $pageSize: Floa
                 }
                 ... on OasisEscrowAddEvent {
                     type
-                    owner
-                    escrow
+                    to
                     tokens
                 }
                 ... on OasisEscrowTakeEvent {
                     type
-                    owner
+                    from
+                    to
                     tokens
                 }
                 ... on OasisEscrowReclaimEvent {
                     type
-                    owner
-                    escrow
-                    tokens
+                    from
+                    shares
                 }
                 ... on OasisRegisterEntityEvent {
                     type

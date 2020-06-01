@@ -24,7 +24,7 @@ interface CeloAccountSnapshot {
   address: string;
   height: string;
   snapshotReward: string;
-  goldTokenBalance: string;
+  availableGoldBalance: string;
   totalLockedGoldBalance: string;
   nonVotingLockedGoldBalance: string;
   votingLockedGoldBalance: string;
@@ -48,9 +48,9 @@ const fetchAccountBalances = async (
   network: NetworkDefinition,
 ): Promise<ICeloAccountBalancesType> => {
   const host = getHostFromNetworkName(network.name);
-  const response = await AxiosUtil.get<ICeloAccountBalances>(
-    `${host}/accounts/${address}/balances`,
-  );
+  const url = `${host}/accounts/${address}/balances`;
+  const response = await AxiosUtil.get<ICeloAccountBalances>(url);
+  console.log(url);
 
   return { celo: response };
 };

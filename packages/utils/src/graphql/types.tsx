@@ -82,7 +82,7 @@ export interface ICeloAccountBalances {
    __typename?: "CeloAccountBalances";
   address: Scalars["String"];
   height: Scalars["String"];
-  goldTokenBalance: Scalars["String"];
+  availableGoldBalance: Scalars["String"];
   totalLockedGoldBalance: Scalars["String"];
   nonVotingLockedGoldBalance: Scalars["String"];
   votingLockedGoldBalance: Scalars["String"];
@@ -102,7 +102,7 @@ export interface ICeloAccountSnapshot {
   address: Scalars["String"];
   height: Scalars["String"];
   snapshotReward: Scalars["String"];
-  goldTokenBalance: Scalars["String"];
+  availableGoldBalance: Scalars["String"];
   totalLockedGoldBalance: Scalars["String"];
   nonVotingLockedGoldBalance: Scalars["String"];
   votingLockedGoldBalance: Scalars["String"];
@@ -864,7 +864,7 @@ export type IAccountBalancesQuery = (
     { __typename?: "CeloAccountBalancesType" }
     & { celo: (
       { __typename?: "CeloAccountBalances" }
-      & Pick<ICeloAccountBalances, "address" | "height" | "goldTokenBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
+      & Pick<ICeloAccountBalances, "address" | "height" | "availableGoldBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
       & { delegations: Array<(
         { __typename?: "CeloDelegation" }
         & Pick<ICeloDelegation, "group" | "totalVotes" | "activeVotes" | "pendingVotes">
@@ -924,7 +924,7 @@ export type ICeloAccountHistoryQuery = (
   { __typename?: "Query" }
   & { celoAccountHistory: Array<(
     { __typename?: "CeloAccountSnapshot" }
-    & Pick<ICeloAccountSnapshot, "snapshotDate" | "address" | "height" | "snapshotReward" | "goldTokenBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
+    & Pick<ICeloAccountSnapshot, "snapshotDate" | "address" | "height" | "snapshotReward" | "availableGoldBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
     & { delegations: Array<(
       { __typename?: "CeloDelegation" }
       & Pick<ICeloDelegation, "group" | "totalVotes" | "activeVotes" | "pendingVotes">
@@ -1497,7 +1497,7 @@ export const AccountBalancesDocument = gql`
       celo {
         address
         height
-        goldTokenBalance
+        availableGoldBalance
         totalLockedGoldBalance
         nonVotingLockedGoldBalance
         votingLockedGoldBalance
@@ -1650,7 +1650,7 @@ export const CeloAccountHistoryDocument = gql`
     address
     height
     snapshotReward
-    goldTokenBalance
+    availableGoldBalance
     totalLockedGoldBalance
     nonVotingLockedGoldBalance
     votingLockedGoldBalance
