@@ -161,13 +161,6 @@ const fetchExchangeRate = async (
   };
 };
 
-/**
- * Fetch coins list data.
- */
-const fetchCoinsList = async (): Promise<IQuery["coins"]> => {
-  return AxiosUtil.get(`${HOSTS.COIN_GECKO_API}/coins/list`);
-};
-
 /** ===========================================================================
  * Export
  * ============================================================================
@@ -176,7 +169,6 @@ const fetchCoinsList = async (): Promise<IQuery["coins"]> => {
 const EXCHANGE_DATA_API = {
   fetchDailyPercentChangeInPrice,
   fetchPortfolioFiatPriceHistory,
-  fetchCoinsList,
   fetchExchangeRate,
 };
 

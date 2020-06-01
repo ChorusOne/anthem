@@ -4,11 +4,9 @@ import {
   calculateTransactionAmount,
   convertCryptoToFiat,
   denomToUnit,
-  findCurrencyFromCoinsList,
   formatCurrencyAmount,
   unitToDenom,
 } from "tools/currency-utils";
-import { coins } from "../../../utils/src/client/data/coins.json";
 import prices from "../../../utils/src/client/data/prices.json";
 
 describe("currency-utils", () => {
@@ -21,29 +19,6 @@ describe("currency-utils", () => {
 
     result = formatCurrencyAmount("1050090082.235");
     expect(result).toMatchInlineSnapshot(`"1,050,090,082.24"`);
-  });
-
-  test("findCurrencyFromCoinsList", () => {
-    let result = findCurrencyFromCoinsList("uatom", coins);
-    expect(result).toEqual({
-      id: "cosmos",
-      name: "Cosmos",
-      symbol: "atom",
-    });
-
-    result = findCurrencyFromCoinsList("1mt", coins);
-    expect(result).toEqual({
-      id: "monarch-token",
-      name: "Monarch Token",
-      symbol: "mt",
-    });
-
-    result = findCurrencyFromCoinsList("zzz-unknown-coin", coins);
-    expect(result).toEqual({
-      id: "",
-      name: "",
-      symbol: "",
-    });
   });
 
   test("denomToAtoms", () => {
