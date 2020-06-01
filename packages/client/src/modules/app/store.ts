@@ -136,7 +136,7 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
   )
   .handleAction(actions.onRouteChange, (state, action) => ({
     ...state,
-    routePathname: {
+    locationState: {
       search: action.payload.search,
       pathname: action.payload.pathname,
     },
