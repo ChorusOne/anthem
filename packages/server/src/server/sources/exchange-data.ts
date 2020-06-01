@@ -151,9 +151,7 @@ const fetchExchangeRate = async (
   const versus = versusId.toUpperCase();
   const currency = currencyId.toUpperCase();
 
-  // const url = `${HOSTS.COIN_GECKO_API}/simple/price?ids=${currency}&vs_currencies=${versus}`;
   const url = `${HOSTS.CRYPTO_COMPARE}/data/price?fsym=${currency}&tsyms=${versus}`;
-  console.log(url);
 
   // The API may fail from time to time, add a retry allowance:
   const result = await AxiosUtil.get(url, 2);

@@ -28,7 +28,6 @@ type Query {
 
   # CoinGecko Price APIs
   prices(currency: String!, versus: String!): Price!
-  coins: [Coin!]
 
   fiatCurrencies: [FiatCurrency!]!
 
@@ -665,17 +664,8 @@ type DistributionParameters {
   community_tax: String!
 }
 
-# *****************************************************************************
-# CoinGecko Price APIs
-
 type Price {
   price: Float!
-}
-
-type Coin {
-  id: String!
-  symbol: String!
-  name: String!
 }
 
 type FiatCurrency {

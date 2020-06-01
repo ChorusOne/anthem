@@ -134,13 +134,6 @@ export interface ICeloTransactionResult {
   moreResultsExist: Scalars["Boolean"];
 }
 
-export interface ICoin {
-   __typename?: "Coin";
-  id: Scalars["String"];
-  symbol: Scalars["String"];
-  name: Scalars["String"];
-}
-
 export interface ICommissionRates {
    __typename?: "CommissionRates";
   rate: Scalars["String"];
@@ -537,7 +530,6 @@ export interface IQuery {
   distributionParameters: IDistributionParameters;
   /** CoinGecko Price APIs */
   prices: IPrice;
-  coins: Maybe<ICoin[]>;
   fiatCurrencies: IFiatCurrency[];
   /** Oasis APIs */
   oasisTransactions: IOasisTransactionResult;
@@ -948,16 +940,6 @@ export type ICeloTransactionsQuery = (
       & Pick<ICeloTransaction, "date" | "height">
     )> }
   ) }
-);
-
-export interface ICoinsQueryVariables {}
-
-export type ICoinsQuery = (
-  { __typename?: "Query" }
-  & { coins: Maybe<Array<(
-    { __typename?: "Coin" }
-    & Pick<ICoin, "id" | "symbol" | "name">
-  )>> }
 );
 
 export interface ICosmosTransactionsQueryVariables {
@@ -1767,57 +1749,6 @@ export function useCeloTransactionsLazyQuery(baseOptions?: ApolloReactHooks.Lazy
 export type CeloTransactionsQueryHookResult = ReturnType<typeof useCeloTransactionsQuery>;
 export type CeloTransactionsLazyQueryHookResult = ReturnType<typeof useCeloTransactionsLazyQuery>;
 export type CeloTransactionsQueryResult = ApolloReactCommon.QueryResult<ICeloTransactionsQuery, ICeloTransactionsQueryVariables>;
-export const CoinsDocument = gql`
-    query coins {
-  coins {
-    id
-    symbol
-    name
-  }
-}
-    `;
-export type CoinsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICoinsQuery, ICoinsQueryVariables>, "query">;
-
-export const CoinsComponent = (props: CoinsComponentProps) => (
-      <ApolloReactComponents.Query<ICoinsQuery, ICoinsQueryVariables> query={CoinsDocument} {...props} />
-    );
-
-export type ICoinsProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICoinsQuery, ICoinsQueryVariables> & TChildProps;
-export function withCoins<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  ICoinsQuery,
-  ICoinsQueryVariables,
-  ICoinsProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, ICoinsQuery, ICoinsQueryVariables, ICoinsProps<TChildProps>>(CoinsDocument, {
-      alias: "coins",
-      ...operationOptions,
-    });
-}
-
-/**
- * __useCoinsQuery__
- *
- * To run a query within a React component, call `useCoinsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCoinsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCoinsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useCoinsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ICoinsQuery, ICoinsQueryVariables>) {
-        return ApolloReactHooks.useQuery<ICoinsQuery, ICoinsQueryVariables>(CoinsDocument, baseOptions);
-      }
-export function useCoinsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ICoinsQuery, ICoinsQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<ICoinsQuery, ICoinsQueryVariables>(CoinsDocument, baseOptions);
-        }
-export type CoinsQueryHookResult = ReturnType<typeof useCoinsQuery>;
-export type CoinsLazyQueryHookResult = ReturnType<typeof useCoinsLazyQuery>;
-export type CoinsQueryResult = ApolloReactCommon.QueryResult<ICoinsQuery, ICoinsQueryVariables>;
 export const CosmosTransactionsDocument = gql`
     query cosmosTransactions($address: String!, $startingPage: Float, $pageSize: Float) {
   cosmosTransactions(address: $address, startingPage: $startingPage, pageSize: $pageSize) {
