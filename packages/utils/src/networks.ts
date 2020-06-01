@@ -142,7 +142,7 @@ const NETWORKS: NetworksMap = {
     ledgerDocsLink: "https://docs.celo.org/celo-gold-holder-guide/ledger",
     // supportsLedger: true,
     supportsLedger: false,
-    supportsFiatPrices: false,
+    supportsFiatPrices: true,
     supportsBalances: true,
     supportsPortfolio: false,
     supportsTransactionsHistory: false,
