@@ -288,6 +288,51 @@ const setAddressOnNavigationEpic: EpicSignature = (action$, state$, deps) => {
   );
 };
 
+const setAddressParamsOnNavigationEpic: EpicSignature = (
+  action$,
+  state$,
+  deps,
+) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.onRouteChange)),
+    pluck("payload"),
+    tap(payload => {
+      const { address } = state$.value.ledger.ledger;
+      const { transactionsPage } = state$.value.transaction;
+      const search = `?address=${address}&page=${transactionsPage}`;
+      if (search !== payload.search) {
+        deps.router.replace({
+          search,
+          pathname: deps.router.location.pathname,
+        });
+      }
+    }),
+    ignoreElements(),
+  );
+};
+
+const setAddressParamsOnInitializeEpic: EpicSignature = (
+  action$,
+  state$,
+  deps,
+) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.initializeSuccess)),
+    pluck("payload"),
+    pluck("address"),
+    tap(payload => {
+      const { address } = state$.value.ledger.ledger;
+      const { transactionsPage } = state$.value.transaction;
+      const search = `?address=${address}&page=${transactionsPage}`;
+      deps.router.replace({
+        search,
+        pathname: deps.router.location.pathname,
+      });
+    }),
+    ignoreElements(),
+  );
+};
+
 const setAddressNavigationEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.setAddressSuccess)),
@@ -338,6 +383,8 @@ export default combineEpics(
   logoutEpic,
   saveAddressEpic,
   setAddressNavigationEpic,
+  setAddressParamsOnNavigationEpic,
+  setAddressParamsOnInitializeEpic,
   setAddressOnNavigationEpic,
   searchTransactionNavigationEpic,
   clearAllRecentAddressesEpic,

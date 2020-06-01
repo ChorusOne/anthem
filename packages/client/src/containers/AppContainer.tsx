@@ -58,14 +58,13 @@ class AppContainer extends React.Component<IProps, IState> {
 
   componentDidUpdate(prevProps: IProps) {
     // Update the address param in the url when the address changes.
-    const queryParams = getQueryParamsFromUrl(prevProps.location.search);
-    const maybeAddress = queryParams.address;
-
-    if (maybeAddress === undefined) {
-      this.setAddressQueryParams(this.props);
-    } else if (maybeAddress !== this.props.ledger.address) {
-      this.setAddressQueryParams(this.props);
-    }
+    // const queryParams = getQueryParamsFromUrl(prevProps.location.search);
+    // const maybeAddress = queryParams.address;
+    // if (maybeAddress === undefined) {
+    //   this.setAddressQueryParams(this.props);
+    // } else if (maybeAddress !== this.props.ledger.address) {
+    //   this.setAddressQueryParams(this.props);
+    // }
   }
 
   render(): Nullable<JSX.Element> {
@@ -100,7 +99,7 @@ class AppContainer extends React.Component<IProps, IState> {
     const { address } = props.ledger;
     // Only set the current address param if the user is on a /dashboard route.
     if (!!address && onPath(location.pathname, "/dashboard")) {
-      const search = `?address=${address}&page=${transactionPage}`;
+      // const search = `?address=${address}&page=${transactionPage}`;
       // if (search !== location.search) {
       //   this.props.history.replace({
       //     search,
