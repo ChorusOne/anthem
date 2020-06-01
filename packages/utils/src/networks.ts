@@ -132,7 +132,7 @@ const NETWORKS: NetworksMap = {
     available: false,
     name: "CELO",
     denom: "cGLD",
-    ticker: "celo",
+    ticker: "CGLD",
     descriptor: "cGLD",
     chainId: "celo",
     coinGeckoTicker: "CGLD",
