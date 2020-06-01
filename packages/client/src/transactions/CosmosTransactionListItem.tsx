@@ -20,6 +20,7 @@ import { FiatCurrency } from "constants/fiat";
 import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import {
   copyTextToClipboard,
@@ -51,6 +52,7 @@ import {
   EventRow,
   EventRowBottom,
   EventRowItem,
+  EventText,
   TransactionCardStyles,
   TransactionFailedStatusBar,
   TransactionLinkText,
@@ -340,7 +342,9 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderTransactionHashLink = (hash: string, chain: string) => {
-    const TxHashLink = (
+    // If viewing in the transaction list view, render a link to the detail
+    // view. Otherwise just render a link to copy the hash.
+    const TxHashLink = this.props.isDetailView ? (
       <ClickableEventRow onClick={() => copyTextToClipboard(hash)}>
         <EventIconBox>
           <LinkIcon />
@@ -350,11 +354,25 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
           <TransactionLinkText>{hash.slice(0, 15)}...</TransactionLinkText>
         </EventContextBox>
       </ClickableEventRow>
+    ) : (
+      <Link to={`/txs/${hash}`}>
+        <ClickableEventRow onClick={() => null}>
+          <EventIconBox>
+            <LinkIcon />
+          </EventIconBox>
+          <EventContextBox>
+            <EventText style={{ fontWeight: "bold" }}>
+              Transaction Hash
+            </EventText>
+            <TransactionLinkText>{hash.slice(0, 15)}...</TransactionLinkText>
+          </EventContextBox>
+        </ClickableEventRow>
+      </Link>
     );
 
     return (
       <React.Fragment>
-        {this.props.isDesktop ? (
+        {this.props.isDetailView && this.props.isDesktop ? (
           <Tooltip position={Position.TOP} content="Click to copy hash">
             {TxHashLink}
           </Tooltip>
@@ -487,11 +505,6 @@ export const getCosmosTransactionLabelFromType = (
       return assertUnreachable(transactionType);
   }
 };
-
-const EventText = styled.p`
-  margin: 0;
-  padding: 0;
-`;
 
 /** ===========================================================================
  * Export
