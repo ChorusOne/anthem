@@ -102,10 +102,39 @@ type CeloTransactionResult {
   moreResultsExist: Boolean!
 }
 
-# TODO: Complete the transaction/events types for Celo Network
 type CeloTransaction {
-  date: String!
-  height: Int!
+  blockNumber: Int!
+  hash: String!
+  from: String!
+  to: String!
+  details: CeloTransactionDetails!
+  tags: [CeloTransactionTags!]!
+}
+
+type CeloTransactionTags {
+  tag: String!
+  parameters: CeloTransactionTagParameter!
+}
+
+type CeloTransactionTagParameter {
+  account: String!
+  proposalId: String!
+}
+
+type CeloTransactionDetails {
+  nonce: String!
+  gasPrice: String!
+  gas: String!
+  feeCurrency: String!
+  gatewayFeeRecipient: String!
+  gatewayFee: String!
+  to: String!
+  value: String!
+  input: String!
+  v: String!
+  r: String!
+  s: String!
+  hash: String!
 }
 
 # *****************************************************************************

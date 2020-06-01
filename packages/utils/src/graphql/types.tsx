@@ -119,11 +119,31 @@ export interface ICeloDelegation {
   pendingVotes: Scalars["String"];
 }
 
-/** TODO: Complete the transaction/events types for Celo Network */
 export interface ICeloTransaction {
    __typename?: "CeloTransaction";
-  date: Scalars["String"];
-  height: Scalars["Int"];
+  blockNumber: Scalars["Int"];
+  hash: Scalars["String"];
+  from: Scalars["String"];
+  to: Scalars["String"];
+  details: ICeloTransactionDetails;
+  tags: ICeloTransactionTags[];
+}
+
+export interface ICeloTransactionDetails {
+   __typename?: "CeloTransactionDetails";
+  nonce: Scalars["String"];
+  gasPrice: Scalars["String"];
+  gas: Scalars["String"];
+  feeCurrency: Scalars["String"];
+  gatewayFeeRecipient: Scalars["String"];
+  gatewayFee: Scalars["String"];
+  to: Scalars["String"];
+  value: Scalars["String"];
+  input: Scalars["String"];
+  v: Scalars["String"];
+  r: Scalars["String"];
+  s: Scalars["String"];
+  hash: Scalars["String"];
 }
 
 export interface ICeloTransactionResult {
@@ -132,6 +152,18 @@ export interface ICeloTransactionResult {
   limit: Scalars["Float"];
   data: ICeloTransaction[];
   moreResultsExist: Scalars["Boolean"];
+}
+
+export interface ICeloTransactionTagParameter {
+   __typename?: "CeloTransactionTagParameter";
+  account: Scalars["String"];
+  proposalId: Scalars["String"];
+}
+
+export interface ICeloTransactionTags {
+   __typename?: "CeloTransactionTags";
+  tag: Scalars["String"];
+  parameters: ICeloTransactionTagParameter;
 }
 
 export interface ICommissionRates {
@@ -937,7 +969,18 @@ export type ICeloTransactionsQuery = (
     & Pick<ICeloTransactionResult, "page" | "limit" | "moreResultsExist">
     & { data: Array<(
       { __typename?: "CeloTransaction" }
-      & Pick<ICeloTransaction, "date" | "height">
+      & Pick<ICeloTransaction, "blockNumber" | "hash" | "from" | "to">
+      & { details: (
+        { __typename?: "CeloTransactionDetails" }
+        & Pick<ICeloTransactionDetails, "nonce" | "gasPrice" | "gas" | "feeCurrency" | "gatewayFeeRecipient" | "gatewayFee" | "to" | "value" | "input" | "v" | "r" | "s" | "hash">
+      ), tags: Array<(
+        { __typename?: "CeloTransactionTags" }
+        & Pick<ICeloTransactionTags, "tag">
+        & { parameters: (
+          { __typename?: "CeloTransactionTagParameter" }
+          & Pick<ICeloTransactionTagParameter, "account" | "proposalId">
+        ) }
+      )> }
     )> }
   ) }
 );
@@ -1697,8 +1740,32 @@ export const CeloTransactionsDocument = gql`
     page
     limit
     data {
-      date
-      height
+      blockNumber
+      hash
+      from
+      to
+      details {
+        nonce
+        gasPrice
+        gas
+        feeCurrency
+        gatewayFeeRecipient
+        gatewayFee
+        to
+        value
+        input
+        v
+        r
+        s
+        hash
+      }
+      tags {
+        tag
+        parameters {
+          account
+          proposalId
+        }
+      }
     }
     moreResultsExist
   }

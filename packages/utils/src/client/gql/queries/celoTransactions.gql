@@ -3,8 +3,32 @@ query celoTransactions($address: String!, $startingPage: Float, $pageSize: Float
         page
         limit
         data{
-            date
-            height
+            blockNumber
+            hash
+            from
+            to
+            details{
+                nonce
+                gasPrice
+                gas
+                feeCurrency
+                gatewayFeeRecipient
+                gatewayFee
+                to
+                value
+                input
+                v
+                r
+                s
+                hash
+            }
+            tags{
+                tag
+                parameters{
+                    account
+                    proposalId
+                }
+            }
         }
         moreResultsExist
     }
