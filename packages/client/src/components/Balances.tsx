@@ -53,7 +53,6 @@ class Balance extends React.Component<IProps, {}> {
       ledger,
       accountBalances,
     } = this.props;
-    console.log(accountBalances);
     const { tString } = i18n;
     const { network } = ledger;
     const { isDesktop, currencySetting } = settings;
