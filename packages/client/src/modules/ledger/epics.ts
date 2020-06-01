@@ -26,7 +26,6 @@ import {
   capitalizeString,
   getQueryParamsFromUrl,
   onChartView,
-  onPath,
   wait,
 } from "tools/client-utils";
 import { getAccAddress } from "tools/terra-library/key-utils";

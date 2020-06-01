@@ -31,7 +31,6 @@ import {
   copyTextToClipboard,
   onActiveRoute,
   onChartView,
-  onPath,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import BetaBanner from "./BetaBanner";
