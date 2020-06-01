@@ -135,7 +135,7 @@ const NETWORKS: NetworksMap = {
     ticker: "celo",
     descriptor: "cGLD",
     chainId: "celo",
-    coinGeckoTicker: "celo",
+    coinGeckoTicker: "CGLD",
     cryptoCompareTicker: "CGLD",
     ledgerAppVersion: "1.0.1",
     ledgerAppName: "Celo",

@@ -71,6 +71,7 @@ const fetchDailyPercentChangeInPrice = async (
   const to = fiat.toUpperCase();
 
   const url = `${HOSTS.CRYPTO_COMPARE}/data/v2/histohour?fsym=${from}&tsym=${to}&limit=24&api_key=${ENV.CRYPTO_COMPARE_API_KEY}`;
+  console.log(url);
 
   // Fetch the price change
   const result = await AxiosUtil.get(url);
