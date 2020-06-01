@@ -136,7 +136,7 @@ const NETWORKS: NetworksMap = {
     descriptor: "cGLD",
     chainId: "celo",
     coinGeckoTicker: "celo",
-    cryptoCompareTicker: "CELO",
+    cryptoCompareTicker: "CGLD",
     ledgerAppVersion: "1.0.1",
     ledgerAppName: "Celo",
     ledgerDocsLink: "https://docs.celo.org/celo-gold-holder-guide/ledger",
