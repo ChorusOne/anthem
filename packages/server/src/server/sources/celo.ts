@@ -1,6 +1,9 @@
 import {
   ICeloAccountBalances,
   ICeloAccountBalancesType,
+  ICeloTransaction,
+  ICeloTransactionDetails,
+  ICeloTransactionTags,
   IDelegation,
   IQuery,
   NetworkDefinition,
@@ -31,6 +34,18 @@ interface CeloAccountSnapshot {
   pendingWithdrawalBalance: string;
   celoUSDValue: string;
   delegations: CeloDelegation[];
+}
+
+interface CeloTransactionResponse {
+  blockNumber: number;
+  hash: string;
+  from: string;
+  to: string;
+  tags: ICeloTransactionTags[];
+  logs: any; // Not used yet
+  details: {
+    transaction: ICeloTransactionDetails;
+  };
 }
 
 /** ===========================================================================
@@ -78,15 +93,19 @@ const fetchTransactions = async (
 ): Promise<IQuery["celoTransactions"]> => {
   const host = getHostFromNetworkName(network.name);
 
-  // TODO: Update to use response type
-  // const url = `${host}/accounts/${address}/transactions`;
-  // const response = await AxiosUtil.get<any[]>(url);
+  const url = `${host}/accounts/${address}/transactions`;
+  const response = await AxiosUtil.get<CeloTransactionResponse[]>(url);
+
+  const formattedResponse: ICeloTransaction[] = response.map(x => ({
+    ...x,
+    details: x.details.transaction,
+  }));
 
   return {
     page: 1,
     limit: 25,
     moreResultsExist: false,
-    data: [],
+    data: formattedResponse,
   };
 };
 
