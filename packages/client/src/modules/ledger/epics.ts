@@ -22,7 +22,11 @@ import {
   tap,
 } from "rxjs/operators";
 import { connectCeloAddress } from "tools/celo-ledger-utils";
-import { capitalizeString, wait } from "tools/client-utils";
+import {
+  capitalizeString,
+  getQueryParamsFromUrl,
+  wait,
+} from "tools/client-utils";
 import { getAccAddress } from "tools/terra-library/key-utils";
 import {
   validateLedgerAppVersion,
@@ -267,6 +271,23 @@ const saveAddressEpic: EpicSignature = action$ => {
   );
 };
 
+const setAddressOnNavigationEpic: EpicSignature = (action$, state$, deps) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.onRouteChange)),
+    pluck("payload"),
+    pluck("search"),
+    map(search => {
+      const { address } = getQueryParamsFromUrl(search);
+      const ledger = state$.value.ledger;
+      if (typeof address === "string" && address !== ledger.ledger.address) {
+        return Actions.setAddress(address, { showToastForError: false });
+      } else {
+        return Actions.empty();
+      }
+    }),
+  );
+};
+
 const setAddressNavigationEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.setAddressSuccess)),
@@ -274,13 +295,11 @@ const setAddressNavigationEpic: EpicSignature = (action$, state$, deps) => {
     pluck("address"),
     tap(address => {
       const { router } = deps;
-      if (!router.location.pathname.includes("dashboard") && !!address) {
-        const page = state$.value.transaction.transactionsPage;
-        router.push({
-          pathname: "/dashboard/total/",
-          search: `address=${address}&page=${page}`,
-        });
-      }
+      const page = state$.value.transaction.transactionsPage;
+      router.push({
+        pathname: "/dashboard/total",
+        search: `address=${address}&page=${page}`,
+      });
     }),
     ignoreElements(),
   );
@@ -319,6 +338,7 @@ export default combineEpics(
   logoutEpic,
   saveAddressEpic,
   setAddressNavigationEpic,
+  setAddressOnNavigationEpic,
   searchTransactionNavigationEpic,
   clearAllRecentAddressesEpic,
 );

@@ -101,12 +101,12 @@ class AppContainer extends React.Component<IProps, IState> {
     // Only set the current address param if the user is on a /dashboard route.
     if (!!address && onPath(location.pathname, "/dashboard")) {
       const search = `?address=${address}&page=${transactionPage}`;
-      if (search !== location.search) {
-        this.props.history.push({
-          search,
-          pathname: props.location.pathname,
-        });
-      }
+      // if (search !== location.search) {
+      //   this.props.history.replace({
+      //     search,
+      //     pathname: props.location.pathname,
+      //   });
+      // }
     }
   };
 
