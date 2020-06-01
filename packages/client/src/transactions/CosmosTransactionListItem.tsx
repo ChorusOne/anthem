@@ -21,7 +21,6 @@ import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
 import React from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
 import {
   copyTextToClipboard,
   justFormatChainString,
