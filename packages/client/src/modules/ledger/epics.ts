@@ -303,7 +303,6 @@ const setAddressParamsOnNavigationEpic: EpicSignature = (
       const { pathname } = state$.value.app.app.locationState;
       const search = `?address=${address}&page=${transactionsPage}`;
       // Apply only on dashboard route
-      console.log(pathname);
       if (!!address && onPath(pathname, "/dashboard")) {
         if (search !== payload.search) {
           deps.router.replace({
@@ -323,7 +322,7 @@ const setAddressParamsOnInitializeEpic: EpicSignature = (
   deps,
 ) => {
   return action$.pipe(
-    filter(isActionOf(Actions.initializeSuccess)),
+    filter(isActionOf(Actions.initializeAppSuccess)),
     pluck("payload"),
     pluck("address"),
     tap(payload => {

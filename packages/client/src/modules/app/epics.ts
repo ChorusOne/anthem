@@ -70,7 +70,7 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
       const paramsPage = Number(params.page);
       const page = !isNaN(paramsPage) ? paramsPage : 1;
 
-      return Actions.initializeSuccess({
+      return Actions.initializeAppSuccess({
         address,
         network,
         page,
@@ -81,7 +81,9 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
 
 const maybeResetCurrencySettingEpic: EpicSignature = (action$, state$) => {
   return action$.pipe(
-    filter(isActionOf([Actions.setAddressSuccess, Actions.initializeSuccess])),
+    filter(
+      isActionOf([Actions.setAddressSuccess, Actions.initializeAppSuccess]),
+    ),
     filter(() => {
       return (
         state$.value.settings.currencySetting === "fiat" &&
@@ -98,7 +100,9 @@ const maybeResetCurrencySettingEpic: EpicSignature = (action$, state$) => {
 
 const monthlySummaryEmailBannerEpic: EpicSignature = (action$, state$) => {
   return action$.pipe(
-    filter(isActionOf([Actions.setAddressSuccess, Actions.initializeSuccess])),
+    filter(
+      isActionOf([Actions.setAddressSuccess, Actions.initializeAppSuccess]),
+    ),
     filter(() => {
       // Make development easier, whatever...
       if (ENV.ENABLE_MOCK_APIS) {

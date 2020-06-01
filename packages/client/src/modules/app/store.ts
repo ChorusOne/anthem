@@ -20,7 +20,7 @@ const initialState = {
 };
 
 const loading = createReducer<LoadingState, ActionTypes>(initialState)
-  .handleAction(actions.initializeSuccess, (state, action) => ({
+  .handleAction(actions.initializeAppSuccess, (state, action) => ({
     ...state,
     initialized: true,
   }))

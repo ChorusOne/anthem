@@ -94,7 +94,7 @@ const transaction = createReducer<
     ...initialState,
     transactionsPage: 1,
   }))
-  .handleAction(AppActions.initializeSuccess, (state, action) => ({
+  .handleAction(AppActions.initializeAppSuccess, (state, action) => ({
     ...initialState,
     transactionsPage: action.payload.page,
   }))

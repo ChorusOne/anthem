@@ -42,7 +42,7 @@ const initialState: LedgerState = {
 const ledger = createReducer<LedgerState, ActionTypes | LoadingActionTypes>(
   initialState,
 )
-  .handleAction(LoadingActions.initializeSuccess, (state, action) => ({
+  .handleAction(LoadingActions.initializeAppSuccess, (state, action) => ({
     ...initialState,
     network: action.payload.network,
     address: action.payload.address,
