@@ -283,7 +283,7 @@ const setAddressOnNavigationEpic: EpicSignature = (action$, state$, deps) => {
       if (typeof address === "string" && address !== ledger.ledger.address) {
         return Actions.setAddress(address, { showToastForError: false });
       } else {
-        return Actions.empty();
+        return Actions.empty("No action taken to update location query params");
       }
     }),
   );

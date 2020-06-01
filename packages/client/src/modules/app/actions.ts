@@ -49,7 +49,7 @@ enum ActionTypesEnum {
  * ============================================================================
  */
 
-const empty = createStandardAction(ActionTypesEnum.EMPTY_ACTION)();
+const empty = createStandardAction(ActionTypesEnum.EMPTY_ACTION)<string>();
 
 const setDashboardAddressInputFocusState = createStandardAction(
   ActionTypesEnum.SET_DASHBOARD_ADDRESS_INPUT_FOCUS_STATE,
