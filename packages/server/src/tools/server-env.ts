@@ -29,6 +29,14 @@ const RECORD_CLIENT_DATA = getenv.bool("RECORD_CLIENT_DATA", false);
 const SENTRY_DSN = getenv.string("SENTRY_DSN", "");
 const CRYPTO_COMPARE_API_KEY = getenv.string("CRYPTO_COMPARE_API_KEY");
 
+// External APIs
+const KAVA_LCD_NODE = getenv.string("KAVA_LCD_NODE");
+const TERRA_LCD_NODE = getenv.string("TERRA_LCD_NODE");
+const COSMOS_LCD_NODE = getenv.string("COSMOS_LCD_NODE");
+const CELO_EXTRACTOR_API = getenv.string("CELO_EXTRACTOR_API");
+const OASIS_EXTRACTOR_API = getenv.string("OASIS_EXTRACTOR_API");
+
+// Database names
 const COSMOS_DB = getenv.string("COSMOS_DB", "cosmos4");
 const TERRA_DB = getenv.string("TERRA_DB", "terra");
 const KAVA_DB = getenv.string("KAVA_DB", "kava");
@@ -50,6 +58,11 @@ const ENV = {
   COSMOS_DB,
   TERRA_DB,
   KAVA_DB,
+  KAVA_LCD_NODE,
+  TERRA_LCD_NODE,
+  COSMOS_LCD_NODE,
+  CELO_EXTRACTOR_API,
+  OASIS_EXTRACTOR_API,
 };
 
 /** ===========================================================================

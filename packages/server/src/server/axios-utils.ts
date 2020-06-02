@@ -1,6 +1,7 @@
 import { assertUnreachable, NETWORK_NAME } from "@anthem/utils";
 import axios from "axios";
 import moment from "moment";
+import ENV from "src/tools/server-env";
 import { logger } from "../tools/server-utils";
 
 /** ===========================================================================
@@ -8,25 +9,15 @@ import { logger } from "../tools/server-utils";
  * ============================================================================
  */
 
-// 49.12.81.53:10100 - Oasis
-// 49.12.81.53:10101 - Celo
-
-const COSMOS_LCD = "https://cosmos-lcd.chorus.one:1317";
-const TERRA_LCD = "https://terra-lcd.chorus.one:1317";
-const KAVA_LCD = "https://kava-lcd.chorus.one:1317";
-const COSMOS_API = "https://stargate.cosmos.network";
 const CRYPTO_COMPARE = "https://min-api.cryptocompare.com";
-const OASIS = "http://216.18.206.50:10100";
-const CELO = "http://158.85.63.136";
 
 const HOSTS = {
-  COSMOS_LCD,
-  TERRA_LCD,
-  KAVA_LCD,
   CRYPTO_COMPARE,
-  COSMOS_API,
-  OASIS,
-  CELO,
+  CELO: ENV.CELO_EXTRACTOR_API,
+  OASIS: ENV.OASIS_EXTRACTOR_API,
+  KAVA_LCD: ENV.KAVA_LCD_NODE,
+  TERRA_LCD: ENV.TERRA_LCD_NODE,
+  COSMOS_LCD: ENV.COSMOS_LCD_NODE,
 };
 
 const hostsList = Object.values(HOSTS);
