@@ -301,11 +301,11 @@ const setAddressParamsOnNavigationEpic: EpicSignature = (
       const { address } = state$.value.ledger.ledger;
       const { transactionsPage } = state$.value.transaction;
       const { pathname } = state$.value.app.app.locationState;
-      const search = `?page=${transactionsPage}`;
-
+      const search = transactionsPage > 1 ? `?page=${transactionsPage}` : "";
       const path = pathname.split("/")[1];
       const pathAddress = pathname.split("/")[2];
       if (!!address && pathAddress !== address && onChartView(pathname)) {
+        console.log("REPLACING!");
         deps.router.replace({
           search,
           pathname: `/${path}/${address}`,
@@ -334,7 +334,6 @@ const setAddressParamsOnInitializeEpic: EpicSignature = (
       if (!onChartView(pathname)) {
         return;
       }
-
       if (pathAddress !== address) {
         deps.router.replace({
           search,

@@ -86,7 +86,7 @@ class RoutesContainer extends React.Component<IProps> {
               key={7}
               component={() =>
                 !!address ? (
-                  <Redirect to="/total" />
+                  <Redirect to="/total/" />
                 ) : (
                   <Redirect to="/welcome" />
                 )

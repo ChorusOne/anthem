@@ -113,6 +113,7 @@ const transaction = createReducer<
       tx => tx.hash !== action.payload.hash,
     ),
   }))
+  .handleAction(LedgerActions.logoutSuccess, () => initialState)
   .handleAction(
     [Actions.transactionFailed, LedgerActions.closeLedgerDialog],
     state => ({
