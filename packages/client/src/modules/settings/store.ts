@@ -82,6 +82,7 @@ const settings = createReducer<SettingsState, ActionTypes | AppActionTypes>(
     const ON_LOGIN =
       action.payload.pathname.includes("login") ||
       window.location.pathname.includes("login");
+
     if (ON_LOGIN) {
       return {
         ...state,

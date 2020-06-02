@@ -272,6 +272,10 @@ const saveAddressEpic: EpicSignature = action$ => {
   );
 };
 
+/**
+ * Set the address from routing events, if they routed address is
+ * different from the stored address.
+ */
 const setAddressOnNavigationEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.onRouteChange)),
@@ -289,7 +293,10 @@ const setAddressOnNavigationEpic: EpicSignature = (action$, state$, deps) => {
   );
 };
 
-const setAddressParamsOnNavigationEpic: EpicSignature = (
+/**
+ * Sync the address to the url after navigation events.
+ */
+const syncAddressToUrlOnNavigationEpic: EpicSignature = (
   action$,
   state$,
   deps,
@@ -315,7 +322,10 @@ const setAddressParamsOnNavigationEpic: EpicSignature = (
   );
 };
 
-const setAddressParamsOnInitializeEpic: EpicSignature = (
+/**
+ * Sync the address to the url when the app initializes.
+ */
+const syncAddressToUrlOnInitializationEpic: EpicSignature = (
   action$,
   state$,
   deps,
@@ -333,6 +343,7 @@ const setAddressParamsOnInitializeEpic: EpicSignature = (
       if (!onChartView(pathname)) {
         return;
       }
+
       if (pathAddress !== address) {
         deps.router.replace({
           search,
@@ -399,8 +410,8 @@ export default combineEpics(
   logoutEpic,
   saveAddressEpic,
   setAddressNavigationEpic,
-  setAddressParamsOnNavigationEpic,
-  setAddressParamsOnInitializeEpic,
+  syncAddressToUrlOnNavigationEpic,
+  syncAddressToUrlOnInitializationEpic,
   setAddressOnNavigationEpic,
   searchTransactionNavigationEpic,
   clearAllRecentAddressesEpic,
