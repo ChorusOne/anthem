@@ -23,6 +23,9 @@ class CeloTransactionList extends React.PureComponent<IProps> {
 
     const TXS_EXIST = transactions.length > 0;
 
+    console.log("CELO transaction:");
+    console.log(transactions);
+
     return (
       <React.Fragment>
         {TXS_EXIST ? (
