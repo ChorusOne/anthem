@@ -265,7 +265,7 @@ class CosmosBalances extends React.Component<CosmosBalancesProps> {
           <ActionContainer>
             <H5>{tString("What do you want to do?")}</H5>
             <DelegationControlsContainer>
-              <Link to="/staking">
+              <Link to="/delegate">
                 <Button
                   style={{ width: 125, marginRight: 12 }}
                   onClick={() => null}

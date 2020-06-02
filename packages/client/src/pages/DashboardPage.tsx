@@ -407,12 +407,13 @@ const NavLinkContainer = styled.div`
 
 const getMobileDashboardNavigationLink = ({
   title,
+  address,
   history,
   pathname,
   localizedTitle,
 }: INavItemProps & { history: History }) => {
   const active = onActiveRoute(pathname, localizedTitle);
-  const path = localizedTitle.toLowerCase();
+  const path = `/${title.toLowerCase()}/${address}`;
   const onClickFunction = () => {
     history.push(path);
     runAnalyticsForTab(title);
