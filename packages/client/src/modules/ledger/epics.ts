@@ -305,18 +305,19 @@ const syncAddressToUrlOnNavigationEpic: EpicSignature = (
     filter(isActionOf(Actions.onRouteChange)),
     pluck("payload"),
     tap(() => {
-      const { location } = deps.router;
       const { address } = state$.value.ledger.ledger;
       const { transactionsPage } = state$.value.transaction;
-      const { pathname } = state$.value.app.app.locationState;
-      const params = getQueryParamsFromUrl(pathname);
-      const pathAddress = params.address;
+      const { locationState } = state$.value.app.app;
+      const params = getQueryParamsFromUrl(locationState.search);
+
       const search =
         transactionsPage > 1
           ? `?address=${address}&page=${transactionsPage}`
           : `?address=${address}`;
 
-      if (!!address && search !== location.search && onChartView(pathname)) {
+      // Update if an address exists, the chart view is active, and
+      // if the path search values do not match
+      if (!!address && onChartView(locationState.pathname) && !params.address) {
         deps.router.replace({ search });
       }
     }),
@@ -337,43 +338,22 @@ const syncAddressToUrlOnInitializationEpic: EpicSignature = (
     pluck("payload"),
     pluck("address"),
     tap(() => {
+      const { location } = deps.router;
       const { address } = state$.value.ledger.ledger;
       const { transactionsPage } = state$.value.transaction;
+
       const search =
         transactionsPage > 1
           ? `?address=${address}&page=${transactionsPage}`
           : `?address=${address}`;
 
-      const { location } = deps.router;
-      const pathAddress = getQueryParamsFromUrl(window.location.search);
-
-      if (!onChartView(location.pathname)) {
-        return;
-      }
-
+      // If the current location does not include the address, sync it
       if (
+        onChartView(location.pathname) &&
         !location.search.includes(address)
-        // (!!pathAddress.address && pathAddress.address !== address) ||
-        // !pathname.includes(address)
       ) {
         deps.router.replace({ search });
       }
-    }),
-    ignoreElements(),
-  );
-};
-
-const setAddressNavigationEpic: EpicSignature = (action$, state$, deps) => {
-  return action$.pipe(
-    filter(isActionOf(Actions.setAddressSuccess)),
-    pluck("payload"),
-    pluck("address"),
-    tap(address => {
-      const { router } = deps;
-      const page = state$.value.transaction.transactionsPage;
-      router.push({
-        search: `address=${address}&page=${page}`,
-      });
     }),
     ignoreElements(),
   );
@@ -411,10 +391,9 @@ export default combineEpics(
   connectLedgerEpic,
   logoutEpic,
   saveAddressEpic,
-  // setAddressNavigationEpic,
   syncAddressToUrlOnNavigationEpic,
   syncAddressToUrlOnInitializationEpic,
-  // setAddressOnNavigationEpic,
+  setAddressOnNavigationEpic,
   searchTransactionNavigationEpic,
   clearAllRecentAddressesEpic,
 );

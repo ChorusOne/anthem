@@ -69,10 +69,10 @@ class RoutesContainer extends React.Component<IProps> {
             {/* <Route key={0} exact path="/login" component={LandingPage} /> */}
             {/* <Route key={1} path="/welcome" component={DashboardPage} /> */}
             <Route
-              key={2}
               exact
-              path="/:path(total|available|staking|rewards|commissions)"
+              key={2}
               component={DashboardPage}
+              path="/:path(total|available|staking|rewards|commissions)"
             />
             <Route
               key={3}

@@ -6,7 +6,7 @@ import {
   Centered,
   Column,
   ErrorText,
-  Link,
+  Link as HrefLink,
   LoaderBars,
   Row,
   TextInput,
@@ -18,6 +18,7 @@ import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React, { ChangeEvent } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import styled, { CSSProperties } from "styled-components";
 import { formatAddressString, onPath } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
@@ -274,7 +275,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
           </Centered>
         )}
         {this.renderBackArrow()}
-        <Link
+        <HrefLink
           style={{
             right: 0,
             bottom: -16,
@@ -283,7 +284,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
           href={network.ledgerDocsLink}
         >
           <span>{network.ledgerAppName} App Docs</span>
-        </Link>
+        </HrefLink>
       </View>
     );
   };
@@ -298,6 +299,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
 
   renderAddressInputDialog = () => {
     const { tString } = this.props.i18n;
+    const { activeChartTab } = this.props.app;
     const { addressError, recentAddresses } = this.props.ledger;
     const currentAddress = this.props.ledger.address;
 
@@ -364,11 +366,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
                     <Link
                       key={address}
                       style={{ marginTop: 2, marginBottom: 2 }}
-                      onClick={() => {
-                        this.props.setAddress(address, {
-                          showToastForError: true,
-                        });
-                      }}
+                      to={`/${activeChartTab}?address=${address}`}
                     >
                       {formatAddressString(
                         address,
@@ -394,14 +392,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
               >
                 <Link
                   style={{ marginTop: 2, marginBottom: 2 }}
-                  onClick={() => {
-                    this.props.setAddress(
-                      "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-                      {
-                        showToastForError: true,
-                      },
-                    );
-                  }}
+                  to={`/${activeChartTab}?address=cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd`}
                 >
                   {formatAddressString(
                     "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
@@ -576,6 +567,7 @@ const ClearAllLink = styled.p`
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   settings: Modules.selectors.settings(state),
+  app: Modules.selectors.app.appSelector(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
   ledgerDialog: Modules.selectors.ledger.ledgerDialogSelector(state),
   transaction: Modules.selectors.transaction.transactionsSelector(state),
