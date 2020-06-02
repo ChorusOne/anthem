@@ -161,10 +161,10 @@ const syncTransactionPageEpic: EpicSignature = (action$, state$, deps) => {
     pluck("payload"),
     tap(() => {
       const { router } = deps;
+      const address = state$.value.ledger.ledger.address;
       const page = state$.value.transaction.transactionsPage;
       router.replace({
-        search: `page=${page}`,
-        pathname: router.location.pathname,
+        search: `address=${address}&page=${page}`,
       });
     }),
     ignoreElements(),

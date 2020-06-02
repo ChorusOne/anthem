@@ -308,14 +308,14 @@ const syncAddressToUrlOnNavigationEpic: EpicSignature = (
       const { address } = state$.value.ledger.ledger;
       const { transactionsPage } = state$.value.transaction;
       const { pathname } = state$.value.app.app.locationState;
-      const search = transactionsPage > 1 ? `?page=${transactionsPage}` : "";
-      const path = pathname.split("/")[1];
-      const pathAddress = pathname.split("/")[2];
+      const params = getQueryParamsFromUrl(pathname);
+      const pathAddress = params.address;
+      const search =
+        transactionsPage > 1
+          ? `page=${transactionsPage}`
+          : `address=${address}`;
       if (!!address && pathAddress !== address && onChartView(pathname)) {
-        deps.router.replace({
-          search,
-          pathname: `/${path}/${address}`,
-        });
+        deps.router.replace({ search });
       }
     }),
     ignoreElements(),
@@ -337,22 +337,16 @@ const syncAddressToUrlOnInitializationEpic: EpicSignature = (
     tap(() => {
       const { address } = state$.value.ledger.ledger;
       const { transactionsPage } = state$.value.transaction;
-      const search = `?page=${transactionsPage}`;
+      const search = `?address=${address}page=${transactionsPage}`;
       const { pathname } = deps.router.location;
       const pathAddress = pathname.split("/")[2];
       if (!onChartView(pathname)) {
         return;
       }
 
-      if (pathAddress !== address) {
+      if (pathAddress !== address || !pathname.includes(address)) {
         deps.router.replace({
           search,
-          pathname: `${deps.router.location.pathname}/${pathAddress}`,
-        });
-      } else if (!pathname.includes(address)) {
-        deps.router.replace({
-          search,
-          pathname: `${deps.router.location.pathname}/${address}`,
         });
       }
     }),
@@ -369,8 +363,7 @@ const setAddressNavigationEpic: EpicSignature = (action$, state$, deps) => {
       const { router } = deps;
       const page = state$.value.transaction.transactionsPage;
       router.push({
-        search: `page=${page}`,
-        pathname: `/total/${address}`,
+        search: `address=${address}&page=${page}`,
       });
     }),
     ignoreElements(),
