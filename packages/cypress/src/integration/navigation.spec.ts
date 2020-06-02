@@ -23,11 +23,11 @@ SCREEN_SIZES.forEach(({ type, size }) => {
      * Redirect to login.
      */
     it("Other routes redirect to /login if no address is set", () => {
-      cy.visit(`${APP_URL}/dashboard`);
+      cy.visit(`${APP_URL}`);
       UTILS.shouldMatchText("login-page-title", "Earn Rewards on Cryptoassets");
       cy.url().should("contain", "/login");
 
-      cy.visit(`${APP_URL}/dashboard/available`);
+      cy.visit(`${APP_URL}/available`);
       UTILS.shouldMatchText("login-page-title", "Earn Rewards on Cryptoassets");
       cy.url().should("contain", "/login");
 
@@ -52,23 +52,18 @@ SCREEN_SIZES.forEach(({ type, size }) => {
      */
     it("All navigation sub-routes in the Dashboard can be visited", () => {
       if (type.isDesktop()) {
-        cy.visit(`${APP_URL}/dashboard/available`);
-        cy.contains("AVAILABLE");
-        cy.contains("REWARDS");
+        cy.visit(`${APP_URL}/total`);
+        cy.url().should("contain", "/total");
 
-        cy.visit(`${APP_URL}/dashboard/rewards`);
-        cy.contains("AVAILABLE");
-        cy.contains("REWARDS");
+        cy.visit(`${APP_URL}/available`);
+        cy.url().should("contain", "/available");
+
+        cy.visit(`${APP_URL}/rewards`);
+        cy.url().should("contain", "/rewards");
+
+        cy.visit(`${APP_URL}/staking`);
+        cy.url().should("contain", "/staking");
       }
-
-      // cy.visit(`${APP_URL}/dashboard/total`);
-      // cy.contains("Dashboard");
-
-      // cy.visit(`${APP_URL}/dashboard/staking`);
-      // cy.contains("Dashboard");
-
-      // cy.visit(`${APP_URL}/dashboard/unbonding`);
-      // cy.contains("Dashboard");
     });
 
     /**
@@ -90,15 +85,6 @@ SCREEN_SIZES.forEach(({ type, size }) => {
 
       UTILS.findAndClick("rewards-navigation-link");
       cy.url().should("contain", "/rewards");
-
-      // UTILS.findAndClick("total-navigation-link");
-      // cy.url().should("contain", "/total");
-
-      // UTILS.findAndClick("staking-navigation-link");
-      // cy.url().should("contain", "/staking");
-
-      // UTILS.findAndClick("pending-navigation-link");
-      // cy.url().should("contain", "/pending");
     });
 
     /**
