@@ -316,9 +316,7 @@ const syncAddressToUrlOnNavigationEpic: EpicSignature = (
           ? `?address=${address}&page=${transactionsPage}`
           : `?address=${address}`;
 
-      console.log(location.search);
-      console.log(search);
-      if (search !== location.search && onChartView(pathname)) {
+      if (!!address && search !== location.search && onChartView(pathname)) {
         deps.router.replace({ search });
       }
     }),
@@ -416,7 +414,7 @@ export default combineEpics(
   // setAddressNavigationEpic,
   syncAddressToUrlOnNavigationEpic,
   syncAddressToUrlOnInitializationEpic,
-  setAddressOnNavigationEpic,
+  // setAddressOnNavigationEpic,
   searchTransactionNavigationEpic,
   clearAllRecentAddressesEpic,
 );

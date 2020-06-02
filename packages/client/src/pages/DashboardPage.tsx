@@ -371,7 +371,7 @@ const DashboardNavigationLink = ({
   localizedTitle,
 }: INavItemProps) => {
   const active = onActiveTab(pathname, title);
-  const path = `/${title.toLowerCase()}/${address}`;
+  const path = `/${title.toLowerCase()}`;
   const onClickFunction = () => runAnalyticsForTab(title);
   return (
     <Link
@@ -413,7 +413,7 @@ const getMobileDashboardNavigationLink = ({
   localizedTitle,
 }: INavItemProps & { history: History }) => {
   const active = onActiveRoute(pathname, localizedTitle);
-  const path = `/${title.toLowerCase()}/${address}`;
+  const path = `/${title.toLowerCase()}`;
   const onClickFunction = () => {
     history.push(path);
     runAnalyticsForTab(title);
