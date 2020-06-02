@@ -1,7 +1,7 @@
 import { assertUnreachable, NETWORK_NAME } from "@anthem/utils";
 import axios from "axios";
 import moment from "moment";
-import ENV from "src/tools/server-env";
+import ENV from "../tools/server-env";
 import { logger } from "../tools/server-utils";
 
 /** ===========================================================================
