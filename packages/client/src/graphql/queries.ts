@@ -360,7 +360,7 @@ interface CeloTransactionsQueryResult extends QueryResult {
   celoTransactions: IQuery["celoTransactions"];
 }
 
-export interface CeoTransactionsProps {
+export interface CeloTransactionsProps {
   transactions: CeloTransactionsQueryResult;
 }
 
