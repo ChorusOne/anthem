@@ -305,6 +305,7 @@ const syncAddressToUrlOnNavigationEpic: EpicSignature = (
     filter(isActionOf(Actions.onRouteChange)),
     pluck("payload"),
     tap(() => {
+      const { location } = deps.router;
       const { address } = state$.value.ledger.ledger;
       const { transactionsPage } = state$.value.transaction;
       const { pathname } = state$.value.app.app.locationState;
@@ -312,9 +313,12 @@ const syncAddressToUrlOnNavigationEpic: EpicSignature = (
       const pathAddress = params.address;
       const search =
         transactionsPage > 1
-          ? `page=${transactionsPage}`
-          : `address=${address}`;
-      if (!!address && pathAddress !== address && onChartView(pathname)) {
+          ? `?address=${address}&page=${transactionsPage}`
+          : `?address=${address}`;
+
+      console.log(location.search);
+      console.log(search);
+      if (search !== location.search && onChartView(pathname)) {
         deps.router.replace({ search });
       }
     }),
@@ -337,17 +341,24 @@ const syncAddressToUrlOnInitializationEpic: EpicSignature = (
     tap(() => {
       const { address } = state$.value.ledger.ledger;
       const { transactionsPage } = state$.value.transaction;
-      const search = `?address=${address}page=${transactionsPage}`;
-      const { pathname } = deps.router.location;
-      const pathAddress = pathname.split("/")[2];
-      if (!onChartView(pathname)) {
+      const search =
+        transactionsPage > 1
+          ? `?address=${address}&page=${transactionsPage}`
+          : `?address=${address}`;
+
+      const { location } = deps.router;
+      const pathAddress = getQueryParamsFromUrl(window.location.search);
+
+      if (!onChartView(location.pathname)) {
         return;
       }
 
-      if (pathAddress !== address || !pathname.includes(address)) {
-        deps.router.replace({
-          search,
-        });
+      if (
+        !location.search.includes(address)
+        // (!!pathAddress.address && pathAddress.address !== address) ||
+        // !pathname.includes(address)
+      ) {
+        deps.router.replace({ search });
       }
     }),
     ignoreElements(),
@@ -402,7 +413,7 @@ export default combineEpics(
   connectLedgerEpic,
   logoutEpic,
   saveAddressEpic,
-  setAddressNavigationEpic,
+  // setAddressNavigationEpic,
   syncAddressToUrlOnNavigationEpic,
   syncAddressToUrlOnInitializationEpic,
   setAddressOnNavigationEpic,

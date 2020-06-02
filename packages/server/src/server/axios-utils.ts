@@ -8,6 +8,9 @@ import { logger } from "../tools/server-utils";
  * ============================================================================
  */
 
+// 49.12.81.53:10100 - Oasis
+// 49.12.81.53:10101 - Celo
+
 const COSMOS_LCD = "https://cosmos-lcd.chorus.one:1317";
 const TERRA_LCD = "https://terra-lcd.chorus.one:1317";
 const KAVA_LCD = "https://kava-lcd.chorus.one:1317";
