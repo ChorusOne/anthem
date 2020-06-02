@@ -408,6 +408,24 @@ export const onChartView = (pathname: string) => {
 };
 
 /**
+ * Valid chart tab keys.
+ */
+export const CHART_TABS: ReadonlyArray<PORTFOLIO_CHART_TYPES> = [
+  "TOTAL",
+  "AVAILABLE",
+  "STAKING",
+  "REWARDS",
+  "COMMISSIONS",
+];
+
+/**
+ *  Determine if a string is a valid chart tab key.
+ */
+export const isValidChartTab = (tab: string) => {
+  return new Set(CHART_TABS.map(x => x.toLowerCase())).has(tab);
+};
+
+/**
  * Return information on which dashboard tab the user is viewing from the
  * given url location.
  */

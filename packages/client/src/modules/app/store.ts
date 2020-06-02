@@ -1,6 +1,7 @@
 import { Pathname, Search } from "history";
 import StorageModule from "lib/storage-lib";
 import { combineReducers } from "redux";
+import { isValidChartTab, onChartView } from "tools/client-utils";
 import { createReducer } from "typesafe-actions";
 import actions, { ActionTypes } from "./actions";
 
@@ -56,6 +57,7 @@ export enum SORT_DIRECTION {
 }
 
 interface AppState {
+  activeChartTab: string;
   activeBannerKey: Nullable<BANNER_NOTIFICATIONS_KEYS>;
   notificationsBannerVisible: boolean;
   dashboardInputFocused: boolean;
@@ -89,6 +91,7 @@ const initialAppState: AppState = {
     pathname: "",
     search: "",
   },
+  activeChartTab: "total",
 };
 
 const app = createReducer<AppState, ActionTypes>(initialAppState)
@@ -134,13 +137,40 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
       dashboardInputFocused: action.payload,
     }),
   )
-  .handleAction(actions.onRouteChange, (state, action) => ({
-    ...state,
-    locationState: {
-      search: action.payload.search,
-      pathname: action.payload.pathname,
-    },
-  }))
+  .handleAction(actions.setActiveChartTab, (state, action) => {
+    let activeChartTab = state.activeChartTab;
+    const tab = action.payload;
+
+    if (isValidChartTab(tab)) {
+      activeChartTab = tab;
+    }
+    return {
+      ...state,
+      activeChartTab,
+    };
+  })
+  .handleAction(actions.onRouteChange, (state, action) => {
+    let activeChartTab = state.activeChartTab;
+
+    // Update the active chart tab if viewing the portfolio
+    const { pathname } = action.payload;
+    const chartViewActive = onChartView(pathname);
+    if (chartViewActive) {
+      const tab = pathname.split("/")[1];
+      if (isValidChartTab(tab)) {
+        activeChartTab = tab;
+      }
+    }
+
+    return {
+      ...state,
+      activeChartTab,
+      locationState: {
+        search: action.payload.search,
+        pathname: action.payload.pathname,
+      },
+    };
+  })
   .handleAction(actions.toggleNotificationsBanner, (state, { payload }) => ({
     ...state,
     activeBannerKey: payload.visible ? payload.key : null,

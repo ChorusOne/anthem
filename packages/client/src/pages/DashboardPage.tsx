@@ -36,6 +36,7 @@ import { connect } from "react-redux";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import {
+  CHART_TABS,
   getPortfolioTypeFromUrl,
   onActiveRoute,
   onActiveTab,
@@ -45,24 +46,15 @@ import { tFnString } from "tools/i18n-utils";
 import TransactionSwitchContainer from "transactions/TransactionSwitchContainer";
 
 /** ===========================================================================
- * Types & Config
- * ============================================================================
- */
-
-const TABS: ReadonlyArray<PORTFOLIO_CHART_TYPES> = [
-  "TOTAL",
-  "AVAILABLE",
-  "STAKING",
-  "REWARDS",
-  "COMMISSIONS",
-];
-
-/** ===========================================================================
  * React Component
  * ============================================================================
  */
 
 class DashboardPage extends React.Component<IProps> {
+  componentDidMount() {
+    this.props.setActiveChartTab(window.location.pathname.split("/")[1]);
+  }
+
   render(): JSX.Element {
     const { address, ledger, i18n, app, settings } = this.props;
     const { t, tString } = i18n;
@@ -172,7 +164,7 @@ class DashboardPage extends React.Component<IProps> {
       portfolioHistory,
     );
 
-    const AVAILABLE_TABS = TABS.filter(tab => {
+    const AVAILABLE_TABS = CHART_TABS.filter(tab => {
       if (tab === "COMMISSIONS") {
         return commissionsLinkAvailable;
       } else {
@@ -494,6 +486,7 @@ const mapStateToProps = (state: ReduxStoreState) => ({
 });
 
 const dispatchProps = {
+  setActiveChartTab: Modules.actions.app.setActiveChartTab,
   togglePortfolioSize: Modules.actions.app.togglePortfolioSize,
   toggleTransactionsSize: Modules.actions.app.toggleTransactionsSize,
 };

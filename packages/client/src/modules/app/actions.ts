@@ -42,6 +42,8 @@ enum ActionTypesEnum {
   SET_ADDRESS_INPUT_REF = "SET_ADDRESS_INPUT_REF",
 
   ROUTE_CHANGE = "ROUTE_CHANGE",
+
+  SET_ACTIVE_CHART_TAB = "SET_ACTIVE_CHART_TAB",
 }
 
 /** ===========================================================================
@@ -123,6 +125,10 @@ const onRouteChange = createStandardAction(ActionTypesEnum.ROUTE_CHANGE)<
   RouteInformation
 >();
 
+const setActiveChartTab = createStandardAction(
+  ActionTypesEnum.SET_ACTIVE_CHART_TAB,
+)<string>();
+
 const actions = {
   empty,
   initializeApp,
@@ -143,6 +149,7 @@ const actions = {
   toggleTransactionsSize,
   setAddressInputRef,
   onRouteChange,
+  setActiveChartTab,
 };
 
 /** ===========================================================================
