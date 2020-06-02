@@ -1,4 +1,10 @@
-import { IMsgDelegate, ITransaction, ITxMsg } from "@anthem/utils";
+import {
+  IBalance,
+  IMsgDelegate,
+  IPortfolioBalance,
+  ITransaction,
+  ITxMsg,
+} from "@anthem/utils";
 import * as Sentry from "@sentry/node";
 import chalk from "chalk";
 import { NextFunction, Request, Response } from "express";
@@ -137,6 +143,35 @@ export const hasKeys = (obj: any, keys: ReadonlyArray<string>): boolean => {
     }
   }
   return true;
+};
+
+const DATE_FORMAT = "MMM DD, YYYY";
+
+/**
+ * Get a date key based on the month/day/year.
+ */
+export const toDateKey = (date: string) => {
+  return moment(date).format(DATE_FORMAT);
+};
+
+/**
+ * Transform balances response capturing only the end of day values.
+ */
+export const gatherEndOfDayBalanceValues = (balances: IPortfolioBalance[]) => {
+  const result: IPortfolioBalance[] = [];
+  const dates = new Set<string>();
+
+  for (let i = balances.length - 1; i > 0; i--) {
+    const x = balances[i];
+    const key = toDateKey(x.timestamp);
+    if (!dates.has(key)) {
+      result.push(x);
+      dates.add(key);
+    }
+  }
+
+  const endOfDayValues = result.reverse();
+  return endOfDayValues;
 };
 
 /**
