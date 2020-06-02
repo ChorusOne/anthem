@@ -148,7 +148,6 @@ const pollTransactionEpic: EpicSignature = (action$, state$, deps) => {
           return Actions.transactionFailed();
         }
       } catch (err) {
-        console.log(err);
         await wait(2500);
         return Actions.pollForTransaction();
       }
@@ -163,12 +162,10 @@ const syncTransactionPageEpic: EpicSignature = (action$, state$, deps) => {
     tap(() => {
       const { router } = deps;
       const page = state$.value.transaction.transactionsPage;
-      if (page > 1) {
-        router.replace({
-          pathname: router.location.pathname,
-          search: `page=${page}`,
-        });
-      }
+      router.replace({
+        search: `page=${page}`,
+        pathname: router.location.pathname,
+      });
     }),
     ignoreElements(),
   );

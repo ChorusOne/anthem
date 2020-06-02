@@ -79,7 +79,10 @@ const settings = createReducer<SettingsState, ActionTypes | AppActionTypes>(
      * to light theme, but we still need to track their actual theme setting
      * in the app.
      */
-    if (action.payload.pathname.includes("login")) {
+    const ON_LOGIN =
+      action.payload.pathname.includes("login") ||
+      window.location.pathname.includes("login");
+    if (ON_LOGIN) {
       return {
         ...state,
         isDarkTheme: false,
