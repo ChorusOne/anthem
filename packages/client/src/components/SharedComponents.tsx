@@ -146,11 +146,29 @@ export const LoaderBars = ({ style }: { style?: CSSProperties }) => (
  * DashboardLoader
  * ============================================================================
  */
-export const DashboardLoader = ({ style }: { style?: React.CSSProperties }) => (
+export const DashboardLoader = ({
+  style,
+  showPortfolioLoadingMessage,
+}: {
+  showPortfolioLoadingMessage?: boolean;
+  style?: React.CSSProperties;
+}) => (
   <View style={{ marginTop: 85, ...style }}>
     <Spinner />
+    {showPortfolioLoadingMessage && (
+      <LoadingWarningMessage>
+        <b>Notice:</b> Addresses with a large amount of activity take a while to
+        load.
+      </LoadingWarningMessage>
+    )}
   </View>
 );
+
+const LoadingWarningMessage = styled.p`
+  margin-top: 22px;
+  font-size: 14px;
+  text-align: center;
+`;
 
 /** ===========================================================================
  * Link

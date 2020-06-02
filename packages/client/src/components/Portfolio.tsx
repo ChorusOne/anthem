@@ -73,19 +73,60 @@ interface IState {
 
 class PortfolioLoadingContainer extends React.PureComponent<
   IProps,
-  { hasError: boolean }
+  {
+    hasError: boolean;
+    displayLoadingMessage: boolean;
+  }
 > {
   static getDerivedStateFromError(error: Error) {
     return { hasError: true };
   }
+
+  loadingTimer: Nullable<number> = null;
 
   constructor(props: IProps) {
     super(props);
 
     this.state = {
       hasError: false,
+      displayLoadingMessage: false,
     };
   }
+
+  componentDidMount() {
+    if (this.props.portfolioHistory.loading) {
+      this.startLoadingTimer();
+    }
+  }
+
+  componentWillUnmount() {
+    this.cancelLoadingTimer();
+  }
+
+  componentDidUpdate() {
+    if (this.props.portfolioHistory.loading) {
+      this.startLoadingTimer();
+    }
+
+    if (!this.props.portfolioHistory.loading) {
+      this.cancelLoadingTimer();
+    }
+  }
+
+  startLoadingTimer = () => {
+    const LOADING_THRESHOLD_DELAY = 3000; // 3 seconds
+    this.loadingTimer = setTimeout(() => {
+      this.setState({ displayLoadingMessage: true });
+    }, LOADING_THRESHOLD_DELAY);
+  };
+
+  cancelLoadingTimer = () => {
+    if (this.loadingTimer) {
+      clearTimeout(this.loadingTimer);
+    }
+
+    this.setState({ displayLoadingMessage: false });
+  };
 
   componentDidCatch(error: Error) {
     // Log the error to Sentry.
@@ -93,7 +134,9 @@ class PortfolioLoadingContainer extends React.PureComponent<
   }
 
   render(): JSX.Element {
-    if (this.state.hasError) {
+    const { displayLoadingMessage, hasError } = this.state;
+
+    if (hasError) {
       return (
         <PanelMessageText>
           {this.props.i18n.tString("Error fetching data...")}
@@ -113,15 +156,21 @@ class PortfolioLoadingContainer extends React.PureComponent<
     }
 
     return (
-      <GraphQLGuardComponent
-        tString={tString}
-        dataKey="portfolioHistory"
-        result={portfolioHistory}
-        errorComponent={<DashboardError tString={tString} />}
-        loadingComponent={<DashboardLoader />}
-      >
-        <Portfolio {...this.props} />
-      </GraphQLGuardComponent>
+      <View style={{ position: "relative", height: "100%" }}>
+        <GraphQLGuardComponent
+          tString={tString}
+          dataKey="portfolioHistory"
+          result={portfolioHistory}
+          errorComponent={<DashboardError tString={tString} />}
+          loadingComponent={
+            <DashboardLoader
+              showPortfolioLoadingMessage={displayLoadingMessage}
+            />
+          }
+        >
+          <Portfolio {...this.props} />
+        </GraphQLGuardComponent>
+      </View>
     );
   }
 }
@@ -152,7 +201,6 @@ class Portfolio extends React.PureComponent<IProps, IState> {
 
   componentDidMount() {
     this.throttledPortfolioCalculationFunction();
-
     window.addEventListener("resize", () =>
       this.throttledPortfolioRedrawFunction(),
     );
