@@ -1,10 +1,10 @@
 import {
-  CeloAccountHistoryProps,
   FiatPriceHistoryProps,
   GraphQLConfigProps,
-  withCeloAccountHistory,
+  OasisAccountHistoryProps,
   withFiatPriceHistory,
   withGraphQLVariables,
+  withOasisAccountHistory,
 } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
@@ -21,7 +21,7 @@ import { DashboardLoader, View } from "../SharedComponents";
  * ============================================================================
  */
 
-class CeloPortfolio extends React.PureComponent<
+class OasisPortfolio extends React.PureComponent<
   IProps,
   { displayLoadingMessage: boolean }
 > {
@@ -36,7 +36,7 @@ class CeloPortfolio extends React.PureComponent<
   }
 
   componentDidMount() {
-    if (this.props.celoAccountHistory.loading) {
+    if (this.props.oasisAccountHistory.loading) {
       this.startLoadingTimer();
     }
   }
@@ -46,29 +46,29 @@ class CeloPortfolio extends React.PureComponent<
   }
 
   componentDidUpdate() {
-    if (this.props.celoAccountHistory.loading) {
+    if (this.props.oasisAccountHistory.loading) {
       this.startLoadingTimer();
     }
 
-    if (!this.props.celoAccountHistory.loading) {
+    if (!this.props.oasisAccountHistory.loading) {
       this.cancelLoadingTimer();
     }
   }
 
-  render(): JSX.Element {
+  render(): JSX.Element | null {
     const { displayLoadingMessage } = this.state;
-    const { i18n, celoAccountHistory } = this.props;
+    const { i18n, oasisAccountHistory } = this.props;
     const { tString } = i18n;
 
-    console.log("CELO account history:");
-    console.log(celoAccountHistory);
+    console.log("OASIS account history:");
+    console.log(oasisAccountHistory);
 
     return (
       <View style={{ position: "relative", height: "100%" }}>
         <GraphQLGuardComponent
           tString={tString}
-          dataKey="celoAccountHistory"
-          result={celoAccountHistory}
+          dataKey="oasisAccountHistory"
+          result={oasisAccountHistory}
           errorComponent={<DashboardError tString={tString} />}
           loadingComponent={
             <DashboardLoader
@@ -76,7 +76,7 @@ class CeloPortfolio extends React.PureComponent<
             />
           }
         >
-          <p>Celo account history is in progress.</p>
+          <p>Oasis account history is in progress.</p>
         </GraphQLGuardComponent>
       </View>
     );
@@ -127,7 +127,7 @@ interface IProps
     ConnectProps,
     RouteComponentProps,
     GraphQLConfigProps,
-    CeloAccountHistoryProps,
+    OasisAccountHistoryProps,
     FiatPriceHistoryProps {}
 
 /** ===========================================================================
@@ -140,5 +140,5 @@ export default composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
   withFiatPriceHistory,
-  withCeloAccountHistory,
-)(CeloPortfolio);
+  withOasisAccountHistory,
+)(OasisPortfolio);

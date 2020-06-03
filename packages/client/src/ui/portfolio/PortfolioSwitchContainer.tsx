@@ -12,7 +12,8 @@ import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
 import { Centered, PanelMessageText } from "ui/SharedComponents";
 import CeloPortfolio from "./CeloPortfolio";
-import Portfolio from "./CosmosPortfolio";
+import CosmosPortfolio from "./CosmosPortfolio";
+import OasisPortfolio from "./OasisPortfolio";
 
 /** ===========================================================================
  * Types & Config
@@ -68,7 +69,7 @@ class PortfolioSwitchContainer extends React.Component<IProps, IState> {
 
     const { network } = this.props.ledger;
 
-    if (!network.supportsTransactionsHistory) {
+    if (!network.supportsPortfolio) {
       return (
         <PanelMessageText>
           <b>{network.name}</b> portfolio history is not supported yet.
@@ -78,9 +79,9 @@ class PortfolioSwitchContainer extends React.Component<IProps, IState> {
 
     switch (network.name) {
       case "COSMOS":
-        return <Portfolio fullSize={this.props.fullSize} />;
+        return <CosmosPortfolio fullSize={this.props.fullSize} />;
       case "OASIS":
-        return null;
+        return <OasisPortfolio fullSize={this.props.fullSize} />;
       case "CELO":
         return <CeloPortfolio fullSize={this.props.fullSize} />;
       default:

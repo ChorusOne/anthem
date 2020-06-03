@@ -17,6 +17,7 @@ import {
   IGovernanceParametersVotingQueryVariables,
   IGovernanceProposalsQueryVariables,
   ILatestBlockQueryVariables,
+  IOasisAccountHistoryQueryVariables,
   IOasisTransactionsQueryVariables,
   IOasisTransactionType,
   IPortfolioHistoryQueryVariables,
@@ -369,6 +370,16 @@ const resolvers = {
      * Oasis Resolvers
      * ========================================================================
      */
+
+    oasisAccountHistory: async (
+      _: void,
+      args: IOasisAccountHistoryQueryVariables,
+    ): Promise<IQuery["oasisAccountHistory"]> => {
+      const { address } = args;
+      const network = deriveNetworkFromAddress(address);
+      blockUnsupportedNetworks(network, "portfolio");
+      return OASIS.fetchAccountHistory(address, network);
+    },
 
     oasisTransactions: async (
       _: void,

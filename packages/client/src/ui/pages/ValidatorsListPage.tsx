@@ -139,6 +139,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
               stake,
             );
 
+            console.log(rewardsByValidatorResponse);
             const { total, delegations } = deriveCurrentDelegationsInformation(
               rewardsByValidatorResponse,
               validatorList,
