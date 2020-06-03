@@ -4,6 +4,14 @@
       {
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "denom": "uatom",
+        "balance": "500000000",
+        "height": 0,
+        "timestamp": "2019-03-13T15:00:00.000Z",
+        "chain": "cosmoshub-1"
+      },
+      {
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "denom": "uatom",
         "balance": "488000000",
         "height": 87997,
         "timestamp": "2019-03-20T12:06:39.000Z",
@@ -7018,7 +7026,7 @@
       { "price": 2.78125, "timestamp": "2020-05-31T00:00:00.000Z" },
       { "price": 2.79, "timestamp": "2020-06-01T00:00:00.000Z" },
       { "price": 2.793, "timestamp": "2020-06-02T00:00:00.000Z" },
-      { "price": 2.7640000000000002, "timestamp": "2020-06-03T00:00:00.000Z" }
+      { "price": 2.7645000000000004, "timestamp": "2020-06-03T00:00:00.000Z" }
     ]
   }
 }
