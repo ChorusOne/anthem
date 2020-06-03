@@ -253,8 +253,6 @@ const fetchAccountBalances = async (
 
 /**
  * Fetch account history.
- *
- * TODO: Update this and add GraphQL types/resolvers.
  */
 const fetchAccountHistory = async (
   address: string,
