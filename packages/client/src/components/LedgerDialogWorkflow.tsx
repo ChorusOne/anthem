@@ -364,6 +364,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
                 {recentAddressList.map(address => {
                   return (
                     <Link
+                      replace
                       key={address}
                       style={{ marginTop: 2, marginBottom: 2 }}
                       to={`/${activeChartTab}?address=${address}`}
@@ -391,6 +392,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
                 style={{ marginTop: 6, maxHeight: 85, overflowY: "scroll" }}
               >
                 <Link
+                  replace
                   style={{ marginTop: 2, marginBottom: 2 }}
                   to={`/${activeChartTab}?address=cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd`}
                 >
