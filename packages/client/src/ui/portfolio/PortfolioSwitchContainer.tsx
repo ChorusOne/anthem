@@ -69,7 +69,7 @@ class PortfolioSwitchContainer extends React.Component<IProps, IState> {
 
     const { network } = this.props.ledger;
 
-    if (!network.supportsTransactionsHistory) {
+    if (!network.supportsPortfolio) {
       return (
         <PanelMessageText>
           <b>{network.name}</b> portfolio history is not supported yet.

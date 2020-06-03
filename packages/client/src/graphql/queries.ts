@@ -326,7 +326,7 @@ export interface OasisAccountHistoryProps {
 }
 
 export const withOasisAccountHistory = graphql(OasisAccountHistoryDocument, {
-  name: "celoAccountHistory",
+  name: "oasisAccountHistory",
   ...noPollingConfig(["address", "fiat"]),
 });
 

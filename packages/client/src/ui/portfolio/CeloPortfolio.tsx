@@ -60,6 +60,7 @@ class CeloPortfolio extends React.PureComponent<
     const { i18n, celoAccountHistory } = this.props;
     const { tString } = i18n;
 
+    console.log("CELO account history:");
     console.log(celoAccountHistory);
 
     return (

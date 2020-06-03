@@ -55,11 +55,12 @@ class OasisPortfolio extends React.PureComponent<
     }
   }
 
-  render(): JSX.Element {
+  render(): JSX.Element | null {
     const { displayLoadingMessage } = this.state;
     const { i18n, oasisAccountHistory } = this.props;
     const { tString } = i18n;
 
+    console.log("OASIS account history:");
     console.log(oasisAccountHistory);
 
     return (
