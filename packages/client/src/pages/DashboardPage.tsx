@@ -15,7 +15,7 @@ import axios from "axios";
 import AddressInputDashboardBar from "components/AddressInputDashboardBar";
 import Balance from "components/Balances";
 import LoginStart from "components/LoginStart";
-import Portfolio from "components/Portfolio";
+import PortfolioSwitchContainer from "components/PortfolioSwitchContainer";
 import { Centered, View } from "components/SharedComponents";
 import Toast from "components/Toast";
 import { COLORS } from "constants/colors";
@@ -89,7 +89,7 @@ class DashboardPage extends React.Component<IProps> {
             <ExpandCollapseIcon onClick={this.props.togglePortfolioSize} />
           )}
         </Row>
-        <Portfolio fullSize={portfolioExpanded} />
+        <PortfolioSwitchContainer fullSize={portfolioExpanded} />
       </Card>
     );
 
