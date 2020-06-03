@@ -98,11 +98,13 @@ const fetchTransactions = async (
   const url = `${host}/accounts/${address}/transactions`;
   const response = await AxiosUtil.get<CeloTransactionResponse[]>(url);
 
-  const formattedResponse: ICeloTransaction[] = response.slice(25).map(x => ({
-    ...x,
-    details: x.details.transaction,
-    tags: x.tags.map(stringifyTags),
-  }));
+  const formattedResponse: ICeloTransaction[] = response
+    .slice(0, 25)
+    .map(x => ({
+      ...x,
+      details: x.details.transaction,
+      tags: x.tags.map(stringifyTags),
+    }));
 
   return {
     page: 1,
