@@ -13,7 +13,6 @@ interface NetworkFeatureMeta {
 export interface NetworkDefinition extends NetworkFeatureMeta {
   available: boolean; // Flag to officially show/hide the network in Anthem
   name: NETWORK_NAME;
-  ticker: string;
   denom: COIN_DENOMS;
   descriptor: string;
   chainId: string;
@@ -48,7 +47,6 @@ const NETWORKS: NetworksMap = {
     available: true,
     name: "COSMOS",
     denom: "uatom",
-    ticker: "atom",
     descriptor: "ATOM",
     chainId: "cosmoshub-3",
     cryptoCompareTicker: "ATOM",
@@ -68,7 +66,6 @@ const NETWORKS: NetworksMap = {
     available: true,
     name: "TERRA",
     denom: "uluna",
-    ticker: "luna",
     descriptor: "LUNA",
     chainId: "columbus-3",
     cryptoCompareTicker: "LUNA",
@@ -87,7 +84,6 @@ const NETWORKS: NetworksMap = {
     available: true,
     name: "KAVA",
     denom: "ukava",
-    ticker: "kava",
     descriptor: "KAVA",
     chainId: "kava-2",
     cryptoCompareTicker: "KAVA",
@@ -107,7 +103,6 @@ const NETWORKS: NetworksMap = {
     available: false,
     name: "OASIS",
     denom: "oasis",
-    ticker: "oasis",
     descriptor: "OASIS",
     chainId: "oasis",
     cryptoCompareTicker: "OASIS",
@@ -127,7 +122,6 @@ const NETWORKS: NetworksMap = {
     available: false,
     name: "CELO",
     denom: "cGLD",
-    ticker: "CGLD",
     descriptor: "cGLD",
     chainId: "celo",
     cryptoCompareTicker: "CGLD",

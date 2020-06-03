@@ -351,14 +351,14 @@ const resolvers = {
       _: void,
       args: IDailyPercentChangeQueryVariables,
     ): Promise<IQuery["dailyPercentChange"]> => {
-      const { crypto, fiat } = args;
-      const network = getNetworkDefinitionFromTicker(crypto);
+      const { currency, fiat } = args;
+      const network = getNetworkDefinitionFromTicker(currency);
 
       if (!network.supportsFiatPrices) {
         throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
       }
 
-      return EXCHANGE_DATA_API.fetchDailyPercentChangeInPrice(crypto, fiat);
+      return EXCHANGE_DATA_API.fetchDailyPercentChangeInPrice(currency, fiat);
     },
 
     fiatCurrencies: async (_: void): Promise<IQuery["fiatCurrencies"]> => {

@@ -45,7 +45,6 @@ export const graphqlSelector = createSelector(
       versus: fiat,
       startingPage,
       network: network.name,
-      crypto: network.ticker,
       networkDefinition: network,
       currency: network.cryptoCompareTicker,
     };
@@ -85,7 +84,6 @@ const getQueryConfig = (pollInterval: number | undefined) => (
 type VariablesKeys =
   | "address"
   | "fiat"
-  | "crypto"
   | "currency"
   | "versus"
   | "network"
@@ -157,7 +155,7 @@ export interface DailyPercentChangeProps {
 
 export const withDailyPercentChange = graphql(DailyPercentChangeDocument, {
   name: "dailyPercentChange",
-  ...fastPollingConfig(["crypto", "fiat"]),
+  ...fastPollingConfig(["currency", "fiat"]),
 });
 
 /** ===========================================================================

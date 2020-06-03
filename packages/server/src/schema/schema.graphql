@@ -2,7 +2,7 @@ type Query {
   # Cosmos APIs
   portfolioHistory(address: String!, fiat: String!): PortfolioData!
   fiatPriceHistory(fiat: String!, network: String!): [FiatPrice!]!
-  dailyPercentChange(crypto: String!, fiat: String!): String!
+  dailyPercentChange(currency: String!, fiat: String!): String!
   accountBalances(address: String!): AccountBalanceResponseType!
   rewardsByValidator(address: String!): [AvailableReward!]!
   accountInformation(address: String!): AccountInformation!

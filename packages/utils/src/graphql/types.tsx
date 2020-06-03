@@ -560,9 +560,8 @@ export interface IQuery {
   slashingParameters: ISlashingParameters;
   distributionCommunityPool: IBalance[];
   distributionParameters: IDistributionParameters;
-  /** CoinGecko Price APIs */
-  prices: IPrice;
   fiatCurrencies: IFiatCurrency[];
+  prices: IPrice;
   /** Oasis APIs */
   oasisTransactions: IOasisTransactionResult;
   /** Celo APIs */
@@ -581,7 +580,7 @@ export interface IQueryFiatPriceHistoryArgs {
 }
 
 export interface IQueryDailyPercentChangeArgs {
-  crypto: Scalars["String"];
+  currency: Scalars["String"];
   fiat: Scalars["String"];
 }
 
@@ -1065,7 +1064,7 @@ export type ICosmosTransactionsQuery = (
 );
 
 export interface IDailyPercentChangeQueryVariables {
-  crypto: Scalars["String"];
+  currency: Scalars["String"];
   fiat: Scalars["String"];
 }
 
@@ -1960,8 +1959,8 @@ export type CosmosTransactionsQueryHookResult = ReturnType<typeof useCosmosTrans
 export type CosmosTransactionsLazyQueryHookResult = ReturnType<typeof useCosmosTransactionsLazyQuery>;
 export type CosmosTransactionsQueryResult = ApolloReactCommon.QueryResult<ICosmosTransactionsQuery, ICosmosTransactionsQueryVariables>;
 export const DailyPercentChangeDocument = gql`
-    query dailyPercentChange($crypto: String!, $fiat: String!) {
-  dailyPercentChange(crypto: $crypto, fiat: $fiat)
+    query dailyPercentChange($currency: String!, $fiat: String!) {
+  dailyPercentChange(currency: $currency, fiat: $fiat)
 }
     `;
 export type DailyPercentChangeComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IDailyPercentChangeQuery, IDailyPercentChangeQueryVariables>, "query"> & ({ variables: IDailyPercentChangeQueryVariables; skip?: boolean; } | { skip: boolean; });
@@ -1994,7 +1993,7 @@ export function withDailyPercentChange<TProps, TChildProps = {}>(operationOption
  * @example
  * const { data, loading, error } = useDailyPercentChangeQuery({
  *   variables: {
- *      crypto: // value for 'crypto'
+ *      currency: // value for 'currency'
  *      fiat: // value for 'fiat'
  *   },
  * });
