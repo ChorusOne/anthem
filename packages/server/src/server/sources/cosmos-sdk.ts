@@ -327,7 +327,8 @@ const fetchAvailableRewards = async (
   const response = await AxiosUtil.get(
     `${host}/distribution/delegators/${address}/rewards`,
   );
-  return response.result.rewards;
+
+  return response.result.rewards || [];
 };
 
 /** ===========================================================================
