@@ -4,7 +4,6 @@ import {
   getNetworkDefinitionFromIdentifier,
   validatorAddressToOperatorAddress,
 } from "@anthem/utils";
-import Toast from "components/Toast";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
 import Analytics from "lib/analytics-lib";
 import StorageModule from "lib/storage-lib";
@@ -34,6 +33,7 @@ import {
   validateNetworkAddress,
 } from "tools/validation-utils";
 import { isActionOf } from "typesafe-actions";
+import Toast from "ui/Toast";
 import { Actions } from "../root-actions";
 import selectors, { addressSelector } from "./selectors";
 

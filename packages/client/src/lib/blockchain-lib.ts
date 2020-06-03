@@ -1,6 +1,6 @@
 import { NETWORK_NAME } from "@anthem/utils";
-import Toast from "components/Toast";
 import { MOCK_BLOCKCHAIN_TRANSACTION_RESULT } from "test/data/mock-blockchain-transactions-result";
+import Toast from "ui/Toast";
 import ENV from "./client-env";
 
 /** ===========================================================================

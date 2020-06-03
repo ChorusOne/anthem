@@ -1,8 +1,8 @@
 import { NetworkDefinition } from "@anthem/utils";
-import { PortfolioChartData } from "components/Portfolio";
 import { PortfolioHistoryQueryResult } from "graphql/queries";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import moment from "moment-timezone";
+import { PortfolioChartData } from "ui/portfolio/CosmosPortfolio";
 import { denomToUnit } from "./currency-utils";
 import { toDateKey, toDateKeyBackOneDay } from "./date-utils";
 import {

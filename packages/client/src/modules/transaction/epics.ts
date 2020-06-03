@@ -1,4 +1,3 @@
-import Toast from "components/Toast";
 import logger from "lib/logger-lib";
 import { EpicSignature } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
@@ -8,6 +7,7 @@ import { adaptRawTransactionData, wait } from "tools/client-utils";
 import { createSignMessage } from "tools/cosmos-ledger-utils";
 import { createCosmosTransactionPostBody } from "tools/cosmos-utils";
 import { isActionOf } from "typesafe-actions";
+import Toast from "ui/Toast";
 import { Actions } from "../root-actions";
 
 /** ===========================================================================
