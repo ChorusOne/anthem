@@ -11,9 +11,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
-import CeloTransactionContainer from "transactions/CeloTransactionContainer";
-import CosmosTransactionContainer from "transactions/CosmosTransactionContainer";
-import OasisTransactionContainer from "transactions/OasisTransactionContainer";
+import CeloPortfolio from "./CeloPortfolio";
 import Portfolio from "./Portfolio";
 
 /** ===========================================================================
@@ -84,7 +82,7 @@ class PortfolioSwitchContainer extends React.Component<IProps, IState> {
       case "OASIS":
         return null;
       case "CELO":
-        return <p>Celo Portfolio</p>;
+        return <CeloPortfolio fullSize={this.props.fullSize} />;
       default:
         return null;
     }

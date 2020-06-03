@@ -1,6 +1,5 @@
 import { assertUnreachable } from "@anthem/utils";
 import { Colors, H5 } from "@blueprintjs/core";
-import * as Sentry from "@sentry/browser";
 import { GraphQLGuardComponent } from "components/GraphQLGuardComponents";
 import { COLORS } from "constants/colors";
 import { CURRENCY_SETTING, FiatCurrency } from "constants/fiat";
@@ -41,7 +40,6 @@ import {
   Button,
   Centered,
   DashboardLoader,
-  PanelMessageText,
   Row,
   View,
 } from "./SharedComponents";
@@ -73,22 +71,14 @@ interface IState {
 
 class PortfolioLoadingContainer extends React.PureComponent<
   IProps,
-  {
-    hasError: boolean;
-    displayLoadingMessage: boolean;
-  }
+  { displayLoadingMessage: boolean }
 > {
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true };
-  }
-
   loadingTimer: Nullable<number> = null;
 
   constructor(props: IProps) {
     super(props);
 
     this.state = {
-      hasError: false,
       displayLoadingMessage: false,
     };
   }
@@ -113,47 +103,10 @@ class PortfolioLoadingContainer extends React.PureComponent<
     }
   }
 
-  startLoadingTimer = () => {
-    const LOADING_THRESHOLD_DELAY = 3000; // 3 seconds
-    this.loadingTimer = setTimeout(() => {
-      this.setState({ displayLoadingMessage: true });
-    }, LOADING_THRESHOLD_DELAY);
-  };
-
-  cancelLoadingTimer = () => {
-    if (this.loadingTimer) {
-      clearTimeout(this.loadingTimer);
-    }
-
-    this.setState({ displayLoadingMessage: false });
-  };
-
-  componentDidCatch(error: Error) {
-    // Log the error to Sentry.
-    Sentry.captureException(error);
-  }
-
   render(): JSX.Element {
-    const { displayLoadingMessage, hasError } = this.state;
-
-    if (hasError) {
-      return (
-        <PanelMessageText>
-          {this.props.i18n.tString("Error fetching data...")}
-        </PanelMessageText>
-      );
-    }
-
+    const { displayLoadingMessage } = this.state;
     const { i18n, network, portfolioHistory } = this.props;
     const { tString } = i18n;
-
-    if (!network.supportsPortfolio) {
-      return (
-        <PanelMessageText>
-          <b>{network.name}</b> portfolio is not supported yet.
-        </PanelMessageText>
-      );
-    }
 
     return (
       <View style={{ position: "relative", height: "100%" }}>
@@ -173,6 +126,21 @@ class PortfolioLoadingContainer extends React.PureComponent<
       </View>
     );
   }
+
+  startLoadingTimer = () => {
+    const LOADING_THRESHOLD_DELAY = 3000; // 3 seconds
+    this.loadingTimer = setTimeout(() => {
+      this.setState({ displayLoadingMessage: true });
+    }, LOADING_THRESHOLD_DELAY);
+  };
+
+  cancelLoadingTimer = () => {
+    if (this.loadingTimer) {
+      clearTimeout(this.loadingTimer);
+    }
+
+    this.setState({ displayLoadingMessage: false });
+  };
 }
 
 class Portfolio extends React.PureComponent<IProps, IState> {
