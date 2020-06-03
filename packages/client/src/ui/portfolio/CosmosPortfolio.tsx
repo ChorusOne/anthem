@@ -105,7 +105,7 @@ class PortfolioLoadingContainer extends React.PureComponent<
 
   render(): JSX.Element {
     const { displayLoadingMessage } = this.state;
-    const { i18n, network, portfolioHistory } = this.props;
+    const { i18n, portfolioHistory } = this.props;
     const { tString } = i18n;
 
     return (

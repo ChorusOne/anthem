@@ -11,7 +11,6 @@ import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
-import { ChartData } from "tools/chart-utils";
 import { composeWithProps } from "tools/context-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import { DashboardError } from "ui/pages/DashboardPage";
