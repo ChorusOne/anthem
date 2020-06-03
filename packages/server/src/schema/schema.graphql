@@ -111,21 +111,16 @@ type CeloTransaction {
 
 type CeloTransactionTags {
   tag: String!
-  parameters: CeloTransactionTagParameter!
-}
-
-type CeloTransactionTagParameter {
-  account: String!
-  proposalId: String!
+  parameters: String!
 }
 
 type CeloTransactionDetails {
   nonce: String!
   gasPrice: String!
   gas: String!
-  feeCurrency: String!
-  gatewayFeeRecipient: String!
-  gatewayFee: String!
+  feeCurrency: String
+  gatewayFeeRecipient: String
+  gatewayFee: String
   to: String!
   value: String!
   input: String!

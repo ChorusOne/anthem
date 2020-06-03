@@ -99,6 +99,10 @@ const fetchTransactions = async (
   const formattedResponse: ICeloTransaction[] = response.map(x => ({
     ...x,
     details: x.details.transaction,
+    tags: x.tags.map(t => ({
+      tag: t.tag,
+      parameters: JSON.stringify(t.parameters),
+    })),
   }));
 
   return {
