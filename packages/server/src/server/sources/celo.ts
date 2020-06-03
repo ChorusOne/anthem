@@ -84,6 +84,8 @@ const fetchAccountHistory = async (
 
 /**
  * Fetch transactions history.
+ *
+ * TODO: API needs to support pagination.
  */
 const fetchTransactions = async (
   address: string,
@@ -96,14 +98,10 @@ const fetchTransactions = async (
   const url = `${host}/accounts/${address}/transactions`;
   const response = await AxiosUtil.get<CeloTransactionResponse[]>(url);
 
-  // TODO: Improve
-  const formattedResponse: ICeloTransaction[] = response.map(x => ({
+  const formattedResponse: ICeloTransaction[] = response.slice(25).map(x => ({
     ...x,
     details: x.details.transaction,
-    tags: x.tags.map(t => ({
-      tag: t.tag,
-      parameters: JSON.stringify(t.parameters), // Return tags as JSON
-    })),
+    tags: x.tags.map(stringifyTags),
   }));
 
   return {
@@ -118,6 +116,17 @@ const fetchTransactions = async (
  * Utils
  * ============================================================================
  */
+
+/**
+ * Return the tags as a JSON string to avoid creating a GraphQL union
+ * type for the tags data.
+ */
+const stringifyTags = (tag: { tag: string; parameters: string }) => {
+  return {
+    tag: tag.tag,
+    parameters: JSON.stringify(tag.parameters), // Return tags as JSON
+  };
+};
 
 /**
  * Transform the delegations to match the expected GraphQL schema
