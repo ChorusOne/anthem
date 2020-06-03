@@ -5,7 +5,6 @@ import {
   NETWORKS,
   validatorAddressToOperatorAddress,
 } from "@anthem/utils";
-import Toast from "components/Toast";
 import { graphqlSelector } from "graphql/queries";
 import Analytics from "lib/analytics-lib";
 import ENV from "lib/client-env";
@@ -27,6 +26,7 @@ import {
 import { getQueryParamsFromUrl, wait } from "tools/client-utils";
 import { validateNetworkAddress } from "tools/validation-utils";
 import { isActionOf } from "typesafe-actions";
+import Toast from "ui/Toast";
 import { Actions } from "../root-actions";
 
 /** ===========================================================================

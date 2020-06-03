@@ -13,11 +13,9 @@ interface NetworkFeatureMeta {
 export interface NetworkDefinition extends NetworkFeatureMeta {
   available: boolean; // Flag to officially show/hide the network in Anthem
   name: NETWORK_NAME;
-  ticker: string;
   denom: COIN_DENOMS;
   descriptor: string;
   chainId: string;
-  coinGeckoTicker: string;
   cryptoCompareTicker: string;
   supportsFiatPrices: boolean;
   ledgerAppVersion: string;
@@ -49,10 +47,8 @@ const NETWORKS: NetworksMap = {
     available: true,
     name: "COSMOS",
     denom: "uatom",
-    ticker: "atom",
     descriptor: "ATOM",
     chainId: "cosmoshub-3",
-    coinGeckoTicker: "cosmos",
     cryptoCompareTicker: "ATOM",
     ledgerAppVersion: "1.1.1",
     ledgerAppName: "Cosmos",
@@ -70,10 +66,8 @@ const NETWORKS: NetworksMap = {
     available: true,
     name: "TERRA",
     denom: "uluna",
-    ticker: "luna",
     descriptor: "LUNA",
     chainId: "columbus-3",
-    coinGeckoTicker: "terra-luna",
     cryptoCompareTicker: "LUNA",
     ledgerAppVersion: "1.1.1",
     ledgerAppName: "Cosmos",
@@ -90,10 +84,8 @@ const NETWORKS: NetworksMap = {
     available: true,
     name: "KAVA",
     denom: "ukava",
-    ticker: "kava",
     descriptor: "KAVA",
     chainId: "kava-2",
-    coinGeckoTicker: "kava",
     cryptoCompareTicker: "KAVA",
     ledgerAppVersion: "1.1.1",
     ledgerAppName: "Cosmos",
@@ -111,10 +103,8 @@ const NETWORKS: NetworksMap = {
     available: false,
     name: "OASIS",
     denom: "oasis",
-    ticker: "oasis",
     descriptor: "OASIS",
     chainId: "oasis",
-    coinGeckoTicker: "oasis",
     cryptoCompareTicker: "OASIS",
     ledgerAppVersion: "n/a",
     ledgerAppName: "n/a",
@@ -132,10 +122,8 @@ const NETWORKS: NetworksMap = {
     available: false,
     name: "CELO",
     denom: "cGLD",
-    ticker: "CGLD",
     descriptor: "cGLD",
     chainId: "celo",
-    coinGeckoTicker: "CGLD",
     cryptoCompareTicker: "CGLD",
     ledgerAppVersion: "1.0.1",
     ledgerAppName: "Celo",
@@ -144,8 +132,8 @@ const NETWORKS: NetworksMap = {
     supportsLedger: false,
     supportsFiatPrices: true,
     supportsBalances: true,
-    supportsPortfolio: false,
-    supportsTransactionsHistory: false,
+    supportsPortfolio: true,
+    supportsTransactionsHistory: true,
     supportsValidatorsList: false,
     denominationSize: 1e18, // 1 cGLD = 1000000000000000000 wei
   },

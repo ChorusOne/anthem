@@ -145,7 +145,7 @@ export const hasKeys = (obj: any, keys: ReadonlyArray<string>): boolean => {
   return true;
 };
 
-const DATE_FORMAT = "MMM DD, YYYY";
+const DATE_FORMAT = "MMM-DD-YYYY";
 
 /**
  * Get a date key based on the month/day/year.
@@ -161,7 +161,7 @@ export const gatherEndOfDayBalanceValues = (balances: IPortfolioBalance[]) => {
   const result: IPortfolioBalance[] = [];
   const dates = new Set<string>();
 
-  for (let i = balances.length - 1; i > 0; i--) {
+  for (let i = balances.length - 1; i >= 0; i--) {
     const x = balances[i];
     const key = toDateKey(x.timestamp);
     if (!dates.has(key)) {

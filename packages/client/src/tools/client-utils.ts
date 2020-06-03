@@ -15,11 +15,11 @@ import {
 } from "@anthem/utils";
 import { ApolloError } from "apollo-client";
 import BigNumber from "bignumber.js";
-import { AvailableReward } from "components/CreateTransactionForm";
-import Toast from "components/Toast";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import { VALIDATORS_LIST_SORT_FILTER } from "modules/app/store";
 import queryString, { ParsedQuery } from "query-string";
+import { AvailableReward } from "ui/CreateTransactionForm";
+import Toast from "ui/Toast";
 import {
   convertCryptoToFiat,
   denomToUnit,

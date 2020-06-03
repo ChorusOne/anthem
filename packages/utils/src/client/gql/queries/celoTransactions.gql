@@ -24,10 +24,7 @@ query celoTransactions($address: String!, $startingPage: Float, $pageSize: Float
             }
             tags{
                 tag
-                parameters{
-                    account
-                    proposalId
-                }
+                parameters
             }
         }
         moreResultsExist

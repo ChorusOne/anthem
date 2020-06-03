@@ -134,9 +134,9 @@ export interface ICeloTransactionDetails {
   nonce: Scalars["String"];
   gasPrice: Scalars["String"];
   gas: Scalars["String"];
-  feeCurrency: Scalars["String"];
-  gatewayFeeRecipient: Scalars["String"];
-  gatewayFee: Scalars["String"];
+  feeCurrency: Maybe<Scalars["String"]>;
+  gatewayFeeRecipient: Maybe<Scalars["String"]>;
+  gatewayFee: Maybe<Scalars["String"]>;
   to: Scalars["String"];
   value: Scalars["String"];
   input: Scalars["String"];
@@ -154,16 +154,10 @@ export interface ICeloTransactionResult {
   moreResultsExist: Scalars["Boolean"];
 }
 
-export interface ICeloTransactionTagParameter {
-   __typename?: "CeloTransactionTagParameter";
-  account: Scalars["String"];
-  proposalId: Scalars["String"];
-}
-
 export interface ICeloTransactionTags {
    __typename?: "CeloTransactionTags";
   tag: Scalars["String"];
-  parameters: ICeloTransactionTagParameter;
+  parameters: Scalars["String"];
 }
 
 export interface ICommissionRates {
@@ -560,9 +554,8 @@ export interface IQuery {
   slashingParameters: ISlashingParameters;
   distributionCommunityPool: IBalance[];
   distributionParameters: IDistributionParameters;
-  /** CoinGecko Price APIs */
-  prices: IPrice;
   fiatCurrencies: IFiatCurrency[];
+  prices: IPrice;
   /** Oasis APIs */
   oasisTransactions: IOasisTransactionResult;
   /** Celo APIs */
@@ -581,7 +574,7 @@ export interface IQueryFiatPriceHistoryArgs {
 }
 
 export interface IQueryDailyPercentChangeArgs {
-  crypto: Scalars["String"];
+  currency: Scalars["String"];
   fiat: Scalars["String"];
 }
 
@@ -975,11 +968,7 @@ export type ICeloTransactionsQuery = (
         & Pick<ICeloTransactionDetails, "nonce" | "gasPrice" | "gas" | "feeCurrency" | "gatewayFeeRecipient" | "gatewayFee" | "to" | "value" | "input" | "v" | "r" | "s" | "hash">
       ), tags: Array<(
         { __typename?: "CeloTransactionTags" }
-        & Pick<ICeloTransactionTags, "tag">
-        & { parameters: (
-          { __typename?: "CeloTransactionTagParameter" }
-          & Pick<ICeloTransactionTagParameter, "account" | "proposalId">
-        ) }
+        & Pick<ICeloTransactionTags, "tag" | "parameters">
       )> }
     )> }
   ) }
@@ -1065,7 +1054,7 @@ export type ICosmosTransactionsQuery = (
 );
 
 export interface IDailyPercentChangeQueryVariables {
-  crypto: Scalars["String"];
+  currency: Scalars["String"];
   fiat: Scalars["String"];
 }
 
@@ -1761,10 +1750,7 @@ export const CeloTransactionsDocument = gql`
       }
       tags {
         tag
-        parameters {
-          account
-          proposalId
-        }
+        parameters
       }
     }
     moreResultsExist
@@ -1960,8 +1946,8 @@ export type CosmosTransactionsQueryHookResult = ReturnType<typeof useCosmosTrans
 export type CosmosTransactionsLazyQueryHookResult = ReturnType<typeof useCosmosTransactionsLazyQuery>;
 export type CosmosTransactionsQueryResult = ApolloReactCommon.QueryResult<ICosmosTransactionsQuery, ICosmosTransactionsQueryVariables>;
 export const DailyPercentChangeDocument = gql`
-    query dailyPercentChange($crypto: String!, $fiat: String!) {
-  dailyPercentChange(crypto: $crypto, fiat: $fiat)
+    query dailyPercentChange($currency: String!, $fiat: String!) {
+  dailyPercentChange(currency: $currency, fiat: $fiat)
 }
     `;
 export type DailyPercentChangeComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IDailyPercentChangeQuery, IDailyPercentChangeQueryVariables>, "query"> & ({ variables: IDailyPercentChangeQueryVariables; skip?: boolean; } | { skip: boolean; });
@@ -1994,7 +1980,7 @@ export function withDailyPercentChange<TProps, TChildProps = {}>(operationOption
  * @example
  * const { data, loading, error } = useDailyPercentChangeQuery({
  *   variables: {
- *      crypto: // value for 'crypto'
+ *      currency: // value for 'currency'
  *      fiat: // value for 'fiat'
  *   },
  * });

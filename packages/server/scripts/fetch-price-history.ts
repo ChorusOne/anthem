@@ -43,7 +43,7 @@ const NETWORK = "COSMOS";
 // const NETWORK = "KAVA";
 // const NETWORK = "TERRA";
 
-const COIN = NETWORKS[NETWORK].coinGeckoTicker;
+const COIN = NETWORKS[NETWORK].cryptoCompareTicker;
 
 const FILE_PATHS_BY_NETWORK = {
   COSMOS: "src/server/sources/atom-price-history-cosmos-hub-1.json",

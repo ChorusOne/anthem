@@ -2,7 +2,7 @@ type Query {
   # Cosmos APIs
   portfolioHistory(address: String!, fiat: String!): PortfolioData!
   fiatPriceHistory(fiat: String!, network: String!): [FiatPrice!]!
-  dailyPercentChange(crypto: String!, fiat: String!): String!
+  dailyPercentChange(currency: String!, fiat: String!): String!
   accountBalances(address: String!): AccountBalanceResponseType!
   rewardsByValidator(address: String!): [AvailableReward!]!
   accountInformation(address: String!): AccountInformation!
@@ -26,10 +26,8 @@ type Query {
   distributionCommunityPool(network: String!): [Balance!]!
   distributionParameters(network: String!): DistributionParameters!
 
-  # CoinGecko Price APIs
-  prices(currency: String!, versus: String!): Price!
-
   fiatCurrencies: [FiatCurrency!]!
+  prices(currency: String!, versus: String!): Price!
 
   # Oasis APIs
   oasisTransactions(
@@ -113,21 +111,16 @@ type CeloTransaction {
 
 type CeloTransactionTags {
   tag: String!
-  parameters: CeloTransactionTagParameter!
-}
-
-type CeloTransactionTagParameter {
-  account: String!
-  proposalId: String!
+  parameters: String!
 }
 
 type CeloTransactionDetails {
   nonce: String!
   gasPrice: String!
   gas: String!
-  feeCurrency: String!
-  gatewayFeeRecipient: String!
-  gatewayFee: String!
+  feeCurrency: String
+  gatewayFeeRecipient: String
+  gatewayFee: String
   to: String!
   value: String!
   input: String!

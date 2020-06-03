@@ -4,7 +4,6 @@ import {
   getNetworkDefinitionFromIdentifier,
   validatorAddressToOperatorAddress,
 } from "@anthem/utils";
-import Toast from "components/Toast";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
 import Analytics from "lib/analytics-lib";
 import StorageModule from "lib/storage-lib";
@@ -34,6 +33,7 @@ import {
   validateNetworkAddress,
 } from "tools/validation-utils";
 import { isActionOf } from "typesafe-actions";
+import Toast from "ui/Toast";
 import { Actions } from "../root-actions";
 import selectors, { addressSelector } from "./selectors";
 
@@ -273,6 +273,31 @@ const saveAddressEpic: EpicSignature = action$ => {
 };
 
 /**
+ * When the address updates sync it to the url if it's out of sync.
+ */
+const syncAddressToUrlEpic: EpicSignature = (action$, state$, deps) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.setAddressSuccess)),
+    pluck("payload"),
+    pluck("address"),
+    tap(address => {
+      const { transactionsPage } = state$.value.transaction;
+      const params = getQueryParamsFromUrl(deps.router.location.search);
+
+      const search =
+        transactionsPage > 1
+          ? `?address=${address}&page=${transactionsPage}`
+          : `?address=${address}`;
+
+      if (params.address !== address) {
+        deps.router.replace({ search });
+      }
+    }),
+    ignoreElements(),
+  );
+};
+
+/**
  * Set the address from routing events, if they routed address is
  * different from the stored address.
  */
@@ -284,6 +309,12 @@ const setAddressOnNavigationEpic: EpicSignature = (action$, state$, deps) => {
     map(search => {
       const { address } = getQueryParamsFromUrl(search);
       const ledger = state$.value.ledger;
+
+      // Make no update if the /login page is active
+      if (deps.router.location.pathname.includes("login")) {
+        return Actions.empty("No action taken to update location query params");
+      }
+
       if (typeof address === "string" && address !== ledger.ledger.address) {
         return Actions.setAddress(address, { showToastForError: false });
       } else {
@@ -391,6 +422,7 @@ export default combineEpics(
   connectLedgerEpic,
   logoutEpic,
   saveAddressEpic,
+  syncAddressToUrlEpic,
   syncAddressToUrlOnNavigationEpic,
   syncAddressToUrlOnInitializationEpic,
   setAddressOnNavigationEpic,

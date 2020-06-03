@@ -52,6 +52,10 @@ describe("chart-and-csv-utils", () => {
         dailyCommissionsFiat.toFixed(2),
       );
 
+      if (isNaN(total)) {
+        console.log(row);
+      }
+
       // Check total calculation
       expect(
         (

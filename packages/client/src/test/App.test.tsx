@@ -4,9 +4,6 @@ import { DEFAULT_CATALOG, DEFAULT_LOCALE, ILocale } from "i18n/catalog";
 import { createMockClient } from "mock-apollo-client";
 import store from "modules/create-store";
 import actions from "modules/settings/actions";
-import GovernancePage from "pages/GovernancePage";
-import SettingsPage from "pages/SettingsPage";
-import WalletPage from "pages/WalletPage";
 import React from "react";
 import { ApolloProvider } from "react-apollo";
 import { ApolloProvider as ApolloHooksProvider } from "react-apollo-hooks";
@@ -18,6 +15,9 @@ import {
   createStringTranslationMethodFromLocale,
   createTranslationMethodFromLocale,
 } from "tools/i18n-utils";
+import GovernancePage from "ui/pages/GovernancePage";
+import SettingsPage from "ui/pages/SettingsPage";
+import WalletPage from "ui/pages/WalletPage";
 
 export const mockI18NProps = {
   setLocale: (locale: ILocale) => actions.updateSetting({ locale }),

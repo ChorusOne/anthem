@@ -10,8 +10,8 @@ import {
   NETWORK_NAME,
   NetworkDefinition,
 } from "@anthem/utils";
-import { AvailableReward } from "components/CreateTransactionForm";
 import { LEDGER_ACTION_TYPE } from "modules/ledger/actions";
+import { AvailableReward } from "ui/CreateTransactionForm";
 import { unitToDenom } from "./currency-utils";
 import { multiply } from "./math-utils";
 

@@ -2,10 +2,10 @@
   "validatorDistribution": {
     "operator_address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
     "self_bond_rewards": [
-      { "denom": "uatom", "amount": "63987669.244204311213825084" }
+      { "denom": "uatom", "amount": "78405513.332902144681379199" }
     ],
     "val_commission": [
-      { "denom": "uatom", "amount": "4969988610.784952884940363693" }
+      { "denom": "uatom", "amount": "6088322488.273243528337778253" }
     ]
   }
 }

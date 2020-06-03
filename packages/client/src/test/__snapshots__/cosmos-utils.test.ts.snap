@@ -112,6 +112,6 @@ Object {
   "fees": "225000000",
   "from": "cosmos1yeygh0y8rfyufdczhzytcl3pehsnxv9d3wsnlg",
   "generate_only": false,
-  "sequence": "72",
+  "sequence": "73",
 }
 `;
