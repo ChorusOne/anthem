@@ -1,756 +1,756 @@
 {
   "validatorSets": {
-    "block_height": 1967939,
+    "block_height": 2123983,
     "validators": [
       {
         "address": "cosmosvalcons1qqqqrezrl53hujmpdch6d805ac75n220ku09rl",
         "pub_key": "cosmosvalconspub1zcjduepq7mft6gfls57a0a42d7uhx656cckhfvtrlmw744jv4q0mvlv0dypskehfk8",
-        "voting_power": "244747",
-        "proposer_priority": "86892497"
+        "voting_power": "245319",
+        "proposer_priority": "-61531534"
       },
       {
         "address": "cosmosvalcons1qq92t2l4jz5pt67tmts8ptl4p0jhr6utx5xa8y",
         "pub_key": "cosmosvalconspub1zcjduepqe93asg05nlnj30ej2pe3r8rkeryyuflhtfw3clqjphxn4j3u27msrr63nk",
-        "voting_power": "457347",
-        "proposer_priority": "-34656595"
+        "voting_power": "457399",
+        "proposer_priority": "-4307877"
       },
       {
         "address": "cosmosvalcons1qxdeeg55f57vxmruwv5rau743etv3fw530uf8x",
         "pub_key": "cosmosvalconspub1zcjduepq55mjplg9gy979ua9r5qmk2wr5nysmputt28j0zsgadn933lyh32sh20cmm",
-        "voting_power": "931179",
-        "proposer_priority": "19584555"
+        "voting_power": "958050",
+        "proposer_priority": "-9106856"
+      },
+      {
+        "address": "cosmosvalcons1q78p8uewhvqclp077y5sr93un83v5q9jpne2pd",
+        "pub_key": "cosmosvalconspub1zcjduepq5prg4psgjt0anc722tgz4aqra6m5dkwskn7yykdklh40h6f35ykskje9wu",
+        "voting_power": "87575",
+        "proposer_priority": "-46256990"
       },
       {
         "address": "cosmosvalcons1px0zkz2cxvc6lh34uhafveea9jnaagckmrlsye",
         "pub_key": "cosmosvalconspub1zcjduepq0dc9apn3pz2x2qyujcnl2heqq4aceput2uaucuvhrjts75q0rv5smjjn7v",
-        "voting_power": "6139491",
-        "proposer_priority": "101040814"
+        "voting_power": "6192126",
+        "proposer_priority": "-39715241"
       },
       {
         "address": "cosmosvalcons1p5scdpmdymvg9aa72r0dj27nedfc8q2r3zermn",
         "pub_key": "cosmosvalconspub1zcjduepquxeuhp0gj88u5mrukuazzrxc4rnjjuakls4fr2gzxlwj4f9p8lfs965r7z",
         "voting_power": "96455",
-        "proposer_priority": "-62983516"
-      },
-      {
-        "address": "cosmosvalcons1p426sx80udjfxhw7pyv5tnk03ym8h7vt9qlhgu",
-        "pub_key": "cosmosvalconspub1zcjduepqf4qptg2va4frg7g35c4plnlq0ngny64qv34a9vzhy39vuv8jwjfsexun5p",
-        "voting_power": "6127",
-        "proposer_priority": "-128102625"
+        "proposer_priority": "-36411013"
       },
       {
         "address": "cosmosvalcons1rrrc6y6unkqawnmzxnday6xy0u8cn6zyl5yhtr",
         "pub_key": "cosmosvalconspub1zcjduepqz679nxu2dkfd6y9hytqwvf2z4yuevraqykkm2464ag4e6z278h3qdq92xu",
         "voting_power": "758514",
-        "proposer_priority": "34038864"
+        "proposer_priority": "-23148343"
       },
       {
         "address": "cosmosvalcons1rtst6se0nfgjy362v33jt5d05crgdyhfvvvvay",
         "pub_key": "cosmosvalconspub1zcjduepq5e8w7t7k9pwfewgrwy8vn6cghk0x49chx64vt0054yl4wwsmjgrqfackxm",
-        "voting_power": "691344",
-        "proposer_priority": "-58959426"
+        "voting_power": "691408",
+        "proposer_priority": "93867751"
       },
       {
         "address": "cosmosvalcons1rnknqueazcju3x4knpnhvpksudanva4f08558z",
         "pub_key": "cosmosvalconspub1zcjduepqwcvy8hyw2phdp080ggj7prxv972rvqc9gwyjnl0uwf7uxn63s8vqdctdcw",
-        "voting_power": "166676",
-        "proposer_priority": "-34362659"
+        "voting_power": "16959",
+        "proposer_priority": "59462500"
       },
       {
         "address": "cosmosvalcons1rcswqaqrp75nsdk2htkktqwkc34w7er32r52xy",
         "pub_key": "cosmosvalconspub1zcjduepq5tycuhznpjuwlr93ypflreaddk0r66hdryzgmfvmlj2ekdd5sqrqnxclgg",
-        "voting_power": "462520",
-        "proposer_priority": "15197250"
+        "voting_power": "464520",
+        "proposer_priority": "70152597"
       },
       {
         "address": "cosmosvalcons1r6wwjn7shfw0awgply9uvkxkfkzmzdxjyma30v",
         "pub_key": "cosmosvalconspub1zcjduepqfuxvufupnsm7v5anpwd7z8ec70z2k209j7xclnm25zz7vauhyc5qjgxx3h",
-        "voting_power": "533346",
-        "proposer_priority": "-27866629"
+        "voting_power": "533715",
+        "proposer_priority": "-61496916"
       },
       {
         "address": "cosmosvalcons1yy3rgawwsmeu0n27npd23r7zfg5uj7qnk6xvj2",
         "pub_key": "cosmosvalconspub1zcjduepqc9ppxzktam9v39d9q07h6n98cdm7cgg4l65vq5yvtgruxp5h0yhs8tup68",
-        "voting_power": "614103",
-        "proposer_priority": "22620100"
+        "voting_power": "602856",
+        "proposer_priority": "74571877"
       },
       {
         "address": "cosmosvalcons1yxv746y5egu3l2p0q8pvv99lavgr6ptvdhx306",
         "pub_key": "cosmosvalconspub1zcjduepqp0j4vum7ryt6nl6zsgq9ar347afmq2c5z6jmzeavv2p2ns6m0dgs5zmg4z",
-        "voting_power": "11308314",
-        "proposer_priority": "-72192691"
+        "voting_power": "11307611",
+        "proposer_priority": "-67756861"
       },
       {
         "address": "cosmosvalcons1yjf46k064988jdjje068zmrqg8xh4fqqe2wwnl",
         "pub_key": "cosmosvalconspub1zcjduepq5evf9e4qhkxym6lx0ur2mwuz5e09u2v7u54yz3wcfanqwvhkc7rqcgpmlw",
-        "voting_power": "100686",
-        "proposer_priority": "75245269"
+        "voting_power": "100739",
+        "proposer_priority": "39861233"
       },
       {
         "address": "cosmosvalcons192gnt6ypvzhs2ty6hwelvvqa0kv7ywzgvqaj5z",
         "pub_key": "cosmosvalconspub1zcjduepqkzserh5aetg6m33vrfcsuz60qpkgkpkpzkh8gp9lsd7cxffgph4qjzkxft",
         "voting_power": "10735",
-        "proposer_priority": "4412243"
+        "proposer_priority": "54536431"
       },
       {
         "address": "cosmosvalcons19wd9t5alj0tnwhwjq7m4chk562u3my2xwt72qg",
         "pub_key": "cosmosvalconspub1zcjduepqs0et7kpf82glsw5j9jnppekrpa7kl6gr6xk67ztqg9ynmhgj82ks9edcrw",
         "voting_power": "457608",
-        "proposer_priority": "56657753"
+        "proposer_priority": "-56399475"
       },
       {
         "address": "cosmosvalcons193fg6g69a4hf20qupqv79saqr2luhf2hladw0j",
         "pub_key": "cosmosvalconspub1zcjduepqsl29jhapyxf4fa5a947dmnlvrt266fm959hfg2c657ju80hq0ljs3qejr7",
         "voting_power": "250002",
-        "proposer_priority": "7609855"
+        "proposer_priority": "92072051"
       },
       {
         "address": "cosmosvalcons19jwvcvtlk2pa2jk8fzpc5e8jjyrq88j3h8y9v2",
         "pub_key": "cosmosvalconspub1zcjduepqvn4a4skwj88c8e0jvns3qjrhyy0whvnuwmth3k8kexvqk5vupw4qsdje47",
         "voting_power": "1081673",
-        "proposer_priority": "-82635066"
+        "proposer_priority": "-49229868"
       },
       {
         "address": "cosmosvalcons19nt2x53lt4s4w0h3udj5kss66ggul6xuu4sxxk",
         "pub_key": "cosmosvalconspub1zcjduepq4euv7ertqhgvxrla583fg9g6z2v2dzrkl9spche4j4r23vukmx2q8gqvev",
-        "voting_power": "10244",
-        "proposer_priority": "-76853347"
+        "voting_power": "11342",
+        "proposer_priority": "-191791022"
       },
       {
         "address": "cosmosvalcons1xxfqlx7r5wdkdpmvcltdtevfuype80cwmrrtae",
         "pub_key": "cosmosvalconspub1zcjduepqjc07nu2ya8tyzl8m385rnc382pkulwt2gh8yary73f3a96jak7pqsf63xf",
-        "voting_power": "4746414",
-        "proposer_priority": "92643765"
+        "voting_power": "4788657",
+        "proposer_priority": "-44959639"
       },
       {
         "address": "cosmosvalcons1xd3737tmqtkvqq5fuush8kp82scy0tx6882l4q",
         "pub_key": "cosmosvalconspub1zcjduepqnru7aa6ayyuwddd5qsa6tvutzs7xl9jk6pfx4ka5dr4y9d3q6eesgz9rz7",
         "voting_power": "302825",
-        "proposer_priority": "71427413"
+        "proposer_priority": "69881094"
       },
       {
         "address": "cosmosvalcons1x0yektnehzr6mg3z3eflkm4qqz4esveh8v9meq",
         "pub_key": "cosmosvalconspub1zcjduepqsnngsdda53d9aqwezvpsx4uh2nkwkn4nra5lw4tyl9n3m02q4kvsrqq0pw",
         "voting_power": "145005",
-        "proposer_priority": "-32891950"
+        "proposer_priority": "-35844778"
       },
       {
         "address": "cosmosvalcons18xt8rsh7fvn3fmrwsl2wu32w790n8232mlz4p6",
         "pub_key": "cosmosvalconspub1zcjduepq8xpk5nh78lmgg0s0qqdyh4xtcw66xemt8anjsr6hrvlhauq252kstq7zr7",
-        "voting_power": "933840",
-        "proposer_priority": "-17366898"
+        "voting_power": "928849",
+        "proposer_priority": "49831929"
       },
       {
         "address": "cosmosvalcons18sg9jk5jf4zhzaw0kld2mtvp2eufk6n7z2hm6f",
         "pub_key": "cosmosvalconspub1zcjduepqd4qh9dqgyce948kn48r2aqk7qlgtuwdmfeewj0z9aj4dr30v33cq6pmlql",
-        "voting_power": "10160",
-        "proposer_priority": "-84473360"
+        "voting_power": "10965",
+        "proposer_priority": "-66054464"
       },
       {
         "address": "cosmosvalcons1gpl3gngunh4yae4ge0pdfspz5et4q6ury3yyvp",
         "pub_key": "cosmosvalconspub1zcjduepqwr5p8j076mfydn7wckqz748lr0j50zwgsftnfpvgz6rz0rkvvqwqg5fyaf",
-        "voting_power": "366971",
-        "proposer_priority": "68473004"
+        "voting_power": "369991",
+        "proposer_priority": "-40947722"
       },
       {
         "address": "cosmosvalcons1gyk422n398zfdt2v8k420nhhpzw88v2q9ews9j",
         "pub_key": "cosmosvalconspub1zcjduepq0qdudwaluzpy5ptluu5umck5fp2ns2qf2kjp367qlr7yf65agx5s0n8h7f",
-        "voting_power": "28987",
-        "proposer_priority": "-29871654"
+        "voting_power": "30040",
+        "proposer_priority": "23333549"
       },
       {
         "address": "cosmosvalcons1gtt8qhn3vcttff2y90d2q59hcm5lmhjrr5menw",
         "pub_key": "cosmosvalconspub1zcjduepq9weu2v0za8fdcvx0w3ps972k5v7sm6h5as9qaznc437vwpfxu37q0f3lyg",
-        "voting_power": "419352",
-        "proposer_priority": "20851441"
+        "voting_power": "419486",
+        "proposer_priority": "-72929723"
       },
       {
         "address": "cosmosvalcons1g63l3wpe8w4p20zqu4ezat5zagx53vedf849wa",
         "pub_key": "cosmosvalconspub1zcjduepqajqpmv4j70a08ahs8lyjt8qk28ffa77zjegd7yajghchy8au575qmmxuyt",
-        "voting_power": "574878",
-        "proposer_priority": "36166547"
+        "voting_power": "574970",
+        "proposer_priority": "-58423369"
+      },
+      {
+        "address": "cosmosvalcons1fr74vrfukz649yjvhs8ec2ax3zpl5yf4z0g669",
+        "pub_key": "cosmosvalconspub1zcjduepqc9e32g59fjjr7tea9l2d0m5zn05wngxy4ryx566p3jxf6k6dd9nszpnr7l",
+        "voting_power": "11800",
+        "proposer_priority": "-63360293"
       },
       {
         "address": "cosmosvalcons1fyr09ffnfkgx5nrrl85av9f8486e8380f3mvng",
         "pub_key": "cosmosvalconspub1zcjduepq668g4epaumjtx35rk3ucz2nlm7l7zuewkt0kzutg9hha859zjxmsvl2v67",
         "voting_power": "631026",
-        "proposer_priority": "-23449835"
+        "proposer_priority": "-56253255"
       },
       {
         "address": "cosmosvalcons1fxalkxap5ag99cezd68purh7kvu33w9jhtryqq",
         "pub_key": "cosmosvalconspub1zcjduepq0cet8ez89wj4yz8uencych7aldc5wyyrpx6jvh6n6kxxslumln5sxkq922",
-        "voting_power": "1219034",
-        "proposer_priority": "57545204"
+        "voting_power": "1223957",
+        "proposer_priority": "94162474"
       },
       {
         "address": "cosmosvalcons1ftmf66j5xmpsudvyc93ggv772hn430x2kj93pq",
         "pub_key": "cosmosvalconspub1zcjduepquuc5k7egx8ymejamr27c3sgw6tyhmt0eq0ak4qvflvhxx56nvjzsx9etmd",
-        "voting_power": "3474635",
-        "proposer_priority": "-11494390"
+        "voting_power": "3487450",
+        "proposer_priority": "90495351"
       },
       {
         "address": "cosmosvalcons1fjfzxravzc3s8kvpcpkayfnr5n78vg4u68zz0s",
         "pub_key": "cosmosvalconspub1zcjduepqgx5xdrx0xktl5r8e3w7vj329fgh3fnep8ahgx8027nd5nkjxzuqs5us5en",
-        "voting_power": "556819",
-        "proposer_priority": "83160712"
+        "voting_power": "556993",
+        "proposer_priority": "73151291"
       },
       {
         "address": "cosmosvalcons1f6wt886tr7npwvuhgjjkqzmzsqn9945uym9g3q",
         "pub_key": "cosmosvalconspub1zcjduepqnnh28nlj55sc329ppnhcr0xx7kuc9vnsp3dpwc28wdhhxtjc7jfs9k57f7",
-        "voting_power": "336562",
-        "proposer_priority": "27359825"
+        "voting_power": "337235",
+        "proposer_priority": "-59356055"
       },
       {
         "address": "cosmosvalcons12ys9vkd8zl0lh9hq2nut6yggwv8p0t4882vg4k",
         "pub_key": "cosmosvalconspub1zcjduepqtj2urav4g9wex3hku588au0x4sucrc9lpky46zp5u8w4mvd584sqmcxxhs",
-        "voting_power": "7390725",
-        "proposer_priority": "60248384"
+        "voting_power": "7751461",
+        "proposer_priority": "-20582698"
       },
       {
         "address": "cosmosvalcons128dj2e3qfm3xvsn74znvkuvcxk43wzlfngfrz8",
         "pub_key": "cosmosvalconspub1zcjduepq5tm478lhn4du7l46yp6fgu9e8fcfks0j4kf87pk4z8vc3clckxzqvh2q72",
-        "voting_power": "685457",
-        "proposer_priority": "26248097"
+        "voting_power": "685763",
+        "proposer_priority": "21713841"
       },
       {
         "address": "cosmosvalcons12tskgcf5gv4lj5etfzqudmfjus9wtgka8znl6y",
         "pub_key": "cosmosvalconspub1zcjduepqzu34dgs2p6ysz52hpdycls4jcfwgnf2pvxv0eh539ypmadkjfmes6mwaa3",
-        "voting_power": "1417441",
-        "proposer_priority": "54961354"
+        "voting_power": "1474951",
+        "proposer_priority": "-18770288"
       },
       {
         "address": "cosmosvalcons12uccfrsey4mst23ge3l042x8prhqzn2j6fffxd",
         "pub_key": "cosmosvalconspub1zcjduepqncdd6lvm4r42eke822e5eg0alentpvlxjwzat7nvpynlp0vcu55sl5z96g",
         "voting_power": "245002",
-        "proposer_priority": "45591645"
+        "proposer_priority": "74098195"
       },
       {
         "address": "cosmosvalcons12acnhd6zr3l7kwqmsclusl0dt6pf42tpw50hqz",
         "pub_key": "cosmosvalconspub1zcjduepq8y846wm58fmmuctxp7csqmaz3594xnykcean0lp722ntf6u5ycaqss4prd",
-        "voting_power": "1248480",
-        "proposer_priority": "-20701813"
+        "voting_power": "1251425",
+        "proposer_priority": "15612404"
       },
       {
         "address": "cosmosvalcons1t2e48d6g630jph7wr8tnh2ylymsuxn8huya638",
         "pub_key": "cosmosvalconspub1zcjduepq87zcnf8sm4ewacjafqujfevt8rhwj5qk9uwtx4ef89ctuqmndkeq446ahw",
-        "voting_power": "809271",
-        "proposer_priority": "-37852828"
+        "voting_power": "807391",
+        "proposer_priority": "-48133731"
       },
       {
         "address": "cosmosvalcons1vu2xpycvehymqmzaq40y64gwhrd0y2g77ec8vl",
         "pub_key": "cosmosvalconspub1zcjduepqmfxl36td7rcdzszzrk6c7kzp5l3jlw4lnxz8zms3py7qcsa9xlns7zxfd6",
-        "voting_power": "2269192",
-        "proposer_priority": "7352852"
+        "voting_power": "2269725",
+        "proposer_priority": "79773366"
       },
       {
         "address": "cosmosvalcons1v7dcj7zewwlff48alzmxlp9f9xfjayw9qznplh",
         "pub_key": "cosmosvalconspub1zcjduepqg6y8magedjwr9p6s2c28zp28jdjtecxhn97ew6tnuzqklg63zgfspp9y3n",
-        "voting_power": "10323591",
-        "proposer_priority": "-50337154"
+        "voting_power": "10989967",
+        "proposer_priority": "31042558"
       },
       {
         "address": "cosmosvalcons1dr6mh6kw7y2vwg82njvtlghlmcqu2n730pfk8a",
         "pub_key": "cosmosvalconspub1zcjduepqtcsm8lp7n6ph98vd59qa9esgyuysuntww9juz5wynxrhzpspmuuq6g5pzg",
-        "voting_power": "912019",
-        "proposer_priority": "-74032707"
+        "voting_power": "898071",
+        "proposer_priority": "-32231853"
       },
       {
         "address": "cosmosvalcons1d94te9gcdlt95pc9ps52kqxfxk9rz5psfatv7y",
         "pub_key": "cosmosvalconspub1zcjduepqrgyyjxpe0ujefxwnkpmqz9m0hj03y09tdz9lwc0s7mvy469hulfq69f8sd",
-        "voting_power": "1516065",
-        "proposer_priority": "39842126"
+        "voting_power": "1516245",
+        "proposer_priority": "-25281111"
       },
       {
         "address": "cosmosvalcons1dj6867rt9u6scyaxpwmh6wv2eqhfqzv9favv9l",
         "pub_key": "cosmosvalconspub1zcjduepqmuspsp8739l0lgn2qz0arargk6ccfy2p82mwflsrsqzwpvhuh5usuwykf6",
-        "voting_power": "73364",
-        "proposer_priority": "73228603"
+        "voting_power": "73388",
+        "proposer_priority": "-61765736"
       },
       {
         "address": "cosmosvalcons1duezht6aw02uwun3jsvsrvwcverk6hyspyy3cn",
         "pub_key": "cosmosvalconspub1zcjduepqwnhw3azrlhnx9kaujvn0es9u26e4a3af6hye6e9j0pl2tlpx9k3s59zwh0",
-        "voting_power": "330224",
-        "proposer_priority": "-30891078"
+        "voting_power": "443459",
+        "proposer_priority": "38844673"
       },
       {
         "address": "cosmosvalcons1wz8amnsjrndd55p09vp99lh38ld2x8jsmswdm6",
         "pub_key": "cosmosvalconspub1zcjduepq2nfs6lcwu6ksq54yf0ptgrmjjrnm5p5ywng3x0t0767m777hvctq30rwcs",
         "voting_power": "67995",
-        "proposer_priority": "-92864577"
+        "proposer_priority": "19788603"
       },
       {
         "address": "cosmosvalcons1wrzmfenhn3v6yn8aj9r9s838qgwz4mpx3dsgl3",
         "pub_key": "cosmosvalconspub1zcjduepqd85nu5nelvcyyzcsrr0yaglh8rfvn6cv9pp3p0hgmwtk8hf3cazqc7vz5c",
         "voting_power": "1016351",
-        "proposer_priority": "-87042323"
+        "proposer_priority": "74883630"
       },
       {
         "address": "cosmosvalcons1wvkwaa2vxaxac6k7e07hq7h06pl7ms2rt2x4d9",
         "pub_key": "cosmosvalconspub1zcjduepqrc6g9m2eyy4zs7kyeph8vk5ldpgnceveelc39zf7lc32j8k3shqssevdlg",
         "voting_power": "194202",
-        "proposer_priority": "-42079932"
+        "proposer_priority": "27912965"
       },
       {
         "address": "cosmosvalcons1whdtx9h5egfk0afj4dc6szml5edtdype42hm00",
         "pub_key": "cosmosvalconspub1zcjduepqjg26g27dtvjqstyqktmp4jsn98473vfz0mek2eyklfp0yqapav5szdrvpd",
-        "voting_power": "3329709",
-        "proposer_priority": "4479180"
+        "voting_power": "3131289",
+        "proposer_priority": "6760029"
       },
       {
         "address": "cosmosvalcons1we6v0lnevz6gdwss2tdzyh65zx2cp6m5c80595",
         "pub_key": "cosmosvalconspub1zcjduepqjdc9grwq5mxdtg26hv9t75y3ltsau3rtmg6p72p0dh8343nj4s6qr6xymd",
         "voting_power": "399992",
-        "proposer_priority": "-91645074"
+        "proposer_priority": "40744437"
       },
       {
         "address": "cosmosvalcons10fqk678xexhu7y2ef89qjtnphnvahzsc30vjap",
         "pub_key": "cosmosvalconspub1zcjduepqv03r9c26w884sqw0zdqg9cdx4xxwgn3dd2s6wa3x346tm83nxudqwhm3jl",
-        "voting_power": "246540",
-        "proposer_priority": "-15584502"
+        "voting_power": "247086",
+        "proposer_priority": "-52250743"
       },
       {
         "address": "cosmosvalcons10vazaljm8lxlsx0u75nqwv2valj82jak592py8",
         "pub_key": "cosmosvalconspub1zcjduepq6adydsk7nw3d63qtn30t5rexhfg56pq44sw4l9ld0tcj6jvnx30s5xw9ar",
-        "voting_power": "1884754",
-        "proposer_priority": "42661211"
+        "voting_power": "1794880",
+        "proposer_priority": "8618882"
       },
       {
         "address": "cosmosvalcons10v7sra65mluywnksudvgzt75xlsf8zwuzsq8r3",
         "pub_key": "cosmosvalconspub1zcjduepq279zs0zgd53ujngs6v2hus2le9rk2a2rs66j4yvv6ewvvxn29yqqk95h8x",
-        "voting_power": "606545",
-        "proposer_priority": "-43118471"
+        "voting_power": "606551",
+        "proposer_priority": "88934387"
       },
       {
         "address": "cosmosvalcons10j4jk9w87q3cvxdxtkyr8m4489p92fj3vdzlue",
         "pub_key": "cosmosvalconspub1zcjduepqfjgjrj4heptaw6h9nhtkng8hw2zsq5c6e9xzwvnjjx2n6pc7x6yq4ny2qc",
-        "voting_power": "10529",
-        "proposer_priority": "56965594"
+        "voting_power": "12594",
+        "proposer_priority": "69582254"
       },
       {
         "address": "cosmosvalcons10l96ejcj2c7gsglga0kgcr09srwcclcyg6zcym",
         "pub_key": "cosmosvalconspub1zcjduepq2x456pyef8jdnjgk8j62fuug24xfg9cnnjl66ewtgttwr00phz8sdzatkj",
-        "voting_power": "117924",
-        "proposer_priority": "51985466"
+        "voting_power": "124302",
+        "proposer_priority": "55173416"
       },
       {
         "address": "cosmosvalcons1szxkkp22pdknla04atc2vh8uvnz587pnwa9sj9",
         "pub_key": "cosmosvalconspub1zcjduepqu08f7tuce8k88tgewhwer69kfvk5az3cn5lz3v8phl8gvu9nxu8qhrjxfj",
         "voting_power": "686014",
-        "proposer_priority": "65612676"
+        "proposer_priority": "-77936249"
       },
       {
         "address": "cosmosvalcons1sxykfd8mxmfgzzwrapfh0zenyvdj030ud35k24",
         "pub_key": "cosmosvalconspub1zcjduepql9j7qpwvfl0pspymhesj48t3t0aazjx0m2jwjuyxd7zw53hqnkss4hmasl",
-        "voting_power": "188664",
-        "proposer_priority": "-26044285"
+        "voting_power": "188270",
+        "proposer_priority": "-69324536"
       },
       {
         "address": "cosmosvalcons1sxt9l69pt75q0ryjqtejun86wtu9723zyaezq8",
         "pub_key": "cosmosvalconspub1zcjduepq8hu49qdl5594rzxmdsww3hleu8phxrajjfsseqjere9mjrrrv9tq35mll4",
-        "voting_power": "2190738",
-        "proposer_priority": "37619769"
+        "voting_power": "2191209",
+        "proposer_priority": "63324939"
       },
       {
         "address": "cosmosvalcons1sveqdx72n5f9uu4lsljd59evn6pmjr75pjq2fa",
         "pub_key": "cosmosvalconspub1zcjduepq7qnf5r40z7esjc2utrjrvzxg9sfd683hw0805ek85ddchdcptthqjnzxxu",
-        "voting_power": "160630",
-        "proposer_priority": "-79367901"
+        "voting_power": "161041",
+        "proposer_priority": "40852777"
       },
       {
         "address": "cosmosvalcons1s0686a68krmr8f46ph6fklw0v8us4gdsm7nhz3",
         "pub_key": "cosmosvalconspub1zcjduepqtw8862dhw8uty58d6t2szfd6kqram2t234zjteaaeem6l45wclaq8l60gn",
-        "voting_power": "9972853",
-        "proposer_priority": "-15106779"
+        "voting_power": "10434072",
+        "proposer_priority": "71785259"
       },
       {
         "address": "cosmosvalcons1s347fuu7xy3d9gknle29fcjkzpe7j4fc2dk40r",
         "pub_key": "cosmosvalconspub1zcjduepqt0fpxxufuuhavfqh8zg3pjnnwdvvzw9huemzxe59kpjt5e3xprhs7d8khn",
-        "voting_power": "449641",
-        "proposer_priority": "21379884"
+        "voting_power": "486103",
+        "proposer_priority": "2367914"
       },
       {
         "address": "cosmosvalcons1saxk42pc8p98ng756p39g8u3halrr0d64grcp3",
         "pub_key": "cosmosvalconspub1zcjduepq5l63vgd8m9chc3c32wn5lthzsax6xxdylpzmhqmjwrgfhd3m2swsj2wc2d",
         "voting_power": "100005",
-        "proposer_priority": "42223087"
+        "proposer_priority": "79817383"
       },
       {
         "address": "cosmosvalcons13jyq92fpz9qkn5jcrn2xu09xs5lk72nltzjkt5",
         "pub_key": "cosmosvalconspub1zcjduepqfx0p8s3gmxmaftkkazw5wag4sfau3vgcn20ut4dn5rv2nr8ddq2s59rnvq",
         "voting_power": "15846",
-        "proposer_priority": "-85565525"
+        "proposer_priority": "38402480"
       },
       {
         "address": "cosmosvalcons13n5y8czvfzmcvnu9drarn6gw5yl7vkr0y6sy09",
         "pub_key": "cosmosvalconspub1zcjduepqeumluaf7n7ss9qmaj43v4gd4dzj5jfw7cdnn6vngwd2m7gmu48lqsyy3wa",
-        "voting_power": "1000040",
-        "proposer_priority": "-58436034"
+        "voting_power": "1006816",
+        "proposer_priority": "-34446062"
       },
       {
         "address": "cosmosvalcons13c8wx7mmrgpcm529uv83a7ta7dseaapfj2eket",
         "pub_key": "cosmosvalconspub1zcjduepqf22yaz9nsxlh043qm0tmupw8pnpver2n8lm3mwz6jzmsql76fkmqa482y8",
         "voting_power": "500001",
-        "proposer_priority": "64130892"
+        "proposer_priority": "47241680"
       },
       {
         "address": "cosmosvalcons1373rsraxfvfzgfeq99cv7y4afxgmf3kjr2jq6k",
         "pub_key": "cosmosvalconspub1zcjduepqxh4s2zj52uhfssu7u2xyhmnk5f7g9ty368twxkkcfllsq3fqaw9sdl6rj9",
-        "voting_power": "10471",
-        "proposer_priority": "-3774687"
+        "voting_power": "13451",
+        "proposer_priority": "-6411716"
       },
       {
         "address": "cosmosvalcons13l3ul7n2q7cf8ezphwzd5xmd406n473d8t9apq",
         "pub_key": "cosmosvalconspub1zcjduepqc8slfqdszcd85wzzweuanv0em4h4gdc5wkh3et6e7t8z93z24u0s0rdlx2",
-        "voting_power": "2138541",
-        "proposer_priority": "-84437539"
+        "voting_power": "2111313",
+        "proposer_priority": "13812882"
       },
       {
         "address": "cosmosvalcons1j8yz8f6ymeg0j8qh534kynkl3ac4pf7a4xhrhr",
         "pub_key": "cosmosvalconspub1zcjduepql42t7mstnewp5rgweteuw95hawzystll7mq8dl24n5yh0th7q2jqetcy07",
-        "voting_power": "720894",
-        "proposer_priority": "13788838"
+        "voting_power": "720828",
+        "proposer_priority": "59618386"
       },
       {
         "address": "cosmosvalcons1j4dy0j9vscegyhw5wh5sjy75p2cf60a53qkgch",
         "pub_key": "cosmosvalconspub1zcjduepqny59kv2elgh89tq9qr4jje2n0my4gyvh2hlnydzljtt542a5plwswtas48",
         "voting_power": "141335",
-        "proposer_priority": "-18341026"
+        "proposer_priority": "-50791496"
       },
       {
         "address": "cosmosvalcons1jhsxp5rhzvrsl6vz9ak9p0tkhn9lnut6ehz9ej",
         "pub_key": "cosmosvalconspub1zcjduepqdgvppnyr5c9pulsrmzr9e9rp7qpgm9jwp5yu8g3aumekgjugxacq8a9p2c",
-        "voting_power": "5360432",
-        "proposer_priority": "90817587"
+        "voting_power": "4530015",
+        "proposer_priority": "10795130"
       },
       {
         "address": "cosmosvalcons1nycy42dwasflemc07uklez2nyul72kduyxht24",
         "pub_key": "cosmosvalconspub1zcjduepqz76h035hfdt8tka2k4ra3cwkqn8rs6qqmjytgrnzte70qemvnzhsy7gfdu",
-        "voting_power": "25536",
-        "proposer_priority": "-24396792"
+        "voting_power": "25704",
+        "proposer_priority": "-5959296"
       },
       {
         "address": "cosmosvalcons1nstujnmnzwa56msxg2rmam096wygazz4y6as4g",
         "pub_key": "cosmosvalconspub1zcjduepqxtu8am2qmf0qnglqtvkar9gaclhccfn29tsp7n82vasrtnc8m2fsulp4h2",
-        "voting_power": "3446388",
-        "proposer_priority": "-40138406"
+        "voting_power": "3447110",
+        "proposer_priority": "3634943"
       },
       {
         "address": "cosmosvalcons1n5rmxqwj8328yek4t5dkckncefrn8qap29nhqw",
         "pub_key": "cosmosvalconspub1zcjduepq59t2nm3ph5k6uc804w0n7ey69ul8ntee2dy47d7u53q248ud822sunv93j",
-        "voting_power": "1662138",
-        "proposer_priority": "22815366"
+        "voting_power": "1663087",
+        "proposer_priority": "7787327"
       },
       {
         "address": "cosmosvalcons1nhzqzgyehe6rrzg8fwz7fxy34canlm5m6dm4wg",
         "pub_key": "cosmosvalconspub1zcjduepqarrl0ppddzyczwvcqwf3jwd9qwkhxfy6lcv8ep4msk293mlxg39qgf77y3",
-        "voting_power": "908152",
-        "proposer_priority": "59468622"
+        "voting_power": "908180",
+        "proposer_priority": "-1776312"
       },
       {
         "address": "cosmosvalcons1nhuwxwxgt6rehjztp24z3gytgvdatd2g7kndfm",
         "pub_key": "cosmosvalconspub1zcjduepqfc7vnpgls3an0w2pv60pu4vr30p2dxqlmhmlrdv0m38y3tg689vs5qg4u5",
-        "voting_power": "85929",
-        "proposer_priority": "24181803"
+        "voting_power": "85301",
+        "proposer_priority": "19711705"
       },
       {
         "address": "cosmosvalcons1nc2r2t949y7xqu7kz2q2r9cgt3n53kh6aluuac",
         "pub_key": "cosmosvalconspub1zcjduepqlecm0rrfrr0vfgl624s7su9xvd3ycsaetndeuw2c7us0v8vfyfsq7cqz80",
-        "voting_power": "106861",
-        "proposer_priority": "38309921"
+        "voting_power": "107160",
+        "proposer_priority": "81944381"
       },
       {
         "address": "cosmosvalcons1nm55mwux7u3nwxft72gmpem8l5njnuq274qrz6",
         "pub_key": "cosmosvalconspub1zcjduepqsszd2gzte82dzt0xpa3w0ky8lxhjs6zpd5ft8akmkscwujpftymsnt83qc",
-        "voting_power": "1604977",
-        "proposer_priority": "24508333"
+        "voting_power": "1608310",
+        "proposer_priority": "-72533954"
       },
       {
         "address": "cosmosvalcons15q7uz2xn3kctchcc4cv89uwt9c0agy2h524xk9",
         "pub_key": "cosmosvalconspub1zcjduepqmq2l5ehgl3rxwjgzgr6sgzp69qwjl5ufvtyvacc9ms8p3phazl2qh3ulfw",
-        "voting_power": "44846",
-        "proposer_priority": "-97496460"
+        "voting_power": "44847",
+        "proposer_priority": "25167109"
       },
       {
         "address": "cosmosvalcons15nca2560875stfx6vphg5yyrf9m9z8lheucgef",
         "pub_key": "cosmosvalconspub1zcjduepqqddwwkhkfrsd66u49kg3h6q36t4kv557vlszqaed4c3y936ncq9s0r0tm2",
-        "voting_power": "1575871",
-        "proposer_priority": "-86934476"
+        "voting_power": "1579204",
+        "proposer_priority": "-15994994"
       },
       {
         "address": "cosmosvalcons156f4mpmmjamvgkuka6h9y62e5wu6t2c6ld3frz",
         "pub_key": "cosmosvalconspub1zcjduepqteacnywz7urnac46wtrcy34myyj82j250ny7866yffypdgavae5s0lf4a0",
-        "voting_power": "3685142",
-        "proposer_priority": "-80027041"
+        "voting_power": "3693752",
+        "proposer_priority": "20887983"
       },
       {
         "address": "cosmosvalcons14sk4vptumprktehmuvvf0yynarjy4gv08t64t4",
         "pub_key": "cosmosvalconspub1zcjduepq6fpkt3qn9xd7u44478ypkhrvtx45uhfj3uhdny420hzgsssrvh3qnzwdpe",
-        "voting_power": "12587368",
-        "proposer_priority": "37053829"
+        "voting_power": "12615726",
+        "proposer_priority": "-42497334"
       },
       {
         "address": "cosmosvalcons14jy970hgreldqll8ktsxw3p6s40ej7apnt0rh7",
         "pub_key": "cosmosvalconspub1zcjduepqqaffdhuhdtr0d6nl8twpraxps74q3mxn68qknrex465yd9cc9l0qeh6lkk",
-        "voting_power": "169310",
-        "proposer_priority": "3073056"
+        "voting_power": "169698",
+        "proposer_priority": "30659071"
       },
       {
         "address": "cosmosvalcons1kq9xxgmn0uepav9c6kwxl4yh599kpyu28e7ee6",
         "pub_key": "cosmosvalconspub1zcjduepqwrjpn0slu86e32zfu5xxg8l42uk40guuw6er44vw2yl6s7wc38est6l0ux",
-        "voting_power": "5607724",
-        "proposer_priority": "22159877"
+        "voting_power": "4407938",
+        "proposer_priority": "98113874"
       },
       {
         "address": "cosmosvalcons1kq24y5kh8dlwkaxj4rxgzsuhue5hp2petveuva",
         "pub_key": "cosmosvalconspub1zcjduepqcdav5ylt2zst90qmuh8e5w07xmxv9y6wufp5k9ngzmx7v9qewqtqkcq4z8",
         "voting_power": "654800",
-        "proposer_priority": "71254518"
+        "proposer_priority": "-54537894"
       },
       {
         "address": "cosmosvalcons1kpm95tm0esga3tzxya06cpkaxh65y97pmqgmng",
         "pub_key": "cosmosvalconspub1zcjduepq3f6wnsk6k6qu6g8n5vly4z7ajw7q930wh3qx6zkxhktnh49l40kszf5lry",
-        "voting_power": "930171",
-        "proposer_priority": "26643474"
-      },
-      {
-        "address": "cosmosvalcons1krznwrk5veqc0zqq55vwhqe4us4wsann2l58kd",
-        "pub_key": "cosmosvalconspub1zcjduepqmx0dcpmd9uq7ueck8d880lrt8tp9kvkfmaz0mtv0arye2cda2zrsrlla3n",
-        "voting_power": "10101",
-        "proposer_priority": "-29388887"
+        "voting_power": "893509",
+        "proposer_priority": "-78137661"
       },
       {
         "address": "cosmosvalcons1kyt86pphmwwlp4fnac4vmeypqufehhfw8zucrv",
         "pub_key": "cosmosvalconspub1zcjduepquhlqdhjw4qp2c2t6qh5z7tfk52qc72623f0etc8f3n7hy8uuh25ql34fvu",
-        "voting_power": "9676177",
-        "proposer_priority": "-79149868"
+        "voting_power": "8328035",
+        "proposer_priority": "75951573"
       },
       {
         "address": "cosmosvalcons1k2lk3t2va4h73ac64jkszqp5xm47qu5ll0s5aq",
         "pub_key": "cosmosvalconspub1zcjduepqh3jg5ld5xg5q5mcxrzn6fcuq696qqa3ut3azskphpdrty37ervjqcn8mfj",
-        "voting_power": "10818",
-        "proposer_priority": "-60358754"
+        "voting_power": "13457",
+        "proposer_priority": "-3399523"
       },
       {
         "address": "cosmosvalcons1kdzerkne4tgzzdf5ut53tagduhxmmujs4xx79v",
         "pub_key": "cosmosvalconspub1zcjduepqnd9kzfhhvuv5k2cq62yu0e5v73ymsgxa0wlen9c7999ucwg7hg6qdm34pm",
-        "voting_power": "576087",
-        "proposer_priority": "87881822"
+        "voting_power": "576088",
+        "proposer_priority": "-7285262"
       },
       {
         "address": "cosmosvalcons1kjvee4f4unxn9dvsh668qg98yn6qke09p5ngx5",
         "pub_key": "cosmosvalconspub1zcjduepqf8llkc4p43lksktsqzr5nmgmw4ln9pzym2vp4kqfrny8xrgnqrsq76djjc",
-        "voting_power": "939793",
-        "proposer_priority": "-19757784"
+        "voting_power": "964096",
+        "proposer_priority": "2487080"
       },
       {
         "address": "cosmosvalcons1knssshcun6asa2v5g5ktrwqjfw5fhmg686lfzr",
         "pub_key": "cosmosvalconspub1zcjduepqlzmd0spn9m0m3eq9zp93d4w6e5tugamv44yqjzyacelnvra634fqnfec0r",
         "voting_power": "1079735",
-        "proposer_priority": "57019833"
+        "proposer_priority": "-32861208"
       },
       {
         "address": "cosmosvalcons1k4p60h6g0q9wlm6e8gqre5rqkkfufe44q2mfsa",
         "pub_key": "cosmosvalconspub1zcjduepq9ge7uqrfp9qkdapzd29tjtwrqpt2mm9meptx395ygxgm40tdc8ysrzj40a",
-        "voting_power": "441657",
-        "proposer_priority": "-75133307"
+        "voting_power": "441688",
+        "proposer_priority": "42639763"
       },
       {
         "address": "cosmosvalcons1kcd2gxvsn9tr2j39ufkaaygrknq6f4w2nv6xm5",
         "pub_key": "cosmosvalconspub1zcjduepqtm62lxg8hm4tcnqvgk69xs6egltfsq9w6ed3cmq73jjgd3avslvq9d0sy9",
         "voting_power": "95001",
-        "proposer_priority": "24291258"
+        "proposer_priority": "4325867"
       },
       {
         "address": "cosmosvalcons1kmtnvrp878wrdhvmlnerqda73vzy9ysfhmm90x",
         "pub_key": "cosmosvalconspub1zcjduepq2hfnf0rvk6nksvtzkqly4vy362sencfkt7tgsrvx30krj5vxw0asa7hmjh",
-        "voting_power": "371389",
-        "proposer_priority": "60709918"
+        "voting_power": "385503",
+        "proposer_priority": "72897834"
       },
       {
         "address": "cosmosvalcons1kujvm2nf53aepvvdp6nl6kcyd4fhmfj29ghyzm",
         "pub_key": "cosmosvalconspub1zcjduepqghz45rfwczrvwl7u2xsm8dpamqg8gtzej66dtn57ax99g59klpfsm3yxyu",
-        "voting_power": "16466",
-        "proposer_priority": "-76060004"
+        "voting_power": "16536",
+        "proposer_priority": "-34469199"
       },
       {
         "address": "cosmosvalcons1htpn7dq0xjth28cjfp50qj0v96ynptp0s0hclt",
         "pub_key": "cosmosvalconspub1zcjduepq7jsrkl9fgqk0wj3ahmfr8pgxj6vakj2wzn656s8pehh0zhv2w5as5gd80a",
-        "voting_power": "2133849",
-        "proposer_priority": "-33516575"
+        "voting_power": "1938384",
+        "proposer_priority": "9679920"
       },
       {
         "address": "cosmosvalcons1haxtf4var829rn6700zfxjwlf23z94utgygkd7",
         "pub_key": "cosmosvalconspub1zcjduepq0zyaquh6c8vmjfzft43uqylf2ejjpjcvup2zrtsk40uyz8xsq29s0k4eaw",
         "voting_power": "353702",
-        "proposer_priority": "58009142"
+        "proposer_priority": "27831459"
       },
       {
         "address": "cosmosvalcons1cg6kvg45j4e9jcd4kgq68qka2lxnxp0vddkz6t",
         "pub_key": "cosmosvalconspub1zcjduepq5kg8xls9l35ftulkm2rt70hexeeyr5cqqkcv4h7936z5uasvvazqla8eck",
-        "voting_power": "5144547",
-        "proposer_priority": "-18491027"
+        "voting_power": "5226609",
+        "proposer_priority": "-27023519"
       },
       {
         "address": "cosmosvalcons1ctwajuqv7h0vq3tacs3c9xe3a28af7w5cpvj7z",
         "pub_key": "cosmosvalconspub1zcjduepqz83dmnt4g6w0w6syrf433mwpk86zejxnq6e336xtxd8pg9jtxkgq732tpu",
-        "voting_power": "331721",
-        "proposer_priority": "38256249"
+        "voting_power": "331765",
+        "proposer_priority": "24016569"
       },
       {
         "address": "cosmosvalcons1cjgry2deat2pt3u737nf62a6vytkzlzpglpxkc",
         "pub_key": "cosmosvalconspub1zcjduepq6740f8r23xr74w94l5ew9fh6n8wquutgm22pw6yyrydq507mgdkqghsjtd",
-        "voting_power": "89466",
-        "proposer_priority": "-25919598"
+        "voting_power": "89838",
+        "proposer_priority": "5195448"
       },
       {
         "address": "cosmosvalcons1c54vmveq2l6uwvdmm4yyvzuncdgqm5eylrg0af",
         "pub_key": "cosmosvalconspub1zcjduepqjcp9ez3dzmvsdfcw2h5kllmqvjgqnhtlvhad4q9wzcqf34gf6ewq6zl5mm",
-        "voting_power": "731468",
-        "proposer_priority": "-10903667"
+        "voting_power": "729480",
+        "proposer_priority": "-21896568"
       },
       {
         "address": "cosmosvalcons1efnfda07v6jgp0epgcp3n05hnycg2twspd2nej",
         "pub_key": "cosmosvalconspub1zcjduepqc5y2du793cjut0cn6v7thp3xlvphggk6rt2dhw9ekjla5wtkm7nstmv5vy",
         "voting_power": "520172",
-        "proposer_priority": "68655288"
+        "proposer_priority": "-60851318"
       },
       {
         "address": "cosmosvalcons1eszcs2tcl30a66nhy958u9xq9xdwqp9c65dnm6",
         "pub_key": "cosmosvalconspub1zcjduepq04y0dtylyed2f8drc9t78dmptfuta7l6xyujwmsgrqefs0sxpgjsnzpsj6",
-        "voting_power": "4104969",
-        "proposer_priority": "67369081"
+        "voting_power": "4105199",
+        "proposer_priority": "-359385"
       },
       {
         "address": "cosmosvalcons1ejrl266cvgvprc4453ln33skdc54ecmwjdyr4d",
         "pub_key": "cosmosvalconspub1zcjduepqqhkzzgfc876q287ny2v9lqwmjpenuzkzlsnstrmg7krwrrf0pfqs9fxvs0",
-        "voting_power": "18037",
-        "proposer_priority": "-40073995"
+        "voting_power": "178135",
+        "proposer_priority": "-52435996"
       },
       {
         "address": "cosmosvalcons16999gt582mp6jskelky88hpwnfme3gtlaaat0s",
         "pub_key": "cosmosvalconspub1zcjduepqvmmhug9hcmm26ce7we0n3esavn4c6tfcfd6zgnuj732ls7khjq4srpg0ft",
-        "voting_power": "1177445",
-        "proposer_priority": "-8813532"
+        "voting_power": "1177815",
+        "proposer_priority": "-46009430"
       },
       {
         "address": "cosmosvalcons160afge0dj6ms096h94xcxeutcf5e2cxp8eu4gp",
         "pub_key": "cosmosvalconspub1zcjduepq0jhujmf2ur4uk7al8pht6rpxwf7a24gqmhggeche0w09fglj9tmss4a0ql",
-        "voting_power": "12203",
-        "proposer_priority": "18264635"
+        "voting_power": "12714",
+        "proposer_priority": "-43538489"
       },
       {
         "address": "cosmosvalcons164q2kq3q3psj436t9p7swmdlh39rw73wpy6qx6",
         "pub_key": "cosmosvalconspub1zcjduepqfahazsjeru5wqulfuzklmkh272ggss2ru6fk00zq2fmlfzcq773sqlqe42",
-        "voting_power": "1133492",
-        "proposer_priority": "75164252"
+        "voting_power": "1134032",
+        "proposer_priority": "-51372549"
       },
       {
         "address": "cosmosvalcons16lmu09y8cy99eudtavwmmq0g6jt403pz97zaxp",
         "pub_key": "cosmosvalconspub1zcjduepqd4hvh0rwfkhtwrj4ly3ptyxs8pyfaser57wx2tcnzzp0rlref90sxm5kwr",
-        "voting_power": "412391",
-        "proposer_priority": "-22386461"
+        "voting_power": "412446",
+        "proposer_priority": "54053455"
       },
       {
         "address": "cosmosvalcons1mrctah5360lymkp8vx2fn6a9emx8dl3p030s8e",
         "pub_key": "cosmosvalconspub1zcjduepq9t4r8jgr09rsscgacnaklxuf55pg0wq5zfwzw8ycawms5x0hrfhqks3dpe",
-        "voting_power": "28096",
-        "proposer_priority": "-43527303"
+        "voting_power": "27851",
+        "proposer_priority": "-4216845"
       },
       {
         "address": "cosmosvalcons1m8u2gxmc92n2v6kus8u48y3u0h88kcqp69cr3a",
         "pub_key": "cosmosvalconspub1zcjduepqnltddase4lqjcfhup8ymg0qex3srakg54ppv06pstvwdjxkm6tmq08znvs",
-        "voting_power": "4534196",
-        "proposer_priority": "-59232010"
+        "voting_power": "4538258",
+        "proposer_priority": "-69569858"
       },
       {
         "address": "cosmosvalcons1mf42422ee8hc3gltx7clzp7tyen7hw4t3vnmw0",
         "pub_key": "cosmosvalconspub1zcjduepq9xu9z6ky3nz3k544ar4zhupjehkxdlpmt2l90kekxkrvuu7hxfgslcdqwy",
-        "voting_power": "2929302",
-        "proposer_priority": "-79497609"
+        "voting_power": "2921280",
+        "proposer_priority": "11471548"
       },
       {
         "address": "cosmosvalcons1u63cqxfxh30cxasuft0csf3l3qv4lh2mm4c3rk",
         "pub_key": "cosmosvalconspub1zcjduepq4hwm4ev9d9cmg4v5sqkscmsy6g0qnhrskmhgacjux2l35lulfg8svx5ywk",
-        "voting_power": "13035",
-        "proposer_priority": "-55788455"
+        "voting_power": "13107",
+        "proposer_priority": "-1636036"
       },
       {
         "address": "cosmosvalcons1aqq8grrgeqdnqdzu8t3t5cu054hlvlh062nhqx",
         "pub_key": "cosmosvalconspub1zcjduepqhm6gjjkwecqyfrgey96s5up7drnspnl4t3rdr79grklkg9ff6zaqnfl2dg",
-        "voting_power": "2072729",
-        "proposer_priority": "-13066903"
+        "voting_power": "2073654",
+        "proposer_priority": "-63548959"
       },
       {
         "address": "cosmosvalcons1aqalcsmd9n5dej0vqkym9edhxh3hlwzujn0tn7",
         "pub_key": "cosmosvalconspub1zcjduepqlsvqw4vacnv2qtwxmm8tq32lrcdhau3szqxevrrzy8u0jvwz69pqphnkzk",
-        "voting_power": "163473",
-        "proposer_priority": "74601295"
+        "voting_power": "164573",
+        "proposer_priority": "-47684776"
       },
       {
         "address": "cosmosvalcons1avwlyfg8k7wwwq8cd3xgky7hmuqalk5ud6acax",
         "pub_key": "cosmosvalconspub1zcjduepqft6uxfmfjjce0p7ke4h0zc38x4d9d38wlmrgcc47flru92qq3ydq76mrsf",
-        "voting_power": "87864",
-        "proposer_priority": "44788680"
+        "voting_power": "87932",
+        "proposer_priority": "3020229"
       },
       {
         "address": "cosmosvalcons1a0kkjnnvuy3ylv0g5twcae368ptgk83tyalw6t",
         "pub_key": "cosmosvalconspub1zcjduepqelcwpat987h9yq0ck6g9fsc8t0mththk547gwvk0w4wnkpl0stnspr3hdc",
-        "voting_power": "1655592",
-        "proposer_priority": "23201206"
+        "voting_power": "1662463",
+        "proposer_priority": "-75984067"
       },
       {
         "address": "cosmosvalcons1a4gfu7qf0cfsd2glah5wskm46p4amahrjvtw2p",
         "pub_key": "cosmosvalconspub1zcjduepq9kun5ty55rl3lnmf46tfxhj06as8h7zpxcdhujm6d708ffn6kgss43q6u9",
-        "voting_power": "5856297",
-        "proposer_priority": "57131303"
+        "voting_power": "5856312",
+        "proposer_priority": "23223738"
       },
       {
         "address": "cosmosvalcons1aee6r9636kx9aszycy0rldawdpdpp5kpdm0yux",
         "pub_key": "cosmosvalconspub1zcjduepqjnnwe2jsywv0kfc97pz04zkm7tc9k2437cde2my3y5js9t7cw9mstfg3sa",
-        "voting_power": "2271615",
-        "proposer_priority": "20394903"
+        "voting_power": "2279890",
+        "proposer_priority": "-14194595"
       },
       {
         "address": "cosmosvalcons17n9tgyx724nakgpm64kxjnah34yzg7dp63zp5e",
         "pub_key": "cosmosvalconspub1zcjduepqvc5xdrpvduse3fc084s56n4a6dhzudyzjmywjx25fkgw2fhsj70searwgy",
-        "voting_power": "1565591",
-        "proposer_priority": "47796551"
+        "voting_power": "1586745",
+        "proposer_priority": "91111222"
       },
       {
         "address": "cosmosvalcons174t3gfpaxtaktdketg5aqdgw5r9th282zhjnqk",
         "pub_key": "cosmosvalconspub1zcjduepqmy5ja8dee3sprtmxkekcuvwz20y2x9d6llcsjl6p6553rpqev0eql6qccf",
-        "voting_power": "109295",
-        "proposer_priority": "-9548565"
+        "voting_power": "109294",
+        "proposer_priority": "28069638"
       },
       {
         "address": "cosmosvalcons17ktnf2yk5a5fgd4uxs3zgn7cv2hp38zuw8j35e",
         "pub_key": "cosmosvalconspub1zcjduepqgx5wxl6eygqf6rx4gura2dy5vzelthjgqntk7q9l2hnpjqam6atsq8u0lx",
-        "voting_power": "104806",
-        "proposer_priority": "-9518707"
+        "voting_power": "372123",
+        "proposer_priority": "-80904836"
       },
       {
         "address": "cosmosvalcons1lrqpcp5p2792wqxhxmt8tjveypjlvh378gkddu",
         "pub_key": "cosmosvalconspub1zcjduepqxjkll4nxla8gtekx2ueq3tc8vv4e6rn79jmdead30jeqlm3kc7eqqx7hs8",
-        "voting_power": "11228",
-        "proposer_priority": "-60550466"
+        "voting_power": "272566",
+        "proposer_priority": "-42935527"
       },
       {
         "address": "cosmosvalcons1lyveqfcfkayz7qwqxr5t27le8wxcwppmjn39zm",
         "pub_key": "cosmosvalconspub1zcjduepqfkkyuexns2l7rw2mx2ms988heah0rjv42e9q88scc3ms5hzg45psycrvr4",
-        "voting_power": "727981",
-        "proposer_priority": "-5464870"
+        "voting_power": "717981",
+        "proposer_priority": "19906482"
       },
       {
         "address": "cosmosvalcons1lg89m7kvmnm5j4a8gg2yle2mucw5xvmhtyqp6f",
         "pub_key": "cosmosvalconspub1zcjduepqfgpyq4xk4s96ksmkfrr7juea9kmdxkl5ht94xgpxe240743u9cvsht489p",
-        "voting_power": "900503",
-        "proposer_priority": "57999631"
+        "voting_power": "901023",
+        "proposer_priority": "-79873870"
       },
       {
         "address": "cosmosvalcons1l4w4fcxeu3mgl6jvphlaez06j6mx2lej9yhszt",
         "pub_key": "cosmosvalconspub1zcjduepqay5ldqdmyzy9qfr93enxmm7cwsd5aafz6huqvczytqahpw4twa8qvtrwhv",
-        "voting_power": "568693",
-        "proposer_priority": "9458273"
+        "voting_power": "568598",
+        "proposer_priority": "26026028"
       }
     ]
   }

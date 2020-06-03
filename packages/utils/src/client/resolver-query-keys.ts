@@ -19,7 +19,6 @@ export default [
   "distributionCommunityPool",
   "distributionParameters",
   "prices",
-  "coins",
   "fiatPriceHistory",
   "dailyPercentChange",
   "fiatCurrencies",

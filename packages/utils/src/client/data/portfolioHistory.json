@@ -4,57 +4,9 @@
       {
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "denom": "uatom",
-        "balance": "500000000",
-        "height": 0,
-        "timestamp": "2019-03-13T15:00:00.000Z",
-        "chain": "cosmoshub-1"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "490000000",
-        "height": 87294,
-        "timestamp": "2019-03-20T10:45:53.000Z",
-        "chain": "cosmoshub-1"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
         "balance": "488000000",
         "height": 87997,
         "timestamp": "2019-03-20T12:06:39.000Z",
-        "chain": "cosmoshub-1"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "1818060730",
-        "height": 97812,
-        "timestamp": "2019-03-21T06:57:00.000Z",
-        "chain": "cosmoshub-1"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "818094514",
-        "height": 98087,
-        "timestamp": "2019-03-21T07:28:47.000Z",
-        "chain": "cosmoshub-1"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "818094514",
-        "height": 98409,
-        "timestamp": "2019-03-21T08:05:59.000Z",
-        "chain": "cosmoshub-1"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "819985896",
-        "height": 100111,
-        "timestamp": "2019-03-21T11:22:30.000Z",
         "chain": "cosmoshub-1"
       },
       {
@@ -92,22 +44,6 @@
       {
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "denom": "uatom",
-        "balance": "801985896",
-        "height": 273736,
-        "timestamp": "2019-04-04T08:46:56.000Z",
-        "chain": "cosmoshub-1"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "3673053051",
-        "height": 273777,
-        "timestamp": "2019-04-04T08:51:38.000Z",
-        "chain": "cosmoshub-1"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
         "balance": "73055471",
         "height": 273801,
         "timestamp": "2019-04-04T08:54:23.000Z",
@@ -124,25 +60,9 @@
       {
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "denom": "uatom",
-        "balance": "5314478656",
-        "height": 0,
-        "timestamp": "2019-04-22T09:00:00.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
         "balance": "5407838517",
         "height": 3061,
         "timestamp": "2019-04-22T14:51:15.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "5405837543",
-        "height": 13945,
-        "timestamp": "2019-04-23T11:33:00.000Z",
         "chain": "cosmoshub-2"
       },
       {
@@ -156,33 +76,9 @@
       {
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "denom": "uatom",
-        "balance": "108351306",
-        "height": 74152,
-        "timestamp": "2019-04-28T05:57:52.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "2347232450",
-        "height": 74598,
-        "timestamp": "2019-04-28T06:48:48.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
         "balance": "7235924",
         "height": 74619,
         "timestamp": "2019-04-28T06:51:13.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "7232174",
-        "height": 189420,
-        "timestamp": "2019-05-07T09:27:39.000Z",
         "chain": "cosmoshub-2"
       },
       {
@@ -252,46 +148,6 @@
       {
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "denom": "uatom",
-        "balance": "2949621752",
-        "height": 966740,
-        "timestamp": "2019-07-08T10:50:51.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "2769616752",
-        "height": 966808,
-        "timestamp": "2019-07-08T10:58:40.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "2629611752",
-        "height": 967462,
-        "timestamp": "2019-07-08T12:13:54.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "2539606752",
-        "height": 967481,
-        "timestamp": "2019-07-08T12:16:06.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "2239601752",
-        "height": 967499,
-        "timestamp": "2019-07-08T12:18:13.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
         "balance": "2239600252",
         "height": 968141,
         "timestamp": "2019-07-08T13:32:02.000Z",
@@ -316,14 +172,6 @@
       {
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "denom": "uatom",
-        "balance": "10009817114",
-        "height": 1264415,
-        "timestamp": "2019-08-01T08:08:47.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
         "balance": "10009816561",
         "height": 1264469,
         "timestamp": "2019-08-01T08:15:02.000Z",
@@ -335,14 +183,6 @@
         "balance": "11009816561",
         "height": 1339049,
         "timestamp": "2019-08-07T08:14:02.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "7625811561",
-        "height": 1349664,
-        "timestamp": "2019-08-08T04:45:03.000Z",
         "chain": "cosmoshub-2"
       },
       {
@@ -396,46 +236,6 @@
       {
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "denom": "uatom",
-        "balance": "9080635166",
-        "height": 1711146,
-        "timestamp": "2019-09-06T07:09:06.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "8985380166",
-        "height": 1714781,
-        "timestamp": "2019-09-06T14:13:34.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "8890125166",
-        "height": 1714806,
-        "timestamp": "2019-09-06T14:16:28.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "8794870166",
-        "height": 1714820,
-        "timestamp": "2019-09-06T14:18:07.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "8699615166",
-        "height": 1714832,
-        "timestamp": "2019-09-06T14:19:30.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
         "balance": "8604360166",
         "height": 1714853,
         "timestamp": "2019-09-06T14:21:57.000Z",
@@ -455,22 +255,6 @@
         "balance": "8572603666",
         "height": 1946233,
         "timestamp": "2019-09-25T07:50:24.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "8844336937",
-        "height": 2479818,
-        "timestamp": "2019-11-07T08:26:31.000Z",
-        "chain": "cosmoshub-2"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "14845775028",
-        "height": 2479955,
-        "timestamp": "2019-11-07T08:42:21.000Z",
         "chain": "cosmoshub-2"
       },
       {
@@ -503,14 +287,6 @@
         "balance": "3472948167",
         "height": 153656,
         "timestamp": "2019-12-23T18:54:57.000Z",
-        "chain": "cosmoshub-3"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "3472944417",
-        "height": 428191,
-        "timestamp": "2020-01-15T07:06:44.000Z",
         "chain": "cosmoshub-3"
       },
       {
@@ -556,49 +332,9 @@
       {
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "denom": "uatom",
-        "balance": "1852035816",
-        "height": 927443,
-        "timestamp": "2020-02-25T09:43:57.000Z",
-        "chain": "cosmoshub-3"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "1852050936",
-        "height": 927494,
-        "timestamp": "2020-02-25T09:50:07.000Z",
-        "chain": "cosmoshub-3"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "1852062343",
-        "height": 927532,
-        "timestamp": "2020-02-25T09:54:38.000Z",
-        "chain": "cosmoshub-3"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
         "balance": "1852145615",
         "height": 927808,
         "timestamp": "2020-02-25T10:27:35.000Z",
-        "chain": "cosmoshub-3"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "2115126159",
-        "height": 962904,
-        "timestamp": "2020-02-28T08:18:14.000Z",
-        "chain": "cosmoshub-3"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "2114126159",
-        "height": 963378,
-        "timestamp": "2020-02-28T09:14:41.000Z",
         "chain": "cosmoshub-3"
       },
       {
@@ -612,22 +348,6 @@
       {
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "denom": "uatom",
-        "balance": "14126160",
-        "height": 1180678,
-        "timestamp": "2020-03-17T09:50:10.000Z",
-        "chain": "cosmoshub-3"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
-        "balance": "15126160",
-        "height": 1180715,
-        "timestamp": "2020-03-17T09:54:39.000Z",
-        "chain": "cosmoshub-3"
-      },
-      {
-        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-        "denom": "uatom",
         "balance": "11755126160",
         "height": 1180988,
         "timestamp": "2020-03-17T10:27:41.000Z",
@@ -636,17 +356,25 @@
       {
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "denom": "uatom",
-        "balance": "13949592170",
-        "height": 1263369,
-        "timestamp": "2020-03-24T07:23:27.000Z",
+        "balance": "348592170",
+        "height": 1263640,
+        "timestamp": "2020-03-24T07:55:57.000Z",
         "chain": "cosmoshub-3"
       },
       {
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "denom": "uatom",
-        "balance": "348592170",
-        "height": 1263640,
-        "timestamp": "2020-03-24T07:55:57.000Z",
+        "balance": "348588595",
+        "height": 1944644,
+        "timestamp": "2020-05-19T06:05:12.000Z",
+        "chain": "cosmoshub-3"
+      },
+      {
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "denom": "uatom",
+        "balance": "348585020",
+        "height": 2068708,
+        "timestamp": "2020-05-29T10:44:55.000Z",
         "chain": "cosmoshub-3"
       }
     ],
@@ -3672,6 +3400,186 @@
         "height": 1925378,
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "timestamp": "2020-05-17T16:00:03.000Z"
+      },
+      {
+        "balance": "60763365",
+        "height": 1932307,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-18T05:44:22.000Z"
+      },
+      {
+        "balance": "61238761",
+        "height": 1937496,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-18T16:00:02.000Z"
+      },
+      {
+        "balance": "62351428",
+        "height": 1949671,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-19T16:00:02.000Z"
+      },
+      {
+        "balance": "63462509",
+        "height": 1961831,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-20T16:00:01.000Z"
+      },
+      {
+        "balance": "64575571",
+        "height": 1974005,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-21T16:00:03.000Z"
+      },
+      {
+        "balance": "64587437",
+        "height": 1974135,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-21T16:15:26.000Z"
+      },
+      {
+        "balance": "65694732",
+        "height": 1986190,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-22T16:00:02.000Z"
+      },
+      {
+        "balance": "66099937",
+        "height": 1990675,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-23T00:55:14.000Z"
+      },
+      {
+        "balance": "66803138",
+        "height": 1998319,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-23T16:00:04.000Z"
+      },
+      {
+        "balance": "67218555",
+        "height": 2002834,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-24T00:55:21.000Z"
+      },
+      {
+        "balance": "67919685",
+        "height": 2010455,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-24T16:00:02.000Z"
+      },
+      {
+        "balance": "68531813",
+        "height": 2017110,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-25T05:08:46.000Z"
+      },
+      {
+        "balance": "69041780",
+        "height": 2022609,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-25T16:00:04.000Z"
+      },
+      {
+        "balance": "69856282",
+        "height": 2031393,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-26T09:20:22.000Z"
+      },
+      {
+        "balance": "70169612",
+        "height": 2034770,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-26T16:00:06.000Z"
+      },
+      {
+        "balance": "70262496",
+        "height": 2035773,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-26T17:58:33.000Z"
+      },
+      {
+        "balance": "71301167",
+        "height": 2046969,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-27T16:00:01.000Z"
+      },
+      {
+        "balance": "71602224",
+        "height": 2050214,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-27T22:22:45.000Z"
+      },
+      {
+        "balance": "72433119",
+        "height": 2059179,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-28T16:00:05.000Z"
+      },
+      {
+        "balance": "72692005",
+        "height": 2061973,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-28T21:29:41.000Z"
+      },
+      {
+        "balance": "73190607",
+        "height": 2067355,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-29T08:05:10.000Z"
+      },
+      {
+        "balance": "73563300",
+        "height": 2071377,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-29T16:00:01.000Z"
+      },
+      {
+        "balance": "74328415",
+        "height": 2079634,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-30T08:15:10.000Z"
+      },
+      {
+        "balance": "74693438",
+        "height": 2083575,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-30T16:00:01.000Z"
+      },
+      {
+        "balance": "75647728",
+        "height": 2093879,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-31T12:15:39.000Z"
+      },
+      {
+        "balance": "75823617",
+        "height": 2095778,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-05-31T16:00:01.000Z"
+      },
+      {
+        "balance": "76950064",
+        "height": 2107951,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-06-01T16:00:02.000Z"
+      },
+      {
+        "balance": "77064144",
+        "height": 2109188,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-06-01T18:26:35.000Z"
+      },
+      {
+        "balance": "77214348",
+        "height": 2110815,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-06-01T21:39:10.000Z"
+      },
+      {
+        "balance": "78071551",
+        "height": 2120104,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-06-02T16:00:03.000Z"
       }
     ],
     "validatorCommissions": [
@@ -6458,6 +6366,186 @@
         "height": 1925378,
         "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
         "timestamp": "2020-05-17T16:00:03.000Z"
+      },
+      {
+        "balance": "4719311464",
+        "height": 1932307,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-18T05:44:22.000Z"
+      },
+      {
+        "balance": "4755900025",
+        "height": 1937496,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-18T16:00:02.000Z"
+      },
+      {
+        "balance": "4841535667",
+        "height": 1949671,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-19T16:00:02.000Z"
+      },
+      {
+        "balance": "4927049615",
+        "height": 1961831,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-20T16:00:01.000Z"
+      },
+      {
+        "balance": "5012722258",
+        "height": 1974005,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-21T16:00:03.000Z"
+      },
+      {
+        "balance": "5013635546",
+        "height": 1974135,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-21T16:15:26.000Z"
+      },
+      {
+        "balance": "5098864864",
+        "height": 1986190,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-22T16:00:02.000Z"
+      },
+      {
+        "balance": "5130281110",
+        "height": 1990675,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-23T00:55:14.000Z"
+      },
+      {
+        "balance": "5184852387",
+        "height": 1998319,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-23T16:00:04.000Z"
+      },
+      {
+        "balance": "5217090368",
+        "height": 2002834,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-24T00:55:21.000Z"
+      },
+      {
+        "balance": "5271500992",
+        "height": 2010455,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-24T16:00:02.000Z"
+      },
+      {
+        "balance": "5319004563",
+        "height": 2017110,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-25T05:08:46.000Z"
+      },
+      {
+        "balance": "5358580144",
+        "height": 2022609,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-25T16:00:04.000Z"
+      },
+      {
+        "balance": "5421788870",
+        "height": 2031393,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-26T09:20:22.000Z"
+      },
+      {
+        "balance": "5446104571",
+        "height": 2034770,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-26T16:00:06.000Z"
+      },
+      {
+        "balance": "5453312805",
+        "height": 2035773,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-26T17:58:33.000Z"
+      },
+      {
+        "balance": "5533928260",
+        "height": 2046969,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-27T16:00:01.000Z"
+      },
+      {
+        "balance": "5557305087",
+        "height": 2050214,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-27T22:22:45.000Z"
+      },
+      {
+        "balance": "5621823517",
+        "height": 2059179,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-28T16:00:05.000Z"
+      },
+      {
+        "balance": "5641925735",
+        "height": 2061973,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-28T21:29:41.000Z"
+      },
+      {
+        "balance": "5680640855",
+        "height": 2067355,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-29T08:05:10.000Z"
+      },
+      {
+        "balance": "5709579830",
+        "height": 2071377,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-29T16:00:01.000Z"
+      },
+      {
+        "balance": "5768990653",
+        "height": 2079634,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-30T08:15:10.000Z"
+      },
+      {
+        "balance": "5797334332",
+        "height": 2083575,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-30T16:00:01.000Z"
+      },
+      {
+        "balance": "5871434234",
+        "height": 2093879,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-31T12:15:39.000Z"
+      },
+      {
+        "balance": "5885092058",
+        "height": 2095778,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-05-31T16:00:01.000Z"
+      },
+      {
+        "balance": "5972560800",
+        "height": 2107951,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-06-01T16:00:02.000Z"
+      },
+      {
+        "balance": "5981419136",
+        "height": 2109188,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-06-01T18:26:35.000Z"
+      },
+      {
+        "balance": "5993082437",
+        "height": 2110815,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-06-01T21:39:10.000Z"
+      },
+      {
+        "balance": "6059644510",
+        "height": 2120104,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-06-02T16:00:03.000Z"
       }
     ],
     "fiatPriceHistory": [
@@ -6917,7 +7005,20 @@
       { "price": 2.5797499999999998, "timestamp": "2020-05-18T00:00:00.000Z" },
       { "price": 2.59025, "timestamp": "2020-05-19T00:00:00.000Z" },
       { "price": 2.6455, "timestamp": "2020-05-20T00:00:00.000Z" },
-      { "price": 2.6617499999999996, "timestamp": "2020-05-21T00:00:00.000Z" }
+      { "price": 2.59725, "timestamp": "2020-05-21T00:00:00.000Z" },
+      { "price": 2.5785, "timestamp": "2020-05-22T00:00:00.000Z" },
+      { "price": 2.6232499999999996, "timestamp": "2020-05-23T00:00:00.000Z" },
+      { "price": 2.56375, "timestamp": "2020-05-24T00:00:00.000Z" },
+      { "price": 2.5477499999999997, "timestamp": "2020-05-25T00:00:00.000Z" },
+      { "price": 2.5852500000000003, "timestamp": "2020-05-26T00:00:00.000Z" },
+      { "price": 2.61325, "timestamp": "2020-05-27T00:00:00.000Z" },
+      { "price": 2.6319999999999997, "timestamp": "2020-05-28T00:00:00.000Z" },
+      { "price": 2.6695, "timestamp": "2020-05-29T00:00:00.000Z" },
+      { "price": 2.7390000000000003, "timestamp": "2020-05-30T00:00:00.000Z" },
+      { "price": 2.78125, "timestamp": "2020-05-31T00:00:00.000Z" },
+      { "price": 2.79, "timestamp": "2020-06-01T00:00:00.000Z" },
+      { "price": 2.793, "timestamp": "2020-06-02T00:00:00.000Z" },
+      { "price": 2.7640000000000002, "timestamp": "2020-06-03T00:00:00.000Z" }
     ]
   }
 }

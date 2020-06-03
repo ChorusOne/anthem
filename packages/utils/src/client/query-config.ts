@@ -33,10 +33,10 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   {
     variables: {
       fiat: "USD",
-      crypto: "atom",
+      currency: "ATOM",
     },
     test: (s: string) => {
-      return s.includes("$crypto") && s.includes("$fiat");
+      return s.includes("$currency") && s.includes("$fiat");
     },
   },
   {
@@ -82,8 +82,8 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   },
   {
     variables: {
-      currency: "cosmos",
-      versus: "usd",
+      versus: "USD",
+      currency: "ATOM",
     },
     test: (s: string) => s.includes("$currency") && s.includes("$versus"),
   },
