@@ -326,6 +326,15 @@ export interface IOasisAccountBalancesType {
   oasis: IOasisAccountBalances;
 }
 
+export interface IOasisAccountHistory {
+   __typename?: "OasisAccountHistory";
+  height: Scalars["String"];
+  address: Scalars["String"];
+  balance: Scalars["String"];
+  meta: IOasisAccountMeta;
+  delegations: Maybe<IOasisDelegation[]>;
+}
+
 export interface IOasisAccountMeta {
    __typename?: "OasisAccountMeta";
   is_validator: Scalars["Boolean"];
@@ -557,6 +566,7 @@ export interface IQuery {
   fiatCurrencies: IFiatCurrency[];
   prices: IPrice;
   /** Oasis APIs */
+  oasisAccountHistory: IOasisAccountHistory[];
   oasisTransactions: IOasisTransactionResult;
   /** Celo APIs */
   celoAccountHistory: ICeloAccountSnapshot[];
@@ -656,6 +666,11 @@ export interface IQueryDistributionParametersArgs {
 export interface IQueryPricesArgs {
   currency: Scalars["String"];
   versus: Scalars["String"];
+}
+
+export interface IQueryOasisAccountHistoryArgs {
+  address: Scalars["String"];
+  fiat: Scalars["String"];
 }
 
 export interface IQueryOasisTransactionsArgs {
@@ -1185,6 +1200,26 @@ export type ILatestBlockQuery = (
       ) }
     ) }
   ) }
+);
+
+export interface IOasisAccountHistoryQueryVariables {
+  address: Scalars["String"];
+  fiat: Scalars["String"];
+}
+
+export type IOasisAccountHistoryQuery = (
+  { __typename?: "Query" }
+  & { oasisAccountHistory: Array<(
+    { __typename?: "OasisAccountHistory" }
+    & Pick<IOasisAccountHistory, "height" | "address" | "balance">
+    & { meta: (
+      { __typename?: "OasisAccountMeta" }
+      & Pick<IOasisAccountMeta, "is_validator" | "is_delegator">
+    ), delegations: Maybe<Array<(
+      { __typename?: "OasisDelegation" }
+      & Pick<IOasisDelegation, "delegator" | "validator" | "amount">
+    )>> }
+  )> }
 );
 
 export interface IOasisTransactionsQueryVariables {
@@ -2488,6 +2523,68 @@ export function useLatestBlockLazyQuery(baseOptions?: ApolloReactHooks.LazyQuery
 export type LatestBlockQueryHookResult = ReturnType<typeof useLatestBlockQuery>;
 export type LatestBlockLazyQueryHookResult = ReturnType<typeof useLatestBlockLazyQuery>;
 export type LatestBlockQueryResult = ApolloReactCommon.QueryResult<ILatestBlockQuery, ILatestBlockQueryVariables>;
+export const OasisAccountHistoryDocument = gql`
+    query oasisAccountHistory($address: String!, $fiat: String!) {
+  oasisAccountHistory(address: $address, fiat: $fiat) {
+    height
+    address
+    balance
+    meta {
+      is_validator
+      is_delegator
+    }
+    delegations {
+      delegator
+      validator
+      amount
+    }
+  }
+}
+    `;
+export type OasisAccountHistoryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IOasisAccountHistoryQuery, IOasisAccountHistoryQueryVariables>, "query"> & ({ variables: IOasisAccountHistoryQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+export const OasisAccountHistoryComponent = (props: OasisAccountHistoryComponentProps) => (
+      <ApolloReactComponents.Query<IOasisAccountHistoryQuery, IOasisAccountHistoryQueryVariables> query={OasisAccountHistoryDocument} {...props} />
+    );
+
+export type IOasisAccountHistoryProps<TChildProps = {}> = ApolloReactHoc.DataProps<IOasisAccountHistoryQuery, IOasisAccountHistoryQueryVariables> & TChildProps;
+export function withOasisAccountHistory<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  IOasisAccountHistoryQuery,
+  IOasisAccountHistoryQueryVariables,
+  IOasisAccountHistoryProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, IOasisAccountHistoryQuery, IOasisAccountHistoryQueryVariables, IOasisAccountHistoryProps<TChildProps>>(OasisAccountHistoryDocument, {
+      alias: "oasisAccountHistory",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useOasisAccountHistoryQuery__
+ *
+ * To run a query within a React component, call `useOasisAccountHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOasisAccountHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOasisAccountHistoryQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *      fiat: // value for 'fiat'
+ *   },
+ * });
+ */
+export function useOasisAccountHistoryQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<IOasisAccountHistoryQuery, IOasisAccountHistoryQueryVariables>) {
+        return ApolloReactHooks.useQuery<IOasisAccountHistoryQuery, IOasisAccountHistoryQueryVariables>(OasisAccountHistoryDocument, baseOptions);
+      }
+export function useOasisAccountHistoryLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<IOasisAccountHistoryQuery, IOasisAccountHistoryQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<IOasisAccountHistoryQuery, IOasisAccountHistoryQueryVariables>(OasisAccountHistoryDocument, baseOptions);
+        }
+export type OasisAccountHistoryQueryHookResult = ReturnType<typeof useOasisAccountHistoryQuery>;
+export type OasisAccountHistoryLazyQueryHookResult = ReturnType<typeof useOasisAccountHistoryLazyQuery>;
+export type OasisAccountHistoryQueryResult = ApolloReactCommon.QueryResult<IOasisAccountHistoryQuery, IOasisAccountHistoryQueryVariables>;
 export const OasisTransactionsDocument = gql`
     query oasisTransactions($address: String!, $startingPage: Float, $pageSize: Float) {
   oasisTransactions(address: $address, startingPage: $startingPage, pageSize: $pageSize) {
