@@ -339,7 +339,7 @@ interface CeloAccountHistoryQueryResult extends QueryResult {
   celoAccountHistory: IQuery["celoAccountHistory"];
 }
 
-export interface CeoTransactionsProps {
+export interface CeloAccountHistoryProps {
   celoAccountHistory: CeloAccountHistoryQueryResult;
 }
 
