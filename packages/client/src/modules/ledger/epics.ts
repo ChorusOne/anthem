@@ -284,6 +284,12 @@ const setAddressOnNavigationEpic: EpicSignature = (action$, state$, deps) => {
     map(search => {
       const { address } = getQueryParamsFromUrl(search);
       const ledger = state$.value.ledger;
+
+      // Make no update if the /login page is active
+      if (deps.router.location.pathname.includes("login")) {
+        return Actions.empty("No action taken to update location query params");
+      }
+
       if (typeof address === "string" && address !== ledger.ledger.address) {
         return Actions.setAddress(address, { showToastForError: false });
       } else {
