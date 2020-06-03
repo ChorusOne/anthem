@@ -36,10 +36,20 @@ interface OasisAccountResponse {
   debonding_balance: Balance;
   height: number;
   delegations: OasisDelegation[];
-  meta: {
-    is_validator: boolean;
-    is_delegator: boolean;
-  };
+  meta: AccountMeta;
+}
+
+interface OasisAccountHistory {
+  height: number;
+  address: string;
+  balance: string;
+  delegations: OasisDelegation[];
+  meta: AccountMeta;
+}
+
+interface AccountMeta {
+  is_validator: boolean;
+  is_delegator: boolean;
 }
 
 enum OasisTransactionMethod {
@@ -251,8 +261,8 @@ const fetchAccountHistory = async (
   network: NetworkDefinition,
 ): Promise<any> => {
   const host = getHostFromNetworkName(network.name);
-  const url = `${host}/accounts/${address}/history`;
-  const response = await AxiosUtil.get<any>(url);
+  const url = `${host}/account/${address}/history`;
+  const response = await AxiosUtil.get<OasisAccountHistory[]>(url);
   return response;
 };
 
