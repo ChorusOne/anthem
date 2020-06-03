@@ -54,7 +54,7 @@ export const getNetworkDefinitionFromIdentifier = (networkName: string) => {
  */
 export const getNetworkDefinitionFromTicker = (ticker: string) => {
   const network = Object.values(NETWORKS).find(
-    n => ticker === n.coinGeckoTicker || ticker === n.ticker,
+    n => ticker === n.cryptoCompareTicker || ticker === n.ticker,
   );
 
   if (network) {

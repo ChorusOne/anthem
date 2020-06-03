@@ -26,10 +26,8 @@ type Query {
   distributionCommunityPool(network: String!): [Balance!]!
   distributionParameters(network: String!): DistributionParameters!
 
-  # CoinGecko Price APIs
-  prices(currency: String!, versus: String!): Price!
-
   fiatCurrencies: [FiatCurrency!]!
+  prices(currency: String!, versus: String!): Price!
 
   # Oasis APIs
   oasisTransactions(

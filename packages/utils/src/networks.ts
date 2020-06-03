@@ -17,7 +17,6 @@ export interface NetworkDefinition extends NetworkFeatureMeta {
   denom: COIN_DENOMS;
   descriptor: string;
   chainId: string;
-  coinGeckoTicker: string;
   cryptoCompareTicker: string;
   supportsFiatPrices: boolean;
   ledgerAppVersion: string;
@@ -52,7 +51,6 @@ const NETWORKS: NetworksMap = {
     ticker: "atom",
     descriptor: "ATOM",
     chainId: "cosmoshub-3",
-    coinGeckoTicker: "cosmos",
     cryptoCompareTicker: "ATOM",
     ledgerAppVersion: "1.1.1",
     ledgerAppName: "Cosmos",
@@ -73,7 +71,6 @@ const NETWORKS: NetworksMap = {
     ticker: "luna",
     descriptor: "LUNA",
     chainId: "columbus-3",
-    coinGeckoTicker: "terra-luna",
     cryptoCompareTicker: "LUNA",
     ledgerAppVersion: "1.1.1",
     ledgerAppName: "Cosmos",
@@ -93,7 +90,6 @@ const NETWORKS: NetworksMap = {
     ticker: "kava",
     descriptor: "KAVA",
     chainId: "kava-2",
-    coinGeckoTicker: "kava",
     cryptoCompareTicker: "KAVA",
     ledgerAppVersion: "1.1.1",
     ledgerAppName: "Cosmos",
@@ -114,7 +110,6 @@ const NETWORKS: NetworksMap = {
     ticker: "oasis",
     descriptor: "OASIS",
     chainId: "oasis",
-    coinGeckoTicker: "oasis",
     cryptoCompareTicker: "OASIS",
     ledgerAppVersion: "n/a",
     ledgerAppName: "n/a",
@@ -135,7 +130,6 @@ const NETWORKS: NetworksMap = {
     ticker: "CGLD",
     descriptor: "cGLD",
     chainId: "celo",
-    coinGeckoTicker: "CGLD",
     cryptoCompareTicker: "CGLD",
     ledgerAppVersion: "1.0.1",
     ledgerAppName: "Celo",

@@ -47,7 +47,7 @@ export const graphqlSelector = createSelector(
       network: network.name,
       crypto: network.ticker,
       networkDefinition: network,
-      currency: network.coinGeckoTicker,
+      currency: network.cryptoCompareTicker,
     };
   },
 );
