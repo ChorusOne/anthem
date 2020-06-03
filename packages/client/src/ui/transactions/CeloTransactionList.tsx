@@ -30,9 +30,9 @@ class CeloTransactionList extends React.PureComponent<IProps> {
       <React.Fragment>
         {TXS_EXIST ? (
           // transactions.map(this.renderTransactionItem)
-          <Centered>
-            <H5>{transactions.length} Celo transactions exist.</H5>
-          </Centered>
+          <p style={{ marginLeft: 8 }}>
+            Celo transaction history is in progress.
+          </p>
         ) : (
           <Centered>
             <H5>No transactions exist</H5>

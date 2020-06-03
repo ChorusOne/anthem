@@ -76,7 +76,7 @@ class CeloPortfolio extends React.PureComponent<
             />
           }
         >
-          <p>Celo Account History</p>
+          <p>Celo account history is in progress.</p>
         </GraphQLGuardComponent>
       </View>
     );

@@ -76,7 +76,7 @@ class OasisPortfolio extends React.PureComponent<
             />
           }
         >
-          <p>Oasis Account History</p>
+          <p>Oasis account history is in progress.</p>
         </GraphQLGuardComponent>
       </View>
     );
