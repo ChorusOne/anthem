@@ -30,6 +30,7 @@ type Query {
   prices(currency: String!, versus: String!): Price!
 
   # Oasis APIs
+  oasisAccountHistory(address: String!, fiat: String!): [OasisAccountHistory!]!
   oasisTransactions(
     address: String!
     startingPage: Float
@@ -143,6 +144,14 @@ type OasisAccountBalances {
   unbonding: OasisBalance!
   rewards: String! # Not available yet
   commissions: String! # Not available yet
+  meta: OasisAccountMeta!
+  delegations: [OasisDelegation!]
+}
+
+type OasisAccountHistory {
+  height: String!
+  address: String!
+  balance: String!
   meta: OasisAccountMeta!
   delegations: [OasisDelegation!]
 }

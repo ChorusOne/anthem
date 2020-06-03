@@ -30,11 +30,11 @@ interface Balance {
 }
 
 interface OasisAccountResponse {
+  height: number;
   address: string;
   balance: string;
   staked_balance: Balance;
   debonding_balance: Balance;
-  height: number;
   delegations: OasisDelegation[];
   meta: AccountMeta;
 }
