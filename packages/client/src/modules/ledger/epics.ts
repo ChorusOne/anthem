@@ -273,6 +273,31 @@ const saveAddressEpic: EpicSignature = action$ => {
 };
 
 /**
+ * When the address updates sync it to the url if it's out of sync.
+ */
+const syncAddressToUrlEpic: EpicSignature = (action$, state$, deps) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.setAddressSuccess)),
+    pluck("payload"),
+    pluck("address"),
+    tap(address => {
+      const { transactionsPage } = state$.value.transaction;
+      const params = getQueryParamsFromUrl(deps.router.location.search);
+
+      const search =
+        transactionsPage > 1
+          ? `?address=${address}&page=${transactionsPage}`
+          : `?address=${address}`;
+
+      if (params.address !== address) {
+        deps.router.replace({ search });
+      }
+    }),
+    ignoreElements(),
+  );
+};
+
+/**
  * Set the address from routing events, if they routed address is
  * different from the stored address.
  */
@@ -397,6 +422,7 @@ export default combineEpics(
   connectLedgerEpic,
   logoutEpic,
   saveAddressEpic,
+  syncAddressToUrlEpic,
   syncAddressToUrlOnNavigationEpic,
   syncAddressToUrlOnInitializationEpic,
   setAddressOnNavigationEpic,

@@ -96,12 +96,13 @@ const fetchTransactions = async (
   const url = `${host}/accounts/${address}/transactions`;
   const response = await AxiosUtil.get<CeloTransactionResponse[]>(url);
 
+  // TODO: Improve
   const formattedResponse: ICeloTransaction[] = response.map(x => ({
     ...x,
     details: x.details.transaction,
     tags: x.tags.map(t => ({
       tag: t.tag,
-      parameters: JSON.stringify(t.parameters),
+      parameters: JSON.stringify(t.parameters), // Return tags as JSON
     })),
   }));
 
