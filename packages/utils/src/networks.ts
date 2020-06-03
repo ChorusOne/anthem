@@ -133,7 +133,7 @@ const NETWORKS: NetworksMap = {
     supportsFiatPrices: true,
     supportsBalances: true,
     supportsPortfolio: false,
-    supportsTransactionsHistory: false,
+    supportsTransactionsHistory: true,
     supportsValidatorsList: false,
     denominationSize: 1e18, // 1 cGLD = 1000000000000000000 wei
   },
