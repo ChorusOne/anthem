@@ -8,6 +8,7 @@ import {
   FiatCurrenciesDocument,
   FiatPriceHistoryDocument,
   IQuery,
+  OasisAccountHistoryDocument,
   OasisTransactionsDocument,
   PortfolioHistoryDocument,
   PricesDocument,
@@ -308,6 +309,25 @@ export interface StakingPoolProps {
 export const withStakingPool = graphql(StakingPoolDocument, {
   name: "stakingPool",
   ...noPollingConfig(["network"]),
+});
+
+/** ===========================================================================
+ * Oasis Account History
+ * ============================================================================
+ */
+
+interface OasisAccountHistoryQueryResult extends QueryResult {
+  data: void;
+  oasisAccountHistory: IQuery["oasisAccountHistory"];
+}
+
+export interface OasisAccountHistoryProps {
+  oasisAccountHistory: OasisAccountHistoryQueryResult;
+}
+
+export const withOasisAccountHistory = graphql(OasisAccountHistoryDocument, {
+  name: "celoAccountHistory",
+  ...noPollingConfig(["address", "fiat"]),
 });
 
 /** ===========================================================================

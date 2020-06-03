@@ -1,6 +1,5 @@
 import {
   assertUnreachable,
-  IDelegation,
   IOasisAccountBalancesType,
   IOasisTransaction,
   IOasisTransactionType,
