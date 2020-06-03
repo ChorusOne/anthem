@@ -1,5 +1,7 @@
+import { Pathname, Search } from "history";
 import StorageModule from "lib/storage-lib";
 import { combineReducers } from "redux";
+import { isValidChartTab, onChartView } from "tools/client-utils";
 import { createReducer } from "typesafe-actions";
 import actions, { ActionTypes } from "./actions";
 
@@ -19,7 +21,7 @@ const initialState = {
 };
 
 const loading = createReducer<LoadingState, ActionTypes>(initialState)
-  .handleAction(actions.initializeSuccess, (state, action) => ({
+  .handleAction(actions.initializeAppSuccess, (state, action) => ({
     ...state,
     initialized: true,
   }))
@@ -55,6 +57,7 @@ export enum SORT_DIRECTION {
 }
 
 interface AppState {
+  activeChartTab: string;
   activeBannerKey: Nullable<BANNER_NOTIFICATIONS_KEYS>;
   notificationsBannerVisible: boolean;
   dashboardInputFocused: boolean;
@@ -66,9 +69,13 @@ interface AppState {
   transactionsExpanded: boolean;
   portfolioExpanded: boolean;
   addressInputRef: Nullable<HTMLInputElement>;
+  locationState: {
+    pathname: Pathname;
+    search: Search;
+  };
 }
 
-const initialAppState = {
+const initialAppState: AppState = {
   activeBannerKey: null,
   showDataIntegrityHelpLabel: false,
   dashboardInputFocused: false,
@@ -80,6 +87,11 @@ const initialAppState = {
   transactionsExpanded: false,
   portfolioExpanded: false,
   addressInputRef: null,
+  locationState: {
+    pathname: "",
+    search: "",
+  },
+  activeChartTab: "total",
 };
 
 const app = createReducer<AppState, ActionTypes>(initialAppState)
@@ -125,6 +137,40 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
       dashboardInputFocused: action.payload,
     }),
   )
+  .handleAction(actions.setActiveChartTab, (state, action) => {
+    let activeChartTab = state.activeChartTab;
+    const tab = action.payload;
+
+    if (isValidChartTab(tab)) {
+      activeChartTab = tab;
+    }
+    return {
+      ...state,
+      activeChartTab,
+    };
+  })
+  .handleAction(actions.onRouteChange, (state, action) => {
+    let activeChartTab = state.activeChartTab;
+
+    // Update the active chart tab if viewing the portfolio
+    const { pathname } = action.payload;
+    const chartViewActive = onChartView(pathname);
+    if (chartViewActive) {
+      const tab = pathname.split("/")[1];
+      if (isValidChartTab(tab)) {
+        activeChartTab = tab;
+      }
+    }
+
+    return {
+      ...state,
+      activeChartTab,
+      locationState: {
+        search: action.payload.search,
+        pathname: action.payload.pathname,
+      },
+    };
+  })
   .handleAction(actions.toggleNotificationsBanner, (state, { payload }) => ({
     ...state,
     activeBannerKey: payload.visible ? payload.key : null,

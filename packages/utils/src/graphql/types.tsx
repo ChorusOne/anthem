@@ -82,7 +82,7 @@ export interface ICeloAccountBalances {
    __typename?: "CeloAccountBalances";
   address: Scalars["String"];
   height: Scalars["String"];
-  goldTokenBalance: Scalars["String"];
+  availableGoldBalance: Scalars["String"];
   totalLockedGoldBalance: Scalars["String"];
   nonVotingLockedGoldBalance: Scalars["String"];
   votingLockedGoldBalance: Scalars["String"];
@@ -102,7 +102,7 @@ export interface ICeloAccountSnapshot {
   address: Scalars["String"];
   height: Scalars["String"];
   snapshotReward: Scalars["String"];
-  goldTokenBalance: Scalars["String"];
+  availableGoldBalance: Scalars["String"];
   totalLockedGoldBalance: Scalars["String"];
   nonVotingLockedGoldBalance: Scalars["String"];
   votingLockedGoldBalance: Scalars["String"];
@@ -119,11 +119,31 @@ export interface ICeloDelegation {
   pendingVotes: Scalars["String"];
 }
 
-/** TODO: Complete the transaction/events types for Celo Network */
 export interface ICeloTransaction {
    __typename?: "CeloTransaction";
-  date: Scalars["String"];
-  height: Scalars["Int"];
+  blockNumber: Scalars["Int"];
+  hash: Scalars["String"];
+  from: Scalars["String"];
+  to: Scalars["String"];
+  details: ICeloTransactionDetails;
+  tags: ICeloTransactionTags[];
+}
+
+export interface ICeloTransactionDetails {
+   __typename?: "CeloTransactionDetails";
+  nonce: Scalars["String"];
+  gasPrice: Scalars["String"];
+  gas: Scalars["String"];
+  feeCurrency: Scalars["String"];
+  gatewayFeeRecipient: Scalars["String"];
+  gatewayFee: Scalars["String"];
+  to: Scalars["String"];
+  value: Scalars["String"];
+  input: Scalars["String"];
+  v: Scalars["String"];
+  r: Scalars["String"];
+  s: Scalars["String"];
+  hash: Scalars["String"];
 }
 
 export interface ICeloTransactionResult {
@@ -134,11 +154,16 @@ export interface ICeloTransactionResult {
   moreResultsExist: Scalars["Boolean"];
 }
 
-export interface ICoin {
-   __typename?: "Coin";
-  id: Scalars["String"];
-  symbol: Scalars["String"];
-  name: Scalars["String"];
+export interface ICeloTransactionTagParameter {
+   __typename?: "CeloTransactionTagParameter";
+  account: Scalars["String"];
+  proposalId: Scalars["String"];
+}
+
+export interface ICeloTransactionTags {
+   __typename?: "CeloTransactionTags";
+  tag: Scalars["String"];
+  parameters: ICeloTransactionTagParameter;
 }
 
 export interface ICommissionRates {
@@ -537,7 +562,6 @@ export interface IQuery {
   distributionParameters: IDistributionParameters;
   /** CoinGecko Price APIs */
   prices: IPrice;
-  coins: Maybe<ICoin[]>;
   fiatCurrencies: IFiatCurrency[];
   /** Oasis APIs */
   oasisTransactions: IOasisTransactionResult;
@@ -864,7 +888,7 @@ export type IAccountBalancesQuery = (
     { __typename?: "CeloAccountBalancesType" }
     & { celo: (
       { __typename?: "CeloAccountBalances" }
-      & Pick<ICeloAccountBalances, "address" | "height" | "goldTokenBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
+      & Pick<ICeloAccountBalances, "address" | "height" | "availableGoldBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
       & { delegations: Array<(
         { __typename?: "CeloDelegation" }
         & Pick<ICeloDelegation, "group" | "totalVotes" | "activeVotes" | "pendingVotes">
@@ -924,7 +948,7 @@ export type ICeloAccountHistoryQuery = (
   { __typename?: "Query" }
   & { celoAccountHistory: Array<(
     { __typename?: "CeloAccountSnapshot" }
-    & Pick<ICeloAccountSnapshot, "snapshotDate" | "address" | "height" | "snapshotReward" | "goldTokenBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
+    & Pick<ICeloAccountSnapshot, "snapshotDate" | "address" | "height" | "snapshotReward" | "availableGoldBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
     & { delegations: Array<(
       { __typename?: "CeloDelegation" }
       & Pick<ICeloDelegation, "group" | "totalVotes" | "activeVotes" | "pendingVotes">
@@ -945,19 +969,20 @@ export type ICeloTransactionsQuery = (
     & Pick<ICeloTransactionResult, "page" | "limit" | "moreResultsExist">
     & { data: Array<(
       { __typename?: "CeloTransaction" }
-      & Pick<ICeloTransaction, "date" | "height">
+      & Pick<ICeloTransaction, "blockNumber" | "hash" | "from" | "to">
+      & { details: (
+        { __typename?: "CeloTransactionDetails" }
+        & Pick<ICeloTransactionDetails, "nonce" | "gasPrice" | "gas" | "feeCurrency" | "gatewayFeeRecipient" | "gatewayFee" | "to" | "value" | "input" | "v" | "r" | "s" | "hash">
+      ), tags: Array<(
+        { __typename?: "CeloTransactionTags" }
+        & Pick<ICeloTransactionTags, "tag">
+        & { parameters: (
+          { __typename?: "CeloTransactionTagParameter" }
+          & Pick<ICeloTransactionTagParameter, "account" | "proposalId">
+        ) }
+      )> }
     )> }
   ) }
-);
-
-export interface ICoinsQueryVariables {}
-
-export type ICoinsQuery = (
-  { __typename?: "Query" }
-  & { coins: Maybe<Array<(
-    { __typename?: "Coin" }
-    & Pick<ICoin, "id" | "symbol" | "name">
-  )>> }
 );
 
 export interface ICosmosTransactionsQueryVariables {
@@ -1497,7 +1522,7 @@ export const AccountBalancesDocument = gql`
       celo {
         address
         height
-        goldTokenBalance
+        availableGoldBalance
         totalLockedGoldBalance
         nonVotingLockedGoldBalance
         votingLockedGoldBalance
@@ -1650,7 +1675,7 @@ export const CeloAccountHistoryDocument = gql`
     address
     height
     snapshotReward
-    goldTokenBalance
+    availableGoldBalance
     totalLockedGoldBalance
     nonVotingLockedGoldBalance
     votingLockedGoldBalance
@@ -1715,8 +1740,32 @@ export const CeloTransactionsDocument = gql`
     page
     limit
     data {
-      date
-      height
+      blockNumber
+      hash
+      from
+      to
+      details {
+        nonce
+        gasPrice
+        gas
+        feeCurrency
+        gatewayFeeRecipient
+        gatewayFee
+        to
+        value
+        input
+        v
+        r
+        s
+        hash
+      }
+      tags {
+        tag
+        parameters {
+          account
+          proposalId
+        }
+      }
     }
     moreResultsExist
   }
@@ -1767,57 +1816,6 @@ export function useCeloTransactionsLazyQuery(baseOptions?: ApolloReactHooks.Lazy
 export type CeloTransactionsQueryHookResult = ReturnType<typeof useCeloTransactionsQuery>;
 export type CeloTransactionsLazyQueryHookResult = ReturnType<typeof useCeloTransactionsLazyQuery>;
 export type CeloTransactionsQueryResult = ApolloReactCommon.QueryResult<ICeloTransactionsQuery, ICeloTransactionsQueryVariables>;
-export const CoinsDocument = gql`
-    query coins {
-  coins {
-    id
-    symbol
-    name
-  }
-}
-    `;
-export type CoinsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICoinsQuery, ICoinsQueryVariables>, "query">;
-
-export const CoinsComponent = (props: CoinsComponentProps) => (
-      <ApolloReactComponents.Query<ICoinsQuery, ICoinsQueryVariables> query={CoinsDocument} {...props} />
-    );
-
-export type ICoinsProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICoinsQuery, ICoinsQueryVariables> & TChildProps;
-export function withCoins<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  ICoinsQuery,
-  ICoinsQueryVariables,
-  ICoinsProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, ICoinsQuery, ICoinsQueryVariables, ICoinsProps<TChildProps>>(CoinsDocument, {
-      alias: "coins",
-      ...operationOptions,
-    });
-}
-
-/**
- * __useCoinsQuery__
- *
- * To run a query within a React component, call `useCoinsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCoinsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCoinsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useCoinsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ICoinsQuery, ICoinsQueryVariables>) {
-        return ApolloReactHooks.useQuery<ICoinsQuery, ICoinsQueryVariables>(CoinsDocument, baseOptions);
-      }
-export function useCoinsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ICoinsQuery, ICoinsQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<ICoinsQuery, ICoinsQueryVariables>(CoinsDocument, baseOptions);
-        }
-export type CoinsQueryHookResult = ReturnType<typeof useCoinsQuery>;
-export type CoinsLazyQueryHookResult = ReturnType<typeof useCoinsLazyQuery>;
-export type CoinsQueryResult = ApolloReactCommon.QueryResult<ICoinsQuery, ICoinsQueryVariables>;
 export const CosmosTransactionsDocument = gql`
     query cosmosTransactions($address: String!, $startingPage: Float, $pageSize: Float) {
   cosmosTransactions(address: $address, startingPage: $startingPage, pageSize: $pageSize) {

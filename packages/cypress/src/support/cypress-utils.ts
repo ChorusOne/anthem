@@ -92,7 +92,7 @@ const loginWithAddress = (type: any, useLedger = false) => {
    * Visit the app. Expect redirect to login and initiate the login
    * enter address flow.
    */
-  cy.visit(`${APP_URL}/dashboard`);
+  cy.visit(`${APP_URL}/total`);
   cy.url().should("contain", "/login");
 
   /**
@@ -122,7 +122,7 @@ const loginWithAddress = (type: any, useLedger = false) => {
     );
   }
 
-  cy.url().should("contain", "/dashboard/total");
+  cy.url().should("contain", "/total");
 };
 
 /**

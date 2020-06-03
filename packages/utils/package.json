@@ -21,7 +21,7 @@
     "test:watch": "jest --watch",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test": "yarn lint && yarn test:unit",
-    "build:types": "graphql-build --outputFile=./src/schema",
+    "build:types": "graphql-build --outputFile=./src/schema && yarn gql",
     "gql": "yarn gqlgen && chmod +x scripts/gql.sh && scripts/gql.sh",
     "gqlgen": "gql-lib --schemaFilePath ../server/src/schema/schema.graphql --destDirPath ./src/client/gql --depthLimit 10",
     "record": "yarn gql && yarn mocks:refresh && yarn mocks:generate && yarn format",

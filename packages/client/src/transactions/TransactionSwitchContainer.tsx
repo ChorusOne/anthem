@@ -11,8 +11,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
+import CeloTransactionContainer from "transactions/CeloTransactionContainer";
 import CosmosTransactionContainer from "transactions/CosmosTransactionContainer";
-import OasisTransactionsContainer from "transactions/OasisTransactionContainer";
+import OasisTransactionContainer from "transactions/OasisTransactionContainer";
 
 /** ===========================================================================
  * Types & Config
@@ -80,7 +81,9 @@ class TransactionSwitchContainer extends React.Component<IProps, IState> {
       case "COSMOS":
         return <CosmosTransactionContainer />;
       case "OASIS":
-        return <OasisTransactionsContainer />;
+        return <OasisTransactionContainer />;
+      case "CELO":
+        return <CeloTransactionContainer />;
       default:
         return null;
     }

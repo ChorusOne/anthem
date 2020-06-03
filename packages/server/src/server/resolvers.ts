@@ -7,7 +7,6 @@ import {
   IAccountInformationQueryVariables,
   ICeloAccountHistoryQueryVariables,
   ICeloTransactionsQueryVariables,
-  ICoinsQueryVariables,
   ICosmosAccountBalancesType,
   ICosmosTransactionsQueryVariables,
   IDailyPercentChangeQueryVariables,
@@ -332,13 +331,6 @@ const resolvers = {
       }
 
       return EXCHANGE_DATA_API.fetchExchangeRate(currency, versus);
-    },
-
-    coins: async (
-      _: void,
-      args: ICoinsQueryVariables,
-    ): Promise<IQuery["coins"]> => {
-      return EXCHANGE_DATA_API.fetchCoinsList();
     },
 
     fiatPriceHistory: async (

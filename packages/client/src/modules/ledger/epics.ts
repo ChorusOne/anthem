@@ -22,7 +22,12 @@ import {
   tap,
 } from "rxjs/operators";
 import { connectCeloAddress } from "tools/celo-ledger-utils";
-import { capitalizeString, wait } from "tools/client-utils";
+import {
+  capitalizeString,
+  getQueryParamsFromUrl,
+  onChartView,
+  wait,
+} from "tools/client-utils";
 import { getAccAddress } from "tools/terra-library/key-utils";
 import {
   validateLedgerAppVersion,
@@ -267,19 +272,87 @@ const saveAddressEpic: EpicSignature = action$ => {
   );
 };
 
-const setAddressNavigationEpic: EpicSignature = (action$, state$, deps) => {
+/**
+ * Set the address from routing events, if they routed address is
+ * different from the stored address.
+ */
+const setAddressOnNavigationEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
-    filter(isActionOf(Actions.setAddressSuccess)),
+    filter(isActionOf(Actions.onRouteChange)),
+    pluck("payload"),
+    pluck("search"),
+    map(search => {
+      const { address } = getQueryParamsFromUrl(search);
+      const ledger = state$.value.ledger;
+      if (typeof address === "string" && address !== ledger.ledger.address) {
+        return Actions.setAddress(address, { showToastForError: false });
+      } else {
+        return Actions.empty("No action taken to update location query params");
+      }
+    }),
+  );
+};
+
+/**
+ * Sync the address to the url after navigation events.
+ */
+const syncAddressToUrlOnNavigationEpic: EpicSignature = (
+  action$,
+  state$,
+  deps,
+) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.onRouteChange)),
+    pluck("payload"),
+    tap(() => {
+      const { address } = state$.value.ledger.ledger;
+      const { transactionsPage } = state$.value.transaction;
+      const { locationState } = state$.value.app.app;
+      const params = getQueryParamsFromUrl(locationState.search);
+
+      const search =
+        transactionsPage > 1
+          ? `?address=${address}&page=${transactionsPage}`
+          : `?address=${address}`;
+
+      // Update if an address exists, the chart view is active, and
+      // if the path search values do not match
+      if (!!address && onChartView(locationState.pathname) && !params.address) {
+        deps.router.replace({ search });
+      }
+    }),
+    ignoreElements(),
+  );
+};
+
+/**
+ * Sync the address to the url when the app initializes.
+ */
+const syncAddressToUrlOnInitializationEpic: EpicSignature = (
+  action$,
+  state$,
+  deps,
+) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.initializeAppSuccess)),
     pluck("payload"),
     pluck("address"),
-    tap(address => {
-      const { router } = deps;
-      if (!router.location.pathname.includes("dashboard") && !!address) {
-        const page = state$.value.transaction.transactionsPage;
-        router.push({
-          pathname: "/dashboard/total/",
-          search: `address=${address}&page=${page}`,
-        });
+    tap(() => {
+      const { location } = deps.router;
+      const { address } = state$.value.ledger.ledger;
+      const { transactionsPage } = state$.value.transaction;
+
+      const search =
+        transactionsPage > 1
+          ? `?address=${address}&page=${transactionsPage}`
+          : `?address=${address}`;
+
+      // If the current location does not include the address, sync it
+      if (
+        onChartView(location.pathname) &&
+        !location.search.includes(address)
+      ) {
+        deps.router.replace({ search });
       }
     }),
     ignoreElements(),
@@ -318,7 +391,9 @@ export default combineEpics(
   connectLedgerEpic,
   logoutEpic,
   saveAddressEpic,
-  setAddressNavigationEpic,
+  syncAddressToUrlOnNavigationEpic,
+  syncAddressToUrlOnInitializationEpic,
+  setAddressOnNavigationEpic,
   searchTransactionNavigationEpic,
   clearAllRecentAddressesEpic,
 );

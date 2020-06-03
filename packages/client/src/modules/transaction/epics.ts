@@ -148,7 +148,6 @@ const pollTransactionEpic: EpicSignature = (action$, state$, deps) => {
           return Actions.transactionFailed();
         }
       } catch (err) {
-        console.log(err);
         await wait(2500);
         return Actions.pollForTransaction();
       }
@@ -164,8 +163,7 @@ const syncTransactionPageEpic: EpicSignature = (action$, state$, deps) => {
       const { router } = deps;
       const address = state$.value.ledger.ledger.address;
       const page = state$.value.transaction.transactionsPage;
-      router.push({
-        pathname: router.location.pathname,
+      router.replace({
         search: `address=${address}&page=${page}`,
       });
     }),

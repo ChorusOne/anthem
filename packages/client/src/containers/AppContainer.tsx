@@ -10,7 +10,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
-import { getQueryParamsFromUrl, onPath } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import RoutesContainer, { FixedAppBackgroundPage } from "./RoutesContainer";
 
@@ -56,18 +55,6 @@ class AppContainer extends React.Component<IProps, IState> {
     Sentry.captureException(error);
   }
 
-  componentDidUpdate(prevProps: IProps) {
-    // Update the address param in the url when the address changes.
-    const queryParams = getQueryParamsFromUrl(prevProps.location.search);
-    const maybeAddress = queryParams.address;
-
-    if (maybeAddress === undefined) {
-      this.setAddressQueryParams(this.props);
-    } else if (maybeAddress !== this.props.ledger.address) {
-      this.setAddressQueryParams(this.props);
-    }
-  }
-
   render(): Nullable<JSX.Element> {
     if (!this.props.loading.initialized) {
       return null;
@@ -93,21 +80,6 @@ class AppContainer extends React.Component<IProps, IState> {
         </Centered>
       </ErrorFallbackPage>
     );
-  };
-
-  setAddressQueryParams = (props: IProps) => {
-    const { location, transactionPage } = props;
-    const { address } = props.ledger;
-    // Only set the current address param if the user is on a /dashboard route.
-    if (!!address && onPath(location.pathname, "/dashboard")) {
-      const search = `?address=${address}&page=${transactionPage}`;
-      if (search !== location.search) {
-        this.props.history.push({
-          search,
-          pathname: props.location.pathname,
-        });
-      }
-    }
   };
 
   routeChangeListener = (location: Location, action: Action) => {
@@ -144,13 +116,11 @@ const ErrorText = styled.p`
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   loading: Modules.selectors.app.loadingSelector(state),
-  ledger: Modules.selectors.ledger.ledgerSelector(state),
-  transactionPage: Modules.selectors.transaction.transactionsPage(state),
 });
 
 const dispatchProps = {
   initializeApp: Modules.actions.app.initializeApp,
-  onRouteChange: Modules.actions.settings.onRouteChange,
+  onRouteChange: Modules.actions.app.onRouteChange,
 };
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;

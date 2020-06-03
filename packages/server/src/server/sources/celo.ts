@@ -1,6 +1,9 @@
 import {
   ICeloAccountBalances,
   ICeloAccountBalancesType,
+  ICeloTransaction,
+  ICeloTransactionDetails,
+  ICeloTransactionTags,
   IDelegation,
   IQuery,
   NetworkDefinition,
@@ -24,13 +27,25 @@ interface CeloAccountSnapshot {
   address: string;
   height: string;
   snapshotReward: string;
-  goldTokenBalance: string;
+  availableGoldBalance: string;
   totalLockedGoldBalance: string;
   nonVotingLockedGoldBalance: string;
   votingLockedGoldBalance: string;
   pendingWithdrawalBalance: string;
   celoUSDValue: string;
   delegations: CeloDelegation[];
+}
+
+interface CeloTransactionResponse {
+  blockNumber: number;
+  hash: string;
+  from: string;
+  to: string;
+  tags: ICeloTransactionTags[];
+  logs: any; // Not used yet
+  details: {
+    transaction: ICeloTransactionDetails;
+  };
 }
 
 /** ===========================================================================
@@ -48,10 +63,8 @@ const fetchAccountBalances = async (
   network: NetworkDefinition,
 ): Promise<ICeloAccountBalancesType> => {
   const host = getHostFromNetworkName(network.name);
-  const response = await AxiosUtil.get<ICeloAccountBalances>(
-    `${host}/account/${address}`,
-  );
-
+  const url = `${host}/accounts/${address}/balances`;
+  const response = await AxiosUtil.get<ICeloAccountBalances>(url);
   return { celo: response };
 };
 
@@ -63,9 +76,8 @@ const fetchAccountHistory = async (
   network: NetworkDefinition,
 ): Promise<IQuery["celoAccountHistory"]> => {
   const host = getHostFromNetworkName(network.name);
-  const response = await AxiosUtil.get<CeloAccountSnapshot[]>(
-    `${host}/history/${address}`,
-  );
+  const url = `${host}/accounts/${address}/history`;
+  const response = await AxiosUtil.get<CeloAccountSnapshot[]>(url);
 
   return response;
 };
@@ -81,16 +93,19 @@ const fetchTransactions = async (
 ): Promise<IQuery["celoTransactions"]> => {
   const host = getHostFromNetworkName(network.name);
 
-  // TODO: Implement
-  // const response = await AxiosUtil.get<any[]>(
-  //   `${host}/account/${address}/events`,
-  // );
+  const url = `${host}/accounts/${address}/transactions`;
+  const response = await AxiosUtil.get<CeloTransactionResponse[]>(url);
+
+  const formattedResponse: ICeloTransaction[] = response.map(x => ({
+    ...x,
+    details: x.details.transaction,
+  }));
 
   return {
     page: 1,
     limit: 25,
     moreResultsExist: false,
-    data: [],
+    data: formattedResponse,
   };
 };
 

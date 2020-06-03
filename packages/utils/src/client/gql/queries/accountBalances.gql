@@ -35,7 +35,7 @@ query accountBalances($address: String!){
             celo{
                 address
                 height
-                goldTokenBalance
+                availableGoldBalance
                 totalLockedGoldBalance
                 nonVotingLockedGoldBalance
                 votingLockedGoldBalance

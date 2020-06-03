@@ -30,7 +30,6 @@ import {
   abbreviateAddress,
   copyTextToClipboard,
   onActiveRoute,
-  onPath,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import BetaBanner from "./BetaBanner";
@@ -44,7 +43,6 @@ import Toast from "./Toast";
 
 interface IState {
   mobileMenuOpen: boolean;
-  dashboardRoute: string;
 }
 
 /** ===========================================================================
@@ -58,21 +56,11 @@ class SideMenuComponent extends React.Component<IProps, IState> {
 
     this.state = {
       mobileMenuOpen: false,
-      dashboardRoute: "",
     };
   }
 
   componentDidMount() {
-    this.setDashboardTabRoute();
     this.setupMobileSwipeHandler();
-  }
-
-  componentDidUpdate() {
-    /**
-     * Update the current dashboard tab route whenever SideMenuComponent
-     * re-renders.
-     */
-    this.setDashboardTabRoute();
   }
 
   render(): JSX.Element {
@@ -86,7 +74,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
     const open = () => this.setMobileMenuState(true);
     const close = () => this.setMobileMenuState(false);
 
-    const dashboardTab = this.state.dashboardRoute;
+    const dashboardTab = this.props.app.activeChartTab;
     const ledgerConnected = this.props.ledger.connected;
     const validator = this.getValidatorFromDelegatorAddressIfExists();
 
@@ -98,7 +86,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         path={pathname}
         closeHandler={close}
         key="Dashboard"
-        route={`Dashboard${dashboardTab}`}
+        route={`${dashboardTab}`}
         title={tString("Dashboard")}
         icon={IconNames.TIMELINE_BAR_CHART}
       />,
@@ -106,7 +94,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         path={pathname}
         closeHandler={close}
         key="Staking"
-        route="Staking"
+        route="Delegate"
         title="Staking"
         icon={IconNames.BANK_ACCOUNT}
       />,
@@ -267,7 +255,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
       return (
         <DesktopNavigationContainer className={Classes.DARK}>
           <View>
-            <Link to="/dashboard">
+            <Link to={`/${this.props.app.activeChartTab}`}>
               <BetaBanner mobile={false} />
               <ChorusTitleImage src={ChorusLogo} alt="Chorus One Logo" />
             </Link>
@@ -318,18 +306,6 @@ class SideMenuComponent extends React.Component<IProps, IState> {
     this.setState({
       mobileMenuOpen: state,
     });
-  };
-
-  setDashboardTabRoute = () => {
-    const { pathname } = this.props.location;
-    const onDashboard = onPath(pathname, "/dashboard");
-    let dashboardTab = "";
-    if (onDashboard) {
-      dashboardTab = pathname.replace("/dashboard", "");
-      if (dashboardTab !== this.state.dashboardRoute) {
-        this.setState({ dashboardRoute: dashboardTab });
-      }
-    }
   };
 
   onCopySuccess = () => {
@@ -435,7 +411,7 @@ interface INavItemProps {
 }
 
 const NavItem = ({ route, title, icon, path, closeHandler }: INavItemProps) => {
-  const active = onActiveRoute(path, title);
+  const active = onActiveRoute(path, route);
   const cypressLabel = `${title.toLowerCase()}-navigation-link`;
   return (
     <Link

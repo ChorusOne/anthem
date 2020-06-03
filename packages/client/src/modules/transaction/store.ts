@@ -94,7 +94,7 @@ const transaction = createReducer<
     ...initialState,
     transactionsPage: 1,
   }))
-  .handleAction(AppActions.initializeSuccess, (state, action) => ({
+  .handleAction(AppActions.initializeAppSuccess, (state, action) => ({
     ...initialState,
     transactionsPage: action.payload.page,
   }))
@@ -113,6 +113,7 @@ const transaction = createReducer<
       tx => tx.hash !== action.payload.hash,
     ),
   }))
+  .handleAction(LedgerActions.logoutSuccess, () => initialState)
   .handleAction(
     [Actions.transactionFailed, LedgerActions.closeLedgerDialog],
     state => ({

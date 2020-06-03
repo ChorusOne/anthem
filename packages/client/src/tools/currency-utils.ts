@@ -1,4 +1,4 @@
-import { ICoin, IQuery, NetworkDefinition } from "@anthem/utils";
+import { IQuery, NetworkDefinition } from "@anthem/utils";
 import BigNumber from "bignumber.js";
 import { trimZeroes } from "./client-utils";
 import {
@@ -48,30 +48,6 @@ export const formatCurrencyAmount = (
     const result = value.toFormat(10);
     return trimZeroes(result);
   }
-};
-
-/**
- * Find a currency from the currency list. This can be used to get the
- * coin data for the prices query.
- */
-export const findCurrencyFromCoinsList = (
-  denom: string,
-  coins: IQuery["coins"],
-): ICoin => {
-  const defaultCoin = {
-    id: "",
-    symbol: "",
-    name: "",
-  };
-
-  if (!coins) {
-    return defaultCoin;
-  }
-
-  const currencySymbol = denom.slice(1);
-  const coin = coins.find((c: ICoin) => c.symbol === currencySymbol);
-
-  return coin ? coin : defaultCoin;
 };
 
 interface CurrencyConversionMethodTypes {

@@ -1,4 +1,5 @@
 import { NetworkDefinition } from "@anthem/utils";
+import { Action, Location } from "history";
 import { ActionType, createStandardAction } from "typesafe-actions";
 import {
   BANNER_NOTIFICATIONS_KEYS,
@@ -39,6 +40,10 @@ enum ActionTypesEnum {
   SET_TRANSACTIONS_SIZE = "SET_TRANSACTIONS_SIZE",
 
   SET_ADDRESS_INPUT_REF = "SET_ADDRESS_INPUT_REF",
+
+  ROUTE_CHANGE = "ROUTE_CHANGE",
+
+  SET_ACTIVE_CHART_TAB = "SET_ACTIVE_CHART_TAB",
 }
 
 /** ===========================================================================
@@ -46,7 +51,7 @@ enum ActionTypesEnum {
  * ============================================================================
  */
 
-const empty = createStandardAction(ActionTypesEnum.EMPTY_ACTION)();
+const empty = createStandardAction(ActionTypesEnum.EMPTY_ACTION)<string>();
 
 const setDashboardAddressInputFocusState = createStandardAction(
   ActionTypesEnum.SET_DASHBOARD_ADDRESS_INPUT_FOCUS_STATE,
@@ -80,7 +85,7 @@ const refreshBalanceAndTransactionsSuccess = createStandardAction(
 )();
 
 const initializeApp = createStandardAction(ActionTypesEnum.INITIALIZING_APP)();
-const initializeSuccess = createStandardAction(
+const initializeAppSuccess = createStandardAction(
   ActionTypesEnum.INITIALIZING_APP_SUCCESS,
 )<{ address: string; network: NetworkDefinition; page: number }>();
 
@@ -112,10 +117,22 @@ const setAddressInputRef = createStandardAction(
   ActionTypesEnum.SET_ADDRESS_INPUT_REF,
 )<Nullable<HTMLInputElement>>();
 
+interface RouteInformation extends Location {
+  action: Action;
+}
+
+const onRouteChange = createStandardAction(ActionTypesEnum.ROUTE_CHANGE)<
+  RouteInformation
+>();
+
+const setActiveChartTab = createStandardAction(
+  ActionTypesEnum.SET_ACTIVE_CHART_TAB,
+)<string>();
+
 const actions = {
   empty,
   initializeApp,
-  initializeSuccess,
+  initializeAppSuccess,
   newsletterSignup,
   newsletterSignupSuccess,
   newsletterSignupFailure,
@@ -131,6 +148,8 @@ const actions = {
   togglePortfolioSize,
   toggleTransactionsSize,
   setAddressInputRef,
+  onRouteChange,
+  setActiveChartTab,
 };
 
 /** ===========================================================================

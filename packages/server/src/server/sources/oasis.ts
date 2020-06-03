@@ -241,6 +241,21 @@ const fetchAccountBalances = async (
   return { oasis: balances };
 };
 
+/**
+ * Fetch account history.
+ *
+ * TODO: Update this and add GraphQL types/resolvers.
+ */
+const fetchAccountHistory = async (
+  address: string,
+  network: NetworkDefinition,
+): Promise<any> => {
+  const host = getHostFromNetworkName(network.name);
+  const url = `${host}/accounts/${address}/history`;
+  const response = await AxiosUtil.get<any>(url);
+  return response;
+};
+
 const fetchTransactions = async (
   address: string,
   pageSize: number,
@@ -470,6 +485,7 @@ const MOCK_OASIS_EVENTS: OasisTransaction[] = [
 
 const OASIS = {
   fetchAccountBalances,
+  fetchAccountHistory,
   fetchTransactions,
 };
 

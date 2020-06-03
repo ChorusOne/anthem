@@ -28,7 +28,6 @@ type Query {
 
   # CoinGecko Price APIs
   prices(currency: String!, versus: String!): Price!
-  coins: [Coin!]
 
   fiatCurrencies: [FiatCurrency!]!
 
@@ -66,7 +65,7 @@ type CeloAccountBalancesType {
 type CeloAccountBalances {
   address: String!
   height: String!
-  goldTokenBalance: String!
+  availableGoldBalance: String!
   totalLockedGoldBalance: String!
   nonVotingLockedGoldBalance: String!
   votingLockedGoldBalance: String!
@@ -87,7 +86,7 @@ type CeloAccountSnapshot {
   address: String!
   height: String!
   snapshotReward: String!
-  goldTokenBalance: String!
+  availableGoldBalance: String!
   totalLockedGoldBalance: String!
   nonVotingLockedGoldBalance: String!
   votingLockedGoldBalance: String!
@@ -103,10 +102,39 @@ type CeloTransactionResult {
   moreResultsExist: Boolean!
 }
 
-# TODO: Complete the transaction/events types for Celo Network
 type CeloTransaction {
-  date: String!
-  height: Int!
+  blockNumber: Int!
+  hash: String!
+  from: String!
+  to: String!
+  details: CeloTransactionDetails!
+  tags: [CeloTransactionTags!]!
+}
+
+type CeloTransactionTags {
+  tag: String!
+  parameters: CeloTransactionTagParameter!
+}
+
+type CeloTransactionTagParameter {
+  account: String!
+  proposalId: String!
+}
+
+type CeloTransactionDetails {
+  nonce: String!
+  gasPrice: String!
+  gas: String!
+  feeCurrency: String!
+  gatewayFeeRecipient: String!
+  gatewayFee: String!
+  to: String!
+  value: String!
+  input: String!
+  v: String!
+  r: String!
+  s: String!
+  hash: String!
 }
 
 # *****************************************************************************
@@ -665,17 +693,8 @@ type DistributionParameters {
   community_tax: String!
 }
 
-# *****************************************************************************
-# CoinGecko Price APIs
-
 type Price {
   price: Float!
-}
-
-type Coin {
-  id: String!
-  symbol: String!
-  name: String!
 }
 
 type FiatCurrency {

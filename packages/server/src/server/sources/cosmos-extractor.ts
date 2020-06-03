@@ -14,6 +14,7 @@ import ENV from "../../tools/server-env";
 import {
   filterSanityCheckHeights,
   formatTransactionResponse,
+  gatherEndOfDayBalanceValues,
   mapSumToBalance,
 } from "../../tools/server-utils";
 import { getSqlQueryString, SQLVariables } from "../../tools/sql-utils";
@@ -156,7 +157,8 @@ const getPortfolioBalanceHistory = async (request: {
   const variables = { address };
   const balanceQuery = getBalanceQueryForAddress();
   const query = balanceQuery(variables);
-  return queryPostgresCosmosSdkPool(network.name, query);
+  const response = await queryPostgresCosmosSdkPool(network.name, query);
+  return gatherEndOfDayBalanceValues(response);
 };
 
 const getPortfolioDelegatorRewards = async (request: {

@@ -97,7 +97,7 @@ export const onActiveRoute = (pathName: string, routeName: string): boolean => {
  * Determine if the given tab is active given the current route.
  */
 export const onActiveTab = (pathName: string, tabName: string): boolean => {
-  const path = pathName.split("/")[2];
+  const path = pathName.split("/")[1];
   return !!path && path.toLowerCase() === tabName.toLowerCase();
 };
 
@@ -398,6 +398,31 @@ export const canRenderGraphQL = (graphqlProps: {
  */
 export const onPath = (url: string, pathString: string): boolean => {
   return url.includes(pathString);
+};
+
+/**
+ * Return true if a URL pathname is on the chart (dashboard) view.
+ */
+export const onChartView = (pathname: string) => {
+  return /total|available|staking|rewards|commissions/.test(pathname);
+};
+
+/**
+ * Valid chart tab keys.
+ */
+export const CHART_TABS: ReadonlyArray<PORTFOLIO_CHART_TYPES> = [
+  "TOTAL",
+  "AVAILABLE",
+  "STAKING",
+  "REWARDS",
+  "COMMISSIONS",
+];
+
+/**
+ *  Determine if a string is a valid chart tab key.
+ */
+export const isValidChartTab = (tab: string) => {
+  return new Set(CHART_TABS.map(x => x.toLowerCase())).has(tab);
 };
 
 /**

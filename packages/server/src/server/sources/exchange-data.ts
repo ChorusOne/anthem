@@ -148,24 +148,17 @@ const fetchExchangeRate = async (
   currencyId: string,
   versusId: string,
 ): Promise<IQuery["prices"]> => {
-  const versus = versusId.toLowerCase();
-  const currency = currencyId.toLowerCase();
+  const versus = versusId.toUpperCase();
+  const currency = currencyId.toUpperCase();
 
-  const url = `${HOSTS.COIN_GECKO_API}/simple/price?ids=${currency}&vs_currencies=${versus}`;
+  const url = `${HOSTS.CRYPTO_COMPARE}/data/price?fsym=${currency}&tsyms=${versus}`;
 
   // The API may fail from time to time, add a retry allowance:
   const result = await AxiosUtil.get(url, 2);
 
   return {
-    price: result[currency][versus],
+    price: result[versus],
   };
-};
-
-/**
- * Fetch coins list data.
- */
-const fetchCoinsList = async (): Promise<IQuery["coins"]> => {
-  return AxiosUtil.get(`${HOSTS.COIN_GECKO_API}/coins/list`);
 };
 
 /** ===========================================================================
@@ -176,7 +169,6 @@ const fetchCoinsList = async (): Promise<IQuery["coins"]> => {
 const EXCHANGE_DATA_API = {
   fetchDailyPercentChangeInPrice,
   fetchPortfolioFiatPriceHistory,
-  fetchCoinsList,
   fetchExchangeRate,
 };
 
