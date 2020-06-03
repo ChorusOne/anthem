@@ -112,7 +112,7 @@ const NETWORKS: NetworksMap = {
     supportsLedger: false,
     supportsFiatPrices: false,
     supportsBalances: true,
-    supportsPortfolio: false,
+    supportsPortfolio: true,
     supportsTransactionsHistory: true,
     supportsValidatorsList: false,
     denominationSize: 1e9,
