@@ -24,7 +24,10 @@ import {
   tap,
 } from "rxjs/operators";
 import { getQueryParamsFromUrl, wait } from "tools/client-utils";
-import { validateNetworkAddress } from "tools/validation-utils";
+import {
+  validateEmailAddress,
+  validateNetworkAddress,
+} from "tools/validation-utils";
 import { isActionOf } from "typesafe-actions";
 import Toast from "ui/Toast";
 import { Actions } from "../root-actions";
@@ -207,6 +210,11 @@ const newsletterSignupEpic: EpicSignature = (action$, state$, deps) => {
       const { tString } = i18nSelector(state$.value);
 
       try {
+        // Validate email
+        if (!validateEmailAddress(email)) {
+          throw new Error("Invalid email");
+        }
+
         await signupNewsletter(email);
 
         Toast.success(
@@ -216,7 +224,7 @@ const newsletterSignupEpic: EpicSignature = (action$, state$, deps) => {
         );
         return Actions.newsletterSignupSuccess();
       } catch (err) {
-        Toast.danger(
+        Toast.warn(
           tString(
             "Could not register your email. Is your email address typed correctly?",
           ),

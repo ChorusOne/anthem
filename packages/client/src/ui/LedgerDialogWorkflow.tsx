@@ -559,9 +559,9 @@ const NetworkLabel = styled.p`
   padding: 0;
   width: 75px;
   font-weight: bold;
-  font-size: 8px;
+  font-size: 9px;
   margin-top: 4px;
-  margin-bottom: -8px;
+  margin-bottom: -6px;
   color: ${(props: { theme: IThemeProps }) =>
     props.theme.isDarkTheme ? Colors.LIGHT_GRAY1 : Colors.DARK_GRAY5};
 `;
