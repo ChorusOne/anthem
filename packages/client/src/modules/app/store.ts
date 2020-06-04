@@ -138,18 +138,10 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
       dashboardInputFocused: action.payload,
     }),
   )
-  .handleAction(actions.setActiveChartTab, (state, action) => {
-    let activeChartTab = state.activeChartTab;
-    const tab = action.payload;
-
-    if (isValidChartTab(tab)) {
-      activeChartTab = tab;
-    }
-    return {
-      ...state,
-      activeChartTab,
-    };
-  })
+  .handleAction(actions.setActiveChartTab, (state, action) => ({
+    ...state,
+    activeChartTab: action.payload,
+  }))
   .handleAction(actions.onRouteChange, (state, action) => {
     let activeChartTab = state.activeChartTab;
 
