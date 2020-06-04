@@ -20,7 +20,13 @@ import { toDateKey } from "tools/date-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import { DashboardError } from "ui/pages/DashboardPage";
 import CurrencySettingsToggle from "../CurrencySettingToggle";
-import { Button, DashboardLoader, Row, View } from "../SharedComponents";
+import {
+  Button,
+  Centered,
+  DashboardLoader,
+  Row,
+  View,
+} from "../SharedComponents";
 
 /** ===========================================================================
  * React Component
@@ -83,7 +89,7 @@ class OasisPortfolio extends React.PureComponent<
         >
           {(accountHistory: IOasisAccountHistory[]) => {
             console.log("OASIS account history:");
-            console.log(oasisAccountHistory);
+
             const chartData = getChartData(accountHistory);
             const options = getHighchartsChartOptions({
               tString,
@@ -93,6 +99,20 @@ class OasisPortfolio extends React.PureComponent<
               fiatCurrency,
               currencySetting,
             });
+
+            console.log(chartData);
+
+            const noData = Object.keys(chartData.data).length > 1;
+            if (noData) {
+              return (
+                <Centered style={{ flexDirection: "column" }}>
+                  <p style={{ textAlign: "center" }}>
+                    {t("No data exists yet.")}
+                  </p>
+                </Centered>
+              );
+            }
+
             return (
               <View>
                 <Row style={{ justifyContent: "space-between" }}>
