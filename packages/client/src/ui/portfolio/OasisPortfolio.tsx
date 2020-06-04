@@ -1,3 +1,4 @@
+import { IOasisAccountHistory } from "@anthem/utils";
 import {
   FiatPriceHistoryProps,
   GraphQLConfigProps,
@@ -11,7 +12,9 @@ import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
+import { ChartData } from "tools/chart-utils";
 import { composeWithProps } from "tools/context-utils";
+import { toDateKey } from "tools/date-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import { DashboardError } from "ui/pages/DashboardPage";
 import { DashboardLoader, View } from "../SharedComponents";
@@ -60,9 +63,6 @@ class OasisPortfolio extends React.PureComponent<
     const { i18n, oasisAccountHistory } = this.props;
     const { tString } = i18n;
 
-    console.log("OASIS account history:");
-    console.log(oasisAccountHistory);
-
     return (
       <View style={{ position: "relative", height: "100%" }}>
         <GraphQLGuardComponent
@@ -76,7 +76,14 @@ class OasisPortfolio extends React.PureComponent<
             />
           }
         >
-          <p>Oasis account history is in progress.</p>
+          {(accountHistory: IOasisAccountHistory[]) => {
+            console.log("OASIS account history:");
+            console.log(oasisAccountHistory);
+            const data = getChartData(accountHistory);
+            console.log(data);
+
+            return <p>Oasis account history is in progress.</p>;
+          }}
         </GraphQLGuardComponent>
       </View>
     );
@@ -97,6 +104,27 @@ class OasisPortfolio extends React.PureComponent<
     this.setState({ displayLoadingMessage: false });
   };
 }
+
+/** ===========================================================================
+ * Chart Utils
+ * ============================================================================
+ */
+
+const getChartData = (accountHistory: IOasisAccountHistory[]): ChartData => {
+  const series: { [key: string]: number } = {};
+
+  for (const x of accountHistory) {
+    const key = toDateKey(x.date);
+    series[key] = +x.balance;
+  }
+
+  return {
+    type: "AVAILABLE",
+    data: series,
+    withdrawalEventDates: {},
+    withdrawalsMap: {},
+  };
+};
 
 /** ===========================================================================
  * Props

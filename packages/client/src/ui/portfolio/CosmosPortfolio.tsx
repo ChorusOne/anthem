@@ -244,8 +244,6 @@ class Portfolio extends React.PureComponent<IProps, IState> {
         );
       }
 
-      console.log(chartData);
-
       const options = getHighchartsChartOptions({
         tString,
         fullSize,
