@@ -1,5 +1,5 @@
 import { NETWORKS } from "@anthem/utils";
-import { processPortfolioHistoryData } from "tools/chart-utils";
+import { processPortfolioHistoryData } from "tools/cosmos-chart-utils";
 import { chartExportBuilder } from "tools/csv-utils";
 import { fiatPriceHistory } from "../../../utils/src/client/data/fiatPriceHistory.json";
 import portfolioHistory from "../../../utils/src/client/data/portfolioHistory.json";
