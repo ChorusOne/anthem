@@ -71,7 +71,7 @@ class OasisTransactionList extends React.PureComponent<IProps> {
         transaction={transaction}
         fiatCurrency={fiatCurrency}
         isDetailView={isDetailView}
-        key={transaction.date + index}
+        key={`${transaction.date}-${index}`}
         onCopySuccess={this.onCopySuccess}
       />
     );
