@@ -344,8 +344,8 @@ export interface IOasisAccountMeta {
 export interface IOasisAmendCommissionScheduleEvent {
    __typename?: "OasisAmendCommissionScheduleEvent";
   type: IOasisTransactionType;
-  rates: Array<Scalars["String"]>;
-  bounds: Array<Scalars["String"]>;
+  rates: Maybe<Array<Scalars["String"]>>;
+  bounds: Maybe<Array<Scalars["String"]>>;
 }
 
 export interface IOasisBalance {

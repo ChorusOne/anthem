@@ -293,8 +293,8 @@ type OasisBoundEvent {
 
 type OasisAmendCommissionScheduleEvent {
   type: OasisTransactionType!
-  rates: [String!]!
-  bounds: [String!]!
+  rates: [String!]
+  bounds: [String!]
 }
 
 type OasisUnknownEvent {
