@@ -144,7 +144,8 @@ export const getHighchartsChartOptions = (
         style: {
           color: themedColor,
         },
-        text: currencySetting === "fiat" ? fiatCurrency.symbol : network.name,
+        text:
+          currencySetting === "fiat" ? fiatCurrency.symbol : network.descriptor,
       },
     },
     xAxis: {
@@ -206,7 +207,8 @@ const formatTooltipLabel = ({
   const date = toDateKey(x);
   const yValue = formatCurrencyAmount(String(y));
   const { symbol } = fiatCurrency;
-  const currency = currencySetting === "fiat" ? `${symbol}` : network.name;
+  const currency =
+    currencySetting === "fiat" ? `${symbol}` : network.descriptor;
 
   let optionalWithdrawalMessage = "";
   if (withdrawalDateSet) {

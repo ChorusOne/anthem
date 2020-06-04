@@ -103,7 +103,7 @@ const NETWORKS: NetworksMap = {
     available: false,
     name: "OASIS",
     denom: "oasis",
-    descriptor: "OASIS",
+    descriptor: "ROSE",
     chainId: "oasis",
     cryptoCompareTicker: "OASIS",
     ledgerAppVersion: "n/a",
