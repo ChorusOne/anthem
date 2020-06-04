@@ -1,7 +1,5 @@
 import { assertUnreachable } from "@anthem/utils";
-import { Colors, H5 } from "@blueprintjs/core";
-import { COLORS } from "constants/colors";
-import { CURRENCY_SETTING, FiatCurrency } from "constants/fiat";
+import { H5 } from "@blueprintjs/core";
 import {
   FiatPriceHistoryProps,
   GraphQLConfigProps,
@@ -21,19 +19,14 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { throttle } from "throttle-debounce";
-import { getHighchartsChartOptions } from "tools/chart-utils";
+import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
 import { getPortfolioTypeFromUrl } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import {
-  ChartData,
   getChartTotalGraph,
   processPortfolioHistoryData,
-  WithdrawalEventDates,
 } from "tools/cosmos-chart-utils";
 import { chartExportBuilder } from "tools/csv-utils";
-import { formatCurrencyAmount } from "tools/currency-utils";
-import { fromDateKey, getDateInFuture, toDateKey } from "tools/date-utils";
-import { tFnString } from "tools/i18n-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import { DashboardError } from "ui/pages/DashboardPage";
 import CurrencySettingsToggle from "../CurrencySettingToggle";

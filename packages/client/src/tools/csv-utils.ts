@@ -1,7 +1,7 @@
 import { IFiatPrice, NetworkDefinition } from "@anthem/utils";
+import { ChartData } from "./chart-utils";
 import { isGraphQLResponseDataEmpty } from "./client-utils";
 import {
-  ChartData,
   getChartTotalGraph,
   PortfolioHistoryChartData,
 } from "./cosmos-chart-utils";

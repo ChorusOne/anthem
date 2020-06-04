@@ -7,17 +7,20 @@ import {
   withGraphQLVariables,
   withOasisAccountHistory,
 } from "graphql/queries";
+import * as Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
+import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
 import { composeWithProps } from "tools/context-utils";
-import { ChartData } from "tools/cosmos-chart-utils";
 import { toDateKey } from "tools/date-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import { DashboardError } from "ui/pages/DashboardPage";
-import { DashboardLoader, View } from "../SharedComponents";
+import CurrencySettingsToggle from "../CurrencySettingToggle";
+import { Button, DashboardLoader, Row, View } from "../SharedComponents";
 
 /** ===========================================================================
  * React Component
@@ -29,6 +32,7 @@ class OasisPortfolio extends React.PureComponent<
   { displayLoadingMessage: boolean }
 > {
   loadingTimer: Nullable<number> = null;
+  chartRef: any = null;
 
   constructor(props: IProps) {
     super(props);
@@ -60,8 +64,9 @@ class OasisPortfolio extends React.PureComponent<
 
   render(): JSX.Element | null {
     const { displayLoadingMessage } = this.state;
-    const { i18n, oasisAccountHistory } = this.props;
-    const { tString } = i18n;
+    const { i18n, settings, oasisAccountHistory, fullSize } = this.props;
+    const { t, tString } = i18n;
+    const { fiatCurrency, currencySetting, isDarkTheme } = settings;
 
     return (
       <View style={{ position: "relative", height: "100%" }}>
@@ -79,15 +84,47 @@ class OasisPortfolio extends React.PureComponent<
           {(accountHistory: IOasisAccountHistory[]) => {
             console.log("OASIS account history:");
             console.log(oasisAccountHistory);
-            const data = getChartData(accountHistory);
-            console.log(data);
-
-            return <p>Oasis account history is in progress.</p>;
+            const chartData = getChartData(accountHistory);
+            const options = getHighchartsChartOptions({
+              tString,
+              fullSize,
+              chartData,
+              isDarkTheme,
+              fiatCurrency,
+              currencySetting,
+            });
+            return (
+              <View>
+                <Row style={{ justifyContent: "space-between" }}>
+                  {this.props.settings.isDesktop && (
+                    <Button
+                      category="SECONDARY"
+                      data-cy="csv-download-button"
+                      onClick={this.handleDownloadCSV}
+                    >
+                      {i18n.t("Download CSV")}
+                    </Button>
+                  )}
+                  <View>
+                    <CurrencySettingsToggle />
+                  </View>
+                </Row>
+                <HighchartsReact
+                  options={options}
+                  highcharts={Highcharts}
+                  ref={this.assignChartRef}
+                />
+              </View>
+            );
           }}
         </GraphQLGuardComponent>
       </View>
     );
   }
+
+  handleDownloadCSV = () => {
+    return null;
+  };
 
   startLoadingTimer = () => {
     const LOADING_THRESHOLD_DELAY = 3000; // 3 seconds
@@ -102,6 +139,10 @@ class OasisPortfolio extends React.PureComponent<
     }
 
     this.setState({ displayLoadingMessage: false });
+  };
+
+  assignChartRef = (ref: any) => {
+    this.chartRef = ref;
   };
 }
 
