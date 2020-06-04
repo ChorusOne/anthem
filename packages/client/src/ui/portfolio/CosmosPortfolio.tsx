@@ -198,7 +198,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
   }
 
   renderChart = () => {
-    const { i18n, settings, location, fullSize, network } = this.props;
+    const { i18n, settings, app, fullSize, network } = this.props;
     const { t, tString } = i18n;
     const { fiatCurrency, currencySetting, isDarkTheme } = settings;
 
@@ -209,7 +209,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
 
       if (noData) {
         // Get a relevant message to display for an empty portfolio graph.
-        const portfolioType = getPortfolioTypeFromUrl(location.pathname);
+        const portfolioType = app.activeChartTab;
         const getEmptyGraphMessage = (type: PORTFOLIO_CHART_TYPES): string => {
           switch (type) {
             case "TOTAL":
@@ -340,11 +340,11 @@ class Portfolio extends React.PureComponent<IProps, IState> {
   };
 
   getChartValues = (): Nullable<ChartData> => {
-    const { location } = this.props;
+    const { app } = this.props;
     const { portfolioChartData } = this.state;
 
     if (portfolioChartData) {
-      const portfolioType = getPortfolioTypeFromUrl(location.pathname);
+      const portfolioType = app.activeChartTab;
       if (portfolioType === "TOTAL") {
         return getChartTotalGraph(portfolioChartData);
       } else if (portfolioType === "AVAILABLE") {
@@ -435,6 +435,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
 
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
+  app: Modules.selectors.app.appSelector(state),
   settings: Modules.selectors.settings(state),
   network: Modules.selectors.ledger.networkSelector(state),
   address: Modules.selectors.ledger.addressSelector(state),
