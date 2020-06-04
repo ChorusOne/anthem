@@ -22,13 +22,7 @@ import { toDateKey } from "tools/date-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import { DashboardError } from "ui/pages/DashboardPage";
 import CurrencySettingsToggle from "../CurrencySettingToggle";
-import {
-  Button,
-  Centered,
-  DashboardLoader,
-  Row,
-  View,
-} from "../SharedComponents";
+import { Button, DashboardLoader, Row, View } from "../SharedComponents";
 
 /** ===========================================================================
  * React Component
