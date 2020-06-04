@@ -1,4 +1,4 @@
-import { IOasisAccountHistory } from "@anthem/utils";
+import { IOasisAccountHistory, NetworkDefinition } from "@anthem/utils";
 import {
   FiatPriceHistoryProps,
   GraphQLConfigProps,
@@ -16,6 +16,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
 import { composeWithProps } from "tools/context-utils";
+import { denomToUnit } from "tools/currency-utils";
 import { toDateKey } from "tools/date-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import { DashboardError } from "ui/pages/DashboardPage";
@@ -96,7 +97,7 @@ class OasisPortfolio extends React.PureComponent<
           {(accountHistory: IOasisAccountHistory[]) => {
             console.log("OASIS account history:");
 
-            const chartData = getChartData(accountHistory);
+            const chartData = getChartData(accountHistory, network);
             const options = getHighchartsChartOptions({
               tString,
               network,
@@ -178,12 +179,15 @@ class OasisPortfolio extends React.PureComponent<
  * ============================================================================
  */
 
-const getChartData = (accountHistory: IOasisAccountHistory[]): ChartData => {
+const getChartData = (
+  accountHistory: IOasisAccountHistory[],
+  network: NetworkDefinition,
+): ChartData => {
   const series: { [key: string]: number } = {};
 
   for (const x of accountHistory) {
     const key = toDateKey(x.date);
-    series[key] = +x.balance;
+    series[key] = denomToUnit(x.balance, network.denominationSize, Number);
   }
 
   return {
