@@ -349,7 +349,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
             <View style={{ marginTop: 18 }}>
               <AddressSubtitle>{tString("Recent addresses:")}</AddressSubtitle>
               <Column
-                style={{ marginTop: 6, maxHeight: 150, overflowY: "scroll" }}
+                style={{ marginTop: 6, height: 150, overflowY: "scroll" }}
               >
                 {recentAddressList.map(address => {
                   const network = deriveNetworkFromAddress(address);
