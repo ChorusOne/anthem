@@ -15,6 +15,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
+import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
 import { toDateKey } from "tools/date-utils";
@@ -110,11 +111,11 @@ class OasisPortfolio extends React.PureComponent<
             const noData = Object.keys(chartData.data).length === 0;
             if (noData) {
               return (
-                <Centered style={{ flexDirection: "column" }}>
-                  <p style={{ textAlign: "center" }}>
+                <View style={{ paddingTop: 110 }}>
+                  <p style={{ margin: 0, textAlign: "center" }}>
                     {t("No data exists yet.")}
                   </p>
-                </Centered>
+                </View>
               );
             }
 
@@ -124,11 +125,12 @@ class OasisPortfolio extends React.PureComponent<
               case "STAKING":
               case "COMMISSIONS":
                 return (
-                  <Centered style={{ flexDirection: "column" }}>
+                  <View style={{ paddingTop: 110 }}>
                     <p style={{ margin: 0, textAlign: "center" }}>
-                      Staking account history is not supported yet.
+                      {capitalizeString(activeChartTab)} account history is not
+                      supported yet for Oasis.
                     </p>
-                  </Centered>
+                  </View>
                 );
               case "TOTAL":
               case "AVAILABLE":
