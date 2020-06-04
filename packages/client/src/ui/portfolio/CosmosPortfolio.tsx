@@ -14,7 +14,6 @@ import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import Analytics from "lib/analytics-lib";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
-import moment from "moment-timezone";
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -389,7 +388,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
         });
 
         // Download the CSV data
-        this.downloadToFile(CSV);
+        this.props.downloadDataToFile(CSV);
 
         // Track download event
         Analytics.downloadCSV();
@@ -398,32 +397,6 @@ class Portfolio extends React.PureComponent<IProps, IState> {
       }
     } catch (err) {
       Toast.danger(this.props.i18n.tString("Failed to download CSV data..."));
-    }
-  };
-
-  downloadToFile = (CSV: string) => {
-    // Create the file name
-    const dateStringPrefix = moment(Date.now()).format("MM-DD-YYYY");
-    const fileName = `anthem-cosmos-data-${dateStringPrefix}.csv`;
-
-    try {
-      const hiddenElement = document.createElement("a");
-
-      hiddenElement.href = `data:text/csv;charset=utf-8,${encodeURI(CSV)}`;
-      hiddenElement.target = "_blank";
-      hiddenElement.download = fileName;
-
-      const div = document.getElementById("csv-download-container");
-
-      if (div) {
-        div.appendChild(hiddenElement);
-        hiddenElement.click();
-        hiddenElement.remove();
-      } else {
-        throw new Error("CSV div container could not be found");
-      }
-    } catch (err) {
-      throw err;
     }
   };
 }
@@ -451,6 +424,7 @@ type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
 interface ComponentProps {
   fullSize: boolean;
+  downloadDataToFile: (CSV: string) => void;
 }
 
 interface IProps

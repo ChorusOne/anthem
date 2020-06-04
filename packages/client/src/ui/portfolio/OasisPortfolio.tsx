@@ -241,6 +241,7 @@ type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
 interface ComponentProps {
   fullSize: boolean;
+  downloadDataToFile: (CSV: string) => void;
 }
 
 interface IProps
