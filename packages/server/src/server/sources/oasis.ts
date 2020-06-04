@@ -59,7 +59,7 @@ enum OasisTransactionMethod {
   RECLAIM_ESCROW = "staking.ReclaimEscrow",
   TAKE_ESCROW = "staking.TakeEscrow",
   REGISTER_ENTITY = "staking.RegisterEntity",
-  REGISTER_NODE = "staking.RegisterNode",
+  REGISTER_NODE = "registry.RegisterNode",
   DE_REGISTER_ENTITY = "staking.DeregisterEntity",
   UN_FREEZE_NODE = "staking.UnfreezeNode",
   RATE = "staking.Rate",
@@ -271,9 +271,9 @@ const fetchTransactions = async (
   network: NetworkDefinition,
 ): Promise<IQuery["oasisTransactions"]> => {
   const host = getHostFromNetworkName(network.name);
-  const response = await AxiosUtil.get<OasisTransaction[]>(
-    `${host}/account/${address}/transactions`,
-  );
+  const url = `${host}/account/${address}/transactions`;
+  console.log(url);
+  const response = await AxiosUtil.get<OasisTransaction[]>(url);
 
   // const response = MOCK_OASIS_EVENTS;
 
