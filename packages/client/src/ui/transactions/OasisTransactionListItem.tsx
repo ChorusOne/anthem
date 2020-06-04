@@ -149,7 +149,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
     const { transaction } = this.props;
     const Icon = getOasisTransactionTypeIcon(transaction.data.type);
     return (
-      <EventRowItem style={{ minWidth: 275 }}>
+      <EventRowItem style={{ minWidth: 215 }}>
         <EventIconBox>{Icon}</EventIconBox>
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>

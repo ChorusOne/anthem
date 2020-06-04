@@ -70,7 +70,13 @@ class OasisPortfolio extends React.PureComponent<
 
   render(): JSX.Element | null {
     const { displayLoadingMessage } = this.state;
-    const { i18n, settings, oasisAccountHistory, fullSize } = this.props;
+    const {
+      i18n,
+      settings,
+      network,
+      oasisAccountHistory,
+      fullSize,
+    } = this.props;
     const { t, tString } = i18n;
     const { fiatCurrency, currencySetting, isDarkTheme } = settings;
 
@@ -93,6 +99,7 @@ class OasisPortfolio extends React.PureComponent<
             const chartData = getChartData(accountHistory);
             const options = getHighchartsChartOptions({
               tString,
+              network,
               fullSize,
               chartData,
               isDarkTheme,
@@ -102,7 +109,7 @@ class OasisPortfolio extends React.PureComponent<
 
             console.log(chartData);
 
-            const noData = Object.keys(chartData.data).length > 1;
+            const noData = Object.keys(chartData.data).length === 0;
             if (noData) {
               return (
                 <Centered style={{ flexDirection: "column" }}>

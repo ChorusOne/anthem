@@ -1,3 +1,4 @@
+import { NetworkDefinition } from "@anthem/utils";
 import { Colors } from "@blueprintjs/core";
 import { COLORS } from "constants/colors";
 import { CURRENCY_SETTING, FiatCurrency } from "constants/fiat";
@@ -36,6 +37,7 @@ export interface FiatPriceMap {
  */
 
 interface ChartOptionsArgs {
+  network: NetworkDefinition;
   fiatCurrency: FiatCurrency;
   currencySetting: CURRENCY_SETTING;
   isDarkTheme: boolean;
@@ -49,12 +51,13 @@ export const getHighchartsChartOptions = (
   optionsArgs: ChartOptionsArgs,
 ): Highcharts.Options => {
   const {
+    tString,
+    network,
+    fullSize,
     chartData,
     isDarkTheme,
     fiatCurrency,
     currencySetting,
-    tString,
-    fullSize,
   } = optionsArgs;
   const { data, withdrawalEventDates } = chartData;
 
@@ -104,6 +107,7 @@ export const getHighchartsChartOptions = (
       formatter() {
         return formatTooltipLabel({
           tString,
+          network,
           x: this.x,
           y: this.y,
           fiatCurrency,
@@ -140,7 +144,7 @@ export const getHighchartsChartOptions = (
         style: {
           color: themedColor,
         },
-        text: currencySetting === "fiat" ? fiatCurrency.symbol : "ATOM",
+        text: currencySetting === "fiat" ? fiatCurrency.symbol : network.name,
       },
     },
     xAxis: {
@@ -178,6 +182,7 @@ export const getHighchartsChartOptions = (
 interface TooltipArguments {
   x: number;
   y: number;
+  network: NetworkDefinition;
   xIndexPosition: number;
   currencySetting: CURRENCY_SETTING;
   fiatCurrency: FiatCurrency;
@@ -190,17 +195,18 @@ interface TooltipArguments {
 const formatTooltipLabel = ({
   x,
   y,
+  tString,
+  network,
+  chartType,
+  fiatCurrency,
   xIndexPosition,
   currencySetting,
-  fiatCurrency,
-  chartType,
-  tString,
   withdrawalDateSet,
 }: TooltipArguments): string => {
   const date = toDateKey(x);
   const yValue = formatCurrencyAmount(String(y));
   const { symbol } = fiatCurrency;
-  const currency = currencySetting === "fiat" ? `${symbol}` : "ATOM";
+  const currency = currencySetting === "fiat" ? `${symbol}` : network.name;
 
   let optionalWithdrawalMessage = "";
   if (withdrawalDateSet) {

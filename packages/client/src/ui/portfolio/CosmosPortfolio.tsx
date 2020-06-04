@@ -198,7 +198,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
   }
 
   renderChart = () => {
-    const { i18n, settings, location, fullSize } = this.props;
+    const { i18n, settings, location, fullSize, network } = this.props;
     const { t, tString } = i18n;
     const { fiatCurrency, currencySetting, isDarkTheme } = settings;
 
@@ -240,6 +240,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
 
       const options = getHighchartsChartOptions({
         tString,
+        network,
         fullSize,
         chartData,
         isDarkTheme,
