@@ -39,6 +39,7 @@ interface OasisAccountResponse {
 }
 
 interface OasisAccountHistory {
+  date: string;
   height: number;
   address: string;
   balance: string;

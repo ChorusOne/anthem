@@ -328,6 +328,7 @@ export interface IOasisAccountBalancesType {
 
 export interface IOasisAccountHistory {
    __typename?: "OasisAccountHistory";
+  date: Scalars["String"];
   height: Scalars["String"];
   address: Scalars["String"];
   balance: Scalars["String"];
@@ -1211,7 +1212,7 @@ export type IOasisAccountHistoryQuery = (
   { __typename?: "Query" }
   & { oasisAccountHistory: Array<(
     { __typename?: "OasisAccountHistory" }
-    & Pick<IOasisAccountHistory, "height" | "address" | "balance">
+    & Pick<IOasisAccountHistory, "date" | "height" | "address" | "balance">
     & { meta: (
       { __typename?: "OasisAccountMeta" }
       & Pick<IOasisAccountMeta, "is_validator" | "is_delegator">
@@ -2526,6 +2527,7 @@ export type LatestBlockQueryResult = ApolloReactCommon.QueryResult<ILatestBlockQ
 export const OasisAccountHistoryDocument = gql`
     query oasisAccountHistory($address: String!, $fiat: String!) {
   oasisAccountHistory(address: $address, fiat: $fiat) {
+    date
     height
     address
     balance

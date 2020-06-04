@@ -149,6 +149,7 @@ type OasisAccountBalances {
 }
 
 type OasisAccountHistory {
+  date: String!
   height: String!
   address: String!
   balance: String!
