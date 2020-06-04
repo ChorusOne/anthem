@@ -31,6 +31,7 @@ import styled from "styled-components";
 import {
   CHART_TABS,
   getPortfolioTypeFromUrl,
+  isValidChartTab,
   onActiveRoute,
   onActiveTab,
 } from "tools/client-utils";
@@ -52,7 +53,11 @@ import TransactionSwitchContainer from "ui/transactions/TransactionSwitchContain
 
 class DashboardPage extends React.Component<IProps> {
   componentDidMount() {
-    this.props.setActiveChartTab(window.location.pathname.split("/")[1]);
+    const tab = window.location.pathname.split("/")[1];
+    const validTab = isValidChartTab(tab);
+    if (validTab) {
+      this.props.setActiveChartTab(validTab);
+    }
   }
 
   render(): JSX.Element {

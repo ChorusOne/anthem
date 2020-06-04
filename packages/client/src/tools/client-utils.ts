@@ -421,8 +421,15 @@ export const CHART_TABS: ReadonlyArray<PORTFOLIO_CHART_TYPES> = [
 /**
  *  Determine if a string is a valid chart tab key.
  */
-export const isValidChartTab = (tab: string) => {
-  return new Set(CHART_TABS.map(x => x.toLowerCase())).has(tab);
+export const isValidChartTab = (
+  tab: string,
+): Nullable<PORTFOLIO_CHART_TYPES> => {
+  // @ts-ignore
+  if (new Set(CHART_TABS).has(tab.toUpperCase())) {
+    return tab.toUpperCase() as PORTFOLIO_CHART_TYPES;
+  } else {
+    return null;
+  }
 };
 
 /**
