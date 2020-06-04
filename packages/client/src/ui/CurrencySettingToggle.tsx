@@ -43,6 +43,7 @@ const CurrencySettingsToggle = (props: IProps) => {
         color={COLORS.CHORUS}
         label={fiatCurrency.name}
         data-cy="fiat-currency-setting-radio"
+        disabled={!props.network.supportsFiatPrices}
       />
       <Radio
         value="crypto"
