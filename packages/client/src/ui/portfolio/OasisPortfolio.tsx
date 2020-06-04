@@ -72,11 +72,12 @@ class OasisPortfolio extends React.PureComponent<
   render(): JSX.Element | null {
     const { displayLoadingMessage } = this.state;
     const {
+      app,
       i18n,
       settings,
       network,
-      oasisAccountHistory,
       fullSize,
+      oasisAccountHistory,
     } = this.props;
     const { t, tString } = i18n;
     const { fiatCurrency, currencySetting, isDarkTheme } = settings;
@@ -95,8 +96,6 @@ class OasisPortfolio extends React.PureComponent<
           }
         >
           {(accountHistory: IOasisAccountHistory[]) => {
-            console.log("OASIS account history:");
-
             const chartData = getChartData(accountHistory, network);
             const options = getHighchartsChartOptions({
               tString,
@@ -107,8 +106,6 @@ class OasisPortfolio extends React.PureComponent<
               fiatCurrency,
               currencySetting,
             });
-
-            console.log(chartData);
 
             const noData = Object.keys(chartData.data).length === 0;
             if (noData) {
@@ -121,29 +118,50 @@ class OasisPortfolio extends React.PureComponent<
               );
             }
 
-            return (
-              <View>
-                <Row style={{ justifyContent: "space-between" }}>
-                  {this.props.settings.isDesktop && (
-                    <Button
-                      category="SECONDARY"
-                      data-cy="csv-download-button"
-                      onClick={this.handleDownloadCSV}
-                    >
-                      {i18n.t("Download CSV")}
-                    </Button>
-                  )}
+            const { activeChartTab } = app;
+            switch (activeChartTab) {
+              case "REWARDS":
+              case "STAKING":
+              case "COMMISSIONS":
+                return (
+                  <Centered style={{ flexDirection: "column" }}>
+                    <p style={{ margin: 0, textAlign: "center" }}>
+                      Staking account history is not supported yet.
+                    </p>
+                  </Centered>
+                );
+              case "TOTAL":
+              case "AVAILABLE":
+                return (
                   <View>
-                    <CurrencySettingsToggle />
+                    <Row style={{ justifyContent: "space-between" }}>
+                      {this.props.settings.isDesktop && (
+                        <Button
+                          category="SECONDARY"
+                          data-cy="csv-download-button"
+                          onClick={this.handleDownloadCSV}
+                        >
+                          {i18n.t("Download CSV")}
+                        </Button>
+                      )}
+                      <View>
+                        <CurrencySettingsToggle />
+                      </View>
+                    </Row>
+                    <HighchartsReact
+                      options={options}
+                      highcharts={Highcharts}
+                      ref={this.assignChartRef}
+                    />
                   </View>
-                </Row>
-                <HighchartsReact
-                  options={options}
-                  highcharts={Highcharts}
-                  ref={this.assignChartRef}
-                />
-              </View>
-            );
+                );
+              default: {
+                console.warn(
+                  `Unexpected activeChartTab received: ${activeChartTab}`,
+                );
+                return null;
+              }
+            }
           }}
         </GraphQLGuardComponent>
       </View>
@@ -206,6 +224,7 @@ const getChartData = (
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   settings: Modules.selectors.settings(state),
+  app: Modules.selectors.app.appSelector(state),
   network: Modules.selectors.ledger.networkSelector(state),
   address: Modules.selectors.ledger.addressSelector(state),
 });
