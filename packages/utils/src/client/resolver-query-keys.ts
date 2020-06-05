@@ -22,6 +22,7 @@ export default [
   "fiatPriceHistory",
   "dailyPercentChange",
   "fiatCurrencies",
+  "oasisAccountHistory",
   "oasisTransactions",
   "celoAccountHistory",
   "celoTransactions",
