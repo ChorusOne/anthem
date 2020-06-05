@@ -20,7 +20,6 @@ import { loader } from "graphql.macro";
 const schemaString = loader("../../../server/src/schema/schema.graphql");
 
 const keys = RESOLVER_QUERY_KEYS as ReadonlyArray<QueryKeyUnion>;
-console.log(keys);
 
 /** ===========================================================================
  * Types & Config
@@ -92,13 +91,11 @@ const getQueryResolverFromKey = (key: QueryKeyUnion) => async (
   handleMaybeFailQuery(key);
 
   try {
-    console.log(key);
     // Handle optional delay
     await artificialDelay(key);
 
     // Get saved response data from utils/ package client/data directory
     const json = require(`../../../utils/src/client/data/${key}.json`);
-    console.log(json);
 
     // Return response JSON
     return json[key];
