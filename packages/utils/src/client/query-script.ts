@@ -2,7 +2,7 @@ import fs from "fs";
 import { request } from "graphql-request";
 import { Variables } from "graphql-request/dist/src/types";
 import path from "path";
-import { VarConfig, VARIABLES_CONFIG } from "./query-config";
+import { VARIABLES_CONFIG } from "./query-config";
 import QUERY_FILE_KEYS from "./resolver-query-keys";
 
 /** ===========================================================================
@@ -23,7 +23,7 @@ export type RequestArray = ReadonlyArray<RequestData>;
  */
 const getVariablesForRequest = (gql: string): Variables => {
   // Find the matching variable config
-  const config = VARIABLES_CONFIG.find(x => x.test(gql));
+  const config = VARIABLES_CONFIG.find(x => x.testQuery(gql));
   if (config) {
     return config.variables;
   }
@@ -64,11 +64,6 @@ const writeGraphQLResponseToFile = (key: string, response: any) => {
   fs.writeFileSync(`${PATH}/${key}.json`, json, "utf8");
 };
 
-/** ===========================================================================
- * Types & Config
- * ============================================================================
- */
-
 // Override PORT if local port is different
 const PORT = process.env.PORT || 8000;
 const GRAPHQL_URL = `http://localhost:${PORT}/graphql`;
@@ -87,10 +82,9 @@ const graphql = async (requestData: RequestData) => {
 /**
  * Warn user they need to have the server running for this to work.
  */
-const message =
-  "\nRunning requests against GraphQL server - make sure you have the server running!\n";
-
-console.log(message);
+console.log(
+  "\nRunning requests against GraphQL server - make sure you have the server running!\n",
+);
 
 /**
  * For each request, make the request and record the data.
