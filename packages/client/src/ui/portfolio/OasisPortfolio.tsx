@@ -204,6 +204,10 @@ class OasisPortfolio extends React.PureComponent<
  * ============================================================================
  */
 
+/**
+ * Function to build the Oasis chart data. Currently available is the only
+ * chart which is supported.
+ */
 const getChartData = (
   accountHistory: IOasisAccountHistory[],
   network: NetworkDefinition,
@@ -223,6 +227,9 @@ const getChartData = (
   };
 };
 
+/**
+ * Function to build the Oasis CSV export.
+ */
 const getOasisCSV = (
   address: string,
   accountHistory: IOasisAccountHistory[],
