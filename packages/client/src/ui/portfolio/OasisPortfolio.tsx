@@ -234,7 +234,7 @@ const getOasisCSV = (
   // Create the CSV Header.
   const CSV_HEADERS: ReadonlyArray<string> = [
     "Date",
-    `Exchange Rate (${fiatCurrencySymbol}:${coin})`,
+    `Exchange Rate (${fiatCurrencySymbol.symbol}:${coin})`,
     `Total Balance (${coin})`,
     `Available Balance (${coin})`,
     `Staked Balance (${coin})`,
