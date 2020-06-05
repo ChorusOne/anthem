@@ -26,11 +26,11 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
       fiat: "USD",
       address: "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
     },
-    test: (s: string) => {
+    test: (gql: string) => {
       return (
-        s.includes("oasisAccountHistory") &&
-        s.includes("$address") &&
-        s.includes("$fiat")
+        gql.includes("oasisAccountHistory") &&
+        gql.includes("$address") &&
+        gql.includes("$fiat")
       );
     },
   },
@@ -38,8 +38,8 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
     variables: {
       address: "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
     },
-    test: (s: string) => {
-      return s.includes("oasisTransactions") && s.includes("$address");
+    test: (gql: string) => {
+      return gql.includes("oasisTransactions") && gql.includes("$address");
     },
   },
   // Celo APIs ----------------------------------------------------------------
@@ -48,11 +48,11 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
       fiat: "USD",
       address: "0xaaA0f78431F31d1395ABAC444DD239aA50459b7F=",
     },
-    test: (s: string) => {
+    test: (gql: string) => {
       return (
-        s.includes("celoAccountHistory") &&
-        s.includes("$address") &&
-        s.includes("$fiat")
+        gql.includes("celoAccountHistory") &&
+        gql.includes("$address") &&
+        gql.includes("$fiat")
       );
     },
   },
@@ -60,8 +60,8 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
     variables: {
       address: "0xaaA0f78431F31d1395ABAC444DD239aA50459b7F=",
     },
-    test: (s: string) => {
-      return s.includes("celoTransactions") && s.includes("$address");
+    test: (gql: string) => {
+      return gql.includes("celoTransactions") && gql.includes("$address");
     },
   },
   // Cosmos APIs --------------------------------------------------------------
@@ -71,8 +71,8 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
       network: "COSMOS",
       validatorAddress: "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
     },
-    test: (s: string) => {
-      return s.includes("$fiat") && s.includes("$validatorAddress");
+    test: (gql: string) => {
+      return gql.includes("$fiat") && gql.includes("$validatorAddress");
     },
   },
   {
@@ -80,8 +80,8 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
       fiat: "USD",
       currency: "ATOM",
     },
-    test: (s: string) => {
-      return s.includes("$currency") && s.includes("$fiat");
+    test: (gql: string) => {
+      return gql.includes("$currency") && gql.includes("$fiat");
     },
   },
   {
@@ -90,8 +90,8 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
       network: "COSMOS",
       address: "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
     },
-    test: (s: string) => {
-      return s.includes("$fiat") && s.includes("$address");
+    test: (gql: string) => {
+      return gql.includes("$fiat") && gql.includes("$address");
     },
   },
   {
@@ -99,8 +99,8 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
       fiat: "USD",
       network: "COSMOS",
     },
-    test: (s: string) => {
-      return s.includes("$fiat");
+    test: (gql: string) => {
+      return gql.includes("$fiat");
     },
   },
   {
@@ -108,7 +108,7 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
       network: "COSMOS",
       address: "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
     },
-    test: (s: string) => s.includes("$address"),
+    test: (gql: string) => gql.includes("$address"),
   },
   {
     variables: {
@@ -116,27 +116,27 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
       txHash:
         "E0BC81E3B76F70466D8F235F02EDD3F3E23E8C52A40D27A650BC14A9E6F8239C",
     },
-    test: (s: string) => s.includes("$txHash"),
+    test: (gql: string) => gql.includes("$txHash"),
   },
   {
     variables: {
       network: "COSMOS",
       validatorAddress: "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
     },
-    test: (s: string) => s.includes("$validatorAddress"),
+    test: (gql: string) => gql.includes("$validatorAddress"),
   },
   {
     variables: {
       versus: "USD",
       currency: "ATOM",
     },
-    test: (s: string) => s.includes("$currency") && s.includes("$versus"),
+    test: (gql: string) => gql.includes("$currency") && gql.includes("$versus"),
   },
   {
     variables: {
       network: "COSMOS",
     },
-    test: (s: string) => s.includes("$network"),
+    test: (gql: string) => gql.includes("$network"),
   },
 ];
 
