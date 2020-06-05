@@ -1,4 +1,5 @@
 import { IOasisAccountHistory, NetworkDefinition } from "@anthem/utils";
+import { FiatCurrency } from "constants/fiat";
 import {
   FiatPriceHistoryProps,
   GraphQLConfigProps,
@@ -135,7 +136,7 @@ class OasisPortfolio extends React.PureComponent<
                         <Button
                           category="SECONDARY"
                           data-cy="csv-download-button"
-                          onClick={this.handleDownloadCSV}
+                          onClick={() => this.handleDownloadCSV(accountHistory)}
                         >
                           {i18n.t("Download CSV")}
                         </Button>
@@ -164,8 +165,18 @@ class OasisPortfolio extends React.PureComponent<
     );
   }
 
-  handleDownloadCSV = () => {
-    return null;
+  handleDownloadCSV = (accountHistory: IOasisAccountHistory[]) => {
+    try {
+      const data = getOasisCSV(
+        this.props.address,
+        accountHistory,
+        this.props.network,
+        this.props.settings.fiatCurrency,
+      );
+      this.props.downloadDataToFile(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   startLoadingTimer = () => {
@@ -210,6 +221,39 @@ const getChartData = (
     withdrawalEventDates: {},
     withdrawalsMap: {},
   };
+};
+
+const getOasisCSV = (
+  address: string,
+  accountHistory: IOasisAccountHistory[],
+  network: NetworkDefinition,
+  fiatCurrencySymbol: FiatCurrency,
+) => {
+  const coin = network.descriptor;
+
+  // Create the CSV Header.
+  const CSV_HEADERS: ReadonlyArray<string> = [
+    "Date",
+    `Exchange Rate (${fiatCurrencySymbol}:${coin})`,
+    `Total Balance (${coin})`,
+    `Available Balance (${coin})`,
+    `Staked Balance (${coin})`,
+    `Daily Rewards (${coin})`,
+    `Accumulated Rewards (${coin})`,
+  ];
+
+  // Add info text about the address and network
+  const ADDRESS_INFO = `Account history data for ${network.name} address ${address}.\n\n`;
+
+  // Add disclaimer at the top of the CSV:
+  const DISCLAIMER = `[DISCLAIMER]: This CSV account history is a best approximation of the account balances and rewards data over time. It is not a perfect history and uses a 3rd party price feed for exchange price data.\n\n`;
+
+  // Assemble CSV file string with headers
+  const CSV = `${ADDRESS_INFO}${DISCLAIMER}${CSV_HEADERS.join(",")}\n`;
+
+  // TODO: Build the CSV
+
+  return CSV;
 };
 
 /** ===========================================================================

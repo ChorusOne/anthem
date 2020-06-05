@@ -27,6 +27,7 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
       validatorAddress: "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
     },
     test: (s: string) => {
+      console.log(s);
       return s.includes("$fiat") && s.includes("$validatorAddress");
     },
   },
@@ -36,6 +37,7 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
       currency: "ATOM",
     },
     test: (s: string) => {
+      console.log(s);
       return s.includes("$currency") && s.includes("$fiat");
     },
   },
