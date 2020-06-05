@@ -22,18 +22,13 @@ export type RequestArray = ReadonlyArray<RequestData>;
  * requires, or an empty object if there are none.
  */
 const getVariablesForRequest = (gql: string): Variables => {
-  return VARIABLES_CONFIG.reduce((vars: Variables, configItem: VarConfig) => {
-    if (Object.keys(vars).length) {
-      return vars;
-    }
+  // Find the matching variable config
+  const config = VARIABLES_CONFIG.find(x => x.test(gql));
+  if (config) {
+    return config.variables;
+  }
 
-    const { variables, test } = configItem;
-    if (test(gql)) {
-      return variables;
-    } else {
-      return vars;
-    }
-  }, {});
+  return {};
 };
 
 /**
