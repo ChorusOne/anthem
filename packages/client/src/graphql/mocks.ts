@@ -1,4 +1,10 @@
-import { IQuery, RESOLVER_QUERY_KEYS } from "@anthem/utils";
+import {
+  assertUnreachable,
+  IOasisTransactionData,
+  IOasisTransactionType,
+  IQuery,
+  RESOLVER_QUERY_KEYS,
+} from "@anthem/utils";
 import { SchemaLink } from "apollo-link-schema";
 import { addMockFunctionsToSchema, makeExecutableSchema } from "graphql-tools";
 import { loader } from "graphql.macro";
@@ -85,6 +91,7 @@ const getQueryResolverFromKey = (key: QueryKeyUnion) => async (
   handleMaybeFailQuery(key);
 
   try {
+    console.log(key);
     // Handle optional delay
     await artificialDelay(key);
 
@@ -159,6 +166,43 @@ const typeResolvers = {
         return "OasisAccountBalancesType";
       } else {
         return "CosmosAccountBalancesType";
+      }
+    },
+  },
+
+  OasisTransactionData: {
+    __resolveType(event: IOasisTransactionData) {
+      const { type } = event;
+
+      switch (type) {
+        case IOasisTransactionType.Burn:
+          return "OasisBurnEvent";
+        case IOasisTransactionType.Transfer:
+          return "OasisTransferEvent";
+        case IOasisTransactionType.EscrowAdd:
+          return "OasisEscrowAddEvent";
+        case IOasisTransactionType.EscrowTake:
+          return "OasisEscrowTakeEvent";
+        case IOasisTransactionType.EscrowReclaim:
+          return "OasisEscrowReclaimEvent";
+        case IOasisTransactionType.RegisterEntity:
+          return "OasisRegisterEntityEvent";
+        case IOasisTransactionType.UnfreezeNode:
+          return "OasisUnfreezeNodeEvent";
+        case IOasisTransactionType.RegisterNode:
+          return "OasisRegisterNodeEvent";
+        case IOasisTransactionType.RegisterRuntime:
+          return "OasisRegisterRuntimeEvent";
+        case IOasisTransactionType.RateEvent:
+          return "OasisRateEvent";
+        case IOasisTransactionType.BoundEvent:
+          return "OasisBoundEvent";
+        case IOasisTransactionType.AmendCommissionSchedule:
+          return "OasisAmendCommissionScheduleEvent";
+        case IOasisTransactionType.UnknownEvent:
+          return "OasisUnknownEvent";
+        default:
+          return assertUnreachable(type);
       }
     },
   },
