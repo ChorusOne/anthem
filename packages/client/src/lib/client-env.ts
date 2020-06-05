@@ -31,6 +31,7 @@ const SERVER_URL = getenv.string(
 );
 
 const GRAPHQL_URL = `${SERVER_URL}/graphql`;
+console.log(GRAPHQL_URL);
 
 /**
  * NOTE: See
