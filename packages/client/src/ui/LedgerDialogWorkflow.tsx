@@ -363,7 +363,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
                       replace
                       key={address}
                       style={{ marginTop: 2, marginBottom: 2 }}
-                      to={`/${activeChartTab}?address=${address}`}
+                      to={`/${activeChartTab.toLowerCase()}?address=${address}`}
                     >
                       <NetworkLabel>{network.name}</NetworkLabel>
                       <RecentAddress>{formattedAddress}</RecentAddress>
@@ -387,7 +387,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
                 <Link
                   replace
                   style={{ marginTop: 2, marginBottom: 2 }}
-                  to={`/${activeChartTab}?address=cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd`}
+                  to={`/${activeChartTab.toLowerCase()}?address=cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd`}
                 >
                   {formatAddressString(
                     "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
