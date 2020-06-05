@@ -60,11 +60,9 @@ class PortfolioSwitchContainer extends React.Component<IProps, IState> {
   render(): Nullable<JSX.Element> {
     if (this.state.hasError) {
       return (
-        <Centered>
-          <PanelMessageText>
-            {this.props.i18n.tString("Error fetching data...")}
-          </PanelMessageText>
-        </Centered>
+        <PanelMessageText>
+          {this.props.i18n.tString("Error fetching data...")}
+        </PanelMessageText>
       );
     }
 

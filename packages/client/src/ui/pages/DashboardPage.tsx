@@ -460,11 +460,9 @@ export const DashboardError = ({
   tString: tFnString;
   text?: string | JSX.Element;
 }) => (
-  <Centered style={{ marginTop: -25 }}>
-    <p style={{ textAlign: "center" }}>
-      {text ? text : <b>{tString("Error fetching data...")}</b>}
-    </p>
-  </Centered>
+  <p style={{ marginTop: 85, textAlign: "center" }}>
+    {text ? text : tString("Error fetching data...")}
+  </p>
 );
 
 const DashboardDefaultView = styled.div`
