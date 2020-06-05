@@ -1,0 +1,276 @@
+{
+  "governanceProposals": [
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "Passed",
+      "final_tally_result": {
+        "yes": "97118903526799",
+        "abstain": "402380577234",
+        "no": "320545400000",
+        "no_with_veto": "0"
+      },
+      "submit_time": "2019-03-20T06:41:27.040075748Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "512100000" }],
+      "voting_start_time": "2019-03-20T20:43:59.630492307Z"
+    },
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "Rejected",
+      "final_tally_result": {
+        "yes": "5195610593628",
+        "abstain": "2619844783500",
+        "no": "58322135404940",
+        "no_with_veto": "43483296883256"
+      },
+      "submit_time": "2019-03-25T21:42:19.240550245Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "521400000" }],
+      "voting_start_time": "2019-03-25T23:44:04.098630937Z"
+    },
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "Passed",
+      "final_tally_result": {
+        "yes": "91073006010689",
+        "abstain": "82100000001",
+        "no": "8960614220464",
+        "no_with_veto": "91169999999"
+      },
+      "submit_time": "2019-04-03T10:15:22.291176064Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "521500000" }],
+      "voting_start_time": "2019-04-03T17:35:12.673927642Z"
+    },
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "Rejected",
+      "final_tally_result": {
+        "yes": "33723552888122",
+        "abstain": "20706168938",
+        "no": "26427988266507",
+        "no_with_veto": "13368982409321"
+      },
+      "submit_time": "2019-04-15T08:45:39.072577509Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "512000001" }],
+      "voting_start_time": "2019-04-15T15:25:48.465886746Z"
+    },
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "Passed",
+      "final_tally_result": {
+        "yes": "100649363640051",
+        "abstain": "440382406440",
+        "no": "3261263357974",
+        "no_with_veto": "4775200426319"
+      },
+      "submit_time": "2019-04-19T00:49:55.251313656Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "513000000" }],
+      "voting_start_time": "2019-04-19T02:48:01.207552384Z"
+    },
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "Passed",
+      "final_tally_result": {
+        "yes": "110522077231139",
+        "abstain": "11773440000",
+        "no": "4000000",
+        "no_with_veto": "0"
+      },
+      "submit_time": "2019-05-03T18:14:33.209053883Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "516000000" }],
+      "voting_start_time": "2019-05-03T19:50:58.076569857Z"
+    },
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "Passed",
+      "final_tally_result": {
+        "yes": "101546237540481",
+        "abstain": "4000000",
+        "no": "271654460000",
+        "no_with_veto": "0"
+      },
+      "submit_time": "2019-05-03T21:08:25.443199036Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "512000000" }],
+      "voting_start_time": "2019-05-04T16:02:33.24680295Z"
+    },
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "Passed",
+      "final_tally_result": {
+        "yes": "126067366023363",
+        "abstain": "0",
+        "no": "1389999",
+        "no_with_veto": "0"
+      },
+      "submit_time": "2019-05-30T19:43:02.870666885Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "1328000000" }],
+      "voting_start_time": "2019-05-30T19:48:15.472348272Z"
+    },
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "Passed",
+      "final_tally_result": {
+        "yes": "115845057759826",
+        "abstain": "143480099999",
+        "no": "6244866096334",
+        "no_with_veto": "0"
+      },
+      "submit_time": "2019-07-01T14:09:25.508939113Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "586500001" }],
+      "voting_start_time": "2019-07-03T11:01:59.653929827Z"
+    },
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "Passed",
+      "final_tally_result": {
+        "yes": "62973338233484",
+        "abstain": "35498146258257",
+        "no": "8203669919474",
+        "no_with_veto": "5526140000"
+      },
+      "submit_time": "2019-07-23T00:28:15.881319915Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "514000000" }],
+      "voting_start_time": "2019-07-23T08:59:37.718897404Z"
+    },
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "Passed",
+      "final_tally_result": {
+        "yes": "120499728510495",
+        "abstain": "18092219398336",
+        "no": "0",
+        "no_with_veto": "151999"
+      },
+      "submit_time": "2019-07-26T18:04:10.416760069Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "550000000" }],
+      "voting_start_time": "2019-07-29T14:37:18.454146432Z"
+    },
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "Rejected",
+      "final_tally_result": {
+        "yes": "25041581559222",
+        "abstain": "41000000000",
+        "no": "56592155045420",
+        "no_with_veto": "0"
+      },
+      "submit_time": "2019-08-23T16:16:19.814900321Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "512000000" }],
+      "voting_start_time": "2019-08-23T17:43:15.034844973Z"
+    },
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "Passed",
+      "final_tally_result": {
+        "yes": "151766431561545",
+        "abstain": "637685895771",
+        "no": "575592227281",
+        "no_with_veto": "0"
+      },
+      "submit_time": "2019-09-05T21:32:32.253341577Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "612000000" }],
+      "voting_start_time": "2019-09-06T02:30:01.287557726Z"
+    },
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "Passed",
+      "final_tally_result": {
+        "yes": "154154642304501",
+        "abstain": "0",
+        "no": "525588663406",
+        "no_with_veto": "0"
+      },
+      "submit_time": "2019-11-14T17:13:31.985706216Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "513000000" }],
+      "voting_start_time": "2019-11-15T05:57:10.911711562Z"
+    },
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "Passed",
+      "final_tally_result": {
+        "yes": "132707314781653",
+        "abstain": "6792152705214",
+        "no": "6583520449408",
+        "no_with_veto": "1204049999"
+      },
+      "submit_time": "2020-01-15T06:51:48.001168602Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "512000000" }],
+      "voting_start_time": "2020-01-15T19:16:08.573134301Z"
+    },
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "Passed",
+      "final_tally_result": {
+        "yes": "130633411716489",
+        "abstain": "17650000",
+        "no": "6754563411",
+        "no_with_veto": "0"
+      },
+      "submit_time": "2020-05-12T17:10:00.465282299Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "541000000" }],
+      "voting_start_time": "2020-05-12T21:34:51.554328316Z"
+    },
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "Rejected",
+      "final_tally_result": {
+        "yes": "25247651668590",
+        "abstain": "30887048132382",
+        "no": "47223322778439",
+        "no_with_veto": "18719964938"
+      },
+      "submit_time": "2020-05-21T18:00:11.292428073Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "512000000" }],
+      "voting_start_time": "2020-05-21T18:00:11.292428073Z"
+    }
+  ]
+}

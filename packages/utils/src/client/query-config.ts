@@ -46,7 +46,7 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   {
     variables: {
       fiat: "USD",
-      address: "0xaaA0f78431F31d1395ABAC444DD239aA50459b7F=",
+      address: "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2",
     },
     testQuery: (gql: string) => {
       return (
@@ -58,7 +58,7 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   },
   {
     variables: {
-      address: "0xaaA0f78431F31d1395ABAC444DD239aA50459b7F=",
+      address: "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2",
     },
     testQuery: (gql: string) => {
       return gql.includes("celoTransactions") && gql.includes("$address");

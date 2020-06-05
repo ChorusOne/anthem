@@ -1,0 +1,45 @@
+{
+  "transaction": {
+    "hash": "E0BC81E3B76F70466D8F235F02EDD3F3E23E8C52A40D27A650BC14A9E6F8239C",
+    "height": "1216434",
+    "log": [
+      {
+        "code": null,
+        "message": null,
+        "success": true,
+        "log": "",
+        "msg_index": "0"
+      }
+    ],
+    "gaswanted": "37188",
+    "gasused": "29585",
+    "memo": "\"(Sent via Lunie)\"",
+    "fees": {
+      "amount": [{ "denom": "uatom", "amount": "930" }],
+      "gas": "37188"
+    },
+    "tags": [
+      { "key": "action", "value": "send" },
+      {
+        "key": "sender",
+        "value": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd"
+      },
+      {
+        "key": "recipient",
+        "value": "cosmos16nte2qf5l0u39s86wcwu4fff4vdtvg7yn3uksu"
+      }
+    ],
+    "msgs": [
+      {
+        "type": "cosmos-sdk/MsgSend",
+        "value": {
+          "amounts": [{ "denom": "uatom", "amount": "2000000" }],
+          "to_address": "cosmos16nte2qf5l0u39s86wcwu4fff4vdtvg7yn3uksu",
+          "from_address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd"
+        }
+      }
+    ],
+    "timestamp": "1564313356000",
+    "chain": "cosmoshub-2"
+  }
+}

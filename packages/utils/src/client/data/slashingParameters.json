@@ -1,0 +1,11 @@
+{
+  "slashingParameters": {
+    "max_evidence_age": "1814400000000000",
+    "signed_blocks_window": "10000",
+    "min_signed_per_window": "0.050000000000000000",
+    "double_sign_unbond_duration": null,
+    "downtime_unbond_duration": null,
+    "slash_fraction_double_sign": "0.050000000000000000",
+    "slash_fraction_downtime": "0.000100000000000000"
+  }
+}
