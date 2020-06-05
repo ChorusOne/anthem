@@ -42,7 +42,7 @@ import Balance from "ui/Balances";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import LoginStart from "ui/LoginStart";
 import PortfolioSwitchContainer from "ui/portfolio/PortfolioSwitchContainer";
-import { Centered, View } from "ui/SharedComponents";
+import { View } from "ui/SharedComponents";
 import Toast from "ui/Toast";
 import TransactionSwitchContainer from "ui/transactions/TransactionSwitchContainer";
 

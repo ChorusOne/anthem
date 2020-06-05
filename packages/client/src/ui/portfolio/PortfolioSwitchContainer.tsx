@@ -11,7 +11,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
-import { Centered, PanelMessageText } from "ui/SharedComponents";
+import { PanelMessageText } from "ui/SharedComponents";
 import CeloPortfolio from "./CeloPortfolio";
 import CosmosPortfolio from "./CosmosPortfolio";
 import OasisPortfolio from "./OasisPortfolio";
