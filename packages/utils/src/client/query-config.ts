@@ -20,6 +20,51 @@ export interface VarConfig {
  * to which queries.
  */
 const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
+  // Oasis APIs ---------------------------------------------------------------
+  {
+    variables: {
+      fiat: "USD",
+      address: "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+    },
+    test: (s: string) => {
+      return (
+        s.includes("oasisAccountHistory") &&
+        s.includes("$address") &&
+        s.includes("$fiat")
+      );
+    },
+  },
+  {
+    variables: {
+      address: "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+    },
+    test: (s: string) => {
+      return s.includes("oasisTransactions") && s.includes("$address");
+    },
+  },
+  // Celo APIs ----------------------------------------------------------------
+  {
+    variables: {
+      fiat: "USD",
+      address: "0xaaA0f78431F31d1395ABAC444DD239aA50459b7F=",
+    },
+    test: (s: string) => {
+      return (
+        s.includes("celoAccountHistory") &&
+        s.includes("$address") &&
+        s.includes("$fiat")
+      );
+    },
+  },
+  {
+    variables: {
+      address: "0xaaA0f78431F31d1395ABAC444DD239aA50459b7F=",
+    },
+    test: (s: string) => {
+      return s.includes("celoTransactions") && s.includes("$address");
+    },
+  },
+  // Cosmos APIs --------------------------------------------------------------
   {
     variables: {
       fiat: "USD",
