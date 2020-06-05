@@ -232,7 +232,7 @@ const getOasisCSV = (
   const coin = network.descriptor;
 
   // Create the CSV Header.
-  const CSV_HEADERS: ReadonlyArray<string> = [
+  const CSV_HEADERS: string[] = [
     "Date",
     `Exchange Rate (${fiatCurrencySymbol.symbol}:${coin})`,
     `Total Balance (${coin})`,
@@ -249,9 +249,26 @@ const getOasisCSV = (
   const DISCLAIMER = `[DISCLAIMER]: This CSV account history is a best approximation of the account balances and rewards data over time. It is not a perfect history and uses a 3rd party price feed for exchange price data.\n\n`;
 
   // Assemble CSV file string with headers
-  const CSV = `${ADDRESS_INFO}${DISCLAIMER}${CSV_HEADERS.join(",")}\n`;
+  let CSV = `${ADDRESS_INFO}${DISCLAIMER}${CSV_HEADERS.join(",")}\n`;
 
-  // TODO: Build the CSV
+  for (const x of accountHistory) {
+    const dateKey = toDateKey(x.date);
+    const balance = denomToUnit(x.balance, network.denominationSize, String);
+
+    // Create the CSV row
+    const row = [
+      dateKey,
+      "n/a", // Fiat balances not supported for Oasis yet
+      balance,
+      balance,
+      "n/a", // Staked balance not supported for Oasis yet
+      "n/a", // Rewards not supported for Oasis yet
+      "n/a", // Rewards not supported for Oasis yet
+    ].join(",");
+
+    // Add the row to the CSV
+    CSV += row;
+  }
 
   return CSV;
 };
