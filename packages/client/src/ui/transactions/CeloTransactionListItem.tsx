@@ -6,12 +6,13 @@ import { FiatCurrency } from "constants/fiat";
 import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
 import React from "react";
-import { formatAddressString } from "tools/client-utils";
+import { capitalizeString, formatAddressString } from "tools/client-utils";
 import { TranslateMethodProps } from "tools/i18n-utils";
 import AddressIconComponent from "ui/AddressIconComponent";
 import {
   ClickableEventRow,
   EventContextBox,
+  EventIcon,
   EventIconBox,
   EventRow,
   EventRowItem,
@@ -55,15 +56,14 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
   }
 
   renderTransactionType = () => {
-    const { tags } = this.props.transaction;
-    const tagType = tags[0].tag;
+    const tagType = getCeloTransactionType(this.props.transaction);
     return (
-      <EventRowItem style={{ minWidth: 215 }}>
+      <EventRowItem style={{ minWidth: 300 }}>
         <EventIconBox>
-          <CeloLogo />
+          <EventIcon src={CeloLogo} />
         </EventIconBox>
         <EventContextBox>
-          <EventText style={{ fontWeight: "bold" }}>Block Number</EventText>
+          <EventText style={{ fontWeight: "bold" }}>Transaction Type</EventText>
           <EventText data-cy="transaction-type">{tagType}</EventText>
         </EventContextBox>
       </EventRowItem>
@@ -125,6 +125,20 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     this.props.setAddress(address, { showToastForError: true });
   };
 }
+
+/** ===========================================================================
+ * Utils
+ * ============================================================================
+ */
+
+const getCeloTransactionType = (transaction: ICeloTransaction) => {
+  const { tags } = transaction;
+  const { tag } = tags[0];
+  return tag
+    .split("-")
+    .map(capitalizeString)
+    .join(" ");
+};
 
 /** ===========================================================================
  * Export
