@@ -17,13 +17,6 @@ SCREEN_SIZES.forEach(({ size, type }) => {
     });
 
     it("After logging in with an address balance details are visible for that address", () => {
-      UTILS.shouldContainText("balance-available", "ATOMs");
-      UTILS.shouldContainText("balance-delegations", "ATOMs");
-      UTILS.shouldContainText("balance-rewards", "ATOMs");
-      UTILS.shouldContainText("balance-unbonding", "ATOMs");
-      UTILS.shouldContainText("balance-commissions", "ATOMs");
-      UTILS.shouldContainText("balance-total", "ATOMs");
-
       cy.contains("NETWORK: COSMOS");
       cy.contains("ATOM Price");
     });
@@ -55,12 +48,6 @@ SCREEN_SIZES.forEach(({ size, type }) => {
     });
 
     it("After logging in with an address balance details are visible for that address", () => {
-      UTILS.shouldContainText("balance-available", "ATOMs");
-      UTILS.shouldContainText("balance-delegations", "ATOMs");
-      UTILS.shouldContainText("balance-rewards", "ATOMs");
-      UTILS.shouldContainText("balance-unbonding", "ATOMs");
-      UTILS.shouldContainText("balance-commissions", "ATOMs");
-      UTILS.shouldContainText("balance-total", "ATOMs");
       cy.contains("NETWORK: OASIS");
       cy.contains("ROSE Price");
     });

@@ -69,7 +69,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
     const { transaction } = this.props;
     return (
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
-        <EventRow>
+        <EventRow data-cy="transaction-list-item">
           {this.renderTypeAndTimestamp()}
           {this.renderAddressBlocks()}
           {this.renderFeeAmount(transaction.fee)}
