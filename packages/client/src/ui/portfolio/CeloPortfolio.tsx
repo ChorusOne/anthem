@@ -83,8 +83,8 @@ class CeloPortfolio extends React.PureComponent<
     const { t, tString } = i18n;
     const { fiatCurrency, currencySetting, isDarkTheme } = settings;
 
-    console.log("CELO account history:");
-    console.log(celoAccountHistory);
+    // console.log("CELO account history:");
+    // console.log(celoAccountHistory);
 
     return (
       <View style={{ position: "relative", height: "100%" }}>
