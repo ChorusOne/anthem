@@ -1,5 +1,6 @@
 import { ICeloTransaction, NetworkDefinition } from "@anthem/utils";
 import { Card, Elevation } from "@blueprintjs/core";
+import { CeloLogo } from "assets/icons";
 import { OasisGenericEvent } from "assets/images";
 import { FiatCurrency } from "constants/fiat";
 import { ILocale } from "i18n/catalog";
@@ -45,12 +46,29 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     return (
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
         <EventRow data-cy="transaction-list-item">
+          {this.renderTransactionType()}
           {this.renderBlockNumber()}
           {this.renderAddressBlocks()}
         </EventRow>
       </Card>
     );
   }
+
+  renderTransactionType = () => {
+    const { tags } = this.props.transaction;
+    const tagType = tags[0].tag;
+    return (
+      <EventRowItem style={{ minWidth: 215 }}>
+        <EventIconBox>
+          <CeloLogo />
+        </EventIconBox>
+        <EventContextBox>
+          <EventText style={{ fontWeight: "bold" }}>Block Number</EventText>
+          <EventText data-cy="transaction-type">{tagType}</EventText>
+        </EventContextBox>
+      </EventRowItem>
+    );
+  };
 
   renderBlockNumber = () => {
     const { blockNumber } = this.props.transaction;
