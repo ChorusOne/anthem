@@ -51,8 +51,8 @@ const findAndClick = (id: string) => {
  */
 const typeText = (id: string, text: string) => {
   cy.get(`[data-cy=${id}]`)
-    .clear()
-    .type(text);
+    .clear({ force: true })
+    .type(text, { force: true });
 };
 
 /**
