@@ -17,9 +17,12 @@ SCREEN_SIZES.forEach(({ size, type }) => {
     });
 
     it("After logging in with an address balance details are visible for that address", () => {
-      cy.contains("NETWORK: COSMOS");
-      cy.contains("ATOM Price");
       cy.contains("Balance (ATOM)");
+
+      if (type.isDesktop()) {
+        cy.contains("ATOM Price");
+        cy.contains("NETWORK: COSMOS");
+      }
     });
 
     it("The transaction history is rendered once an address is entered", () => {
@@ -49,9 +52,12 @@ SCREEN_SIZES.forEach(({ size, type }) => {
     });
 
     it("After logging in with an address balance details are visible for that address", () => {
-      cy.contains("NETWORK: OASIS");
-      cy.contains("ROSE Price");
       cy.contains("Balance (ROSE)");
+
+      if (type.isDesktop()) {
+        cy.contains("ROSE Price");
+        cy.contains("NETWORK: OASIS");
+      }
     });
 
     it("The transaction history is rendered once an address is entered", () => {
