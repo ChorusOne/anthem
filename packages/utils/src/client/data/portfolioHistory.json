@@ -3588,6 +3588,30 @@
         "height": 2120104,
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "timestamp": "2020-06-02T16:00:03.000Z"
+      },
+      {
+        "balance": "78532152",
+        "height": 2125098,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-06-03T01:51:14.000Z"
+      },
+      {
+        "balance": "79192248",
+        "height": 2132253,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-06-03T16:00:03.000Z"
+      },
+      {
+        "balance": "79860662",
+        "height": 2139500,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-06-04T06:18:25.000Z"
+      },
+      {
+        "balance": "80312654",
+        "height": 2144397,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-06-04T16:00:06.000Z"
       }
     ],
     "validatorCommissions": [
@@ -6554,6 +6578,30 @@
         "height": 2120104,
         "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
         "timestamp": "2020-06-02T16:00:03.000Z"
+      },
+      {
+        "balance": "6095410970",
+        "height": 2125098,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-06-03T01:51:14.000Z"
+      },
+      {
+        "balance": "6146670957",
+        "height": 2132253,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-06-03T16:00:03.000Z"
+      },
+      {
+        "balance": "6198587680",
+        "height": 2139500,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-06-04T06:18:25.000Z"
+      },
+      {
+        "balance": "6233704561",
+        "height": 2144397,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-06-04T16:00:06.000Z"
       }
     ],
     "fiatPriceHistory": [
@@ -7025,8 +7073,10 @@
       { "price": 2.7390000000000003, "timestamp": "2020-05-30T00:00:00.000Z" },
       { "price": 2.78125, "timestamp": "2020-05-31T00:00:00.000Z" },
       { "price": 2.79, "timestamp": "2020-06-01T00:00:00.000Z" },
-      { "price": 2.793, "timestamp": "2020-06-02T00:00:00.000Z" },
-      { "price": 2.7645000000000004, "timestamp": "2020-06-03T00:00:00.000Z" }
+      { "price": 2.8025, "timestamp": "2020-06-02T00:00:00.000Z" },
+      { "price": 2.83075, "timestamp": "2020-06-03T00:00:00.000Z" },
+      { "price": 3.013, "timestamp": "2020-06-04T00:00:00.000Z" },
+      { "price": 3.08975, "timestamp": "2020-06-05T00:00:00.000Z" }
     ]
   }
 }

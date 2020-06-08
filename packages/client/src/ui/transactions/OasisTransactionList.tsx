@@ -54,7 +54,7 @@ class OasisTransactionList extends React.PureComponent<IProps> {
     this.props.setTransactionsPage(this.props.transactionsPage + 1);
   };
 
-  renderTransactionItem = (transaction: IOasisTransaction) => {
+  renderTransactionItem = (transaction: IOasisTransaction, index: number) => {
     const { ledger, settings, i18n, isDetailView, setAddress } = this.props;
     const { network, address } = ledger;
     const { t, tString, locale } = i18n;
@@ -67,11 +67,11 @@ class OasisTransactionList extends React.PureComponent<IProps> {
         address={address}
         network={network}
         isDesktop={isDesktop}
-        key={transaction.date}
         setAddress={setAddress}
         transaction={transaction}
         fiatCurrency={fiatCurrency}
         isDetailView={isDetailView}
+        key={`${transaction.date}-${index}`}
         onCopySuccess={this.onCopySuccess}
       />
     );

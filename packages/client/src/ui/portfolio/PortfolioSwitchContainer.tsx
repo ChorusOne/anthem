@@ -6,11 +6,12 @@ import {
 } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
+import moment from "moment-timezone";
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
-import { Centered, PanelMessageText } from "ui/SharedComponents";
+import { PanelMessageText } from "ui/SharedComponents";
 import CeloPortfolio from "./CeloPortfolio";
 import CosmosPortfolio from "./CosmosPortfolio";
 import OasisPortfolio from "./OasisPortfolio";
@@ -59,11 +60,9 @@ class PortfolioSwitchContainer extends React.Component<IProps, IState> {
   render(): Nullable<JSX.Element> {
     if (this.state.hasError) {
       return (
-        <Centered>
-          <PanelMessageText>
-            {this.props.i18n.tString("Error fetching data...")}
-          </PanelMessageText>
-        </Centered>
+        <PanelMessageText>
+          {this.props.i18n.tString("Error fetching data...")}
+        </PanelMessageText>
       );
     }
 
@@ -79,15 +78,56 @@ class PortfolioSwitchContainer extends React.Component<IProps, IState> {
 
     switch (network.name) {
       case "COSMOS":
-        return <CosmosPortfolio fullSize={this.props.fullSize} />;
+        return (
+          <CosmosPortfolio
+            fullSize={this.props.fullSize}
+            downloadDataToFile={this.downloadDataToFile}
+          />
+        );
       case "OASIS":
-        return <OasisPortfolio fullSize={this.props.fullSize} />;
+        return (
+          <OasisPortfolio
+            fullSize={this.props.fullSize}
+            downloadDataToFile={this.downloadDataToFile}
+          />
+        );
       case "CELO":
-        return <CeloPortfolio fullSize={this.props.fullSize} />;
+        return (
+          <CeloPortfolio
+            fullSize={this.props.fullSize}
+            downloadDataToFile={this.downloadDataToFile}
+          />
+        );
       default:
         return null;
     }
   }
+
+  downloadDataToFile = (CSV: string) => {
+    // Create the file name
+    const dateStringPrefix = moment(Date.now()).format("MM-DD-YYYY");
+    const fileName = `anthem-cosmos-data-${dateStringPrefix}.csv`;
+
+    try {
+      const hiddenElement = document.createElement("a");
+
+      hiddenElement.href = `data:text/csv;charset=utf-8,${encodeURI(CSV)}`;
+      hiddenElement.target = "_blank";
+      hiddenElement.download = fileName;
+
+      const div = document.getElementById("csv-download-container");
+
+      if (div) {
+        div.appendChild(hiddenElement);
+        hiddenElement.click();
+        hiddenElement.remove();
+      } else {
+        throw new Error("CSV div container could not be found");
+      }
+    } catch (err) {
+      throw err;
+    }
+  };
 }
 
 /** ===========================================================================

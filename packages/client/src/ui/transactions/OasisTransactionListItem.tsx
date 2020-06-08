@@ -69,7 +69,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
     const { transaction } = this.props;
     return (
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
-        <EventRow>
+        <EventRow data-cy="transaction-list-item">
           {this.renderTypeAndTimestamp()}
           {this.renderAddressBlocks()}
           {this.renderFeeAmount(transaction.fee)}
@@ -149,7 +149,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
     const { transaction } = this.props;
     const Icon = getOasisTransactionTypeIcon(transaction.data.type);
     return (
-      <EventRowItem style={{ minWidth: 275 }}>
+      <EventRowItem style={{ minWidth: 215 }}>
         <EventIconBox>{Icon}</EventIconBox>
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>
@@ -181,7 +181,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
   renderTransactionAmount = (amount: string) => {
     const { denominationSize } = this.props.network;
     return (
-      <EventRowItem style={{ minWidth: 275 }}>
+      <EventRowItem style={{ minWidth: 200 }}>
         <EventIconBox>
           <EventIcon src={OasisLogo} />
         </EventIconBox>

@@ -9,6 +9,7 @@ export type GenericDateFormat = string | number | Date;
 
 const UTC_TIMEZONE = "Etc/UTC";
 const DATE_FORMAT = "MMM DD, YYYY";
+const CSV_DATE_FORMAT = "MMM DD YYYY";
 
 const setTimeZone = (date: any) => {
   // If the date is provided in the DATE_FORMAT then specify this format
@@ -26,6 +27,14 @@ const setTimeZone = (date: any) => {
 export const toDateKey = (date: GenericDateFormat) => {
   const tz = setTimeZone(date);
   return tz.format(DATE_FORMAT);
+};
+
+/**
+ * Convert a date to a string date key for CSV export format.
+ */
+export const toDateKeyCSV = (date: GenericDateFormat) => {
+  const tz = setTimeZone(date);
+  return tz.format(CSV_DATE_FORMAT);
 };
 
 /**

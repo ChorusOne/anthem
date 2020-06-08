@@ -31,6 +31,7 @@ import styled from "styled-components";
 import {
   CHART_TABS,
   getPortfolioTypeFromUrl,
+  isValidChartTab,
   onActiveRoute,
   onActiveTab,
 } from "tools/client-utils";
@@ -41,7 +42,7 @@ import Balance from "ui/Balances";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import LoginStart from "ui/LoginStart";
 import PortfolioSwitchContainer from "ui/portfolio/PortfolioSwitchContainer";
-import { Centered, View } from "ui/SharedComponents";
+import { View } from "ui/SharedComponents";
 import Toast from "ui/Toast";
 import TransactionSwitchContainer from "ui/transactions/TransactionSwitchContainer";
 
@@ -52,7 +53,11 @@ import TransactionSwitchContainer from "ui/transactions/TransactionSwitchContain
 
 class DashboardPage extends React.Component<IProps> {
   componentDidMount() {
-    this.props.setActiveChartTab(window.location.pathname.split("/")[1]);
+    const tab = window.location.pathname.split("/")[1];
+    const validTab = isValidChartTab(tab);
+    if (validTab) {
+      this.props.setActiveChartTab(validTab);
+    }
   }
 
   render(): JSX.Element {
@@ -455,11 +460,9 @@ export const DashboardError = ({
   tString: tFnString;
   text?: string | JSX.Element;
 }) => (
-  <Centered style={{ marginTop: -25 }}>
-    <p style={{ textAlign: "center" }}>
-      {text ? text : <b>{tString("Error fetching data...")}</b>}
-    </p>
-  </Centered>
+  <p style={{ marginTop: 85, textAlign: "center" }}>
+    {text ? text : tString("Error fetching data...")}
+  </p>
 );
 
 const DashboardDefaultView = styled.div`

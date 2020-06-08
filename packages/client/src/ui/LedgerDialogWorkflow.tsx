@@ -1,4 +1,7 @@
-import { getNetworkDefinitionFromIdentifier } from "@anthem/utils";
+import {
+  deriveNetworkFromAddress,
+  getNetworkDefinitionFromIdentifier,
+} from "@anthem/utils";
 import { Classes, Colors, Dialog, H6, Icon } from "@blueprintjs/core";
 import { ChorusLogoIconOnly, ChorusLogoIconOnlyIconDark } from "assets/images";
 import { COLORS } from "constants/colors";
@@ -310,7 +313,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
 
     return (
       <View>
-        <H6>{tString("Enter a Cosmos address to get started:")}</H6>
+        <H6>Enter an address to get started:</H6>
         <View>
           <FormContainer>
             <form
@@ -342,38 +345,28 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
               <ErrorText>{addressError}</ErrorText>
             </div>
           )}
-          {currentAddress && (
-            <View style={{ marginTop: 12 }}>
-              <AddressSubtitle>{tString("Current address:")}</AddressSubtitle>
-              <br />
-              <p style={{ marginTop: 8, color: COLORS.LIGHT_GRAY }}>
-                {formatAddressString(
-                  currentAddress,
-                  !this.props.settings.isDesktop,
-                  25,
-                )}
-              </p>
-            </View>
-          )}
           {recentAddressList.length > 0 && (
             <View style={{ marginTop: 18 }}>
               <AddressSubtitle>{tString("Recent addresses:")}</AddressSubtitle>
               <Column
-                style={{ marginTop: 6, maxHeight: 85, overflowY: "scroll" }}
+                style={{ marginTop: 6, height: 150, overflowY: "scroll" }}
               >
                 {recentAddressList.map(address => {
+                  const network = deriveNetworkFromAddress(address);
+                  const formattedAddress = formatAddressString(
+                    address,
+                    !this.props.settings.isDesktop,
+                    25,
+                  );
                   return (
                     <Link
                       replace
                       key={address}
                       style={{ marginTop: 2, marginBottom: 2 }}
-                      to={`/${activeChartTab}?address=${address}`}
+                      to={`/${activeChartTab.toLowerCase()}?address=${address}`}
                     >
-                      {formatAddressString(
-                        address,
-                        !this.props.settings.isDesktop,
-                        25,
-                      )}
+                      <NetworkLabel>{network.name}</NetworkLabel>
+                      <RecentAddress>{formattedAddress}</RecentAddress>
                     </Link>
                   );
                 })}
@@ -394,7 +387,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
                 <Link
                   replace
                   style={{ marginTop: 2, marginBottom: 2 }}
-                  to={`/${activeChartTab}?address=cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd`}
+                  to={`/${activeChartTab.toLowerCase()}?address=cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd`}
                 >
                   {formatAddressString(
                     "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
@@ -559,6 +552,23 @@ const ClearAllLink = styled.p`
     cursor: pointer;
     color: ${COLORS.ERROR_LIGHT};
   }
+`;
+
+const NetworkLabel = styled.p`
+  margin: 0;
+  padding: 0;
+  width: 75px;
+  font-weight: bold;
+  font-size: 9px;
+  margin-top: 4px;
+  margin-bottom: -6px;
+  color: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? Colors.LIGHT_GRAY1 : Colors.DARK_GRAY5};
+`;
+
+const RecentAddress = styled.p`
+  margin: 0;
+  padding: 0;
 `;
 
 /** ===========================================================================

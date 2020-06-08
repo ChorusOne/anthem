@@ -1,10 +1,10 @@
 import { IFiatPrice, NetworkDefinition } from "@anthem/utils";
+import { ChartData } from "./chart-utils";
+import { isGraphQLResponseDataEmpty } from "./client-utils";
 import {
-  ChartData,
   getChartTotalGraph,
   PortfolioHistoryChartData,
-} from "./chart-utils";
-import { isGraphQLResponseDataEmpty } from "./client-utils";
+} from "./cosmos-chart-utils";
 import { toDateKey } from "./date-utils";
 import { add, multiply, subtract } from "./math-utils";
 

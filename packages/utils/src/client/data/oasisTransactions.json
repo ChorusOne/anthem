@@ -1,0 +1,68 @@
+{
+  "oasisTransactions": {
+    "page": 1,
+    "limit": 25,
+    "data": [
+      {
+        "fee": "1",
+        "gas": 1000,
+        "gas_price": "0",
+        "height": 5020,
+        "method": "staking.AddEscrow",
+        "date": "2020-05-12T03:37:06Z",
+        "sender": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+        "data": {
+          "type": "ESCROW_ADD",
+          "to": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "tokens": "1790000000000"
+        }
+      },
+      {
+        "fee": "2000",
+        "gas": 1000,
+        "gas_price": "2",
+        "height": 20946,
+        "method": "staking.Transfer",
+        "date": "2020-05-13T05:36:31Z",
+        "sender": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+        "data": {
+          "type": "TRANSFER",
+          "from": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "to": "B+6c+s7Ol91yc5ORKD1YLvSge/x50dBcki0CBKiW9Po=",
+          "tokens": "1000000000"
+        }
+      },
+      {
+        "fee": "2000",
+        "gas": 1000,
+        "gas_price": "2",
+        "height": 20747,
+        "method": "staking.Transfer",
+        "date": "2020-05-13T05:17:01Z",
+        "sender": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+        "data": {
+          "type": "TRANSFER",
+          "from": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "to": "B+6c+s7Ol91yc5ORKD1YLvSge/x50dBcki0CBKiW9Po=",
+          "tokens": "1000000000"
+        }
+      },
+      {
+        "fee": "2000",
+        "gas": 1000,
+        "gas_price": "2",
+        "height": 20946,
+        "method": "staking.Transfer",
+        "date": "2020-05-13T05:36:31Z",
+        "sender": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+        "data": {
+          "type": "TRANSFER",
+          "from": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "to": "B+6c+s7Ol91yc5ORKD1YLvSge/x50dBcki0CBKiW9Po=",
+          "tokens": "1000000000"
+        }
+      }
+    ],
+    "moreResultsExist": false
+  }
+}

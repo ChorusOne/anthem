@@ -10,7 +10,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
-import { Centered, PanelMessageText } from "ui/SharedComponents";
+import { PanelMessageText } from "ui/SharedComponents";
 import CeloTransactionContainer from "ui/transactions/CeloTransactionContainer";
 import CosmosTransactionContainer from "ui/transactions/CosmosTransactionContainer";
 import OasisTransactionContainer from "ui/transactions/OasisTransactionContainer";
@@ -59,11 +59,9 @@ class TransactionSwitchContainer extends React.Component<IProps, IState> {
   render(): Nullable<JSX.Element> {
     if (this.state.hasError) {
       return (
-        <Centered>
-          <PanelMessageText>
-            {this.props.i18n.tString("Error fetching data...")}
-          </PanelMessageText>
-        </Centered>
+        <PanelMessageText>
+          {this.props.i18n.tString("Error fetching data...")}
+        </PanelMessageText>
       );
     }
 

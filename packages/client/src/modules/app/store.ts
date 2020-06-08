@@ -1,4 +1,5 @@
 import { Pathname, Search } from "history";
+import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import StorageModule from "lib/storage-lib";
 import { combineReducers } from "redux";
 import { isValidChartTab, onChartView } from "tools/client-utils";
@@ -57,7 +58,7 @@ export enum SORT_DIRECTION {
 }
 
 interface AppState {
-  activeChartTab: string;
+  activeChartTab: PORTFOLIO_CHART_TYPES;
   activeBannerKey: Nullable<BANNER_NOTIFICATIONS_KEYS>;
   notificationsBannerVisible: boolean;
   dashboardInputFocused: boolean;
@@ -91,7 +92,7 @@ const initialAppState: AppState = {
     pathname: "",
     search: "",
   },
-  activeChartTab: "total",
+  activeChartTab: "TOTAL",
 };
 
 const app = createReducer<AppState, ActionTypes>(initialAppState)
@@ -137,18 +138,10 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
       dashboardInputFocused: action.payload,
     }),
   )
-  .handleAction(actions.setActiveChartTab, (state, action) => {
-    let activeChartTab = state.activeChartTab;
-    const tab = action.payload;
-
-    if (isValidChartTab(tab)) {
-      activeChartTab = tab;
-    }
-    return {
-      ...state,
-      activeChartTab,
-    };
-  })
+  .handleAction(actions.setActiveChartTab, (state, action) => ({
+    ...state,
+    activeChartTab: action.payload,
+  }))
   .handleAction(actions.onRouteChange, (state, action) => {
     let activeChartTab = state.activeChartTab;
 
@@ -157,8 +150,9 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
     const chartViewActive = onChartView(pathname);
     if (chartViewActive) {
       const tab = pathname.split("/")[1];
-      if (isValidChartTab(tab)) {
-        activeChartTab = tab;
+      const validTab = isValidChartTab(tab);
+      if (validTab) {
+        activeChartTab = validTab;
       }
     }
 

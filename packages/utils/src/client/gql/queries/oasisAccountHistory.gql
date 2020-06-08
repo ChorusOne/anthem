@@ -1,5 +1,6 @@
 query oasisAccountHistory($address: String!, $fiat: String!){
     oasisAccountHistory(address: $address, fiat: $fiat){
+        date
         height
         address
         balance

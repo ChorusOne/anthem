@@ -3,8 +3,8 @@
     "cosmos": {
       "balance": [{ "denom": "uatom", "amount": "348585020" }],
       "rewards": [
-        { "denom": "uatom", "amount": "78405513.332902144681379199" },
-        { "denom": "uatom", "amount": "35357.589145035966000000" }
+        { "denom": "uatom", "amount": "80621110.879366719771367440" },
+        { "denom": "uatom", "amount": "35764.842726382035000000" }
       ],
       "delegations": [
         {
@@ -20,7 +20,7 @@
       ],
       "unbonding": [],
       "commissions": [
-        { "denom": "uatom", "amount": "6088322488.273243528337778253" }
+        { "denom": "uatom", "amount": "6260448260.010809161686160472" }
       ]
     }
   }

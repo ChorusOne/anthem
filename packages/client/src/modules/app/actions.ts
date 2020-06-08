@@ -1,5 +1,6 @@
 import { NetworkDefinition } from "@anthem/utils";
 import { Action, Location } from "history";
+import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import { ActionType, createStandardAction } from "typesafe-actions";
 import {
   BANNER_NOTIFICATIONS_KEYS,
@@ -127,7 +128,7 @@ const onRouteChange = createStandardAction(ActionTypesEnum.ROUTE_CHANGE)<
 
 const setActiveChartTab = createStandardAction(
   ActionTypesEnum.SET_ACTIVE_CHART_TAB,
-)<string>();
+)<PORTFOLIO_CHART_TYPES>();
 
 const actions = {
   empty,
