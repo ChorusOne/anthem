@@ -19,6 +19,7 @@ SCREEN_SIZES.forEach(({ size, type }) => {
     it("After logging in with an address balance details are visible for that address", () => {
       cy.contains("NETWORK: COSMOS");
       cy.contains("ATOM Price");
+      cy.contains("Balance (ATOM)");
     });
 
     it("The transaction history is rendered once an address is entered", () => {
@@ -50,6 +51,7 @@ SCREEN_SIZES.forEach(({ size, type }) => {
     it("After logging in with an address balance details are visible for that address", () => {
       cy.contains("NETWORK: OASIS");
       cy.contains("ROSE Price");
+      cy.contains("Balance (ROSE)");
     });
 
     it("The transaction history is rendered once an address is entered", () => {
