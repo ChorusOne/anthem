@@ -7,7 +7,7 @@ import { UTILS, getScreenType } from "../support/cypress-utils";
 
 describe("Test Ledger Transactions", () => {
   beforeEach(() => {
-    UTILS.loginWithAddress(getScreenType(), true);
+    UTILS.loginWithAddress(getScreenType(), "cosmos", true);
   });
 
   afterEach(() => {

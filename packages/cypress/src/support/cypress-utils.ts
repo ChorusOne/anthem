@@ -15,14 +15,14 @@ export const APP_URL = Cypress.env("HOST");
  * screen sizes.
  */
 export const SCREEN_SIZES = [
-  {
-    type: getScreenType(true),
-    size: "iphone-6+",
-  },
-  {
-    type: getScreenType(true),
-    size: "ipad-2",
-  },
+  // {
+  //   type: getScreenType(true),
+  //   size: "iphone-6+",
+  // },
+  // {
+  //   type: getScreenType(true),
+  //   size: "ipad-2",
+  // },
   {
     type: getScreenType(false),
     size: [1024, 768],
@@ -84,10 +84,21 @@ const setViewportSize = (size: any) => {
   }
 };
 
+type Network = "cosmos" | "oasis"; // Only these two for now
+
 /**
  * Helper to login using the address login.
  */
-const loginWithAddress = (type: any, useLedger = false) => {
+const loginWithAddress = (type: any, network: Network, useLedger = false) => {
+  // Set an address before each test.
+  const address =
+    network === "cosmos"
+      ? "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd"
+      : "CVzqFIADD2Ed0khGBNf4Rvh7vSNtrL1ULTkWYQszDpc=";
+
+  const addressPrefix =
+    network === "cosmos" ? "cosmos15...um7trd" : "CVzqFIAD...szDpc=";
+
   /**
    * Visit the app. Expect redirect to login and initiate the login
    * enter address flow.
@@ -102,26 +113,28 @@ const loginWithAddress = (type: any, useLedger = false) => {
    *
    * NOTE: Ledger signin is only allowed on desktop currently.
    */
-  if (useLedger || (Date.now() % 2 === 0 && type.isDesktop())) {
+  const randomlySelectedLedger = Date.now() % 2 === 0 && type.isDesktop();
+  if (network === "cosmos" && (useLedger || randomlySelectedLedger)) {
     // Ledger signin:
     findAndClick("ledger-signin");
     findAndClick("COSMOS-network-login");
   } else {
     // Address signin:
     findAndClick("address-signin");
-    // Set an address before each test.
-    const address = "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd";
     cy.get("[data-cy=address-input]").type(address);
     cy.get("[data-cy=address-input-form]").submit();
   }
 
   if (type.isDesktop()) {
-    cy.get(find("user-selected-address-bar")).should(
-      "have.text",
-      "cosmos15...um7trd",
-    );
+    if (network === "cosmos") {
+      cy.get(find("user-selected-address-bar")).should(
+        "have.text",
+        addressPrefix,
+      );
+    }
   }
 
+  cy.url().should("contain", address);
   cy.url().should("contain", "/total");
 };
 
