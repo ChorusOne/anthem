@@ -1,7 +1,7 @@
 import { SCREEN_SIZES, UTILS } from "../support/cypress-utils";
 
 /** ===========================================================================
- * Test linking an address
+ * Test logging in with an address
  * ============================================================================
  */
 
