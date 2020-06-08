@@ -23,7 +23,7 @@ import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
 import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
-import { toDateKey } from "tools/date-utils";
+import { toDateKeyCelo } from "tools/date-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import { DashboardError } from "ui/pages/DashboardPage";
 import CurrencySettingsToggle from "../CurrencySettingToggle";
@@ -225,7 +225,6 @@ const getChartData = (
   const series: { [key: string]: number } = {};
 
   for (const x of accountHistory) {
-    const key = toDateKey(x.snapshotDate);
     let value = "";
     switch (type) {
       case "TOTAL":
@@ -246,6 +245,8 @@ const getChartData = (
         console.warn(`Unexpected activeChartTab received: ${type}`);
         assertUnreachable(type);
     }
+
+    const key = toDateKeyCelo(x.snapshotDate);
     series[key] = denomToUnit(value, network.denominationSize, Number);
   }
 

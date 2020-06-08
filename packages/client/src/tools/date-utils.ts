@@ -22,6 +22,15 @@ const setTimeZone = (date: any) => {
 };
 
 /**
+ * Handle converting Celo specific snapshot date formats.
+ */
+export const toDateKeyCelo = (date: GenericDateFormat) => {
+  return moment(date, "DD-MM-YYYY")
+    .tz(UTC_TIMEZONE)
+    .format(DATE_FORMAT);
+};
+
+/**
  * Convert a date to a string date key.
  */
 export const toDateKey = (date: GenericDateFormat) => {
