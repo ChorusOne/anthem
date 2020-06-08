@@ -26,6 +26,7 @@ import { denomToUnit } from "tools/currency-utils";
 import { toDateKeyCelo } from "tools/date-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import { DashboardError } from "ui/pages/DashboardPage";
+import Toast from "ui/Toast";
 import CurrencySettingsToggle from "../CurrencySettingToggle";
 import { Button, DashboardLoader, Row, View } from "../SharedComponents";
 
@@ -192,7 +193,7 @@ class CeloPortfolio extends React.PureComponent<
   };
 
   handleDownloadCSV = (accountHistory: ICeloAccountSnapshot[]) => {
-    // no-op
+    Toast.warn("CSV Download Coming soon...");
   };
 }
 
@@ -201,6 +202,7 @@ class CeloPortfolio extends React.PureComponent<
  * ============================================================================
  */
 
+// NOTE: Celo Snapshot Data:
 // "snapshotDate": "07-04-2020",
 // "address": "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2",
 // "height": "0",
@@ -240,6 +242,7 @@ const getChartData = (
         value = x.totalLockedGoldBalance;
         break;
       case "COMMISSIONS":
+        // Commissions are not supported yet
         return null;
       default:
         console.warn(`Unexpected activeChartTab received: ${type}`);
