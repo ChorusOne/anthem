@@ -131,13 +131,20 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
  * ============================================================================
  */
 
+/**
+ * Derive transaction type from Celo transaction tags.
+ */
 const getCeloTransactionType = (transaction: ICeloTransaction) => {
   const { tags } = transaction;
-  const { tag } = tags[0];
-  return tag
-    .split("-")
-    .map(capitalizeString)
-    .join(" ");
+  if (tags.length) {
+    const { tag } = tags[0];
+    return tag
+      .split("-")
+      .map(capitalizeString)
+      .join(" ");
+  } else {
+    return "Celo Transaction";
+  }
 };
 
 /** ===========================================================================

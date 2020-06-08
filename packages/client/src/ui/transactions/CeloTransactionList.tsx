@@ -23,8 +23,8 @@ class CeloTransactionList extends React.PureComponent<IProps> {
 
     const TXS_EXIST = transactions.length > 0;
 
-    console.log("CELO transactions:");
-    console.log(transactions);
+    // console.log("CELO transactions:");
+    // console.log(transactions);
 
     return (
       <React.Fragment>
