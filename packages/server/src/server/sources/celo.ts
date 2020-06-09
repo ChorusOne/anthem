@@ -39,6 +39,7 @@ interface CeloAccountSnapshot {
 interface CeloTransactionResponse {
   blockNumber: number;
   hash: string;
+  timestamp: string;
   from: string;
   to: string;
   tags: ICeloTransactionTags[];

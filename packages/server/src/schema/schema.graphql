@@ -103,6 +103,7 @@ type CeloTransactionResult {
 
 type CeloTransaction {
   blockNumber: Int!
+  timestamp: String!
   hash: String!
   from: String!
   to: String!
@@ -111,7 +112,9 @@ type CeloTransaction {
 }
 
 type CeloTransactionTags {
-  tag: String!
+  eventname: String!
+  source: String!
+  prettyname: String!
   parameters: String!
 }
 

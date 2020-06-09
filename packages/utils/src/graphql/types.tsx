@@ -122,6 +122,7 @@ export interface ICeloDelegation {
 export interface ICeloTransaction {
    __typename?: "CeloTransaction";
   blockNumber: Scalars["Int"];
+  timestamp: Scalars["String"];
   hash: Scalars["String"];
   from: Scalars["String"];
   to: Scalars["String"];
@@ -156,7 +157,9 @@ export interface ICeloTransactionResult {
 
 export interface ICeloTransactionTags {
    __typename?: "CeloTransactionTags";
-  tag: Scalars["String"];
+  eventname: Scalars["String"];
+  source: Scalars["String"];
+  prettyname: Scalars["String"];
   parameters: Scalars["String"];
 }
 
@@ -978,13 +981,13 @@ export type ICeloTransactionsQuery = (
     & Pick<ICeloTransactionResult, "page" | "limit" | "moreResultsExist">
     & { data: Array<(
       { __typename?: "CeloTransaction" }
-      & Pick<ICeloTransaction, "blockNumber" | "hash" | "from" | "to">
+      & Pick<ICeloTransaction, "blockNumber" | "timestamp" | "hash" | "from" | "to">
       & { details: (
         { __typename?: "CeloTransactionDetails" }
         & Pick<ICeloTransactionDetails, "nonce" | "gasPrice" | "gas" | "feeCurrency" | "gatewayFeeRecipient" | "gatewayFee" | "to" | "value" | "input" | "v" | "r" | "s" | "hash">
       ), tags: Array<(
         { __typename?: "CeloTransactionTags" }
-        & Pick<ICeloTransactionTags, "tag" | "parameters">
+        & Pick<ICeloTransactionTags, "eventname" | "source" | "prettyname" | "parameters">
       )> }
     )> }
   ) }
@@ -1766,6 +1769,7 @@ export const CeloTransactionsDocument = gql`
     limit
     data {
       blockNumber
+      timestamp
       hash
       from
       to
@@ -1785,7 +1789,9 @@ export const CeloTransactionsDocument = gql`
         hash
       }
       tags {
-        tag
+        eventname
+        source
+        prettyname
         parameters
       }
     }

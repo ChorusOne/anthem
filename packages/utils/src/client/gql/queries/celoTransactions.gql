@@ -4,6 +4,7 @@ query celoTransactions($address: String!, $startingPage: Float, $pageSize: Float
         limit
         data{
             blockNumber
+            timestamp
             hash
             from
             to
@@ -23,7 +24,9 @@ query celoTransactions($address: String!, $startingPage: Float, $pageSize: Float
                 hash
             }
             tags{
-                tag
+                eventname
+                source
+                prettyname
                 parameters
             }
         }
