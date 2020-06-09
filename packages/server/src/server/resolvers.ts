@@ -420,31 +420,16 @@ const resolvers = {
       return CELO.fetchTransactions(address, start, size, network);
     },
 
-    celoSystemBalances: async (
-      _: void,
-      args: ICeloTransactionsQueryVariables,
-    ): Promise<IQuery["celoSystemBalances"]> => {
-      return {
-        height: "",
-        goldTokenSupply: "",
-        totalLockedGoldBalance: "",
-        nonVotingLockedGoldBalance: "",
-        totalCeloUSDValue: "",
-      };
+    celoSystemBalances: async (): Promise<IQuery["celoSystemBalances"]> => {
+      return CELO.fetchSystemBalances();
     },
 
-    celoSystemHistory: async (
-      _: void,
-      args: ICeloTransactionsQueryVariables,
-    ): Promise<IQuery["celoSystemHistory"]> => {
-      return [];
+    celoSystemHistory: async (): Promise<IQuery["celoSystemHistory"]> => {
+      return CELO.fetchSystemHistory();
     },
 
-    celoValidatorGroups: async (
-      _: void,
-      args: ICeloTransactionsQueryVariables,
-    ): Promise<IQuery["celoValidatorGroups"]> => {
-      return [];
+    celoValidatorGroups: async (): Promise<IQuery["celoValidatorGroups"]> => {
+      return CELO.fetchValidatorGroups();
     },
   },
 };
