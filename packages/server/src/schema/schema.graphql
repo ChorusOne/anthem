@@ -105,8 +105,8 @@ type CeloTransaction {
   blockNumber: Int!
   timestamp: String!
   hash: String!
-  from: String!
-  to: String!
+  from: String
+  to: String
   details: CeloTransactionDetails!
   tags: [CeloTransactionTags!]!
 }

@@ -124,8 +124,8 @@ export interface ICeloTransaction {
   blockNumber: Scalars["Int"];
   timestamp: Scalars["String"];
   hash: Scalars["String"];
-  from: Scalars["String"];
-  to: Scalars["String"];
+  from: Maybe<Scalars["String"]>;
+  to: Maybe<Scalars["String"]>;
   details: ICeloTransactionDetails;
   tags: ICeloTransactionTags[];
 }
