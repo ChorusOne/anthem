@@ -124,9 +124,11 @@ const fetchTransactions = async (
  * Return the tags as a JSON string to avoid creating a GraphQL union
  * type for the tags data.
  */
-const stringifyTags = (tag: { tag: string; parameters: string }) => {
+const stringifyTags = (tag: ICeloTransactionTags) => {
   return {
-    tag: tag.tag,
+    eventname: tag.eventname,
+    source: tag.source,
+    prettyname: tag.prettyname,
     parameters: JSON.stringify(tag.parameters), // Return tags as JSON
   };
 };
