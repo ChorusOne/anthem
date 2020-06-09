@@ -93,20 +93,22 @@ const fetchTransactions = async (
   network: NetworkDefinition,
 ): Promise<IQuery["celoTransactions"]> => {
   const host = getHostFromNetworkName(network.name);
-
-  const url = `${host}/accounts/${address}/transactions?limit=${pageSize}&page=${startingPage}`;
+  const params = `limit=${pageSize + 1}&page=${startingPage}`;
+  const url = `${host}/accounts/${address}/transactions?${params}`;
   const response = await AxiosUtil.get<CeloTransactionResponse[]>(url);
 
-  const formattedResponse: ICeloTransaction[] = response.map(x => ({
+  const pages = response.slice(0, pageSize);
+  const moreResultsExist = response.length > pageSize;
+  const formattedResponse: ICeloTransaction[] = pages.map(x => ({
     ...x,
     details: x.details.transaction,
     tags: x.tags.map(stringifyTags),
   }));
 
   return {
-    page: 1,
-    limit: 25,
-    moreResultsExist: false,
+    limit: pageSize,
+    moreResultsExist,
+    page: startingPage,
     data: formattedResponse,
   };
 };
