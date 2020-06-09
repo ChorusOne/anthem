@@ -88,8 +88,8 @@ const fetchAccountHistory = async (
  */
 const fetchTransactions = async (
   address: string,
-  pageSize: number,
   startingPage: number,
+  pageSize: number,
   network: NetworkDefinition,
 ): Promise<IQuery["celoTransactions"]> => {
   const host = getHostFromNetworkName(network.name);
