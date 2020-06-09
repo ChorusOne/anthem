@@ -92,8 +92,8 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     if (from && to) {
       return (
         <>
-          {this.renderAddressBox(from, "From")}
-          {this.renderAddressBox(to, "To")}
+          {!!from ? this.renderAddressBox(from, "From") : null}
+          {!!to ? this.renderAddressBox(to, "To") : null}
         </>
       );
     }

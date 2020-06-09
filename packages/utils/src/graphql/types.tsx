@@ -138,7 +138,7 @@ export interface ICeloTransactionDetails {
   feeCurrency: Maybe<Scalars["String"]>;
   gatewayFeeRecipient: Maybe<Scalars["String"]>;
   gatewayFee: Maybe<Scalars["String"]>;
-  to: Scalars["String"];
+  to: Maybe<Scalars["String"]>;
   value: Scalars["String"];
   input: Scalars["String"];
   v: Scalars["String"];
