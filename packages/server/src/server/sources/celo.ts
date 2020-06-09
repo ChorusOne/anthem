@@ -85,8 +85,6 @@ const fetchAccountHistory = async (
 
 /**
  * Fetch transactions history.
- *
- * TODO: API needs to support pagination.
  */
 const fetchTransactions = async (
   address: string,
@@ -96,16 +94,14 @@ const fetchTransactions = async (
 ): Promise<IQuery["celoTransactions"]> => {
   const host = getHostFromNetworkName(network.name);
 
-  const url = `${host}/accounts/${address}/transactions`;
+  const url = `${host}/accounts/${address}/transactions?limit=${pageSize}&page=${startingPage}`;
   const response = await AxiosUtil.get<CeloTransactionResponse[]>(url);
 
-  const formattedResponse: ICeloTransaction[] = response
-    .slice(0, 25)
-    .map(x => ({
-      ...x,
-      details: x.details.transaction,
-      tags: x.tags.map(stringifyTags),
-    }));
+  const formattedResponse: ICeloTransaction[] = response.map(x => ({
+    ...x,
+    details: x.details.transaction,
+    tags: x.tags.map(stringifyTags),
+  }));
 
   return {
     page: 1,
