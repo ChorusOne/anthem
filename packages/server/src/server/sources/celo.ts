@@ -39,6 +39,7 @@ interface CeloAccountSnapshot {
 interface CeloTransactionResponse {
   blockNumber: number;
   hash: string;
+  timestamp: string;
   from: string;
   to: string;
   tags: ICeloTransactionTags[];
@@ -63,7 +64,7 @@ const fetchAccountBalances = async (
   network: NetworkDefinition,
 ): Promise<ICeloAccountBalancesType> => {
   const host = getHostFromNetworkName(network.name);
-  const url = `${host}/accounts/${address}/balances`;
+  const url = `${host}/accounts/${address}`;
   const response = await AxiosUtil.get<ICeloAccountBalances>(url);
   return { celo: response };
 };
@@ -84,34 +85,59 @@ const fetchAccountHistory = async (
 
 /**
  * Fetch transactions history.
- *
- * TODO: API needs to support pagination.
  */
 const fetchTransactions = async (
   address: string,
-  pageSize: number,
   startingPage: number,
+  pageSize: number,
   network: NetworkDefinition,
 ): Promise<IQuery["celoTransactions"]> => {
   const host = getHostFromNetworkName(network.name);
-
-  const url = `${host}/accounts/${address}/transactions`;
+  const params = `limit=${pageSize + 1}&page=${startingPage}`;
+  const url = `${host}/accounts/${address}/transactions?${params}`;
   const response = await AxiosUtil.get<CeloTransactionResponse[]>(url);
 
-  const formattedResponse: ICeloTransaction[] = response
-    .slice(0, 25)
-    .map(x => ({
-      ...x,
-      details: x.details.transaction,
-      tags: x.tags.map(stringifyTags),
-    }));
+  const pages = response.slice(0, pageSize);
+  const moreResultsExist = response.length > pageSize;
+  const formattedResponse: ICeloTransaction[] = pages.map(x => ({
+    ...x,
+    details: x.details.transaction,
+    tags: x.tags.map(stringifyTags),
+  }));
 
   return {
-    page: 1,
-    limit: 25,
-    moreResultsExist: false,
+    limit: pageSize,
+    moreResultsExist,
+    page: startingPage,
     data: formattedResponse,
   };
+};
+
+/**
+ * Fetch system balances.
+ */
+const fetchSystemBalances = async (): Promise<IQuery["celoSystemBalances"]> => {
+  const host = getHostFromNetworkName("CELO");
+  const url = `${host}/system/balances`;
+  return AxiosUtil.get<IQuery["celoSystemBalances"]>(url);
+};
+
+/**
+ * Fetch system history.
+ */
+const fetchSystemHistory = async (): Promise<IQuery["celoSystemHistory"]> => {
+  const host = getHostFromNetworkName("CELO");
+  const url = `${host}/system/history`;
+  return AxiosUtil.get<IQuery["celoSystemHistory"]>(url);
+};
+
+/**
+ * Fetch system validator groups list.
+ */
+const fetchValidatorGroups = async (): Promise<IQuery["celoValidatorGroups"]> => {
+  const host = getHostFromNetworkName("CELO");
+  const url = `${host}/system/validator_groups`;
+  return AxiosUtil.get<IQuery["celoValidatorGroups"]>(url);
 };
 
 /** ===========================================================================
@@ -123,9 +149,11 @@ const fetchTransactions = async (
  * Return the tags as a JSON string to avoid creating a GraphQL union
  * type for the tags data.
  */
-const stringifyTags = (tag: { tag: string; parameters: string }) => {
+const stringifyTags = (tag: ICeloTransactionTags) => {
   return {
-    tag: tag.tag,
+    eventname: tag.eventname,
+    source: tag.source,
+    prettyname: tag.prettyname,
     parameters: JSON.stringify(tag.parameters), // Return tags as JSON
   };
 };
@@ -154,6 +182,9 @@ const CELO = {
   fetchAccountBalances,
   fetchAccountHistory,
   fetchTransactions,
+  fetchSystemBalances,
+  fetchSystemHistory,
+  fetchValidatorGroups,
 };
 
 export default CELO;

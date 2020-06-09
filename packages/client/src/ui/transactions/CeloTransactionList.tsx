@@ -5,7 +5,7 @@ import { Centered } from "ui/SharedComponents";
 import Toast from "ui/Toast";
 import { TransactionListProps } from "./CeloTransactionContainer";
 import CeloTransactionListItem from "./CeloTransactionListItem";
-// import { TransactionPaginationControls } from "./TransactionComponents";
+import { TransactionPaginationControls } from "./TransactionComponents";
 
 /** ===========================================================================
  * React Component
@@ -15,10 +15,10 @@ import CeloTransactionListItem from "./CeloTransactionListItem";
 class CeloTransactionList extends React.PureComponent<IProps> {
   render(): JSX.Element {
     const {
-      // isDetailView,
+      isDetailView,
       transactions,
-      // transactionsPage,
-      // moreResultsExist,
+      transactionsPage,
+      moreResultsExist,
     } = this.props;
 
     const TXS_EXIST = transactions.length > 0;
@@ -35,16 +35,18 @@ class CeloTransactionList extends React.PureComponent<IProps> {
             <H5>No transactions exist</H5>
           </Centered>
         )}
-        {/* {!isDetailView && TXS_EXIST && (
+        {!isDetailView && TXS_EXIST && (
           <TransactionPaginationControls
-            firstTxDate={transactions[0].date}
-            lastTxDate={transactions[transactions.length - 1].date}
             back={this.pageBack}
             forward={this.pageForward}
             page={transactionsPage}
             moreResultsExist={!!moreResultsExist}
+            firstTxDate={Number(transactions[0].timestamp) * 1000}
+            lastTxDate={
+              Number(transactions[transactions.length - 1].timestamp) * 1000
+            }
           />
-        )} */}
+        )}
       </React.Fragment>
     );
   }

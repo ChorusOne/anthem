@@ -44,6 +44,9 @@ type Query {
     startingPage: Float
     pageSize: Float
   ): CeloTransactionResult!
+  celoSystemBalances: CeloSystemBalances!
+  celoSystemHistory: [CeloSystemHistory!]!
+  celoValidatorGroups: [CeloValidatorGroup!]!
 }
 
 # *****************************************************************************
@@ -103,15 +106,18 @@ type CeloTransactionResult {
 
 type CeloTransaction {
   blockNumber: Int!
+  timestamp: String!
   hash: String!
-  from: String!
-  to: String!
+  from: String
+  to: String
   details: CeloTransactionDetails!
   tags: [CeloTransactionTags!]!
 }
 
 type CeloTransactionTags {
-  tag: String!
+  eventname: String!
+  source: String!
+  prettyname: String!
   parameters: String!
 }
 
@@ -122,13 +128,44 @@ type CeloTransactionDetails {
   feeCurrency: String
   gatewayFeeRecipient: String
   gatewayFee: String
-  to: String!
+  to: String
   value: String!
   input: String!
   v: String!
   r: String!
   s: String!
   hash: String!
+}
+
+type CeloSystemBalances {
+  height: String!
+  goldTokenSupply: String!
+  totalLockedGoldBalance: String!
+  nonVotingLockedGoldBalance: String!
+  totalCeloUSDValue: String
+}
+
+type CeloSystemHistory {
+  BlockNumber: String!
+  SnapshotDate: String!
+  GoldTokenSupply: String!
+  TotalLockedGoldBalance: String!
+  NonVotingLockedGoldBalance: String!
+  TotalCeloUSDValue: String!
+}
+
+type CeloValidatorGroup {
+  group: String!
+  name: String!
+  metadataURL: String!
+  blockNumber: Float!
+  votingPower: Float!
+  votingPowerFraction: String!
+  capacityAvailable: Float!
+  totalCapacity: Float!
+  multiplier: Float!
+  groupShare: Float!
+  validatorAddresses: [String!]!
 }
 
 # *****************************************************************************

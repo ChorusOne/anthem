@@ -119,12 +119,32 @@ export interface ICeloDelegation {
   pendingVotes: Scalars["String"];
 }
 
+export interface ICeloSystemBalances {
+   __typename?: "CeloSystemBalances";
+  height: Scalars["String"];
+  goldTokenSupply: Scalars["String"];
+  totalLockedGoldBalance: Scalars["String"];
+  nonVotingLockedGoldBalance: Scalars["String"];
+  totalCeloUSDValue: Maybe<Scalars["String"]>;
+}
+
+export interface ICeloSystemHistory {
+   __typename?: "CeloSystemHistory";
+  BlockNumber: Scalars["String"];
+  SnapshotDate: Scalars["String"];
+  GoldTokenSupply: Scalars["String"];
+  TotalLockedGoldBalance: Scalars["String"];
+  NonVotingLockedGoldBalance: Scalars["String"];
+  TotalCeloUSDValue: Scalars["String"];
+}
+
 export interface ICeloTransaction {
    __typename?: "CeloTransaction";
   blockNumber: Scalars["Int"];
+  timestamp: Scalars["String"];
   hash: Scalars["String"];
-  from: Scalars["String"];
-  to: Scalars["String"];
+  from: Maybe<Scalars["String"]>;
+  to: Maybe<Scalars["String"]>;
   details: ICeloTransactionDetails;
   tags: ICeloTransactionTags[];
 }
@@ -137,7 +157,7 @@ export interface ICeloTransactionDetails {
   feeCurrency: Maybe<Scalars["String"]>;
   gatewayFeeRecipient: Maybe<Scalars["String"]>;
   gatewayFee: Maybe<Scalars["String"]>;
-  to: Scalars["String"];
+  to: Maybe<Scalars["String"]>;
   value: Scalars["String"];
   input: Scalars["String"];
   v: Scalars["String"];
@@ -156,8 +176,25 @@ export interface ICeloTransactionResult {
 
 export interface ICeloTransactionTags {
    __typename?: "CeloTransactionTags";
-  tag: Scalars["String"];
+  eventname: Scalars["String"];
+  source: Scalars["String"];
+  prettyname: Scalars["String"];
   parameters: Scalars["String"];
+}
+
+export interface ICeloValidatorGroup {
+   __typename?: "CeloValidatorGroup";
+  group: Scalars["String"];
+  name: Scalars["String"];
+  metadataURL: Scalars["String"];
+  blockNumber: Scalars["Float"];
+  votingPower: Scalars["Float"];
+  votingPowerFraction: Scalars["String"];
+  capacityAvailable: Scalars["Float"];
+  totalCapacity: Scalars["Float"];
+  multiplier: Scalars["Float"];
+  groupShare: Scalars["Float"];
+  validatorAddresses: Array<Scalars["String"]>;
 }
 
 export interface ICommissionRates {
@@ -572,6 +609,9 @@ export interface IQuery {
   /** Celo APIs */
   celoAccountHistory: ICeloAccountSnapshot[];
   celoTransactions: ICeloTransactionResult;
+  celoSystemBalances: ICeloSystemBalances;
+  celoSystemHistory: ICeloSystemHistory[];
+  celoValidatorGroups: ICeloValidatorGroup[];
 }
 
 export interface IQueryPortfolioHistoryArgs {
@@ -965,6 +1005,26 @@ export type ICeloAccountHistoryQuery = (
   )> }
 );
 
+export interface ICeloSystemBalancesQueryVariables {}
+
+export type ICeloSystemBalancesQuery = (
+  { __typename?: "Query" }
+  & { celoSystemBalances: (
+    { __typename?: "CeloSystemBalances" }
+    & Pick<ICeloSystemBalances, "height" | "goldTokenSupply" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "totalCeloUSDValue">
+  ) }
+);
+
+export interface ICeloSystemHistoryQueryVariables {}
+
+export type ICeloSystemHistoryQuery = (
+  { __typename?: "Query" }
+  & { celoSystemHistory: Array<(
+    { __typename?: "CeloSystemHistory" }
+    & Pick<ICeloSystemHistory, "BlockNumber" | "SnapshotDate" | "GoldTokenSupply" | "TotalLockedGoldBalance" | "NonVotingLockedGoldBalance" | "TotalCeloUSDValue">
+  )> }
+);
+
 export interface ICeloTransactionsQueryVariables {
   address: Scalars["String"];
   startingPage: Maybe<Scalars["Float"]>;
@@ -978,16 +1038,26 @@ export type ICeloTransactionsQuery = (
     & Pick<ICeloTransactionResult, "page" | "limit" | "moreResultsExist">
     & { data: Array<(
       { __typename?: "CeloTransaction" }
-      & Pick<ICeloTransaction, "blockNumber" | "hash" | "from" | "to">
+      & Pick<ICeloTransaction, "blockNumber" | "timestamp" | "hash" | "from" | "to">
       & { details: (
         { __typename?: "CeloTransactionDetails" }
         & Pick<ICeloTransactionDetails, "nonce" | "gasPrice" | "gas" | "feeCurrency" | "gatewayFeeRecipient" | "gatewayFee" | "to" | "value" | "input" | "v" | "r" | "s" | "hash">
       ), tags: Array<(
         { __typename?: "CeloTransactionTags" }
-        & Pick<ICeloTransactionTags, "tag" | "parameters">
+        & Pick<ICeloTransactionTags, "eventname" | "source" | "prettyname" | "parameters">
       )> }
     )> }
   ) }
+);
+
+export interface ICeloValidatorGroupsQueryVariables {}
+
+export type ICeloValidatorGroupsQuery = (
+  { __typename?: "Query" }
+  & { celoValidatorGroups: Array<(
+    { __typename?: "CeloValidatorGroup" }
+    & Pick<ICeloValidatorGroup, "group" | "name" | "metadataURL" | "blockNumber" | "votingPower" | "votingPowerFraction" | "capacityAvailable" | "totalCapacity" | "multiplier" | "groupShare" | "validatorAddresses">
+  )> }
 );
 
 export interface ICosmosTransactionsQueryVariables {
@@ -1759,6 +1829,113 @@ export function useCeloAccountHistoryLazyQuery(baseOptions?: ApolloReactHooks.La
 export type CeloAccountHistoryQueryHookResult = ReturnType<typeof useCeloAccountHistoryQuery>;
 export type CeloAccountHistoryLazyQueryHookResult = ReturnType<typeof useCeloAccountHistoryLazyQuery>;
 export type CeloAccountHistoryQueryResult = ApolloReactCommon.QueryResult<ICeloAccountHistoryQuery, ICeloAccountHistoryQueryVariables>;
+export const CeloSystemBalancesDocument = gql`
+    query celoSystemBalances {
+  celoSystemBalances {
+    height
+    goldTokenSupply
+    totalLockedGoldBalance
+    nonVotingLockedGoldBalance
+    totalCeloUSDValue
+  }
+}
+    `;
+export type CeloSystemBalancesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloSystemBalancesQuery, ICeloSystemBalancesQueryVariables>, "query">;
+
+export const CeloSystemBalancesComponent = (props: CeloSystemBalancesComponentProps) => (
+      <ApolloReactComponents.Query<ICeloSystemBalancesQuery, ICeloSystemBalancesQueryVariables> query={CeloSystemBalancesDocument} {...props} />
+    );
+
+export type ICeloSystemBalancesProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICeloSystemBalancesQuery, ICeloSystemBalancesQueryVariables> & TChildProps;
+export function withCeloSystemBalances<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ICeloSystemBalancesQuery,
+  ICeloSystemBalancesQueryVariables,
+  ICeloSystemBalancesProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, ICeloSystemBalancesQuery, ICeloSystemBalancesQueryVariables, ICeloSystemBalancesProps<TChildProps>>(CeloSystemBalancesDocument, {
+      alias: "celoSystemBalances",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useCeloSystemBalancesQuery__
+ *
+ * To run a query within a React component, call `useCeloSystemBalancesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCeloSystemBalancesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCeloSystemBalancesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCeloSystemBalancesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ICeloSystemBalancesQuery, ICeloSystemBalancesQueryVariables>) {
+        return ApolloReactHooks.useQuery<ICeloSystemBalancesQuery, ICeloSystemBalancesQueryVariables>(CeloSystemBalancesDocument, baseOptions);
+      }
+export function useCeloSystemBalancesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ICeloSystemBalancesQuery, ICeloSystemBalancesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ICeloSystemBalancesQuery, ICeloSystemBalancesQueryVariables>(CeloSystemBalancesDocument, baseOptions);
+        }
+export type CeloSystemBalancesQueryHookResult = ReturnType<typeof useCeloSystemBalancesQuery>;
+export type CeloSystemBalancesLazyQueryHookResult = ReturnType<typeof useCeloSystemBalancesLazyQuery>;
+export type CeloSystemBalancesQueryResult = ApolloReactCommon.QueryResult<ICeloSystemBalancesQuery, ICeloSystemBalancesQueryVariables>;
+export const CeloSystemHistoryDocument = gql`
+    query celoSystemHistory {
+  celoSystemHistory {
+    BlockNumber
+    SnapshotDate
+    GoldTokenSupply
+    TotalLockedGoldBalance
+    NonVotingLockedGoldBalance
+    TotalCeloUSDValue
+  }
+}
+    `;
+export type CeloSystemHistoryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloSystemHistoryQuery, ICeloSystemHistoryQueryVariables>, "query">;
+
+export const CeloSystemHistoryComponent = (props: CeloSystemHistoryComponentProps) => (
+      <ApolloReactComponents.Query<ICeloSystemHistoryQuery, ICeloSystemHistoryQueryVariables> query={CeloSystemHistoryDocument} {...props} />
+    );
+
+export type ICeloSystemHistoryProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICeloSystemHistoryQuery, ICeloSystemHistoryQueryVariables> & TChildProps;
+export function withCeloSystemHistory<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ICeloSystemHistoryQuery,
+  ICeloSystemHistoryQueryVariables,
+  ICeloSystemHistoryProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, ICeloSystemHistoryQuery, ICeloSystemHistoryQueryVariables, ICeloSystemHistoryProps<TChildProps>>(CeloSystemHistoryDocument, {
+      alias: "celoSystemHistory",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useCeloSystemHistoryQuery__
+ *
+ * To run a query within a React component, call `useCeloSystemHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCeloSystemHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCeloSystemHistoryQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCeloSystemHistoryQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ICeloSystemHistoryQuery, ICeloSystemHistoryQueryVariables>) {
+        return ApolloReactHooks.useQuery<ICeloSystemHistoryQuery, ICeloSystemHistoryQueryVariables>(CeloSystemHistoryDocument, baseOptions);
+      }
+export function useCeloSystemHistoryLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ICeloSystemHistoryQuery, ICeloSystemHistoryQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ICeloSystemHistoryQuery, ICeloSystemHistoryQueryVariables>(CeloSystemHistoryDocument, baseOptions);
+        }
+export type CeloSystemHistoryQueryHookResult = ReturnType<typeof useCeloSystemHistoryQuery>;
+export type CeloSystemHistoryLazyQueryHookResult = ReturnType<typeof useCeloSystemHistoryLazyQuery>;
+export type CeloSystemHistoryQueryResult = ApolloReactCommon.QueryResult<ICeloSystemHistoryQuery, ICeloSystemHistoryQueryVariables>;
 export const CeloTransactionsDocument = gql`
     query celoTransactions($address: String!, $startingPage: Float, $pageSize: Float) {
   celoTransactions(address: $address, startingPage: $startingPage, pageSize: $pageSize) {
@@ -1766,6 +1943,7 @@ export const CeloTransactionsDocument = gql`
     limit
     data {
       blockNumber
+      timestamp
       hash
       from
       to
@@ -1785,7 +1963,9 @@ export const CeloTransactionsDocument = gql`
         hash
       }
       tags {
-        tag
+        eventname
+        source
+        prettyname
         parameters
       }
     }
@@ -1838,6 +2018,65 @@ export function useCeloTransactionsLazyQuery(baseOptions?: ApolloReactHooks.Lazy
 export type CeloTransactionsQueryHookResult = ReturnType<typeof useCeloTransactionsQuery>;
 export type CeloTransactionsLazyQueryHookResult = ReturnType<typeof useCeloTransactionsLazyQuery>;
 export type CeloTransactionsQueryResult = ApolloReactCommon.QueryResult<ICeloTransactionsQuery, ICeloTransactionsQueryVariables>;
+export const CeloValidatorGroupsDocument = gql`
+    query celoValidatorGroups {
+  celoValidatorGroups {
+    group
+    name
+    metadataURL
+    blockNumber
+    votingPower
+    votingPowerFraction
+    capacityAvailable
+    totalCapacity
+    multiplier
+    groupShare
+    validatorAddresses
+  }
+}
+    `;
+export type CeloValidatorGroupsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloValidatorGroupsQuery, ICeloValidatorGroupsQueryVariables>, "query">;
+
+export const CeloValidatorGroupsComponent = (props: CeloValidatorGroupsComponentProps) => (
+      <ApolloReactComponents.Query<ICeloValidatorGroupsQuery, ICeloValidatorGroupsQueryVariables> query={CeloValidatorGroupsDocument} {...props} />
+    );
+
+export type ICeloValidatorGroupsProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICeloValidatorGroupsQuery, ICeloValidatorGroupsQueryVariables> & TChildProps;
+export function withCeloValidatorGroups<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ICeloValidatorGroupsQuery,
+  ICeloValidatorGroupsQueryVariables,
+  ICeloValidatorGroupsProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, ICeloValidatorGroupsQuery, ICeloValidatorGroupsQueryVariables, ICeloValidatorGroupsProps<TChildProps>>(CeloValidatorGroupsDocument, {
+      alias: "celoValidatorGroups",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useCeloValidatorGroupsQuery__
+ *
+ * To run a query within a React component, call `useCeloValidatorGroupsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCeloValidatorGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCeloValidatorGroupsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCeloValidatorGroupsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ICeloValidatorGroupsQuery, ICeloValidatorGroupsQueryVariables>) {
+        return ApolloReactHooks.useQuery<ICeloValidatorGroupsQuery, ICeloValidatorGroupsQueryVariables>(CeloValidatorGroupsDocument, baseOptions);
+      }
+export function useCeloValidatorGroupsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ICeloValidatorGroupsQuery, ICeloValidatorGroupsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ICeloValidatorGroupsQuery, ICeloValidatorGroupsQueryVariables>(CeloValidatorGroupsDocument, baseOptions);
+        }
+export type CeloValidatorGroupsQueryHookResult = ReturnType<typeof useCeloValidatorGroupsQuery>;
+export type CeloValidatorGroupsLazyQueryHookResult = ReturnType<typeof useCeloValidatorGroupsLazyQuery>;
+export type CeloValidatorGroupsQueryResult = ApolloReactCommon.QueryResult<ICeloValidatorGroupsQuery, ICeloValidatorGroupsQueryVariables>;
 export const CosmosTransactionsDocument = gql`
     query cosmosTransactions($address: String!, $startingPage: Float, $pageSize: Float) {
   cosmosTransactions(address: $address, startingPage: $startingPage, pageSize: $pageSize) {

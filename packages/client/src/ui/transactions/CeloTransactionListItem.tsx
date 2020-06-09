@@ -6,7 +6,8 @@ import { FiatCurrency } from "constants/fiat";
 import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
 import React from "react";
-import { capitalizeString, formatAddressString } from "tools/client-utils";
+import { formatAddressString } from "tools/client-utils";
+import { formatDate, formatTime } from "tools/date-utils";
 import { TranslateMethodProps } from "tools/i18n-utils";
 import AddressIconComponent from "ui/AddressIconComponent";
 import {
@@ -47,7 +48,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     return (
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
         <EventRow data-cy="transaction-list-item">
-          {this.renderTransactionType()}
+          {this.renderTypeAndTimestamp()}
           {this.renderBlockNumber()}
           {this.renderAddressBlocks()}
         </EventRow>
@@ -55,16 +56,20 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   }
 
-  renderTransactionType = () => {
-    const tagType = getCeloTransactionType(this.props.transaction);
+  renderTypeAndTimestamp = () => {
+    const { transaction } = this.props;
+    const label = getCeloTransactionType(this.props.transaction);
+    const time = Number(transaction.timestamp) * 1000;
     return (
       <EventRowItem style={{ minWidth: 300 }}>
         <EventIconBox>
           <EventIcon src={CeloLogo} />
         </EventIconBox>
         <EventContextBox>
-          <EventText style={{ fontWeight: "bold" }}>Transaction Type</EventText>
-          <EventText data-cy="transaction-type">{tagType}</EventText>
+          <EventText style={{ fontWeight: "bold" }}>{label}</EventText>
+          <EventText data-cy="transaction-timestamp">
+            {formatDate(time)} {formatTime(time)}
+          </EventText>
         </EventContextBox>
       </EventRowItem>
     );
@@ -89,16 +94,12 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderAddressBlocks = () => {
     const { from, to } = this.props.transaction;
-    if (from && to) {
-      return (
-        <>
-          {this.renderAddressBox(from, "From")}
-          {this.renderAddressBox(to, "To")}
-        </>
-      );
-    }
-
-    return null;
+    return (
+      <>
+        {!!from ? this.renderAddressBox(from, "From") : null}
+        {!!to ? this.renderAddressBox(to, "To") : null}
+      </>
+    );
   };
 
   renderAddressBox = (address: string, titleText: string) => {
@@ -137,11 +138,8 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
 const getCeloTransactionType = (transaction: ICeloTransaction) => {
   const { tags } = transaction;
   if (tags.length) {
-    const { tag } = tags[0];
-    return tag
-      .split("-")
-      .map(capitalizeString)
-      .join(" ");
+    const { prettyname } = tags[0];
+    return prettyname;
   } else {
     return "Celo Transaction";
   }

@@ -1,0 +1,10 @@
+query celoSystemHistory{
+    celoSystemHistory{
+        BlockNumber
+        SnapshotDate
+        GoldTokenSupply
+        TotalLockedGoldBalance
+        NonVotingLockedGoldBalance
+        TotalCeloUSDValue
+    }
+}

@@ -19,7 +19,6 @@ import {
   ILatestBlockQueryVariables,
   IOasisAccountHistoryQueryVariables,
   IOasisTransactionsQueryVariables,
-  IOasisTransactionType,
   IPortfolioHistoryQueryVariables,
   IPricesQueryVariables,
   IQuery,
@@ -41,8 +40,8 @@ import UnionResolvers from "./resolve-types";
 import CELO from "./sources/celo";
 import COSMOS_EXTRACTOR from "./sources/cosmos-extractor";
 import COSMOS_SDK from "./sources/cosmos-sdk";
-import EXCHANGE_DATA_API from "./sources/exchange-data";
 import FIAT_CURRENCIES from "./sources/fiat-currencies";
+import EXCHANGE_DATA_API from "./sources/fiat-price-data";
 import OASIS from "./sources/oasis";
 
 /** ===========================================================================
@@ -418,6 +417,18 @@ const resolvers = {
       const start = validatePaginationParams(startingPage, 1);
       blockUnsupportedNetworks(network, "transactions");
       return CELO.fetchTransactions(address, start, size, network);
+    },
+
+    celoSystemBalances: async (): Promise<IQuery["celoSystemBalances"]> => {
+      return CELO.fetchSystemBalances();
+    },
+
+    celoSystemHistory: async (): Promise<IQuery["celoSystemHistory"]> => {
+      return CELO.fetchSystemHistory();
+    },
+
+    celoValidatorGroups: async (): Promise<IQuery["celoValidatorGroups"]> => {
+      return CELO.fetchValidatorGroups();
     },
   },
 };

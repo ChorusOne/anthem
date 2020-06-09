@@ -42,6 +42,9 @@ const fetchPortfolioFiatPriceHistory = async (
   fiat: string,
   network: NetworkDefinition,
 ): Promise<Array<{ timestamp: string; price: number }>> => {
+  // NOTE: This date is hard-coded to the initial launch time frame of the COSMOS
+  // network and is not relevant for other networks. It should probably be
+  // refactored into a configuration detail in the network definitions.
   const requestLimit = moment(new Date()).diff(new Date("04-22-2019"), "days");
   const crypto = network.cryptoCompareTicker;
   const url = `${HOSTS.CRYPTO_COMPARE}/data/histoday?fsym=${crypto}&tsym=${fiat}&limit=${requestLimit}&api_key=${ENV.CRYPTO_COMPARE_API_KEY}`;

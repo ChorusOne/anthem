@@ -1,5 +1,4 @@
 import {
-  IBalance,
   IMsgDelegate,
   IPortfolioBalance,
   ITransaction,
@@ -11,7 +10,7 @@ import { NextFunction, Request, Response } from "express";
 import { GraphQLError } from "graphql";
 import moment from "moment-timezone";
 import { identity, ifElse, lensProp, over } from "ramda";
-import { Price } from "../server/sources/exchange-data";
+import { Price } from "../server/sources/fiat-price-data";
 import ENV from "./server-env";
 
 /** ===========================================================================
