@@ -6,7 +6,7 @@ import { FiatCurrency } from "constants/fiat";
 import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
 import React from "react";
-import { capitalizeString, formatAddressString } from "tools/client-utils";
+import { formatAddressString } from "tools/client-utils";
 import { TranslateMethodProps } from "tools/i18n-utils";
 import AddressIconComponent from "ui/AddressIconComponent";
 import {
@@ -137,11 +137,8 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
 const getCeloTransactionType = (transaction: ICeloTransaction) => {
   const { tags } = transaction;
   if (tags.length) {
-    const { tag } = tags[0];
-    return tag
-      .split("-")
-      .map(capitalizeString)
-      .join(" ");
+    const { prettyname } = tags[0];
+    return prettyname;
   } else {
     return "Celo Transaction";
   }
