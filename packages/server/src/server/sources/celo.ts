@@ -63,7 +63,7 @@ const fetchAccountBalances = async (
   network: NetworkDefinition,
 ): Promise<ICeloAccountBalancesType> => {
   const host = getHostFromNetworkName(network.name);
-  const url = `${host}/accounts/${address}/balances`;
+  const url = `${host}/accounts/${address}`;
   const response = await AxiosUtil.get<ICeloAccountBalances>(url);
   return { celo: response };
 };
