@@ -84,12 +84,12 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
         )}
         {!isDetailView && TXS_EXIST && (
           <TransactionPaginationControls
-            firstTxDate={Number(txs[0].timestamp)}
-            lastTxDate={Number(txs[txs.length - 1].timestamp)}
             back={this.pageBack}
             forward={this.pageForward}
             page={transactionsPage}
             moreResultsExist={!!moreResultsExist}
+            firstTxDate={Number(txs[0].timestamp)}
+            lastTxDate={Number(txs[txs.length - 1].timestamp)}
           />
         )}
       </React.Fragment>

@@ -34,12 +34,12 @@ class OasisTransactionList extends React.PureComponent<IProps> {
         )}
         {!isDetailView && TXS_EXIST && (
           <TransactionPaginationControls
-            firstTxDate={transactions[0].date}
-            lastTxDate={transactions[transactions.length - 1].date}
             back={this.pageBack}
             forward={this.pageForward}
             page={transactionsPage}
             moreResultsExist={!!moreResultsExist}
+            firstTxDate={transactions[0].date}
+            lastTxDate={transactions[transactions.length - 1].date}
           />
         )}
       </React.Fragment>

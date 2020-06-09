@@ -37,12 +37,14 @@ class CeloTransactionList extends React.PureComponent<IProps> {
         )}
         {!isDetailView && TXS_EXIST && (
           <TransactionPaginationControls
-            firstTxDate={transactions[0].date}
-            lastTxDate={transactions[transactions.length - 1].date}
             back={this.pageBack}
             forward={this.pageForward}
             page={transactionsPage}
             moreResultsExist={!!moreResultsExist}
+            firstTxDate={Number(transactions[0].timestamp * 1000)}
+            lastTxDate={Number(
+              transactions[transactions.length - 1].timestamp * 1000,
+            )}
           />
         )}
       </React.Fragment>
