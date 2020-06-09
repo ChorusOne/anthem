@@ -44,6 +44,9 @@ type Query {
     startingPage: Float
     pageSize: Float
   ): CeloTransactionResult!
+  celoSystemBalances: CeloSystemBalances!
+  celoSystemHistory: [CeloSystemHistory!]!
+  celoValidatorGroups: [CeloValidatorGroup!]!
 }
 
 # *****************************************************************************
@@ -132,6 +135,37 @@ type CeloTransactionDetails {
   r: String!
   s: String!
   hash: String!
+}
+
+type CeloSystemBalances {
+  height: String!
+  goldTokenSupply: String!
+  totalLockedGoldBalance: String!
+  nonVotingLockedGoldBalance: String!
+  totalCeloUSDValue: String
+}
+
+type CeloSystemHistory {
+  BlockNumber: String!
+  SnapshotDate: String!
+  GoldTokenSupply: String!
+  TotalLockedGoldBalance: String!
+  NonVotingLockedGoldBalance: String!
+  TotalCeloUSDValue: String!
+}
+
+type CeloValidatorGroup {
+  group: String!
+  name: String!
+  metadataURL: String!
+  blockNumber: Float!
+  votingPower: Float!
+  votingPowerFraction: String!
+  capacityAvailable: Float!
+  totalCapacity: Float!
+  multiplier: Float!
+  groupShare: Float!
+  validatorAddresses: [String!]!
 }
 
 # *****************************************************************************
