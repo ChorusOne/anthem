@@ -419,6 +419,33 @@ const resolvers = {
       blockUnsupportedNetworks(network, "transactions");
       return CELO.fetchTransactions(address, start, size, network);
     },
+
+    celoSystemBalances: async (
+      _: void,
+      args: ICeloTransactionsQueryVariables,
+    ): Promise<IQuery["celoSystemBalances"]> => {
+      return {
+        height: "",
+        goldTokenSupply: "",
+        totalLockedGoldBalance: "",
+        nonVotingLockedGoldBalance: "",
+        totalCeloUSDValue: "",
+      };
+    },
+
+    celoSystemHistory: async (
+      _: void,
+      args: ICeloTransactionsQueryVariables,
+    ): Promise<IQuery["celoSystemHistory"]> => {
+      return [];
+    },
+
+    celoValidatorGroups: async (
+      _: void,
+      args: ICeloTransactionsQueryVariables,
+    ): Promise<IQuery["celoValidatorGroups"]> => {
+      return [];
+    },
   },
 };
 
