@@ -113,6 +113,33 @@ const fetchTransactions = async (
   };
 };
 
+/**
+ * Fetch system balances.
+ */
+const fetchSystemBalances = async (): Promise<IQuery["celoSystemBalances"]> => {
+  const host = getHostFromNetworkName("CELO");
+  const url = `${host}/system/balances`;
+  return AxiosUtil.get<IQuery["celoSystemBalances"]>(url);
+};
+
+/**
+ * Fetch system history.
+ */
+const fetchSystemHistory = async (): Promise<IQuery["celoSystemHistory"]> => {
+  const host = getHostFromNetworkName("CELO");
+  const url = `${host}/system/history`;
+  return AxiosUtil.get<IQuery["celoSystemHistory"]>(url);
+};
+
+/**
+ * Fetch system validator groups list.
+ */
+const fetchValidatorGroups = async (): Promise<IQuery["celoValidatorGroups"]> => {
+  const host = getHostFromNetworkName("CELO");
+  const url = `${host}/system/validator_groups`;
+  return AxiosUtil.get<IQuery["celoValidatorGroups"]>(url);
+};
+
 /** ===========================================================================
  * Utils
  * ============================================================================
@@ -155,6 +182,9 @@ const CELO = {
   fetchAccountBalances,
   fetchAccountHistory,
   fetchTransactions,
+  fetchSystemBalances,
+  fetchSystemHistory,
+  fetchValidatorGroups,
 };
 
 export default CELO;
