@@ -8,9 +8,7 @@ import { logger } from "../tools/server-utils";
 import { AxiosUtil, getHostFromNetworkName } from "./axios-utils";
 import { PaginationParams } from "./resolvers";
 import CELO from "./sources/celo";
-import COSMOS_EXTRACTOR, {
-  getAllTransactionsForCosmosSdkNetwork,
-} from "./sources/cosmos-extractor";
+import COSMOS_EXTRACTOR from "./sources/cosmos-extractor";
 import OASIS from "./sources/oasis";
 
 /** ===========================================================================
