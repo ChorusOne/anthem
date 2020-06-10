@@ -8,7 +8,6 @@ import {
   getChartTotalGraph,
   PortfolioHistoryChartData,
 } from "./cosmos-chart-utils";
-import { toDateKey } from "./date-utils";
 import { add, multiply, subtract } from "./math-utils";
 
 /** ===========================================================================
