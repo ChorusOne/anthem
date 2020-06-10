@@ -1,5 +1,6 @@
 import { Card, Colors, Icon } from "@blueprintjs/core";
 import { COLORS } from "constants/colors";
+import React from "react";
 import styled from "styled-components";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 

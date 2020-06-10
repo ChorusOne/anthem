@@ -565,13 +565,14 @@ export interface ValidatorOperatorAddressMap {
  * Reduce a list of validators to a map keyed by the operator_address for
  * faster lookup.
  */
-export const getValidatorOperatorAddressMap = (
-  validatorList: ReadonlyArray<IValidator>,
+export const getValidatorOperatorAddressMap = <V extends {}>(
+  validatorList: V[],
+  getAddressFn: (validator: V) => string,
 ): ValidatorOperatorAddressMap => {
   return validatorList.reduce((addressMap, validator) => {
     return {
       ...addressMap,
-      [validator.operator_address]: validator,
+      [getAddressFn(validator)]: validator,
     };
   }, {});
 };

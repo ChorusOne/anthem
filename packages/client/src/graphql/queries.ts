@@ -3,6 +3,7 @@ import {
   AccountInformationDocument,
   CeloAccountHistoryDocument,
   CeloTransactionsDocument,
+  CeloValidatorGroupsDocument,
   CosmosTransactionsDocument,
   DailyPercentChangeDocument,
   FiatCurrenciesDocument,
@@ -385,4 +386,23 @@ export interface CeloTransactionsProps {
 export const withCeloTransactions = graphql(CeloTransactionsDocument, {
   name: "transactions",
   ...noPollingConfig(["address", "startingPage"]),
+});
+
+/** ===========================================================================
+ * Celo Validators
+ * ============================================================================
+ */
+
+interface CeloValidatorsQueryResult extends QueryResult {
+  data: void;
+  celoValidatorGroups: IQuery["celoValidatorGroups"];
+}
+
+export interface CeloValidatorsProps {
+  celoValidatorGroups: CeloValidatorsQueryResult;
+}
+
+export const withCeloValidatorGroups = graphql(CeloValidatorGroupsDocument, {
+  name: "celoValidatorGroups",
+  ...noPollingConfig(["address", "fiat"]),
 });

@@ -6,13 +6,13 @@ import {
 } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
-import moment from "moment-timezone";
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
 import { PanelMessageText } from "ui/SharedComponents";
 import CosmosValidators from "ui/validators/CosmosValidators";
+import CeloValidators from "./CeloValidators";
 
 /** ===========================================================================
  * Types & Config
@@ -80,7 +80,7 @@ class PortfolioSwitchContainer extends React.Component<IProps, IState> {
       case "OASIS":
         return null;
       case "CELO":
-        return <p style={{ marginTop: 25 }}>hi</p>;
+        return <CeloValidators />;
       default:
         return null;
     }
