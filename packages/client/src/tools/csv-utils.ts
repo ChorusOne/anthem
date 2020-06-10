@@ -1,6 +1,9 @@
 import { IFiatPrice, NetworkDefinition } from "@anthem/utils";
 import { ChartData } from "./chart-utils";
-import { isGraphQLResponseDataEmpty } from "./client-utils";
+import {
+  getFiatPriceHistoryMap,
+  isGraphQLResponseDataEmpty,
+} from "./client-utils";
 import {
   getChartTotalGraph,
   PortfolioHistoryChartData,
@@ -24,7 +27,7 @@ export const chartExportBuilder = ({
   address: string;
   network: NetworkDefinition;
   fiatCurrencySymbol: string;
-  fiatPriceHistory: ReadonlyArray<IFiatPrice>;
+  fiatPriceHistory: IFiatPrice[];
   portfolioChartHistory: PortfolioHistoryChartData;
 }): string => {
   const {
@@ -41,14 +44,16 @@ export const chartExportBuilder = ({
     validatorRewardsChartData.data,
   );
 
-  const fiatPriceMap: {
-    [key: string]: string;
-  } = fiatPriceHistory.reduce((priceMap, price) => {
-    return {
-      ...priceMap,
-      [toDateKey(price.timestamp)]: price.price,
-    };
-  }, {});
+  // const fiatPriceMap: {
+  //   [key: string]: string;
+  // } = fiatPriceHistory.reduce((priceMap, price) => {
+  //   return {
+  //     ...priceMap,
+  //     [toDateKey(price.timestamp)]: price.price,
+  //   };
+  // }, {});
+
+  const fiatPriceMap = getFiatPriceHistoryMap(fiatPriceHistory, "MMM DD YYYY");
 
   // Map balances by day timestamp to help join balances and rewards data.
   const balanceMapByTime = availableChartData.data;
