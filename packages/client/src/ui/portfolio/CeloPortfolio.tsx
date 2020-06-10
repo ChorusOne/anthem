@@ -308,13 +308,10 @@ const getCeloCSV = (
   ];
 
   // Add info text about the address and network
-  const ADDRESS_INFO = `Account history data for ${network.name} address ${address}.\n\n`;
-
-  // Add disclaimer at the top of the CSV:
-  const DISCLAIMER = `[DISCLAIMER]: This CSV account history is a best approximation of the account balances and rewards data over time. It is not a perfect history and uses a 3rd party price feed for exchange price data.\n\n`;
+  const ADDRESS_INFO = `Account history data for ${network.name} address ${address}.\n`;
 
   // Assemble CSV file string with headers
-  let CSV = `${ADDRESS_INFO}${DISCLAIMER}${CSV_HEADERS.join(",")}\n`;
+  let CSV = `${ADDRESS_INFO}${CSV_HEADERS.join(",")}\n`;
 
   for (const snapshot of accountHistory) {
     const {
@@ -343,7 +340,6 @@ const getCeloCSV = (
     const row = [
       dateKey,
       exchangeRate,
-      dateKey,
       available,
       totalLocked,
       nonVoting,
