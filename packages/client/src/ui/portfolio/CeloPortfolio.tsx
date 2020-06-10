@@ -3,6 +3,8 @@ import {
   ICeloAccountSnapshot,
   NetworkDefinition,
 } from "@anthem/utils";
+import * as Sentry from "@sentry/browser";
+import { FiatCurrency } from "constants/fiat";
 import {
   CeloAccountHistoryProps,
   FiatPriceHistoryProps,
@@ -193,7 +195,18 @@ class CeloPortfolio extends React.PureComponent<
   };
 
   handleDownloadCSV = (accountHistory: ICeloAccountSnapshot[]) => {
-    Toast.warn("CSV Download Coming soon...");
+    try {
+      const data = getOasisCSV(
+        this.props.address,
+        accountHistory,
+        this.props.network,
+        this.props.settings.fiatCurrency,
+      );
+      this.props.downloadDataToFile(data);
+    } catch (err) {
+      Sentry.captureException(err);
+      Toast.warn("Failed to download account history...");
+    }
   };
 }
 
@@ -259,6 +272,59 @@ const getChartData = (
     withdrawalsMap: {},
     withdrawalEventDates: {},
   };
+};
+
+/**
+ * Function to build the Oasis CSV export.
+ */
+const getOasisCSV = (
+  address: string,
+  accountHistory: ICeloAccountSnapshot[],
+  network: NetworkDefinition,
+  fiatCurrencySymbol: FiatCurrency,
+) => {
+  const coin = network.descriptor;
+
+  // Create the CSV Header.
+  const CSV_HEADERS: string[] = [
+    "Date",
+    `Exchange Rate (${fiatCurrencySymbol.symbol}:${coin})`,
+    `Total Balance (${coin})`,
+    `Available Balance (${coin})`,
+    `Staked Balance (${coin})`,
+    `Daily Rewards (${coin})`,
+    `Accumulated Rewards (${coin})`,
+  ];
+
+  // Add info text about the address and network
+  const ADDRESS_INFO = `Account history data for ${network.name} address ${address}.\n\n`;
+
+  // Add disclaimer at the top of the CSV:
+  const DISCLAIMER = `[DISCLAIMER]: This CSV account history is a best approximation of the account balances and rewards data over time. It is not a perfect history and uses a 3rd party price feed for exchange price data.\n\n`;
+
+  // Assemble CSV file string with headers
+  const CSV = `${ADDRESS_INFO}${DISCLAIMER}${CSV_HEADERS.join(",")}\n`;
+
+  // for (const x of accountHistory) {
+  //   const dateKey = toDateKeyCSV(x.date);
+  //   const balance = denomToUnit(x.balance, network.denominationSize, String);
+
+  //   // Create the CSV row
+  //   const row = [
+  //     dateKey,
+  //     "n/a", // Fiat balances not supported for Oasis yet
+  //     balance,
+  //     balance,
+  //     "n/a", // Staked balance not supported for Oasis yet
+  //     "n/a", // Rewards not supported for Oasis yet
+  //     "n/a", // Rewards not supported for Oasis yet
+  //   ].join(",");
+
+  //   // Add the row to the CSV
+  //   CSV += `${row}\n`;
+  // }
+
+  return CSV;
 };
 
 /** ===========================================================================

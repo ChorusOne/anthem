@@ -1,4 +1,5 @@
 import { IOasisAccountHistory, NetworkDefinition } from "@anthem/utils";
+import * as Sentry from "@sentry/browser";
 import { FiatCurrency } from "constants/fiat";
 import {
   FiatPriceHistoryProps,
@@ -22,6 +23,7 @@ import { denomToUnit } from "tools/currency-utils";
 import { toDateKey, toDateKeyCSV } from "tools/date-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import { DashboardError } from "ui/pages/DashboardPage";
+import Toast from "ui/Toast";
 import CurrencySettingsToggle from "../CurrencySettingToggle";
 import { Button, DashboardLoader, Row, View } from "../SharedComponents";
 
@@ -175,7 +177,8 @@ class OasisPortfolio extends React.PureComponent<
       );
       this.props.downloadDataToFile(data);
     } catch (err) {
-      console.log(err);
+      Sentry.captureException(err);
+      Toast.warn("Failed to download account history...");
     }
   };
 

@@ -1,5 +1,6 @@
 import { assertUnreachable } from "@anthem/utils";
 import { H5 } from "@blueprintjs/core";
+import * as Sentry from "@sentry/browser";
 import {
   FiatPriceHistoryProps,
   GraphQLConfigProps,
@@ -396,7 +397,8 @@ class Portfolio extends React.PureComponent<IProps, IState> {
         Toast.warn(this.props.i18n.tString("No data found..."));
       }
     } catch (err) {
-      Toast.danger(this.props.i18n.tString("Failed to download CSV data..."));
+      Sentry.captureException(err);
+      Toast.warn(this.props.i18n.tString("Failed to download CSV data..."));
     }
   };
 }
