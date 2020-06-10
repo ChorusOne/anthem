@@ -6,6 +6,7 @@ import axios from "axios";
 import express from "express";
 import { logger } from "../tools/server-utils";
 import { AxiosUtil, getHostFromNetworkName } from "./axios-utils";
+import CELO from "./sources/celo";
 import { getAllTransactionsForCosmosSdkNetwork } from "./sources/cosmos-extractor";
 import OASIS from "./sources/oasis";
 
@@ -86,18 +87,23 @@ Router.get("/tx-history/:network/:address", async (req, res) => {
     switch (name) {
       case "KAVA":
       case "TERRA":
-      case "COSMOS":
+      case "COSMOS": {
         transactions = await getAllTransactionsForCosmosSdkNetwork(
           address,
           name,
         );
         break;
-      case "OASIS":
-        const result = await OASIS.fetchTransactions(address, 1000, 0, network);
+      }
+      case "OASIS": {
+        const result = await OASIS.fetchTransactions(address, 0, 1000, network);
         transactions = result.data;
         break;
-      case "CELO":
+      }
+      case "CELO": {
+        const result = await CELO.fetchTransactions(address, 0, 1000, network);
+        transactions = result.data;
         break;
+      }
       default:
         return assertUnreachable(name);
     }

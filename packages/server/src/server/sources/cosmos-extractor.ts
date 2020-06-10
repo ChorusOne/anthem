@@ -277,7 +277,7 @@ export const getAllTransactionsForCosmosSdkNetwork = async (
 ): Promise<ITransaction[]> => {
   const variables = {
     address,
-    pageSize: 10000,
+    pageSize: 1000,
     startingPage: 0,
   };
   const transactionsQuery = getTransactionsQuery();
