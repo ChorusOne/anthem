@@ -20,7 +20,7 @@ import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
 import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
-import { toDateKey, toDateKey } from "tools/date-utils";
+import { toDateKey } from "tools/date-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import { DashboardError } from "ui/pages/DashboardPage";
 import Toast from "ui/Toast";
