@@ -45,9 +45,16 @@ import EXCHANGE_DATA_API from "./sources/fiat-price-data";
 import OASIS from "./sources/oasis";
 
 /** ===========================================================================
- * Resolvers
+ * Utils and Types
  * ============================================================================
  */
+
+export interface PaginationParams {
+  address: string;
+  network: NetworkDefinition;
+  startingPage: number;
+  pageSize: number;
+}
 
 const blockUnsupportedNetworks = (
   network: NetworkDefinition,
@@ -71,6 +78,11 @@ const blockUnsupportedNetworks = (
       break;
   }
 };
+
+/** ===========================================================================
+ * Resolvers
+ * ============================================================================
+ */
 
 const resolvers = {
   ...UnionResolvers,

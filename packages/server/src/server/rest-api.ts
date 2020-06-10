@@ -6,8 +6,11 @@ import axios from "axios";
 import express from "express";
 import { logger } from "../tools/server-utils";
 import { AxiosUtil, getHostFromNetworkName } from "./axios-utils";
+import { PaginationParams } from "./resolvers";
 import CELO from "./sources/celo";
-import { getAllTransactionsForCosmosSdkNetwork } from "./sources/cosmos-extractor";
+import COSMOS_EXTRACTOR, {
+  getAllTransactionsForCosmosSdkNetwork,
+} from "./sources/cosmos-extractor";
 import OASIS from "./sources/oasis";
 
 /** ===========================================================================
@@ -84,23 +87,28 @@ Router.get("/tx-history/:network/:address", async (req, res) => {
     const { name } = network;
     let transactions: any[] = [];
 
+    const params: PaginationParams = {
+      address,
+      network,
+      pageSize: 1000,
+      startingPage: 1,
+    };
+
     switch (name) {
       case "KAVA":
       case "TERRA":
       case "COSMOS": {
-        transactions = await getAllTransactionsForCosmosSdkNetwork(
-          address,
-          name,
-        );
+        const result = await COSMOS_EXTRACTOR.getTransactions(params);
+        transactions = result.data;
         break;
       }
       case "OASIS": {
-        const result = await OASIS.fetchTransactions(address, 0, 1000, network);
+        const result = await OASIS.fetchTransactions(params);
         transactions = result.data;
         break;
       }
       case "CELO": {
-        const result = await CELO.fetchTransactions(address, 0, 1000, network);
+        const result = await CELO.fetchTransactions(params);
         transactions = result.data;
         break;
       }

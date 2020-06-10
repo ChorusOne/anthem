@@ -8,6 +8,7 @@ import {
 } from "@anthem/utils";
 import { logSentryMessage } from "../../tools/server-utils";
 import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
+import { PaginationParams } from "../resolvers";
 
 /** ===========================================================================
  * Types & Config
@@ -268,11 +269,9 @@ const fetchAccountHistory = async (
  * Fetch transaction history.
  */
 const fetchTransactions = async (
-  address: string,
-  startingPage: number,
-  pageSize: number,
-  network: NetworkDefinition,
+  args: PaginationParams,
 ): Promise<IQuery["oasisTransactions"]> => {
+  const { address, network, startingPage, pageSize } = args;
   const host = getHostFromNetworkName(network.name);
   const params = `limit=${pageSize + 1}&page=${startingPage}`;
   const url = `${host}/account/${address}/transactions?${params}`;
