@@ -7,7 +7,7 @@ import { ThemeProvider as StyledComponentsThemeProvider } from "styled-component
 import { composeWithProps } from "tools/context-utils";
 
 /** ===========================================================================
- * Provider & Context Setup
+ * Types & Config
  * ============================================================================
  */
 
@@ -17,14 +17,11 @@ export interface IThemeProps {
 }
 
 /** ===========================================================================
- * Component
- * ----------------------------------------------------------------------------
- * ThemeProvider which is responsible for various application settings,
- * such as app theme, fiat currency setting, etc.
+ * React Component
  * ============================================================================
  */
 const ThemeProviderComponent = (props: ThemeProviderProps) => {
-  // Windo resize listener setup:
+  // Window resize listener setup:
   const windowSize = useWindowSize();
   const isDesktop = windowSize.innerWidth > 768;
   const darkThemeEnabled = props.isDarkTheme;
