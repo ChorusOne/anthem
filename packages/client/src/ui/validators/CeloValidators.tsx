@@ -22,7 +22,6 @@ import { connect } from "react-redux";
 import {
   copyTextToClipboard,
   formatAddressString,
-  getAccountBalances,
   getValidatorOperatorAddressMap,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
