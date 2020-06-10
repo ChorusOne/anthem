@@ -196,7 +196,8 @@ class CeloPortfolio extends React.PureComponent<
 
   handleDownloadCSV = (accountHistory: ICeloAccountSnapshot[]) => {
     try {
-      const data = getOasisCSV(
+      console.log(this.props);
+      const data = getCeloCSV(
         this.props.address,
         accountHistory,
         this.props.network,
@@ -275,9 +276,9 @@ const getChartData = (
 };
 
 /**
- * Function to build the Oasis CSV export.
+ * Function to build the Celo CSV export.
  */
-const getOasisCSV = (
+const getCeloCSV = (
   address: string,
   accountHistory: ICeloAccountSnapshot[],
   network: NetworkDefinition,
