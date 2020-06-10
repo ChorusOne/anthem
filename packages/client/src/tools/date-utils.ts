@@ -24,26 +24,18 @@ const setTimeZone = (date: any) => {
 /**
  * Handle converting Celo specific snapshot date formats.
  */
-export const toDateKeyCelo = (date: GenericDateFormat) => {
+export const toDateKeyCelo = (date: GenericDateFormat, csvFormat = false) => {
   return moment(date, "DD-MM-YYYY")
     .tz(UTC_TIMEZONE)
-    .format(DATE_FORMAT);
+    .format(csvFormat ? CSV_DATE_FORMAT : DATE_FORMAT);
 };
 
 /**
  * Convert a date to a string date key.
  */
-export const toDateKey = (date: GenericDateFormat) => {
+export const toDateKey = (date: GenericDateFormat, csvFormat = false) => {
   const tz = setTimeZone(date);
-  return tz.format(DATE_FORMAT);
-};
-
-/**
- * Convert a date to a string date key for CSV export format.
- */
-export const toDateKeyCSV = (date: GenericDateFormat) => {
-  const tz = setTimeZone(date);
-  return tz.format(CSV_DATE_FORMAT);
+  return tz.format(csvFormat ? CSV_DATE_FORMAT : DATE_FORMAT);
 };
 
 /**

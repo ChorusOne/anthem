@@ -289,11 +289,13 @@ const getOasisCSV = (
   const CSV_HEADERS: string[] = [
     "Date",
     `Exchange Rate (${fiatCurrencySymbol.symbol}:${coin})`,
-    `Total Balance (${coin})`,
-    `Available Balance (${coin})`,
-    `Staked Balance (${coin})`,
-    `Daily Rewards (${coin})`,
-    `Accumulated Rewards (${coin})`,
+    `Available Gold Balance (${coin})`,
+    `Total Locked Gold Balance (${coin})`,
+    `Non Voting Locked Gold Balance (${coin})`,
+    `Voting Locked Gold Balance (${coin})`,
+    `Pending Withdrawal Balance (${coin})`,
+    `Reward (${coin})`,
+    `cUSD Balance (${coin})`,
   ];
 
   // Add info text about the address and network
@@ -303,26 +305,70 @@ const getOasisCSV = (
   const DISCLAIMER = `[DISCLAIMER]: This CSV account history is a best approximation of the account balances and rewards data over time. It is not a perfect history and uses a 3rd party price feed for exchange price data.\n\n`;
 
   // Assemble CSV file string with headers
-  const CSV = `${ADDRESS_INFO}${DISCLAIMER}${CSV_HEADERS.join(",")}\n`;
+  let CSV = `${ADDRESS_INFO}${DISCLAIMER}${CSV_HEADERS.join(",")}\n`;
 
-  // for (const x of accountHistory) {
-  //   const dateKey = toDateKeyCSV(x.date);
-  //   const balance = denomToUnit(x.balance, network.denominationSize, String);
+  for (const x of accountHistory) {
+    const {
+      snapshotDate,
+      snapshotReward,
+      availableGoldBalance,
+      totalLockedGoldBalance,
+      nonVotingLockedGoldBalance,
+      votingLockedGoldBalance,
+      pendingWithdrawalBalance,
+      celoUSDValue,
+    } = x;
 
-  //   // Create the CSV row
-  //   const row = [
-  //     dateKey,
-  //     "n/a", // Fiat balances not supported for Oasis yet
-  //     balance,
-  //     balance,
-  //     "n/a", // Staked balance not supported for Oasis yet
-  //     "n/a", // Rewards not supported for Oasis yet
-  //     "n/a", // Rewards not supported for Oasis yet
-  //   ].join(",");
+    const dateKey = toDateKeyCelo(snapshotDate, true);
+    const available = denomToUnit(
+      availableGoldBalance,
+      network.denominationSize,
+      String,
+    );
+    const totalLocked = denomToUnit(
+      totalLockedGoldBalance,
+      network.denominationSize,
+      String,
+    );
+    const nonVoting = denomToUnit(
+      nonVotingLockedGoldBalance,
+      network.denominationSize,
+      String,
+    );
+    const voting = denomToUnit(
+      votingLockedGoldBalance,
+      network.denominationSize,
+      String,
+    );
+    const pending = denomToUnit(
+      pendingWithdrawalBalance,
+      network.denominationSize,
+      String,
+    );
+    const reward = denomToUnit(
+      snapshotReward,
+      network.denominationSize,
+      String,
+    );
+    const cUSD = denomToUnit(celoUSDValue, network.denominationSize, String);
 
-  //   // Add the row to the CSV
-  //   CSV += `${row}\n`;
-  // }
+    // Create the CSV row
+    const row = [
+      dateKey,
+      "n/a", // Fiat balances not supported for Oasis yet
+      dateKey,
+      available,
+      totalLocked,
+      nonVoting,
+      voting,
+      pending,
+      reward,
+      cUSD,
+    ].join(",");
+
+    // Add the row to the CSV
+    CSV += `${row}\n`;
+  }
 
   return CSV;
 };
