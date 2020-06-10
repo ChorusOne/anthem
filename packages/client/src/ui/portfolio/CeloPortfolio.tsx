@@ -330,7 +330,7 @@ const getCeloCSV = (
 
     const size = network.denominationSize;
     const dateKey = toDateKeyCelo(snapshotDate, true);
-    const exchangeRate = fiatPriceHistory.snapshotDate || "n/a";
+    const exchangeRate = fiatPriceHistory[snapshotDate] || "n/a";
     const available = denomToUnit(availableGoldBalance, size, String);
     const totalLocked = denomToUnit(totalLockedGoldBalance, size, String);
     const nonVoting = denomToUnit(nonVotingLockedGoldBalance, size, String);
