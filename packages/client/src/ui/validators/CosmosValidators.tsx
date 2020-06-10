@@ -1,5 +1,5 @@
 import { ICosmosAccountBalancesType, IQuery, IValidator } from "@anthem/utils";
-import { Card, Collapse, Colors, H5, H6, Icon } from "@blueprintjs/core";
+import { Card, Collapse, H5, H6, Icon } from "@blueprintjs/core";
 import { CopyIcon, NetworkLogoIcon } from "assets/images";
 import { COLORS } from "constants/colors";
 import {
@@ -20,7 +20,6 @@ import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
-import styled from "styled-components";
 import {
   copyTextToClipboard,
   deriveCurrentDelegationsInformation,
@@ -34,7 +33,6 @@ import {
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
 import AddressIconComponent from "ui/AddressIconComponent";
-import { IThemeProps } from "ui/containers/ThemeContainer";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import PageAddressBar from "ui/PageAddressBar";
 import {
@@ -45,6 +43,18 @@ import {
   PageScrollableContent,
   View,
 } from "ui/SharedComponents";
+import {
+  RowItem,
+  RowItemHeader,
+  SortFilterIcon,
+  StakingRow,
+  StakingRowSummary,
+  Text,
+  ValidatorDetailRow,
+  ValidatorDetails,
+  ValidatorListCard,
+  ValidatorRowExpandable,
+} from "./ValidatorsListComponents";
 
 /** ===========================================================================
  * Types & Config
@@ -539,94 +549,6 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
     this.props.setValidatorListSortType(filter);
   };
 }
-
-/** ===========================================================================
- * Styles and Helpers
- * ============================================================================
- */
-
-const ValidatorListCard = styled(Card)`
-  padding: 8px;
-  width: ${(props: { theme: IThemeProps }) =>
-    props.theme.isDesktop ? "550px" : "auto"};
-`;
-
-const ValidatorRowBase = styled.div`
-  padding: 6px;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-`;
-
-const StakingRow = styled(ValidatorRowBase)`
-  height: 70px;
-`;
-
-const StakingRowSummary = styled(StakingRow)`
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: ${(props: { theme: IThemeProps }) =>
-    props.theme.isDarkTheme ? Colors.GRAY1 : Colors.GRAY5};
-`;
-
-const ValidatorRowExpandable = styled(ValidatorRowBase)`
-  height: 70px;
-
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
-const ValidatorDetailRow = styled(ValidatorRowBase)`
-  height: 35px;
-  margin-top: 2px;
-  margin-bottom: 2px;
-`;
-
-const ValidatorDetails = styled.div`
-  padding-top: 4px;
-  padding-bottom: 4px;
-  background: ${(props: { theme: IThemeProps }) =>
-    props.theme.isDarkTheme ? Colors.DARK_GRAY3 : Colors.LIGHT_GRAY3};
-`;
-
-const RowItem = styled.div<{ width?: number }>`
-  padding-left: 4px;
-  padding-right: 4px;
-  width: ${props => (props.width ? `${props.width}px` : "auto")};
-`;
-
-const RowItemHeader = styled(RowItem)`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
-
-  &:hover {
-    cursor: pointer;
-
-    h5 {
-      color: ${COLORS.LIGHT_GRAY};
-    }
-  }
-`;
-
-const Text = styled.p`
-  margin: 0;
-  text-align: left;
-`;
-
-const SortFilterIcon = ({
-  active,
-  ascending,
-}: {
-  active: boolean;
-  ascending: boolean;
-}) => {
-  return active ? (
-    <Icon color={COLORS.PRIMARY} icon={ascending ? "caret-down" : "caret-up"} />
-  ) : null;
-};
 
 /** ===========================================================================
  * Props

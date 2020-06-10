@@ -66,7 +66,7 @@ class PortfolioSwitchContainer extends React.Component<IProps, IState> {
 
     const { network } = this.props.ledger;
 
-    if (!network.supportsPortfolio) {
+    if (!network.supportsValidatorsList) {
       return (
         <PanelMessageText>
           Staking is not supported yet for <b>{network.name}</b>.
