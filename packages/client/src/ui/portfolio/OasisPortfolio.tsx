@@ -253,7 +253,7 @@ const getOasisCSV = (
   ];
 
   // Add info text about the address and network
-  const ADDRESS_INFO = `Account history data for ${network.name} address ${address}.\n`;
+  const ADDRESS_INFO = `Account history data for ${network.name} address ${address}.\n\n`;
 
   // Assemble CSV file string with headers
   let CSV = `${ADDRESS_INFO}${CSV_HEADERS.join(",")}\n`;
