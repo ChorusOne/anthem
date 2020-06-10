@@ -256,7 +256,7 @@ class DashboardPage extends React.Component<IProps> {
       const { name } = ledger.network;
 
       // Provide a toast message
-      Toast.warn("Starting download...");
+      Toast.warn("Starting transaction history download...");
 
       // Track action
       Analytics.downloadTransactions();

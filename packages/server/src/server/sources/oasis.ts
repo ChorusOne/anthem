@@ -287,9 +287,9 @@ const fetchTransactions = async (
     .filter(x => x !== null) as IOasisTransaction[];
 
   return {
-    page: 1,
-    limit: 25,
-    moreResultsExist: false,
+    limit: pageSize,
+    page: startingPage,
+    moreResultsExist,
     data: convertedTransactions,
   };
 };
