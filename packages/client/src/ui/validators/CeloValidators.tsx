@@ -32,7 +32,6 @@ import PageAddressBar from "ui/PageAddressBar";
 import {
   Button,
   DashboardLoader,
-  Link,
   PageContainer,
   PageScrollableContent,
   View,
@@ -111,11 +110,11 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
             ICosmosAccountBalancesType,
             IQuery["prices"],
           ]) => {
-            const balances = getAccountBalances(
-              accountBalancesResponse.cosmos,
-              pricesResponse,
-              network,
-            );
+            // const balances = getAccountBalances(
+            //   accountBalancesResponse.cosmos,
+            //   pricesResponse,
+            //   network,
+            // );
 
             const validatorOperatorAddressMap = getValidatorOperatorAddressMap(
               validatorList,
@@ -213,12 +212,15 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                               </RowItem>
                               <RowItem width={150}>
                                 <Text>
-                                  {/* {getPercentageFromTotal(v.tokens, stake)}% */}
-                                  n/a
+                                  {(+v.votingPowerFraction).toFixed(4)}
                                 </Text>
                               </RowItem>
                               <RowItem width={150}>
-                                <Text>{v.multiplier}</Text>
+                                <Text>
+                                  {(
+                                    v.capacityAvailable / v.totalCapacity
+                                  ).toFixed(4)}
+                                </Text>
                               </RowItem>
                               <RowItem>
                                 <Icon
@@ -230,9 +232,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                               <ValidatorDetails>
                                 <ValidatorDetailRow>
                                   <RowItem width={200}>
-                                    <H6 style={{ margin: 0 }}>
-                                      Operator Address
-                                    </H6>
+                                    <H6 style={{ margin: 0 }}>Group Address</H6>
                                   </RowItem>
                                   <RowItem width={150}>
                                     <Text>
@@ -243,24 +243,12 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                     <CopyIcon />
                                   </RowItem>
                                 </ValidatorDetailRow>
-                                <ValidatorDetailRow>
-                                  <RowItem width={200}>
-                                    <H6 style={{ margin: 0 }}>Website</H6>
-                                  </RowItem>
-                                  <RowItem width={300}>
-                                    <Link href={v.metadataURL}>
-                                      {v.metadataURL || "n/a"}
-                                    </Link>
-                                  </RowItem>
-                                </ValidatorDetailRow>
                                 <ValidatorDetailRow style={{ height: "auto" }}>
                                   <RowItem width={200}>
                                     <H6 style={{ margin: 0 }}>Voting Power</H6>
                                   </RowItem>
                                   <RowItem width={300}>
-                                    <Text style={{ fontSize: 12 }}>
-                                      {v.votingPower || "n/a"}
-                                    </Text>
+                                    <Text>{v.votingPower || "n/a"}</Text>
                                   </RowItem>
                                 </ValidatorDetailRow>
                                 <ValidatorDetailRow>
@@ -289,16 +277,16 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                       Total Capacity
                                     </H6>
                                   </RowItem>
-                                  <RowItem width={150}>
+                                  <RowItem width={225}>
                                     <Text>{v.totalCapacity}</Text>
                                   </RowItem>
-                                  <RowItem width={150}>
+                                  <RowItem width={100}>
                                     <Button
                                       style={{ marginBottom: 6 }}
                                       onClick={() => this.handleAddValidator(v)}
                                       data-cy="delegate-button"
                                     >
-                                      Add Validator Group
+                                      Lock Gold
                                     </Button>
                                   </RowItem>
                                 </ValidatorDetailRow>
