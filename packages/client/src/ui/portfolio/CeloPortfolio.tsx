@@ -3,6 +3,8 @@ import {
   ICeloAccountSnapshot,
   NetworkDefinition,
 } from "@anthem/utils";
+import * as Sentry from "@sentry/browser";
+import { FiatCurrency } from "constants/fiat";
 import {
   CeloAccountHistoryProps,
   FiatPriceHistoryProps,
@@ -20,7 +22,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
-import { capitalizeString } from "tools/client-utils";
+import {
+  capitalizeString,
+  getFiatPriceHistoryMap,
+  PriceHistoryMap,
+} from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
 import { toDateKeyCelo } from "tools/date-utils";
@@ -193,7 +199,22 @@ class CeloPortfolio extends React.PureComponent<
   };
 
   handleDownloadCSV = (accountHistory: ICeloAccountSnapshot[]) => {
-    Toast.warn("CSV Download Coming soon...");
+    try {
+      const { fiatPriceHistory } = this.props.fiatPriceHistory;
+      const format = "DD-MM-YYYY";
+      const priceHistory = getFiatPriceHistoryMap(fiatPriceHistory, format);
+      const data = getCeloCSV(
+        this.props.address,
+        accountHistory,
+        this.props.network,
+        this.props.settings.fiatCurrency,
+        priceHistory,
+      );
+      this.props.downloadDataToFile(data);
+    } catch (err) {
+      Sentry.captureException(err);
+      Toast.warn("Failed to download account history...");
+    }
   };
 }
 
@@ -259,6 +280,80 @@ const getChartData = (
     withdrawalsMap: {},
     withdrawalEventDates: {},
   };
+};
+
+/**
+ * Function to build the Celo CSV export.
+ */
+const getCeloCSV = (
+  address: string,
+  accountHistory: ICeloAccountSnapshot[],
+  network: NetworkDefinition,
+  fiatCurrencySymbol: FiatCurrency,
+  fiatPriceHistory: PriceHistoryMap,
+) => {
+  const coin = network.descriptor;
+
+  // Create the CSV Header.
+  const CSV_HEADERS: string[] = [
+    "Date",
+    `Exchange Rate (${fiatCurrencySymbol.symbol}:${coin})`,
+    `Available Gold Balance (${coin})`,
+    `Total Locked Gold Balance (${coin})`,
+    `Non Voting Locked Gold Balance (${coin})`,
+    `Voting Locked Gold Balance (${coin})`,
+    `Pending Withdrawal Balance (${coin})`,
+    `Reward (${coin})`,
+    `cUSD Balance (${coin})`,
+  ];
+
+  // Add info text about the address and network
+  const ADDRESS_INFO = `Account history data for ${network.name} address ${address}.\n\n`;
+
+  // Assemble CSV file string with headers
+  let CSV = `${ADDRESS_INFO}${CSV_HEADERS.join(",")}\n`;
+
+  for (const snapshot of accountHistory) {
+    const {
+      snapshotDate,
+      snapshotReward,
+      availableGoldBalance,
+      totalLockedGoldBalance,
+      nonVotingLockedGoldBalance,
+      votingLockedGoldBalance,
+      pendingWithdrawalBalance,
+      celoUSDValue,
+    } = snapshot;
+
+    const size = network.denominationSize;
+    const dateKey = toDateKeyCelo(snapshotDate, true);
+    const exchangeRate = fiatPriceHistory[snapshotDate] || "n/a";
+    const available = denomToUnit(availableGoldBalance, size, String);
+    const totalLocked = denomToUnit(totalLockedGoldBalance, size, String);
+    const nonVoting = denomToUnit(nonVotingLockedGoldBalance, size, String);
+    const voting = denomToUnit(votingLockedGoldBalance, size, String);
+    const pending = denomToUnit(pendingWithdrawalBalance, size, String);
+    const reward = denomToUnit(snapshotReward, size, String);
+    const cUSD = denomToUnit(celoUSDValue, size, String);
+
+    // Create the CSV row
+    const row = [
+      dateKey,
+      exchangeRate,
+      available,
+      totalLocked,
+      nonVoting,
+      voting,
+      pending,
+      reward,
+      cUSD,
+    ].join(",");
+
+    // Add the row to the CSV
+    CSV += `${row}\n`;
+  }
+
+  return CSV;
 };
 
 /** ===========================================================================

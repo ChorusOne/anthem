@@ -45,9 +45,16 @@ import EXCHANGE_DATA_API from "./sources/fiat-price-data";
 import OASIS from "./sources/oasis";
 
 /** ===========================================================================
- * Resolvers
+ * Utils and Types
  * ============================================================================
  */
+
+export interface PaginationParams {
+  address: string;
+  network: NetworkDefinition;
+  startingPage: number;
+  pageSize: number;
+}
 
 const blockUnsupportedNetworks = (
   network: NetworkDefinition,
@@ -71,6 +78,11 @@ const blockUnsupportedNetworks = (
       break;
   }
 };
+
+/** ===========================================================================
+ * Resolvers
+ * ============================================================================
+ */
 
 const resolvers = {
   ...UnionResolvers,
@@ -150,7 +162,13 @@ const resolvers = {
       const start = validatePaginationParams(startingPage, 1);
       const network = deriveNetworkFromAddress(address);
       blockUnsupportedNetworks(network, "transactions");
-      return COSMOS_EXTRACTOR.getTransactions(address, size, start, network);
+      const params = {
+        address,
+        network,
+        pageSize: size,
+        startingPage: start,
+      };
+      return COSMOS_EXTRACTOR.getTransactions(params);
     },
 
     rewardsByValidator: async (
@@ -386,10 +404,16 @@ const resolvers = {
     ): Promise<IQuery["oasisTransactions"]> => {
       const { address, startingPage, pageSize } = args;
       const network = deriveNetworkFromAddress(address);
+      blockUnsupportedNetworks(network, "transactions");
       const size = validatePaginationParams(pageSize, 25);
       const start = validatePaginationParams(startingPage, 1);
-      blockUnsupportedNetworks(network, "transactions");
-      return OASIS.fetchTransactions(address, start, size, network);
+      const params = {
+        address,
+        network,
+        pageSize: size,
+        startingPage: start,
+      };
+      return OASIS.fetchTransactions(params);
     },
 
     /** =======================================================================
@@ -413,10 +437,16 @@ const resolvers = {
     ): Promise<IQuery["celoTransactions"]> => {
       const { address, startingPage, pageSize } = args;
       const network = deriveNetworkFromAddress(address);
+      blockUnsupportedNetworks(network, "transactions");
       const size = validatePaginationParams(pageSize, 25);
       const start = validatePaginationParams(startingPage, 1);
-      blockUnsupportedNetworks(network, "transactions");
-      return CELO.fetchTransactions(address, start, size, network);
+      const params = {
+        address,
+        network,
+        pageSize: size,
+        startingPage: start,
+      };
+      return CELO.fetchTransactions(params);
     },
 
     celoSystemBalances: async (): Promise<IQuery["celoSystemBalances"]> => {

@@ -1,4 +1,5 @@
 import { IOasisAccountHistory, NetworkDefinition } from "@anthem/utils";
+import * as Sentry from "@sentry/browser";
 import { FiatCurrency } from "constants/fiat";
 import {
   FiatPriceHistoryProps,
@@ -19,9 +20,10 @@ import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
 import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
-import { toDateKey, toDateKeyCSV } from "tools/date-utils";
+import { toDateKey } from "tools/date-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import { DashboardError } from "ui/pages/DashboardPage";
+import Toast from "ui/Toast";
 import CurrencySettingsToggle from "../CurrencySettingToggle";
 import { Button, DashboardLoader, Row, View } from "../SharedComponents";
 
@@ -175,7 +177,8 @@ class OasisPortfolio extends React.PureComponent<
       );
       this.props.downloadDataToFile(data);
     } catch (err) {
-      console.log(err);
+      Sentry.captureException(err);
+      Toast.warn("Failed to download account history...");
     }
   };
 
@@ -252,14 +255,11 @@ const getOasisCSV = (
   // Add info text about the address and network
   const ADDRESS_INFO = `Account history data for ${network.name} address ${address}.\n\n`;
 
-  // Add disclaimer at the top of the CSV:
-  const DISCLAIMER = `[DISCLAIMER]: This CSV account history is a best approximation of the account balances and rewards data over time. It is not a perfect history and uses a 3rd party price feed for exchange price data.\n\n`;
-
   // Assemble CSV file string with headers
-  let CSV = `${ADDRESS_INFO}${DISCLAIMER}${CSV_HEADERS.join(",")}\n`;
+  let CSV = `${ADDRESS_INFO}${CSV_HEADERS.join(",")}\n`;
 
   for (const x of accountHistory) {
-    const dateKey = toDateKeyCSV(x.date);
+    const dateKey = toDateKey(x.date, true);
     const balance = denomToUnit(x.balance, network.denominationSize, String);
 
     // Create the CSV row

@@ -18,6 +18,7 @@ import {
   mapSumToBalance,
 } from "../../tools/server-utils";
 import { getSqlQueryString, SQLVariables } from "../../tools/sql-utils";
+import { PaginationParams } from "../resolvers";
 
 /** ===========================================================================
  * Postgres Pool
@@ -232,11 +233,9 @@ export const getTransactionByHash = async (
 };
 
 export const getTransactions = async (
-  address: string,
-  pageSize: number,
-  startingPage: number,
-  network: NetworkDefinition,
+  args: PaginationParams,
 ): Promise<IQuery["cosmosTransactions"]> => {
+  const { address, network, startingPage, pageSize } = args;
   /**
    * Determine the offset from the starting page, adjust by 1 and the requested
    * page size. For example, the 1st page offset should be 0,
@@ -265,25 +264,6 @@ export const getTransactions = async (
     moreResultsExist,
     page: startingPage,
   };
-};
-
-/**
- * Helper method to fetch all the transactions for an address on a Cosmos SDK
- * network.
- */
-export const getAllTransactionsForCosmosSdkNetwork = async (
-  address: string,
-  network: NETWORK_NAME,
-): Promise<ITransaction[]> => {
-  const variables = {
-    address,
-    pageSize: 10000,
-    startingPage: 0,
-  };
-  const transactionsQuery = getTransactionsQuery();
-  const query = transactionsQuery(variables);
-  const response = await queryPostgresCosmosSdkPool(network, query);
-  return response.map(formatTransactionResponse);
 };
 
 /** ===========================================================================

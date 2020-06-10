@@ -8,6 +8,7 @@ import {
 } from "@anthem/utils";
 import { logSentryMessage } from "../../tools/server-utils";
 import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
+import { PaginationParams } from "../resolvers";
 
 /** ===========================================================================
  * Types & Config
@@ -264,27 +265,31 @@ const fetchAccountHistory = async (
   return response;
 };
 
+/**
+ * Fetch transaction history.
+ */
 const fetchTransactions = async (
-  address: string,
-  pageSize: number,
-  startingPage: number,
-  network: NetworkDefinition,
+  args: PaginationParams,
 ): Promise<IQuery["oasisTransactions"]> => {
+  const { address, network, startingPage, pageSize } = args;
   const host = getHostFromNetworkName(network.name);
-  const url = `${host}/account/${address}/transactions`;
+  const params = `limit=${pageSize + 1}&page=${startingPage}`;
+  const url = `${host}/account/${address}/transactions?${params}`;
   const response = await AxiosUtil.get<OasisTransaction[]>(url);
-
   // const response = MOCK_OASIS_EVENTS;
 
+  const pages = response.slice(0, pageSize);
+  const moreResultsExist = response.length > pageSize;
+
   // Transform the response data
-  const convertedTransactions = response
+  const convertedTransactions = pages
     .map(x => adaptOasisTransaction(x, address))
     .filter(x => x !== null) as IOasisTransaction[];
 
   return {
-    page: 1,
-    limit: 25,
-    moreResultsExist: false,
+    limit: pageSize,
+    page: startingPage,
+    moreResultsExist,
     data: convertedTransactions,
   };
 };
