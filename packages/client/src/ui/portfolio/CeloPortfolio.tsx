@@ -22,7 +22,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
-import { capitalizeString } from "tools/client-utils";
+import {
+  capitalizeString,
+  getFiatPriceHistoryMap,
+  PriceHistoryMap,
+} from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
 import { toDateKeyCelo } from "tools/date-utils";
@@ -196,12 +200,15 @@ class CeloPortfolio extends React.PureComponent<
 
   handleDownloadCSV = (accountHistory: ICeloAccountSnapshot[]) => {
     try {
-      console.log(this.props);
+      const { fiatPriceHistory } = this.props.fiatPriceHistory;
+      const format = "DD-MM-YYYY";
+      const priceHistory = getFiatPriceHistoryMap(fiatPriceHistory, format);
       const data = getCeloCSV(
         this.props.address,
         accountHistory,
         this.props.network,
         this.props.settings.fiatCurrency,
+        priceHistory,
       );
       this.props.downloadDataToFile(data);
     } catch (err) {
@@ -283,6 +290,7 @@ const getCeloCSV = (
   accountHistory: ICeloAccountSnapshot[],
   network: NetworkDefinition,
   fiatCurrencySymbol: FiatCurrency,
+  fiatPriceHistory: PriceHistoryMap,
 ) => {
   const coin = network.descriptor;
 
@@ -308,7 +316,7 @@ const getCeloCSV = (
   // Assemble CSV file string with headers
   let CSV = `${ADDRESS_INFO}${DISCLAIMER}${CSV_HEADERS.join(",")}\n`;
 
-  for (const x of accountHistory) {
+  for (const snapshot of accountHistory) {
     const {
       snapshotDate,
       snapshotReward,
@@ -318,45 +326,23 @@ const getCeloCSV = (
       votingLockedGoldBalance,
       pendingWithdrawalBalance,
       celoUSDValue,
-    } = x;
+    } = snapshot;
 
+    const size = network.denominationSize;
     const dateKey = toDateKeyCelo(snapshotDate, true);
-    const available = denomToUnit(
-      availableGoldBalance,
-      network.denominationSize,
-      String,
-    );
-    const totalLocked = denomToUnit(
-      totalLockedGoldBalance,
-      network.denominationSize,
-      String,
-    );
-    const nonVoting = denomToUnit(
-      nonVotingLockedGoldBalance,
-      network.denominationSize,
-      String,
-    );
-    const voting = denomToUnit(
-      votingLockedGoldBalance,
-      network.denominationSize,
-      String,
-    );
-    const pending = denomToUnit(
-      pendingWithdrawalBalance,
-      network.denominationSize,
-      String,
-    );
-    const reward = denomToUnit(
-      snapshotReward,
-      network.denominationSize,
-      String,
-    );
-    const cUSD = denomToUnit(celoUSDValue, network.denominationSize, String);
+    const exchangeRate = fiatPriceHistory.snapshotDate || "n/a";
+    const available = denomToUnit(availableGoldBalance, size, String);
+    const totalLocked = denomToUnit(totalLockedGoldBalance, size, String);
+    const nonVoting = denomToUnit(nonVotingLockedGoldBalance, size, String);
+    const voting = denomToUnit(votingLockedGoldBalance, size, String);
+    const pending = denomToUnit(pendingWithdrawalBalance, size, String);
+    const reward = denomToUnit(snapshotReward, size, String);
+    const cUSD = denomToUnit(celoUSDValue, size, String);
 
     // Create the CSV row
     const row = [
       dateKey,
-      "n/a", // Fiat balances not supported for Oasis yet
+      exchangeRate,
       dateKey,
       available,
       totalLocked,

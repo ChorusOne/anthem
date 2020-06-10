@@ -77,8 +77,11 @@ export const formatTime = (timestamp: GenericDateFormat): string => {
 /**
  * Format a fiat price date.
  */
-export const formatFiatPriceDate = (date: GenericDateFormat) => {
-  return moment(date).format("MM-DD-YYYY");
+export const formatFiatPriceDate = (
+  date: GenericDateFormat,
+  format = "MM-DD-YYYY",
+) => {
+  return moment(date).format(format);
 };
 
 /**

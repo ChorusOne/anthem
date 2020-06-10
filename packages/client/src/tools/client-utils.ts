@@ -527,12 +527,13 @@ export interface PriceHistoryMap {
  */
 export const getFiatPriceHistoryMap = (
   fiatPriceHistory: IQuery["fiatPriceHistory"],
+  format?: string,
 ): PriceHistoryMap => {
   if (fiatPriceHistory) {
     return fiatPriceHistory.reduce((priceMap, { timestamp, price }) => {
       return {
         ...priceMap,
-        [formatFiatPriceDate(timestamp)]: price,
+        [formatFiatPriceDate(timestamp, format)]: price,
       };
     }, {});
   }
