@@ -25,6 +25,13 @@ import {
   getValidatorOperatorAddressMap,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
+import { formatCurrencyAmount } from "tools/currency-utils";
+import {
+  divide,
+  GenericNumberType,
+  multiply,
+  subtract,
+} from "tools/math-utils";
 import AddressIconComponent from "ui/AddressIconComponent";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import PageAddressBar from "ui/PageAddressBar";
@@ -115,6 +122,8 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
             //   network,
             // );
 
+            console.log(validatorList);
+
             const validatorOperatorAddressMap = getValidatorOperatorAddressMap(
               validatorList,
               v => v.group,
@@ -158,7 +167,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                         VALIDATORS_LIST_SORT_FILTER.VOTING_POWER,
                       )}
                     >
-                      <H5 style={{ margin: 0 }}>Voting Power</H5>
+                      <H5 style={{ margin: 0 }}>Voting Capacity</H5>
                       <SortFilterIcon
                         ascending={sortListAscending}
                         active={
@@ -173,7 +182,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                         VALIDATORS_LIST_SORT_FILTER.COMMISSION,
                       )}
                     >
-                      <H5 style={{ margin: 0 }}>Commission</H5>
+                      <H5 style={{ margin: 0 }}>Capacity</H5>
                       <SortFilterIcon
                         ascending={sortListAscending}
                         active={
@@ -190,6 +199,11 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                           v.group === this.state.showValidatorDetailsAddress;
 
                         const copyAddress = () => copyTextToClipboard(v.group);
+
+                        const votingCapacity = getVotesAvailable(
+                          v.capacityAvailable,
+                          v.votingPower,
+                        );
 
                         return (
                           <View key={v.group}>
@@ -210,16 +224,10 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                 <H5 style={{ margin: 0 }}>{v.name}</H5>
                               </RowItem>
                               <RowItem width={150}>
-                                <Text>
-                                  {(+v.votingPowerFraction).toFixed(4)}
-                                </Text>
+                                <Text>{adjustValue(v.capacityAvailable)}</Text>
                               </RowItem>
                               <RowItem width={150}>
-                                <Text>
-                                  {(
-                                    v.capacityAvailable / v.totalCapacity
-                                  ).toFixed(4)}
-                                </Text>
+                                <Text>{votingCapacity}%</Text>
                               </RowItem>
                               <RowItem>
                                 <Icon
@@ -244,30 +252,27 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                 </ValidatorDetailRow>
                                 <ValidatorDetailRow style={{ height: "auto" }}>
                                   <RowItem width={200}>
-                                    <H6 style={{ margin: 0 }}>Voting Power</H6>
+                                    <H6 style={{ margin: 0 }}>Active Votes</H6>
                                   </RowItem>
                                   <RowItem width={300}>
-                                    <Text>{v.votingPower || "n/a"}</Text>
+                                    <Text>{adjustValue(v.votingPower)}</Text>
                                   </RowItem>
                                 </ValidatorDetailRow>
                                 <ValidatorDetailRow>
                                   <RowItem width={200}>
                                     <H6 style={{ margin: 0 }}>
-                                      Voting Power Fraction
+                                      Votes Receivable
                                     </H6>
                                   </RowItem>
                                   <RowItem width={300}>
-                                    <Text>{v.votingPowerFraction}</Text>
-                                  </RowItem>
-                                </ValidatorDetailRow>
-                                <ValidatorDetailRow>
-                                  <RowItem width={200}>
-                                    <H6 style={{ margin: 0 }}>
-                                      Capacity Available
-                                    </H6>
-                                  </RowItem>
-                                  <RowItem width={300}>
-                                    <Text>{v.capacityAvailable}</Text>
+                                    <Text>
+                                      {adjustValue(
+                                        subtract(
+                                          v.capacityAvailable,
+                                          v.votingPower,
+                                        ),
+                                      )}
+                                    </Text>
                                   </RowItem>
                                 </ValidatorDetailRow>
                                 <ValidatorDetailRow>
@@ -277,7 +282,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                     </H6>
                                   </RowItem>
                                   <RowItem width={225}>
-                                    <Text>{v.totalCapacity}</Text>
+                                    <Text>{adjustValue(v.totalCapacity)}</Text>
                                   </RowItem>
                                   <RowItem width={100}>
                                     <Button
@@ -482,6 +487,18 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
     this.props.setValidatorListSortType(filter);
   };
 }
+
+const adjustValue = (value: GenericNumberType) => {
+  const x = divide(Number(value), 10e17, Number);
+  return formatCurrencyAmount(x);
+};
+
+const getVotesAvailable = (capacity: number, votingPower: number) => {
+  return (((capacity - votingPower) / capacity) * 100).toFixed(2);
+  // const fraction = divide(subtract(capacity, votingPower), capacity);
+  // const percent = multiply(fraction, 100, Number).toFixed(2);
+  // return percent;
+};
 
 /** ===========================================================================
  * Props
