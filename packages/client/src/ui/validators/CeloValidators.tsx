@@ -122,8 +122,6 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
             //   network,
             // );
 
-            console.log(validatorList);
-
             const validatorOperatorAddressMap = getValidatorOperatorAddressMap(
               validatorList,
               v => v.group,
