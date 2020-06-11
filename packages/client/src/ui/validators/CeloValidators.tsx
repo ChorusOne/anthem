@@ -26,12 +26,7 @@ import {
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { formatCurrencyAmount } from "tools/currency-utils";
-import {
-  divide,
-  GenericNumberType,
-  multiply,
-  subtract,
-} from "tools/math-utils";
+import { divide, GenericNumberType, subtract } from "tools/math-utils";
 import AddressIconComponent from "ui/AddressIconComponent";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import PageAddressBar from "ui/PageAddressBar";
