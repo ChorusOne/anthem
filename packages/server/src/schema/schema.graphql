@@ -2,15 +2,16 @@ type Query {
   # Cosmos APIs
   cosmosAccountBalances(address: String!): CosmosAccountBalances!
   cosmosAccountHistory(address: String!, fiat: String!): CosmosAccountHistory!
-
-  rewardsByValidator(address: String!): [AvailableReward!]!
-  accountInformation(address: String!): AccountInformation!
   cosmosTransaction(hash: String!, network: String!): CosmosTransaction!
   cosmosTransactions(
     address: String!
     startingPage: Float
     pageSize: Float
   ): TransactionsPaginationResult!
+
+  # TODO: Prefix with cosmos-
+  rewardsByValidator(address: String!): [AvailableReward!]!
+  accountInformation(address: String!): AccountInformation!
   validatorDistribution(validatorAddress: String!): ValidatorDistribution!
   validators(network: String!): [Validator!]!
   validatorSets(network: String!): ValidatorSet!
