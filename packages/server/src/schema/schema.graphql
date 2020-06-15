@@ -6,7 +6,7 @@ type Query {
   accountBalances(address: String!): AccountBalanceResponseType!
   rewardsByValidator(address: String!): [AvailableReward!]!
   accountInformation(address: String!): AccountInformation!
-  cosmosTransaction(txHash: String!, network: String!): CosmosTransaction!
+  cosmosTransaction(hash: String!, network: String!): CosmosTransaction!
   cosmosTransactions(
     address: String!
     startingPage: Float

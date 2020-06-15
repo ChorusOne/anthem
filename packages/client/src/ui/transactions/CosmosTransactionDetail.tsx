@@ -32,12 +32,12 @@ import CosmosTransactionList from "./CosmosTransactionList";
 class CosmosTransactionDetail extends React.PureComponent<IProps> {
   render(): JSX.Element {
     const { validators, fiatPriceHistory, i18n, ledger } = this.props;
-    const txHash = this.props.location.pathname
+    const hash = this.props.location.pathname
       .replace("/txs/", "")
       .toLowerCase();
 
     // Transaction may already exist in Apollo cache. Use this data first.
-    const transactionMayExist = this.maybeFindTransactionInApolloCache(txHash);
+    const transactionMayExist = this.maybeFindTransactionInApolloCache(hash);
     if (transactionMayExist) {
       return (
         <View>
@@ -58,7 +58,7 @@ class CosmosTransactionDetail extends React.PureComponent<IProps> {
         <View>
           <Query
             query={CosmosTransactionDocument}
-            variables={{ txHash, network: ledger.network.name }}
+            variables={{ hash, network: ledger.network.name }}
           >
             {(
               transaction: QueryResult<{
@@ -79,7 +79,7 @@ class CosmosTransactionDetail extends React.PureComponent<IProps> {
                             "Transaction could not be found for hash:",
                           )}
                         </p>
-                        <p>{txHash}</p>
+                        <p>{hash}</p>
                       </Centered>
                     </View>
                   }

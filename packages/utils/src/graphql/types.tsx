@@ -654,7 +654,7 @@ export interface IQueryAccountInformationArgs {
 }
 
 export interface IQueryCosmosTransactionArgs {
-  txHash: Scalars["String"];
+  hash: Scalars["String"];
   network: Scalars["String"];
 }
 
@@ -1085,7 +1085,7 @@ export type ICeloValidatorGroupsQuery = (
 );
 
 export interface ICosmosTransactionQueryVariables {
-  txHash: Scalars["String"];
+  hash: Scalars["String"];
   network: Scalars["String"];
 }
 
@@ -2219,8 +2219,8 @@ export type CeloValidatorGroupsQueryHookResult = ReturnType<typeof useCeloValida
 export type CeloValidatorGroupsLazyQueryHookResult = ReturnType<typeof useCeloValidatorGroupsLazyQuery>;
 export type CeloValidatorGroupsQueryResult = ApolloReactCommon.QueryResult<ICeloValidatorGroupsQuery, ICeloValidatorGroupsQueryVariables>;
 export const CosmosTransactionDocument = gql`
-    query cosmosTransaction($txHash: String!, $network: String!) {
-  cosmosTransaction(txHash: $txHash, network: $network) {
+    query cosmosTransaction($hash: String!, $network: String!) {
+  cosmosTransaction(hash: $hash, network: $network) {
     hash
     height
     log {
@@ -2341,7 +2341,7 @@ export function withCosmosTransaction<TProps, TChildProps = {}>(operationOptions
  * @example
  * const { data, loading, error } = useCosmosTransactionQuery({
  *   variables: {
- *      txHash: // value for 'txHash'
+ *      hash: // value for 'hash'
  *      network: // value for 'network'
  *   },
  * });

@@ -149,10 +149,10 @@ const resolvers = {
       _: void,
       args: ICosmosTransactionQueryVariables,
     ): Promise<IQuery["cosmosTransaction"]> => {
-      const { txHash } = args;
+      const { hash } = args;
       const network = getNetworkDefinitionFromIdentifier(args.network);
       blockUnsupportedNetworks(network, "transactions");
-      return COSMOS_EXTRACTOR.getTransactionByHash(txHash, network);
+      return COSMOS_EXTRACTOR.getTransactionByHash(hash, network);
     },
 
     cosmosTransactions: async (
