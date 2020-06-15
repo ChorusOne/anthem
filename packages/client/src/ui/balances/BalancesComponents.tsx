@@ -278,10 +278,9 @@ class CeloBalancesContainer extends React.Component<
   {}
 > {
   render(): JSX.Element {
-    const { i18n, prices, settings, ledger, celoAccountBalances } = this.props;
+    const { i18n, prices, ledger, celoAccountBalances } = this.props;
     const { tString } = i18n;
     const { network } = ledger;
-    const { isDesktop, currencySetting } = settings;
 
     return (
       <GraphQLGuardComponentMultipleQueries
@@ -446,10 +445,9 @@ class OasisBalancesContainer extends React.Component<
   {}
 > {
   render(): JSX.Element {
-    const { i18n, prices, settings, ledger, oasisAccountBalances } = this.props;
+    const { i18n, prices, ledger, oasisAccountBalances } = this.props;
     const { tString } = i18n;
     const { network } = ledger;
-    const { isDesktop, currencySetting } = settings;
 
     return (
       <GraphQLGuardComponentMultipleQueries
