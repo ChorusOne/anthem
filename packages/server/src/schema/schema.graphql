@@ -1,6 +1,6 @@
 type Query {
   # Cosmos APIs
-  cosmosAccountBalances(address: String!): CosmosAccountBalancesType!
+  cosmosAccountBalances(address: String!): CosmosAccountBalances!
   portfolioHistory(address: String!, fiat: String!): PortfolioData!
 
   rewardsByValidator(address: String!): [AvailableReward!]!
@@ -31,7 +31,7 @@ type Query {
   prices(currency: String!, versus: String!): Price!
 
   # Oasis APIs
-  oasisAccountBalances(address: String!): OasisAccountBalancesType!
+  oasisAccountBalances(address: String!): OasisAccountBalances!
   oasisAccountHistory(address: String!, fiat: String!): [OasisAccountHistory!]!
   oasisTransactions(
     address: String!
@@ -41,7 +41,7 @@ type Query {
   oasisTransaction(hash: String!): OasisTransaction!
 
   # Celo APIs
-  celoAccountBalances(address: String!): CeloAccountBalancesType!
+  celoAccountBalances(address: String!): CeloAccountBalances!
   celoAccountHistory(address: String!, fiat: String!): [CeloAccountSnapshot!]!
   celoTransactions(
     address: String!
@@ -56,10 +56,6 @@ type Query {
 
 # *****************************************************************************
 # Celo APIs
-
-type CeloAccountBalancesType {
-  celo: CeloAccountBalances!
-}
 
 type CeloAccountBalances {
   address: String!
@@ -162,10 +158,6 @@ type CeloValidatorGroup {
 
 # *****************************************************************************
 # Oasis APIs
-
-type OasisAccountBalancesType {
-  oasis: OasisAccountBalances!
-}
 
 type OasisAccountBalances {
   available: String!
@@ -381,10 +373,6 @@ type PortfolioData {
 type AvailableReward {
   reward: [Balance!]
   validator_address: String!
-}
-
-type CosmosAccountBalancesType {
-  cosmos: CosmosAccountBalances!
 }
 
 type CosmosAccountBalances {

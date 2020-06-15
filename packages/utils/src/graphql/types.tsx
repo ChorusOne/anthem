@@ -24,8 +24,6 @@ export interface IAccount {
   sequence: Scalars["String"];
 }
 
-export type IAccountBalanceResponseType = ICosmosAccountBalancesType | ICeloAccountBalancesType | IOasisAccountBalancesType;
-
 export interface IAccountCoin {
    __typename?: "AccountCoin";
   denom: Scalars["String"];
@@ -89,11 +87,6 @@ export interface ICeloAccountBalances {
   pendingWithdrawalBalance: Scalars["String"];
   celoUSDValue: Scalars["String"];
   delegations: ICeloDelegation[];
-}
-
-export interface ICeloAccountBalancesType {
-   __typename?: "CeloAccountBalancesType";
-  celo: ICeloAccountBalances;
 }
 
 export interface ICeloAccountSnapshot {
@@ -206,11 +199,6 @@ export interface ICosmosAccountBalances {
   delegations: Maybe<IDelegation[]>;
   unbonding: Maybe<IUnbondingDelegation[]>;
   commissions: Maybe<IBalance[]>;
-}
-
-export interface ICosmosAccountBalancesType {
-   __typename?: "CosmosAccountBalancesType";
-  cosmos: ICosmosAccountBalances;
 }
 
 export interface ICosmosTransaction {
@@ -366,11 +354,6 @@ export interface IOasisAccountBalances {
   commissions: Scalars["String"];
   meta: IOasisAccountMeta;
   delegations: Maybe<IOasisDelegation[]>;
-}
-
-export interface IOasisAccountBalancesType {
-   __typename?: "OasisAccountBalancesType";
-  oasis: IOasisAccountBalances;
 }
 
 export interface IOasisAccountHistory {
@@ -590,7 +573,7 @@ export interface IPubKey {
 export interface IQuery {
    __typename?: "Query";
   /** Cosmos APIs */
-  cosmosAccountBalances: ICosmosAccountBalancesType;
+  cosmosAccountBalances: ICosmosAccountBalances;
   portfolioHistory: IPortfolioData;
   rewardsByValidator: IAvailableReward[];
   accountInformation: IAccountInformation;
@@ -614,12 +597,12 @@ export interface IQuery {
   dailyPercentChange: Scalars["String"];
   prices: IPrice;
   /** Oasis APIs */
-  oasisAccountBalances: IOasisAccountBalancesType;
+  oasisAccountBalances: IOasisAccountBalances;
   oasisAccountHistory: IOasisAccountHistory[];
   oasisTransactions: IOasisTransactionResult;
   oasisTransaction: IOasisTransaction;
   /** Celo APIs */
-  celoAccountBalances: ICeloAccountBalancesType;
+  celoAccountBalances: ICeloAccountBalances;
   celoAccountHistory: ICeloAccountSnapshot[];
   celoTransactions: ICeloTransactionResult;
   celoTransaction: ICeloTransaction;
@@ -947,15 +930,12 @@ export interface ICeloAccountBalancesQueryVariables {
 export type ICeloAccountBalancesQuery = (
   { __typename?: "Query" }
   & { celoAccountBalances: (
-    { __typename?: "CeloAccountBalancesType" }
-    & { celo: (
-      { __typename?: "CeloAccountBalances" }
-      & Pick<ICeloAccountBalances, "address" | "height" | "availableGoldBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
-      & { delegations: Array<(
-        { __typename?: "CeloDelegation" }
-        & Pick<ICeloDelegation, "group" | "totalVotes" | "activeVotes" | "pendingVotes">
-      )> }
-    ) }
+    { __typename?: "CeloAccountBalances" }
+    & Pick<ICeloAccountBalances, "address" | "height" | "availableGoldBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
+    & { delegations: Array<(
+      { __typename?: "CeloDelegation" }
+      & Pick<ICeloDelegation, "group" | "totalVotes" | "activeVotes" | "pendingVotes">
+    )> }
   ) }
 );
 
@@ -1057,30 +1037,27 @@ export interface ICosmosAccountBalancesQueryVariables {
 export type ICosmosAccountBalancesQuery = (
   { __typename?: "Query" }
   & { cosmosAccountBalances: (
-    { __typename?: "CosmosAccountBalancesType" }
-    & { cosmos: (
-      { __typename?: "CosmosAccountBalances" }
-      & { balance: Maybe<Array<(
-        { __typename?: "Balance" }
-        & Pick<IBalance, "denom" | "amount">
-      )>>, rewards: Maybe<Array<(
-        { __typename?: "Balance" }
-        & Pick<IBalance, "denom" | "amount">
-      )>>, delegations: Maybe<Array<(
-        { __typename?: "Delegation" }
-        & Pick<IDelegation, "delegator_address" | "validator_address" | "shares">
-      )>>, unbonding: Maybe<Array<(
-        { __typename?: "UnbondingDelegation" }
-        & Pick<IUnbondingDelegation, "delegator_address" | "validator_address">
-        & { entries: Array<(
-          { __typename?: "UnbondingDelegationEntry" }
-          & Pick<IUnbondingDelegationEntry, "balance" | "initial_balance" | "creation_height" | "completion_time">
-        )> }
-      )>>, commissions: Maybe<Array<(
-        { __typename?: "Balance" }
-        & Pick<IBalance, "denom" | "amount">
-      )>> }
-    ) }
+    { __typename?: "CosmosAccountBalances" }
+    & { balance: Maybe<Array<(
+      { __typename?: "Balance" }
+      & Pick<IBalance, "denom" | "amount">
+    )>>, rewards: Maybe<Array<(
+      { __typename?: "Balance" }
+      & Pick<IBalance, "denom" | "amount">
+    )>>, delegations: Maybe<Array<(
+      { __typename?: "Delegation" }
+      & Pick<IDelegation, "delegator_address" | "validator_address" | "shares">
+    )>>, unbonding: Maybe<Array<(
+      { __typename?: "UnbondingDelegation" }
+      & Pick<IUnbondingDelegation, "delegator_address" | "validator_address">
+      & { entries: Array<(
+        { __typename?: "UnbondingDelegationEntry" }
+        & Pick<IUnbondingDelegationEntry, "balance" | "initial_balance" | "creation_height" | "completion_time">
+      )> }
+    )>>, commissions: Maybe<Array<(
+      { __typename?: "Balance" }
+      & Pick<IBalance, "denom" | "amount">
+    )>> }
   ) }
 );
 
@@ -1378,24 +1355,21 @@ export interface IOasisAccountBalancesQueryVariables {
 export type IOasisAccountBalancesQuery = (
   { __typename?: "Query" }
   & { oasisAccountBalances: (
-    { __typename?: "OasisAccountBalancesType" }
-    & { oasis: (
-      { __typename?: "OasisAccountBalances" }
-      & Pick<IOasisAccountBalances, "available" | "rewards" | "commissions">
-      & { staked: (
-        { __typename?: "OasisBalance" }
-        & Pick<IOasisBalance, "balance" | "shares">
-      ), unbonding: (
-        { __typename?: "OasisBalance" }
-        & Pick<IOasisBalance, "balance" | "shares">
-      ), meta: (
-        { __typename?: "OasisAccountMeta" }
-        & Pick<IOasisAccountMeta, "is_validator" | "is_delegator">
-      ), delegations: Maybe<Array<(
-        { __typename?: "OasisDelegation" }
-        & Pick<IOasisDelegation, "delegator" | "validator" | "amount">
-      )>> }
-    ) }
+    { __typename?: "OasisAccountBalances" }
+    & Pick<IOasisAccountBalances, "available" | "rewards" | "commissions">
+    & { staked: (
+      { __typename?: "OasisBalance" }
+      & Pick<IOasisBalance, "balance" | "shares">
+    ), unbonding: (
+      { __typename?: "OasisBalance" }
+      & Pick<IOasisBalance, "balance" | "shares">
+    ), meta: (
+      { __typename?: "OasisAccountMeta" }
+      & Pick<IOasisAccountMeta, "is_validator" | "is_delegator">
+    ), delegations: Maybe<Array<(
+      { __typename?: "OasisDelegation" }
+      & Pick<IOasisDelegation, "delegator" | "validator" | "amount">
+    )>> }
   ) }
 );
 
@@ -1748,21 +1722,19 @@ export type AccountInformationQueryResult = ApolloReactCommon.QueryResult<IAccou
 export const CeloAccountBalancesDocument = gql`
     query celoAccountBalances($address: String!) {
   celoAccountBalances(address: $address) {
-    celo {
-      address
-      height
-      availableGoldBalance
-      totalLockedGoldBalance
-      nonVotingLockedGoldBalance
-      votingLockedGoldBalance
-      pendingWithdrawalBalance
-      celoUSDValue
-      delegations {
-        group
-        totalVotes
-        activeVotes
-        pendingVotes
-      }
+    address
+    height
+    availableGoldBalance
+    totalLockedGoldBalance
+    nonVotingLockedGoldBalance
+    votingLockedGoldBalance
+    pendingWithdrawalBalance
+    celoUSDValue
+    delegations {
+      group
+      totalVotes
+      activeVotes
+      pendingVotes
     }
   }
 }
@@ -2192,34 +2164,32 @@ export type CeloValidatorGroupsQueryResult = ApolloReactCommon.QueryResult<ICelo
 export const CosmosAccountBalancesDocument = gql`
     query cosmosAccountBalances($address: String!) {
   cosmosAccountBalances(address: $address) {
-    cosmos {
-      balance {
-        denom
-        amount
+    balance {
+      denom
+      amount
+    }
+    rewards {
+      denom
+      amount
+    }
+    delegations {
+      delegator_address
+      validator_address
+      shares
+    }
+    unbonding {
+      delegator_address
+      validator_address
+      entries {
+        balance
+        initial_balance
+        creation_height
+        completion_time
       }
-      rewards {
-        denom
-        amount
-      }
-      delegations {
-        delegator_address
-        validator_address
-        shares
-      }
-      unbonding {
-        delegator_address
-        validator_address
-        entries {
-          balance
-          initial_balance
-          creation_height
-          completion_time
-        }
-      }
-      commissions {
-        denom
-        amount
-      }
+    }
+    commissions {
+      denom
+      amount
     }
   }
 }
@@ -3093,27 +3063,25 @@ export type LatestBlockQueryResult = ApolloReactCommon.QueryResult<ILatestBlockQ
 export const OasisAccountBalancesDocument = gql`
     query oasisAccountBalances($address: String!) {
   oasisAccountBalances(address: $address) {
-    oasis {
-      available
-      staked {
-        balance
-        shares
-      }
-      unbonding {
-        balance
-        shares
-      }
-      rewards
-      commissions
-      meta {
-        is_validator
-        is_delegator
-      }
-      delegations {
-        delegator
-        validator
-        amount
-      }
+    available
+    staked {
+      balance
+      shares
+    }
+    unbonding {
+      balance
+      shares
+    }
+    rewards
+    commissions
+    meta {
+      is_validator
+      is_delegator
+    }
+    delegations {
+      delegator
+      validator
+      amount
     }
   }
 }

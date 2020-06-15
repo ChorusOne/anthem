@@ -4,15 +4,19 @@ import {
   IOasisAccountBalances,
   IPrice,
   NetworkDefinition,
+  withOasisAccountHistory,
 } from "@anthem/utils";
 import { Colors, H5, Icon } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import { COLORS } from "constants/colors";
 import { CURRENCY_SETTING } from "constants/fiat";
 import {
-  AccountBalancesProps,
+  CeloAccountBalancesProps,
+  CosmosAccountBalancesProps,
   FiatPriceDataProps,
-  withAccountBalances,
+  OasisAccountBalancesProps,
+  withCeloAccountBalances,
+  withCosmosAccountBalances,
   withFiatPriceData,
   withGraphQLVariables,
 } from "graphql/queries";
@@ -39,19 +43,21 @@ import {
 } from "ui/SharedComponents";
 
 /** ===========================================================================
- * React Component
+ * Cosmos SDK Networks Account Balances
  * ============================================================================
  */
 
-class Balance extends React.Component<IProps, {}> {
+class CosmosBalancesContainer extends React.Component<
+  CosmosBalanceContainerProps,
+  {}
+> {
   render(): JSX.Element {
     const {
       i18n,
       prices,
-      address,
       settings,
       ledger,
-      accountBalances,
+      cosmosAccountBalances,
     } = this.props;
     const { tString } = i18n;
     const { network } = ledger;
@@ -72,37 +78,30 @@ class Balance extends React.Component<IProps, {}> {
         loadingComponent={<DashboardLoader />}
         errorComponent={<DashboardError tString={tString} />}
         results={[
-          [accountBalances, "accountBalances"],
+          [cosmosAccountBalances, "cosmosAccountBalances"],
           [prices, "prices"],
         ]}
       >
         {() => {
           // Handle if balances request failed
-          if (accountBalances.error) {
+          if (cosmosAccountBalances.error) {
             return <DashboardError tString={tString} />;
           }
 
-          const data = accountBalances.accountBalances;
+          const data = cosmosAccountBalances.cosmosAccountBalances;
 
           if (data) {
-            if (data.__typename === "CeloAccountBalancesType") {
-              return <CeloBalances network={network} balances={data.celo} />;
-            } else if (data.__typename === "OasisAccountBalancesType") {
-              return <OasisBalances network={network} balances={data.oasis} />;
-            } else if (data.__typename === "CosmosAccountBalancesType") {
-              return (
-                <CosmosBalances
-                  address={address}
-                  network={network}
-                  tString={tString}
-                  isDesktop={isDesktop}
-                  prices={prices.prices}
-                  currencySetting={currencySetting}
-                  handleSendReceive={this.handleSendReceiveAction}
-                  balances={data.cosmos as ICosmosAccountBalances}
-                />
-              );
-            }
+            return (
+              <CosmosBalancesComponent
+                balances={data}
+                network={network}
+                tString={tString}
+                isDesktop={isDesktop}
+                prices={prices.prices}
+                currencySetting={currencySetting}
+                handleSendReceive={this.handleSendReceiveAction}
+              />
+            );
           }
 
           return null;
@@ -127,13 +126,7 @@ class Balance extends React.Component<IProps, {}> {
   };
 }
 
-/** ===========================================================================
- * Cosmos SDK Networks Account Balances
- * ============================================================================
- */
-
-interface CosmosBalancesProps {
-  address: string;
+interface CosmosComponentBalancesProps {
   network: NetworkDefinition;
   balances: ICosmosAccountBalances;
   prices: IPrice;
@@ -143,13 +136,14 @@ interface CosmosBalancesProps {
   handleSendReceive: () => void;
 }
 
-class CosmosBalances extends React.Component<CosmosBalancesProps> {
+class CosmosBalancesComponent extends React.Component<
+  CosmosComponentBalancesProps
+> {
   render(): JSX.Element {
     const {
       prices,
       network,
       tString,
-      address,
       balances,
       isDesktop,
       currencySetting,
@@ -193,73 +187,71 @@ class CosmosBalances extends React.Component<CosmosBalancesProps> {
     return (
       <React.Fragment>
         <SummaryContainer>
-          {!!address && (
-            <BalanceContainer>
-              <View>
-                <BalanceLine>
-                  <Icon
-                    icon={IconNames.DOT}
-                    style={{ marginRight: 2 }}
-                    color={COLORS.BALANCE_SHADE_ONE}
-                  />
-                  <BalanceTitle>{tString("Available")}:</BalanceTitle>
-                  <BalanceText data-cy="balance-available">
-                    {renderBalanceItem(balance, balanceFiat)}
-                  </BalanceText>
-                </BalanceLine>
-                <BalanceLine>
-                  <Icon
-                    color={COLORS.BALANCE_SHADE_TWO}
-                    style={{ marginRight: 2 }}
-                    icon={IconNames.DOT}
-                  />
-                  <BalanceTitle>{tString("Staking")}:</BalanceTitle>
-                  <BalanceText data-cy="balance-delegations">
-                    {renderBalanceItem(delegations, delegationsFiat)}
-                  </BalanceText>
-                </BalanceLine>
-                <BalanceLine>
-                  <Icon
-                    color={COLORS.BALANCE_SHADE_THREE}
-                    style={{ marginRight: 2 }}
-                    icon={IconNames.DOT}
-                  />
-                  <BalanceTitle>{tString("Rewards")}:</BalanceTitle>
-                  <BalanceText data-cy="balance-rewards">
-                    {renderBalanceItem(rewards, rewardsFiat)}
-                  </BalanceText>
-                </BalanceLine>
+          <BalanceContainer>
+            <View>
+              <BalanceLine>
+                <Icon
+                  icon={IconNames.DOT}
+                  style={{ marginRight: 2 }}
+                  color={COLORS.BALANCE_SHADE_ONE}
+                />
+                <BalanceTitle>{tString("Available")}:</BalanceTitle>
+                <BalanceText data-cy="balance-available">
+                  {renderBalanceItem(balance, balanceFiat)}
+                </BalanceText>
+              </BalanceLine>
+              <BalanceLine>
+                <Icon
+                  color={COLORS.BALANCE_SHADE_TWO}
+                  style={{ marginRight: 2 }}
+                  icon={IconNames.DOT}
+                />
+                <BalanceTitle>{tString("Staking")}:</BalanceTitle>
+                <BalanceText data-cy="balance-delegations">
+                  {renderBalanceItem(delegations, delegationsFiat)}
+                </BalanceText>
+              </BalanceLine>
+              <BalanceLine>
+                <Icon
+                  color={COLORS.BALANCE_SHADE_THREE}
+                  style={{ marginRight: 2 }}
+                  icon={IconNames.DOT}
+                />
+                <BalanceTitle>{tString("Rewards")}:</BalanceTitle>
+                <BalanceText data-cy="balance-rewards">
+                  {renderBalanceItem(rewards, rewardsFiat)}
+                </BalanceText>
+              </BalanceLine>
+              <BalanceLine>
+                <Icon
+                  color={COLORS.BALANCE_SHADE_FIVE}
+                  style={{ marginRight: 2 }}
+                  icon={IconNames.DOT}
+                />
+                <BalanceTitle>{tString("Unbonding")}:</BalanceTitle>
+                <BalanceText data-cy="balance-unbonding">
+                  {renderBalanceItem(unbonding, unbondingFiat)}
+                </BalanceText>
+              </BalanceLine>
+              {commissions !== "0" && (
                 <BalanceLine>
                   <Icon
                     color={COLORS.BALANCE_SHADE_FIVE}
                     style={{ marginRight: 2 }}
                     icon={IconNames.DOT}
                   />
-                  <BalanceTitle>{tString("Unbonding")}:</BalanceTitle>
-                  <BalanceText data-cy="balance-unbonding">
-                    {renderBalanceItem(unbonding, unbondingFiat)}
+                  <BalanceTitle>{tString("Commission")}:</BalanceTitle>
+                  <BalanceText data-cy="balance-commissions">
+                    {renderBalanceItem(commissions, commissionsFiat)}
                   </BalanceText>
                 </BalanceLine>
-                {commissions !== "0" && (
-                  <BalanceLine>
-                    <Icon
-                      color={COLORS.BALANCE_SHADE_FIVE}
-                      style={{ marginRight: 2 }}
-                      icon={IconNames.DOT}
-                    />
-                    <BalanceTitle>{tString("Commission")}:</BalanceTitle>
-                    <BalanceText data-cy="balance-commissions">
-                      {renderBalanceItem(commissions, commissionsFiat)}
-                    </BalanceText>
-                  </BalanceLine>
-                )}
-              </View>
-              <BalancePieChart
-                percentages={percentages}
-                total={renderBalanceItem(total, totalFiat)}
-              />
-            </BalanceContainer>
-          )}
+              )}
+            </View>
+            <BalancePieChart
+              percentages={percentages}
+              total={renderBalanceItem(total, totalFiat)}
+            />
+          </BalanceContainer>
         </SummaryContainer>
         {SHOULD_SHOW_LEDGER_ACTIONS && (
           <ActionContainer>
@@ -294,12 +286,77 @@ class CosmosBalances extends React.Component<CosmosBalancesProps> {
  * ============================================================================
  */
 
-interface CeloBalancesProps {
+class CeloBalancesContainer extends React.Component<
+  CeloBalanceContainerProps,
+  {}
+> {
+  render(): JSX.Element {
+    const { i18n, prices, settings, ledger, celoAccountBalances } = this.props;
+    const { tString } = i18n;
+    const { network } = ledger;
+    const { isDesktop, currencySetting } = settings;
+
+    if (!network.supportsBalances) {
+      return (
+        <PanelMessageText>
+          <b>{network.name}</b> balances are not supported yet.
+        </PanelMessageText>
+      );
+    }
+
+    return (
+      <GraphQLGuardComponentMultipleQueries
+        allowErrorResponses
+        tString={tString}
+        loadingComponent={<DashboardLoader />}
+        errorComponent={<DashboardError tString={tString} />}
+        results={[
+          [celoAccountBalances, "celoAccountBalances"],
+          [prices, "prices"],
+        ]}
+      >
+        {() => {
+          // Handle if balances request failed
+          if (celoAccountBalances.error) {
+            return <DashboardError tString={tString} />;
+          }
+
+          const data = celoAccountBalances.celoAccountBalances;
+
+          if (data) {
+            return <CeloBalancesComponent network={network} balances={data} />;
+          }
+
+          return null;
+        }}
+      </GraphQLGuardComponentMultipleQueries>
+    );
+  }
+
+  handleSendReceiveAction = () => {
+    let actionFunction;
+    if (this.props.ledger.connected) {
+      actionFunction = this.props.openLedgerDialog;
+    } else {
+      actionFunction = this.props.openSelectNetworkDialog;
+    }
+
+    actionFunction({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "SEND",
+    });
+  };
+}
+
+interface CeloComponentBalancesProps {
   network: NetworkDefinition;
   balances: ICeloAccountBalances;
 }
 
-class CeloBalances extends React.Component<CeloBalancesProps> {
+class CeloBalancesComponent extends React.Component<
+  CeloComponentBalancesProps
+> {
   render(): JSX.Element {
     const { balances, network } = this.props;
 
@@ -405,12 +462,77 @@ class CeloBalances extends React.Component<CeloBalancesProps> {
  * ============================================================================
  */
 
-interface OasisBalancesProps {
+class OasisBalancesContainer extends React.Component<
+  OasisBalanceContainerProps,
+  {}
+> {
+  render(): JSX.Element {
+    const { i18n, prices, settings, ledger, oasisAccountBalances } = this.props;
+    const { tString } = i18n;
+    const { network } = ledger;
+    const { isDesktop, currencySetting } = settings;
+
+    if (!network.supportsBalances) {
+      return (
+        <PanelMessageText>
+          <b>{network.name}</b> balances are not supported yet.
+        </PanelMessageText>
+      );
+    }
+
+    return (
+      <GraphQLGuardComponentMultipleQueries
+        allowErrorResponses
+        tString={tString}
+        loadingComponent={<DashboardLoader />}
+        errorComponent={<DashboardError tString={tString} />}
+        results={[
+          [oasisAccountBalances, "oasisAccountBalances"],
+          [prices, "prices"],
+        ]}
+      >
+        {() => {
+          // Handle if balances request failed
+          if (oasisAccountBalances.error) {
+            return <DashboardError tString={tString} />;
+          }
+
+          const data = oasisAccountBalances.oasisAccountBalances;
+
+          if (data) {
+            return <OasisBalancesComponent network={network} balances={data} />;
+          }
+
+          return null;
+        }}
+      </GraphQLGuardComponentMultipleQueries>
+    );
+  }
+
+  handleSendReceiveAction = () => {
+    let actionFunction;
+    if (this.props.ledger.connected) {
+      actionFunction = this.props.openLedgerDialog;
+    } else {
+      actionFunction = this.props.openSelectNetworkDialog;
+    }
+
+    actionFunction({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "SEND",
+    });
+  };
+}
+
+interface OasisBalancesComponentProps {
   network: NetworkDefinition;
   balances: IOasisAccountBalances;
 }
 
-class OasisBalances extends React.Component<OasisBalancesProps> {
+class OasisBalancesComponent extends React.Component<
+  OasisBalancesComponentProps
+> {
   render(): JSX.Element {
     const { balances, network } = this.props;
 
@@ -688,14 +810,10 @@ const BalancePieChart = ({
  */
 
 interface ComponentProps {
-  address: string;
+  // address: string;
 }
 
-interface IProps
-  extends ComponentProps,
-    FiatPriceDataProps,
-    AccountBalancesProps,
-    ConnectProps {}
+interface IProps extends ComponentProps, FiatPriceDataProps, ConnectProps {}
 
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
@@ -717,9 +835,33 @@ const withProps = connect(mapStateToProps, dispatchProps);
  * ============================================================================
  */
 
-export default composeWithProps<ComponentProps>(
+interface CosmosBalanceContainerProps
+  extends IProps,
+    CosmosAccountBalancesProps {}
+
+export const CosmosBalances = composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
   withFiatPriceData,
-  withAccountBalances,
-)(Balance);
+  withCosmosAccountBalances,
+)(CosmosBalancesContainer);
+
+interface CeloBalanceContainerProps extends IProps, CeloAccountBalancesProps {}
+
+export const CeloBalances = composeWithProps<ComponentProps>(
+  withProps,
+  withGraphQLVariables,
+  withFiatPriceData,
+  withCeloAccountBalances,
+)(CeloBalancesContainer);
+
+interface OasisBalanceContainerProps
+  extends IProps,
+    OasisAccountBalancesProps {}
+
+export const OasisBalances = composeWithProps<ComponentProps>(
+  withProps,
+  withGraphQLVariables,
+  withFiatPriceData,
+  withOasisAccountHistory,
+)(OasisBalancesContainer);

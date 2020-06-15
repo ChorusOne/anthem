@@ -1,4 +1,5 @@
 export default [
+  "oasisAccountBalances",
   "oasisAccountHistory",
   "oasisTransactions",
   "oasisTransaction",
@@ -6,7 +7,7 @@ export default [
   "cosmosTransaction",
   "cosmosTransactions",
   "rewardsByValidator",
-  "accountBalances",
+  "cosmosAccountBalances",
   "accountInformation",
   "validatorDistribution",
   "validators",
@@ -21,6 +22,7 @@ export default [
   "slashingParameters",
   "distributionCommunityPool",
   "distributionParameters",
+  "celoAccountBalances",
   "celoAccountHistory",
   "celoTransactions",
   "celoTransaction",

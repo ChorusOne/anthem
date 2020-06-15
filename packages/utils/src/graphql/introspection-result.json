@@ -78,21 +78,6 @@
             "name": "OasisUnknownEvent"
           }
         ]
-      },
-      {
-        "kind": "UNION",
-        "name": "AccountBalanceResponseType",
-        "possibleTypes": [
-          {
-            "name": "CosmosAccountBalancesType"
-          },
-          {
-            "name": "CeloAccountBalancesType"
-          },
-          {
-            "name": "OasisAccountBalancesType"
-          }
-        ]
       }
     ]
   }

@@ -1,15 +1,17 @@
 import {
-  AccountBalancesDocument,
   AccountInformationDocument,
+  CeloAccountBalancesDocument,
   CeloAccountHistoryDocument,
   CeloTransactionDocument,
   CeloTransactionsDocument,
   CeloValidatorGroupsDocument,
+  CosmosAccountBalancesDocument,
   CosmosTransactionsDocument,
   DailyPercentChangeDocument,
   FiatCurrenciesDocument,
   FiatPriceHistoryDocument,
   IQuery,
+  OasisAccountBalancesDocument,
   OasisAccountHistoryDocument,
   OasisTransactionsDocument,
   PortfolioHistoryDocument,
@@ -105,23 +107,26 @@ const noPollingConfig = (variableKeys?: ReadonlyArray<VariablesKeys>) => {
 };
 
 /** ===========================================================================
- * AccountBalance
+ * Account Balances
  * ============================================================================
  */
 
 interface AccountBalancesQueryResult extends QueryResult {
   data: void;
-  accountBalances: IQuery["accountBalances"];
+  cosmosAccountBalances: IQuery["cosmosAccountBalances"];
 }
 
-export interface AccountBalancesProps {
-  accountBalances: AccountBalancesQueryResult;
+export interface CosmosAccountBalancesProps {
+  cosmosAccountBalances: AccountBalancesQueryResult;
 }
 
-export const withAccountBalances = graphql(AccountBalancesDocument, {
-  name: "accountBalances",
-  ...fastPollingConfig(["address"]),
-});
+export const withCosmosAccountBalances = graphql(
+  CosmosAccountBalancesDocument,
+  {
+    name: "cosmosAccountBalances",
+    ...fastPollingConfig(["address"]),
+  },
+);
 
 /** ===========================================================================
  * AtomPriceData
@@ -314,6 +319,25 @@ export const withStakingPool = graphql(StakingPoolDocument, {
 });
 
 /** ===========================================================================
+ * Account Balances
+ * ============================================================================
+ */
+
+interface OasisAccountBalancesQueryResult extends QueryResult {
+  data: void;
+  oasisAccountBalances: IQuery["oasisAccountBalances"];
+}
+
+export interface OasisAccountBalancesProps {
+  oasisAccountBalances: OasisAccountBalancesQueryResult;
+}
+
+export const withOasisAccountBalances = graphql(OasisAccountBalancesDocument, {
+  name: "oasisAccountBalances",
+  ...fastPollingConfig(["address"]),
+});
+
+/** ===========================================================================
  * Oasis Account History
  * ============================================================================
  */
@@ -349,6 +373,25 @@ export interface OasisTransactionsProps {
 export const withOasisTransactions = graphql(OasisTransactionsDocument, {
   name: "transactions",
   ...noPollingConfig(["address", "startingPage"]),
+});
+
+/** ===========================================================================
+ * Account Balances
+ * ============================================================================
+ */
+
+interface CeloAccountBalancesQueryResult extends QueryResult {
+  data: void;
+  celoAccountBalances: IQuery["celoAccountBalances"];
+}
+
+export interface CeloAccountBalancesProps {
+  celoAccountBalances: CeloAccountBalancesQueryResult;
+}
+
+export const withCeloAccountBalances = graphql(CeloAccountBalancesDocument, {
+  name: "celoAccountBalances",
+  ...fastPollingConfig(["address"]),
 });
 
 /** ===========================================================================

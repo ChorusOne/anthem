@@ -1,26 +1,24 @@
 query oasisAccountBalances($address: String!){
     oasisAccountBalances(address: $address){
-        oasis{
-            available
-            staked{
-                balance
-                shares
-            }
-            unbonding{
-                balance
-                shares
-            }
-            rewards
-            commissions
-            meta{
-                is_validator
-                is_delegator
-            }
-            delegations{
-                delegator
-                validator
-                amount
-            }
+        available
+        staked{
+            balance
+            shares
+        }
+        unbonding{
+            balance
+            shares
+        }
+        rewards
+        commissions
+        meta{
+            is_validator
+            is_delegator
+        }
+        delegations{
+            delegator
+            validator
+            amount
         }
     }
 }

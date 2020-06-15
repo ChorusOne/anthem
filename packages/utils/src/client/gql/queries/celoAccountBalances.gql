@@ -1,20 +1,18 @@
 query celoAccountBalances($address: String!){
     celoAccountBalances(address: $address){
-        celo{
-            address
-            height
-            availableGoldBalance
-            totalLockedGoldBalance
-            nonVotingLockedGoldBalance
-            votingLockedGoldBalance
-            pendingWithdrawalBalance
-            celoUSDValue
-            delegations{
-                group
-                totalVotes
-                activeVotes
-                pendingVotes
-            }
+        address
+        height
+        availableGoldBalance
+        totalLockedGoldBalance
+        nonVotingLockedGoldBalance
+        votingLockedGoldBalance
+        pendingWithdrawalBalance
+        celoUSDValue
+        delegations{
+            group
+            totalVotes
+            activeVotes
+            pendingVotes
         }
     }
 }

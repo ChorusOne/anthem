@@ -1,7 +1,6 @@
 import {
   deriveNetworkFromAddress,
   getNetworkDefinitionFromIdentifier,
-  IAccountBalancesQueryVariables,
   IAccountInformationQueryVariables,
   ICosmosAccountBalancesQueryVariables,
   ICosmosAccountBalancesType,
@@ -28,11 +27,9 @@ import {
   standardizeTimestamps,
   validatePaginationParams,
 } from "../../tools/server-utils";
-import CELO from "../sources/celo";
 import COSMOS_EXTRACTOR from "../sources/cosmos-extractor";
 import COSMOS_SDK from "../sources/cosmos-sdk";
 import EXCHANGE_DATA_API from "../sources/fiat-price-data";
-import OASIS from "../sources/oasis";
 
 /** =======================================================================
  * Cosmos Resolvers
