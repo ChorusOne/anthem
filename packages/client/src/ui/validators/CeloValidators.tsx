@@ -1,15 +1,15 @@
 import {
+  ICeloAccountBalances,
   ICeloValidatorGroup,
-  ICosmosAccountBalancesType,
   IQuery,
 } from "@anthem/utils";
 import { Card, Collapse, H5, H6, Icon } from "@blueprintjs/core";
 import { CopyIcon, NetworkLogoIcon } from "assets/images";
 import {
-  AccountBalancesProps,
+  CeloAccountBalancesProps,
   CeloValidatorsProps,
   FiatPriceDataProps,
-  withAccountBalances,
+  withCeloAccountBalances,
   withCeloValidatorGroups,
   withFiatPriceData,
   withGraphQLVariables,
@@ -78,9 +78,9 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
       prices,
       network,
       celoValidatorGroups,
-      accountBalances,
       sortListAscending,
       validatorSortField,
+      celoAccountBalances,
     } = this.props;
 
     // Render a fallback message if network does not support validators list UI
@@ -102,13 +102,13 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
           tString={i18n.tString}
           results={[
             [celoValidatorGroups, "celoValidatorGroups"],
-            [accountBalances, "accountBalances"],
+            [celoAccountBalances, "celoAccountBalances"],
             [prices, "prices"],
           ]}
         >
           {([validatorList, accountBalancesResponse, pricesResponse]: [
             IQuery["celoValidatorGroups"],
-            ICosmosAccountBalancesType,
+            ICeloAccountBalances,
             IQuery["prices"],
           ]) => {
             // const balances = getAccountBalances(
@@ -527,7 +527,7 @@ interface ComponentProps {}
 interface IProps
   extends ComponentProps,
     FiatPriceDataProps,
-    AccountBalancesProps,
+    CeloAccountBalancesProps,
     CeloValidatorsProps,
     ConnectProps {}
 
@@ -540,6 +540,6 @@ export default composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
   withFiatPriceData,
-  withAccountBalances,
+  withCeloAccountBalances,
   withCeloValidatorGroups,
 )(ValidatorsListPage);

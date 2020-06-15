@@ -1,14 +1,14 @@
-import { ICosmosAccountBalancesType, IQuery, IValidator } from "@anthem/utils";
+import { ICosmosAccountBalances, IQuery, IValidator } from "@anthem/utils";
 import { Card, Collapse, H5, H6, Icon } from "@blueprintjs/core";
 import { CopyIcon, NetworkLogoIcon } from "assets/images";
 import { COLORS } from "constants/colors";
 import {
-  AccountBalancesProps,
+  CosmosAccountBalancesProps,
   FiatPriceDataProps,
   RewardsByValidatorProps,
   StakingPoolProps,
   ValidatorsProps,
-  withAccountBalances,
+  withCosmosAccountBalances,
   withFiatPriceData,
   withGraphQLVariables,
   withRewardsByValidatorQuery,
@@ -86,10 +86,10 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
       network,
       validators,
       stakingPool,
-      accountBalances,
       sortListAscending,
       validatorSortField,
       rewardsByValidator,
+      cosmosAccountBalances,
     } = this.props;
 
     // Render a fallback message if network does not support validators list UI
@@ -112,7 +112,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
           results={[
             [validators, "validators"],
             [stakingPool, "stakingPool"],
-            [accountBalances, "accountBalances"],
+            [cosmosAccountBalances, "cosmosAccountBalances"],
             [prices, "prices"],
             [rewardsByValidator, "rewardsByValidator"],
           ]}
@@ -126,12 +126,12 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
           ]: [
             IQuery["validators"],
             IQuery["stakingPool"],
-            ICosmosAccountBalancesType,
+            ICosmosAccountBalances,
             IQuery["prices"],
             IQuery["rewardsByValidator"],
           ]) => {
             const balances = getAccountBalances(
-              accountBalancesResponse.cosmos,
+              accountBalancesResponse,
               pricesResponse,
               network,
             );
@@ -585,7 +585,7 @@ interface IProps
     ValidatorsProps,
     StakingPoolProps,
     FiatPriceDataProps,
-    AccountBalancesProps,
+    CosmosAccountBalancesProps,
     RewardsByValidatorProps,
     ConnectProps {}
 
@@ -600,6 +600,6 @@ export default composeWithProps<ComponentProps>(
   withValidators,
   withStakingPool,
   withFiatPriceData,
-  withAccountBalances,
+  withCosmosAccountBalances,
   withRewardsByValidatorQuery,
 )(ValidatorsListPage);

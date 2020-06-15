@@ -1,6 +1,6 @@
 import {
   assertUnreachable,
-  IOasisAccountBalancesType,
+  IOasisAccountBalances,
   IOasisTransaction,
   IOasisTransactionType,
   IQuery,
@@ -225,7 +225,7 @@ type OasisTransaction =
 const fetchAccountBalances = async (
   address: string,
   network: NetworkDefinition,
-): Promise<IOasisAccountBalancesType> => {
+): Promise<IOasisAccountBalances> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get<OasisAccountResponse>(
     `${host}/account/${address}`,
@@ -249,7 +249,7 @@ const fetchAccountBalances = async (
     delegations,
   };
 
-  return { oasis: balances };
+  return balances;
 };
 
 /**

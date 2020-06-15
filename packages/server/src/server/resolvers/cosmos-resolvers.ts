@@ -2,8 +2,8 @@ import {
   deriveNetworkFromAddress,
   getNetworkDefinitionFromIdentifier,
   IAccountInformationQueryVariables,
+  ICosmosAccountBalances,
   ICosmosAccountBalancesQueryVariables,
-  ICosmosAccountBalancesType,
   ICosmosTransactionQueryVariables,
   ICosmosTransactionsQueryVariables,
   IDistributionCommunityPoolQueryVariables,
@@ -152,7 +152,7 @@ const CosmosResolvers = {
       commissions,
     };
 
-    const balances: ICosmosAccountBalancesType = { cosmos: result };
+    const balances: ICosmosAccountBalances = result;
     return balances;
   },
 

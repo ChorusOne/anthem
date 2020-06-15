@@ -38,7 +38,7 @@ import {
 import { composeWithProps } from "tools/context-utils";
 import { tFnString } from "tools/i18n-utils";
 import AddressInputDashboardBar from "ui/AddressInputDashboardBar";
-import Balance from "ui/Balances";
+import BalancesSwitchContainer from "ui/balances/BalancesSwitchContainer";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import LoginStart from "ui/LoginStart";
 import PortfolioSwitchContainer from "ui/portfolio/PortfolioSwitchContainer";
@@ -109,7 +109,7 @@ class DashboardPage extends React.Component<IProps> {
             )
           </H5>
         </Row>
-        <Balance address={this.props.address} />
+        <BalancesSwitchContainer />
       </Card>
     );
 

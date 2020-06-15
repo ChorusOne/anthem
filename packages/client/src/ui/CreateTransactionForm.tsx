@@ -2,7 +2,6 @@ import {
   assertUnreachable,
   IAccountInformation,
   ICosmosAccountBalances,
-  ICosmosAccountBalancesType,
   IQuery,
   IValidator,
 } from "@anthem/utils";
@@ -21,13 +20,13 @@ import { IItemRendererProps, Select } from "@blueprintjs/select";
 import { COLORS } from "constants/colors";
 import { FiatCurrency } from "constants/fiat";
 import {
-  AccountBalancesProps,
   AccountInformationProps,
+  CosmosAccountBalancesProps,
   FiatPriceDataProps,
   RewardsByValidatorProps,
   ValidatorsProps,
-  withAccountBalances,
   withAccountInformation,
+  withCosmosAccountBalances,
   withFiatPriceData,
   withGraphQLVariables,
   withRewardsByValidatorQuery,
@@ -178,7 +177,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   }
 
   renderSendReceiveTransactionSetup = () => {
-    const { i18n, prices, ledger, fiatCurrency, accountBalances } = this.props;
+    const {
+      i18n,
+      prices,
+      ledger,
+      fiatCurrency,
+      cosmosAccountBalances,
+    } = this.props;
     const { address } = ledger;
     const { t, tString } = i18n;
     const atomsConversionRate = prices.prices;
@@ -186,13 +191,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
         results={[
-          [accountBalances, "accountBalances"],
+          [cosmosAccountBalances, "cosmosAccountBalances"],
           [prices, "prices"],
         ]}
       >
-        {([accountBalancesData]: [ICosmosAccountBalancesType]) => {
+        {([accountBalancesData]: [ICosmosAccountBalances]) => {
           const balances = getAccountBalances(
-            accountBalancesData.cosmos,
+            accountBalancesData,
             atomsConversionRate,
             ledger.network,
             6,
@@ -277,8 +282,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       ledger,
       validators,
       fiatCurrency,
-      accountBalances,
       rewardsByValidator,
+      cosmosAccountBalances,
     } = this.props;
     const { t, tString } = i18n;
     const { network } = ledger;
@@ -288,18 +293,18 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
         results={[
-          [accountBalances, "accountBalances"],
+          [cosmosAccountBalances, "cosmosAccountBalances"],
           [validators, "validators"],
           [rewardsByValidator, "rewardsByValidator"],
         ]}
       >
         {([accountBalancesData, validatorsList, rewardsData]: readonly [
-          ICosmosAccountBalancesType,
+          ICosmosAccountBalances,
           IQuery["validators"],
           IQuery["rewardsByValidator"],
         ]) => {
           const balances = getAccountBalances(
-            accountBalancesData.cosmos,
+            accountBalancesData,
             atomsConversionRate,
             ledger.network,
             6,
@@ -449,7 +454,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       validators,
       fiatCurrency,
       transaction,
-      accountBalances,
+      cosmosAccountBalances,
     } = this.props;
     const { t, tString } = i18n;
     const { selectedValidatorForDelegation } = transaction;
@@ -458,14 +463,14 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
         results={[
-          [accountBalances, "accountBalances"],
+          [cosmosAccountBalances, "cosmosAccountBalances"],
           [prices, "prices"],
           [validators, "validators"],
         ]}
       >
-        {([accountBalancesData]: [ICosmosAccountBalancesType]) => {
+        {([accountBalancesData]: [ICosmosAccountBalances]) => {
           const balances = getAccountBalances(
-            accountBalancesData.cosmos,
+            accountBalancesData,
             atomsConversionRate,
             ledger.network,
             6,
@@ -824,16 +829,16 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   getMaximumAmount = () => {
-    const { prices, accountBalances, ledger } = this.props;
+    const { prices, cosmosAccountBalances, ledger } = this.props;
     const { ledgerActionType } = this.props.ledgerDialog;
     const atomsConversionRate = prices.prices;
     const IS_CLAIM = ledgerActionType === "CLAIM";
 
-    const balancesData = accountBalances.accountBalances;
+    const balancesData = cosmosAccountBalances.cosmosAccountBalances;
 
     if ("cosmos" in balancesData) {
       const balances = getAccountBalances(
-        balancesData.cosmos as ICosmosAccountBalances,
+        balancesData,
         atomsConversionRate,
         ledger.network,
         6,
@@ -1195,7 +1200,7 @@ interface IProps
   extends ComponentProps,
     ConnectProps,
     ValidatorsProps,
-    AccountBalancesProps,
+    CosmosAccountBalancesProps,
     AccountInformationProps,
     FiatPriceDataProps,
     RewardsByValidatorProps {}
@@ -1205,7 +1210,7 @@ export default composeWithProps<ComponentProps>(
   withGraphQLVariables,
   withValidators,
   withFiatPriceData,
-  withAccountBalances,
+  withCosmosAccountBalances,
   withAccountInformation,
   withRewardsByValidatorQuery,
 )(CreateTransactionForm);
