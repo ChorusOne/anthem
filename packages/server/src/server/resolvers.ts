@@ -145,7 +145,7 @@ const resolvers = {
       };
     },
 
-    transaction: async (
+    cosmosTransaction: async (
       _: void,
       args: ICosmosTransactionQueryVariables,
     ): Promise<IQuery["cosmosTransaction"]> => {
