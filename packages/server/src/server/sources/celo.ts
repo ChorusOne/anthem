@@ -126,8 +126,10 @@ const fetchTransaction = async (hash: string): Promise<ICeloTransaction> => {
   const host = getHostFromNetworkName("CELO");
   const path = `system/transactions/${hash}`;
   const url = `${host}/${path}`;
-  const response = await AxiosUtil.get<CeloTransactionResponse>(url);
-  return formatCeloTransaction(response);
+  const response = await AxiosUtil.get<{
+    transaction: CeloTransactionResponse;
+  }>(url);
+  return formatCeloTransaction(response.transaction);
 };
 
 /**

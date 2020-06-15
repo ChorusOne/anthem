@@ -33,12 +33,12 @@ class CeloTransactionDetailLoadingContainer extends React.PureComponent<
 > {
   render(): JSX.Element {
     const { fiatPriceHistory, i18n, ledger } = this.props;
-    const txHash = this.props.location.pathname
+    const hash = this.props.location.pathname
       .replace("/txs/", "")
       .toLowerCase();
 
     // Transaction may already exist in Apollo cache. Use this data first.
-    const transactionMayExist = this.maybeFindTransactionInApolloCache(txHash);
+    const transactionMayExist = this.maybeFindTransactionInApolloCache(hash);
     if (transactionMayExist) {
       return (
         <View>
@@ -54,13 +54,10 @@ class CeloTransactionDetailLoadingContainer extends React.PureComponent<
     } else {
       return (
         <View>
-          <Query
-            query={CeloTransactionDocument}
-            variables={{ txHash, network: ledger.network.name }}
-          >
+          <Query query={CeloTransactionDocument} variables={{ hash }}>
             {(
               transaction: QueryResult<{
-                transaction: IQuery["cosmosTransaction"];
+                transaction: IQuery["celoTransaction"];
               }>,
             ) => {
               return (
@@ -77,12 +74,12 @@ class CeloTransactionDetailLoadingContainer extends React.PureComponent<
                             "Transaction could not be found for hash:",
                           )}
                         </p>
-                        <p>{txHash}</p>
+                        <p>{hash}</p>
                       </Centered>
                     </View>
                   }
                   results={[
-                    [transaction, ["data", "transaction"]],
+                    [transaction, ["data", "celoTransaction"]],
                     [fiatPriceHistory, "fiatPriceHistory"],
                   ]}
                 >
