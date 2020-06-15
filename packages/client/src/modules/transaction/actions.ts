@@ -1,4 +1,4 @@
-import { ITransaction, IValidator } from "@anthem/utils";
+import { ICosmosTransaction, IValidator } from "@anthem/utils";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { TxPostBody } from "tools/cosmos-utils";
 import { ActionType, createStandardAction } from "typesafe-actions";
@@ -77,7 +77,7 @@ const pollForTransaction = createStandardAction(
 
 const transactionConfirmed = createStandardAction(
   ActionTypesEnum.TRANSACTION_CONFIRMED,
-)<{ height: string; transaction: Nullable<ITransaction> }>();
+)<{ height: string; transaction: Nullable<ICosmosTransaction> }>();
 
 const transactionFailed = createStandardAction(
   ActionTypesEnum.TRANSACTION_FAILED,

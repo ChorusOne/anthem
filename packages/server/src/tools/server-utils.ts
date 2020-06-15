@@ -1,7 +1,7 @@
 import {
+  ICosmosTransaction,
   IMsgDelegate,
   IPortfolioBalance,
-  ITransaction,
   ITxMsg,
 } from "@anthem/utils";
 import * as Sentry from "@sentry/node";
@@ -110,7 +110,7 @@ export const formatTransactionResponse = ({
   log,
   msgs,
   ...rest
-}: any): ITransaction => ({
+}: any): ICosmosTransaction => ({
   ...rest,
   msgs: msgs.map(updateAmounts),
   log: Array.isArray(log) ? log : [log],

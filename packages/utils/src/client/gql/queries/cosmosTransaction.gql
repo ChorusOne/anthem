@@ -1,5 +1,5 @@
-query transaction($txHash: String!, $network: String!){
-    transaction(txHash: $txHash, network: $network){
+query cosmosTransaction($txHash: String!, $network: String!){
+    cosmosTransaction(txHash: $txHash, network: $network){
         hash
         height
         log{

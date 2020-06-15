@@ -218,6 +218,21 @@ export interface ICosmosAccountBalancesType {
   cosmos: ICosmosAccountBalances;
 }
 
+export interface ICosmosTransaction {
+   __typename?: "CosmosTransaction";
+  hash: Scalars["String"];
+  height: Scalars["String"];
+  log: Array<Maybe<ILogMessage>>;
+  gaswanted: Scalars["String"];
+  gasused: Scalars["String"];
+  memo: Maybe<Scalars["String"]>;
+  fees: ITxFee;
+  tags: Maybe<ITag[]>;
+  msgs: ITxMsg[];
+  timestamp: Scalars["String"];
+  chain: Scalars["String"];
+}
+
 export interface IDelegation {
    __typename?: "Delegation";
   delegator_address: Scalars["String"];
@@ -586,7 +601,7 @@ export interface IQuery {
   accountBalances: IAccountBalanceResponseType;
   rewardsByValidator: IAvailableReward[];
   accountInformation: IAccountInformation;
-  transaction: Maybe<ITransaction>;
+  cosmosTransaction: ICosmosTransaction;
   cosmosTransactions: ITransactionsPaginationResult;
   validatorDistribution: IValidatorDistribution;
   validators: IValidator[];
@@ -643,7 +658,7 @@ export interface IQueryAccountInformationArgs {
   address: Scalars["String"];
 }
 
-export interface IQueryTransactionArgs {
+export interface IQueryCosmosTransactionArgs {
   txHash: Scalars["String"];
   network: Scalars["String"];
 }
@@ -789,26 +804,11 @@ export interface ITallyResult {
   no_with_veto: Scalars["String"];
 }
 
-export interface ITransaction {
-   __typename?: "Transaction";
-  hash: Scalars["String"];
-  height: Scalars["String"];
-  log: Array<Maybe<ILogMessage>>;
-  gaswanted: Scalars["String"];
-  gasused: Scalars["String"];
-  memo: Maybe<Scalars["String"]>;
-  fees: ITxFee;
-  tags: Maybe<ITag[]>;
-  msgs: ITxMsg[];
-  timestamp: Scalars["String"];
-  chain: Scalars["String"];
-}
-
 export interface ITransactionsPaginationResult {
    __typename?: "TransactionsPaginationResult";
   page: Scalars["Float"];
   limit: Scalars["Float"];
-  data: ITransaction[];
+  data: ICosmosTransaction[];
   moreResultsExist: Scalars["Boolean"];
 }
 
@@ -1089,6 +1089,80 @@ export type ICeloValidatorGroupsQuery = (
   )> }
 );
 
+export interface ICosmosTransactionQueryVariables {
+  txHash: Scalars["String"];
+  network: Scalars["String"];
+}
+
+export type ICosmosTransactionQuery = (
+  { __typename?: "Query" }
+  & { cosmosTransaction: (
+    { __typename?: "CosmosTransaction" }
+    & Pick<ICosmosTransaction, "hash" | "height" | "gaswanted" | "gasused" | "memo" | "timestamp" | "chain">
+    & { log: Array<Maybe<(
+      { __typename?: "LogMessage" }
+      & Pick<ILogMessage, "code" | "message" | "success" | "log" | "msg_index">
+    )>>, fees: (
+      { __typename?: "TxFee" }
+      & Pick<ITxFee, "gas">
+      & { amount: Maybe<Array<(
+        { __typename?: "Balance" }
+        & Pick<IBalance, "denom" | "amount">
+      )>> }
+    ), tags: Maybe<Array<(
+      { __typename?: "Tag" }
+      & Pick<ITag, "key" | "value">
+    )>>, msgs: Array<(
+      { __typename?: "TxMsg" }
+      & Pick<ITxMsg, "type">
+      & { value: Maybe<(
+        { __typename?: "MsgSend" }
+        & Pick<IMsgSend, "to_address" | "from_address">
+        & { amounts: Maybe<Array<(
+          { __typename?: "Balance" }
+          & Pick<IBalance, "denom" | "amount">
+        )>> }
+      ) | (
+        { __typename?: "MsgVote" }
+        & Pick<IMsgVote, "proposal_id" | "voter" | "option">
+      ) | (
+        { __typename?: "MsgDelegate" }
+        & Pick<IMsgDelegate, "delegator_address" | "validator_address">
+        & { amount: (
+          { __typename?: "Balance" }
+          & Pick<IBalance, "denom" | "amount">
+        ) }
+      ) | (
+        { __typename?: "MsgSubmitProposal" }
+        & Pick<IMsgSubmitProposal, "title" | "description" | "proposal_type" | "proposer">
+        & { initial_deposit: Maybe<Array<(
+          { __typename?: "Balance" }
+          & Pick<IBalance, "denom" | "amount">
+        )>> }
+      ) | (
+        { __typename?: "MsgBeginRedelegate" }
+        & Pick<IMsgBeginRedelegate, "delegator_address" | "validator_src_address" | "validator_dst_address">
+        & { amount: (
+          { __typename?: "Balance" }
+          & Pick<IBalance, "denom" | "amount">
+        ) }
+      ) | (
+        { __typename?: "MsgModifyWithdrawAddress" }
+        & Pick<IMsgModifyWithdrawAddress, "withdraw_address" | "validator_address">
+      ) | (
+        { __typename?: "MsgBeginRedelegateLegacy" }
+        & Pick<IMsgBeginRedelegateLegacy, "shares_amount" | "delegator_address" | "validator_src_address" | "validator_dst_address">
+      ) | (
+        { __typename?: "MsgWithdrawDelegationReward" }
+        & Pick<IMsgWithdrawDelegationReward, "delegator_address" | "validator_address">
+      ) | (
+        { __typename?: "MsgWithdrawValidatorCommission" }
+        & Pick<IMsgWithdrawValidatorCommission, "validator_address">
+      )> }
+    )> }
+  ) }
+);
+
 export interface ICosmosTransactionsQueryVariables {
   address: Scalars["String"];
   startingPage: Maybe<Scalars["Float"]>;
@@ -1101,8 +1175,8 @@ export type ICosmosTransactionsQuery = (
     { __typename?: "TransactionsPaginationResult" }
     & Pick<ITransactionsPaginationResult, "page" | "limit" | "moreResultsExist">
     & { data: Array<(
-      { __typename?: "Transaction" }
-      & Pick<ITransaction, "hash" | "height" | "gaswanted" | "gasused" | "memo" | "timestamp" | "chain">
+      { __typename?: "CosmosTransaction" }
+      & Pick<ICosmosTransaction, "hash" | "height" | "gaswanted" | "gasused" | "memo" | "timestamp" | "chain">
       & { log: Array<Maybe<(
         { __typename?: "LogMessage" }
         & Pick<ILogMessage, "code" | "message" | "success" | "log" | "msg_index">
@@ -1526,80 +1600,6 @@ export type IStakingPoolQuery = (
     { __typename?: "StakingPool" }
     & Pick<IStakingPool, "loose_tokens" | "bonded_tokens" | "not_bonded_tokens" | "inflation_last_time" | "inflation" | "date_last_commission_reset" | "prev_bonded_shares">
   ) }
-);
-
-export interface ITransactionQueryVariables {
-  txHash: Scalars["String"];
-  network: Scalars["String"];
-}
-
-export type ITransactionQuery = (
-  { __typename?: "Query" }
-  & { transaction: Maybe<(
-    { __typename?: "Transaction" }
-    & Pick<ITransaction, "hash" | "height" | "gaswanted" | "gasused" | "memo" | "timestamp" | "chain">
-    & { log: Array<Maybe<(
-      { __typename?: "LogMessage" }
-      & Pick<ILogMessage, "code" | "message" | "success" | "log" | "msg_index">
-    )>>, fees: (
-      { __typename?: "TxFee" }
-      & Pick<ITxFee, "gas">
-      & { amount: Maybe<Array<(
-        { __typename?: "Balance" }
-        & Pick<IBalance, "denom" | "amount">
-      )>> }
-    ), tags: Maybe<Array<(
-      { __typename?: "Tag" }
-      & Pick<ITag, "key" | "value">
-    )>>, msgs: Array<(
-      { __typename?: "TxMsg" }
-      & Pick<ITxMsg, "type">
-      & { value: Maybe<(
-        { __typename?: "MsgSend" }
-        & Pick<IMsgSend, "to_address" | "from_address">
-        & { amounts: Maybe<Array<(
-          { __typename?: "Balance" }
-          & Pick<IBalance, "denom" | "amount">
-        )>> }
-      ) | (
-        { __typename?: "MsgVote" }
-        & Pick<IMsgVote, "proposal_id" | "voter" | "option">
-      ) | (
-        { __typename?: "MsgDelegate" }
-        & Pick<IMsgDelegate, "delegator_address" | "validator_address">
-        & { amount: (
-          { __typename?: "Balance" }
-          & Pick<IBalance, "denom" | "amount">
-        ) }
-      ) | (
-        { __typename?: "MsgSubmitProposal" }
-        & Pick<IMsgSubmitProposal, "title" | "description" | "proposal_type" | "proposer">
-        & { initial_deposit: Maybe<Array<(
-          { __typename?: "Balance" }
-          & Pick<IBalance, "denom" | "amount">
-        )>> }
-      ) | (
-        { __typename?: "MsgBeginRedelegate" }
-        & Pick<IMsgBeginRedelegate, "delegator_address" | "validator_src_address" | "validator_dst_address">
-        & { amount: (
-          { __typename?: "Balance" }
-          & Pick<IBalance, "denom" | "amount">
-        ) }
-      ) | (
-        { __typename?: "MsgModifyWithdrawAddress" }
-        & Pick<IMsgModifyWithdrawAddress, "withdraw_address" | "validator_address">
-      ) | (
-        { __typename?: "MsgBeginRedelegateLegacy" }
-        & Pick<IMsgBeginRedelegateLegacy, "shares_amount" | "delegator_address" | "validator_src_address" | "validator_dst_address">
-      ) | (
-        { __typename?: "MsgWithdrawDelegationReward" }
-        & Pick<IMsgWithdrawDelegationReward, "delegator_address" | "validator_address">
-      ) | (
-        { __typename?: "MsgWithdrawValidatorCommission" }
-        & Pick<IMsgWithdrawValidatorCommission, "validator_address">
-      )> }
-    )> }
-  )> }
 );
 
 export interface IValidatorDistributionQueryVariables {
@@ -2233,6 +2233,143 @@ export function useCeloValidatorGroupsLazyQuery(baseOptions?: ApolloReactHooks.L
 export type CeloValidatorGroupsQueryHookResult = ReturnType<typeof useCeloValidatorGroupsQuery>;
 export type CeloValidatorGroupsLazyQueryHookResult = ReturnType<typeof useCeloValidatorGroupsLazyQuery>;
 export type CeloValidatorGroupsQueryResult = ApolloReactCommon.QueryResult<ICeloValidatorGroupsQuery, ICeloValidatorGroupsQueryVariables>;
+export const CosmosTransactionDocument = gql`
+    query cosmosTransaction($txHash: String!, $network: String!) {
+  cosmosTransaction(txHash: $txHash, network: $network) {
+    hash
+    height
+    log {
+      code
+      message
+      success
+      log
+      msg_index
+    }
+    gaswanted
+    gasused
+    memo
+    fees {
+      amount {
+        denom
+        amount
+      }
+      gas
+    }
+    tags {
+      key
+      value
+    }
+    msgs {
+      type
+      value {
+        ... on MsgSend {
+          amounts {
+            denom
+            amount
+          }
+          to_address
+          from_address
+        }
+        ... on MsgVote {
+          proposal_id
+          voter
+          option
+        }
+        ... on MsgDelegate {
+          amount {
+            denom
+            amount
+          }
+          delegator_address
+          validator_address
+        }
+        ... on MsgSubmitProposal {
+          title
+          description
+          proposal_type
+          proposer
+          initial_deposit {
+            denom
+            amount
+          }
+        }
+        ... on MsgBeginRedelegate {
+          amount {
+            denom
+            amount
+          }
+          delegator_address
+          validator_src_address
+          validator_dst_address
+        }
+        ... on MsgModifyWithdrawAddress {
+          withdraw_address
+          validator_address
+        }
+        ... on MsgBeginRedelegateLegacy {
+          shares_amount
+          delegator_address
+          validator_src_address
+          validator_dst_address
+        }
+        ... on MsgWithdrawDelegationReward {
+          delegator_address
+          validator_address
+        }
+        ... on MsgWithdrawValidatorCommission {
+          validator_address
+        }
+      }
+    }
+    timestamp
+    chain
+  }
+}
+    `;
+export type CosmosTransactionComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosTransactionQuery, ICosmosTransactionQueryVariables>, "query"> & ({ variables: ICosmosTransactionQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+export const CosmosTransactionComponent = (props: CosmosTransactionComponentProps) => (
+      <ApolloReactComponents.Query<ICosmosTransactionQuery, ICosmosTransactionQueryVariables> query={CosmosTransactionDocument} {...props} />
+    );
+
+export type ICosmosTransactionProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosTransactionQuery, ICosmosTransactionQueryVariables> & TChildProps;
+export function withCosmosTransaction<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ICosmosTransactionQuery,
+  ICosmosTransactionQueryVariables,
+  ICosmosTransactionProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, ICosmosTransactionQuery, ICosmosTransactionQueryVariables, ICosmosTransactionProps<TChildProps>>(CosmosTransactionDocument, {
+      alias: "cosmosTransaction",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useCosmosTransactionQuery__
+ *
+ * To run a query within a React component, call `useCosmosTransactionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCosmosTransactionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCosmosTransactionQuery({
+ *   variables: {
+ *      txHash: // value for 'txHash'
+ *      network: // value for 'network'
+ *   },
+ * });
+ */
+export function useCosmosTransactionQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ICosmosTransactionQuery, ICosmosTransactionQueryVariables>) {
+        return ApolloReactHooks.useQuery<ICosmosTransactionQuery, ICosmosTransactionQueryVariables>(CosmosTransactionDocument, baseOptions);
+      }
+export function useCosmosTransactionLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ICosmosTransactionQuery, ICosmosTransactionQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ICosmosTransactionQuery, ICosmosTransactionQueryVariables>(CosmosTransactionDocument, baseOptions);
+        }
+export type CosmosTransactionQueryHookResult = ReturnType<typeof useCosmosTransactionQuery>;
+export type CosmosTransactionLazyQueryHookResult = ReturnType<typeof useCosmosTransactionLazyQuery>;
+export type CosmosTransactionQueryResult = ApolloReactCommon.QueryResult<ICosmosTransactionQuery, ICosmosTransactionQueryVariables>;
 export const CosmosTransactionsDocument = gql`
     query cosmosTransactions($address: String!, $startingPage: Float, $pageSize: Float) {
   cosmosTransactions(address: $address, startingPage: $startingPage, pageSize: $pageSize) {
@@ -3599,143 +3736,6 @@ export function useStakingPoolLazyQuery(baseOptions?: ApolloReactHooks.LazyQuery
 export type StakingPoolQueryHookResult = ReturnType<typeof useStakingPoolQuery>;
 export type StakingPoolLazyQueryHookResult = ReturnType<typeof useStakingPoolLazyQuery>;
 export type StakingPoolQueryResult = ApolloReactCommon.QueryResult<IStakingPoolQuery, IStakingPoolQueryVariables>;
-export const TransactionDocument = gql`
-    query transaction($txHash: String!, $network: String!) {
-  transaction(txHash: $txHash, network: $network) {
-    hash
-    height
-    log {
-      code
-      message
-      success
-      log
-      msg_index
-    }
-    gaswanted
-    gasused
-    memo
-    fees {
-      amount {
-        denom
-        amount
-      }
-      gas
-    }
-    tags {
-      key
-      value
-    }
-    msgs {
-      type
-      value {
-        ... on MsgSend {
-          amounts {
-            denom
-            amount
-          }
-          to_address
-          from_address
-        }
-        ... on MsgVote {
-          proposal_id
-          voter
-          option
-        }
-        ... on MsgDelegate {
-          amount {
-            denom
-            amount
-          }
-          delegator_address
-          validator_address
-        }
-        ... on MsgSubmitProposal {
-          title
-          description
-          proposal_type
-          proposer
-          initial_deposit {
-            denom
-            amount
-          }
-        }
-        ... on MsgBeginRedelegate {
-          amount {
-            denom
-            amount
-          }
-          delegator_address
-          validator_src_address
-          validator_dst_address
-        }
-        ... on MsgModifyWithdrawAddress {
-          withdraw_address
-          validator_address
-        }
-        ... on MsgBeginRedelegateLegacy {
-          shares_amount
-          delegator_address
-          validator_src_address
-          validator_dst_address
-        }
-        ... on MsgWithdrawDelegationReward {
-          delegator_address
-          validator_address
-        }
-        ... on MsgWithdrawValidatorCommission {
-          validator_address
-        }
-      }
-    }
-    timestamp
-    chain
-  }
-}
-    `;
-export type TransactionComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ITransactionQuery, ITransactionQueryVariables>, "query"> & ({ variables: ITransactionQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-export const TransactionComponent = (props: TransactionComponentProps) => (
-      <ApolloReactComponents.Query<ITransactionQuery, ITransactionQueryVariables> query={TransactionDocument} {...props} />
-    );
-
-export type ITransactionProps<TChildProps = {}> = ApolloReactHoc.DataProps<ITransactionQuery, ITransactionQueryVariables> & TChildProps;
-export function withTransaction<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  ITransactionQuery,
-  ITransactionQueryVariables,
-  ITransactionProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, ITransactionQuery, ITransactionQueryVariables, ITransactionProps<TChildProps>>(TransactionDocument, {
-      alias: "transaction",
-      ...operationOptions,
-    });
-}
-
-/**
- * __useTransactionQuery__
- *
- * To run a query within a React component, call `useTransactionQuery` and pass it any options that fit your needs.
- * When your component renders, `useTransactionQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useTransactionQuery({
- *   variables: {
- *      txHash: // value for 'txHash'
- *      network: // value for 'network'
- *   },
- * });
- */
-export function useTransactionQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ITransactionQuery, ITransactionQueryVariables>) {
-        return ApolloReactHooks.useQuery<ITransactionQuery, ITransactionQueryVariables>(TransactionDocument, baseOptions);
-      }
-export function useTransactionLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ITransactionQuery, ITransactionQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<ITransactionQuery, ITransactionQueryVariables>(TransactionDocument, baseOptions);
-        }
-export type TransactionQueryHookResult = ReturnType<typeof useTransactionQuery>;
-export type TransactionLazyQueryHookResult = ReturnType<typeof useTransactionLazyQuery>;
-export type TransactionQueryResult = ApolloReactCommon.QueryResult<ITransactionQuery, ITransactionQueryVariables>;
 export const ValidatorDistributionDocument = gql`
     query validatorDistribution($validatorAddress: String!) {
   validatorDistribution(validatorAddress: $validatorAddress) {

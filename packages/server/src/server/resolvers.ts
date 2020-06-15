@@ -9,6 +9,7 @@ import {
   ICeloTransactionQueryVariables,
   ICeloTransactionsQueryVariables,
   ICosmosAccountBalancesType,
+  ICosmosTransactionQueryVariables,
   ICosmosTransactionsQueryVariables,
   IDailyPercentChangeQueryVariables,
   IDistributionCommunityPoolQueryVariables,
@@ -28,7 +29,6 @@ import {
   ISlashingParametersQueryVariables,
   IStakingParametersQueryVariables,
   IStakingPoolQueryVariables,
-  ITransactionQueryVariables,
   IValidatorDistributionQueryVariables,
   IValidatorSetsQueryVariables,
   IValidatorsQueryVariables,
@@ -147,8 +147,8 @@ const resolvers = {
 
     transaction: async (
       _: void,
-      args: ITransactionQueryVariables,
-    ): Promise<IQuery["transaction"]> => {
+      args: ICosmosTransactionQueryVariables,
+    ): Promise<IQuery["cosmosTransaction"]> => {
       const { txHash } = args;
       const network = getNetworkDefinitionFromIdentifier(args.network);
       blockUnsupportedNetworks(network, "transactions");

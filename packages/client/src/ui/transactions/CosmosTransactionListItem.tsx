@@ -1,6 +1,6 @@
 import {
   assertUnreachable,
-  ITransaction,
+  ICosmosTransaction,
   NetworkDefinition,
 } from "@anthem/utils";
 import { Card, Elevation, Position, Tooltip } from "@blueprintjs/core";
@@ -64,7 +64,7 @@ import {
 
 interface IProps extends TranslateMethodProps {
   isDetailView?: boolean;
-  transaction: ITransaction;
+  transaction: ICosmosTransaction;
   address: string;
   locale: ILocale;
   isDesktop: boolean;
@@ -89,7 +89,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     return this.renderTransaction(transaction, messages);
   }
 
-  getTransactionMessages = (transaction: ITransaction) => {
+  getTransactionMessages = (transaction: ICosmosTransaction) => {
     const { address, network } = this.props;
     let results: ReadonlyArray<CosmosTransactionItemData> = [];
 
@@ -109,7 +109,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderTransaction = (
-    transaction: ITransaction,
+    transaction: ICosmosTransaction,
     messages: ReadonlyArray<CosmosTransactionItemData>,
   ) => {
     const fees = getTxFee(transaction);
@@ -388,7 +388,10 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderTransactionFeesRow = (fees: string, transaction: ITransaction) => {
+  renderTransactionFeesRow = (
+    fees: string,
+    transaction: ICosmosTransaction,
+  ) => {
     const { hash, height, timestamp, chain } = transaction;
     const { t, network, fiatCurrency } = this.props;
     const atomFees = denomToUnit(fees, network.denominationSize);

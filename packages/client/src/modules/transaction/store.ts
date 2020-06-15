@@ -1,4 +1,4 @@
-import { ITransaction, IValidator } from "@anthem/utils";
+import { ICosmosTransaction, IValidator } from "@anthem/utils";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { TransactionData, TxPostBody } from "tools/cosmos-utils";
 import { createReducer } from "typesafe-actions";
@@ -15,7 +15,7 @@ import Actions, { ActionTypes } from "./actions";
 
 export interface TransactionState {
   transactionsPage: number;
-  liveTransactionRecord: ITransaction[];
+  liveTransactionRecord: ICosmosTransaction[];
   transactionPostBody: Nullable<TxPostBody>;
   transactionData: Nullable<TransactionData>;
   transactionStage: TRANSACTION_STAGES;

@@ -6,7 +6,7 @@ type Query {
   accountBalances(address: String!): AccountBalanceResponseType!
   rewardsByValidator(address: String!): [AvailableReward!]!
   accountInformation(address: String!): AccountInformation!
-  transaction(txHash: String!, network: String!): Transaction
+  cosmosTransaction(txHash: String!, network: String!): CosmosTransaction!
   cosmosTransactions(
     address: String!
     startingPage: Float
@@ -450,11 +450,11 @@ type AccountCoin {
 type TransactionsPaginationResult {
   page: Float!
   limit: Float!
-  data: [Transaction!]!
+  data: [CosmosTransaction!]!
   moreResultsExist: Boolean!
 }
 
-type Transaction {
+type CosmosTransaction {
   hash: String!
   height: String!
   log: [LogMessage]!

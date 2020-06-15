@@ -1,4 +1,8 @@
-import { IQuery, ITransaction, TransactionDocument } from "@anthem/utils";
+import {
+  CosmosTransactionDocument,
+  ICosmosTransaction,
+  IQuery,
+} from "@anthem/utils";
 import {
   CosmosTransactionsProps,
   FiatPriceHistoryProps,
@@ -53,11 +57,13 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
       return (
         <View>
           <Query
-            query={TransactionDocument}
+            query={CosmosTransactionDocument}
             variables={{ txHash, network: ledger.network.name }}
           >
             {(
-              transaction: QueryResult<{ transaction: IQuery["transaction"] }>,
+              transaction: QueryResult<{
+                transaction: IQuery["cosmosTransaction"];
+              }>,
             ) => {
               return (
                 <GraphQLGuardComponentMultipleQueries
@@ -83,7 +89,7 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
                     [fiatPriceHistory, "fiatPriceHistory"],
                   ]}
                 >
-                  {([transactionResult]: readonly [ITransaction]) => {
+                  {([transactionResult]: readonly [ICosmosTransaction]) => {
                     return this.renderTransaction(transactionResult);
                   }}
                 </GraphQLGuardComponentMultipleQueries>
@@ -95,7 +101,7 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
     }
   }
 
-  renderTransaction = (transaction: ITransaction) => {
+  renderTransaction = (transaction: ICosmosTransaction) => {
     return (
       <View>
         <CosmosTransactionList
@@ -111,7 +117,7 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
 
   maybeFindTransactionInApolloCache = (
     hash: string,
-  ): Nullable<ITransaction> => {
+  ): Nullable<ICosmosTransaction> => {
     const { transactions } = this.props;
     let result = null;
 

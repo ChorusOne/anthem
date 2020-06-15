@@ -4,9 +4,9 @@ import {
   getValidatorAddressFromDelegatorAddress,
   IBalance,
   ICosmosAccountBalances,
+  ICosmosTransaction,
   IDelegation,
   IQuery,
-  ITransaction,
   IUnbondingDelegationEntry,
   IValidator,
   NETWORK_NAME,
@@ -165,8 +165,8 @@ export const getBlockExplorerUrlForTransaction = (
  */
 const findDenomsInList = (
   denom: COIN_DENOMS,
-  list: Maybe<ReadonlyArray<IBalance>>,
-): Nullable<ReadonlyArray<IBalance>> => {
+  list: Maybe<IBalance[]>,
+): Nullable<IBalance[]> => {
   if (!list) {
     return null;
   }
@@ -183,21 +183,21 @@ const findDenomsInList = (
 /**
  * Aggregate multiple values in a list and add them up.
  */
-const aggregateCurrencyValuesFromList = <T extends any>(
-  balances: ReadonlyArray<T>,
-  key: keyof T,
+const aggregateCurrencyValuesFromList = (
+  balances: any,
+  key: string,
   denom: string,
 ) => {
   const values = balances
     // Filter by denom, if the entry has a denom field
-    .filter(b => {
-      if (b.denom !== undefined) {
-        return b.denom === denom;
+    .filter((x: any) => {
+      if (x.denom !== undefined) {
+        return x.denom === denom;
       } else {
         return true;
       }
     })
-    .map(b => b[key]);
+    .map((x: any) => x[key]);
 
   // Add all the values
   return addValuesInList(values, toBigNumber);
@@ -293,7 +293,7 @@ export const getAccountBalances = (
   }
 
   if (data.delegations) {
-    delegationResult = aggregateCurrencyValuesFromList<IDelegation>(
+    delegationResult = aggregateCurrencyValuesFromList(
       data.delegations,
       "shares",
       denom,
@@ -302,15 +302,17 @@ export const getAccountBalances = (
 
   if (data.unbonding) {
     const unbondingBalances = data.unbonding.reduce(
-      (entries: ReadonlyArray<IUnbondingDelegationEntry>, x) => {
+      (entries: IUnbondingDelegationEntry[], x) => {
         return entries.concat(x.entries);
       },
       [],
     );
 
-    unbondingResult = aggregateCurrencyValuesFromList<
-      IUnbondingDelegationEntry
-    >(unbondingBalances, "balance", denom);
+    unbondingResult = aggregateCurrencyValuesFromList(
+      unbondingBalances,
+      "balance",
+      denom,
+    );
   }
 
   if (data.commissions) {
@@ -805,10 +807,10 @@ export const parseGraphQLError = (error?: {
 export const adaptRawTransactionData = (
   rawTransaction: any,
   chainId: string,
-): Nullable<ITransaction> => {
+): Nullable<ICosmosTransaction> => {
   try {
     const tx = rawTransaction;
-    const adaptedTransactionResult: ITransaction = {
+    const adaptedTransactionResult: ICosmosTransaction = {
       chain: chainId,
       fees: {
         amount: null,

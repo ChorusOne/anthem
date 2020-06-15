@@ -2,6 +2,7 @@ import {
   assertUnreachable,
   COIN_DENOMS,
   IBalance,
+  ICosmosTransaction,
   ILogMessage,
   IMsgBeginRedelegate,
   IMsgDelegate,
@@ -11,7 +12,6 @@ import {
   IMsgVote,
   IMsgWithdrawDelegationReward,
   IMsgWithdrawValidatorCommission,
-  ITransaction,
 } from "@anthem/utils";
 import { formatAddressString } from "./client-utils";
 import { addValuesInList } from "./math-utils";
@@ -106,7 +106,7 @@ const getFailedLogs = (logs: Array<Maybe<ILogMessage>>) => {
 
 // Determine if a transaction failed and return the log message.
 export const getTransactionFailedLogMessage = (
-  transaction: ITransaction,
+  transaction: ICosmosTransaction,
 ): Nullable<string> => {
   try {
     const { log } = transaction;
@@ -140,7 +140,7 @@ const sumAmounts = (amounts: Maybe<ReadonlyArray<IBalance>>): string => {
 };
 
 const getTxAmount = (
-  transaction: ITransaction,
+  transaction: ICosmosTransaction,
   msgIndex: number,
 ): Nullable<string> => {
   const txMsg = transaction.msgs[msgIndex].value as IMsgSend;
@@ -161,7 +161,7 @@ const getTxAmount = (
   }
 };
 
-export const getTxFee = (transaction: ITransaction): string => {
+export const getTxFee = (transaction: ICosmosTransaction): string => {
   const { fees } = transaction;
   const { amount } = fees;
 
@@ -174,7 +174,7 @@ export const getTxFee = (transaction: ITransaction): string => {
 
 // Send transaction type.
 const getTransactionSendMessage = (
-  transaction: ITransaction,
+  transaction: ICosmosTransaction,
   address: string,
   msgIndex: number,
 ): TransactionItemData => {
@@ -201,7 +201,7 @@ const getTransactionSendMessage = (
 
 // Delegate transaction type.
 const getDelegationTransactionMessage = (
-  transaction: ITransaction,
+  transaction: ICosmosTransaction,
   msgIndex: number,
 ): TransactionItemData => {
   const msg = transaction.msgs[msgIndex];
@@ -225,7 +225,7 @@ const getDelegationTransactionMessage = (
 
 // Rewards claim transaction type.
 const getClaimRewardsMessageData = (
-  transaction: ITransaction,
+  transaction: ICosmosTransaction,
   msgIndex: number,
   denom: COIN_DENOMS,
 ): TransactionItemData => {
@@ -270,7 +270,7 @@ const getClaimRewardsMessageData = (
 
 // Commissions claim transaction type.
 const getValidatorClaimRewardsMessageData = (
-  transaction: ITransaction,
+  transaction: ICosmosTransaction,
   msgIndex: number,
   denom: COIN_DENOMS,
 ): TransactionItemData => {
@@ -308,7 +308,7 @@ const getValidatorClaimRewardsMessageData = (
 
 // Undelegate transaction type.
 const getUndelegateMessage = (
-  transaction: ITransaction,
+  transaction: ICosmosTransaction,
   msgIndex: number,
 ): TransactionItemData => {
   const msg = transaction.msgs[msgIndex];
@@ -340,7 +340,7 @@ const getUndelegateMessage = (
 
 // Redelegate transaction type.
 const getRedelegateMessageData = (
-  transaction: ITransaction,
+  transaction: ICosmosTransaction,
   msgIndex: number,
 ): TransactionItemData => {
   const msg = transaction.msgs[msgIndex];
@@ -371,7 +371,7 @@ const getRedelegateMessageData = (
 
 // Vote transaction type.
 const getGovernanceVoteMessage = (
-  transaction: ITransaction,
+  transaction: ICosmosTransaction,
   msgIndex: number,
 ): GovernanceVoteMessageData => {
   const { timestamp } = transaction;
@@ -392,7 +392,7 @@ const getGovernanceVoteMessage = (
 
 // Submit Governance Proposal transaction type.
 const getGovernanceSubmitProposalMessage = (
-  transaction: ITransaction,
+  transaction: ICosmosTransaction,
   msgIndex: number,
 ): GovernanceSubmitProposalMessageData => {
   const { timestamp } = transaction;
@@ -416,7 +416,7 @@ const getGovernanceSubmitProposalMessage = (
 
 // Validator create or edit message.
 const getValidatorCreateOrEditMessage = (
-  transaction: ITransaction,
+  transaction: ICosmosTransaction,
   msgIndex: number,
 ): ValidatorCreateOrEditMessageData => {
   const msg = transaction.msgs[msgIndex];
@@ -438,7 +438,7 @@ const getValidatorCreateOrEditMessage = (
 
 // Validator modify withdraw address message.
 const getChangeWithdrawAddressMessage = (
-  transaction: ITransaction,
+  transaction: ICosmosTransaction,
   msgIndex: number,
 ): ValidatorModifyWithdrawAddressMessageData => {
   const msg = transaction.msgs[msgIndex];
@@ -471,7 +471,7 @@ export const transformCosmosTransactionToRenderElements = ({
   address: string;
   msgIndex: number;
   denom: COIN_DENOMS;
-  transaction: ITransaction;
+  transaction: ICosmosTransaction;
 }): CosmosTransactionItemData => {
   const TX_TYPE = transaction.msgs[msgIndex].type as COSMOS_TRANSACTION_TYPES;
 

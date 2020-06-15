@@ -1,5 +1,4 @@
 import {
-  CeloTransaction,
   ICeloAccountBalances,
   ICeloAccountBalancesType,
   ICeloTransaction,
@@ -114,11 +113,11 @@ const fetchTransactions = async (
 /**
  * Fetch a single transaction by hash.
  */
-const fetchTransaction = async (hash: string): Promise<CeloTransaction> => {
+const fetchTransaction = async (hash: string): Promise<ICeloTransaction> => {
   const host = getHostFromNetworkName("CELO");
   const path = `system/transactions/${hash}`;
   const url = `${host}/${path}`;
-  const response = await AxiosUtil.get<CeloTransaction>(url);
+  const response = await AxiosUtil.get<CeloTransactionResponse>(url);
   return formatCeloTransaction(response);
 };
 

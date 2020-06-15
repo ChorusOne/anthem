@@ -5,7 +5,6 @@ import {
   IPortfolioCommission,
   IPortfolioReward,
   IQuery,
-  ITransaction,
   NETWORK_NAME,
   NetworkDefinition,
 } from "@anthem/utils";
@@ -222,7 +221,7 @@ const getPortfolioValidatorRewards = async (request: {
 export const getTransactionByHash = async (
   hash: string,
   network: NetworkDefinition,
-): Promise<IQuery["transaction"]> => {
+): Promise<IQuery["cosmosTransaction"]> => {
   const variables = { hash: hash.toUpperCase() };
   const transactionQuery = getTransactionByHashQuery();
   const query = transactionQuery(variables);
