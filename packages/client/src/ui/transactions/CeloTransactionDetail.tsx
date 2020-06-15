@@ -32,7 +32,7 @@ class CeloTransactionDetailLoadingContainer extends React.PureComponent<
   IProps
 > {
   render(): JSX.Element {
-    const { fiatPriceHistory, i18n, ledger } = this.props;
+    const { fiatPriceHistory, i18n } = this.props;
     const hash = this.props.location.pathname
       .replace("/txs/", "")
       .toLowerCase();
