@@ -1,5 +1,5 @@
 import { ICeloTransaction, NetworkDefinition } from "@anthem/utils";
-import { Card, Elevation } from "@blueprintjs/core";
+import { Card, Elevation, Position, Tooltip } from "@blueprintjs/core";
 import { CeloLogo } from "assets/icons";
 import { LinkIcon, OasisGenericEvent } from "assets/images";
 import { FiatCurrency } from "constants/fiat";
@@ -7,7 +7,11 @@ import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
 import React from "react";
 import { Link } from "react-router-dom";
-import { capitalizeString, formatAddressString } from "tools/client-utils";
+import {
+  capitalizeString,
+  copyTextToClipboard,
+  formatAddressString,
+} from "tools/client-utils";
 import { denomToUnit } from "tools/currency-utils";
 import { formatDate, formatTime } from "tools/date-utils";
 import { TranslateMethodProps } from "tools/i18n-utils";
@@ -23,6 +27,7 @@ import {
   EventRowItem,
   EventText,
   TransactionCardStyles,
+  TransactionLinkText,
 } from "./TransactionComponents";
 
 /** ===========================================================================
@@ -103,20 +108,41 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderHash = () => {
     const { hash } = this.props.transaction;
-    return (
+
+    const TxHashLink = this.props.isDetailView ? (
+      <ClickableEventRow onClick={() => copyTextToClipboard(hash)}>
+        <EventIconBox>
+          <LinkIcon />
+        </EventIconBox>
+        <EventContextBox>
+          <EventText style={{ fontWeight: "bold" }}>Transaction Hash</EventText>
+          <TransactionLinkText>{hash.slice(0, 15)}...</TransactionLinkText>
+        </EventContextBox>
+      </ClickableEventRow>
+    ) : (
       <Link to={`/txs/${hash}`}>
         <ClickableEventRow onClick={() => null}>
           <EventIconBox>
             <LinkIcon />
           </EventIconBox>
           <EventContextBox>
-            <EventText style={{ fontWeight: "bold" }}>Hash</EventText>
+            <EventText style={{ fontWeight: "bold" }}>
+              Transaction Hash
+            </EventText>
             <EventText data-cy="transaction-block-number">
               {hash.slice(0, 15)}...
             </EventText>
           </EventContextBox>
         </ClickableEventRow>
       </Link>
+    );
+
+    return this.props.isDetailView && this.props.isDesktop ? (
+      <Tooltip position={Position.TOP} content="Click to copy hash">
+        {TxHashLink}
+      </Tooltip>
+    ) : (
+      TxHashLink
     );
   };
 
