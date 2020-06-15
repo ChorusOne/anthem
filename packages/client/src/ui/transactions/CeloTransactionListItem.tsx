@@ -54,7 +54,6 @@ interface IProps extends TranslateMethodProps {
 
 class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
   render(): Nullable<JSX.Element> {
-    console.log(this.props.transaction);
     return (
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
         <EventRow data-cy="transaction-list-item">
