@@ -1,11 +1,12 @@
 import { ICeloTransaction, NetworkDefinition } from "@anthem/utils";
 import { Card, Elevation } from "@blueprintjs/core";
 import { CeloLogo } from "assets/icons";
-import { OasisGenericEvent } from "assets/images";
+import { LinkIcon, OasisGenericEvent } from "assets/images";
 import { FiatCurrency } from "constants/fiat";
 import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
 import React from "react";
+import { Link } from "react-router-dom";
 import { capitalizeString, formatAddressString } from "tools/client-utils";
 import { formatDate, formatTime } from "tools/date-utils";
 import { TranslateMethodProps } from "tools/i18n-utils";
@@ -45,12 +46,14 @@ interface IProps extends TranslateMethodProps {
 
 class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
   render(): Nullable<JSX.Element> {
+    console.log(this.props.transaction);
     return (
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
         <EventRow data-cy="transaction-list-item">
           {this.renderTypeAndTimestamp()}
           {this.renderBlockNumber()}
           {this.renderAddressBlocks()}
+          {this.renderHash()}
         </EventRow>
       </Card>
     );
@@ -89,6 +92,25 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           </EventText>
         </EventContextBox>
       </EventRowItem>
+    );
+  };
+
+  renderHash = () => {
+    const { hash } = this.props.transaction;
+    return (
+      <Link to={`/txs/${hash}`}>
+        <ClickableEventRow onClick={() => null}>
+          <EventIconBox>
+            <LinkIcon />
+          </EventIconBox>
+          <EventContextBox>
+            <EventText style={{ fontWeight: "bold" }}>Hash</EventText>
+            <EventText data-cy="transaction-block-number">
+              {hash.slice(0, 15)}...
+            </EventText>
+          </EventContextBox>
+        </ClickableEventRow>
+      </Link>
     );
   };
 
