@@ -26,4 +26,7 @@ export default [
   "oasisTransactions",
   "celoAccountHistory",
   "celoTransactions",
+  "celoSystemBalances",
+  "celoSystemHistory",
+  "celoValidatorGroups",
 ];

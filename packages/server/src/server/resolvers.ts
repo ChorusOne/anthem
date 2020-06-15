@@ -6,6 +6,7 @@ import {
   IAccountBalancesQueryVariables,
   IAccountInformationQueryVariables,
   ICeloAccountHistoryQueryVariables,
+  ICeloTransactionQueryVariables,
   ICeloTransactionsQueryVariables,
   ICosmosAccountBalancesType,
   ICosmosTransactionsQueryVariables,
@@ -18,6 +19,7 @@ import {
   IGovernanceProposalsQueryVariables,
   ILatestBlockQueryVariables,
   IOasisAccountHistoryQueryVariables,
+  IOasisTransactionQueryVariables,
   IOasisTransactionsQueryVariables,
   IPortfolioHistoryQueryVariables,
   IPricesQueryVariables,
@@ -416,6 +418,13 @@ const resolvers = {
       return OASIS.fetchTransactions(params);
     },
 
+    oasisTransaction: async (
+      _: void,
+      args: IOasisTransactionQueryVariables,
+    ): Promise<IQuery["oasisTransaction"]> => {
+      return OASIS.fetchTransaction(args.hash);
+    },
+
     /** =======================================================================
      * Celo Resolvers
      * ========================================================================
@@ -447,6 +456,13 @@ const resolvers = {
         startingPage: start,
       };
       return CELO.fetchTransactions(params);
+    },
+
+    celoTransaction: async (
+      _: void,
+      args: ICeloTransactionQueryVariables,
+    ): Promise<IQuery["celoTransaction"]> => {
+      return CELO.fetchTransaction(args.hash);
     },
 
     celoSystemBalances: async (): Promise<IQuery["celoSystemBalances"]> => {

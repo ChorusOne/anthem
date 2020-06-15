@@ -294,6 +294,21 @@ const fetchTransactions = async (
   };
 };
 
+/**
+ * Fetch a transaction by hash.
+ */
+const fetchTransaction = async (hash: string): Promise<IOasisTransaction> => {
+  const host = getHostFromNetworkName("OASIS");
+  const url = `${host}/???`;
+  const response = await AxiosUtil.get<OasisTransaction>(url);
+  const result = adaptOasisTransaction(response, "");
+  if (result) {
+    return result;
+  } else {
+    throw new Error(`No transaction found for hash: ${hash}`);
+  }
+};
+
 /** ===========================================================================
  * Utils
  * ============================================================================
@@ -499,6 +514,7 @@ const OASIS = {
   fetchAccountBalances,
   fetchAccountHistory,
   fetchTransactions,
+  fetchTransaction,
 };
 
 export default OASIS;

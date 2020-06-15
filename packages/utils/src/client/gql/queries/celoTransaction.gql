@@ -1,0 +1,30 @@
+query celoTransaction($hash: String!){
+    celoTransaction(hash: $hash){
+        blockNumber
+        timestamp
+        hash
+        from
+        to
+        details{
+            nonce
+            gasPrice
+            gas
+            feeCurrency
+            gatewayFeeRecipient
+            gatewayFee
+            to
+            value
+            input
+            v
+            r
+            s
+            hash
+        }
+        tags{
+            eventname
+            source
+            prettyname
+            parameters
+        }
+    }
+}

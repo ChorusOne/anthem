@@ -1,4 +1,5 @@
 import {
+  CeloTransaction,
   ICeloAccountBalances,
   ICeloAccountBalancesType,
   ICeloTransaction,
@@ -98,11 +99,9 @@ const fetchTransactions = async (
 
   const pages = response.slice(0, pageSize);
   const moreResultsExist = response.length > pageSize;
-  const formattedResponse: ICeloTransaction[] = pages.map(x => ({
-    ...x,
-    details: x.details.transaction,
-    tags: x.tags.map(stringifyTags),
-  }));
+  const formattedResponse: ICeloTransaction[] = pages.map(
+    formatCeloTransaction,
+  );
 
   return {
     limit: pageSize,
@@ -110,6 +109,17 @@ const fetchTransactions = async (
     page: startingPage,
     data: formattedResponse,
   };
+};
+
+/**
+ * Fetch a single transaction by hash.
+ */
+const fetchTransaction = async (hash: string): Promise<CeloTransaction> => {
+  const host = getHostFromNetworkName("CELO");
+  const path = `system/transactions/${hash}`;
+  const url = `${host}/${path}`;
+  const response = await AxiosUtil.get<CeloTransaction>(url);
+  return formatCeloTransaction(response);
 };
 
 /**
@@ -172,6 +182,17 @@ const convertDelegations = (
   };
 };
 
+/**
+ * Transform Celo transaction response data.
+ */
+const formatCeloTransaction = (tx: CeloTransactionResponse) => {
+  return {
+    ...tx,
+    details: tx.details.transaction,
+    tags: tx.tags.map(stringifyTags),
+  };
+};
+
 /** ===========================================================================
  * Export
  * ============================================================================
@@ -181,6 +202,7 @@ const CELO = {
   fetchAccountBalances,
   fetchAccountHistory,
   fetchTransactions,
+  fetchTransaction,
   fetchSystemBalances,
   fetchSystemHistory,
   fetchValidatorGroups,

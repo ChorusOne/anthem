@@ -36,6 +36,7 @@ type Query {
     startingPage: Float
     pageSize: Float
   ): OasisTransactionResult!
+  oasisTransaction(hash: String!): OasisTransaction!
 
   # Celo APIs
   celoAccountHistory(address: String!, fiat: String!): [CeloAccountSnapshot!]!
@@ -44,6 +45,7 @@ type Query {
     startingPage: Float
     pageSize: Float
   ): CeloTransactionResult!
+  celoTransaction(hash: String!): CeloTransaction!
   celoSystemBalances: CeloSystemBalances!
   celoSystemHistory: [CeloSystemHistory!]!
   celoValidatorGroups: [CeloValidatorGroup!]!
