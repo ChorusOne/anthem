@@ -8,8 +8,10 @@ import Modules from "modules/root";
 import React from "react";
 import { Link } from "react-router-dom";
 import { capitalizeString, formatAddressString } from "tools/client-utils";
+import { denomToUnit } from "tools/currency-utils";
 import { formatDate, formatTime } from "tools/date-utils";
 import { TranslateMethodProps } from "tools/i18n-utils";
+import { multiply } from "tools/math-utils";
 import AddressIconComponent from "ui/AddressIconComponent";
 import {
   ClickableEventRow,
@@ -17,6 +19,7 @@ import {
   EventIcon,
   EventIconBox,
   EventRow,
+  EventRowBottom,
   EventRowItem,
   EventText,
   TransactionCardStyles,
@@ -51,10 +54,13 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
         <EventRow data-cy="transaction-list-item">
           {this.renderTypeAndTimestamp()}
-          {this.renderBlockNumber()}
           {this.renderAddressBlocks()}
           {this.renderHash()}
         </EventRow>
+        <EventRowBottom>
+          {this.renderBlockNumber()}
+          {this.renderTransactionValues()}
+        </EventRowBottom>
       </Card>
     );
   }
@@ -81,7 +87,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
   renderBlockNumber = () => {
     const { blockNumber } = this.props.transaction;
     return (
-      <EventRowItem style={{ minWidth: 215 }}>
+      <EventRowItem style={{ minWidth: 300 }}>
         <EventIconBox>
           <OasisGenericEvent />
         </EventIconBox>
@@ -126,7 +132,10 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderAddressBox = (address: string, titleText: string) => {
     return (
-      <ClickableEventRow onClick={this.handleLinkToAddress(address)}>
+      <ClickableEventRow
+        style={{ minWidth: 215 }}
+        onClick={this.handleLinkToAddress(address)}
+      >
         <EventIconBox>
           <AddressIconComponent
             address={address}
@@ -141,6 +150,38 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           </EventText>
         </EventContextBox>
       </ClickableEventRow>
+    );
+  };
+
+  renderTransactionValues = () => {
+    const size = this.props.network.denominationSize;
+    const { value, gasUsed, gasPrice } = this.props.transaction.details;
+    const fee = multiply(gasUsed, gasPrice);
+    return (
+      <>
+        <EventRowItem style={{ minWidth: 215 }}>
+          <EventIconBox />
+          <EventContextBox>
+            <EventText style={{ fontWeight: "bold" }}>
+              Transaction Value
+            </EventText>
+            <EventText data-cy="transaction-value">
+              {denomToUnit(value, size)} cGLD
+            </EventText>
+          </EventContextBox>
+        </EventRowItem>
+        <EventRowItem style={{ minWidth: 215 }}>
+          <EventIconBox />
+          <EventContextBox>
+            <EventText style={{ fontWeight: "bold" }}>
+              Transaction Fee
+            </EventText>
+            <EventText data-cy="transaction-value">
+              {denomToUnit(fee, size)} cGLD
+            </EventText>
+          </EventContextBox>
+        </EventRowItem>
+      </>
     );
   };
 
