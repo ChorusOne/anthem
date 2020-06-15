@@ -6,6 +6,7 @@ import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
 import PageAddressBar from "ui/PageAddressBar";
 import { Centered, View } from "ui/SharedComponents";
+import CeloTransactionDetail from "./CeloTransactionDetail";
 import CosmosTransactionDetail from "./CosmosTransactionDetail";
 
 /** ===========================================================================
@@ -41,6 +42,8 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
     switch (network.name) {
       case "COSMOS":
         return <CosmosTransactionDetail />;
+      case "CELO":
+        return <CeloTransactionDetail />;
       case "OASIS":
         return null;
       default:
