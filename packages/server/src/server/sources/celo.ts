@@ -9,7 +9,7 @@ import {
   NetworkDefinition,
 } from "@anthem/utils";
 import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
-import { PaginationParams } from "../resolvers";
+import { PaginationParams } from "../resolvers/resolvers";
 
 /** ===========================================================================
  * Types & Config

@@ -1,8 +1,10 @@
 import {
+  ERRORS,
   ICosmosTransaction,
   IMsgDelegate,
   IPortfolioBalance,
   ITxMsg,
+  NetworkDefinition,
 } from "@anthem/utils";
 import * as Sentry from "@sentry/node";
 import chalk from "chalk";
@@ -222,5 +224,31 @@ export const validatePaginationParams = (param: any, defaultValue: number) => {
     return candidate;
   } else {
     return defaultValue;
+  }
+};
+
+/**
+ * Block networks based on feature flag support.
+ */
+export const blockUnsupportedNetworks = (
+  network: NetworkDefinition,
+  feature: "portfolio" | "transactions" | "balances",
+) => {
+  switch (feature) {
+    case "portfolio":
+      if (!network.supportsPortfolio) {
+        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
+      }
+      break;
+    case "balances":
+      if (!network.supportsBalances) {
+        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
+      }
+      break;
+    case "transactions":
+      if (!network.supportsTransactionsHistory) {
+        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
+      }
+      break;
   }
 };

@@ -17,7 +17,7 @@ import {
   mapSumToBalance,
 } from "../../tools/server-utils";
 import { getSqlQueryString, SQLVariables } from "../../tools/sql-utils";
-import { PaginationParams } from "../resolvers";
+import { PaginationParams } from "../resolvers/resolvers";
 
 /** ===========================================================================
  * Postgres Pool

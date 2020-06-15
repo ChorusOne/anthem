@@ -8,7 +8,7 @@ import {
 } from "@anthem/utils";
 import { logSentryMessage } from "../../tools/server-utils";
 import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
-import { PaginationParams } from "../resolvers";
+import { PaginationParams } from "../resolvers/resolvers";
 
 /** ===========================================================================
  * Types & Config
