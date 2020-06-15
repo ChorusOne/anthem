@@ -4,7 +4,6 @@ import {
   IOasisAccountBalances,
   IPrice,
   NetworkDefinition,
-  withOasisAccountHistory,
 } from "@anthem/utils";
 import { Colors, H5, Icon } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
@@ -19,6 +18,7 @@ import {
   withCosmosAccountBalances,
   withFiatPriceData,
   withGraphQLVariables,
+  withOasisAccountBalances,
 } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
@@ -35,12 +35,7 @@ import { addValuesInList } from "tools/math-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import { DashboardError } from "ui/pages/DashboardPage";
-import {
-  Button,
-  DashboardLoader,
-  PanelMessageText,
-  View,
-} from "ui/SharedComponents";
+import { Button, DashboardLoader, View } from "ui/SharedComponents";
 
 /** ===========================================================================
  * Cosmos SDK Networks Account Balances
@@ -62,14 +57,6 @@ class CosmosBalancesContainer extends React.Component<
     const { tString } = i18n;
     const { network } = ledger;
     const { isDesktop, currencySetting } = settings;
-
-    if (!network.supportsBalances) {
-      return (
-        <PanelMessageText>
-          <b>{network.name}</b> balances are not supported yet.
-        </PanelMessageText>
-      );
-    }
 
     return (
       <GraphQLGuardComponentMultipleQueries
@@ -296,14 +283,6 @@ class CeloBalancesContainer extends React.Component<
     const { network } = ledger;
     const { isDesktop, currencySetting } = settings;
 
-    if (!network.supportsBalances) {
-      return (
-        <PanelMessageText>
-          <b>{network.name}</b> balances are not supported yet.
-        </PanelMessageText>
-      );
-    }
-
     return (
       <GraphQLGuardComponentMultipleQueries
         allowErrorResponses
@@ -471,14 +450,6 @@ class OasisBalancesContainer extends React.Component<
     const { tString } = i18n;
     const { network } = ledger;
     const { isDesktop, currencySetting } = settings;
-
-    if (!network.supportsBalances) {
-      return (
-        <PanelMessageText>
-          <b>{network.name}</b> balances are not supported yet.
-        </PanelMessageText>
-      );
-    }
 
     return (
       <GraphQLGuardComponentMultipleQueries
@@ -863,5 +834,5 @@ export const OasisBalances = composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
   withFiatPriceData,
-  withOasisAccountHistory,
+  withOasisAccountBalances,
 )(OasisBalancesContainer);

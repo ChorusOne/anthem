@@ -69,7 +69,7 @@ class BalancesSwitchContainer extends React.Component<IProps, IState> {
 
     const { network } = this.props.ledger;
 
-    if (!network.supportsValidatorsList) {
+    if (!network.supportsBalances) {
       return (
         <PanelMessageText>
           Balances are not supported yet for <b>{network.name}</b>.
