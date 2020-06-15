@@ -1,7 +1,8 @@
 type Query {
   # Cosmos APIs
+  cosmosAccountBalances(address: String!): CosmosAccountBalancesType!
   portfolioHistory(address: String!, fiat: String!): PortfolioData!
-  accountBalances(address: String!): AccountBalanceResponseType!
+
   rewardsByValidator(address: String!): [AvailableReward!]!
   accountInformation(address: String!): AccountInformation!
   cosmosTransaction(hash: String!, network: String!): CosmosTransaction!
@@ -30,6 +31,7 @@ type Query {
   prices(currency: String!, versus: String!): Price!
 
   # Oasis APIs
+  oasisAccountBalances(address: String!): OasisAccountBalancesType!
   oasisAccountHistory(address: String!, fiat: String!): [OasisAccountHistory!]!
   oasisTransactions(
     address: String!
@@ -39,6 +41,7 @@ type Query {
   oasisTransaction(hash: String!): OasisTransaction!
 
   # Celo APIs
+  celoAccountBalances(address: String!): CeloAccountBalancesType!
   celoAccountHistory(address: String!, fiat: String!): [CeloAccountSnapshot!]!
   celoTransactions(
     address: String!
@@ -50,14 +53,6 @@ type Query {
   celoSystemHistory: [CeloSystemHistory!]!
   celoValidatorGroups: [CeloValidatorGroup!]!
 }
-
-# *****************************************************************************
-# Shared Untion Types
-
-union AccountBalanceResponseType =
-    CosmosAccountBalancesType
-  | CeloAccountBalancesType
-  | OasisAccountBalancesType
 
 # *****************************************************************************
 # Celo APIs

@@ -1,9 +1,11 @@
 import {
   deriveNetworkFromAddress,
+  IOasisAccountBalancesQueryVariables,
   IOasisAccountHistoryQueryVariables,
   IOasisTransactionQueryVariables,
   IOasisTransactionsQueryVariables,
   IQuery,
+  NETWORKS,
 } from "@anthem/utils";
 import {
   blockUnsupportedNetworks,
@@ -17,6 +19,15 @@ import OASIS from "../sources/oasis";
  */
 
 const OasisResolvers = {
+  oasisAccountBalances: async (
+    _: void,
+    args: IOasisAccountBalancesQueryVariables,
+  ): Promise<IQuery["oasisAccountBalances"]> => {
+    const { address } = args;
+    const network = NETWORKS.OASIS;
+    return OASIS.fetchAccountBalances(address, network);
+  },
+
   oasisAccountHistory: async (
     _: void,
     args: IOasisAccountHistoryQueryVariables,

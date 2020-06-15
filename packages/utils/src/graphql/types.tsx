@@ -590,10 +590,8 @@ export interface IPubKey {
 export interface IQuery {
    __typename?: "Query";
   /** Cosmos APIs */
+  cosmosAccountBalances: ICosmosAccountBalancesType;
   portfolioHistory: IPortfolioData;
-  fiatPriceHistory: IFiatPrice[];
-  dailyPercentChange: Scalars["String"];
-  accountBalances: IAccountBalanceResponseType;
   rewardsByValidator: IAvailableReward[];
   accountInformation: IAccountInformation;
   cosmosTransaction: ICosmosTransaction;
@@ -612,12 +610,16 @@ export interface IQuery {
   distributionCommunityPool: IBalance[];
   distributionParameters: IDistributionParameters;
   fiatCurrencies: IFiatCurrency[];
+  fiatPriceHistory: IFiatPrice[];
+  dailyPercentChange: Scalars["String"];
   prices: IPrice;
   /** Oasis APIs */
+  oasisAccountBalances: IOasisAccountBalancesType;
   oasisAccountHistory: IOasisAccountHistory[];
   oasisTransactions: IOasisTransactionResult;
   oasisTransaction: IOasisTransaction;
   /** Celo APIs */
+  celoAccountBalances: ICeloAccountBalancesType;
   celoAccountHistory: ICeloAccountSnapshot[];
   celoTransactions: ICeloTransactionResult;
   celoTransaction: ICeloTransaction;
@@ -626,23 +628,13 @@ export interface IQuery {
   celoValidatorGroups: ICeloValidatorGroup[];
 }
 
+export interface IQueryCosmosAccountBalancesArgs {
+  address: Scalars["String"];
+}
+
 export interface IQueryPortfolioHistoryArgs {
   address: Scalars["String"];
   fiat: Scalars["String"];
-}
-
-export interface IQueryFiatPriceHistoryArgs {
-  fiat: Scalars["String"];
-  network: Scalars["String"];
-}
-
-export interface IQueryDailyPercentChangeArgs {
-  currency: Scalars["String"];
-  fiat: Scalars["String"];
-}
-
-export interface IQueryAccountBalancesArgs {
-  address: Scalars["String"];
 }
 
 export interface IQueryRewardsByValidatorArgs {
@@ -716,9 +708,23 @@ export interface IQueryDistributionParametersArgs {
   network: Scalars["String"];
 }
 
+export interface IQueryFiatPriceHistoryArgs {
+  fiat: Scalars["String"];
+  network: Scalars["String"];
+}
+
+export interface IQueryDailyPercentChangeArgs {
+  currency: Scalars["String"];
+  fiat: Scalars["String"];
+}
+
 export interface IQueryPricesArgs {
   currency: Scalars["String"];
   versus: Scalars["String"];
+}
+
+export interface IQueryOasisAccountBalancesArgs {
+  address: Scalars["String"];
 }
 
 export interface IQueryOasisAccountHistoryArgs {
@@ -734,6 +740,10 @@ export interface IQueryOasisTransactionsArgs {
 
 export interface IQueryOasisTransactionArgs {
   hash: Scalars["String"];
+}
+
+export interface IQueryCeloAccountBalancesArgs {
+  address: Scalars["String"];
 }
 
 export interface IQueryCeloAccountHistoryArgs {
@@ -907,69 +917,6 @@ export interface IValidatorSetItem {
   proposer_priority: Scalars["String"];
 }
 
-export interface IAccountBalancesQueryVariables {
-  address: Scalars["String"];
-}
-
-export type IAccountBalancesQuery = (
-  { __typename?: "Query" }
-  & { accountBalances: (
-    { __typename?: "CosmosAccountBalancesType" }
-    & { cosmos: (
-      { __typename?: "CosmosAccountBalances" }
-      & { balance: Maybe<Array<(
-        { __typename?: "Balance" }
-        & Pick<IBalance, "denom" | "amount">
-      )>>, rewards: Maybe<Array<(
-        { __typename?: "Balance" }
-        & Pick<IBalance, "denom" | "amount">
-      )>>, delegations: Maybe<Array<(
-        { __typename?: "Delegation" }
-        & Pick<IDelegation, "delegator_address" | "validator_address" | "shares">
-      )>>, unbonding: Maybe<Array<(
-        { __typename?: "UnbondingDelegation" }
-        & Pick<IUnbondingDelegation, "delegator_address" | "validator_address">
-        & { entries: Array<(
-          { __typename?: "UnbondingDelegationEntry" }
-          & Pick<IUnbondingDelegationEntry, "balance" | "initial_balance" | "creation_height" | "completion_time">
-        )> }
-      )>>, commissions: Maybe<Array<(
-        { __typename?: "Balance" }
-        & Pick<IBalance, "denom" | "amount">
-      )>> }
-    ) }
-  ) | (
-    { __typename?: "CeloAccountBalancesType" }
-    & { celo: (
-      { __typename?: "CeloAccountBalances" }
-      & Pick<ICeloAccountBalances, "address" | "height" | "availableGoldBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
-      & { delegations: Array<(
-        { __typename?: "CeloDelegation" }
-        & Pick<ICeloDelegation, "group" | "totalVotes" | "activeVotes" | "pendingVotes">
-      )> }
-    ) }
-  ) | (
-    { __typename?: "OasisAccountBalancesType" }
-    & { oasis: (
-      { __typename?: "OasisAccountBalances" }
-      & Pick<IOasisAccountBalances, "available" | "rewards" | "commissions">
-      & { staked: (
-        { __typename?: "OasisBalance" }
-        & Pick<IOasisBalance, "balance" | "shares">
-      ), unbonding: (
-        { __typename?: "OasisBalance" }
-        & Pick<IOasisBalance, "balance" | "shares">
-      ), meta: (
-        { __typename?: "OasisAccountMeta" }
-        & Pick<IOasisAccountMeta, "is_validator" | "is_delegator">
-      ), delegations: Maybe<Array<(
-        { __typename?: "OasisDelegation" }
-        & Pick<IOasisDelegation, "delegator" | "validator" | "amount">
-      )>> }
-    ) }
-  ) }
-);
-
 export interface IAccountInformationQueryVariables {
   address: Scalars["String"];
 }
@@ -988,6 +935,25 @@ export type IAccountInformationQuery = (
       )>>, public_key: Maybe<(
         { __typename?: "PubKey" }
         & Pick<IPubKey, "type">
+      )> }
+    ) }
+  ) }
+);
+
+export interface ICeloAccountBalancesQueryVariables {
+  address: Scalars["String"];
+}
+
+export type ICeloAccountBalancesQuery = (
+  { __typename?: "Query" }
+  & { celoAccountBalances: (
+    { __typename?: "CeloAccountBalancesType" }
+    & { celo: (
+      { __typename?: "CeloAccountBalances" }
+      & Pick<ICeloAccountBalances, "address" | "height" | "availableGoldBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
+      & { delegations: Array<(
+        { __typename?: "CeloDelegation" }
+        & Pick<ICeloDelegation, "group" | "totalVotes" | "activeVotes" | "pendingVotes">
       )> }
     ) }
   ) }
@@ -1082,6 +1048,40 @@ export type ICeloValidatorGroupsQuery = (
     { __typename?: "CeloValidatorGroup" }
     & Pick<ICeloValidatorGroup, "group" | "name" | "metadataURL" | "blockNumber" | "votingPower" | "votingPowerFraction" | "capacityAvailable" | "totalCapacity" | "multiplier" | "groupShare" | "validatorAddresses">
   )> }
+);
+
+export interface ICosmosAccountBalancesQueryVariables {
+  address: Scalars["String"];
+}
+
+export type ICosmosAccountBalancesQuery = (
+  { __typename?: "Query" }
+  & { cosmosAccountBalances: (
+    { __typename?: "CosmosAccountBalancesType" }
+    & { cosmos: (
+      { __typename?: "CosmosAccountBalances" }
+      & { balance: Maybe<Array<(
+        { __typename?: "Balance" }
+        & Pick<IBalance, "denom" | "amount">
+      )>>, rewards: Maybe<Array<(
+        { __typename?: "Balance" }
+        & Pick<IBalance, "denom" | "amount">
+      )>>, delegations: Maybe<Array<(
+        { __typename?: "Delegation" }
+        & Pick<IDelegation, "delegator_address" | "validator_address" | "shares">
+      )>>, unbonding: Maybe<Array<(
+        { __typename?: "UnbondingDelegation" }
+        & Pick<IUnbondingDelegation, "delegator_address" | "validator_address">
+        & { entries: Array<(
+          { __typename?: "UnbondingDelegationEntry" }
+          & Pick<IUnbondingDelegationEntry, "balance" | "initial_balance" | "creation_height" | "completion_time">
+        )> }
+      )>>, commissions: Maybe<Array<(
+        { __typename?: "Balance" }
+        & Pick<IBalance, "denom" | "amount">
+      )>> }
+    ) }
+  ) }
 );
 
 export interface ICosmosTransactionQueryVariables {
@@ -1371,6 +1371,34 @@ export type ILatestBlockQuery = (
   ) }
 );
 
+export interface IOasisAccountBalancesQueryVariables {
+  address: Scalars["String"];
+}
+
+export type IOasisAccountBalancesQuery = (
+  { __typename?: "Query" }
+  & { oasisAccountBalances: (
+    { __typename?: "OasisAccountBalancesType" }
+    & { oasis: (
+      { __typename?: "OasisAccountBalances" }
+      & Pick<IOasisAccountBalances, "available" | "rewards" | "commissions">
+      & { staked: (
+        { __typename?: "OasisBalance" }
+        & Pick<IOasisBalance, "balance" | "shares">
+      ), unbonding: (
+        { __typename?: "OasisBalance" }
+        & Pick<IOasisBalance, "balance" | "shares">
+      ), meta: (
+        { __typename?: "OasisAccountMeta" }
+        & Pick<IOasisAccountMeta, "is_validator" | "is_delegator">
+      ), delegations: Maybe<Array<(
+        { __typename?: "OasisDelegation" }
+        & Pick<IOasisDelegation, "delegator" | "validator" | "amount">
+      )>> }
+    ) }
+  ) }
+);
+
 export interface IOasisAccountHistoryQueryVariables {
   address: Scalars["String"];
   fiat: Scalars["String"];
@@ -1655,128 +1683,6 @@ export type IValidatorsQuery = (
   )> }
 );
 
-export const AccountBalancesDocument = gql`
-    query accountBalances($address: String!) {
-  accountBalances(address: $address) {
-    ... on CosmosAccountBalancesType {
-      cosmos {
-        balance {
-          denom
-          amount
-        }
-        rewards {
-          denom
-          amount
-        }
-        delegations {
-          delegator_address
-          validator_address
-          shares
-        }
-        unbonding {
-          delegator_address
-          validator_address
-          entries {
-            balance
-            initial_balance
-            creation_height
-            completion_time
-          }
-        }
-        commissions {
-          denom
-          amount
-        }
-      }
-    }
-    ... on CeloAccountBalancesType {
-      celo {
-        address
-        height
-        availableGoldBalance
-        totalLockedGoldBalance
-        nonVotingLockedGoldBalance
-        votingLockedGoldBalance
-        pendingWithdrawalBalance
-        celoUSDValue
-        delegations {
-          group
-          totalVotes
-          activeVotes
-          pendingVotes
-        }
-      }
-    }
-    ... on OasisAccountBalancesType {
-      oasis {
-        available
-        staked {
-          balance
-          shares
-        }
-        unbonding {
-          balance
-          shares
-        }
-        rewards
-        commissions
-        meta {
-          is_validator
-          is_delegator
-        }
-        delegations {
-          delegator
-          validator
-          amount
-        }
-      }
-    }
-  }
-}
-    `;
-export type AccountBalancesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IAccountBalancesQuery, IAccountBalancesQueryVariables>, "query"> & ({ variables: IAccountBalancesQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-export const AccountBalancesComponent = (props: AccountBalancesComponentProps) => (
-      <ApolloReactComponents.Query<IAccountBalancesQuery, IAccountBalancesQueryVariables> query={AccountBalancesDocument} {...props} />
-    );
-
-export type IAccountBalancesProps<TChildProps = {}> = ApolloReactHoc.DataProps<IAccountBalancesQuery, IAccountBalancesQueryVariables> & TChildProps;
-export function withAccountBalances<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  IAccountBalancesQuery,
-  IAccountBalancesQueryVariables,
-  IAccountBalancesProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, IAccountBalancesQuery, IAccountBalancesQueryVariables, IAccountBalancesProps<TChildProps>>(AccountBalancesDocument, {
-      alias: "accountBalances",
-      ...operationOptions,
-    });
-}
-
-/**
- * __useAccountBalancesQuery__
- *
- * To run a query within a React component, call `useAccountBalancesQuery` and pass it any options that fit your needs.
- * When your component renders, `useAccountBalancesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useAccountBalancesQuery({
- *   variables: {
- *      address: // value for 'address'
- *   },
- * });
- */
-export function useAccountBalancesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<IAccountBalancesQuery, IAccountBalancesQueryVariables>) {
-        return ApolloReactHooks.useQuery<IAccountBalancesQuery, IAccountBalancesQueryVariables>(AccountBalancesDocument, baseOptions);
-      }
-export function useAccountBalancesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<IAccountBalancesQuery, IAccountBalancesQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<IAccountBalancesQuery, IAccountBalancesQueryVariables>(AccountBalancesDocument, baseOptions);
-        }
-export type AccountBalancesQueryHookResult = ReturnType<typeof useAccountBalancesQuery>;
-export type AccountBalancesLazyQueryHookResult = ReturnType<typeof useAccountBalancesLazyQuery>;
-export type AccountBalancesQueryResult = ApolloReactCommon.QueryResult<IAccountBalancesQuery, IAccountBalancesQueryVariables>;
 export const AccountInformationDocument = gql`
     query accountInformation($address: String!) {
   accountInformation(address: $address) {
@@ -1839,6 +1745,71 @@ export function useAccountInformationLazyQuery(baseOptions?: ApolloReactHooks.La
 export type AccountInformationQueryHookResult = ReturnType<typeof useAccountInformationQuery>;
 export type AccountInformationLazyQueryHookResult = ReturnType<typeof useAccountInformationLazyQuery>;
 export type AccountInformationQueryResult = ApolloReactCommon.QueryResult<IAccountInformationQuery, IAccountInformationQueryVariables>;
+export const CeloAccountBalancesDocument = gql`
+    query celoAccountBalances($address: String!) {
+  celoAccountBalances(address: $address) {
+    celo {
+      address
+      height
+      availableGoldBalance
+      totalLockedGoldBalance
+      nonVotingLockedGoldBalance
+      votingLockedGoldBalance
+      pendingWithdrawalBalance
+      celoUSDValue
+      delegations {
+        group
+        totalVotes
+        activeVotes
+        pendingVotes
+      }
+    }
+  }
+}
+    `;
+export type CeloAccountBalancesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloAccountBalancesQuery, ICeloAccountBalancesQueryVariables>, "query"> & ({ variables: ICeloAccountBalancesQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+export const CeloAccountBalancesComponent = (props: CeloAccountBalancesComponentProps) => (
+      <ApolloReactComponents.Query<ICeloAccountBalancesQuery, ICeloAccountBalancesQueryVariables> query={CeloAccountBalancesDocument} {...props} />
+    );
+
+export type ICeloAccountBalancesProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICeloAccountBalancesQuery, ICeloAccountBalancesQueryVariables> & TChildProps;
+export function withCeloAccountBalances<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ICeloAccountBalancesQuery,
+  ICeloAccountBalancesQueryVariables,
+  ICeloAccountBalancesProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, ICeloAccountBalancesQuery, ICeloAccountBalancesQueryVariables, ICeloAccountBalancesProps<TChildProps>>(CeloAccountBalancesDocument, {
+      alias: "celoAccountBalances",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useCeloAccountBalancesQuery__
+ *
+ * To run a query within a React component, call `useCeloAccountBalancesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCeloAccountBalancesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCeloAccountBalancesQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *   },
+ * });
+ */
+export function useCeloAccountBalancesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ICeloAccountBalancesQuery, ICeloAccountBalancesQueryVariables>) {
+        return ApolloReactHooks.useQuery<ICeloAccountBalancesQuery, ICeloAccountBalancesQueryVariables>(CeloAccountBalancesDocument, baseOptions);
+      }
+export function useCeloAccountBalancesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ICeloAccountBalancesQuery, ICeloAccountBalancesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ICeloAccountBalancesQuery, ICeloAccountBalancesQueryVariables>(CeloAccountBalancesDocument, baseOptions);
+        }
+export type CeloAccountBalancesQueryHookResult = ReturnType<typeof useCeloAccountBalancesQuery>;
+export type CeloAccountBalancesLazyQueryHookResult = ReturnType<typeof useCeloAccountBalancesLazyQuery>;
+export type CeloAccountBalancesQueryResult = ApolloReactCommon.QueryResult<ICeloAccountBalancesQuery, ICeloAccountBalancesQueryVariables>;
 export const CeloAccountHistoryDocument = gql`
     query celoAccountHistory($address: String!, $fiat: String!) {
   celoAccountHistory(address: $address, fiat: $fiat) {
@@ -2218,6 +2189,84 @@ export function useCeloValidatorGroupsLazyQuery(baseOptions?: ApolloReactHooks.L
 export type CeloValidatorGroupsQueryHookResult = ReturnType<typeof useCeloValidatorGroupsQuery>;
 export type CeloValidatorGroupsLazyQueryHookResult = ReturnType<typeof useCeloValidatorGroupsLazyQuery>;
 export type CeloValidatorGroupsQueryResult = ApolloReactCommon.QueryResult<ICeloValidatorGroupsQuery, ICeloValidatorGroupsQueryVariables>;
+export const CosmosAccountBalancesDocument = gql`
+    query cosmosAccountBalances($address: String!) {
+  cosmosAccountBalances(address: $address) {
+    cosmos {
+      balance {
+        denom
+        amount
+      }
+      rewards {
+        denom
+        amount
+      }
+      delegations {
+        delegator_address
+        validator_address
+        shares
+      }
+      unbonding {
+        delegator_address
+        validator_address
+        entries {
+          balance
+          initial_balance
+          creation_height
+          completion_time
+        }
+      }
+      commissions {
+        denom
+        amount
+      }
+    }
+  }
+}
+    `;
+export type CosmosAccountBalancesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosAccountBalancesQuery, ICosmosAccountBalancesQueryVariables>, "query"> & ({ variables: ICosmosAccountBalancesQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+export const CosmosAccountBalancesComponent = (props: CosmosAccountBalancesComponentProps) => (
+      <ApolloReactComponents.Query<ICosmosAccountBalancesQuery, ICosmosAccountBalancesQueryVariables> query={CosmosAccountBalancesDocument} {...props} />
+    );
+
+export type ICosmosAccountBalancesProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosAccountBalancesQuery, ICosmosAccountBalancesQueryVariables> & TChildProps;
+export function withCosmosAccountBalances<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ICosmosAccountBalancesQuery,
+  ICosmosAccountBalancesQueryVariables,
+  ICosmosAccountBalancesProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, ICosmosAccountBalancesQuery, ICosmosAccountBalancesQueryVariables, ICosmosAccountBalancesProps<TChildProps>>(CosmosAccountBalancesDocument, {
+      alias: "cosmosAccountBalances",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useCosmosAccountBalancesQuery__
+ *
+ * To run a query within a React component, call `useCosmosAccountBalancesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCosmosAccountBalancesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCosmosAccountBalancesQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *   },
+ * });
+ */
+export function useCosmosAccountBalancesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ICosmosAccountBalancesQuery, ICosmosAccountBalancesQueryVariables>) {
+        return ApolloReactHooks.useQuery<ICosmosAccountBalancesQuery, ICosmosAccountBalancesQueryVariables>(CosmosAccountBalancesDocument, baseOptions);
+      }
+export function useCosmosAccountBalancesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ICosmosAccountBalancesQuery, ICosmosAccountBalancesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ICosmosAccountBalancesQuery, ICosmosAccountBalancesQueryVariables>(CosmosAccountBalancesDocument, baseOptions);
+        }
+export type CosmosAccountBalancesQueryHookResult = ReturnType<typeof useCosmosAccountBalancesQuery>;
+export type CosmosAccountBalancesLazyQueryHookResult = ReturnType<typeof useCosmosAccountBalancesLazyQuery>;
+export type CosmosAccountBalancesQueryResult = ApolloReactCommon.QueryResult<ICosmosAccountBalancesQuery, ICosmosAccountBalancesQueryVariables>;
 export const CosmosTransactionDocument = gql`
     query cosmosTransaction($hash: String!, $network: String!) {
   cosmosTransaction(hash: $hash, network: $network) {
@@ -3041,6 +3090,77 @@ export function useLatestBlockLazyQuery(baseOptions?: ApolloReactHooks.LazyQuery
 export type LatestBlockQueryHookResult = ReturnType<typeof useLatestBlockQuery>;
 export type LatestBlockLazyQueryHookResult = ReturnType<typeof useLatestBlockLazyQuery>;
 export type LatestBlockQueryResult = ApolloReactCommon.QueryResult<ILatestBlockQuery, ILatestBlockQueryVariables>;
+export const OasisAccountBalancesDocument = gql`
+    query oasisAccountBalances($address: String!) {
+  oasisAccountBalances(address: $address) {
+    oasis {
+      available
+      staked {
+        balance
+        shares
+      }
+      unbonding {
+        balance
+        shares
+      }
+      rewards
+      commissions
+      meta {
+        is_validator
+        is_delegator
+      }
+      delegations {
+        delegator
+        validator
+        amount
+      }
+    }
+  }
+}
+    `;
+export type OasisAccountBalancesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IOasisAccountBalancesQuery, IOasisAccountBalancesQueryVariables>, "query"> & ({ variables: IOasisAccountBalancesQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+export const OasisAccountBalancesComponent = (props: OasisAccountBalancesComponentProps) => (
+      <ApolloReactComponents.Query<IOasisAccountBalancesQuery, IOasisAccountBalancesQueryVariables> query={OasisAccountBalancesDocument} {...props} />
+    );
+
+export type IOasisAccountBalancesProps<TChildProps = {}> = ApolloReactHoc.DataProps<IOasisAccountBalancesQuery, IOasisAccountBalancesQueryVariables> & TChildProps;
+export function withOasisAccountBalances<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  IOasisAccountBalancesQuery,
+  IOasisAccountBalancesQueryVariables,
+  IOasisAccountBalancesProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, IOasisAccountBalancesQuery, IOasisAccountBalancesQueryVariables, IOasisAccountBalancesProps<TChildProps>>(OasisAccountBalancesDocument, {
+      alias: "oasisAccountBalances",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useOasisAccountBalancesQuery__
+ *
+ * To run a query within a React component, call `useOasisAccountBalancesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOasisAccountBalancesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOasisAccountBalancesQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *   },
+ * });
+ */
+export function useOasisAccountBalancesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<IOasisAccountBalancesQuery, IOasisAccountBalancesQueryVariables>) {
+        return ApolloReactHooks.useQuery<IOasisAccountBalancesQuery, IOasisAccountBalancesQueryVariables>(OasisAccountBalancesDocument, baseOptions);
+      }
+export function useOasisAccountBalancesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<IOasisAccountBalancesQuery, IOasisAccountBalancesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<IOasisAccountBalancesQuery, IOasisAccountBalancesQueryVariables>(OasisAccountBalancesDocument, baseOptions);
+        }
+export type OasisAccountBalancesQueryHookResult = ReturnType<typeof useOasisAccountBalancesQuery>;
+export type OasisAccountBalancesLazyQueryHookResult = ReturnType<typeof useOasisAccountBalancesLazyQuery>;
+export type OasisAccountBalancesQueryResult = ApolloReactCommon.QueryResult<IOasisAccountBalancesQuery, IOasisAccountBalancesQueryVariables>;
 export const OasisAccountHistoryDocument = gql`
     query oasisAccountHistory($address: String!, $fiat: String!) {
   oasisAccountHistory(address: $address, fiat: $fiat) {

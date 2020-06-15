@@ -1,9 +1,11 @@
 import {
   deriveNetworkFromAddress,
+  ICeloAccountBalancesQueryVariables,
   ICeloAccountHistoryQueryVariables,
   ICeloTransactionQueryVariables,
   ICeloTransactionsQueryVariables,
   IQuery,
+  NETWORKS,
 } from "@anthem/utils";
 import {
   blockUnsupportedNetworks,
@@ -17,6 +19,15 @@ import CELO from "../sources/celo";
  */
 
 const CeloResolvers = {
+  celoAccountBalances: async (
+    _: void,
+    args: ICeloAccountBalancesQueryVariables,
+  ): Promise<IQuery["celoAccountBalances"]> => {
+    const { address } = args;
+    const network = NETWORKS.CELO;
+    return CELO.fetchAccountBalances(address, network);
+  },
+
   celoAccountHistory: async (
     _: void,
     args: ICeloAccountHistoryQueryVariables,

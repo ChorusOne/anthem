@@ -3,6 +3,7 @@ import {
   getNetworkDefinitionFromIdentifier,
   IAccountBalancesQueryVariables,
   IAccountInformationQueryVariables,
+  ICosmosAccountBalancesQueryVariables,
   ICosmosAccountBalancesType,
   ICosmosTransactionQueryVariables,
   ICosmosTransactionsQueryVariables,
@@ -126,43 +127,36 @@ const CosmosResolvers = {
     return COSMOS_SDK.fetchAvailableRewards(address, network);
   },
 
-  accountBalances: async (
+  cosmosAccountBalances: async (
     _: void,
-    args: IAccountBalancesQueryVariables,
-  ): Promise<IQuery["accountBalances"]> => {
+    args: ICosmosAccountBalancesQueryVariables,
+  ): Promise<IQuery["cosmosAccountBalances"]> => {
     const { address } = args;
     const network = deriveNetworkFromAddress(address);
+    const [
+      balance,
+      delegations,
+      rewards,
+      unbonding,
+      commissions,
+    ] = await Promise.all([
+      COSMOS_SDK.fetchBalance(address, network),
+      COSMOS_SDK.fetchDelegations(address, network),
+      COSMOS_SDK.fetchRewards(address, network),
+      COSMOS_SDK.fetchUnbondingDelegations(address, network),
+      COSMOS_SDK.fetchCommissionsForValidator(address, network),
+    ]);
 
-    if (network.name === "OASIS") {
-      return OASIS.fetchAccountBalances(address, network);
-    } else if (network.name === "CELO") {
-      return CELO.fetchAccountBalances(address, network);
-    } else {
-      const [
-        balance,
-        delegations,
-        rewards,
-        unbonding,
-        commissions,
-      ] = await Promise.all([
-        COSMOS_SDK.fetchBalance(address, network),
-        COSMOS_SDK.fetchDelegations(address, network),
-        COSMOS_SDK.fetchRewards(address, network),
-        COSMOS_SDK.fetchUnbondingDelegations(address, network),
-        COSMOS_SDK.fetchCommissionsForValidator(address, network),
-      ]);
+    const result = {
+      balance,
+      delegations,
+      rewards,
+      unbonding,
+      commissions,
+    };
 
-      const result = {
-        balance,
-        delegations,
-        rewards,
-        unbonding,
-        commissions,
-      };
-
-      const balances: ICosmosAccountBalancesType = { cosmos: result };
-      return balances;
-    }
+    const balances: ICosmosAccountBalancesType = { cosmos: result };
+    return balances;
   },
 
   accountInformation: async (
