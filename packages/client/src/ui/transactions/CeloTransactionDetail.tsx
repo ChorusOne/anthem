@@ -1,16 +1,14 @@
 import {
-  CosmosTransactionDocument,
-  ICosmosTransaction,
+  CeloTransactionDocument,
+  ICeloTransaction,
   IQuery,
 } from "@anthem/utils";
 import {
-  CosmosTransactionsProps,
+  CeloTransactionsProps,
   FiatPriceHistoryProps,
-  ValidatorsProps,
-  withCosmosTransactions,
+  withCeloTransactions,
   withFiatPriceHistory,
   withGraphQLVariables,
-  withValidators,
 } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
@@ -22,6 +20,8 @@ import { withRouter } from "react-router-dom";
 import { composeWithProps } from "tools/context-utils";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import { Centered, DashboardLoader, View } from "ui/SharedComponents";
+import Toast from "ui/Toast";
+import CeloTransactionListItem from "./CeloTransactionListItem";
 import CosmosTransactionList from "./CosmosTransactionList";
 
 /** ===========================================================================
@@ -29,9 +29,11 @@ import CosmosTransactionList from "./CosmosTransactionList";
  * ============================================================================
  */
 
-class CosmosTransactionDetail extends React.PureComponent<IProps> {
+class CeloTransactionDetailLoadingContainer extends React.PureComponent<
+  IProps
+> {
   render(): JSX.Element {
-    const { validators, fiatPriceHistory, i18n, ledger } = this.props;
+    const { fiatPriceHistory, i18n, ledger } = this.props;
     const txHash = this.props.location.pathname
       .replace("/txs/", "")
       .toLowerCase();
@@ -44,10 +46,7 @@ class CosmosTransactionDetail extends React.PureComponent<IProps> {
           <GraphQLGuardComponentMultipleQueries
             tString={i18n.tString}
             loadingComponent={<DashboardLoader />}
-            results={[
-              [validators, "validators"],
-              [fiatPriceHistory, "fiatPriceHistory"],
-            ]}
+            results={[[fiatPriceHistory, "fiatPriceHistory"]]}
           >
             {() => this.renderTransaction(transactionMayExist)}
           </GraphQLGuardComponentMultipleQueries>
@@ -57,7 +56,7 @@ class CosmosTransactionDetail extends React.PureComponent<IProps> {
       return (
         <View>
           <Query
-            query={CosmosTransactionDocument}
+            query={CeloTransactionDocument}
             variables={{ txHash, network: ledger.network.name }}
           >
             {(
@@ -85,11 +84,10 @@ class CosmosTransactionDetail extends React.PureComponent<IProps> {
                   }
                   results={[
                     [transaction, ["data", "transaction"]],
-                    [validators, "validators"],
                     [fiatPriceHistory, "fiatPriceHistory"],
                   ]}
                 >
-                  {([transactionResult]: readonly [ICosmosTransaction]) => {
+                  {([transactionResult]: readonly [ICeloTransaction]) => {
                     return this.renderTransaction(transactionResult);
                   }}
                 </GraphQLGuardComponentMultipleQueries>
@@ -101,31 +99,48 @@ class CosmosTransactionDetail extends React.PureComponent<IProps> {
     }
   }
 
-  renderTransaction = (transaction: ICosmosTransaction) => {
+  renderTransaction = (transaction: ICeloTransaction) => {
+    const { ledger, settings, i18n, setAddress } = this.props;
+    const { network, address } = ledger;
+    const { t, tString, locale } = i18n;
+    const { isDesktop, fiatCurrency } = settings;
     return (
-      <View>
-        <CosmosTransactionList
-          {...this.props}
-          isDetailView
-          transactionsPage={0}
-          extraLiveTransactions={[]}
-          transactions={transaction ? [transaction] : []}
-        />
-      </View>
+      <CeloTransactionListItem
+        isDetailView
+        t={t}
+        tString={tString}
+        locale={locale}
+        address={address}
+        network={network}
+        isDesktop={isDesktop}
+        key={transaction.hash}
+        setAddress={setAddress}
+        transaction={transaction}
+        fiatCurrency={fiatCurrency}
+        onCopySuccess={this.onCopySuccess}
+      />
     );
   };
 
   maybeFindTransactionInApolloCache = (
     hash: string,
-  ): Nullable<ICosmosTransaction> => {
+  ): Nullable<ICeloTransaction> => {
     const { transactions } = this.props;
     let result = null;
 
-    if (transactions && transactions.cosmosTransactions) {
-      result = transactions.cosmosTransactions.data.find(t => t.hash === hash);
+    if (transactions && transactions.celoTransactions) {
+      result = transactions.celoTransactions.data.find(t => t.hash === hash);
     }
 
     return result || null;
+  };
+
+  onCopySuccess = (address: string) => {
+    Toast.success(
+      this.props.i18n.tString("Address {{address}} copied to clipboard", {
+        address,
+      }),
+    );
   };
 }
 
@@ -157,8 +172,7 @@ type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 interface IProps
   extends ConnectProps,
     FiatPriceHistoryProps,
-    ValidatorsProps,
-    CosmosTransactionsProps,
+    CeloTransactionsProps,
     RouteComponentProps,
     ComponentProps {}
 
@@ -171,7 +185,6 @@ export default composeWithProps<ComponentProps>(
   withRouter,
   withProps,
   withGraphQLVariables,
-  withValidators,
-  withCosmosTransactions,
+  withCeloTransactions,
   withFiatPriceHistory,
-)(CosmosTransactionDetail);
+)(CeloTransactionDetailLoadingContainer);

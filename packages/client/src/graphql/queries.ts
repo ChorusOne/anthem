@@ -2,6 +2,7 @@ import {
   AccountBalancesDocument,
   AccountInformationDocument,
   CeloAccountHistoryDocument,
+  CeloTransactionDocument,
   CeloTransactionsDocument,
   CeloValidatorGroupsDocument,
   CosmosTransactionsDocument,
@@ -385,6 +386,25 @@ export interface CeloTransactionsProps {
 
 export const withCeloTransactions = graphql(CeloTransactionsDocument, {
   name: "transactions",
+  ...noPollingConfig(["address", "startingPage"]),
+});
+
+/** ===========================================================================
+ * Celo Transaction
+ * ============================================================================
+ */
+
+interface CeloTransactionQueryResult extends QueryResult {
+  data: void;
+  celoTransaction: IQuery["celoTransaction"];
+}
+
+export interface CeloTransactionProps {
+  transactions: CeloTransactionQueryResult;
+}
+
+export const withCeloTransaction = graphql(CeloTransactionDocument, {
+  name: "transaction",
   ...noPollingConfig(["address", "startingPage"]),
 });
 
