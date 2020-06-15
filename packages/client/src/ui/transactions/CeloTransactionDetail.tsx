@@ -22,7 +22,6 @@ import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents"
 import { Centered, DashboardLoader, View } from "ui/SharedComponents";
 import Toast from "ui/Toast";
 import CeloTransactionListItem from "./CeloTransactionListItem";
-import CosmosTransactionList from "./CosmosTransactionList";
 
 /** ===========================================================================
  * React Component

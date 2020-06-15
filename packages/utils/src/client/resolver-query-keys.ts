@@ -1,6 +1,6 @@
 export default [
   "portfolioHistory",
-  "transaction",
+  "cosmosTransaction",
   "cosmosTransactions",
   "rewardsByValidator",
   "accountBalances",

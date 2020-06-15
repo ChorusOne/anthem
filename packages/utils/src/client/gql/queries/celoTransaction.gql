@@ -7,23 +7,18 @@ query celoTransaction($hash: String!){
         to
         details{
             nonce
+            gasLimit
             gasPrice
-            gas
+            gasUsed
             feeCurrency
             gatewayFeeRecipient
             gatewayFee
             to
             value
-            input
-            v
-            r
-            s
-            hash
         }
         tags{
             eventname
             source
-            prettyname
             parameters
         }
     }

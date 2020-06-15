@@ -151,19 +151,15 @@ export interface ICeloTransaction {
 
 export interface ICeloTransactionDetails {
    __typename?: "CeloTransactionDetails";
-  nonce: Scalars["String"];
-  gasPrice: Scalars["String"];
-  gas: Scalars["String"];
+  nonce: Scalars["Float"];
+  gasLimit: Scalars["Float"];
+  gasPrice: Scalars["Float"];
+  gasUsed: Scalars["Float"];
   feeCurrency: Maybe<Scalars["String"]>;
   gatewayFeeRecipient: Maybe<Scalars["String"]>;
-  gatewayFee: Maybe<Scalars["String"]>;
-  to: Maybe<Scalars["String"]>;
-  value: Scalars["String"];
-  input: Scalars["String"];
-  v: Scalars["String"];
-  r: Scalars["String"];
-  s: Scalars["String"];
-  hash: Scalars["String"];
+  gatewayFee: Scalars["Float"];
+  to: Scalars["String"];
+  value: Scalars["Float"];
 }
 
 export interface ICeloTransactionResult {
@@ -178,7 +174,6 @@ export interface ICeloTransactionTags {
    __typename?: "CeloTransactionTags";
   eventname: Scalars["String"];
   source: Scalars["String"];
-  prettyname: Scalars["String"];
   parameters: Scalars["String"];
 }
 
@@ -1046,10 +1041,10 @@ export type ICeloTransactionQuery = (
     & Pick<ICeloTransaction, "blockNumber" | "timestamp" | "hash" | "from" | "to">
     & { details: (
       { __typename?: "CeloTransactionDetails" }
-      & Pick<ICeloTransactionDetails, "nonce" | "gasPrice" | "gas" | "feeCurrency" | "gatewayFeeRecipient" | "gatewayFee" | "to" | "value" | "input" | "v" | "r" | "s" | "hash">
+      & Pick<ICeloTransactionDetails, "nonce" | "gasLimit" | "gasPrice" | "gasUsed" | "feeCurrency" | "gatewayFeeRecipient" | "gatewayFee" | "to" | "value">
     ), tags: Array<(
       { __typename?: "CeloTransactionTags" }
-      & Pick<ICeloTransactionTags, "eventname" | "source" | "prettyname" | "parameters">
+      & Pick<ICeloTransactionTags, "eventname" | "source" | "parameters">
     )> }
   ) }
 );
@@ -1070,10 +1065,10 @@ export type ICeloTransactionsQuery = (
       & Pick<ICeloTransaction, "blockNumber" | "timestamp" | "hash" | "from" | "to">
       & { details: (
         { __typename?: "CeloTransactionDetails" }
-        & Pick<ICeloTransactionDetails, "nonce" | "gasPrice" | "gas" | "feeCurrency" | "gatewayFeeRecipient" | "gatewayFee" | "to" | "value" | "input" | "v" | "r" | "s" | "hash">
+        & Pick<ICeloTransactionDetails, "nonce" | "gasLimit" | "gasPrice" | "gasUsed" | "feeCurrency" | "gatewayFeeRecipient" | "gatewayFee" | "to" | "value">
       ), tags: Array<(
         { __typename?: "CeloTransactionTags" }
-        & Pick<ICeloTransactionTags, "eventname" | "source" | "prettyname" | "parameters">
+        & Pick<ICeloTransactionTags, "eventname" | "source" | "parameters">
       )> }
     )> }
   ) }
@@ -2027,23 +2022,18 @@ export const CeloTransactionDocument = gql`
     to
     details {
       nonce
+      gasLimit
       gasPrice
-      gas
+      gasUsed
       feeCurrency
       gatewayFeeRecipient
       gatewayFee
       to
       value
-      input
-      v
-      r
-      s
-      hash
     }
     tags {
       eventname
       source
-      prettyname
       parameters
     }
   }
@@ -2105,23 +2095,18 @@ export const CeloTransactionsDocument = gql`
       to
       details {
         nonce
+        gasLimit
         gasPrice
-        gas
+        gasUsed
         feeCurrency
         gatewayFeeRecipient
         gatewayFee
         to
         value
-        input
-        v
-        r
-        s
-        hash
       }
       tags {
         eventname
         source
-        prettyname
         parameters
       }
     }

@@ -46,7 +46,16 @@ interface CeloTransactionResponse {
   tags: ICeloTransactionTags[];
   logs: any; // Not used yet
   details: {
-    transaction: ICeloTransactionDetails;
+    nonce: number;
+    gasLimit: number;
+    gasPrice: number;
+    gasUsed: number;
+    feeCurrency: string | null;
+    gatewayFeeRecipient: string | null;
+    gatewayFee: number;
+    to: string;
+    value: number;
+    raw: any;
   };
 }
 
@@ -161,7 +170,6 @@ const stringifyTags = (tag: ICeloTransactionTags) => {
   return {
     eventname: tag.eventname,
     source: tag.source,
-    prettyname: tag.prettyname,
     parameters: JSON.stringify(tag.parameters), // Return tags as JSON
   };
 };
@@ -185,11 +193,14 @@ const convertDelegations = (
  * Transform Celo transaction response data.
  */
 const formatCeloTransaction = (tx: CeloTransactionResponse) => {
-  return {
+  const { raw, ...details } = tx.details;
+  const result: ICeloTransaction = {
     ...tx,
-    details: tx.details.transaction,
+    details,
     tags: tx.tags.map(stringifyTags),
   };
+
+  return result;
 };
 
 /** ===========================================================================

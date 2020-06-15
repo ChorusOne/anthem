@@ -119,24 +119,19 @@ type CeloTransaction {
 type CeloTransactionTags {
   eventname: String!
   source: String!
-  prettyname: String!
   parameters: String!
 }
 
 type CeloTransactionDetails {
-  nonce: String!
-  gasPrice: String!
-  gas: String!
+  nonce: Float!
+  gasLimit: Float!
+  gasPrice: Float!
+  gasUsed: Float!
   feeCurrency: String
   gatewayFeeRecipient: String
-  gatewayFee: String
-  to: String
-  value: String!
-  input: String!
-  v: String!
-  r: String!
-  s: String!
-  hash: String!
+  gatewayFee: Float!
+  to: String!
+  value: Float!
 }
 
 type CeloSystemBalances {

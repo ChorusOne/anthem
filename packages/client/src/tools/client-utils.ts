@@ -5,7 +5,6 @@ import {
   IBalance,
   ICosmosAccountBalances,
   ICosmosTransaction,
-  IDelegation,
   IQuery,
   IUnbondingDelegationEntry,
   IValidator,
