@@ -201,6 +201,49 @@ export interface ICosmosAccountBalances {
   commissions: Maybe<IBalance[]>;
 }
 
+export interface ICosmosAccountHistory {
+   __typename?: "CosmosAccountHistory";
+  balanceHistory: ICosmosBalanceHistory[];
+  delegations: ICosmosDelegationHistory[];
+  unbondings: ICosmosDelegationHistory[];
+  delegatorRewards: ICosmosRewardHistory[];
+  validatorCommissions: ICosmosCommissionHistory[];
+  fiatPriceHistory: IFiatPrice[];
+}
+
+export interface ICosmosBalanceHistory {
+   __typename?: "CosmosBalanceHistory";
+  address: Scalars["String"];
+  denom: Scalars["String"];
+  balance: Scalars["String"];
+  height: Scalars["Int"];
+  timestamp: Scalars["String"];
+  chain: Scalars["String"];
+}
+
+export interface ICosmosCommissionHistory {
+   __typename?: "CosmosCommissionHistory";
+  balance: Scalars["String"];
+  height: Scalars["Int"];
+  validator: Scalars["String"];
+  timestamp: Scalars["String"];
+}
+
+export interface ICosmosDelegationHistory {
+   __typename?: "CosmosDelegationHistory";
+  balance: Scalars["String"];
+  address: Scalars["String"];
+  timestamp: Scalars["String"];
+}
+
+export interface ICosmosRewardHistory {
+   __typename?: "CosmosRewardHistory";
+  balance: Scalars["String"];
+  height: Scalars["Int"];
+  address: Scalars["String"];
+  timestamp: Scalars["String"];
+}
+
 export interface ICosmosTransaction {
    __typename?: "CosmosTransaction";
   hash: Scalars["String"];
@@ -517,49 +560,6 @@ export interface IOasisUnknownEvent {
   method_name: Scalars["String"];
 }
 
-export interface IPortfolioBalance {
-   __typename?: "PortfolioBalance";
-  address: Scalars["String"];
-  denom: Scalars["String"];
-  balance: Scalars["String"];
-  height: Scalars["Int"];
-  timestamp: Scalars["String"];
-  chain: Scalars["String"];
-}
-
-export interface IPortfolioCommission {
-   __typename?: "PortfolioCommission";
-  balance: Scalars["String"];
-  height: Scalars["Int"];
-  validator: Scalars["String"];
-  timestamp: Scalars["String"];
-}
-
-export interface IPortfolioData {
-   __typename?: "PortfolioData";
-  balanceHistory: IPortfolioBalance[];
-  delegations: IPortfolioDelegation[];
-  unbondings: IPortfolioDelegation[];
-  delegatorRewards: IPortfolioReward[];
-  validatorCommissions: IPortfolioCommission[];
-  fiatPriceHistory: IFiatPrice[];
-}
-
-export interface IPortfolioDelegation {
-   __typename?: "PortfolioDelegation";
-  balance: Scalars["String"];
-  address: Scalars["String"];
-  timestamp: Scalars["String"];
-}
-
-export interface IPortfolioReward {
-   __typename?: "PortfolioReward";
-  balance: Scalars["String"];
-  height: Scalars["Int"];
-  address: Scalars["String"];
-  timestamp: Scalars["String"];
-}
-
 export interface IPrice {
    __typename?: "Price";
   price: Scalars["Float"];
@@ -574,7 +574,7 @@ export interface IQuery {
    __typename?: "Query";
   /** Cosmos APIs */
   cosmosAccountBalances: ICosmosAccountBalances;
-  portfolioHistory: IPortfolioData;
+  cosmosAccountHistory: ICosmosAccountHistory;
   rewardsByValidator: IAvailableReward[];
   accountInformation: IAccountInformation;
   cosmosTransaction: ICosmosTransaction;
@@ -615,7 +615,7 @@ export interface IQueryCosmosAccountBalancesArgs {
   address: Scalars["String"];
 }
 
-export interface IQueryPortfolioHistoryArgs {
+export interface IQueryCosmosAccountHistoryArgs {
   address: Scalars["String"];
   fiat: Scalars["String"];
 }
@@ -1061,6 +1061,37 @@ export type ICosmosAccountBalancesQuery = (
   ) }
 );
 
+export interface ICosmosAccountHistoryQueryVariables {
+  address: Scalars["String"];
+  fiat: Scalars["String"];
+}
+
+export type ICosmosAccountHistoryQuery = (
+  { __typename?: "Query" }
+  & { cosmosAccountHistory: (
+    { __typename?: "CosmosAccountHistory" }
+    & { balanceHistory: Array<(
+      { __typename?: "CosmosBalanceHistory" }
+      & Pick<ICosmosBalanceHistory, "address" | "denom" | "balance" | "height" | "timestamp" | "chain">
+    )>, delegations: Array<(
+      { __typename?: "CosmosDelegationHistory" }
+      & Pick<ICosmosDelegationHistory, "balance" | "address" | "timestamp">
+    )>, unbondings: Array<(
+      { __typename?: "CosmosDelegationHistory" }
+      & Pick<ICosmosDelegationHistory, "balance" | "address" | "timestamp">
+    )>, delegatorRewards: Array<(
+      { __typename?: "CosmosRewardHistory" }
+      & Pick<ICosmosRewardHistory, "balance" | "height" | "address" | "timestamp">
+    )>, validatorCommissions: Array<(
+      { __typename?: "CosmosCommissionHistory" }
+      & Pick<ICosmosCommissionHistory, "balance" | "height" | "validator" | "timestamp">
+    )>, fiatPriceHistory: Array<(
+      { __typename?: "FiatPrice" }
+      & Pick<IFiatPrice, "price" | "timestamp">
+    )> }
+  ) }
+);
+
 export interface ICosmosTransactionQueryVariables {
   hash: Scalars["String"];
   network: Scalars["String"];
@@ -1499,37 +1530,6 @@ export type IOasisTransactionsQuery = (
         { __typename?: "OasisUnknownEvent" }
         & Pick<IOasisUnknownEvent, "type" | "method_name">
       ) }
-    )> }
-  ) }
-);
-
-export interface IPortfolioHistoryQueryVariables {
-  address: Scalars["String"];
-  fiat: Scalars["String"];
-}
-
-export type IPortfolioHistoryQuery = (
-  { __typename?: "Query" }
-  & { portfolioHistory: (
-    { __typename?: "PortfolioData" }
-    & { balanceHistory: Array<(
-      { __typename?: "PortfolioBalance" }
-      & Pick<IPortfolioBalance, "address" | "denom" | "balance" | "height" | "timestamp" | "chain">
-    )>, delegations: Array<(
-      { __typename?: "PortfolioDelegation" }
-      & Pick<IPortfolioDelegation, "balance" | "address" | "timestamp">
-    )>, unbondings: Array<(
-      { __typename?: "PortfolioDelegation" }
-      & Pick<IPortfolioDelegation, "balance" | "address" | "timestamp">
-    )>, delegatorRewards: Array<(
-      { __typename?: "PortfolioReward" }
-      & Pick<IPortfolioReward, "balance" | "height" | "address" | "timestamp">
-    )>, validatorCommissions: Array<(
-      { __typename?: "PortfolioCommission" }
-      & Pick<IPortfolioCommission, "balance" | "height" | "validator" | "timestamp">
-    )>, fiatPriceHistory: Array<(
-      { __typename?: "FiatPrice" }
-      & Pick<IFiatPrice, "price" | "timestamp">
     )> }
   ) }
 );
@@ -2237,6 +2237,90 @@ export function useCosmosAccountBalancesLazyQuery(baseOptions?: ApolloReactHooks
 export type CosmosAccountBalancesQueryHookResult = ReturnType<typeof useCosmosAccountBalancesQuery>;
 export type CosmosAccountBalancesLazyQueryHookResult = ReturnType<typeof useCosmosAccountBalancesLazyQuery>;
 export type CosmosAccountBalancesQueryResult = ApolloReactCommon.QueryResult<ICosmosAccountBalancesQuery, ICosmosAccountBalancesQueryVariables>;
+export const CosmosAccountHistoryDocument = gql`
+    query cosmosAccountHistory($address: String!, $fiat: String!) {
+  cosmosAccountHistory(address: $address, fiat: $fiat) {
+    balanceHistory {
+      address
+      denom
+      balance
+      height
+      timestamp
+      chain
+    }
+    delegations {
+      balance
+      address
+      timestamp
+    }
+    unbondings {
+      balance
+      address
+      timestamp
+    }
+    delegatorRewards {
+      balance
+      height
+      address
+      timestamp
+    }
+    validatorCommissions {
+      balance
+      height
+      validator
+      timestamp
+    }
+    fiatPriceHistory {
+      price
+      timestamp
+    }
+  }
+}
+    `;
+export type CosmosAccountHistoryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosAccountHistoryQuery, ICosmosAccountHistoryQueryVariables>, "query"> & ({ variables: ICosmosAccountHistoryQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+export const CosmosAccountHistoryComponent = (props: CosmosAccountHistoryComponentProps) => (
+      <ApolloReactComponents.Query<ICosmosAccountHistoryQuery, ICosmosAccountHistoryQueryVariables> query={CosmosAccountHistoryDocument} {...props} />
+    );
+
+export type ICosmosAccountHistoryProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosAccountHistoryQuery, ICosmosAccountHistoryQueryVariables> & TChildProps;
+export function withCosmosAccountHistory<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ICosmosAccountHistoryQuery,
+  ICosmosAccountHistoryQueryVariables,
+  ICosmosAccountHistoryProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, ICosmosAccountHistoryQuery, ICosmosAccountHistoryQueryVariables, ICosmosAccountHistoryProps<TChildProps>>(CosmosAccountHistoryDocument, {
+      alias: "cosmosAccountHistory",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useCosmosAccountHistoryQuery__
+ *
+ * To run a query within a React component, call `useCosmosAccountHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCosmosAccountHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCosmosAccountHistoryQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *      fiat: // value for 'fiat'
+ *   },
+ * });
+ */
+export function useCosmosAccountHistoryQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ICosmosAccountHistoryQuery, ICosmosAccountHistoryQueryVariables>) {
+        return ApolloReactHooks.useQuery<ICosmosAccountHistoryQuery, ICosmosAccountHistoryQueryVariables>(CosmosAccountHistoryDocument, baseOptions);
+      }
+export function useCosmosAccountHistoryLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ICosmosAccountHistoryQuery, ICosmosAccountHistoryQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ICosmosAccountHistoryQuery, ICosmosAccountHistoryQueryVariables>(CosmosAccountHistoryDocument, baseOptions);
+        }
+export type CosmosAccountHistoryQueryHookResult = ReturnType<typeof useCosmosAccountHistoryQuery>;
+export type CosmosAccountHistoryLazyQueryHookResult = ReturnType<typeof useCosmosAccountHistoryLazyQuery>;
+export type CosmosAccountHistoryQueryResult = ApolloReactCommon.QueryResult<ICosmosAccountHistoryQuery, ICosmosAccountHistoryQueryVariables>;
 export const CosmosTransactionDocument = gql`
     query cosmosTransaction($hash: String!, $network: String!) {
   cosmosTransaction(hash: $hash, network: $network) {
@@ -3451,90 +3535,6 @@ export function useOasisTransactionsLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type OasisTransactionsQueryHookResult = ReturnType<typeof useOasisTransactionsQuery>;
 export type OasisTransactionsLazyQueryHookResult = ReturnType<typeof useOasisTransactionsLazyQuery>;
 export type OasisTransactionsQueryResult = ApolloReactCommon.QueryResult<IOasisTransactionsQuery, IOasisTransactionsQueryVariables>;
-export const PortfolioHistoryDocument = gql`
-    query portfolioHistory($address: String!, $fiat: String!) {
-  portfolioHistory(address: $address, fiat: $fiat) {
-    balanceHistory {
-      address
-      denom
-      balance
-      height
-      timestamp
-      chain
-    }
-    delegations {
-      balance
-      address
-      timestamp
-    }
-    unbondings {
-      balance
-      address
-      timestamp
-    }
-    delegatorRewards {
-      balance
-      height
-      address
-      timestamp
-    }
-    validatorCommissions {
-      balance
-      height
-      validator
-      timestamp
-    }
-    fiatPriceHistory {
-      price
-      timestamp
-    }
-  }
-}
-    `;
-export type PortfolioHistoryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IPortfolioHistoryQuery, IPortfolioHistoryQueryVariables>, "query"> & ({ variables: IPortfolioHistoryQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-export const PortfolioHistoryComponent = (props: PortfolioHistoryComponentProps) => (
-      <ApolloReactComponents.Query<IPortfolioHistoryQuery, IPortfolioHistoryQueryVariables> query={PortfolioHistoryDocument} {...props} />
-    );
-
-export type IPortfolioHistoryProps<TChildProps = {}> = ApolloReactHoc.DataProps<IPortfolioHistoryQuery, IPortfolioHistoryQueryVariables> & TChildProps;
-export function withPortfolioHistory<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  IPortfolioHistoryQuery,
-  IPortfolioHistoryQueryVariables,
-  IPortfolioHistoryProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, IPortfolioHistoryQuery, IPortfolioHistoryQueryVariables, IPortfolioHistoryProps<TChildProps>>(PortfolioHistoryDocument, {
-      alias: "portfolioHistory",
-      ...operationOptions,
-    });
-}
-
-/**
- * __usePortfolioHistoryQuery__
- *
- * To run a query within a React component, call `usePortfolioHistoryQuery` and pass it any options that fit your needs.
- * When your component renders, `usePortfolioHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePortfolioHistoryQuery({
- *   variables: {
- *      address: // value for 'address'
- *      fiat: // value for 'fiat'
- *   },
- * });
- */
-export function usePortfolioHistoryQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<IPortfolioHistoryQuery, IPortfolioHistoryQueryVariables>) {
-        return ApolloReactHooks.useQuery<IPortfolioHistoryQuery, IPortfolioHistoryQueryVariables>(PortfolioHistoryDocument, baseOptions);
-      }
-export function usePortfolioHistoryLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<IPortfolioHistoryQuery, IPortfolioHistoryQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<IPortfolioHistoryQuery, IPortfolioHistoryQueryVariables>(PortfolioHistoryDocument, baseOptions);
-        }
-export type PortfolioHistoryQueryHookResult = ReturnType<typeof usePortfolioHistoryQuery>;
-export type PortfolioHistoryLazyQueryHookResult = ReturnType<typeof usePortfolioHistoryLazyQuery>;
-export type PortfolioHistoryQueryResult = ApolloReactCommon.QueryResult<IPortfolioHistoryQuery, IPortfolioHistoryQueryVariables>;
 export const PricesDocument = gql`
     query prices($currency: String!, $versus: String!) {
   prices(currency: $currency, versus: $versus) {

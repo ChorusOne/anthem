@@ -1,7 +1,7 @@
 type Query {
   # Cosmos APIs
   cosmosAccountBalances(address: String!): CosmosAccountBalances!
-  portfolioHistory(address: String!, fiat: String!): PortfolioData!
+  cosmosAccountHistory(address: String!, fiat: String!): CosmosAccountHistory!
 
   rewardsByValidator(address: String!): [AvailableReward!]!
   accountInformation(address: String!): AccountInformation!
@@ -327,27 +327,27 @@ type OasisUnknownEvent {
 # *****************************************************************************
 # Cosmos APIs
 
-type PortfolioReward {
+type CosmosRewardHistory {
   balance: String!
   height: Int!
   address: String!
   timestamp: String!
 }
 
-type PortfolioCommission {
+type CosmosCommissionHistory {
   balance: String!
   height: Int!
   validator: String!
   timestamp: String!
 }
 
-type PortfolioDelegation {
+type CosmosDelegationHistory {
   balance: String!
   address: String!
   timestamp: String!
 }
 
-type PortfolioBalance {
+type CosmosBalanceHistory {
   address: String!
   denom: String!
   balance: String!
@@ -361,12 +361,12 @@ type FiatPrice {
   timestamp: String!
 }
 
-type PortfolioData {
-  balanceHistory: [PortfolioBalance!]!
-  delegations: [PortfolioDelegation!]!
-  unbondings: [PortfolioDelegation!]!
-  delegatorRewards: [PortfolioReward!]!
-  validatorCommissions: [PortfolioCommission!]!
+type CosmosAccountHistory {
+  balanceHistory: [CosmosBalanceHistory!]!
+  delegations: [CosmosDelegationHistory!]!
+  unbondings: [CosmosDelegationHistory!]!
+  delegatorRewards: [CosmosRewardHistory!]!
+  validatorCommissions: [CosmosCommissionHistory!]!
   fiatPriceHistory: [FiatPrice!]!
 }
 

@@ -1,8 +1,8 @@
 import {
   ERRORS,
+  ICosmosBalanceHistory,
   ICosmosTransaction,
   IMsgDelegate,
-  IPortfolioBalance,
   ITxMsg,
   NetworkDefinition,
 } from "@anthem/utils";
@@ -158,8 +158,10 @@ export const toDateKey = (date: string) => {
 /**
  * Transform balances response capturing only the end of day values.
  */
-export const gatherEndOfDayBalanceValues = (balances: IPortfolioBalance[]) => {
-  const result: IPortfolioBalance[] = [];
+export const gatherEndOfDayBalanceValues = (
+  balances: ICosmosBalanceHistory[],
+) => {
+  const result: ICosmosBalanceHistory[] = [];
   const dates = new Set<string>();
 
   for (let i = balances.length - 1; i >= 0; i--) {

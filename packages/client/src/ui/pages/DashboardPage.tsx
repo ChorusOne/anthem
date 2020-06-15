@@ -14,9 +14,10 @@ import {
 import axios from "axios";
 import { COLORS } from "constants/colors";
 import {
-  PortfolioHistoryProps,
+  CosmosAccountHistoryProps,
+  CosmosAccountHistoryQueryResult,
+  withCosmosAccountHistory,
   withGraphQLVariables,
-  withPortfolioHistoryDataQuery,
 } from "graphql/queries";
 import { History } from "history";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
@@ -160,13 +161,13 @@ class DashboardPage extends React.Component<IProps> {
       history,
       settings,
       location,
-      portfolioHistory,
+      cosmosAccountHistory,
     } = this.props;
     const { tString } = i18n;
     const { pathname } = location;
 
     const commissionsLinkAvailable = shouldShowCommissionsLink(
-      portfolioHistory,
+      cosmosAccountHistory,
     );
 
     const AVAILABLE_TABS = CHART_TABS.filter(tab => {
@@ -443,13 +444,13 @@ const runAnalyticsForTab = (title: PORTFOLIO_CHART_TYPES): void => {
 };
 
 const shouldShowCommissionsLink = (
-  portfolioHistory: PortfolioHistoryProps["portfolioHistory"],
+  cosmosAccountHistory: CosmosAccountHistoryQueryResult,
 ) => {
   return (
-    portfolioHistory &&
-    portfolioHistory.portfolioHistory &&
-    portfolioHistory.portfolioHistory.validatorCommissions &&
-    portfolioHistory.portfolioHistory.validatorCommissions.length
+    cosmosAccountHistory &&
+    cosmosAccountHistory.cosmosAccountHistory &&
+    cosmosAccountHistory.cosmosAccountHistory.validatorCommissions &&
+    cosmosAccountHistory.cosmosAccountHistory.validatorCommissions.length
   );
 };
 
@@ -504,7 +505,7 @@ interface ComponentProps {}
 interface IProps
   extends ComponentProps,
     ConnectProps,
-    PortfolioHistoryProps,
+    CosmosAccountHistoryProps,
     RouteComponentProps {}
 
 /** ===========================================================================
@@ -516,5 +517,5 @@ export default composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
   withRouter,
-  withPortfolioHistoryDataQuery,
+  withCosmosAccountHistory,
 )(DashboardPage);

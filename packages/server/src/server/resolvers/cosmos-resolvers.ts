@@ -4,6 +4,7 @@ import {
   IAccountInformationQueryVariables,
   ICosmosAccountBalances,
   ICosmosAccountBalancesQueryVariables,
+  ICosmosAccountHistoryQueryVariables,
   ICosmosTransactionQueryVariables,
   ICosmosTransactionsQueryVariables,
   IDistributionCommunityPoolQueryVariables,
@@ -12,7 +13,6 @@ import {
   IGovernanceParametersVotingQueryVariables,
   IGovernanceProposalsQueryVariables,
   ILatestBlockQueryVariables,
-  IPortfolioHistoryQueryVariables,
   IQuery,
   IRewardsByValidatorQueryVariables,
   ISlashingParametersQueryVariables,
@@ -37,10 +37,10 @@ import EXCHANGE_DATA_API from "../sources/fiat-price-data";
  */
 
 const CosmosResolvers = {
-  portfolioHistory: async (
+  cosmosAccountHistory: async (
     _: void,
-    args: IPortfolioHistoryQueryVariables,
-  ): Promise<IQuery["portfolioHistory"]> => {
+    args: ICosmosAccountHistoryQueryVariables,
+  ): Promise<IQuery["cosmosAccountHistory"]> => {
     const { address, fiat } = args;
     const network = deriveNetworkFromAddress(address);
 

@@ -6,6 +6,7 @@ import {
   CeloTransactionsDocument,
   CeloValidatorGroupsDocument,
   CosmosAccountBalancesDocument,
+  CosmosAccountHistoryDocument,
   CosmosTransactionsDocument,
   DailyPercentChangeDocument,
   FiatCurrenciesDocument,
@@ -14,7 +15,6 @@ import {
   OasisAccountBalancesDocument,
   OasisAccountHistoryDocument,
   OasisTransactionsDocument,
-  PortfolioHistoryDocument,
   PricesDocument,
   RewardsByValidatorDocument,
   StakingPoolDocument,
@@ -190,17 +190,17 @@ export const withRewardsByValidatorQuery = graphql(RewardsByValidatorDocument, {
  * ============================================================================
  */
 
-export interface PortfolioHistoryQueryResult extends QueryResult {
+export interface CosmosAccountHistoryQueryResult extends QueryResult {
   data: void;
-  portfolioHistory: IQuery["portfolioHistory"];
+  cosmosAccountHistory: IQuery["cosmosAccountHistory"];
 }
 
-export interface PortfolioHistoryProps {
-  portfolioHistory: PortfolioHistoryQueryResult;
+export interface CosmosAccountHistoryProps {
+  cosmosAccountHistory: CosmosAccountHistoryQueryResult;
 }
 
-export const withPortfolioHistoryDataQuery = graphql(PortfolioHistoryDocument, {
-  name: "portfolioHistory",
+export const withCosmosAccountHistory = graphql(CosmosAccountHistoryDocument, {
+  name: "cosmosAccountHistory",
   ...slowPollingConfig(["address", "fiat"]),
 });
 

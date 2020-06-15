@@ -1,9 +1,9 @@
 import {
   assertUnreachable,
   getValidatorAddressFromDelegatorAddress,
-  IPortfolioBalance,
-  IPortfolioCommission,
-  IPortfolioReward,
+  ICosmosBalanceHistory,
+  ICosmosCommissionHistory,
+  ICosmosRewardHistory,
   IQuery,
   NETWORK_NAME,
   NetworkDefinition,
@@ -152,7 +152,7 @@ const getUnbondingsQuery = () => (variables: SQLVariables): string => {
 const getPortfolioBalanceHistory = async (request: {
   address: string;
   network: NetworkDefinition;
-}): Promise<IPortfolioBalance[]> => {
+}): Promise<ICosmosBalanceHistory[]> => {
   const { address, network } = request;
   const variables = { address };
   const balanceQuery = getBalanceQueryForAddress();
@@ -164,7 +164,7 @@ const getPortfolioBalanceHistory = async (request: {
 const getPortfolioDelegatorRewards = async (request: {
   address: string;
   network: NetworkDefinition;
-}): Promise<IPortfolioReward[]> => {
+}): Promise<ICosmosRewardHistory[]> => {
   const { address, network } = request;
   const variables = { address };
   const rewardsQuery = getRewardsQueryForDelegator();
@@ -200,7 +200,7 @@ const getPortfolioUnbondings = async (request: {
 const getPortfolioValidatorRewards = async (request: {
   address: string;
   network: NetworkDefinition;
-}): Promise<IPortfolioCommission[]> => {
+}): Promise<ICosmosCommissionHistory[]> => {
   const { address, network } = request;
   const validatorAddress = getValidatorAddressFromDelegatorAddress(
     address,

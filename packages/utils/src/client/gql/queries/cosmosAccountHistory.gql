@@ -1,5 +1,5 @@
-query portfolioHistory($address: String!, $fiat: String!){
-    portfolioHistory(address: $address, fiat: $fiat){
+query cosmosAccountHistory($address: String!, $fiat: String!){
+    cosmosAccountHistory(address: $address, fiat: $fiat){
         balanceHistory{
             address
             denom
