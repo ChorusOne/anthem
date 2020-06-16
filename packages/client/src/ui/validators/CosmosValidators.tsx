@@ -88,12 +88,12 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
       i18n,
       prices,
       network,
-      stakingPool,
       cosmosValidators,
+      cosmosStakingPool,
       sortListAscending,
       validatorSortField,
-      rewardsByValidator,
       cosmosAccountBalances,
+      cosmosRewardsByValidator,
     } = this.props;
 
     // Render a fallback message if network does not support validators list UI
@@ -115,10 +115,10 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
           tString={i18n.tString}
           results={[
             [cosmosValidators, "cosmosValidators"],
-            [stakingPool, "cosmosStakingPool"],
+            [cosmosStakingPool, "cosmosStakingPool"],
             [cosmosAccountBalances, "cosmosAccountBalances"],
             [prices, "prices"],
-            [rewardsByValidator, "cosmosRewardsByValidator"],
+            [cosmosRewardsByValidator, "cosmosRewardsByValidator"],
           ]}
         >
           {([

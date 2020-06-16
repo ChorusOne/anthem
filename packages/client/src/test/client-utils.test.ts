@@ -27,11 +27,11 @@ import {
   wait,
 } from "tools/client-utils";
 import cosmosAccountBalances from "../../../utils/src/client/data/cosmosAccountBalances.json";
+import { cosmosRewardsByValidator } from "../../../utils/src/client/data/cosmosRewardsByValidator.json";
 import { cosmosTransactions } from "../../../utils/src/client/data/cosmosTransactions.json";
+import { cosmosValidators } from "../../../utils/src/client/data/cosmosValidators.json";
 import { fiatPriceHistory } from "../../../utils/src/client/data/fiatPriceHistory.json";
 import prices from "../../../utils/src/client/data/prices.json";
-import { rewardsByValidator } from "../../../utils/src/client/data/rewardsByValidator.json";
-import { validators } from "../../../utils/src/client/data/validators.json";
 
 describe("utils", () => {
   test("abbreviateAddress", () => {
@@ -57,7 +57,7 @@ describe("utils", () => {
   });
 
   test("formatValidatorsList", () => {
-    const result = sortValidatorsChorusOnTop(validators);
+    const result = sortValidatorsChorusOnTop(cosmosValidators);
     expect(result[0].description.moniker).toBe("Chorus One");
   });
 
@@ -117,7 +117,7 @@ describe("utils", () => {
 
   test("getValidatorOperatorAddressMap", () => {
     const result = getValidatorOperatorAddressMap<ICosmosValidator>(
-      validators,
+      cosmosValidators,
       v => v.operator_address,
     );
     for (const [key, value] of Object.entries(result)) {
@@ -127,7 +127,7 @@ describe("utils", () => {
 
   test("getValidatorNameFromAddress", () => {
     const validatorMap = getValidatorOperatorAddressMap<ICosmosValidator>(
-      validators,
+      cosmosValidators,
       v => v.operator_address,
     );
     const result = getValidatorNameFromAddress(
@@ -155,7 +155,7 @@ describe("utils", () => {
 
   test("mapRewardsToAvailableRewards", () => {
     const result = mapRewardsToAvailableRewards(
-      rewardsByValidator,
+      cosmosRewardsByValidator,
       NETWORKS.COSMOS,
     );
     for (const reward of result) {

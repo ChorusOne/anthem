@@ -107,29 +107,7 @@ const noPollingConfig = (variableKeys?: ReadonlyArray<VariablesKeys>) => {
 };
 
 /** ===========================================================================
- * Account Balances
- * ============================================================================
- */
-
-interface AccountBalancesQueryResult extends QueryResult {
-  data: void;
-  cosmosAccountBalances: IQuery["cosmosAccountBalances"];
-}
-
-export interface CosmosAccountBalancesProps {
-  cosmosAccountBalances: AccountBalancesQueryResult;
-}
-
-export const withCosmosAccountBalances = graphql(
-  CosmosAccountBalancesDocument,
-  {
-    name: "cosmosAccountBalances",
-    ...fastPollingConfig(["address"]),
-  },
-);
-
-/** ===========================================================================
- * AtomPriceData
+ * Fiat Prices
  * ============================================================================
  */
 
@@ -164,47 +142,6 @@ export interface DailyPercentChangeProps {
 export const withDailyPercentChange = graphql(DailyPercentChangeDocument, {
   name: "dailyPercentChange",
   ...fastPollingConfig(["currency", "fiat"]),
-});
-
-/** ===========================================================================
- * RewardsByValidator
- * ============================================================================
- */
-
-interface RewardsByValidatorQueryResult extends QueryResult {
-  data: void;
-  rewardsByValidator: IQuery["cosmosRewardsByValidator"];
-}
-
-export interface RewardsByValidatorProps {
-  rewardsByValidator: RewardsByValidatorQueryResult;
-}
-
-export const withRewardsByValidatorQuery = graphql(
-  CosmosRewardsByValidatorDocument,
-  {
-    name: "rewardsByValidator",
-    ...slowPollingConfig(["address"]),
-  },
-);
-
-/** ===========================================================================
- * Portfolio History
- * ============================================================================
- */
-
-export interface CosmosAccountHistoryQueryResult extends QueryResult {
-  data: void;
-  cosmosAccountHistory: IQuery["cosmosAccountHistory"];
-}
-
-export interface CosmosAccountHistoryProps {
-  cosmosAccountHistory: CosmosAccountHistoryQueryResult;
-}
-
-export const withCosmosAccountHistory = graphql(CosmosAccountHistoryDocument, {
-  name: "cosmosAccountHistory",
-  ...slowPollingConfig(["address", "fiat"]),
 });
 
 /** ===========================================================================
@@ -246,23 +183,86 @@ export const withFiatCurrencies = graphql(FiatCurrenciesDocument, {
 });
 
 /** ===========================================================================
+ * Account Balances
+ * ============================================================================
+ */
+
+interface AccountBalancesQueryResult extends QueryResult {
+  data: void;
+  cosmosAccountBalances: IQuery["cosmosAccountBalances"];
+}
+
+export interface CosmosAccountBalancesProps {
+  cosmosAccountBalances: AccountBalancesQueryResult;
+}
+
+export const withCosmosAccountBalances = graphql(
+  CosmosAccountBalancesDocument,
+  {
+    name: "cosmosAccountBalances",
+    ...fastPollingConfig(["address"]),
+  },
+);
+
+/** ===========================================================================
+ * RewardsByValidator
+ * ============================================================================
+ */
+
+interface RewardsByValidatorQueryResult extends QueryResult {
+  data: void;
+  cosmosRewardsByValidator: IQuery["cosmosRewardsByValidator"];
+}
+
+export interface RewardsByValidatorProps {
+  cosmosRewardsByValidator: RewardsByValidatorQueryResult;
+}
+
+export const withRewardsByValidatorQuery = graphql(
+  CosmosRewardsByValidatorDocument,
+  {
+    name: "cosmosRewardsByValidator",
+    ...slowPollingConfig(["address"]),
+  },
+);
+
+/** ===========================================================================
+ * Account History
+ * ============================================================================
+ */
+
+export interface CosmosAccountHistoryQueryResult extends QueryResult {
+  data: void;
+  cosmosAccountHistory: IQuery["cosmosAccountHistory"];
+}
+
+export interface CosmosAccountHistoryProps {
+  cosmosAccountHistory: CosmosAccountHistoryQueryResult;
+}
+
+export const withCosmosAccountHistory = graphql(CosmosAccountHistoryDocument, {
+  name: "cosmosAccountHistory",
+  ...slowPollingConfig(["address", "fiat"]),
+});
+
+/** ===========================================================================
  * AccountInformation
  * ============================================================================
  */
 
 interface AccountInformationQueryResult extends QueryResult {
   data: void;
-  accountInformation: IQuery["cosmosAccountInformation"];
+  cosmosAccountInformation: IQuery["cosmosAccountInformation"];
 }
 
 export interface AccountInformationProps {
-  accountInformation: AccountInformationQueryResult;
+  cosmosAccountInformation: AccountInformationQueryResult;
 }
 
 export const withAccountInformation = graphql(
   CosmosAccountInformationDocument,
   {
-    name: "accountInformation",
+    name: "cosmosAccountInformation",
     ...slowPollingConfig(["address"]),
   },
 );
@@ -312,15 +312,15 @@ export const withValidators = graphql(CosmosValidatorsDocument, {
 
 interface StakingPoolQueryResult extends QueryResult {
   data: void;
-  stakingPool: IQuery["cosmosStakingPool"];
+  cosmosStakingPool: IQuery["cosmosStakingPool"];
 }
 
 export interface StakingPoolProps {
-  stakingPool: StakingPoolQueryResult;
+  cosmosStakingPool: StakingPoolQueryResult;
 }
 
 export const withStakingPool = graphql(CosmosStakingPoolDocument, {
-  name: "stakingPool",
+  name: "cosmosStakingPool",
   ...noPollingConfig(["network"]),
 });
 

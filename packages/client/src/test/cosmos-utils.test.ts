@@ -6,8 +6,8 @@ import {
   createRewardsClaimTransaction,
   createTransactionRequestMetadata,
 } from "tools/cosmos-utils";
-import { accountInformation } from "../../../utils/src/client/data/accountInformation.json";
-import { rewardsByValidator } from "../../../utils/src/client/data/rewardsByValidator.json";
+import { cosmosAccountInformation } from "../../../utils/src/client/data/cosmosAccountInformation.json";
+import { cosmosRewardsByValidator } from "../../../utils/src/client/data/cosmosRewardsByValidator.json";
 
 describe("cosmos-utils", () => {
   test("createDelegationTransactionMessage", () => {
@@ -35,7 +35,7 @@ describe("cosmos-utils", () => {
       gasPrice: "150000",
       denom: "uatom",
       // @ts-ignore
-      selectedRewards: rewardsByValidator,
+      selectedRewards: cosmosRewardsByValidator,
     });
 
     expect(result).toMatchSnapshot();
@@ -46,7 +46,7 @@ describe("cosmos-utils", () => {
       address: "cosmos1yeygh0y8rfyufdczhzytcl3pehsnxv9d3wsnlg",
       gasAmount: "1500",
       gasPrice: "150000",
-      account: accountInformation,
+      account: cosmosAccountInformation,
       network: NETWORKS.COSMOS,
     });
 

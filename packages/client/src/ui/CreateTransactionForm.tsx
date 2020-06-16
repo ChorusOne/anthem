@@ -282,7 +282,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       ledger,
       fiatCurrency,
       cosmosValidators,
-      rewardsByValidator,
+      cosmosRewardsByValidator,
       cosmosAccountBalances,
     } = this.props;
     const { t, tString } = i18n;
@@ -295,7 +295,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         results={[
           [cosmosAccountBalances, "cosmosAccountBalances"],
           [cosmosValidators, "validators"],
-          [rewardsByValidator, "rewardsByValidator"],
+          [cosmosRewardsByValidator, "cosmosRewardsByValidator"],
         ]}
       >
         {([accountBalancesData, validatorsList, rewardsData]: readonly [
@@ -981,7 +981,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
   getSendTransaction = () => {
     const { amount, gasAmount, gasPrice, recipientAddress } = this.state;
-    const { accountInformation } = this.props;
+    const { cosmosAccountInformation } = this.props;
     const { network, address } = this.props.ledger;
     const { denom } = network;
 
@@ -991,7 +991,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       });
     }
 
-    if (recipientAddress && accountInformation.accountInformation) {
+    if (recipientAddress && cosmosAccountInformation.cosmosAccountInformation) {
       const txMsg = createSendTransactionMessage({
         denom,
         amount,
@@ -1002,7 +1002,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         recipient: recipientAddress,
       });
 
-      const account = accountInformation.accountInformation as ICosmosAccountInformation;
+      const account = cosmosAccountInformation.cosmosAccountInformation as ICosmosAccountInformation;
 
       const txRequestMetadata = createTransactionRequestMetadata({
         address,
@@ -1027,7 +1027,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
   getDelegationTransaction = () => {
     const { amount, gasAmount, gasPrice } = this.state;
-    const { accountInformation, transaction } = this.props;
+    const { cosmosAccountInformation, transaction } = this.props;
     const { selectedValidatorForDelegation } = transaction;
     const { network, address } = this.props.ledger;
     const { denom } = network;
@@ -1041,7 +1041,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
     if (
       selectedValidatorForDelegation &&
-      accountInformation.accountInformation
+      cosmosAccountInformation.cosmosAccountInformation
     ) {
       const txMsg = createDelegationTransactionMessage({
         denom,
@@ -1054,7 +1054,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           selectedValidatorForDelegation.operator_address,
       });
 
-      const account = accountInformation.accountInformation as ICosmosAccountInformation;
+      const account = cosmosAccountInformation.cosmosAccountInformation as ICosmosAccountInformation;
 
       const txRequestMetadata = createTransactionRequestMetadata({
         address,
@@ -1079,7 +1079,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
   getRewardsClaimTransaction = () => {
     const { gasAmount, gasPrice, selectedRewards } = this.state;
-    const { accountInformation } = this.props;
+    const { cosmosAccountInformation } = this.props;
     const { network, address } = this.props.ledger;
     const { denom } = network;
 
@@ -1088,8 +1088,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         claimsTransactionSetupError:
           "Please select at least one validator to withdraw rewards from.",
       });
-    } else if (accountInformation.accountInformation) {
-      const account = accountInformation.accountInformation as ICosmosAccountInformation;
+    } else if (cosmosAccountInformation.cosmosAccountInformation) {
+      const account = cosmosAccountInformation.cosmosAccountInformation as ICosmosAccountInformation;
 
       const txMsg = createRewardsClaimTransaction({
         denom,
