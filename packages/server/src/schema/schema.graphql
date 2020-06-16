@@ -7,29 +7,30 @@ type Query {
     address: String!
     startingPage: Float
     pageSize: Float
-  ): TransactionsPaginationResult!
-
-  # TODO: Prefix with cosmos-
-  rewardsByValidator(address: String!): [AvailableReward!]!
-  accountInformation(address: String!): AccountInformation!
-  validatorDistribution(validatorAddress: String!): ValidatorDistribution!
-  validators(network: String!): [Validator!]!
-  validatorSets(network: String!): ValidatorSet!
-  latestBlock(network: String!): BlockData!
-  stakingPool(network: String!): StakingPool!
-  stakingParameters(network: String!): StakingParameters!
-  governanceProposals(network: String!): [GovernanceProposal!]!
-  governanceParametersDeposit(network: String!): GovernanceParametersDeposit!
-  governanceParametersTallying(network: String!): GovernanceParametersTallying!
-  governanceParametersVoting(network: String!): GovernanceParametersVoting!
-  slashingParameters(network: String!): SlashingParameters!
-  distributionCommunityPool(network: String!): [Balance!]!
-  distributionParameters(network: String!): DistributionParameters!
-
-  fiatCurrencies: [FiatCurrency!]!
-  fiatPriceHistory(fiat: String!, network: String!): [FiatPrice!]!
-  dailyPercentChange(currency: String!, fiat: String!): String!
-  prices(currency: String!, versus: String!): Price!
+  ): CosmosTransactionResult!
+  comsosRewardsByValidator(address: String!): [AvailableReward!]!
+  comsosAccountInformation(address: String!): CosmosAccountInformation!
+  comsosValidatorDistribution(
+    validatorAddress: String!
+  ): CosmosValidatorDistribution!
+  comsosValidators(network: String!): [CosmosValidator!]!
+  comsosValidatorSets(network: String!): CosmosValidatorSet!
+  comsosLatestBlock(network: String!): CosmosBlockData!
+  comsosStakingPool(network: String!): CosmosStakingPool!
+  comsosStakingParameters(network: String!): CosmosStakingParameters!
+  comsosGovernanceProposals(network: String!): [CosmosGovernanceProposal!]!
+  comsosGovernanceParametersDeposit(
+    network: String!
+  ): CosmosGovernanceParametersDeposit!
+  comsosGovernanceParametersTallying(
+    network: String!
+  ): CosmosGovernanceParametersTallying!
+  comsosGovernanceParametersVoting(
+    network: String!
+  ): CosmosGovernanceParametersVoting!
+  comsosSlashingParameters(network: String!): CosmosSlashingParameters!
+  comsosDistributionCommunityPool(network: String!): [CosmosBalance!]!
+  comsosDistributionParameters(network: String!): CosmosDistributionParameters!
 
   # Oasis APIs
   oasisAccountBalances(address: String!): OasisAccountBalances!
@@ -53,6 +54,12 @@ type Query {
   celoSystemBalances: CeloSystemBalances!
   celoSystemHistory: [CeloSystemHistory!]!
   celoValidatorGroups: [CeloValidatorGroup!]!
+
+  # Fiat price APIs
+  fiatCurrencies: [FiatCurrency!]!
+  fiatPriceHistory(fiat: String!, network: String!): [FiatPrice!]!
+  dailyPercentChange(currency: String!, fiat: String!): String!
+  prices(currency: String!, versus: String!): Price!
 }
 
 # *****************************************************************************
@@ -372,19 +379,19 @@ type CosmosAccountHistory {
 }
 
 type AvailableReward {
-  reward: [Balance!]
+  reward: [CosmosBalance!]
   validator_address: String!
 }
 
 type CosmosAccountBalances {
-  balance: [Balance!]
-  rewards: [Balance!]
+  balance: [CosmosBalance!]
+  rewards: [CosmosBalance!]
   delegations: [Delegation!]
   unbonding: [UnbondingDelegation!]
-  commissions: [Balance!]
+  commissions: [CosmosBalance!]
 }
 
-type Balance {
+type CosmosBalance {
   denom: String!
   amount: String!
 }
@@ -408,7 +415,7 @@ type UnbondingDelegationEntry {
   completion_time: String!
 }
 
-type AccountInformation {
+type CosmosAccountInformation {
   type: String!
   value: Account!
 }
@@ -426,7 +433,7 @@ type AccountCoin {
   amount: String!
 }
 
-type TransactionsPaginationResult {
+type CosmosTransactionResult {
   page: Float!
   limit: Float!
   data: [CosmosTransaction!]!
@@ -473,7 +480,7 @@ type TxValue {
 }
 
 type TxFee {
-  amount: [Balance!]
+  amount: [CosmosBalance!]
   gas: String!
 }
 
@@ -495,13 +502,13 @@ union TxMsgValue =
   | MsgWithdrawValidatorCommission
 
 type MsgSend {
-  amounts: [Balance!]
+  amounts: [CosmosBalance!]
   to_address: String
   from_address: String
 }
 
 type MsgDelegate {
-  amount: Balance!
+  amount: CosmosBalance!
   delegator_address: String
   validator_address: String
 }
@@ -511,11 +518,11 @@ type MsgSubmitProposal {
   description: String!
   proposal_type: String!
   proposer: String!
-  initial_deposit: [Balance!]
+  initial_deposit: [CosmosBalance!]
 }
 
 type MsgBeginRedelegate {
-  amount: Balance!
+  amount: CosmosBalance!
   delegator_address: String
   validator_src_address: String!
   validator_dst_address: String!
@@ -555,26 +562,15 @@ type TxSignature {
 
 type PubKey {
   type: String!
-  # value: String!
 }
 
-# NOTE: The PubKey `value` is a union type but union types options
-# must be object values:
-
-# union PubKeyValue = String | PubKeyList
-
-# type PubKeyList {
-#   threshold: String!
-#   pubkeys: [PubKey!]
-# }
-
-type ValidatorDistribution {
+type CosmosValidatorDistribution {
   operator_address: String!
-  self_bond_rewards: [Balance!]
-  val_commission: [Balance!]
+  self_bond_rewards: [CosmosBalance!]
+  val_commission: [CosmosBalance!]
 }
 
-type Validator {
+type CosmosValidator {
   operator_address: String!
   consensus_pubkey: String!
   jailed: Boolean!
@@ -606,7 +602,7 @@ type CommissionRates {
   max_change_rate: String!
 }
 
-type ValidatorSet {
+type CosmosValidatorSet {
   block_height: Int!
   validators: [ValidatorSetItem!]
 }
@@ -618,7 +614,7 @@ type ValidatorSetItem {
   proposer_priority: String!
 }
 
-type BlockData {
+type CosmosBlockData {
   block: Block!
 }
 
@@ -643,7 +639,7 @@ type BlockHeader {
   proposer_address: String!
 }
 
-type StakingPool {
+type CosmosStakingPool {
   loose_tokens: String
   bonded_tokens: String
   not_bonded_tokens: String
@@ -653,7 +649,7 @@ type StakingPool {
   prev_bonded_shares: String
 }
 
-type StakingParameters {
+type CosmosStakingParameters {
   inflation_rate_change: String
   inflation_max: String
   inflation_min: String
@@ -664,7 +660,7 @@ type StakingParameters {
   bond_denom: String!
 }
 
-type GovernanceProposal {
+type CosmosGovernanceProposal {
   proposal_id: Int
   title: String
   description: String
@@ -672,7 +668,7 @@ type GovernanceProposal {
   proposal_status: String!
   final_tally_result: TallyResult!
   submit_time: String!
-  total_deposit: [Balance!]
+  total_deposit: [CosmosBalance!]
   voting_start_time: String!
 }
 
@@ -683,22 +679,22 @@ type TallyResult {
   no_with_veto: String!
 }
 
-type GovernanceParametersDeposit {
-  min_deposit: [Balance!]
+type CosmosGovernanceParametersDeposit {
+  min_deposit: [CosmosBalance!]
   max_deposit_period: String!
 }
 
-type GovernanceParametersTallying {
+type CosmosGovernanceParametersTallying {
   threshold: String!
   veto: String!
   governance_penalty: String
 }
 
-type GovernanceParametersVoting {
+type CosmosGovernanceParametersVoting {
   voting_period: String!
 }
 
-type SlashingParameters {
+type CosmosSlashingParameters {
   max_evidence_age: String!
   signed_blocks_window: String!
   min_signed_per_window: String!
@@ -708,7 +704,7 @@ type SlashingParameters {
   slash_fraction_downtime: String!
 }
 
-type DistributionParameters {
+type CosmosDistributionParameters {
   base_proposer_reward: String!
   bonus_proposer_reward: String!
   community_tax: String!
