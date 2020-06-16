@@ -1,4 +1,4 @@
-import { ICosmosTransaction, IValidator } from "@anthem/utils";
+import { ICosmosTransaction, ICosmosValidator } from "@anthem/utils";
 import { H5 } from "@blueprintjs/core";
 import React from "react";
 import {
@@ -33,7 +33,7 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
       props.fiatPriceHistory.fiatPriceHistory,
     );
 
-    const addressMap = getValidatorOperatorAddressMap<IValidator>(
+    const addressMap = getValidatorOperatorAddressMap<ICosmosValidator>(
       props.validators.validators,
       v => v.operator_address,
     );

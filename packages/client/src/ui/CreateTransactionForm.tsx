@@ -1,9 +1,9 @@
 import {
   assertUnreachable,
-  IAccountInformation,
   ICosmosAccountBalances,
+  ICosmosAccountInformation,
+  ICosmosValidator,
   IQuery,
-  IValidator,
 } from "@anthem/utils";
 import {
   Checkbox,
@@ -112,7 +112,7 @@ interface IState {
 const DEFAULT_GAS_PRICE = "0.01";
 const DEFAULT_GAS_AMOUNT = "250000";
 
-const ValidatorSelect = Select.ofType<IValidator>();
+const ValidatorSelect = Select.ofType<ICosmosValidator>();
 
 /** ===========================================================================
  * React Component
@@ -300,8 +300,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       >
         {([accountBalancesData, validatorsList, rewardsData]: readonly [
           ICosmosAccountBalances,
-          IQuery["validators"],
-          IQuery["rewardsByValidator"],
+          IQuery["cosmosValidators"],
+          IQuery["cosmosRewardsByValidator"],
         ]) => {
           const balances = getAccountBalances(
             accountBalancesData,
@@ -560,7 +560,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     );
   };
 
-  setValidatorSelectItemPredicate = (query: string, validator: IValidator) => {
+  setValidatorSelectItemPredicate = (
+    query: string,
+    validator: ICosmosValidator,
+  ) => {
     const validatorName = validator.description.moniker;
     const normalizedName = validatorName.toLowerCase();
     const normalizedQuery = query.toLowerCase();
@@ -568,7 +571,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   renderValidatorSelectItem = (
-    validator: IValidator,
+    validator: ICosmosValidator,
     { handleClick, modifiers }: IItemRendererProps,
   ) => {
     return (
@@ -582,7 +585,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     );
   };
 
-  handleSelectValidator = (validator: IValidator) => {
+  handleSelectValidator = (validator: ICosmosValidator) => {
     this.setState(
       {
         claimsTransactionSetupError: "",
@@ -997,7 +1000,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         recipient: recipientAddress,
       });
 
-      const account = accountInformation.accountInformation as IAccountInformation;
+      const account = accountInformation.accountInformation as ICosmosAccountInformation;
 
       const txRequestMetadata = createTransactionRequestMetadata({
         address,
@@ -1049,7 +1052,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           selectedValidatorForDelegation.operator_address,
       });
 
-      const account = accountInformation.accountInformation as IAccountInformation;
+      const account = accountInformation.accountInformation as ICosmosAccountInformation;
 
       const txRequestMetadata = createTransactionRequestMetadata({
         address,
@@ -1084,7 +1087,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           "Please select at least one validator to withdraw rewards from.",
       });
     } else if (accountInformation.accountInformation) {
-      const account = accountInformation.accountInformation as IAccountInformation;
+      const account = accountInformation.accountInformation as ICosmosAccountInformation;
 
       const txMsg = createRewardsClaimTransaction({
         denom,

@@ -2,12 +2,12 @@ import {
   assertUnreachable,
   COIN_DENOMS,
   getValidatorAddressFromDelegatorAddress,
-  IBalance,
   ICosmosAccountBalances,
+  ICosmosBalance,
   ICosmosTransaction,
+  ICosmosValidator,
   IQuery,
   IUnbondingDelegationEntry,
-  IValidator,
   NETWORK_NAME,
   NetworkDefinition,
   RequestFailure,
@@ -160,12 +160,12 @@ export const getBlockExplorerUrlForTransaction = (
 };
 
 /**
- * Find a denom `IBalance` in a list of balances. The denom may not exist.
+ * Find a denom `ICosmosBalance` in a list of balances. The denom may not exist.
  */
 const findDenomsInList = (
   denom: COIN_DENOMS,
-  list: Maybe<IBalance[]>,
-): Nullable<IBalance[]> => {
+  list: Maybe<ICosmosBalance[]>,
+): Nullable<ICosmosBalance[]> => {
   if (!list) {
     return null;
   }
@@ -559,7 +559,7 @@ export const getPriceFromTransactionTimestamp = (
 };
 
 export interface ValidatorOperatorAddressMap {
-  [key: string]: IValidator;
+  [key: string]: ICosmosValidator;
 }
 
 /**
@@ -586,7 +586,7 @@ export const getValidatorNameFromAddress = (
   validatorOperatorAddressMap: ValidatorOperatorAddressMap,
   address: string,
   networkName: NETWORK_NAME,
-): Nullable<IValidator> => {
+): Nullable<ICosmosValidator> => {
   const validatorAddress = getValidatorAddressFromDelegatorAddress(
     address,
     networkName,
@@ -624,8 +624,8 @@ const isChorusOne = (moniker: string) => moniker === "Chorus One";
  * to the rest of the list.
  */
 export const sortValidatorsChorusOnTop = (
-  validators: ReadonlyArray<IValidator>,
-): IValidator[] => {
+  validators: ReadonlyArray<ICosmosValidator>,
+): ICosmosValidator[] => {
   if (!validators) {
     return [];
   }
@@ -648,7 +648,7 @@ export const sortValidatorsChorusOnTop = (
  * Handle sorting the validators list by different parameters.
  */
 export const sortValidatorsList = (
-  validators: IValidator[],
+  validators: ICosmosValidator[],
   sortField: VALIDATORS_LIST_SORT_FILTER,
   sortAscending: boolean,
   totalStake: string,
@@ -703,7 +703,7 @@ export const capitalizeString = (input: string): string => {
  * Get all the rewards which are available for withdrawal for a user.
  */
 export const mapRewardsToAvailableRewards = (
-  rewardsData: IQuery["rewardsByValidator"],
+  rewardsData: IQuery["cosmosRewardsByValidator"],
   network: NetworkDefinition,
 ) => {
   /**
@@ -852,7 +852,7 @@ export const getPercentageFromTotal = (staked: string, totalStake: string) => {
 interface Stake {
   percentage: string;
   rewards: string;
-  validator: IValidator;
+  validator: ICosmosValidator;
 }
 
 interface StakingInformation {
@@ -865,8 +865,8 @@ interface StakingInformation {
  * to get additional validator metadata.
  */
 export const deriveCurrentDelegationsInformation = (
-  validatorRewards: IQuery["rewardsByValidator"],
-  validators: IValidator[],
+  validatorRewards: IQuery["cosmosRewardsByValidator"],
+  validators: ICosmosValidator[],
   network: NetworkDefinition,
 ): StakingInformation => {
   const delegationsData = [];

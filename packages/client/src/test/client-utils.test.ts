@@ -1,4 +1,4 @@
-import { IValidator, NETWORKS } from "@anthem/utils";
+import { ICosmosValidator, NETWORKS } from "@anthem/utils";
 import { ApolloError } from "apollo-client";
 import {
   abbreviateAddress,
@@ -116,7 +116,7 @@ describe("utils", () => {
   });
 
   test("getValidatorOperatorAddressMap", () => {
-    const result = getValidatorOperatorAddressMap<IValidator>(
+    const result = getValidatorOperatorAddressMap<ICosmosValidator>(
       validators,
       v => v.operator_address,
     );
@@ -126,7 +126,7 @@ describe("utils", () => {
   });
 
   test("getValidatorNameFromAddress", () => {
-    const validatorMap = getValidatorOperatorAddressMap<IValidator>(
+    const validatorMap = getValidatorOperatorAddressMap<ICosmosValidator>(
       validators,
       v => v.operator_address,
     );

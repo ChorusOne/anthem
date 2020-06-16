@@ -1,7 +1,7 @@
 import {
   assertUnreachable,
   COIN_DENOMS,
-  IBalance,
+  ICosmosBalance,
   ICosmosTransaction,
   ILogMessage,
   IMsgBeginRedelegate,
@@ -129,9 +129,9 @@ export const getTransactionFailedLogMessage = (
 };
 
 /**
- * Sum amount `IBalance` values in an array.
+ * Sum amount `ICosmosBalance` values in an array.
  */
-const sumAmounts = (amounts: Maybe<ReadonlyArray<IBalance>>): string => {
+const sumAmounts = (amounts: Maybe<ReadonlyArray<ICosmosBalance>>): string => {
   if (!amounts) {
     return "0";
   }

@@ -1,4 +1,4 @@
-import { IBalance, ITxMsg, ITxValue } from "@anthem/utils";
+import { ICosmosBalance, ITxMsg, ITxValue } from "@anthem/utils";
 
 /** ===========================================================================
  * Types & Config
@@ -8,7 +8,7 @@ import { IBalance, ITxMsg, ITxValue } from "@anthem/utils";
 interface SignBytesInput {
   fee: {
     gas: string;
-    amount: Maybe<readonly IBalance[]>;
+    amount: Maybe<readonly ICosmosBalance[]>;
   };
   memo: string;
   msgs: Maybe<readonly ITxMsg[]>;

@@ -1,5 +1,4 @@
 import {
-  AccountInformationDocument,
   CeloAccountBalancesDocument,
   CeloAccountHistoryDocument,
   CeloTransactionDocument,
@@ -7,7 +6,11 @@ import {
   CeloValidatorGroupsDocument,
   CosmosAccountBalancesDocument,
   CosmosAccountHistoryDocument,
+  CosmosAccountInformationDocument,
+  CosmosRewardsByValidatorDocument,
+  CosmosStakingPoolDocument,
   CosmosTransactionsDocument,
+  CosmosValidatorsDocument,
   DailyPercentChangeDocument,
   FiatCurrenciesDocument,
   FiatPriceHistoryDocument,
@@ -16,9 +19,6 @@ import {
   OasisAccountHistoryDocument,
   OasisTransactionsDocument,
   PricesDocument,
-  RewardsByValidatorDocument,
-  StakingPoolDocument,
-  ValidatorsDocument,
 } from "@anthem/utils";
 import ENV from "lib/client-env";
 import { ReduxStoreState } from "modules/root";
@@ -173,17 +173,20 @@ export const withDailyPercentChange = graphql(DailyPercentChangeDocument, {
 
 interface RewardsByValidatorQueryResult extends QueryResult {
   data: void;
-  rewardsByValidator: IQuery["rewardsByValidator"];
+  rewardsByValidator: IQuery["cosmosRewardsByValidator"];
 }
 
 export interface RewardsByValidatorProps {
   rewardsByValidator: RewardsByValidatorQueryResult;
 }
 
-export const withRewardsByValidatorQuery = graphql(RewardsByValidatorDocument, {
-  name: "rewardsByValidator",
-  ...slowPollingConfig(["address"]),
-});
+export const withRewardsByValidatorQuery = graphql(
+  CosmosRewardsByValidatorDocument,
+  {
+    name: "rewardsByValidator",
+    ...slowPollingConfig(["address"]),
+  },
+);
 
 /** ===========================================================================
  * Portfolio History
@@ -249,17 +252,20 @@ export const withFiatCurrencies = graphql(FiatCurrenciesDocument, {
 
 interface AccountInformationQueryResult extends QueryResult {
   data: void;
-  accountInformation: IQuery["accountInformation"];
+  accountInformation: IQuery["cosmosAccountInformation"];
 }
 
 export interface AccountInformationProps {
   accountInformation: AccountInformationQueryResult;
 }
 
-export const withAccountInformation = graphql(AccountInformationDocument, {
-  name: "accountInformation",
-  ...slowPollingConfig(["address"]),
-});
+export const withAccountInformation = graphql(
+  CosmosAccountInformationDocument,
+  {
+    name: "accountInformation",
+    ...slowPollingConfig(["address"]),
+  },
+);
 
 /** ===========================================================================
  * Cosmos Transactions
@@ -287,14 +293,14 @@ export const withCosmosTransactions = graphql(CosmosTransactionsDocument, {
 
 interface ValidatorsQueryResult extends QueryResult {
   data: void;
-  validators: IQuery["validators"];
+  validators: IQuery["cosmosValidators"];
 }
 
 export interface ValidatorsProps {
   validators: ValidatorsQueryResult;
 }
 
-export const withValidators = graphql(ValidatorsDocument, {
+export const withValidators = graphql(CosmosValidatorsDocument, {
   name: "validators",
   ...noPollingConfig(["network"]),
 });
@@ -306,14 +312,14 @@ export const withValidators = graphql(ValidatorsDocument, {
 
 interface StakingPoolQueryResult extends QueryResult {
   data: void;
-  stakingPool: IQuery["stakingPool"];
+  stakingPool: IQuery["cosmosStakingPool"];
 }
 
 export interface StakingPoolProps {
   stakingPool: StakingPoolQueryResult;
 }
 
-export const withStakingPool = graphql(StakingPoolDocument, {
+export const withStakingPool = graphql(CosmosStakingPoolDocument, {
   name: "stakingPool",
   ...noPollingConfig(["network"]),
 });

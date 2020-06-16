@@ -1,4 +1,8 @@
-import { ICosmosAccountBalances, IQuery, IValidator } from "@anthem/utils";
+import {
+  ICosmosAccountBalances,
+  ICosmosValidator,
+  IQuery,
+} from "@anthem/utils";
 import { Card, Collapse, H5, H6, Icon } from "@blueprintjs/core";
 import { CopyIcon, NetworkLogoIcon } from "assets/images";
 import { COLORS } from "constants/colors";
@@ -110,11 +114,11 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
           loadingComponent={<DashboardLoader style={{ marginTop: 150 }} />}
           tString={i18n.tString}
           results={[
-            [validators, "validators"],
-            [stakingPool, "stakingPool"],
+            [validators, "cosmosValidators"],
+            [stakingPool, "cosmosStakingPool"],
             [cosmosAccountBalances, "cosmosAccountBalances"],
             [prices, "prices"],
-            [rewardsByValidator, "rewardsByValidator"],
+            [rewardsByValidator, "cosmosRewardsByValidator"],
           ]}
         >
           {([
@@ -124,11 +128,11 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
             pricesResponse,
             rewardsByValidatorResponse,
           ]: [
-            IQuery["validators"],
-            IQuery["stakingPool"],
+            IQuery["cosmosValidators"],
+            IQuery["cosmosStakingPool"],
             ICosmosAccountBalances,
             IQuery["prices"],
-            IQuery["rewardsByValidator"],
+            IQuery["cosmosRewardsByValidator"],
           ]) => {
             const balances = getAccountBalances(
               accountBalancesResponse,
@@ -138,7 +142,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
 
             const stake = stakingPoolResponse.bonded_tokens || "";
             const validatorOperatorAddressMap = getValidatorOperatorAddressMap<
-              IValidator
+              ICosmosValidator
             >(validatorList, v => v.operator_address);
 
             // Sort the validators list based on the current sort settings
@@ -506,7 +510,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
     );
   }
 
-  handleAddValidator = (validator: IValidator) => {
+  handleAddValidator = (validator: ICosmosValidator) => {
     // Set the selected validator in the transactions workflow
     this.props.setDelegationValidatorSelection(validator);
 
