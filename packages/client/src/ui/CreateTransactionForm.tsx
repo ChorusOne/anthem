@@ -294,7 +294,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         tString={tString}
         results={[
           [cosmosAccountBalances, "cosmosAccountBalances"],
-          [cosmosValidators, "validators"],
+          [cosmosValidators, "cosmosValidators"],
           [cosmosRewardsByValidator, "cosmosRewardsByValidator"],
         ]}
       >
