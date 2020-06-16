@@ -1,11 +1,10 @@
 import {
   assertUnreachable,
   getValidatorAddressFromDelegatorAddress,
-  IPortfolioBalance,
-  IPortfolioCommission,
-  IPortfolioReward,
+  ICosmosBalanceHistory,
+  ICosmosCommissionHistory,
+  ICosmosRewardHistory,
   IQuery,
-  ITransaction,
   NETWORK_NAME,
   NetworkDefinition,
 } from "@anthem/utils";
@@ -18,7 +17,7 @@ import {
   mapSumToBalance,
 } from "../../tools/server-utils";
 import { getSqlQueryString, SQLVariables } from "../../tools/sql-utils";
-import { PaginationParams } from "../resolvers";
+import { PaginationParams } from "../resolvers/resolvers";
 
 /** ===========================================================================
  * Postgres Pool
@@ -153,7 +152,7 @@ const getUnbondingsQuery = () => (variables: SQLVariables): string => {
 const getPortfolioBalanceHistory = async (request: {
   address: string;
   network: NetworkDefinition;
-}): Promise<IPortfolioBalance[]> => {
+}): Promise<ICosmosBalanceHistory[]> => {
   const { address, network } = request;
   const variables = { address };
   const balanceQuery = getBalanceQueryForAddress();
@@ -165,7 +164,7 @@ const getPortfolioBalanceHistory = async (request: {
 const getPortfolioDelegatorRewards = async (request: {
   address: string;
   network: NetworkDefinition;
-}): Promise<IPortfolioReward[]> => {
+}): Promise<ICosmosRewardHistory[]> => {
   const { address, network } = request;
   const variables = { address };
   const rewardsQuery = getRewardsQueryForDelegator();
@@ -201,7 +200,7 @@ const getPortfolioUnbondings = async (request: {
 const getPortfolioValidatorRewards = async (request: {
   address: string;
   network: NetworkDefinition;
-}): Promise<IPortfolioCommission[]> => {
+}): Promise<ICosmosCommissionHistory[]> => {
   const { address, network } = request;
   const validatorAddress = getValidatorAddressFromDelegatorAddress(
     address,
@@ -222,7 +221,7 @@ const getPortfolioValidatorRewards = async (request: {
 export const getTransactionByHash = async (
   hash: string,
   network: NetworkDefinition,
-): Promise<IQuery["transaction"]> => {
+): Promise<IQuery["cosmosTransaction"]> => {
   const variables = { hash: hash.toUpperCase() };
   const transactionQuery = getTransactionByHashQuery();
   const query = transactionQuery(variables);

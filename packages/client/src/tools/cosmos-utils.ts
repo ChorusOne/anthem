@@ -1,7 +1,7 @@
 import {
   assertUnreachable,
   COIN_DENOMS,
-  IAccountInformation,
+  ICosmosAccountInformation,
   IMsgSend,
   ITxFee,
   ITxMsg,
@@ -264,7 +264,7 @@ export const createRewardsClaimTransaction = (args: {
  */
 export const createTransactionRequestMetadata = (args: {
   address: string;
-  account: IAccountInformation;
+  account: ICosmosAccountInformation;
   gasAmount: string;
   gasPrice: string;
   network: NetworkDefinition;

@@ -2,12 +2,12 @@ import { assertUnreachable } from "@anthem/utils";
 import { H5 } from "@blueprintjs/core";
 import * as Sentry from "@sentry/browser";
 import {
+  CosmosAccountHistoryProps,
   FiatPriceHistoryProps,
   GraphQLConfigProps,
-  PortfolioHistoryProps,
+  withCosmosAccountHistory,
   withFiatPriceHistory,
   withGraphQLVariables,
-  withPortfolioHistoryDataQuery,
 } from "graphql/queries";
 import * as Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
@@ -78,7 +78,7 @@ class PortfolioLoadingContainer extends React.PureComponent<
   }
 
   componentDidMount() {
-    if (this.props.portfolioHistory.loading) {
+    if (this.props.cosmosAccountHistory.loading) {
       this.startLoadingTimer();
     }
   }
@@ -88,26 +88,26 @@ class PortfolioLoadingContainer extends React.PureComponent<
   }
 
   componentDidUpdate() {
-    if (this.props.portfolioHistory.loading) {
+    if (this.props.cosmosAccountHistory.loading) {
       this.startLoadingTimer();
     }
 
-    if (!this.props.portfolioHistory.loading) {
+    if (!this.props.cosmosAccountHistory.loading) {
       this.cancelLoadingTimer();
     }
   }
 
   render(): JSX.Element {
     const { displayLoadingMessage } = this.state;
-    const { i18n, portfolioHistory } = this.props;
+    const { i18n, cosmosAccountHistory } = this.props;
     const { tString } = i18n;
 
     return (
       <View style={{ position: "relative", height: "100%" }}>
         <GraphQLGuardComponent
           tString={tString}
-          dataKey="portfolioHistory"
-          result={portfolioHistory}
+          dataKey="cosmosAccountHistory"
+          result={cosmosAccountHistory}
           errorComponent={<DashboardError tString={tString} />}
           loadingComponent={
             <DashboardLoader
@@ -182,7 +182,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
 
     // If address data or currencySetting changed, update the portfolio data
     if (
-      prevProps.portfolioHistory !== this.props.portfolioHistory ||
+      prevProps.cosmosAccountHistory !== this.props.cosmosAccountHistory ||
       prevProps.settings.currencySetting !== this.props.settings.currencySetting
     ) {
       this.throttledPortfolioCalculationFunction();
@@ -307,10 +307,12 @@ class Portfolio extends React.PureComponent<IProps, IState> {
   };
 
   calculatePortfolioData = () => {
-    const { settings, network, portfolioHistory } = this.props;
+    const { settings, network, cosmosAccountHistory } = this.props;
 
-    if (portfolioHistory && portfolioHistory.portfolioHistory) {
-      const { validatorCommissions } = portfolioHistory.portfolioHistory;
+    if (cosmosAccountHistory && cosmosAccountHistory.cosmosAccountHistory) {
+      const {
+        validatorCommissions,
+      } = cosmosAccountHistory.cosmosAccountHistory;
 
       const portfolioType = getPortfolioTypeFromUrl(window.location.pathname);
       const onCommissionsTab = portfolioType === "COMMISSIONS";
@@ -330,7 +332,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
 
       const displayFiat = settings.currencySetting === "fiat";
       const result = processPortfolioHistoryData(
-        this.props.portfolioHistory,
+        this.props.cosmosAccountHistory,
         displayFiat,
         network,
       );
@@ -363,23 +365,23 @@ class Portfolio extends React.PureComponent<IProps, IState> {
 
   handleDownloadCSV = () => {
     try {
-      const { address, network, settings, portfolioHistory } = this.props;
+      const { address, network, settings, cosmosAccountHistory } = this.props;
       const fiatCurrencySymbol = settings.fiatCurrency.symbol;
 
       // Calculate the portfolio data again, but force displayFiat to
       // false to get the crypto balances.
       const portfolioData = processPortfolioHistoryData(
-        portfolioHistory,
+        cosmosAccountHistory,
         false,
         network,
       );
 
       if (
         portfolioData &&
-        portfolioHistory &&
-        portfolioHistory.portfolioHistory
+        cosmosAccountHistory &&
+        cosmosAccountHistory.cosmosAccountHistory
       ) {
-        const { fiatPriceHistory } = portfolioHistory.portfolioHistory;
+        const { fiatPriceHistory } = cosmosAccountHistory.cosmosAccountHistory;
         const CSV = chartExportBuilder({
           address,
           network,
@@ -434,7 +436,7 @@ interface IProps
     ConnectProps,
     RouteComponentProps,
     GraphQLConfigProps,
-    PortfolioHistoryProps,
+    CosmosAccountHistoryProps,
     FiatPriceHistoryProps {}
 
 /** ===========================================================================
@@ -447,5 +449,5 @@ export default composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
   withFiatPriceHistory,
-  withPortfolioHistoryDataQuery,
+  withCosmosAccountHistory,
 )(PortfolioLoadingContainer);

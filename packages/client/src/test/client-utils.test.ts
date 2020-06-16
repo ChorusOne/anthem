@@ -1,8 +1,7 @@
-import { NETWORKS } from "@anthem/utils";
+import { ICosmosValidator, NETWORKS } from "@anthem/utils";
 import { ApolloError } from "apollo-client";
 import {
   abbreviateAddress,
-  adaptRawTransactionData,
   canRenderGraphQL,
   capitalizeString,
   formatAddressString,
@@ -27,13 +26,12 @@ import {
   trimZeroes,
   wait,
 } from "tools/client-utils";
-import accountBalances from "../../../utils/src/client/data/accountBalances.json";
+import cosmosAccountBalances from "../../../utils/src/client/data/cosmosAccountBalances.json";
+import { cosmosRewardsByValidator } from "../../../utils/src/client/data/cosmosRewardsByValidator.json";
 import { cosmosTransactions } from "../../../utils/src/client/data/cosmosTransactions.json";
+import { cosmosValidators } from "../../../utils/src/client/data/cosmosValidators.json";
 import { fiatPriceHistory } from "../../../utils/src/client/data/fiatPriceHistory.json";
 import prices from "../../../utils/src/client/data/prices.json";
-import { rewardsByValidator } from "../../../utils/src/client/data/rewardsByValidator.json";
-import { validators } from "../../../utils/src/client/data/validators.json";
-import { MOCK_BLOCKCHAIN_TRANSACTION_RESULT } from "./data/mock-blockchain-transactions-result";
 
 describe("utils", () => {
   test("abbreviateAddress", () => {
@@ -59,7 +57,7 @@ describe("utils", () => {
   });
 
   test("formatValidatorsList", () => {
-    const result = sortValidatorsChorusOnTop(validators);
+    const result = sortValidatorsChorusOnTop(cosmosValidators);
     expect(result[0].description.moniker).toBe("Chorus One");
   });
 
@@ -118,14 +116,20 @@ describe("utils", () => {
   });
 
   test("getValidatorOperatorAddressMap", () => {
-    const result = getValidatorOperatorAddressMap(validators);
+    const result = getValidatorOperatorAddressMap<ICosmosValidator>(
+      cosmosValidators,
+      v => v.operator_address,
+    );
     for (const [key, value] of Object.entries(result)) {
       expect(key).toBe(value.operator_address);
     }
   });
 
   test("getValidatorNameFromAddress", () => {
-    const validatorMap = getValidatorOperatorAddressMap(validators);
+    const validatorMap = getValidatorOperatorAddressMap<ICosmosValidator>(
+      cosmosValidators,
+      v => v.operator_address,
+    );
     const result = getValidatorNameFromAddress(
       validatorMap,
       "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
@@ -151,7 +155,7 @@ describe("utils", () => {
 
   test("mapRewardsToAvailableRewards", () => {
     const result = mapRewardsToAvailableRewards(
-      rewardsByValidator,
+      cosmosRewardsByValidator,
       NETWORKS.COSMOS,
     );
     for (const reward of result) {
@@ -204,30 +208,29 @@ describe("utils", () => {
 
   test("getAccountBalances", () => {
     const result = getAccountBalances(
-      // @ts-ignore
-      accountBalances.accountBalances.cosmos,
+      cosmosAccountBalances.cosmosAccountBalances,
       prices.prices,
       NETWORKS.COSMOS,
     );
     expect(result).toMatchInlineSnapshot(`
       Object {
         "balance": "348.59",
-        "balanceFiat": "1,072.25",
-        "commissions": "6,260.45",
-        "commissionsFiat": "19,257.14",
+        "balanceFiat": "954.43",
+        "commissions": "0",
+        "commissionsFiat": "0",
         "delegations": "5,000.00",
-        "delegationsFiat": "15,380.00",
+        "delegationsFiat": "13,690.00",
         "percentages": Array [
-          2.981986822455388,
-          42.77273334721886,
-          0.6899830077141684,
+          6.406088503358875,
+          91.88703091827723,
+          1.706880578363891,
           0,
-          53.55529682261158,
+          0,
         ],
-        "rewards": "80.66",
-        "rewardsFiat": "248.10",
-        "total": "11,689.69",
-        "totalFiat": "35,957.49",
+        "rewards": "92.88",
+        "rewardsFiat": "254.30",
+        "total": "5,441.46",
+        "totalFiat": "14,898.73",
         "unbonding": "0",
         "unbondingFiat": "0",
       }

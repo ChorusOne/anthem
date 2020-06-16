@@ -1,0 +1,7 @@
+{
+  "cosmosGovernanceParametersTallying": {
+    "threshold": "0.500000000000000000",
+    "veto": "0.334000000000000000",
+    "governance_penalty": null
+  }
+}

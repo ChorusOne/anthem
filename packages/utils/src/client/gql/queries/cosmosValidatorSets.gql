@@ -1,0 +1,11 @@
+query cosmosValidatorSets($network: String!){
+    cosmosValidatorSets(network: $network){
+        block_height
+        validators{
+            address
+            pub_key
+            voting_power
+            proposer_priority
+        }
+    }
+}

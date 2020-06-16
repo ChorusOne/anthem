@@ -1,0 +1,9 @@
+query cosmosGovernanceParametersDeposit($network: String!){
+    cosmosGovernanceParametersDeposit(network: $network){
+        min_deposit{
+            denom
+            amount
+        }
+        max_deposit_period
+    }
+}

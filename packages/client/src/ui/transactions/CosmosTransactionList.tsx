@@ -1,4 +1,4 @@
-import { ITransaction } from "@anthem/utils";
+import { ICosmosTransaction, ICosmosValidator } from "@anthem/utils";
 import { H5 } from "@blueprintjs/core";
 import React from "react";
 import {
@@ -33,12 +33,13 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
       props.fiatPriceHistory.fiatPriceHistory,
     );
 
-    const validatorOperatorAddressMap = getValidatorOperatorAddressMap(
-      props.validators.validators,
+    const addressMap = getValidatorOperatorAddressMap<ICosmosValidator>(
+      props.cosmosValidators.cosmosValidators,
+      v => v.operator_address,
     );
 
     this.priceHistoryMap = priceHistoryMap;
-    this.validatorOperatorAddressMap = validatorOperatorAddressMap;
+    this.validatorOperatorAddressMap = addressMap;
   }
 
   componentDidUpdate() {
@@ -106,8 +107,8 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
    * transaction in our database.
    */
   findAndRemoveLocalTransactionCopies = (
-    transactions: readonly ITransaction[],
-    localTransactions: ITransaction[],
+    transactions: readonly ICosmosTransaction[],
+    localTransactions: ICosmosTransaction[],
   ) => {
     const hashSet = new Set(transactions.map(tx => tx.hash));
     for (const tx of localTransactions) {
@@ -127,8 +128,8 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
    * transaction in our database.
    */
   combineTransactionRecords = (
-    transactions: readonly ITransaction[],
-    localTransactions: ITransaction[],
+    transactions: readonly ICosmosTransaction[],
+    localTransactions: ICosmosTransaction[],
   ) => {
     const hashSet = new Set(transactions.map(tx => tx.hash));
     const localUniqueTransactions = localTransactions.filter(
@@ -145,7 +146,7 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
     this.props.setTransactionsPage(this.props.transactionsPage + 1);
   };
 
-  renderTransactionItem = (transaction: ITransaction) => {
+  renderTransactionItem = (transaction: ICosmosTransaction) => {
     const { ledger, settings, i18n, isDetailView, setAddress } = this.props;
     const { network, address } = ledger;
     const { t, tString, locale } = i18n;
@@ -220,9 +221,9 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
 
 interface ComponentProps extends TransactionListProps {
   isDetailView?: boolean;
-  extraLiveTransactions: ITransaction[];
+  extraLiveTransactions: ICosmosTransaction[];
   moreResultsExist?: boolean;
-  transactions: ReadonlyArray<ITransaction>;
+  transactions: ReadonlyArray<ICosmosTransaction>;
 }
 
 type IProps = ComponentProps;

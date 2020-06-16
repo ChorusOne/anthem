@@ -25,7 +25,12 @@ import CosmosTransactionList from "./CosmosTransactionList";
 
 class CosmosTransactionsContainer extends React.Component<IProps, {}> {
   render(): Nullable<JSX.Element> {
-    const { i18n, validators, transactions, fiatPriceHistory } = this.props;
+    const {
+      i18n,
+      transactions,
+      fiatPriceHistory,
+      cosmosValidators,
+    } = this.props;
     const { tString } = i18n;
 
     return (
@@ -35,7 +40,7 @@ class CosmosTransactionsContainer extends React.Component<IProps, {}> {
         errorComponent={<DashboardError tString={tString} />}
         results={[
           [transactions, "cosmosTransactions"],
-          [validators, "validators"],
+          [cosmosValidators, "cosmosValidators"],
           [fiatPriceHistory, "fiatPriceHistory"],
         ]}
       >

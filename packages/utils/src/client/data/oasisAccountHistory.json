@@ -405,6 +405,202 @@
           "amount": "11244940194613"
         }
       ]
+    },
+    {
+      "date": "2020-06-06T02:00:01Z",
+      "height": "368074",
+      "address": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+      "balance": "3870740706",
+      "meta": { "is_validator": false, "is_delegator": false },
+      "delegations": [
+        {
+          "delegator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "validator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "amount": "11244940194613"
+        }
+      ]
+    },
+    {
+      "date": "2020-06-07T02:00:01Z",
+      "height": "382746",
+      "address": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+      "balance": "3870740706",
+      "meta": { "is_validator": false, "is_delegator": false },
+      "delegations": [
+        {
+          "delegator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "validator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "amount": "11244940194613"
+        }
+      ]
+    },
+    {
+      "date": "2020-06-08T02:00:01Z",
+      "height": "397408",
+      "address": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+      "balance": "3870740706",
+      "meta": { "is_validator": false, "is_delegator": false },
+      "delegations": [
+        {
+          "delegator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "validator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "amount": "11244940194613"
+        }
+      ]
+    },
+    {
+      "date": "2020-06-08T15:34:04Z",
+      "height": "406908",
+      "address": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+      "balance": "3870740706",
+      "meta": { "is_validator": false, "is_delegator": false },
+      "delegations": [
+        {
+          "delegator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "validator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "amount": "11244940194613"
+        }
+      ]
+    },
+    {
+      "date": "2020-06-08T15:39:27Z",
+      "height": "406962",
+      "address": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+      "balance": "3870740706",
+      "meta": { "is_validator": false, "is_delegator": false },
+      "delegations": [
+        {
+          "delegator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "validator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "amount": "11244940194613"
+        }
+      ]
+    },
+    {
+      "date": "2020-06-09T00:00:00Z",
+      "height": "412041",
+      "address": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+      "balance": "3870740712",
+      "meta": { "is_validator": false, "is_delegator": false },
+      "delegations": [
+        {
+          "delegator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "validator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "amount": "11244940194613"
+        }
+      ]
+    },
+    {
+      "date": "2020-06-10T00:00:00Z",
+      "height": "426680",
+      "address": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+      "balance": "3870740712",
+      "meta": { "is_validator": false, "is_delegator": false },
+      "delegations": [
+        {
+          "delegator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "validator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "amount": "11244940194613"
+        }
+      ]
+    },
+    {
+      "date": "2020-06-11T00:00:02Z",
+      "height": "441235",
+      "address": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+      "balance": "3870740712",
+      "meta": { "is_validator": false, "is_delegator": false },
+      "delegations": [
+        {
+          "delegator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "validator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "amount": "11244940194613"
+        }
+      ]
+    },
+    {
+      "date": "2020-06-12T00:00:01Z",
+      "height": "455935",
+      "address": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+      "balance": "3870740712",
+      "meta": { "is_validator": false, "is_delegator": false },
+      "delegations": [
+        {
+          "delegator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "validator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "amount": "11244940194613"
+        }
+      ]
+    },
+    {
+      "date": "2020-06-12T09:36:33Z",
+      "height": "461820",
+      "address": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+      "balance": "3870740754",
+      "meta": { "is_validator": false, "is_delegator": false },
+      "delegations": [
+        {
+          "delegator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "validator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "amount": "11244940194613"
+        }
+      ]
+    },
+    {
+      "date": "2020-06-13T00:00:05Z",
+      "height": "470632",
+      "address": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+      "balance": "3870740775",
+      "meta": { "is_validator": false, "is_delegator": false },
+      "delegations": [
+        {
+          "delegator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "validator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "amount": "11244940194613"
+        }
+      ]
+    },
+    {
+      "date": "2020-06-14T00:00:03Z",
+      "height": "485446",
+      "address": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+      "balance": "3870740775",
+      "meta": { "is_validator": false, "is_delegator": false },
+      "delegations": [
+        {
+          "delegator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "validator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "amount": "11244940194613"
+        }
+      ]
+    },
+    {
+      "date": "2020-06-15T00:00:04Z",
+      "height": "500322",
+      "address": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+      "balance": "3870740775",
+      "meta": { "is_validator": false, "is_delegator": false },
+      "delegations": [
+        {
+          "delegator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "validator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "amount": "11244940194613"
+        }
+      ]
+    },
+    {
+      "date": "2020-06-16T00:00:01Z",
+      "height": "515169",
+      "address": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+      "balance": "3870740775",
+      "meta": { "is_validator": false, "is_delegator": false },
+      "delegations": [
+        {
+          "delegator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "validator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "amount": "11244940194613"
+        }
+      ]
     }
   ]
 }

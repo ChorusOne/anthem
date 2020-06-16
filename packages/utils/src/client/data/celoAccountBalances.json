@@ -1,0 +1,13 @@
+{
+  "celoAccountBalances": {
+    "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+    "height": "944992",
+    "availableGoldBalance": "0",
+    "totalLockedGoldBalance": "0",
+    "nonVotingLockedGoldBalance": "0",
+    "votingLockedGoldBalance": "0",
+    "pendingWithdrawalBalance": "0",
+    "celoUSDValue": "0",
+    "delegations": []
+  }
+}

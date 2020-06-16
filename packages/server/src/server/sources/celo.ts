@@ -1,6 +1,5 @@
 import {
   ICeloAccountBalances,
-  ICeloAccountBalancesType,
   ICeloTransaction,
   ICeloTransactionDetails,
   ICeloTransactionTags,
@@ -9,7 +8,7 @@ import {
   NetworkDefinition,
 } from "@anthem/utils";
 import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
-import { PaginationParams } from "../resolvers";
+import { PaginationParams } from "../resolvers/resolvers";
 
 /** ===========================================================================
  * Types & Config
@@ -46,7 +45,16 @@ interface CeloTransactionResponse {
   tags: ICeloTransactionTags[];
   logs: any; // Not used yet
   details: {
-    transaction: ICeloTransactionDetails;
+    nonce: number;
+    gasLimit: number;
+    gasPrice: number;
+    gasUsed: number;
+    feeCurrency: string | null;
+    gatewayFeeRecipient: string | null;
+    gatewayFee: number;
+    to: string;
+    value: number;
+    raw: any;
   };
 }
 
@@ -63,11 +71,11 @@ interface CeloTransactionResponse {
 const fetchAccountBalances = async (
   address: string,
   network: NetworkDefinition,
-): Promise<ICeloAccountBalancesType> => {
+): Promise<ICeloAccountBalances> => {
   const host = getHostFromNetworkName(network.name);
   const url = `${host}/accounts/${address}`;
   const response = await AxiosUtil.get<ICeloAccountBalances>(url);
-  return { celo: response };
+  return response;
 };
 
 /**
@@ -98,11 +106,9 @@ const fetchTransactions = async (
 
   const pages = response.slice(0, pageSize);
   const moreResultsExist = response.length > pageSize;
-  const formattedResponse: ICeloTransaction[] = pages.map(x => ({
-    ...x,
-    details: x.details.transaction,
-    tags: x.tags.map(stringifyTags),
-  }));
+  const formattedResponse: ICeloTransaction[] = pages.map(
+    formatCeloTransaction,
+  );
 
   return {
     limit: pageSize,
@@ -110,6 +116,19 @@ const fetchTransactions = async (
     page: startingPage,
     data: formattedResponse,
   };
+};
+
+/**
+ * Fetch a single transaction by hash.
+ */
+const fetchTransaction = async (hash: string): Promise<ICeloTransaction> => {
+  const host = getHostFromNetworkName("CELO");
+  const path = `system/transactions/${hash}`;
+  const url = `${host}/${path}`;
+  const response = await AxiosUtil.get<{
+    transaction: CeloTransactionResponse;
+  }>(url);
+  return formatCeloTransaction(response.transaction);
 };
 
 /**
@@ -152,7 +171,6 @@ const stringifyTags = (tag: ICeloTransactionTags) => {
   return {
     eventname: tag.eventname,
     source: tag.source,
-    prettyname: tag.prettyname,
     parameters: JSON.stringify(tag.parameters), // Return tags as JSON
   };
 };
@@ -172,6 +190,20 @@ const convertDelegations = (
   };
 };
 
+/**
+ * Transform Celo transaction response data.
+ */
+const formatCeloTransaction = (tx: CeloTransactionResponse) => {
+  const { raw, ...details } = tx.details;
+  const result: ICeloTransaction = {
+    ...tx,
+    details,
+    tags: tx.tags.map(stringifyTags),
+  };
+
+  return result;
+};
+
 /** ===========================================================================
  * Export
  * ============================================================================
@@ -181,6 +213,7 @@ const CELO = {
   fetchAccountBalances,
   fetchAccountHistory,
   fetchTransactions,
+  fetchTransaction,
   fetchSystemBalances,
   fetchSystemHistory,
   fetchValidatorGroups,

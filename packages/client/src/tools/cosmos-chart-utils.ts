@@ -1,5 +1,5 @@
 import { NetworkDefinition } from "@anthem/utils";
-import { PortfolioHistoryQueryResult } from "graphql/queries";
+import { CosmosAccountHistoryQueryResult } from "graphql/queries";
 import moment from "moment-timezone";
 import { PortfolioChartData } from "ui/portfolio/CosmosPortfolio";
 import {
@@ -54,11 +54,11 @@ export interface PortfolioHistoryChartData {
  * chart.
  */
 export const processPortfolioHistoryData = (
-  portfolioData: PortfolioHistoryQueryResult,
+  accountHistory: CosmosAccountHistoryQueryResult,
   displayFiat: boolean,
   network: NetworkDefinition,
 ): PortfolioHistoryChartData | null => {
-  if (!portfolioData || !portfolioData.portfolioHistory) {
+  if (!accountHistory || !accountHistory.cosmosAccountHistory) {
     return null;
   }
 
@@ -69,7 +69,7 @@ export const processPortfolioHistoryData = (
     delegatorRewards,
     validatorCommissions,
     fiatPriceHistory,
-  } = portfolioData.portfolioHistory;
+  } = accountHistory.cosmosAccountHistory;
 
   const fiatPriceMap: FiatPriceMap = fiatPriceHistory.reduce((map, price) => {
     return {

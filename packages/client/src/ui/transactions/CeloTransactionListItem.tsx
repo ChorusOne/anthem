@@ -1,14 +1,21 @@
 import { ICeloTransaction, NetworkDefinition } from "@anthem/utils";
-import { Card, Elevation } from "@blueprintjs/core";
+import { Card, Elevation, Position, Tooltip } from "@blueprintjs/core";
 import { CeloLogo } from "assets/icons";
-import { OasisGenericEvent } from "assets/images";
+import { LinkIcon, OasisGenericEvent } from "assets/images";
 import { FiatCurrency } from "constants/fiat";
 import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
 import React from "react";
-import { formatAddressString } from "tools/client-utils";
+import { Link } from "react-router-dom";
+import {
+  capitalizeString,
+  copyTextToClipboard,
+  formatAddressString,
+} from "tools/client-utils";
+import { denomToUnit } from "tools/currency-utils";
 import { formatDate, formatTime } from "tools/date-utils";
 import { TranslateMethodProps } from "tools/i18n-utils";
+import { multiply } from "tools/math-utils";
 import AddressIconComponent from "ui/AddressIconComponent";
 import {
   ClickableEventRow,
@@ -16,9 +23,11 @@ import {
   EventIcon,
   EventIconBox,
   EventRow,
+  EventRowBottom,
   EventRowItem,
   EventText,
   TransactionCardStyles,
+  TransactionLinkText,
 } from "./TransactionComponents";
 
 /** ===========================================================================
@@ -49,9 +58,14 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
         <EventRow data-cy="transaction-list-item">
           {this.renderTypeAndTimestamp()}
-          {this.renderBlockNumber()}
           {this.renderAddressBlocks()}
+          {this.renderHash()}
         </EventRow>
+        <EventRowBottom>
+          {this.renderBlockNumber()}
+          {this.renderTransactionValues()}
+          {this.renderBlockExplorerLink()}
+        </EventRowBottom>
       </Card>
     );
   }
@@ -78,7 +92,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
   renderBlockNumber = () => {
     const { blockNumber } = this.props.transaction;
     return (
-      <EventRowItem style={{ minWidth: 215 }}>
+      <EventRowItem style={{ minWidth: 300 }}>
         <EventIconBox>
           <OasisGenericEvent />
         </EventIconBox>
@@ -89,6 +103,68 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           </EventText>
         </EventContextBox>
       </EventRowItem>
+    );
+  };
+
+  renderHash = () => {
+    const { hash } = this.props.transaction;
+
+    const TxHashLink = this.props.isDetailView ? (
+      <ClickableEventRow onClick={() => copyTextToClipboard(hash)}>
+        <EventIconBox>
+          <LinkIcon />
+        </EventIconBox>
+        <EventContextBox>
+          <EventText style={{ fontWeight: "bold" }}>Hash</EventText>
+          <TransactionLinkText style={{ fontWeight: 100, fontSize: 13 }}>
+            {hash.slice(0, 15)}...
+          </TransactionLinkText>
+        </EventContextBox>
+      </ClickableEventRow>
+    ) : (
+      <Link to={`/txs/${hash}`}>
+        <ClickableEventRow onClick={() => null}>
+          <EventIconBox>
+            <LinkIcon />
+          </EventIconBox>
+          <EventContextBox>
+            <EventText style={{ fontWeight: "bold" }}>Hash</EventText>
+            <EventText
+              style={{ fontWeight: 100, fontSize: 13 }}
+              data-cy="transaction-block-number"
+            >
+              {hash.slice(0, 15)}...
+            </EventText>
+          </EventContextBox>
+        </ClickableEventRow>
+      </Link>
+    );
+
+    return this.props.isDetailView && this.props.isDesktop ? (
+      <Tooltip position={Position.TOP} content="Click to copy hash">
+        {TxHashLink}
+      </Tooltip>
+    ) : (
+      TxHashLink
+    );
+  };
+
+  renderBlockExplorerLink = () => {
+    const { hash } = this.props.transaction;
+    const link = `https://explorer.celo.org/tx/${hash}`;
+    return (
+      <a target="_blank" href={link} rel="noopener noreferrer">
+        <ClickableEventRow onClick={() => null}>
+          <EventIconBox>
+            <LinkIcon />
+          </EventIconBox>
+          <EventContextBox>
+            <EventText style={{ fontWeight: 200 }}>
+              View on Celo Explorer
+            </EventText>
+          </EventContextBox>
+        </ClickableEventRow>
+      </a>
     );
   };
 
@@ -104,7 +180,10 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderAddressBox = (address: string, titleText: string) => {
     return (
-      <ClickableEventRow onClick={this.handleLinkToAddress(address)}>
+      <ClickableEventRow
+        style={{ minWidth: 215 }}
+        onClick={this.handleLinkToAddress(address)}
+      >
         <EventIconBox>
           <AddressIconComponent
             address={address}
@@ -114,11 +193,39 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
         </EventIconBox>
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>{titleText}</EventText>
-          <EventText style={{ fontWeight: 100, fontSize: 12 }}>
+          <EventText style={{ fontWeight: 100, fontSize: 13 }}>
             {formatAddressString(address, true)}
           </EventText>
         </EventContextBox>
       </ClickableEventRow>
+    );
+  };
+
+  renderTransactionValues = () => {
+    const size = this.props.network.denominationSize;
+    const { value, gasUsed, gasPrice } = this.props.transaction.details;
+    const fee = multiply(gasUsed, gasPrice);
+    return (
+      <>
+        <EventRowItem style={{ minWidth: 215 }}>
+          <EventIconBox />
+          <EventContextBox>
+            <EventText style={{ fontWeight: "bold" }}>Value</EventText>
+            <EventText data-cy="transaction-value">
+              {denomToUnit(value, size)} cGLD
+            </EventText>
+          </EventContextBox>
+        </EventRowItem>
+        <EventRowItem style={{ minWidth: 215 }}>
+          <EventIconBox />
+          <EventContextBox>
+            <EventText style={{ fontWeight: "bold" }}>Fee</EventText>
+            <EventText data-cy="transaction-value">
+              {denomToUnit(fee, size)} cGLD
+            </EventText>
+          </EventContextBox>
+        </EventRowItem>
+      </>
     );
   };
 
@@ -138,8 +245,9 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
 const getCeloTransactionType = (transaction: ICeloTransaction) => {
   const { tags } = transaction;
   if (tags.length) {
-    const { prettyname } = tags[0];
-    return prettyname;
+    const { eventname, source } = tags[0];
+    const label = `${source} ${eventname}`;
+    return capitalizeString(label);
   } else {
     return "Celo Transaction";
   }

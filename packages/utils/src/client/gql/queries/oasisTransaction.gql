@@ -1,0 +1,81 @@
+query oasisTransaction($hash: String!){
+    oasisTransaction(hash: $hash){
+        fee
+        gas
+        gas_price
+        height
+        method
+        date
+        sender
+        data{
+            ... on OasisBurnEvent {
+                type
+                owner
+                tokens
+            }
+            ... on OasisTransferEvent {
+                type
+                from
+                to
+                tokens
+            }
+            ... on OasisEscrowAddEvent {
+                type
+                to
+                tokens
+            }
+            ... on OasisEscrowTakeEvent {
+                type
+                from
+                to
+                tokens
+            }
+            ... on OasisEscrowReclaimEvent {
+                type
+                from
+                shares
+            }
+            ... on OasisRegisterEntityEvent {
+                type
+                id
+                nodes
+                allow_entity_signed_nodes
+            }
+            ... on OasisRegisterNodeEvent {
+                type
+                id
+                entity_id
+                expiration
+            }
+            ... on OasisUnfreezeNodeEvent {
+                type
+                id
+            }
+            ... on OasisRegisterRuntimeEvent {
+                type
+                id
+                version
+            }
+            ... on OasisRateEvent {
+                type
+                start
+                rate
+            }
+            ... on OasisBoundEvent {
+                type
+                start
+                rate_min
+                rate_max
+            }
+            ... on OasisAmendCommissionScheduleEvent {
+                type
+                rates
+                bounds
+            }
+            ... on OasisUnknownEvent {
+                type
+                method_name
+            }
+        }
+    }
+}

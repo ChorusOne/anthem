@@ -1,5 +1,0 @@
-query governanceParametersVoting($network: String!){
-    governanceParametersVoting(network: $network){
-        voting_period
-    }
-}

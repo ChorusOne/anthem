@@ -1,6 +1,6 @@
 import {
   assertUnreachable,
-  IOasisAccountBalancesType,
+  IOasisAccountBalances,
   IOasisTransaction,
   IOasisTransactionType,
   IQuery,
@@ -8,7 +8,7 @@ import {
 } from "@anthem/utils";
 import { logSentryMessage } from "../../tools/server-utils";
 import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
-import { PaginationParams } from "../resolvers";
+import { PaginationParams } from "../resolvers/resolvers";
 
 /** ===========================================================================
  * Types & Config
@@ -225,7 +225,7 @@ type OasisTransaction =
 const fetchAccountBalances = async (
   address: string,
   network: NetworkDefinition,
-): Promise<IOasisAccountBalancesType> => {
+): Promise<IOasisAccountBalances> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get<OasisAccountResponse>(
     `${host}/account/${address}`,
@@ -249,7 +249,7 @@ const fetchAccountBalances = async (
     delegations,
   };
 
-  return { oasis: balances };
+  return balances;
 };
 
 /**
@@ -292,6 +292,28 @@ const fetchTransactions = async (
     moreResultsExist,
     data: convertedTransactions,
   };
+};
+
+/**
+ * Fetch a transaction by hash.
+ *
+ * TODO: The API is not supported yet.
+ */
+const fetchTransaction = async (hash: string): Promise<IOasisTransaction> => {
+  const host = getHostFromNetworkName("OASIS");
+  const url = `${host}/???`;
+  const response = await AxiosUtil.get<OasisTransaction>(url);
+
+  if (!response) {
+    throw new Error(`No transaction found for hash: ${hash}`);
+  }
+
+  const result = adaptOasisTransaction(response, "");
+  if (result) {
+    return result;
+  } else {
+    throw new Error(`No transaction found for hash: ${hash}`);
+  }
 };
 
 /** ===========================================================================
@@ -499,6 +521,7 @@ const OASIS = {
   fetchAccountBalances,
   fetchAccountHistory,
   fetchTransactions,
+  fetchTransaction,
 };
 
 export default OASIS;

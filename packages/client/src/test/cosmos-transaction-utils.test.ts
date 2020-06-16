@@ -1,11 +1,11 @@
-import { ITransaction } from "@anthem/utils";
+import { ICosmosTransaction } from "@anthem/utils";
 import { transformCosmosTransactionToRenderElements } from "tools/cosmos-transaction-utils";
 import { cosmosTransactions } from "../../../utils/src/client/data/cosmosTransactions.json";
 
 const txs = cosmosTransactions.data;
 
 interface TxTypeMap {
-  [key: string]: ReadonlyArray<ITransaction>;
+  [key: string]: ReadonlyArray<ICosmosTransaction>;
 }
 
 /**
@@ -14,7 +14,7 @@ interface TxTypeMap {
  */
 const txsByType: TxTypeMap = txs.reduce(
   // @ts-ignore
-  (txMap: TxTypeMap, tx: ITransaction) => {
+  (txMap: TxTypeMap, tx: ICosmosTransaction) => {
     const { type } = tx.msgs[0];
     let updatedMap: TxTypeMap = {};
 
@@ -53,7 +53,7 @@ describe("transaction-utils", () => {
           return null;
         }
       })
-      .filter(Boolean) as ReadonlyArray<ITransaction>;
+      .filter(Boolean) as ReadonlyArray<ICosmosTransaction>;
 
     for (const testTx of testTxs) {
       const result = transformCosmosTransactionToRenderElements({

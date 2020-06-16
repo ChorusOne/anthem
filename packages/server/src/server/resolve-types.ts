@@ -88,21 +88,6 @@ const TxMsgValue = {
 };
 
 /**
- * Account Balances Resolver:
- */
-const AccountBalanceResponseType = {
-  __resolveType(x: any) {
-    if ("celo" in x) {
-      return "CeloAccountBalancesType";
-    } else if ("oasis" in x) {
-      return "OasisAccountBalancesType";
-    } else {
-      return "CosmosAccountBalancesType";
-    }
-  },
-};
-
-/**
  * Oasis Transaction Resolver:
  */
 const OasisTransactionData = {
@@ -150,7 +135,6 @@ const OasisTransactionData = {
 const UnionResolvers = {
   TxMsgValue,
   OasisTransactionData,
-  AccountBalanceResponseType,
 };
 
 export default UnionResolvers;

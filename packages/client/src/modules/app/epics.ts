@@ -1,5 +1,5 @@
 import {
-  AccountBalancesDocument,
+  CosmosAccountBalancesDocument,
   CosmosTransactionsDocument,
   deriveNetworkFromAddress,
   NETWORKS,
@@ -252,7 +252,7 @@ const refreshBalanceAndTransactionsEpic: EpicSignature = (
           const { address } = graphqlSelector(state$.value);
 
           client.query({
-            query: AccountBalancesDocument,
+            query: CosmosAccountBalancesDocument,
             variables: {
               address,
             },

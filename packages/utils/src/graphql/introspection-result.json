@@ -3,21 +3,6 @@
     "types": [
       {
         "kind": "UNION",
-        "name": "AccountBalanceResponseType",
-        "possibleTypes": [
-          {
-            "name": "CosmosAccountBalancesType"
-          },
-          {
-            "name": "CeloAccountBalancesType"
-          },
-          {
-            "name": "OasisAccountBalancesType"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
         "name": "TxMsgValue",
         "possibleTypes": [
           {

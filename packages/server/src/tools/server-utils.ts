@@ -1,8 +1,10 @@
 import {
+  ERRORS,
+  ICosmosBalanceHistory,
+  ICosmosTransaction,
   IMsgDelegate,
-  IPortfolioBalance,
-  ITransaction,
   ITxMsg,
+  NetworkDefinition,
 } from "@anthem/utils";
 import * as Sentry from "@sentry/node";
 import chalk from "chalk";
@@ -110,7 +112,7 @@ export const formatTransactionResponse = ({
   log,
   msgs,
   ...rest
-}: any): ITransaction => ({
+}: any): ICosmosTransaction => ({
   ...rest,
   msgs: msgs.map(updateAmounts),
   log: Array.isArray(log) ? log : [log],
@@ -156,8 +158,10 @@ export const toDateKey = (date: string) => {
 /**
  * Transform balances response capturing only the end of day values.
  */
-export const gatherEndOfDayBalanceValues = (balances: IPortfolioBalance[]) => {
-  const result: IPortfolioBalance[] = [];
+export const gatherEndOfDayBalanceValues = (
+  balances: ICosmosBalanceHistory[],
+) => {
+  const result: ICosmosBalanceHistory[] = [];
   const dates = new Set<string>();
 
   for (let i = balances.length - 1; i >= 0; i--) {
@@ -222,5 +226,31 @@ export const validatePaginationParams = (param: any, defaultValue: number) => {
     return candidate;
   } else {
     return defaultValue;
+  }
+};
+
+/**
+ * Block networks based on feature flag support.
+ */
+export const blockUnsupportedNetworks = (
+  network: NetworkDefinition,
+  feature: "portfolio" | "transactions" | "balances",
+) => {
+  switch (feature) {
+    case "portfolio":
+      if (!network.supportsPortfolio) {
+        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
+      }
+      break;
+    case "balances":
+      if (!network.supportsBalances) {
+        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
+      }
+      break;
+    case "transactions":
+      if (!network.supportsTransactionsHistory) {
+        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
+      }
+      break;
   }
 };

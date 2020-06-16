@@ -317,13 +317,13 @@ class SideMenuComponent extends React.Component<IProps, IState> {
   };
 
   getValidatorFromDelegatorAddressIfExists = () => {
-    if (!this.props.validators) {
+    if (!this.props.cosmosValidators) {
       return;
     }
 
-    const { validators } = this.props.validators;
+    const { cosmosValidators } = this.props.cosmosValidators;
 
-    if (!validators) {
+    if (!cosmosValidators) {
       return;
     }
 
@@ -338,7 +338,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
       address,
       network.name,
     );
-    const validator = validators.find(
+    const validator = cosmosValidators.find(
       v => v.operator_address === validatorAddress,
     );
 

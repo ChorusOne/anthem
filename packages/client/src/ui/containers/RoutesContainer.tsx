@@ -22,9 +22,9 @@ import DashboardPage from "ui/pages/DashboardPage";
 import HelpPage from "ui/pages/HelpPage";
 import LandingPage from "ui/pages/LandingPage";
 import SettingsPage from "ui/pages/SettingsPage";
-import ValidatorsListPage from "ui/pages/ValidatorsListPage";
 import SideMenuComponent from "ui/SideMenu";
 import TransactionDetailContainer from "ui/transactions/TransactionDetailContainer";
+import ValidatorsPage from "ui/validators/ValidatorsSwitchContainer";
 
 /** ===========================================================================
  * React Component
@@ -79,7 +79,7 @@ class RoutesContainer extends React.Component<IProps> {
               path="/txs/*"
               component={TransactionDetailContainer}
             />
-            <Route key={4} path="/delegate" component={ValidatorsListPage} />
+            <Route key={4} path="/delegate" component={ValidatorsPage} />
             <Route key={5} path="/help" component={HelpPage} />
             <Route key={6} path="/settings" component={SettingsPage} />
             <Route

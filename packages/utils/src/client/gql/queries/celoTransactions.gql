@@ -10,23 +10,18 @@ query celoTransactions($address: String!, $startingPage: Float, $pageSize: Float
             to
             details{
                 nonce
+                gasLimit
                 gasPrice
-                gas
+                gasUsed
                 feeCurrency
                 gatewayFeeRecipient
                 gatewayFee
                 to
                 value
-                input
-                v
-                r
-                s
-                hash
             }
             tags{
                 eventname
                 source
-                prettyname
                 parameters
             }
         }

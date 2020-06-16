@@ -1,4 +1,8 @@
-import { IQuery, ITransaction, TransactionDocument } from "@anthem/utils";
+import {
+  CosmosTransactionDocument,
+  ICosmosTransaction,
+  IQuery,
+} from "@anthem/utils";
 import {
   CosmosTransactionsProps,
   FiatPriceHistoryProps,
@@ -25,15 +29,15 @@ import CosmosTransactionList from "./CosmosTransactionList";
  * ============================================================================
  */
 
-class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
+class CosmosTransactionDetail extends React.PureComponent<IProps> {
   render(): JSX.Element {
-    const { validators, fiatPriceHistory, i18n, ledger } = this.props;
-    const txHash = this.props.location.pathname
+    const { cosmosValidators, fiatPriceHistory, i18n, ledger } = this.props;
+    const hash = this.props.location.pathname
       .replace("/txs/", "")
       .toLowerCase();
 
     // Transaction may already exist in Apollo cache. Use this data first.
-    const transactionMayExist = this.maybeFindTransactionInApolloCache(txHash);
+    const transactionMayExist = this.maybeFindTransactionInApolloCache(hash);
     if (transactionMayExist) {
       return (
         <View>
@@ -41,7 +45,7 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
             tString={i18n.tString}
             loadingComponent={<DashboardLoader />}
             results={[
-              [validators, "validators"],
+              [cosmosValidators, "cosmosValidators"],
               [fiatPriceHistory, "fiatPriceHistory"],
             ]}
           >
@@ -53,11 +57,13 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
       return (
         <View>
           <Query
-            query={TransactionDocument}
-            variables={{ txHash, network: ledger.network.name }}
+            query={CosmosTransactionDocument}
+            variables={{ hash, network: ledger.network.name }}
           >
             {(
-              transaction: QueryResult<{ transaction: IQuery["transaction"] }>,
+              transaction: QueryResult<{
+                transaction: IQuery["cosmosTransaction"];
+              }>,
             ) => {
               return (
                 <GraphQLGuardComponentMultipleQueries
@@ -73,17 +79,17 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
                             "Transaction could not be found for hash:",
                           )}
                         </p>
-                        <p>{txHash}</p>
+                        <p>{hash}</p>
                       </Centered>
                     </View>
                   }
                   results={[
                     [transaction, ["data", "transaction"]],
-                    [validators, "validators"],
+                    [cosmosValidators, "cosmosValidators"],
                     [fiatPriceHistory, "fiatPriceHistory"],
                   ]}
                 >
-                  {([transactionResult]: readonly [ITransaction]) => {
+                  {([transactionResult]: readonly [ICosmosTransaction]) => {
                     return this.renderTransaction(transactionResult);
                   }}
                 </GraphQLGuardComponentMultipleQueries>
@@ -95,7 +101,7 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
     }
   }
 
-  renderTransaction = (transaction: ITransaction) => {
+  renderTransaction = (transaction: ICosmosTransaction) => {
     return (
       <View>
         <CosmosTransactionList
@@ -111,7 +117,7 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
 
   maybeFindTransactionInApolloCache = (
     hash: string,
-  ): Nullable<ITransaction> => {
+  ): Nullable<ICosmosTransaction> => {
     const { transactions } = this.props;
     let result = null;
 
@@ -168,4 +174,4 @@ export default composeWithProps<ComponentProps>(
   withValidators,
   withCosmosTransactions,
   withFiatPriceHistory,
-)(TransactionDetailLoadingContainer);
+)(CosmosTransactionDetail);

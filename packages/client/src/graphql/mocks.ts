@@ -157,18 +157,6 @@ const typeResolvers = {
     },
   },
 
-  AccountBalanceResponseType: {
-    __resolveType(x: any) {
-      if ("celo" in x) {
-        return "CeloAccountBalancesType";
-      } else if ("oasis" in x) {
-        return "OasisAccountBalancesType";
-      } else {
-        return "CosmosAccountBalancesType";
-      }
-    },
-  },
-
   OasisTransactionData: {
     __resolveType(event: IOasisTransactionData) {
       const { type } = event;

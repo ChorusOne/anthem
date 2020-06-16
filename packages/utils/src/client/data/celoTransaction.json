@@ -1,0 +1,21 @@
+{
+  "celoTransaction": {
+    "blockNumber": 835766,
+    "timestamp": "1591752853",
+    "hash": "0xdb33159c19e457e500adae015e4923d3851f355f7319c3ded15a8cfe4503d002",
+    "from": "0xe23a4c6615669526ab58e9c37088bee4ed2b2dee",
+    "to": "0xbbd6e54af7a5722f42461c6313f37bd50729f195",
+    "details": {
+      "nonce": 454,
+      "gasLimit": 90000,
+      "gasPrice": 500000000,
+      "gasUsed": 21000,
+      "feeCurrency": null,
+      "gatewayFeeRecipient": "0x69dbc471ed01bd6d1c579194ff6df1cacc531dcc",
+      "gatewayFee": 0,
+      "to": "0xbbd6e54af7a5722f42461c6313f37bd50729f195",
+      "value": 100000000000000000000
+    },
+    "tags": []
+  }
+}
