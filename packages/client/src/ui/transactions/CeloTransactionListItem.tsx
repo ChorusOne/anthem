@@ -114,8 +114,10 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           <LinkIcon />
         </EventIconBox>
         <EventContextBox>
-          <EventText style={{ fontWeight: "bold" }}>Transaction Hash</EventText>
-          <TransactionLinkText>{hash.slice(0, 15)}...</TransactionLinkText>
+          <EventText style={{ fontWeight: "bold" }}>Hash</EventText>
+          <TransactionLinkText style={{ fontWeight: 100, fontSize: 13 }}>
+            {hash.slice(0, 15)}...
+          </TransactionLinkText>
         </EventContextBox>
       </ClickableEventRow>
     ) : (
@@ -125,10 +127,11 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
             <LinkIcon />
           </EventIconBox>
           <EventContextBox>
-            <EventText style={{ fontWeight: "bold" }}>
-              Transaction Hash
-            </EventText>
-            <EventText data-cy="transaction-block-number">
+            <EventText style={{ fontWeight: "bold" }}>Hash</EventText>
+            <EventText
+              style={{ fontWeight: 100, fontSize: 13 }}
+              data-cy="transaction-block-number"
+            >
               {hash.slice(0, 15)}...
             </EventText>
           </EventContextBox>
@@ -170,7 +173,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
         </EventIconBox>
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>{titleText}</EventText>
-          <EventText style={{ fontWeight: 100, fontSize: 12 }}>
+          <EventText style={{ fontWeight: 100, fontSize: 13 }}>
             {formatAddressString(address, true)}
           </EventText>
         </EventContextBox>
@@ -187,9 +190,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
         <EventRowItem style={{ minWidth: 215 }}>
           <EventIconBox />
           <EventContextBox>
-            <EventText style={{ fontWeight: "bold" }}>
-              Transaction Value
-            </EventText>
+            <EventText style={{ fontWeight: "bold" }}>Value</EventText>
             <EventText data-cy="transaction-value">
               {denomToUnit(value, size)} cGLD
             </EventText>
@@ -198,9 +199,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
         <EventRowItem style={{ minWidth: 215 }}>
           <EventIconBox />
           <EventContextBox>
-            <EventText style={{ fontWeight: "bold" }}>
-              Transaction Fee
-            </EventText>
+            <EventText style={{ fontWeight: "bold" }}>Fee</EventText>
             <EventText data-cy="transaction-value">
               {denomToUnit(fee, size)} cGLD
             </EventText>
