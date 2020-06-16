@@ -841,29 +841,23 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
     const balancesData = cosmosAccountBalances.cosmosAccountBalances;
 
-    if ("cosmos" in balancesData) {
-      const balances = getAccountBalances(
-        balancesData,
-        atomsConversionRate,
-        ledger.network,
-        6,
-      );
+    const balances = getAccountBalances(
+      balancesData,
+      atomsConversionRate,
+      ledger.network,
+      6,
+    );
 
-      const { balance, rewards } = balances;
-      const targetValue = (IS_CLAIM ? rewards : balance).replace(",", "");
-      const maximumAmountAfterFees = calculateTransactionAmount(
-        targetValue,
-        this.state.gasPrice,
-        this.state.gasAmount,
-        ledger.network,
-      );
+    const { balance, rewards } = balances;
+    const targetValue = (IS_CLAIM ? rewards : balance).replace(",", "");
+    const maximumAmountAfterFees = calculateTransactionAmount(
+      targetValue,
+      this.state.gasPrice,
+      this.state.gasAmount,
+      ledger.network,
+    );
 
-      return maximumAmountAfterFees;
-    } else {
-      throw new Error(
-        "Received the wrong account balances data in the CreateTransactionForm!",
-      );
-    }
+    return maximumAmountAfterFees;
   };
 
   handleEnterRecipientAddress = (recipient: string) => {
