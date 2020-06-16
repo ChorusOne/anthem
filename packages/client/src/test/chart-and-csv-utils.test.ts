@@ -1,13 +1,13 @@
 import { NETWORKS } from "@anthem/utils";
 import { processPortfolioHistoryData } from "tools/cosmos-chart-utils";
 import { chartExportBuilder } from "tools/csv-utils";
+import cosmosAccountHistory from "../../../utils/src/client/data/cosmosAccountHistory.json";
 import { fiatPriceHistory } from "../../../utils/src/client/data/fiatPriceHistory.json";
-import portfolioHistory from "../../../utils/src/client/data/portfolioHistory.json";
 
 describe("chart-and-csv-utils", () => {
   test("processPortfolioHistoryData and chartExportBuilder utils", () => {
     const portfolioChartHistory: any = processPortfolioHistoryData(
-      portfolioHistory as any,
+      cosmosAccountHistory as any,
       false,
       NETWORKS.COSMOS,
     );

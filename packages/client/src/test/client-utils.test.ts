@@ -2,7 +2,6 @@ import { IValidator, NETWORKS } from "@anthem/utils";
 import { ApolloError } from "apollo-client";
 import {
   abbreviateAddress,
-  adaptRawTransactionData,
   canRenderGraphQL,
   capitalizeString,
   formatAddressString,
@@ -27,13 +26,12 @@ import {
   trimZeroes,
   wait,
 } from "tools/client-utils";
-import accountBalances from "../../../utils/src/client/data/accountBalances.json";
+import cosmosAccountBalances from "../../../utils/src/client/data/cosmosAccountBalances.json";
 import { cosmosTransactions } from "../../../utils/src/client/data/cosmosTransactions.json";
 import { fiatPriceHistory } from "../../../utils/src/client/data/fiatPriceHistory.json";
 import prices from "../../../utils/src/client/data/prices.json";
 import { rewardsByValidator } from "../../../utils/src/client/data/rewardsByValidator.json";
 import { validators } from "../../../utils/src/client/data/validators.json";
-import { MOCK_BLOCKCHAIN_TRANSACTION_RESULT } from "./data/mock-blockchain-transactions-result";
 
 describe("utils", () => {
   test("abbreviateAddress", () => {
@@ -210,30 +208,29 @@ describe("utils", () => {
 
   test("getAccountBalances", () => {
     const result = getAccountBalances(
-      // @ts-ignore
-      accountBalances.accountBalances.cosmos,
+      cosmosAccountBalances.cosmosAccountBalances,
       prices.prices,
       NETWORKS.COSMOS,
     );
     expect(result).toMatchInlineSnapshot(`
       Object {
         "balance": "348.59",
-        "balanceFiat": "1,072.25",
-        "commissions": "6,260.45",
-        "commissionsFiat": "19,257.14",
+        "balanceFiat": "949.89",
+        "commissions": "7,207.86",
+        "commissionsFiat": "19,641.42",
         "delegations": "5,000.00",
-        "delegationsFiat": "15,380.00",
+        "delegationsFiat": "13,625.00",
         "percentages": Array [
-          2.981986822455388,
-          42.77273334721886,
-          0.6899830077141684,
+          2.7557655640420395,
+          39.52788280303736,
+          0.7340500198913852,
           0,
-          53.55529682261158,
+          56.98230161302922,
         ],
-        "rewards": "80.66",
-        "rewardsFiat": "248.10",
-        "total": "11,689.69",
-        "totalFiat": "35,957.49",
+        "rewards": "92.85",
+        "rewardsFiat": "253.02",
+        "total": "12,649.30",
+        "totalFiat": "34,469.34",
         "unbonding": "0",
         "unbondingFiat": "0",
       }
