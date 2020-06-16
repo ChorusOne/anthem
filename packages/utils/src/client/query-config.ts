@@ -19,8 +19,13 @@ const COSMOS = "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd";
 const COSMOS_TX =
   "E0BC81E3B76F70466D8F235F02EDD3F3E23E8C52A40D27A650BC14A9E6F8239C";
 const COSMOS_VALIDATOR = "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707";
+
 const OASIS = "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=";
+const OASIS_TX = ""; // TODO: ???
+
 const CELO = "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2";
+const CELO_TX =
+  "0xdb33159c19e457e500adae015e4923d3851f355f7319c3ded15a8cfe4503d002";
 
 /**
  * Variable config source of truth for which variables will be mapped
@@ -120,9 +125,24 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   {
     variables: {
       network: "COSMOS",
-      txHash: COSMOS_TX,
+      hash: COSMOS_TX,
     },
-    testQuery: (gql: string) => gql.includes("$txHash"),
+    testQuery: (gql: string) =>
+      gql.includes("cosmosTransaction") && gql.includes("$hash"),
+  },
+  {
+    variables: {
+      hash: OASIS_TX,
+    },
+    testQuery: (gql: string) =>
+      gql.includes("oasisTransaction") && gql.includes("$hash"),
+  },
+  {
+    variables: {
+      hash: CELO_TX,
+    },
+    testQuery: (gql: string) =>
+      gql.includes("celoTransaction") && gql.includes("$hash"),
   },
   {
     variables: {

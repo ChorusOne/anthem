@@ -1,0 +1,11 @@
+{
+  "oasisAccountBalances": {
+    "available": "0",
+    "staked": { "balance": "0", "shares": "0" },
+    "unbonding": { "balance": "0", "shares": "0" },
+    "rewards": "0",
+    "commissions": "0",
+    "meta": { "is_validator": false, "is_delegator": false },
+    "delegations": null
+  }
+}

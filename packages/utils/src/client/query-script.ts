@@ -74,9 +74,15 @@ const GRAPHQL_URL = `http://localhost:${PORT}/graphql`;
  */
 const graphql = async (requestData: RequestData) => {
   const [key, query, variables] = requestData;
-  console.log(`- Processing query, key: ${key}`);
-  const result = await request(GRAPHQL_URL, query, variables);
-  writeGraphQLResponseToFile(key, result);
+  try {
+    console.log(`- Processing query, key: ${key}`);
+    const result = await request(GRAPHQL_URL, query, variables);
+    writeGraphQLResponseToFile(key, result);
+  } catch (err) {
+    console.log(
+      `- [ERROR]: An error occurred for ${key} query! No data will be saved for this query.`,
+    );
+  }
 };
 
 /**
