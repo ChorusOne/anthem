@@ -34,7 +34,7 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
     );
 
     const addressMap = getValidatorOperatorAddressMap<ICosmosValidator>(
-      props.validators.validators,
+      props.cosmosValidators.cosmosValidators,
       v => v.operator_address,
     );
 

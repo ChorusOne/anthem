@@ -293,15 +293,15 @@ export const withCosmosTransactions = graphql(CosmosTransactionsDocument, {
 
 interface ValidatorsQueryResult extends QueryResult {
   data: void;
-  validators: IQuery["cosmosValidators"];
+  cosmosValidators: IQuery["cosmosValidators"];
 }
 
 export interface ValidatorsProps {
-  validators: ValidatorsQueryResult;
+  cosmosValidators: ValidatorsQueryResult;
 }
 
 export const withValidators = graphql(CosmosValidatorsDocument, {
-  name: "validators",
+  name: "cosmosValidators",
   ...noPollingConfig(["network"]),
 });
 

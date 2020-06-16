@@ -88,8 +88,8 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
       i18n,
       prices,
       network,
-      validators,
       stakingPool,
+      cosmosValidators,
       sortListAscending,
       validatorSortField,
       rewardsByValidator,
@@ -114,7 +114,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
           loadingComponent={<DashboardLoader style={{ marginTop: 150 }} />}
           tString={i18n.tString}
           results={[
-            [validators, "cosmosValidators"],
+            [cosmosValidators, "cosmosValidators"],
             [stakingPool, "cosmosStakingPool"],
             [cosmosAccountBalances, "cosmosAccountBalances"],
             [prices, "prices"],

@@ -280,8 +280,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       i18n,
       prices,
       ledger,
-      validators,
       fiatCurrency,
+      cosmosValidators,
       rewardsByValidator,
       cosmosAccountBalances,
     } = this.props;
@@ -294,7 +294,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         tString={tString}
         results={[
           [cosmosAccountBalances, "cosmosAccountBalances"],
-          [validators, "validators"],
+          [cosmosValidators, "validators"],
           [rewardsByValidator, "rewardsByValidator"],
         ]}
       >
@@ -451,7 +451,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       i18n,
       prices,
       ledger,
-      validators,
+      cosmosValidators,
       fiatCurrency,
       transaction,
       cosmosAccountBalances,
@@ -465,7 +465,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         results={[
           [cosmosAccountBalances, "cosmosAccountBalances"],
           [prices, "prices"],
-          [validators, "validators"],
+          [cosmosValidators, "cosmosValidators"],
         ]}
       >
         {([accountBalancesData]: [ICosmosAccountBalances]) => {
@@ -489,10 +489,12 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   onClose: this.setCanEscapeKeyCloseDialog(true),
                   popoverClassName: "ValidatorCompositionSelect",
                 }}
-                items={sortValidatorsChorusOnTop(validators.validators)}
                 onItemSelect={this.handleSelectValidator}
                 itemRenderer={this.renderValidatorSelectItem}
                 itemPredicate={this.setValidatorSelectItemPredicate}
+                items={sortValidatorsChorusOnTop(
+                  cosmosValidators.cosmosValidators,
+                )}
               >
                 <Button
                   category="SECONDARY"

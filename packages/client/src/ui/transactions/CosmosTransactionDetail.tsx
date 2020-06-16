@@ -31,7 +31,7 @@ import CosmosTransactionList from "./CosmosTransactionList";
 
 class CosmosTransactionDetail extends React.PureComponent<IProps> {
   render(): JSX.Element {
-    const { validators, fiatPriceHistory, i18n, ledger } = this.props;
+    const { cosmosValidators, fiatPriceHistory, i18n, ledger } = this.props;
     const hash = this.props.location.pathname
       .replace("/txs/", "")
       .toLowerCase();
@@ -45,7 +45,7 @@ class CosmosTransactionDetail extends React.PureComponent<IProps> {
             tString={i18n.tString}
             loadingComponent={<DashboardLoader />}
             results={[
-              [validators, "validators"],
+              [cosmosValidators, "cosmosValidators"],
               [fiatPriceHistory, "fiatPriceHistory"],
             ]}
           >
@@ -85,7 +85,7 @@ class CosmosTransactionDetail extends React.PureComponent<IProps> {
                   }
                   results={[
                     [transaction, ["data", "transaction"]],
-                    [validators, "validators"],
+                    [cosmosValidators, "cosmosValidators"],
                     [fiatPriceHistory, "fiatPriceHistory"],
                   ]}
                 >
