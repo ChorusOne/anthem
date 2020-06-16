@@ -1,5 +1,5 @@
-query validators($network: String!){
-    validators(network: $network){
+query cosmosValidators($network: String!){
+    cosmosValidators(network: $network){
         operator_address
         consensus_pubkey
         jailed

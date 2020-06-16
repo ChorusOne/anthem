@@ -1,5 +1,5 @@
-query latestBlock($network: String!){
-    latestBlock(network: $network){
+query cosmosLatestBlock($network: String!){
+    cosmosLatestBlock(network: $network){
         block{
             header{
                 chain_id

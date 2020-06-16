@@ -1,7 +1,0 @@
-query governanceParametersTallying($network: String!){
-    governanceParametersTallying(network: $network){
-        threshold
-        veto
-        governance_penalty
-    }
-}

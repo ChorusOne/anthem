@@ -1,5 +1,5 @@
-query accountInformation($address: String!){
-    accountInformation(address: $address){
+query cosmosAccountInformation($address: String!){
+    cosmosAccountInformation(address: $address){
         type
         value{
             account_number

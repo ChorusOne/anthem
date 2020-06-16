@@ -1,5 +1,5 @@
-query governanceProposals($network: String!){
-    governanceProposals(network: $network){
+query cosmosGovernanceProposals($network: String!){
+    cosmosGovernanceProposals(network: $network){
         proposal_id
         title
         description

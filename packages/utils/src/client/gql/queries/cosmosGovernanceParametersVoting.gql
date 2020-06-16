@@ -1,0 +1,5 @@
+query cosmosGovernanceParametersVoting($network: String!){
+    cosmosGovernanceParametersVoting(network: $network){
+        voting_period
+    }
+}

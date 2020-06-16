@@ -1,5 +1,5 @@
-query slashingParameters($network: String!){
-    slashingParameters(network: $network){
+query cosmosSlashingParameters($network: String!){
+    cosmosSlashingParameters(network: $network){
         max_evidence_age
         signed_blocks_window
         min_signed_per_window

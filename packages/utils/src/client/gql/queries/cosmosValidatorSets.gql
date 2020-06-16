@@ -1,5 +1,5 @@
-query validatorSets($network: String!){
-    validatorSets(network: $network){
+query cosmosValidatorSets($network: String!){
+    cosmosValidatorSets(network: $network){
         block_height
         validators{
             address

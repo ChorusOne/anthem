@@ -1,5 +1,5 @@
-query validatorDistribution($validatorAddress: String!){
-    validatorDistribution(validatorAddress: $validatorAddress){
+query cosmosValidatorDistribution($validatorAddress: String!){
+    cosmosValidatorDistribution(validatorAddress: $validatorAddress){
         operator_address
         self_bond_rewards{
             denom

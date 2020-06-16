@@ -1,26 +1,26 @@
 import {
   deriveNetworkFromAddress,
   getNetworkDefinitionFromIdentifier,
-  IAccountInformationQueryVariables,
   ICosmosAccountBalances,
   ICosmosAccountBalancesQueryVariables,
   ICosmosAccountHistoryQueryVariables,
+  ICosmosAccountInformationQueryVariables,
+  ICosmosDistributionCommunityPoolQueryVariables,
+  ICosmosDistributionParametersQueryVariables,
+  ICosmosGovernanceParametersTallyingQueryVariables,
+  ICosmosGovernanceParametersVotingQueryVariables,
+  ICosmosGovernanceProposalsQueryVariables,
+  ICosmosLatestBlockQueryVariables,
+  ICosmosRewardsByValidatorQueryVariables,
+  ICosmosSlashingParametersQueryVariables,
+  ICosmosStakingParametersQueryVariables,
+  ICosmosStakingPoolQueryVariables,
   ICosmosTransactionQueryVariables,
   ICosmosTransactionsQueryVariables,
-  IDistributionCommunityPoolQueryVariables,
-  IDistributionParametersQueryVariables,
-  IGovernanceParametersTallyingQueryVariables,
-  IGovernanceParametersVotingQueryVariables,
-  IGovernanceProposalsQueryVariables,
-  ILatestBlockQueryVariables,
+  ICosmosValidatorDistributionQueryVariables,
+  ICosmosValidatorSetsQueryVariables,
+  ICosmosValidatorsQueryVariables,
   IQuery,
-  IRewardsByValidatorQueryVariables,
-  ISlashingParametersQueryVariables,
-  IStakingParametersQueryVariables,
-  IStakingPoolQueryVariables,
-  IValidatorDistributionQueryVariables,
-  IValidatorSetsQueryVariables,
-  IValidatorsQueryVariables,
 } from "@anthem/utils";
 import {
   blockUnsupportedNetworks,
@@ -115,10 +115,10 @@ const CosmosResolvers = {
     return COSMOS_EXTRACTOR.getTransactions(params);
   },
 
-  rewardsByValidator: async (
+  cosmosRewardsByValidator: async (
     _: void,
-    args: IRewardsByValidatorQueryVariables,
-  ): Promise<IQuery["rewardsByValidator"]> => {
+    args: ICosmosRewardsByValidatorQueryVariables,
+  ): Promise<IQuery["cosmosRewardsByValidator"]> => {
     const { address } = args;
     const network = deriveNetworkFromAddress(address);
     return COSMOS_SDK.fetchAvailableRewards(address, network);
@@ -156,10 +156,10 @@ const CosmosResolvers = {
     return balances;
   },
 
-  accountInformation: async (
+  cosmosAccountInformation: async (
     _: void,
-    args: IAccountInformationQueryVariables,
-  ): Promise<IQuery["accountInformation"]> => {
+    args: ICosmosAccountInformationQueryVariables,
+  ): Promise<IQuery["cosmosAccountInformation"]> => {
     /**
      * TODO: There a "validator vesting accounts" on Kava which have a
      * different return type for this API.
@@ -169,107 +169,107 @@ const CosmosResolvers = {
     return COSMOS_SDK.fetchAccountInformation(address, network);
   },
 
-  validatorDistribution: async (
+  cosmosValidatorDistribution: async (
     _: void,
-    args: IValidatorDistributionQueryVariables,
-  ): Promise<IQuery["validatorDistribution"]> => {
+    args: ICosmosValidatorDistributionQueryVariables,
+  ): Promise<IQuery["cosmosValidatorDistribution"]> => {
     const { validatorAddress } = args;
     const network = deriveNetworkFromAddress(validatorAddress);
     return COSMOS_SDK.fetchValidatorDistribution(validatorAddress, network);
   },
 
-  validators: async (
+  cosmosValidators: async (
     _: void,
-    args: IValidatorsQueryVariables,
-  ): Promise<IQuery["validators"]> => {
+    args: ICosmosValidatorsQueryVariables,
+  ): Promise<IQuery["cosmosValidators"]> => {
     const network = getNetworkDefinitionFromIdentifier(args.network);
     return COSMOS_SDK.fetchValidators(network);
   },
 
   validatorSets: async (
     _: void,
-    args: IValidatorSetsQueryVariables,
-  ): Promise<IQuery["validatorSets"]> => {
+    args: ICosmosValidatorSetsQueryVariables,
+  ): Promise<IQuery["cosmosValidatorSets"]> => {
     const network = getNetworkDefinitionFromIdentifier(args.network);
     return COSMOS_SDK.fetchValidatorSets(network);
   },
 
-  latestBlock: async (
+  cosmosLatestBlock: async (
     _: void,
-    args: ILatestBlockQueryVariables,
-  ): Promise<IQuery["latestBlock"]> => {
+    args: ICosmosLatestBlockQueryVariables,
+  ): Promise<IQuery["cosmosLatestBlock"]> => {
     const network = getNetworkDefinitionFromIdentifier(args.network);
     return COSMOS_SDK.fetchLatestBlock(network);
   },
 
-  stakingPool: async (
+  cosmosStakingPool: async (
     _: void,
-    args: IStakingPoolQueryVariables,
-  ): Promise<IQuery["stakingPool"]> => {
+    args: ICosmosStakingPoolQueryVariables,
+  ): Promise<IQuery["cosmosStakingPool"]> => {
     const network = getNetworkDefinitionFromIdentifier(args.network);
     return COSMOS_SDK.fetchStakingPool(network);
   },
 
-  stakingParameters: async (
+  cosmosStakingParameters: async (
     _: void,
-    args: IStakingParametersQueryVariables,
-  ): Promise<IQuery["stakingParameters"]> => {
+    args: ICosmosStakingParametersQueryVariables,
+  ): Promise<IQuery["cosmosStakingParameters"]> => {
     const network = getNetworkDefinitionFromIdentifier(args.network);
     return COSMOS_SDK.fetchStakingParameters(network);
   },
 
-  governanceProposals: async (
+  cosmosGovernanceProposals: async (
     _: void,
-    args: IGovernanceProposalsQueryVariables,
-  ): Promise<IQuery["governanceProposals"]> => {
+    args: ICosmosGovernanceProposalsQueryVariables,
+  ): Promise<IQuery["cosmosGovernanceProposals"]> => {
     const network = getNetworkDefinitionFromIdentifier(args.network);
     return COSMOS_SDK.fetchGovernanceProposals(network);
   },
 
-  governanceParametersDeposit: async (
+  cosmosGovernanceParametersDeposit: async (
     _: void,
-    args: IGovernanceParametersTallyingQueryVariables,
-  ): Promise<IQuery["governanceParametersDeposit"]> => {
+    args: ICosmosGovernanceParametersTallyingQueryVariables,
+  ): Promise<IQuery["cosmosGovernanceParametersDeposit"]> => {
     const network = getNetworkDefinitionFromIdentifier(args.network);
     return COSMOS_SDK.fetchGovernanceParametersDeposit(network);
   },
 
-  governanceParametersTallying: async (
+  cosmosGovernanceParametersTallying: async (
     _: void,
-    args: IGovernanceParametersTallyingQueryVariables,
-  ): Promise<IQuery["governanceParametersTallying"]> => {
+    args: ICosmosGovernanceParametersTallyingQueryVariables,
+  ): Promise<IQuery["cosmosGovernanceParametersTallying"]> => {
     const network = getNetworkDefinitionFromIdentifier(args.network);
     return COSMOS_SDK.fetchGovernanceParametersTallying(network);
   },
 
-  governanceParametersVoting: async (
+  cosmosGovernanceParametersVoting: async (
     _: void,
-    args: IGovernanceParametersVotingQueryVariables,
-  ): Promise<IQuery["governanceParametersVoting"]> => {
+    args: ICosmosGovernanceParametersVotingQueryVariables,
+  ): Promise<IQuery["cosmosGovernanceParametersVoting"]> => {
     const network = getNetworkDefinitionFromIdentifier(args.network);
     return COSMOS_SDK.fetchGovernanceParametersVoting(network);
   },
 
-  slashingParameters: async (
+  cosmosSlashingParameters: async (
     _: void,
-    args: ISlashingParametersQueryVariables,
-  ): Promise<IQuery["slashingParameters"]> => {
+    args: ICosmosSlashingParametersQueryVariables,
+  ): Promise<IQuery["cosmosSlashingParameters"]> => {
     const network = getNetworkDefinitionFromIdentifier(args.network);
     return COSMOS_SDK.fetchSlashingParameters(network);
   },
 
-  distributionCommunityPool: async (
+  cosmosDistributionCommunityPool: async (
     _: void,
-    args: IDistributionCommunityPoolQueryVariables,
-  ): Promise<IQuery["distributionCommunityPool"]> => {
+    args: ICosmosDistributionCommunityPoolQueryVariables,
+  ): Promise<IQuery["cosmosDistributionCommunityPool"]> => {
     const network = getNetworkDefinitionFromIdentifier(args.network);
     return COSMOS_SDK.fetchDistributionCommunityPool(network);
   },
 
-  distributionParameters: async (
+  cosmosDistributionParameters: async (
     _: void,
-    args: IDistributionParametersQueryVariables,
-  ): Promise<IQuery["distributionParameters"]> => {
+    args: ICosmosDistributionParametersQueryVariables,
+  ): Promise<IQuery["cosmosDistributionParameters"]> => {
     const network = getNetworkDefinitionFromIdentifier(args.network);
     return COSMOS_SDK.fetchDistributionParameters(network);
   },

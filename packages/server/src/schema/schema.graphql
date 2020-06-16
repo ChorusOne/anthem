@@ -8,29 +8,29 @@ type Query {
     startingPage: Float
     pageSize: Float
   ): CosmosTransactionResult!
-  comsosRewardsByValidator(address: String!): [AvailableReward!]!
-  comsosAccountInformation(address: String!): CosmosAccountInformation!
-  comsosValidatorDistribution(
+  cosmosRewardsByValidator(address: String!): [AvailableReward!]!
+  cosmosAccountInformation(address: String!): CosmosAccountInformation!
+  cosmosValidatorDistribution(
     validatorAddress: String!
   ): CosmosValidatorDistribution!
-  comsosValidators(network: String!): [CosmosValidator!]!
-  comsosValidatorSets(network: String!): CosmosValidatorSet!
-  comsosLatestBlock(network: String!): CosmosBlockData!
-  comsosStakingPool(network: String!): CosmosStakingPool!
-  comsosStakingParameters(network: String!): CosmosStakingParameters!
-  comsosGovernanceProposals(network: String!): [CosmosGovernanceProposal!]!
-  comsosGovernanceParametersDeposit(
+  cosmosValidators(network: String!): [CosmosValidator!]!
+  cosmosValidatorSets(network: String!): CosmosValidatorSet!
+  cosmosLatestBlock(network: String!): CosmosBlockData!
+  cosmosStakingPool(network: String!): CosmosStakingPool!
+  cosmosStakingParameters(network: String!): CosmosStakingParameters!
+  cosmosGovernanceProposals(network: String!): [CosmosGovernanceProposal!]!
+  cosmosGovernanceParametersDeposit(
     network: String!
   ): CosmosGovernanceParametersDeposit!
-  comsosGovernanceParametersTallying(
+  cosmosGovernanceParametersTallying(
     network: String!
   ): CosmosGovernanceParametersTallying!
-  comsosGovernanceParametersVoting(
+  cosmosGovernanceParametersVoting(
     network: String!
   ): CosmosGovernanceParametersVoting!
-  comsosSlashingParameters(network: String!): CosmosSlashingParameters!
-  comsosDistributionCommunityPool(network: String!): [CosmosBalance!]!
-  comsosDistributionParameters(network: String!): CosmosDistributionParameters!
+  cosmosSlashingParameters(network: String!): CosmosSlashingParameters!
+  cosmosDistributionCommunityPool(network: String!): [CosmosBalance!]!
+  cosmosDistributionParameters(network: String!): CosmosDistributionParameters!
 
   # Oasis APIs
   oasisAccountBalances(address: String!): OasisAccountBalances!

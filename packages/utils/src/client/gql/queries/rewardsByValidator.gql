@@ -1,9 +1,0 @@
-query rewardsByValidator($address: String!){
-    rewardsByValidator(address: $address){
-        reward{
-            denom
-            amount
-        }
-        validator_address
-    }
-}

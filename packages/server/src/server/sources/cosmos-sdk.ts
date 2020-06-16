@@ -1,9 +1,9 @@
 import {
   assertUnreachable,
   getValidatorAddressFromDelegatorAddress,
-  IAccountInformation,
   ICosmosAccountBalances,
-  IGovernanceProposal,
+  ICosmosAccountInformation,
+  ICosmosGovernanceProposal,
   IQuery,
   NetworkDefinition,
 } from "@anthem/utils";
@@ -75,7 +75,7 @@ const fetchRewards = async (
   network: NetworkDefinition,
 ): Promise<ICosmosAccountBalances["rewards"]> => {
   const host = getHostFromNetworkName(network.name);
-  const response = await AxiosUtil.get(
+  const response = await AxiosUtil.get<any>(
     `${host}/distribution/delegators/${address}/rewards`,
   );
 
@@ -143,7 +143,7 @@ const fetchCommissionsForValidator = async (
 const fetchAccountInformation = async (
   address: string,
   network: NetworkDefinition,
-): Promise<IAccountInformation> => {
+): Promise<ICosmosAccountInformation> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(`${host}/auth/accounts/${address}`);
   return postProcessResponse(response, network);
@@ -160,7 +160,7 @@ const fetchAccountInformation = async (
 const fetchValidatorDistribution = async (
   validatorAddress: string,
   network: NetworkDefinition,
-): Promise<IQuery["validatorDistribution"]> => {
+): Promise<IQuery["cosmosValidatorDistribution"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(
     `${host}/distribution/validators/${validatorAddress}`,
@@ -173,7 +173,7 @@ const fetchValidatorDistribution = async (
  */
 const fetchValidators = async (
   network: NetworkDefinition,
-): Promise<IQuery["validators"]> => {
+): Promise<IQuery["cosmosValidators"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(`${host}/staking/validators`);
   return postProcessResponse(response, network);
@@ -184,7 +184,7 @@ const fetchValidators = async (
  */
 const fetchValidatorSets = async (
   network: NetworkDefinition,
-): Promise<IQuery["validatorSets"]> => {
+): Promise<IQuery["cosmosValidatorSets"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(`${host}/validatorsets/latest`);
   return postProcessResponse(response, network);
@@ -200,7 +200,7 @@ const fetchValidatorSets = async (
  */
 const fetchLatestBlock = async (
   network: NetworkDefinition,
-): Promise<IQuery["latestBlock"]> => {
+): Promise<IQuery["cosmosLatestBlock"]> => {
   const host = getHostFromNetworkName(network.name);
   return AxiosUtil.get(`${host}/blocks/latest`);
 };
@@ -210,7 +210,7 @@ const fetchLatestBlock = async (
  */
 const fetchStakingPool = async (
   network: NetworkDefinition,
-): Promise<IQuery["stakingPool"]> => {
+): Promise<IQuery["cosmosStakingPool"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(`${host}/staking/pool`);
   return postProcessResponse(response, network);
@@ -221,7 +221,7 @@ const fetchStakingPool = async (
  */
 const fetchStakingParameters = async (
   network: NetworkDefinition,
-): Promise<IQuery["stakingParameters"]> => {
+): Promise<IQuery["cosmosStakingParameters"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(`${host}/staking/parameters`);
   return postProcessResponse(response, network);
@@ -232,13 +232,13 @@ const fetchStakingParameters = async (
  */
 const fetchGovernanceProposals = async (
   network: NetworkDefinition,
-): Promise<IQuery["governanceProposals"]> => {
+): Promise<IQuery["cosmosGovernanceProposals"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(`${host}/gov/proposals`);
   const result = postProcessResponse(response, network);
 
   if (network.name === "KAVA") {
-    const kavaResult = result.map((proposal: IGovernanceProposal) => ({
+    const kavaResult = result.map((proposal: ICosmosGovernanceProposal) => ({
       ...proposal,
       // @ts-ignore
       proposal_id: proposal.id,
@@ -254,7 +254,7 @@ const fetchGovernanceProposals = async (
  */
 const fetchGovernanceParametersDeposit = async (
   network: NetworkDefinition,
-): Promise<IQuery["governanceParametersDeposit"]> => {
+): Promise<IQuery["cosmosGovernanceParametersDeposit"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(`${host}/gov/parameters/deposit`);
   return postProcessResponse(response, network);
@@ -265,7 +265,7 @@ const fetchGovernanceParametersDeposit = async (
  */
 const fetchGovernanceParametersTallying = async (
   network: NetworkDefinition,
-): Promise<IQuery["governanceParametersTallying"]> => {
+): Promise<IQuery["cosmosGovernanceParametersTallying"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(`${host}/gov/parameters/tallying`);
   return postProcessResponse(response, network);
@@ -276,7 +276,7 @@ const fetchGovernanceParametersTallying = async (
  */
 const fetchGovernanceParametersVoting = async (
   network: NetworkDefinition,
-): Promise<IQuery["governanceParametersVoting"]> => {
+): Promise<IQuery["cosmosGovernanceParametersVoting"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(`${host}/gov/parameters/voting`);
   return postProcessResponse(response, network);
@@ -287,7 +287,7 @@ const fetchGovernanceParametersVoting = async (
  */
 const fetchSlashingParameters = async (
   network: NetworkDefinition,
-): Promise<IQuery["slashingParameters"]> => {
+): Promise<IQuery["cosmosSlashingParameters"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(`${host}/slashing/parameters`);
   return postProcessResponse(response, network);
@@ -298,7 +298,7 @@ const fetchSlashingParameters = async (
  */
 const fetchDistributionCommunityPool = async (
   network: NetworkDefinition,
-): Promise<IQuery["distributionCommunityPool"]> => {
+): Promise<IQuery["cosmosDistributionCommunityPool"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(`${host}/distribution/community_pool`);
   return postProcessResponse(response, network);
@@ -309,7 +309,7 @@ const fetchDistributionCommunityPool = async (
  */
 const fetchDistributionParameters = async (
   network: NetworkDefinition,
-): Promise<IQuery["distributionParameters"]> => {
+): Promise<IQuery["cosmosDistributionParameters"]> => {
   const host = getHostFromNetworkName(network.name);
   const response = await AxiosUtil.get(`${host}/distribution/parameters`);
   return postProcessResponse(response, network);
@@ -322,9 +322,9 @@ const fetchDistributionParameters = async (
 const fetchAvailableRewards = async (
   address: string,
   network: NetworkDefinition,
-): Promise<IQuery["rewardsByValidator"]> => {
+): Promise<IQuery["cosmosRewardsByValidator"]> => {
   const host = getHostFromNetworkName(network.name);
-  const response = await AxiosUtil.get(
+  const response = await AxiosUtil.get<any>(
     `${host}/distribution/delegators/${address}/rewards`,
   );
 

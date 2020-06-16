@@ -1,5 +1,5 @@
-query stakingParameters($network: String!){
-    stakingParameters(network: $network){
+query cosmosStakingParameters($network: String!){
+    cosmosStakingParameters(network: $network){
         inflation_rate_change
         inflation_max
         inflation_min
