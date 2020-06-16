@@ -575,10 +575,11 @@ export interface IQuery {
   /** Cosmos APIs */
   cosmosAccountBalances: ICosmosAccountBalances;
   cosmosAccountHistory: ICosmosAccountHistory;
-  rewardsByValidator: IAvailableReward[];
-  accountInformation: IAccountInformation;
   cosmosTransaction: ICosmosTransaction;
   cosmosTransactions: ITransactionsPaginationResult;
+  /** TODO: Prefix with cosmos- */
+  rewardsByValidator: IAvailableReward[];
+  accountInformation: IAccountInformation;
   validatorDistribution: IValidatorDistribution;
   validators: IValidator[];
   validatorSets: IValidatorSet;
@@ -620,14 +621,6 @@ export interface IQueryCosmosAccountHistoryArgs {
   fiat: Scalars["String"];
 }
 
-export interface IQueryRewardsByValidatorArgs {
-  address: Scalars["String"];
-}
-
-export interface IQueryAccountInformationArgs {
-  address: Scalars["String"];
-}
-
 export interface IQueryCosmosTransactionArgs {
   hash: Scalars["String"];
   network: Scalars["String"];
@@ -637,6 +630,14 @@ export interface IQueryCosmosTransactionsArgs {
   address: Scalars["String"];
   startingPage: Maybe<Scalars["Float"]>;
   pageSize: Maybe<Scalars["Float"]>;
+}
+
+export interface IQueryRewardsByValidatorArgs {
+  address: Scalars["String"];
+}
+
+export interface IQueryAccountInformationArgs {
+  address: Scalars["String"];
 }
 
 export interface IQueryValidatorDistributionArgs {
