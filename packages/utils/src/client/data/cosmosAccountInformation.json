@@ -1,5 +1,5 @@
 {
-  "accountInformation": {
+  "cosmosAccountInformation": {
     "type": "cosmos-sdk/Account",
     "value": {
       "account_number": "16451",

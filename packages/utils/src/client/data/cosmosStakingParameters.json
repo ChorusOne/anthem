@@ -1,5 +1,5 @@
 {
-  "stakingParameters": {
+  "cosmosStakingParameters": {
     "inflation_rate_change": null,
     "inflation_max": null,
     "inflation_min": null,

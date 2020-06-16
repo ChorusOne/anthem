@@ -186,7 +186,7 @@ const CosmosResolvers = {
     return COSMOS_SDK.fetchValidators(network);
   },
 
-  validatorSets: async (
+  cosmosValidatorSets: async (
     _: void,
     args: ICosmosValidatorSetsQueryVariables,
   ): Promise<IQuery["cosmosValidatorSets"]> => {

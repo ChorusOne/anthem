@@ -1,5 +1,5 @@
 {
-  "distributionParameters": {
+  "cosmosDistributionParameters": {
     "base_proposer_reward": "0.010000000000000000",
     "bonus_proposer_reward": "0.040000000000000000",
     "community_tax": "0.020000000000000000"
