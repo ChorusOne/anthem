@@ -126,7 +126,7 @@ export const withFiatPriceData = graphql(PricesDocument, {
 });
 
 /** ===========================================================================
- * DailyPercentageChange
+ * Daily Percentage Change
  * ============================================================================
  */
 
@@ -145,7 +145,7 @@ export const withDailyPercentChange = graphql(DailyPercentChangeDocument, {
 });
 
 /** ===========================================================================
- * FiatPriceHistory
+ * Fiat Price History
  * ============================================================================
  */
 
@@ -164,7 +164,7 @@ export const withFiatPriceHistory = graphql(FiatPriceHistoryDocument, {
 });
 
 /** ===========================================================================
- * FiatCurrencies
+ * Fiat Currencies
  * ============================================================================
  */
 
@@ -183,7 +183,7 @@ export const withFiatCurrencies = graphql(FiatCurrenciesDocument, {
 });
 
 /** ===========================================================================
- * Account Balances
+ * Cosmos Account Balances
  * ============================================================================
  */
 
@@ -205,7 +205,7 @@ export const withCosmosAccountBalances = graphql(
 );
 
 /** ===========================================================================
- * RewardsByValidator
+ * Cosmos Rewards By Validator
  * ============================================================================
  */
 
@@ -227,7 +227,7 @@ export const withRewardsByValidatorQuery = graphql(
 );
 
 /** ===========================================================================
- * Account History
+ * Cosmos Account History
  * ============================================================================
  */
 
@@ -246,7 +246,7 @@ export const withCosmosAccountHistory = graphql(CosmosAccountHistoryDocument, {
 });
 
 /** ===========================================================================
- * AccountInformation
+ * Cosmos AccountInformation
  * ============================================================================
  */
 
@@ -287,7 +287,7 @@ export const withCosmosTransactions = graphql(CosmosTransactionsDocument, {
 });
 
 /** ===========================================================================
- * Validators
+ * Cosmos Validators
  * ============================================================================
  */
 
@@ -306,7 +306,7 @@ export const withValidators = graphql(CosmosValidatorsDocument, {
 });
 
 /** ===========================================================================
- * Staking Pool
+ * Cosmos Staking Pool
  * ============================================================================
  */
 
@@ -325,7 +325,7 @@ export const withStakingPool = graphql(CosmosStakingPoolDocument, {
 });
 
 /** ===========================================================================
- * Account Balances
+ * Oasis Account Balances
  * ============================================================================
  */
 
@@ -382,7 +382,7 @@ export const withOasisTransactions = graphql(OasisTransactionsDocument, {
 });
 
 /** ===========================================================================
- * Account Balances
+ * Celo Account Balances
  * ============================================================================
  */
 
@@ -458,7 +458,7 @@ export const withCeloTransaction = graphql(CeloTransactionDocument, {
 });
 
 /** ===========================================================================
- * Celo Validators
+ * Celo Validator Groups
  * ============================================================================
  */
 
