@@ -153,7 +153,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     const { hash } = this.props.transaction;
     const link = `https://explorer.celo.org/tx/${hash}`;
     return (
-      <a target="_blank" href={link}>
+      <a target="_blank" href={link} rel="noopener noreferrer">
         <ClickableEventRow onClick={() => null}>
           <EventIconBox>
             <LinkIcon />
