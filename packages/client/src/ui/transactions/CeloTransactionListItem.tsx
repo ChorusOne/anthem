@@ -64,6 +64,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
         <EventRowBottom>
           {this.renderBlockNumber()}
           {this.renderTransactionValues()}
+          {this.renderBlockExplorerLink()}
         </EventRowBottom>
       </Card>
     );
@@ -145,6 +146,25 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
       </Tooltip>
     ) : (
       TxHashLink
+    );
+  };
+
+  renderBlockExplorerLink = () => {
+    const { hash } = this.props.transaction;
+    const link = `https://explorer.celo.org/tx/${hash}`;
+    return (
+      <a target="_blank" href={link}>
+        <ClickableEventRow onClick={() => null}>
+          <EventIconBox>
+            <LinkIcon />
+          </EventIconBox>
+          <EventContextBox>
+            <EventText style={{ fontWeight: 200 }}>
+              View on Celo Explorer
+            </EventText>
+          </EventContextBox>
+        </ClickableEventRow>
+      </a>
     );
   };
 
