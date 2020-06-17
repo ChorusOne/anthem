@@ -520,7 +520,7 @@ export const race = async <T extends {}>(
 };
 
 export interface PriceHistoryMap {
-  [key: string]: string;
+  [key: string]: number;
 }
 
 /**
@@ -552,7 +552,7 @@ export const getPriceFromTransactionTimestamp = (
 ): string => {
   const date = formatFiatPriceDate(new Date(Number(timestamp)));
   if (date in priceHistory) {
-    return priceHistory[date];
+    return String(priceHistory[date]);
   }
 
   return "";

@@ -1,6 +1,7 @@
 import {
   assertUnreachable,
   ICeloAccountSnapshot,
+  IQuery,
   NetworkDefinition,
 } from "@anthem/utils";
 import * as Sentry from "@sentry/browser";
@@ -30,7 +31,7 @@ import {
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
 import { toDateKeyCelo } from "tools/date-utils";
-import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
+import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import { DashboardError } from "ui/pages/DashboardPage";
 import Toast from "ui/Toast";
 import CurrencySettingsToggle from "../CurrencySettingToggle";
@@ -84,20 +85,20 @@ class CeloPortfolio extends React.PureComponent<
       settings,
       network,
       fullSize,
+      fiatPriceHistory,
       celoAccountHistory,
     } = this.props;
     const { t, tString } = i18n;
     const { fiatCurrency, currencySetting, isDarkTheme } = settings;
 
-    // console.log("CELO account history:");
-    // console.log(celoAccountHistory);
-
     return (
       <View style={{ position: "relative", height: "100%" }}>
-        <GraphQLGuardComponent
+        <GraphQLGuardComponentMultipleQueries
           tString={tString}
-          dataKey="celoAccountHistory"
-          result={celoAccountHistory}
+          results={[
+            [celoAccountHistory, "celoAccountHistory"],
+            [fiatPriceHistory, "fiatPriceHistory"],
+          ]}
           errorComponent={<DashboardError tString={tString} />}
           loadingComponent={
             <DashboardLoader
@@ -105,11 +106,23 @@ class CeloPortfolio extends React.PureComponent<
             />
           }
         >
-          {(accountHistory: ICeloAccountSnapshot[]) => {
+          {([accountHistory, fiatPrices]: [
+            ICeloAccountSnapshot[],
+            IQuery["fiatPriceHistory"],
+          ]) => {
             const getChartOptions = (
               type: PORTFOLIO_CHART_TYPES,
             ): Nullable<Highcharts.Options> => {
-              const chartData = getChartData(accountHistory, network, type);
+              const format = "MMM DD, YYYY";
+              const priceHistory = getFiatPriceHistoryMap(fiatPrices, format);
+              const chartData = getChartData(
+                accountHistory,
+                network,
+                type,
+                priceHistory,
+                fiatPrices[0].price,
+                currencySetting === "fiat",
+              );
               if (chartData) {
                 return getHighchartsChartOptions({
                   tString,
@@ -174,7 +187,7 @@ class CeloPortfolio extends React.PureComponent<
               </View>
             );
           }}
-        </GraphQLGuardComponent>
+        </GraphQLGuardComponentMultipleQueries>
       </View>
     );
   }
@@ -223,19 +236,6 @@ class CeloPortfolio extends React.PureComponent<
  * ============================================================================
  */
 
-// NOTE: Celo Snapshot Data:
-// "snapshotDate": "07-04-2020",
-// "address": "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2",
-// "height": "0",
-// "snapshotReward": "0",
-// "availableGoldBalance": "0",
-// "totalLockedGoldBalance": "0",
-// "nonVotingLockedGoldBalance": "0",
-// "votingLockedGoldBalance": "0",
-// "pendingWithdrawalBalance": "0",
-// "celoUSDValue": "0",
-// "delegations": []
-
 /**
  * Function to build the Oasis chart data. Currently available is the only
  * chart which is supported.
@@ -244,6 +244,9 @@ const getChartData = (
   accountHistory: ICeloAccountSnapshot[],
   network: NetworkDefinition,
   type: PORTFOLIO_CHART_TYPES,
+  fiatPriceHistory: PriceHistoryMap,
+  firstPrice: number,
+  displayFiatPrices: boolean,
 ): Nullable<ChartData> => {
   const series: { [key: string]: number } = {};
 
@@ -271,7 +274,15 @@ const getChartData = (
     }
 
     const key = toDateKeyCelo(x.snapshotDate);
-    series[key] = denomToUnit(value, network.denominationSize, Number);
+    let result = denomToUnit(value, network.denominationSize, Number);
+
+    // Convert to fiat price if fiat price setting is enabled
+    if (displayFiatPrices) {
+      const fiatPrice = fiatPriceHistory[key] || firstPrice;
+      result = result * fiatPrice;
+    }
+
+    series[key] = result;
   }
 
   return {
