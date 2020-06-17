@@ -15,16 +15,17 @@ export interface VarConfig {
   testQuery: (s: string) => boolean;
 }
 
-const COSMOS = "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd";
-const COSMOS_TX =
+const COSMOS_ADDRESS = "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd";
+const COSMOS_TX_HASH =
   "E0BC81E3B76F70466D8F235F02EDD3F3E23E8C52A40D27A650BC14A9E6F8239C";
-const COSMOS_VALIDATOR = "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707";
+const COSMOS_VALIDATOR_ADDRESS =
+  "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707";
 
-const OASIS = "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=";
-const OASIS_TX = ""; // TODO: ???
+const OASIS_ADDRESS = "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=";
+const OASIS_TX_HASH = ""; // TODO: ???
 
-const CELO = "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2";
-const CELO_TX =
+const CELO_ADDRESS = "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673";
+const CELO_TX_HASH =
   "0xdb33159c19e457e500adae015e4923d3851f355f7319c3ded15a8cfe4503d002";
 
 /**
@@ -36,7 +37,7 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   {
     variables: {
       fiat: "USD",
-      address: OASIS,
+      address: OASIS_ADDRESS,
     },
     testQuery: (gql: string) => {
       return (
@@ -48,17 +49,30 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   },
   {
     variables: {
-      address: OASIS,
+      address: OASIS_ADDRESS,
     },
     testQuery: (gql: string) => {
       return gql.includes("oasisTransactions") && gql.includes("$address");
     },
   },
+  {
+    variables: {
+      hash: OASIS_TX_HASH,
+    },
+    testQuery: (gql: string) =>
+      gql.includes("oasisTransaction") && gql.includes("$hash"),
+  },
+  {
+    variables: {
+      address: OASIS_ADDRESS,
+    },
+    testQuery: (gql: string) => gql.includes("oasisAccountBalances"),
+  },
   // Celo APIs ----------------------------------------------------------------
   {
     variables: {
       fiat: "USD",
-      address: CELO,
+      address: CELO_ADDRESS,
     },
     testQuery: (gql: string) => {
       return (
@@ -70,18 +84,31 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   },
   {
     variables: {
-      address: CELO,
+      address: CELO_ADDRESS,
     },
     testQuery: (gql: string) => {
       return gql.includes("celoTransactions") && gql.includes("$address");
     },
+  },
+  {
+    variables: {
+      hash: CELO_TX_HASH,
+    },
+    testQuery: (gql: string) =>
+      gql.includes("celoTransaction") && gql.includes("$hash"),
+  },
+  {
+    variables: {
+      address: CELO_ADDRESS,
+    },
+    testQuery: (gql: string) => gql.includes("celoAccountBalances"),
   },
   // Cosmos APIs --------------------------------------------------------------
   {
     variables: {
       fiat: "USD",
       network: "COSMOS",
-      validatorAddress: COSMOS_VALIDATOR,
+      validatorAddress: COSMOS_VALIDATOR_ADDRESS,
     },
     testQuery: (gql: string) => {
       return gql.includes("$fiat") && gql.includes("$validatorAddress");
@@ -100,7 +127,7 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
     variables: {
       fiat: "USD",
       network: "COSMOS",
-      address: COSMOS,
+      address: COSMOS_ADDRESS,
     },
     testQuery: (gql: string) => {
       return gql.includes("$fiat") && gql.includes("$address");
@@ -118,36 +145,22 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   {
     variables: {
       network: "COSMOS",
-      address: COSMOS,
+      address: COSMOS_ADDRESS,
     },
     testQuery: (gql: string) => gql.includes("$address"),
   },
   {
     variables: {
       network: "COSMOS",
-      hash: COSMOS_TX,
+      hash: COSMOS_TX_HASH,
     },
     testQuery: (gql: string) =>
       gql.includes("cosmosTransaction") && gql.includes("$hash"),
   },
   {
     variables: {
-      hash: OASIS_TX,
-    },
-    testQuery: (gql: string) =>
-      gql.includes("oasisTransaction") && gql.includes("$hash"),
-  },
-  {
-    variables: {
-      hash: CELO_TX,
-    },
-    testQuery: (gql: string) =>
-      gql.includes("celoTransaction") && gql.includes("$hash"),
-  },
-  {
-    variables: {
       network: "COSMOS",
-      validatorAddress: COSMOS_VALIDATOR,
+      validatorAddress: COSMOS_VALIDATOR_ADDRESS,
     },
     testQuery: (gql: string) => gql.includes("$validatorAddress"),
   },
