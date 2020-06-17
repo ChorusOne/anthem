@@ -558,9 +558,11 @@ export const getPriceFromTransactionTimestamp = (
   return "";
 };
 
-export interface ValidatorOperatorAddressMap<V> {
-  [key: string]: V;
-}
+// export interface ValidatorOperatorAddressMap<V> {
+//   [key: string]: V;
+// }
+
+export type ValidatorOperatorAddressMap<V> = Map<string, V>;
 
 /**
  * Reduce a list of validators to a map keyed by the operator_address for
@@ -571,11 +573,14 @@ export const getValidatorOperatorAddressMap = <V extends {}>(
   getAddressFn: (validator: V) => string,
 ): ValidatorOperatorAddressMap<V> => {
   return validatorList.reduce((addressMap, validator) => {
-    return {
-      ...addressMap,
-      [getAddressFn(validator)]: validator,
-    };
-  }, {});
+    const address = getAddressFn(validator);
+    addressMap.set(address, validator);
+    return addressMap;
+    // return {
+    //   ...addressMap,
+    //   [getAddressFn(validator)]: validator,
+    // };
+  }, new Map());
 };
 
 /**

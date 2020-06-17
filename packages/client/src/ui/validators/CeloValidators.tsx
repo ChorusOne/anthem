@@ -452,7 +452,8 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                         activeVotes,
                         pendingVotes,
                       } = delegation;
-                      const validatorGroup = validatorOperatorAddressMap[group];
+                      const validatorGroup =
+                        validatorOperatorAddressMap[`${group}`];
                       console.log(group);
                       console.log(validatorOperatorAddressMap);
                       console.log(group in validatorOperatorAddressMap);
