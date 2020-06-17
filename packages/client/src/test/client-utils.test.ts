@@ -57,7 +57,10 @@ describe("utils", () => {
   });
 
   test("formatValidatorsList", () => {
-    const result = sortValidatorsChorusOnTop(cosmosValidators);
+    const result = sortValidatorsChorusOnTop<ICosmosValidator>(
+      cosmosValidators,
+      v => v.description.moniker,
+    );
     expect(result[0].description.moniker).toBe("Chorus One");
   });
 
