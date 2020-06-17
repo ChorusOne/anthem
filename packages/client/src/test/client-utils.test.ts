@@ -103,19 +103,19 @@ describe("utils", () => {
       cosmosTransactions.data[0].timestamp,
       priceMap,
     );
-    expect(result).toMatchInlineSnapshot(`2.17075`);
+    expect(result).toMatchInlineSnapshot(`"2.17075"`);
 
     result = getPriceFromTransactionTimestamp(
       cosmosTransactions.data[1].timestamp,
       priceMap,
     );
-    expect(result).toMatchInlineSnapshot(`2.17075`);
+    expect(result).toMatchInlineSnapshot(`"2.17075"`);
 
     result = getPriceFromTransactionTimestamp(
       cosmosTransactions.data[2].timestamp,
       priceMap,
     );
-    expect(result).toMatchInlineSnapshot(`3.5997500000000002`);
+    expect(result).toMatchInlineSnapshot(`"3.5997500000000002"`);
   });
 
   test("getValidatorOperatorAddressMap", () => {
@@ -218,22 +218,22 @@ describe("utils", () => {
     expect(result).toMatchInlineSnapshot(`
       Object {
         "balance": "348.59",
-        "balanceFiat": "954.43",
-        "commissions": "0",
-        "commissionsFiat": "0",
+        "balanceFiat": "939.44",
+        "commissions": "7,309.62",
+        "commissionsFiat": "19,699.42",
         "delegations": "5,000.00",
-        "delegationsFiat": "13,690.00",
+        "delegationsFiat": "13,475.00",
         "percentages": Array [
-          6.406088503358875,
-          91.88703091827723,
-          1.706880578363891,
+          2.7334929907675583,
+          39.208411626822915,
+          0.7383811830154736,
           0,
-          0,
+          57.31971419939405,
         ],
-        "rewards": "92.88",
-        "rewardsFiat": "254.30",
-        "total": "5,441.46",
-        "totalFiat": "14,898.73",
+        "rewards": "94.16",
+        "rewardsFiat": "253.76",
+        "total": "12,752.37",
+        "totalFiat": "34,367.63",
         "unbonding": "0",
         "unbondingFiat": "0",
       }
