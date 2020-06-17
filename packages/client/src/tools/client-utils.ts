@@ -2,6 +2,7 @@ import {
   assertUnreachable,
   COIN_DENOMS,
   getValidatorAddressFromDelegatorAddress,
+  ICeloValidatorGroup,
   ICosmosAccountBalances,
   ICosmosBalance,
   ICosmosTransaction,
@@ -622,9 +623,10 @@ const isChorusOne = (moniker: string) => moniker === "Chorus One";
  * Sort validators list and put Chorus 1st and Certus 2nd. Apply no sorting
  * to the rest of the list.
  */
-export const sortValidatorsChorusOnTop = (
-  validators: ReadonlyArray<ICosmosValidator>,
-): ICosmosValidator[] => {
+export const sortValidatorsChorusOnTop = <V extends {}>(
+  validators: V[],
+  validatorNameGetter: (v: V) => string,
+): V[] => {
   if (!validators) {
     return [];
   }
@@ -633,7 +635,7 @@ export const sortValidatorsChorusOnTop = (
 
   for (let i = 0; i < validators.length; i++) {
     const validator = validators[i];
-    if (isChorusOne(validator.description.moniker)) {
+    if (isChorusOne(validatorNameGetter(validator))) {
       reordered[0] = validator;
     } else {
       reordered[i + 1] = validator;
@@ -644,7 +646,7 @@ export const sortValidatorsChorusOnTop = (
 };
 
 export enum COSMOS_VALIDATORS_SORT_FILTER {
-  CUSTOM_DEFAULT = "CUSTOM_DEFAULT", // Sort Chorus and Certus on the top
+  CUSTOM_DEFAULT = "CUSTOM_DEFAULT",
   NAME = "NAME",
   VOTING_POWER = "VOTING_POWER",
   COMMISSION = "COMMISSION",
@@ -664,7 +666,10 @@ export const sortValidatorsList = (
 
   switch (sortField) {
     case COSMOS_VALIDATORS_SORT_FILTER.CUSTOM_DEFAULT:
-      return sortValidatorsChorusOnTop(list);
+      return sortValidatorsChorusOnTop<ICosmosValidator>(
+        list,
+        v => v.description.moniker,
+      );
     case COSMOS_VALIDATORS_SORT_FILTER.NAME:
       result = list.sort((a, b) => {
         const aName = a.description.moniker;
@@ -694,7 +699,65 @@ export const sortValidatorsList = (
       return assertUnreachable(sortField);
   }
 
-  return sortValidatorsChorusOnTop(result);
+  return sortValidatorsChorusOnTop<ICosmosValidator>(
+    result,
+    v => v.description.moniker,
+  );
+};
+
+export enum CELO_VALIDATORS_LIST_SORT_FILTER {
+  CUSTOM_DEFAULT = "CUSTOM_DEFAULT",
+  NAME = "NAME",
+  VOTING_POWER = "VOTING_POWER",
+  CAPACITY = "CAPACITY",
+}
+
+/**
+ * Handle sorting the validators list by different parameters.
+ */
+export const sortCeloValidatorsList = (
+  validators: ICeloValidatorGroup[],
+  sortField: CELO_VALIDATORS_LIST_SORT_FILTER,
+  sortAscending: boolean,
+  // totalStake: string,
+) => {
+  const list = validators.slice();
+  let result = [];
+
+  switch (sortField) {
+    case CELO_VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT:
+      return sortValidatorsChorusOnTop<ICeloValidatorGroup>(list, v => v.name);
+    case CELO_VALIDATORS_LIST_SORT_FILTER.NAME:
+      result = list.sort((a, b) => {
+        const aName = a.name;
+        const bName = b.name;
+        if (sortAscending) {
+          return aName.localeCompare(bName);
+        } else {
+          return bName.localeCompare(aName);
+        }
+      });
+      break;
+    case CELO_VALIDATORS_LIST_SORT_FILTER.VOTING_POWER:
+      result = list.sort((a, b) => {
+        const aCapacity = Number(a.capacityAvailable);
+        const bCapacity = Number(b.capacityAvailable);
+        return sortAscending ? aCapacity - bCapacity : bCapacity - aCapacity;
+      });
+      break;
+    case CELO_VALIDATORS_LIST_SORT_FILTER.CAPACITY:
+      // result = list.sort((a, b) => {
+      //   const aRate = Number(a.commission.commission_rates.rate);
+      //   const bRate = Number(b.commission.commission_rates.rate);
+      //   return sortAscending ? aRate - bRate : bRate - aRate;
+      // });
+      return list;
+      break;
+    default:
+      return assertUnreachable(sortField);
+  }
+
+  return sortValidatorsChorusOnTop<ICeloValidatorGroup>(result, v => v.name);
 };
 
 /**

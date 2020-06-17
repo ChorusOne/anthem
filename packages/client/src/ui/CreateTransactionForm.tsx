@@ -492,8 +492,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                 onItemSelect={this.handleSelectValidator}
                 itemRenderer={this.renderValidatorSelectItem}
                 itemPredicate={this.setValidatorSelectItemPredicate}
-                items={sortValidatorsChorusOnTop(
+                items={sortValidatorsChorusOnTop<ICosmosValidator>(
                   cosmosValidators.cosmosValidators,
+                  v => v.description.moniker,
                 )}
               >
                 <Button

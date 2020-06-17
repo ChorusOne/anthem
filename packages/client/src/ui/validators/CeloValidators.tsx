@@ -19,9 +19,11 @@ import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import {
+  CELO_VALIDATORS_LIST_SORT_FILTER,
   copyTextToClipboard,
   formatAddressString,
   getValidatorOperatorAddressMap,
+  sortCeloValidatorsList,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { formatCurrencyAmount } from "tools/currency-utils";
@@ -52,13 +54,6 @@ import {
  * Types & Config
  * ============================================================================
  */
-
-export enum CELO_VALIDATORS_LIST_SORT_FILTER {
-  CUSTOM_DEFAULT = "CUSTOM_DEFAULT", // Sort Chorus and Certus on the top
-  NAME = "NAME",
-  VOTING_POWER = "VOTING_POWER",
-  COMMISSION = "COMMISSION",
-}
 
 export enum SORT_DIRECTION {
   ASCENDING = "ASCENDING",
@@ -140,7 +135,11 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
             );
 
             // Sort the validators list based on the current sort settings
-            const sortedValidatorsList = validatorList;
+            const sortedValidatorsList = sortCeloValidatorsList(
+              validatorList,
+              validatorsListSortFilter,
+              sortValidatorsListAscending,
+            );
 
             return (
               <View
@@ -189,7 +188,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                     <RowItemHeader
                       width={150}
                       onClick={this.handleSortList(
-                        CELO_VALIDATORS_LIST_SORT_FILTER.COMMISSION,
+                        CELO_VALIDATORS_LIST_SORT_FILTER.CAPACITY,
                       )}
                     >
                       <H5 style={{ margin: 0 }}>Capacity</H5>
@@ -197,7 +196,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                         ascending={sortValidatorsListAscending}
                         active={
                           validatorsListSortFilter ===
-                          CELO_VALIDATORS_LIST_SORT_FILTER.COMMISSION
+                          CELO_VALIDATORS_LIST_SORT_FILTER.CAPACITY
                         }
                       />
                     </RowItemHeader>
