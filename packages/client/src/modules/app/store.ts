@@ -45,18 +45,6 @@ const loading = createReducer<LoadingState, ActionTypes>(initialState)
 
 export type BANNER_NOTIFICATIONS_KEYS = "monthly_summary_newsletter";
 
-export enum VALIDATORS_LIST_SORT_FILTER {
-  CUSTOM_DEFAULT = "CUSTOM_DEFAULT", // Sort Chorus and Certus on the top
-  NAME = "NAME",
-  VOTING_POWER = "VOTING_POWER",
-  COMMISSION = "COMMISSION",
-}
-
-export enum SORT_DIRECTION {
-  ASCENDING = "ASCENDING",
-  DESCENDING = "DESCENDING",
-}
-
 interface AppState {
   activeChartTab: PORTFOLIO_CHART_TYPES;
   activeBannerKey: Nullable<BANNER_NOTIFICATIONS_KEYS>;
@@ -65,8 +53,6 @@ interface AppState {
   dismissedBannerKeys: Set<BANNER_NOTIFICATIONS_KEYS>;
   showMonthlySignupTooltip: boolean;
   showDataIntegrityHelpLabel: boolean;
-  validatorsListSortFilter: VALIDATORS_LIST_SORT_FILTER;
-  sortValidatorsListAscending: boolean;
   transactionsExpanded: boolean;
   portfolioExpanded: boolean;
   addressInputRef: Nullable<HTMLInputElement>;
@@ -83,8 +69,6 @@ const initialAppState: AppState = {
   showMonthlySignupTooltip: false,
   notificationsBannerVisible: false,
   dismissedBannerKeys: StorageModule.getDismissedNotifications(),
-  validatorsListSortFilter: VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT,
-  sortValidatorsListAscending: true,
   transactionsExpanded: false,
   portfolioExpanded: false,
   addressInputRef: null,
@@ -118,19 +102,6 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
     portfolioExpanded: false,
     transactionsExpanded: !state.transactionsExpanded,
   }))
-  .handleAction(actions.setValidatorListSortType, (state, action) => {
-    // Flip the sort direction unless the sort category changes
-    let sortDirection = true;
-    if (action.payload === state.validatorsListSortFilter) {
-      sortDirection = !state.sortValidatorsListAscending;
-    }
-
-    return {
-      ...state,
-      validatorsListSortFilter: action.payload,
-      sortValidatorsListAscending: sortDirection,
-    };
-  })
   .handleAction(
     actions.setDashboardAddressInputFocusState,
     (state, action) => ({

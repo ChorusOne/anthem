@@ -2,10 +2,7 @@ import { NetworkDefinition } from "@anthem/utils";
 import { Action, Location } from "history";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import { ActionType, createStandardAction } from "typesafe-actions";
-import {
-  BANNER_NOTIFICATIONS_KEYS,
-  VALIDATORS_LIST_SORT_FILTER,
-} from "./store";
+import { BANNER_NOTIFICATIONS_KEYS } from "./store";
 
 /** ===========================================================================
  * Action Types
@@ -34,8 +31,6 @@ enum ActionTypesEnum {
   NEWSLETTER_SIGNUP = "NEWSLETTER_SIGNUP",
   NEWSLETTER_SIGNUP_SUCCESS = "NEWSLETTER_SIGNUP_SUCCESS",
   NEWSLETTER_SIGNUP_FAILURE = "NEWSLETTER_SIGNUP_FAILURE",
-
-  SET_VALIDATOR_LIST_SORT_TYPE = "SET_VALIDATOR_LIST_SORT_TYPE",
 
   SET_PORTFOLIO_SIZE = "SET_PORTFOLIO_SIZE",
   SET_TRANSACTIONS_SIZE = "SET_TRANSACTIONS_SIZE",
@@ -102,10 +97,6 @@ const newsletterSignupFailure = createStandardAction(
   ActionTypesEnum.NEWSLETTER_SIGNUP_FAILURE,
 )();
 
-const setValidatorListSortType = createStandardAction(
-  ActionTypesEnum.SET_VALIDATOR_LIST_SORT_TYPE,
-)<VALIDATORS_LIST_SORT_FILTER>();
-
 const togglePortfolioSize = createStandardAction(
   ActionTypesEnum.SET_PORTFOLIO_SIZE,
 )();
@@ -145,7 +136,6 @@ const actions = {
   refreshBalanceAndTransactions,
   setDashboardAddressInputFocusState,
   refreshBalanceAndTransactionsSuccess,
-  setValidatorListSortType,
   togglePortfolioSize,
   toggleTransactionsSize,
   setAddressInputRef,

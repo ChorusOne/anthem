@@ -19,7 +19,6 @@ import {
   withStakingPool,
   withValidators,
 } from "graphql/queries";
-import { VALIDATORS_LIST_SORT_FILTER } from "modules/app/store";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
@@ -65,8 +64,22 @@ import {
  * ============================================================================
  */
 
+export enum VALIDATORS_LIST_SORT_FILTER {
+  CUSTOM_DEFAULT = "CUSTOM_DEFAULT", // Sort Chorus and Certus on the top
+  NAME = "NAME",
+  VOTING_POWER = "VOTING_POWER",
+  COMMISSION = "COMMISSION",
+}
+
+export enum SORT_DIRECTION {
+  ASCENDING = "ASCENDING",
+  DESCENDING = "DESCENDING",
+}
+
 interface IState {
   showValidatorDetailsAddress: string;
+  validatorsListSortFilter: VALIDATORS_LIST_SORT_FILTER;
+  sortValidatorsListAscending: boolean;
 }
 
 /** ===========================================================================
@@ -80,6 +93,8 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
 
     this.state = {
       showValidatorDetailsAddress: "",
+      validatorsListSortFilter: VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT,
+      sortValidatorsListAscending: true,
     };
   }
 
@@ -510,6 +525,26 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
     );
   }
 
+  setSortFilter = (filter: VALIDATORS_LIST_SORT_FILTER) => () => {
+    this.handleSortList(filter);
+  };
+
+  handleSortList = (sortFilter: VALIDATORS_LIST_SORT_FILTER) => {
+    const {
+      validatorsListSortFilter,
+      sortValidatorsListAscending,
+    } = this.state;
+    let sortDirection = true;
+    if (sortFilter === validatorsListSortFilter) {
+      sortDirection = !sortValidatorsListAscending;
+    }
+
+    this.setState({
+      validatorsListSortFilter: sortFilter,
+      sortValidatorsListAscending: sortDirection,
+    });
+  };
+
   handleAddValidator = (validator: ICosmosValidator) => {
     // Set the selected validator in the transactions workflow
     this.props.setDelegationValidatorSelection(validator);
@@ -547,10 +582,6 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
       this.setState({ showValidatorDetailsAddress: address });
     }
   };
-
-  setSortFilter = (filter: VALIDATORS_LIST_SORT_FILTER) => () => {
-    this.props.setValidatorListSortType(filter);
-  };
 }
 
 /** ===========================================================================
@@ -562,15 +593,10 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
   network: Modules.selectors.ledger.networkSelector(state),
-  sortListAscending: Modules.selectors.app.appSelector(state)
-    .sortValidatorsListAscending,
-  validatorSortField: Modules.selectors.app.appSelector(state)
-    .validatorsListSortFilter,
 });
 
 const dispatchProps = {
   setLocale: Modules.actions.settings.setLocale,
-  setValidatorListSortType: Modules.actions.app.setValidatorListSortType,
   openLedgerDialog: Modules.actions.ledger.openLedgerDialog,
   setSigninNetworkName: Modules.actions.ledger.setSigninNetworkName,
   openSelectNetworkDialog: Modules.actions.ledger.openSelectNetworkDialog,
