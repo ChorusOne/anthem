@@ -350,7 +350,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
                       <RowItem width={125}>
-                        <H6 style={{ margin: 0 }}>LOCKED</H6>
+                        <H6 style={{ margin: 0 }}>TOTAL LOCKED</H6>
                       </RowItem>
                       <RowItem width={125}>
                         <Text>
@@ -360,13 +360,39 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                           )}
                         </Text>
                       </RowItem>
-                      <RowItem width={200}>
+                      {/* <RowItem width={200}>
                         <Button
                           onClick={this.handleRewardsClaimAction}
                           data-cy="claim-rewards-button"
                         >
                           Withdraw Rewards
                         </Button>
+                      </RowItem> */}
+                    </ValidatorDetailRow>
+                    <ValidatorDetailRow>
+                      <RowItem width={125}>
+                        <H6 style={{ margin: 0 }}>VOTING</H6>
+                      </RowItem>
+                      <RowItem width={125}>
+                        <Text>
+                          {formatCurrencyAmount(
+                            votingLockedGoldBalance,
+                            network.denominationSize,
+                          )}
+                        </Text>
+                      </RowItem>
+                    </ValidatorDetailRow>
+                    <ValidatorDetailRow>
+                      <RowItem width={125}>
+                        <H6 style={{ margin: 0 }}>NON-VOTING</H6>
+                      </RowItem>
+                      <RowItem width={125}>
+                        <Text>
+                          {formatCurrencyAmount(
+                            nonVotingLockedGoldBalance,
+                            network.denominationSize,
+                          )}
+                        </Text>
                       </RowItem>
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
