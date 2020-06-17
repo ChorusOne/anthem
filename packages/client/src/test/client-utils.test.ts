@@ -131,7 +131,7 @@ describe("utils", () => {
   test("getValidatorNameFromAddress", () => {
     const validatorMap = getValidatorOperatorAddressMap<ICosmosValidator>(
       cosmosValidators,
-      v => v.operator_address,
+      v => v.operator_address.toUpperCase(),
     );
     const result = getValidatorNameFromAddress(
       validatorMap,

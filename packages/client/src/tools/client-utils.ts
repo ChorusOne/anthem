@@ -589,8 +589,13 @@ export const getValidatorNameFromAddress = (
     networkName,
   );
 
-  if (validatorAddress && validatorAddress in validatorOperatorAddressMap) {
-    const validator = validatorOperatorAddressMap.get(validatorAddress);
+  if (
+    validatorAddress &&
+    validatorOperatorAddressMap.has(validatorAddress.toUpperCase())
+  ) {
+    const validator = validatorOperatorAddressMap.get(
+      validatorAddress.toUpperCase(),
+    );
     return validator || null;
   }
 

@@ -37,7 +37,7 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
 
     const addressMap = getValidatorOperatorAddressMap<ICosmosValidator>(
       props.cosmosValidators.cosmosValidators,
-      v => v.operator_address,
+      v => v.operator_address.toUpperCase(),
     );
 
     this.priceHistoryMap = priceHistoryMap;
