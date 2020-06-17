@@ -27,7 +27,7 @@ import {
   sortCeloValidatorsList,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
-import { formatCurrencyAmount } from "tools/currency-utils";
+import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
 import { divide, GenericNumberType, subtract } from "tools/math-utils";
 import AddressIconComponent from "ui/AddressIconComponent";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
@@ -129,6 +129,15 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
             //   pricesResponse,
             //   network,
             // );
+
+            const {
+              availableGoldBalance,
+              totalLockedGoldBalance,
+              nonVotingLockedGoldBalance,
+              votingLockedGoldBalance,
+              pendingWithdrawalBalance,
+              celoUSDValue,
+            } = accountBalancesResponse;
 
             const validatorOperatorAddressMap = getValidatorOperatorAddressMap(
               validatorList,
@@ -326,20 +335,30 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                     </RowItemHeader>
                   </StakingRow>
                   <Card style={{ padding: 8, width: 475 }}>
-                    {/* <ValidatorDetailRow>
+                    <ValidatorDetailRow>
                       <RowItem width={125}>
                         <H6 style={{ margin: 0 }}>AVAILABLE</H6>
                       </RowItem>
                       <RowItem width={125}>
-                        <Text>{balances.balance}</Text>
+                        <Text>
+                          {renderCurrencyValue(
+                            availableGoldBalance,
+                            network.denominationSize,
+                          )}
+                        </Text>
                       </RowItem>
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
                       <RowItem width={125}>
-                        <H6 style={{ margin: 0 }}>REWARDS</H6>
+                        <H6 style={{ margin: 0 }}>LOCKED</H6>
                       </RowItem>
                       <RowItem width={125}>
-                        <Text>{balances.rewards}</Text>
+                        <Text>
+                          {renderCurrencyValue(
+                            totalLockedGoldBalance,
+                            network.denominationSize,
+                          )}
+                        </Text>
                       </RowItem>
                       <RowItem width={200}>
                         <Button
@@ -350,34 +369,34 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                         </Button>
                       </RowItem>
                     </ValidatorDetailRow>
-                    {balances.commissions !== "0" && (
-                      <ValidatorDetailRow>
-                        <RowItem width={125}>
-                          <H6 style={{ margin: 0 }}>COMMISSIONS</H6>
-                        </RowItem>
-                        <RowItem width={125}>
-                          <Text>{balances.commissions}</Text>
-                        </RowItem>
-                        <RowItem width={200}>
-                          <Button
-                            onClick={this.handleRewardsClaimAction}
-                            data-cy="claim-commissions-button"
-                          >
-                            Withdraw Commissions
-                          </Button>
-                        </RowItem>
-                      </ValidatorDetailRow>
-                    )}
                     <ValidatorDetailRow>
                       <RowItem width={125}>
-                        <H6 style={{ margin: 0 }}>UNBONDING</H6>
+                        <H6 style={{ margin: 0 }}>PENDING</H6>
                       </RowItem>
                       <RowItem width={125}>
-                        <Text>{balances.unbonding}</Text>
+                        <Text>
+                          {formatCurrencyAmount(
+                            pendingWithdrawalBalance,
+                            network.denominationSize,
+                          )}
+                        </Text>
+                      </RowItem>
+                    </ValidatorDetailRow>
+                    <ValidatorDetailRow>
+                      <RowItem width={125}>
+                        <H6 style={{ margin: 0 }}>cUSD</H6>
+                      </RowItem>
+                      <RowItem width={125}>
+                        <Text>
+                          {formatCurrencyAmount(
+                            celoUSDValue,
+                            network.denominationSize,
+                          )}
+                        </Text>
                       </RowItem>
                     </ValidatorDetailRow>
                   </Card>
-                  <StakingRow style={{ paddingLeft: 14 }}>
+                  {/* <StakingRow style={{ paddingLeft: 14 }}>
                     <RowItem width={45} />
                     <RowItemHeader width={150}>
                       <H5 style={{ margin: 0 }}>Your Validators</H5>
@@ -403,8 +422,8 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                       <RowItem width={75}>
                         <Text>100%</Text>
                       </RowItem>
-                    </StakingRowSummary> */}
-                    {/* {delegations.map(staking => {
+                    </StakingRowSummary>
+                    {delegations.map(staking => {
                       const { rewards, validator, percentage } = staking;
                       return (
                         <View key={validator.group}>
@@ -449,8 +468,8 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                           </StakingRow>
                         </View>
                       );
-                    })} */}
-                  </Card>
+                    })}
+                  </Card> */}
                 </View>
               </View>
             );
@@ -517,6 +536,11 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
 const adjustValue = (value: GenericNumberType) => {
   const x = divide(Number(value), 10e17, Number);
   return formatCurrencyAmount(x);
+};
+
+// Helper to render Celo currency values
+const renderCurrencyValue = (value: string, denomSize: number) => {
+  return formatCurrencyAmount(denomToUnit(value, denomSize));
 };
 
 // const getVotesAvailable = (capacity: number, votingPower: number) => {
