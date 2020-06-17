@@ -26,7 +26,7 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
   priceHistoryMap: PriceHistoryMap = {};
   validatorOperatorAddressMap: ValidatorOperatorAddressMap<
     ICosmosValidator
-  > = {};
+  > = new Map();
 
   constructor(props: IProps) {
     super(props);

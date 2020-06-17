@@ -558,10 +558,6 @@ export const getPriceFromTransactionTimestamp = (
   return "";
 };
 
-// export interface ValidatorOperatorAddressMap<V> {
-//   [key: string]: V;
-// }
-
 export type ValidatorOperatorAddressMap<V> = Map<string, V>;
 
 /**
@@ -576,10 +572,6 @@ export const getValidatorOperatorAddressMap = <V extends {}>(
     const address = getAddressFn(validator);
     addressMap.set(address, validator);
     return addressMap;
-    // return {
-    //   ...addressMap,
-    //   [getAddressFn(validator)]: validator,
-    // };
   }, new Map());
 };
 
@@ -598,8 +590,8 @@ export const getValidatorNameFromAddress = (
   );
 
   if (validatorAddress && validatorAddress in validatorOperatorAddressMap) {
-    const validator = validatorOperatorAddressMap[validatorAddress];
-    return validator;
+    const validator = validatorOperatorAddressMap.get(validatorAddress);
+    return validator || null;
   }
 
   return null;
