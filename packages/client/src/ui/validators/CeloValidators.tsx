@@ -222,12 +222,6 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                           v.votingPower,
                         );
 
-                        const x = renderCurrencyValue(
-                          "50231328840559524177741",
-                          network.denominationSize,
-                        );
-                        console.log(x);
-
                         return (
                           <View key={v.group}>
                             <ValidatorRowExpandable

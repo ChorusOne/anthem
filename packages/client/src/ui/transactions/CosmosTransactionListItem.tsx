@@ -1,8 +1,8 @@
 import {
   assertUnreachable,
   ICosmosTransaction,
-  NetworkDefinition,
   ICosmosValidator,
+  NetworkDefinition,
 } from "@anthem/utils";
 import { Card, Elevation, Position, Tooltip } from "@blueprintjs/core";
 import { CosmosLogo } from "assets/icons";
