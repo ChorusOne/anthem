@@ -24,6 +24,7 @@ import {
   copyTextToClipboard,
   formatAddressString,
   getCeloVotesAvailablePercentage,
+  getPercentageFromTotal,
   getValidatorOperatorAddressMap,
   sortCeloValidatorsList,
 } from "tools/client-utils";
@@ -138,7 +139,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
 
             const validatorOperatorAddressMap = getValidatorOperatorAddressMap<
               ICeloValidatorGroup
-            >(validatorList, v => v.group);
+            >(validatorList, v => v.group.toUpperCase());
 
             // Sort the validators list based on the current sort settings
             const sortedValidatorsList = sortCeloValidatorsList(
@@ -219,6 +220,12 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                           v.capacityAvailable,
                           v.votingPower,
                         );
+
+                        const x = renderCurrencyValue(
+                          "50231328840559524177741",
+                          network.denominationSize,
+                        );
+                        console.log(x);
 
                         return (
                           <View key={v.group}>
@@ -439,28 +446,34 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                         <H5 style={{ margin: 0 }}>STAKING</H5>
                       </RowItem>
                       <RowItem width={100}>
-                        <Text>{totalLockedGoldBalance}</Text>
+                        <Text>
+                          {renderCurrencyValue(
+                            totalLockedGoldBalance,
+                            network.denominationSize,
+                          )}
+                        </Text>
                       </RowItem>
                       <RowItem width={75}>
-                        <Text>100%</Text>
+                        <Text>100.00%</Text>
                       </RowItem>
                     </StakingRowSummary>
                     {delegations.map(delegation => {
                       const {
                         group,
                         totalVotes,
-                        activeVotes,
-                        pendingVotes,
+                        // activeVotes,
+                        // pendingVotes,
                       } = delegation;
+
+                      // Find the associated validator group
                       const validatorGroup = validatorOperatorAddressMap.get(
-                        group,
+                        group.toUpperCase(),
                       );
+
                       if (!validatorGroup) {
                         return null;
                       }
-                      // console.log(group);
-                      // console.log(validatorOperatorAddressMap);
-                      // console.log(group in validatorOperatorAddressMap);
+
                       return (
                         <View key={group}>
                           <StakingRow>
@@ -480,16 +493,20 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                             </RowItem>
                             <RowItem width={100}>
                               <Text>
-                                {formatCurrencyAmount(
-                                  denomToUnit(
-                                    totalVotes,
-                                    network.denominationSize,
-                                  ),
+                                {renderCurrencyValue(
+                                  totalVotes,
+                                  network.denominationSize,
                                 )}
                               </Text>
                             </RowItem>
                             <RowItem width={75}>
-                              <Text>{100}%</Text>
+                              <Text>
+                                {getPercentageFromTotal(
+                                  totalVotes,
+                                  totalLockedGoldBalance,
+                                )}
+                                %
+                              </Text>
                             </RowItem>
                             <RowItem width={75}>
                               <Button
@@ -578,13 +595,6 @@ const adjustValue = (value: GenericNumberType) => {
 const renderCurrencyValue = (value: string, denomSize: number) => {
   return formatCurrencyAmount(denomToUnit(value, denomSize));
 };
-
-// const getVotesAvailable = (capacity: number, votingPower: number) => {
-// return (((capacity - votingPower) / capacity) * 100).toFixed(2);
-// const fraction = divide(subtract(capacity, votingPower), capacity);
-// const percent = multiply(fraction, 100, Number).toFixed(2);
-// return percent;
-// };
 
 /** ===========================================================================
  * Props
