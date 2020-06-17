@@ -359,14 +359,6 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           )}
                         </Text>
                       </RowItem>
-                      {/* <RowItem width={200}>
-                        <Button
-                          onClick={this.handleRewardsClaimAction}
-                          data-cy="claim-rewards-button"
-                        >
-                          Withdraw Rewards
-                        </Button>
-                      </RowItem> */}
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
                       <RowItem width={125}>
@@ -454,12 +446,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                       </RowItem>
                     </StakingRowSummary>
                     {delegations.map(delegation => {
-                      const {
-                        group,
-                        totalVotes,
-                        // activeVotes,
-                        // pendingVotes,
-                      } = delegation;
+                      const { group, totalVotes } = delegation;
 
                       // Find the associated validator group
                       const validatorGroup = validatorOperatorAddressMap.get(
