@@ -76,7 +76,7 @@ interface IState {
  * ============================================================================
  */
 
-class ValidatorsListPage extends React.Component<IProps, IState> {
+class CeloValidatorsListPage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -636,4 +636,4 @@ export default composeWithProps<ComponentProps>(
   withFiatPriceData,
   withCeloAccountBalances,
   withCeloValidatorGroups,
-)(ValidatorsListPage);
+)(CeloValidatorsListPage);
