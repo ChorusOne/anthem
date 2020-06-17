@@ -18,7 +18,6 @@ import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import queryString, { ParsedQuery } from "query-string";
 import { AvailableReward } from "ui/CreateTransactionForm";
 import Toast from "ui/Toast";
-import { VALIDATORS_LIST_SORT_FILTER } from "ui/validators/CosmosValidators";
 import {
   convertCryptoToFiat,
   denomToUnit,
@@ -644,12 +643,19 @@ export const sortValidatorsChorusOnTop = (
   return reordered;
 };
 
+export enum COSMOS_VALIDATORS_SORT_FILTER {
+  CUSTOM_DEFAULT = "CUSTOM_DEFAULT", // Sort Chorus and Certus on the top
+  NAME = "NAME",
+  VOTING_POWER = "VOTING_POWER",
+  COMMISSION = "COMMISSION",
+}
+
 /**
  * Handle sorting the validators list by different parameters.
  */
 export const sortValidatorsList = (
   validators: ICosmosValidator[],
-  sortField: VALIDATORS_LIST_SORT_FILTER,
+  sortField: COSMOS_VALIDATORS_SORT_FILTER,
   sortAscending: boolean,
   totalStake: string,
 ) => {
@@ -657,9 +663,9 @@ export const sortValidatorsList = (
   let result = [];
 
   switch (sortField) {
-    case VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT:
+    case COSMOS_VALIDATORS_SORT_FILTER.CUSTOM_DEFAULT:
       return sortValidatorsChorusOnTop(list);
-    case VALIDATORS_LIST_SORT_FILTER.NAME:
+    case COSMOS_VALIDATORS_SORT_FILTER.NAME:
       result = list.sort((a, b) => {
         const aName = a.description.moniker;
         const bName = b.description.moniker;
@@ -670,14 +676,14 @@ export const sortValidatorsList = (
         }
       });
       break;
-    case VALIDATORS_LIST_SORT_FILTER.VOTING_POWER:
+    case COSMOS_VALIDATORS_SORT_FILTER.VOTING_POWER:
       result = list.sort((a, b) => {
         const aPower = divide(a.tokens, totalStake, Number);
         const bPower = divide(b.tokens, totalStake, Number);
         return sortAscending ? aPower - bPower : bPower - aPower;
       });
       break;
-    case VALIDATORS_LIST_SORT_FILTER.COMMISSION:
+    case COSMOS_VALIDATORS_SORT_FILTER.COMMISSION:
       result = list.sort((a, b) => {
         const aRate = Number(a.commission.commission_rates.rate);
         const bRate = Number(b.commission.commission_rates.rate);
