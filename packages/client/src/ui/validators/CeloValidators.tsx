@@ -22,6 +22,7 @@ import {
   CELO_VALIDATORS_LIST_SORT_FILTER,
   copyTextToClipboard,
   formatAddressString,
+  getCeloVotesAvailablePercentage,
   getValidatorOperatorAddressMap,
   sortCeloValidatorsList,
 } from "tools/client-utils";
@@ -188,15 +189,15 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                     <RowItemHeader
                       width={150}
                       onClick={this.handleSortList(
-                        CELO_VALIDATORS_LIST_SORT_FILTER.CAPACITY,
+                        CELO_VALIDATORS_LIST_SORT_FILTER.OPEN_VOTES,
                       )}
                     >
-                      <H5 style={{ margin: 0 }}>Capacity</H5>
+                      <H5 style={{ margin: 0 }}>Open Votes</H5>
                       <SortFilterIcon
                         ascending={sortValidatorsListAscending}
                         active={
                           validatorsListSortFilter ===
-                          CELO_VALIDATORS_LIST_SORT_FILTER.CAPACITY
+                          CELO_VALIDATORS_LIST_SORT_FILTER.OPEN_VOTES
                         }
                       />
                     </RowItemHeader>
@@ -209,7 +210,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
 
                         const copyAddress = () => copyTextToClipboard(v.group);
 
-                        const votingCapacity = getVotesAvailable(
+                        const votingCapacityPercentage = getCeloVotesAvailablePercentage(
                           v.capacityAvailable,
                           v.votingPower,
                         );
@@ -230,13 +231,17 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                 />
                               </RowItem>
                               <RowItem width={150}>
-                                <H5 style={{ margin: 0 }}>{v.name}</H5>
+                                <H5 style={{ margin: 0 }}>
+                                  {v.name || "(no name set)"}
+                                </H5>
                               </RowItem>
                               <RowItem width={150}>
                                 <Text>{adjustValue(v.capacityAvailable)}</Text>
                               </RowItem>
                               <RowItem width={150}>
-                                <Text>{votingCapacity}%</Text>
+                                <Text>
+                                  {votingCapacityPercentage.toFixed(2)}%
+                                </Text>
                               </RowItem>
                               <RowItem>
                                 <Icon
@@ -514,12 +519,12 @@ const adjustValue = (value: GenericNumberType) => {
   return formatCurrencyAmount(x);
 };
 
-const getVotesAvailable = (capacity: number, votingPower: number) => {
-  return (((capacity - votingPower) / capacity) * 100).toFixed(2);
-  // const fraction = divide(subtract(capacity, votingPower), capacity);
-  // const percent = multiply(fraction, 100, Number).toFixed(2);
-  // return percent;
-};
+// const getVotesAvailable = (capacity: number, votingPower: number) => {
+// return (((capacity - votingPower) / capacity) * 100).toFixed(2);
+// const fraction = divide(subtract(capacity, votingPower), capacity);
+// const percent = multiply(fraction, 100, Number).toFixed(2);
+// return percent;
+// };
 
 /** ===========================================================================
  * Props

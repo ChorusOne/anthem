@@ -705,11 +705,21 @@ export const sortValidatorsList = (
   );
 };
 
+export const getCeloVotesAvailablePercentage = (
+  capacity: number,
+  votingPower: number,
+) => {
+  const open = subtract(capacity, votingPower, Number);
+  const fraction = divide(open, capacity, Number);
+  const percent = multiply(fraction, 100, Number);
+  return percent;
+};
+
 export enum CELO_VALIDATORS_LIST_SORT_FILTER {
   CUSTOM_DEFAULT = "CUSTOM_DEFAULT",
   NAME = "NAME",
   VOTING_POWER = "VOTING_POWER",
-  CAPACITY = "CAPACITY",
+  OPEN_VOTES = "OPEN_VOTES",
 }
 
 /**
@@ -719,16 +729,14 @@ export const sortCeloValidatorsList = (
   validators: ICeloValidatorGroup[],
   sortField: CELO_VALIDATORS_LIST_SORT_FILTER,
   sortAscending: boolean,
-  // totalStake: string,
 ) => {
   const list = validators.slice();
-  let result = [];
 
   switch (sortField) {
     case CELO_VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT:
       return sortValidatorsChorusOnTop<ICeloValidatorGroup>(list, v => v.name);
     case CELO_VALIDATORS_LIST_SORT_FILTER.NAME:
-      result = list.sort((a, b) => {
+      return list.sort((a, b) => {
         const aName = a.name;
         const bName = b.name;
         if (sortAscending) {
@@ -737,27 +745,27 @@ export const sortCeloValidatorsList = (
           return bName.localeCompare(aName);
         }
       });
-      break;
     case CELO_VALIDATORS_LIST_SORT_FILTER.VOTING_POWER:
-      result = list.sort((a, b) => {
+      return list.sort((a, b) => {
         const aCapacity = Number(a.capacityAvailable);
         const bCapacity = Number(b.capacityAvailable);
         return sortAscending ? aCapacity - bCapacity : bCapacity - aCapacity;
       });
-      break;
-    case CELO_VALIDATORS_LIST_SORT_FILTER.CAPACITY:
-      // result = list.sort((a, b) => {
-      //   const aRate = Number(a.commission.commission_rates.rate);
-      //   const bRate = Number(b.commission.commission_rates.rate);
-      //   return sortAscending ? aRate - bRate : bRate - aRate;
-      // });
-      return list;
-      break;
+    case CELO_VALIDATORS_LIST_SORT_FILTER.OPEN_VOTES:
+      return list.sort((a, b) => {
+        const aOpen = getCeloVotesAvailablePercentage(
+          a.capacityAvailable,
+          a.votingPower,
+        );
+        const bOpen = getCeloVotesAvailablePercentage(
+          b.capacityAvailable,
+          b.votingPower,
+        );
+        return sortAscending ? aOpen - bOpen : bOpen - aOpen;
+      });
     default:
       return assertUnreachable(sortField);
   }
-
-  return sortValidatorsChorusOnTop<ICeloValidatorGroup>(result, v => v.name);
 };
 
 /**
