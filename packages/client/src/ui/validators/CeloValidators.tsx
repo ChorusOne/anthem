@@ -60,11 +60,6 @@ import {
  * ============================================================================
  */
 
-export enum SORT_DIRECTION {
-  ASCENDING = "ASCENDING",
-  DESCENDING = "DESCENDING",
-}
-
 interface IState {
   showValidatorDetailsAddress: string;
   sortValidatorsListAscending: boolean;
