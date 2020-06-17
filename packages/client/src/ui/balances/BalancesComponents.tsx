@@ -36,6 +36,7 @@ import { IThemeProps } from "ui/containers/ThemeContainer";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import { DashboardError } from "ui/pages/DashboardPage";
 import { Button, DashboardLoader, View } from "ui/SharedComponents";
+import Toast from "ui/Toast";
 
 /** ===========================================================================
  * Cosmos SDK Networks Account Balances
@@ -425,8 +426,21 @@ class CeloBalancesComponent extends React.Component<
         <ActionContainer>
           <H5>Celo Ledger Transactions</H5>
           <DelegationControlsContainer>
-            <Button onClick={() => null} data-cy="celo-delegation-button">
-              Coming Soon!
+            <Link to="/delegate">
+              <Button
+                style={{ width: 125, marginRight: 12 }}
+                onClick={() => null}
+                data-cy="stake-button"
+              >
+                Stake
+              </Button>
+            </Link>
+            <Button
+              style={{ width: 125 }}
+              onClick={() => Toast.warn("⚠️ Ledger actions coming soon.")}
+              data-cy="send-receive-button"
+            >
+              Send/Receive
             </Button>
           </DelegationControlsContainer>
         </ActionContainer>

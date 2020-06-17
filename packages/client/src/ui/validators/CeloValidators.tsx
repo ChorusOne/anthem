@@ -41,6 +41,7 @@ import {
   PageScrollableContent,
   View,
 } from "ui/SharedComponents";
+import Toast from "ui/Toast";
 import {
   RowItem,
   RowItemHeader,
@@ -248,7 +249,9 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                 </H5>
                               </RowItem>
                               <RowItem width={150}>
-                                <Text>{adjustValue(v.capacityAvailable)}</Text>
+                                <Text>
+                                  {adjustCeloValue(v.capacityAvailable)}
+                                </Text>
                               </RowItem>
                               <RowItem width={150}>
                                 <Text>
@@ -281,7 +284,9 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                     <H6 style={{ margin: 0 }}>Active Votes</H6>
                                   </RowItem>
                                   <RowItem width={300}>
-                                    <Text>{adjustValue(v.votingPower)}</Text>
+                                    <Text>
+                                      {adjustCeloValue(v.votingPower)}
+                                    </Text>
                                   </RowItem>
                                 </ValidatorDetailRow>
                                 <ValidatorDetailRow>
@@ -292,7 +297,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                   </RowItem>
                                   <RowItem width={300}>
                                     <Text>
-                                      {adjustValue(
+                                      {adjustCeloValue(
                                         subtract(
                                           v.capacityAvailable,
                                           v.votingPower,
@@ -308,7 +313,9 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                     </H6>
                                   </RowItem>
                                   <RowItem width={225}>
-                                    <Text>{adjustValue(v.totalCapacity)}</Text>
+                                    <Text>
+                                      {adjustCeloValue(v.totalCapacity)}
+                                    </Text>
                                   </RowItem>
                                   <RowItem width={100}>
                                     <Button
@@ -549,6 +556,8 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
   };
 
   handleAddValidator = (validator: ICeloValidatorGroup) => {
+    Toast.warn("⚠️ Ledger actions coming soon.");
+
     // TODO: Not implemented yet.
     // Set the selected validator in the transactions workflow
     // this.props.setDelegationValidatorSelection(validator);
@@ -565,18 +574,6 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
     // });
   };
 
-  handleRewardsClaimAction = () => {
-    if (!this.props.ledger.connected) {
-      this.props.setSigninNetworkName(this.props.network.name);
-    }
-
-    this.props.openLedgerDialog({
-      signinType: "LEDGER",
-      ledgerAccessType: "PERFORM_ACTION",
-      ledgerActionType: "CLAIM",
-    });
-  };
-
   handleClickValidator = (address: string) => {
     if (this.state.showValidatorDetailsAddress === address) {
       this.setState({ showValidatorDetailsAddress: "" });
@@ -586,12 +583,17 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
   };
 }
 
-const adjustValue = (value: GenericNumberType) => {
+/**
+ * Adjust some values to render correctly for Celo.
+ */
+const adjustCeloValue = (value: GenericNumberType) => {
   const x = divide(Number(value), 10e17, Number);
   return formatCurrencyAmount(x);
 };
 
-// Helper to render Celo currency values
+/**
+ * Helper to render Celo currency values.
+ */
 const renderCurrencyValue = (value: string, denomSize: number) => {
   return formatCurrencyAmount(denomToUnit(value, denomSize));
 };
