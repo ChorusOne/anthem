@@ -5,6 +5,7 @@ import {
 } from "@anthem/utils";
 import { Card, Collapse, H5, H6, Icon } from "@blueprintjs/core";
 import { CopyIcon, NetworkLogoIcon } from "assets/images";
+import { COLORS } from "constants/colors";
 import {
   CeloAccountBalancesProps,
   CeloValidatorsProps,
@@ -44,6 +45,7 @@ import {
   RowItemHeader,
   SortFilterIcon,
   StakingRow,
+  StakingRowSummary,
   Text,
   ValidatorDetailRow,
   ValidatorDetails,
@@ -124,13 +126,8 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
             ICeloAccountBalances,
             IQuery["prices"],
           ]) => {
-            // const balances = getAccountBalances(
-            //   accountBalancesResponse.cosmos,
-            //   pricesResponse,
-            //   network,
-            // );
-
             const {
+              delegations,
               availableGoldBalance,
               totalLockedGoldBalance,
               nonVotingLockedGoldBalance,
@@ -139,10 +136,9 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
               celoUSDValue,
             } = accountBalancesResponse;
 
-            const validatorOperatorAddressMap = getValidatorOperatorAddressMap(
-              validatorList,
-              v => v.group,
-            );
+            const validatorOperatorAddressMap = getValidatorOperatorAddressMap<
+              ICeloValidatorGroup
+            >(validatorList, v => v.group);
 
             // Sort the validators list based on the current sort settings
             const sortedValidatorsList = sortCeloValidatorsList(
@@ -375,7 +371,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                       </RowItem>
                       <RowItem width={125}>
                         <Text>
-                          {formatCurrencyAmount(
+                          {renderCurrencyValue(
                             votingLockedGoldBalance,
                             network.denominationSize,
                           )}
@@ -388,7 +384,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                       </RowItem>
                       <RowItem width={125}>
                         <Text>
-                          {formatCurrencyAmount(
+                          {renderCurrencyValue(
                             nonVotingLockedGoldBalance,
                             network.denominationSize,
                           )}
@@ -401,7 +397,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                       </RowItem>
                       <RowItem width={125}>
                         <Text>
-                          {formatCurrencyAmount(
+                          {renderCurrencyValue(
                             pendingWithdrawalBalance,
                             network.denominationSize,
                           )}
@@ -414,7 +410,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                       </RowItem>
                       <RowItem width={125}>
                         <Text>
-                          {formatCurrencyAmount(
+                          {renderCurrencyValue(
                             celoUSDValue,
                             network.denominationSize,
                           )}
@@ -422,7 +418,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                       </RowItem>
                     </ValidatorDetailRow>
                   </Card>
-                  {/* <StakingRow style={{ paddingLeft: 14 }}>
+                  <StakingRow style={{ paddingLeft: 14 }}>
                     <RowItem width={45} />
                     <RowItemHeader width={150}>
                       <H5 style={{ margin: 0 }}>Your Validators</H5>
@@ -443,21 +439,30 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                         <H5 style={{ margin: 0 }}>STAKING</H5>
                       </RowItem>
                       <RowItem width={100}>
-                        <Text>{total}</Text>
+                        <Text>{totalLockedGoldBalance}</Text>
                       </RowItem>
                       <RowItem width={75}>
                         <Text>100%</Text>
                       </RowItem>
                     </StakingRowSummary>
-                    {delegations.map(staking => {
-                      const { rewards, validator, percentage } = staking;
+                    {delegations.map(delegation => {
+                      const {
+                        group,
+                        totalVotes,
+                        activeVotes,
+                        pendingVotes,
+                      } = delegation;
+                      const validatorGroup = validatorOperatorAddressMap[group];
+                      console.log(group);
+                      console.log(validatorOperatorAddressMap);
+                      console.log(group in validatorOperatorAddressMap);
                       return (
-                        <View key={validator.group}>
+                        <View key={group}>
                           <StakingRow>
                             <RowItem width={45}>
                               <AddressIconComponent
                                 networkName={network.name}
-                                address={validator.group}
+                                address={group}
                                 validatorOperatorAddressMap={
                                   validatorOperatorAddressMap
                                 }
@@ -465,27 +470,27 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                             </RowItem>
                             <RowItem width={150}>
                               <H5 style={{ margin: 0 }}>
-                                {validator.name}
+                                {validatorGroup.name}
                               </H5>
                             </RowItem>
                             <RowItem width={100}>
                               <Text>
                                 {formatCurrencyAmount(
                                   denomToUnit(
-                                    rewards,
+                                    totalVotes,
                                     network.denominationSize,
                                   ),
                                 )}
                               </Text>
                             </RowItem>
                             <RowItem width={75}>
-                              <Text>{percentage}%</Text>
+                              <Text>{100}%</Text>
                             </RowItem>
                             <RowItem width={75}>
                               <Button
                                 style={{ borderRadius: "50%" }}
                                 onClick={() =>
-                                  this.handleAddValidator(validator)
+                                  this.handleAddValidator(validatorGroup)
                                 }
                               >
                                 <Icon icon="plus" color={COLORS.LIGHT_WHITE} />
@@ -495,7 +500,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                         </View>
                       );
                     })}
-                  </Card> */}
+                  </Card>
                 </View>
               </View>
             );

@@ -558,8 +558,8 @@ export const getPriceFromTransactionTimestamp = (
   return "";
 };
 
-export interface ValidatorOperatorAddressMap {
-  [key: string]: ICosmosValidator;
+export interface ValidatorOperatorAddressMap<V> {
+  [key: string]: V;
 }
 
 /**
@@ -569,7 +569,7 @@ export interface ValidatorOperatorAddressMap {
 export const getValidatorOperatorAddressMap = <V extends {}>(
   validatorList: V[],
   getAddressFn: (validator: V) => string,
-): ValidatorOperatorAddressMap => {
+): ValidatorOperatorAddressMap<V> => {
   return validatorList.reduce((addressMap, validator) => {
     return {
       ...addressMap,
@@ -583,7 +583,7 @@ export const getValidatorOperatorAddressMap = <V extends {}>(
  * with that address.
  */
 export const getValidatorNameFromAddress = (
-  validatorOperatorAddressMap: ValidatorOperatorAddressMap,
+  validatorOperatorAddressMap: ValidatorOperatorAddressMap<ICosmosValidator>,
   address: string,
   networkName: NETWORK_NAME,
 ): Nullable<ICosmosValidator> => {
