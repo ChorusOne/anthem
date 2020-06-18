@@ -8,6 +8,7 @@ interface NetworkFeatureMeta {
   supportsPortfolio: boolean;
   supportsTransactionsHistory: boolean;
   supportsValidatorsList: boolean;
+  supportsGovernance: boolean;
 }
 
 export interface NetworkDefinition extends NetworkFeatureMeta {
@@ -60,6 +61,7 @@ const NETWORKS: NetworksMap = {
     supportsPortfolio: true,
     supportsTransactionsHistory: true,
     supportsValidatorsList: true,
+    supportsGovernance: false,
     denominationSize: 1e6, // 1 ATOM = 1,000,000 uatom
   },
   TERRA: {
@@ -78,6 +80,7 @@ const NETWORKS: NetworksMap = {
     supportsPortfolio: false,
     supportsTransactionsHistory: false,
     supportsValidatorsList: true,
+    supportsGovernance: false,
     denominationSize: 1e6,
   },
   KAVA: {
@@ -97,6 +100,7 @@ const NETWORKS: NetworksMap = {
     supportsPortfolio: false,
     supportsTransactionsHistory: false,
     supportsValidatorsList: true,
+    supportsGovernance: false,
     denominationSize: 1e6,
   },
   OASIS: {
@@ -115,6 +119,7 @@ const NETWORKS: NetworksMap = {
     supportsPortfolio: true,
     supportsTransactionsHistory: true,
     supportsValidatorsList: false,
+    supportsGovernance: false,
     denominationSize: 1e9,
   },
   CELO: {
@@ -135,6 +140,7 @@ const NETWORKS: NetworksMap = {
     supportsPortfolio: true,
     supportsTransactionsHistory: true,
     supportsValidatorsList: true,
+    supportsGovernance: true,
     denominationSize: 1e18, // 1 cGLD = 1000000000000000000 wei
   },
 };
