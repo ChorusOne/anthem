@@ -1,5 +1,5 @@
 import { ICeloTransaction, NetworkDefinition } from "@anthem/utils";
-import { Card, Elevation, Position, Tooltip } from "@blueprintjs/core";
+import { Card, Code, Elevation, Position, Tooltip } from "@blueprintjs/core";
 import { CeloLogo } from "assets/icons";
 import { LinkIcon, OasisGenericEvent } from "assets/images";
 import { FiatCurrency } from "constants/fiat";
@@ -17,6 +17,7 @@ import { formatDate, formatTime } from "tools/date-utils";
 import { TranslateMethodProps } from "tools/i18n-utils";
 import { multiply } from "tools/math-utils";
 import AddressIconComponent from "ui/AddressIconComponent";
+import { Row } from "ui/SharedComponents";
 import {
   ClickableEventRow,
   EventContextBox,
@@ -72,7 +73,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderTypeAndTimestamp = () => {
     const { transaction } = this.props;
-    const label = getCeloTransactionType(this.props.transaction);
+    const { contract, type } = getCeloTransactionType(this.props.transaction);
     const time = Number(transaction.timestamp) * 1000;
     return (
       <EventRowItem style={{ minWidth: 300 }}>
@@ -80,7 +81,10 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           <EventIcon src={CeloLogo} />
         </EventIconBox>
         <EventContextBox>
-          <EventText style={{ fontWeight: "bold" }}>{label}</EventText>
+          <Row>
+            {!!contract && <Code style={{ marginRight: 4 }}>{contract}</Code>}
+            <EventText style={{ fontWeight: "bold" }}>{type}</EventText>
+          </Row>
           <EventText data-cy="transaction-timestamp">
             {formatDate(time)} {formatTime(time)}
           </EventText>
@@ -240,16 +244,23 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
  */
 
 /**
+ * Split a string by capital letters, e.g. "LockedGold" -> "Locked Gold".
+ */
+const splitByCapitalLetters = (str: string) => str.split(/(?=[A-Z])/).join(" ");
+
+/**
  * Derive transaction type from Celo transaction tags.
  */
 const getCeloTransactionType = (transaction: ICeloTransaction) => {
   const { tags } = transaction;
   if (tags.length) {
     const { eventname, source } = tags[0];
-    const label = `${source} ${eventname}`;
-    return capitalizeString(label);
+    const contract = splitByCapitalLetters(source);
+    const type = splitByCapitalLetters(eventname);
+    return { contract, type };
   } else {
-    return "Celo Transaction";
+    // Default transaction type where no specific tag information is present.
+    return { contract: "", type: "Celo Transaction" };
   }
 };
 
