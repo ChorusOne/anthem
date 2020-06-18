@@ -188,7 +188,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           <AddressIconComponent
             address={address}
             networkName={this.props.network.name}
-            validatorOperatorAddressMap={{}}
+            validatorOperatorAddressMap={new Map()}
           />
         </EventIconBox>
         <EventContextBox>

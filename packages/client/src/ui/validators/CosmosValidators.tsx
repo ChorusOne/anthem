@@ -19,13 +19,13 @@ import {
   withStakingPool,
   withValidators,
 } from "graphql/queries";
-import { VALIDATORS_LIST_SORT_FILTER } from "modules/app/store";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import {
   copyTextToClipboard,
+  COSMOS_VALIDATORS_SORT_FILTER,
   deriveCurrentDelegationsInformation,
   formatAddressString,
   formatCommissionRate,
@@ -67,6 +67,8 @@ import {
 
 interface IState {
   showValidatorDetailsAddress: string;
+  sortValidatorsListAscending: boolean;
+  validatorsListSortFilter: COSMOS_VALIDATORS_SORT_FILTER;
 }
 
 /** ===========================================================================
@@ -74,24 +76,28 @@ interface IState {
  * ============================================================================
  */
 
-class ValidatorsListPage extends React.Component<IProps, IState> {
+class CosmosValidatorsListPage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
     this.state = {
       showValidatorDetailsAddress: "",
+      sortValidatorsListAscending: true,
+      validatorsListSortFilter: COSMOS_VALIDATORS_SORT_FILTER.CUSTOM_DEFAULT,
     };
   }
 
   render(): JSX.Element {
+    const {
+      sortValidatorsListAscending,
+      validatorsListSortFilter,
+    } = this.state;
     const {
       i18n,
       prices,
       network,
       cosmosValidators,
       cosmosStakingPool,
-      sortListAscending,
-      validatorSortField,
       cosmosAccountBalances,
       cosmosRewardsByValidator,
     } = this.props;
@@ -148,8 +154,8 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
             // Sort the validators list based on the current sort settings
             const sortedValidatorsList = sortValidatorsList(
               validatorList,
-              validatorSortField,
-              sortListAscending,
+              validatorsListSortFilter,
+              sortValidatorsListAscending,
               stake,
             );
 
@@ -173,48 +179,48 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                     </RowItem>
                     <RowItemHeader
                       width={150}
-                      onClick={this.setSortFilter(
-                        VALIDATORS_LIST_SORT_FILTER.NAME,
+                      onClick={this.handleSortList(
+                        COSMOS_VALIDATORS_SORT_FILTER.NAME,
                       )}
                     >
                       <H5 style={{ margin: 0 }}>Validator</H5>
                       <SortFilterIcon
-                        ascending={sortListAscending}
+                        ascending={sortValidatorsListAscending}
                         active={
-                          validatorSortField ===
-                            VALIDATORS_LIST_SORT_FILTER.NAME ||
-                          validatorSortField ===
-                            VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT
+                          validatorsListSortFilter ===
+                            COSMOS_VALIDATORS_SORT_FILTER.NAME ||
+                          validatorsListSortFilter ===
+                            COSMOS_VALIDATORS_SORT_FILTER.CUSTOM_DEFAULT
                         }
                       />
                     </RowItemHeader>
                     <RowItemHeader
                       width={150}
-                      onClick={this.setSortFilter(
-                        VALIDATORS_LIST_SORT_FILTER.VOTING_POWER,
+                      onClick={this.handleSortList(
+                        COSMOS_VALIDATORS_SORT_FILTER.VOTING_POWER,
                       )}
                     >
                       <H5 style={{ margin: 0 }}>Voting Power</H5>
                       <SortFilterIcon
-                        ascending={sortListAscending}
+                        ascending={sortValidatorsListAscending}
                         active={
-                          validatorSortField ===
-                          VALIDATORS_LIST_SORT_FILTER.VOTING_POWER
+                          validatorsListSortFilter ===
+                          COSMOS_VALIDATORS_SORT_FILTER.VOTING_POWER
                         }
                       />
                     </RowItemHeader>
                     <RowItemHeader
                       width={150}
-                      onClick={this.setSortFilter(
-                        VALIDATORS_LIST_SORT_FILTER.COMMISSION,
+                      onClick={this.handleSortList(
+                        COSMOS_VALIDATORS_SORT_FILTER.COMMISSION,
                       )}
                     >
                       <H5 style={{ margin: 0 }}>Commission</H5>
                       <SortFilterIcon
-                        ascending={sortListAscending}
+                        ascending={sortValidatorsListAscending}
                         active={
-                          validatorSortField ===
-                          VALIDATORS_LIST_SORT_FILTER.COMMISSION
+                          validatorsListSortFilter ===
+                          COSMOS_VALIDATORS_SORT_FILTER.COMMISSION
                         }
                       />
                     </RowItemHeader>
@@ -510,6 +516,22 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
     );
   }
 
+  handleSortList = (sortFilter: COSMOS_VALIDATORS_SORT_FILTER) => () => {
+    const {
+      validatorsListSortFilter,
+      sortValidatorsListAscending,
+    } = this.state;
+    let sortDirection = true;
+    if (sortFilter === validatorsListSortFilter) {
+      sortDirection = !sortValidatorsListAscending;
+    }
+
+    this.setState({
+      validatorsListSortFilter: sortFilter,
+      sortValidatorsListAscending: sortDirection,
+    });
+  };
+
   handleAddValidator = (validator: ICosmosValidator) => {
     // Set the selected validator in the transactions workflow
     this.props.setDelegationValidatorSelection(validator);
@@ -547,10 +569,6 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
       this.setState({ showValidatorDetailsAddress: address });
     }
   };
-
-  setSortFilter = (filter: VALIDATORS_LIST_SORT_FILTER) => () => {
-    this.props.setValidatorListSortType(filter);
-  };
 }
 
 /** ===========================================================================
@@ -562,15 +580,10 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
   network: Modules.selectors.ledger.networkSelector(state),
-  sortListAscending: Modules.selectors.app.appSelector(state)
-    .sortValidatorsListAscending,
-  validatorSortField: Modules.selectors.app.appSelector(state)
-    .validatorsListSortFilter,
 });
 
 const dispatchProps = {
   setLocale: Modules.actions.settings.setLocale,
-  setValidatorListSortType: Modules.actions.app.setValidatorListSortType,
   openLedgerDialog: Modules.actions.ledger.openLedgerDialog,
   setSigninNetworkName: Modules.actions.ledger.setSigninNetworkName,
   openSelectNetworkDialog: Modules.actions.ledger.openSelectNetworkDialog,
@@ -606,4 +619,4 @@ export default composeWithProps<ComponentProps>(
   withFiatPriceData,
   withCosmosAccountBalances,
   withRewardsByValidatorQuery,
-)(ValidatorsListPage);
+)(CosmosValidatorsListPage);

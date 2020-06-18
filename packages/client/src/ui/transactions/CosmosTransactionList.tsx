@@ -24,7 +24,9 @@ import { TransactionPaginationControls } from "./TransactionComponents";
 
 class CosmosTransactionList extends React.PureComponent<IProps> {
   priceHistoryMap: PriceHistoryMap = {};
-  validatorOperatorAddressMap: ValidatorOperatorAddressMap = {};
+  validatorOperatorAddressMap: ValidatorOperatorAddressMap<
+    ICosmosValidator
+  > = new Map();
 
   constructor(props: IProps) {
     super(props);
@@ -35,7 +37,7 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
 
     const addressMap = getValidatorOperatorAddressMap<ICosmosValidator>(
       props.cosmosValidators.cosmosValidators,
-      v => v.operator_address,
+      v => v.operator_address.toUpperCase(),
     );
 
     this.priceHistoryMap = priceHistoryMap;

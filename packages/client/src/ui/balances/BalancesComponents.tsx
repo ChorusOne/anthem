@@ -36,6 +36,7 @@ import { IThemeProps } from "ui/containers/ThemeContainer";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import { DashboardError } from "ui/pages/DashboardPage";
 import { Button, DashboardLoader, View } from "ui/SharedComponents";
+import Toast from "ui/Toast";
 
 /** ===========================================================================
  * Cosmos SDK Networks Account Balances
@@ -278,9 +279,10 @@ class CeloBalancesContainer extends React.Component<
   {}
 > {
   render(): JSX.Element {
-    const { i18n, prices, ledger, celoAccountBalances } = this.props;
+    const { i18n, prices, ledger, celoAccountBalances, settings } = this.props;
     const { tString } = i18n;
     const { network } = ledger;
+    const { currencySetting } = settings;
 
     return (
       <GraphQLGuardComponentMultipleQueries
@@ -302,7 +304,14 @@ class CeloBalancesContainer extends React.Component<
           const data = celoAccountBalances.celoAccountBalances;
 
           if (data) {
-            return <CeloBalancesComponent network={network} balances={data} />;
+            return (
+              <CeloBalancesComponent
+                balances={data}
+                network={network}
+                prices={prices.prices}
+                currencySetting={currencySetting}
+              />
+            );
           }
 
           return null;
@@ -328,15 +337,19 @@ class CeloBalancesContainer extends React.Component<
 }
 
 interface CeloComponentBalancesProps {
+  prices: IPrice;
   network: NetworkDefinition;
   balances: ICeloAccountBalances;
+  currencySetting: CURRENCY_SETTING;
 }
 
 class CeloBalancesComponent extends React.Component<
   CeloComponentBalancesProps
 > {
   render(): JSX.Element {
-    const { balances, network } = this.props;
+    const { balances, network, prices, currencySetting } = this.props;
+    const fiatPrice = prices.price;
+    const displayFiat = currencySetting === "fiat";
 
     const {
       availableGoldBalance,
@@ -351,7 +364,11 @@ class CeloBalancesComponent extends React.Component<
 
     // Helper to render Celo currency values
     const renderCurrency = (value: string) => {
-      return formatCurrencyAmount(denomToUnit(value, denomSize));
+      let result = denomToUnit(value, denomSize, Number);
+      if (displayFiat) {
+        result = fiatPrice * result;
+      }
+      return formatCurrencyAmount(result);
     };
 
     const total = addValuesInList([
@@ -425,8 +442,21 @@ class CeloBalancesComponent extends React.Component<
         <ActionContainer>
           <H5>Celo Ledger Transactions</H5>
           <DelegationControlsContainer>
-            <Button onClick={() => null} data-cy="celo-delegation-button">
-              Coming Soon!
+            <Link to="/delegate">
+              <Button
+                style={{ width: 125, marginRight: 12 }}
+                onClick={() => null}
+                data-cy="stake-button"
+              >
+                Stake
+              </Button>
+            </Link>
+            <Button
+              style={{ width: 125 }}
+              onClick={() => Toast.warn("⚠️ Ledger actions coming soon.")}
+              data-cy="send-receive-button"
+            >
+              Send/Receive
             </Button>
           </DelegationControlsContainer>
         </ActionContainer>

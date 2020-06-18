@@ -5,6 +5,7 @@ import {
 } from "@anthem/utils";
 import { Card, Collapse, H5, H6, Icon } from "@blueprintjs/core";
 import { CopyIcon, NetworkLogoIcon } from "assets/images";
+import { COLORS } from "constants/colors";
 import {
   CeloAccountBalancesProps,
   CeloValidatorsProps,
@@ -14,18 +15,21 @@ import {
   withFiatPriceData,
   withGraphQLVariables,
 } from "graphql/queries";
-import { VALIDATORS_LIST_SORT_FILTER } from "modules/app/store";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import {
+  CELO_VALIDATORS_LIST_SORT_FILTER,
   copyTextToClipboard,
   formatAddressString,
+  getCeloVotesAvailablePercentage,
+  getPercentageFromTotal,
   getValidatorOperatorAddressMap,
+  sortCeloValidatorsList,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
-import { formatCurrencyAmount } from "tools/currency-utils";
+import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
 import { divide, GenericNumberType, subtract } from "tools/math-utils";
 import AddressIconComponent from "ui/AddressIconComponent";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
@@ -37,11 +41,13 @@ import {
   PageScrollableContent,
   View,
 } from "ui/SharedComponents";
+import Toast from "ui/Toast";
 import {
   RowItem,
   RowItemHeader,
   SortFilterIcon,
   StakingRow,
+  StakingRowSummary,
   Text,
   ValidatorDetailRow,
   ValidatorDetails,
@@ -56,6 +62,8 @@ import {
 
 interface IState {
   showValidatorDetailsAddress: string;
+  sortValidatorsListAscending: boolean;
+  validatorsListSortFilter: CELO_VALIDATORS_LIST_SORT_FILTER;
 }
 
 /** ===========================================================================
@@ -63,23 +71,27 @@ interface IState {
  * ============================================================================
  */
 
-class ValidatorsListPage extends React.Component<IProps, IState> {
+class CeloValidatorsListPage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
     this.state = {
       showValidatorDetailsAddress: "",
+      sortValidatorsListAscending: true,
+      validatorsListSortFilter: CELO_VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT,
     };
   }
 
   render(): JSX.Element {
     const {
+      sortValidatorsListAscending,
+      validatorsListSortFilter,
+    } = this.state;
+    const {
       i18n,
       prices,
       network,
       celoValidatorGroups,
-      sortListAscending,
-      validatorSortField,
       celoAccountBalances,
     } = this.props;
 
@@ -111,19 +123,26 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
             ICeloAccountBalances,
             IQuery["prices"],
           ]) => {
-            // const balances = getAccountBalances(
-            //   accountBalancesResponse.cosmos,
-            //   pricesResponse,
-            //   network,
-            // );
+            const {
+              delegations,
+              availableGoldBalance,
+              totalLockedGoldBalance,
+              nonVotingLockedGoldBalance,
+              votingLockedGoldBalance,
+              pendingWithdrawalBalance,
+              celoUSDValue,
+            } = accountBalancesResponse;
 
-            const validatorOperatorAddressMap = getValidatorOperatorAddressMap(
-              validatorList,
-              v => v.group,
-            );
+            const validatorOperatorAddressMap = getValidatorOperatorAddressMap<
+              ICeloValidatorGroup
+            >(validatorList, v => v.group.toUpperCase());
 
             // Sort the validators list based on the current sort settings
-            const sortedValidatorsList = validatorList;
+            const sortedValidatorsList = sortCeloValidatorsList(
+              validatorList,
+              validatorsListSortFilter,
+              sortValidatorsListAscending,
+            );
 
             return (
               <View
@@ -139,48 +158,48 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                     </RowItem>
                     <RowItemHeader
                       width={150}
-                      onClick={this.setSortFilter(
-                        VALIDATORS_LIST_SORT_FILTER.NAME,
+                      onClick={this.handleSortList(
+                        CELO_VALIDATORS_LIST_SORT_FILTER.NAME,
                       )}
                     >
                       <H5 style={{ margin: 0 }}>Validator</H5>
                       <SortFilterIcon
-                        ascending={sortListAscending}
+                        ascending={sortValidatorsListAscending}
                         active={
-                          validatorSortField ===
-                            VALIDATORS_LIST_SORT_FILTER.NAME ||
-                          validatorSortField ===
-                            VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT
+                          validatorsListSortFilter ===
+                            CELO_VALIDATORS_LIST_SORT_FILTER.NAME ||
+                          validatorsListSortFilter ===
+                            CELO_VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT
                         }
                       />
                     </RowItemHeader>
                     <RowItemHeader
                       width={150}
-                      onClick={this.setSortFilter(
-                        VALIDATORS_LIST_SORT_FILTER.VOTING_POWER,
+                      onClick={this.handleSortList(
+                        CELO_VALIDATORS_LIST_SORT_FILTER.VOTING_POWER,
                       )}
                     >
                       <H5 style={{ margin: 0 }}>Voting Capacity</H5>
                       <SortFilterIcon
-                        ascending={sortListAscending}
+                        ascending={sortValidatorsListAscending}
                         active={
-                          validatorSortField ===
-                          VALIDATORS_LIST_SORT_FILTER.VOTING_POWER
+                          validatorsListSortFilter ===
+                          CELO_VALIDATORS_LIST_SORT_FILTER.VOTING_POWER
                         }
                       />
                     </RowItemHeader>
                     <RowItemHeader
                       width={150}
-                      onClick={this.setSortFilter(
-                        VALIDATORS_LIST_SORT_FILTER.COMMISSION,
+                      onClick={this.handleSortList(
+                        CELO_VALIDATORS_LIST_SORT_FILTER.OPEN_VOTES,
                       )}
                     >
-                      <H5 style={{ margin: 0 }}>Capacity</H5>
+                      <H5 style={{ margin: 0 }}>Open Votes</H5>
                       <SortFilterIcon
-                        ascending={sortListAscending}
+                        ascending={sortValidatorsListAscending}
                         active={
-                          validatorSortField ===
-                          VALIDATORS_LIST_SORT_FILTER.COMMISSION
+                          validatorsListSortFilter ===
+                          CELO_VALIDATORS_LIST_SORT_FILTER.OPEN_VOTES
                         }
                       />
                     </RowItemHeader>
@@ -193,7 +212,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
 
                         const copyAddress = () => copyTextToClipboard(v.group);
 
-                        const votingCapacity = getVotesAvailable(
+                        const votingCapacityPercentage = getCeloVotesAvailablePercentage(
                           v.capacityAvailable,
                           v.votingPower,
                         );
@@ -214,13 +233,19 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                 />
                               </RowItem>
                               <RowItem width={150}>
-                                <H5 style={{ margin: 0 }}>{v.name}</H5>
+                                <H5 style={{ margin: 0 }}>
+                                  {v.name || "(no name set)"}
+                                </H5>
                               </RowItem>
                               <RowItem width={150}>
-                                <Text>{adjustValue(v.capacityAvailable)}</Text>
+                                <Text>
+                                  {adjustCeloValue(v.capacityAvailable)}
+                                </Text>
                               </RowItem>
                               <RowItem width={150}>
-                                <Text>{votingCapacity}%</Text>
+                                <Text>
+                                  {votingCapacityPercentage.toFixed(2)}%
+                                </Text>
                               </RowItem>
                               <RowItem>
                                 <Icon
@@ -248,7 +273,9 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                     <H6 style={{ margin: 0 }}>Active Votes</H6>
                                   </RowItem>
                                   <RowItem width={300}>
-                                    <Text>{adjustValue(v.votingPower)}</Text>
+                                    <Text>
+                                      {adjustCeloValue(v.votingPower)}
+                                    </Text>
                                   </RowItem>
                                 </ValidatorDetailRow>
                                 <ValidatorDetailRow>
@@ -259,7 +286,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                   </RowItem>
                                   <RowItem width={300}>
                                     <Text>
-                                      {adjustValue(
+                                      {adjustCeloValue(
                                         subtract(
                                           v.capacityAvailable,
                                           v.votingPower,
@@ -275,7 +302,9 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                                     </H6>
                                   </RowItem>
                                   <RowItem width={225}>
-                                    <Text>{adjustValue(v.totalCapacity)}</Text>
+                                    <Text>
+                                      {adjustCeloValue(v.totalCapacity)}
+                                    </Text>
                                   </RowItem>
                                   <RowItem width={100}>
                                     <Button
@@ -305,54 +334,82 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                     </RowItemHeader>
                   </StakingRow>
                   <Card style={{ padding: 8, width: 475 }}>
-                    {/* <ValidatorDetailRow>
+                    <ValidatorDetailRow>
                       <RowItem width={125}>
                         <H6 style={{ margin: 0 }}>AVAILABLE</H6>
                       </RowItem>
                       <RowItem width={125}>
-                        <Text>{balances.balance}</Text>
+                        <Text>
+                          {renderCurrencyValue(
+                            availableGoldBalance,
+                            network.denominationSize,
+                          )}
+                        </Text>
                       </RowItem>
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
                       <RowItem width={125}>
-                        <H6 style={{ margin: 0 }}>REWARDS</H6>
+                        <H6 style={{ margin: 0 }}>TOTAL LOCKED</H6>
                       </RowItem>
                       <RowItem width={125}>
-                        <Text>{balances.rewards}</Text>
-                      </RowItem>
-                      <RowItem width={200}>
-                        <Button
-                          onClick={this.handleRewardsClaimAction}
-                          data-cy="claim-rewards-button"
-                        >
-                          Withdraw Rewards
-                        </Button>
+                        <Text>
+                          {renderCurrencyValue(
+                            totalLockedGoldBalance,
+                            network.denominationSize,
+                          )}
+                        </Text>
                       </RowItem>
                     </ValidatorDetailRow>
-                    {balances.commissions !== "0" && (
-                      <ValidatorDetailRow>
-                        <RowItem width={125}>
-                          <H6 style={{ margin: 0 }}>COMMISSIONS</H6>
-                        </RowItem>
-                        <RowItem width={125}>
-                          <Text>{balances.commissions}</Text>
-                        </RowItem>
-                        <RowItem width={200}>
-                          <Button
-                            onClick={this.handleRewardsClaimAction}
-                            data-cy="claim-commissions-button"
-                          >
-                            Withdraw Commissions
-                          </Button>
-                        </RowItem>
-                      </ValidatorDetailRow>
-                    )}
                     <ValidatorDetailRow>
                       <RowItem width={125}>
-                        <H6 style={{ margin: 0 }}>UNBONDING</H6>
+                        <H6 style={{ margin: 0 }}>VOTING</H6>
                       </RowItem>
                       <RowItem width={125}>
-                        <Text>{balances.unbonding}</Text>
+                        <Text>
+                          {renderCurrencyValue(
+                            votingLockedGoldBalance,
+                            network.denominationSize,
+                          )}
+                        </Text>
+                      </RowItem>
+                    </ValidatorDetailRow>
+                    <ValidatorDetailRow>
+                      <RowItem width={125}>
+                        <H6 style={{ margin: 0 }}>NON-VOTING</H6>
+                      </RowItem>
+                      <RowItem width={125}>
+                        <Text>
+                          {renderCurrencyValue(
+                            nonVotingLockedGoldBalance,
+                            network.denominationSize,
+                          )}
+                        </Text>
+                      </RowItem>
+                    </ValidatorDetailRow>
+                    <ValidatorDetailRow>
+                      <RowItem width={125}>
+                        <H6 style={{ margin: 0 }}>PENDING</H6>
+                      </RowItem>
+                      <RowItem width={125}>
+                        <Text>
+                          {renderCurrencyValue(
+                            pendingWithdrawalBalance,
+                            network.denominationSize,
+                          )}
+                        </Text>
+                      </RowItem>
+                    </ValidatorDetailRow>
+                    <ValidatorDetailRow>
+                      <RowItem width={125}>
+                        <H6 style={{ margin: 0 }}>cUSD</H6>
+                      </RowItem>
+                      <RowItem width={125}>
+                        <Text>
+                          {renderCurrencyValue(
+                            celoUSDValue,
+                            network.denominationSize,
+                          )}
+                        </Text>
                       </RowItem>
                     </ValidatorDetailRow>
                   </Card>
@@ -377,21 +434,36 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                         <H5 style={{ margin: 0 }}>STAKING</H5>
                       </RowItem>
                       <RowItem width={100}>
-                        <Text>{total}</Text>
+                        <Text>
+                          {renderCurrencyValue(
+                            totalLockedGoldBalance,
+                            network.denominationSize,
+                          )}
+                        </Text>
                       </RowItem>
                       <RowItem width={75}>
-                        <Text>100%</Text>
+                        <Text>100.00%</Text>
                       </RowItem>
-                    </StakingRowSummary> */}
-                    {/* {delegations.map(staking => {
-                      const { rewards, validator, percentage } = staking;
+                    </StakingRowSummary>
+                    {delegations.map(delegation => {
+                      const { group, totalVotes } = delegation;
+
+                      // Find the associated validator group
+                      const validatorGroup = validatorOperatorAddressMap.get(
+                        group.toUpperCase(),
+                      );
+
+                      if (!validatorGroup) {
+                        return null;
+                      }
+
                       return (
-                        <View key={validator.group}>
+                        <View key={group}>
                           <StakingRow>
                             <RowItem width={45}>
                               <AddressIconComponent
                                 networkName={network.name}
-                                address={validator.group}
+                                address={group}
                                 validatorOperatorAddressMap={
                                   validatorOperatorAddressMap
                                 }
@@ -399,27 +471,31 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                             </RowItem>
                             <RowItem width={150}>
                               <H5 style={{ margin: 0 }}>
-                                {validator.name}
+                                {validatorGroup.name}
                               </H5>
                             </RowItem>
                             <RowItem width={100}>
                               <Text>
-                                {formatCurrencyAmount(
-                                  denomToUnit(
-                                    rewards,
-                                    network.denominationSize,
-                                  ),
+                                {renderCurrencyValue(
+                                  totalVotes,
+                                  network.denominationSize,
                                 )}
                               </Text>
                             </RowItem>
                             <RowItem width={75}>
-                              <Text>{percentage}%</Text>
+                              <Text>
+                                {getPercentageFromTotal(
+                                  totalVotes,
+                                  totalLockedGoldBalance,
+                                )}
+                                %
+                              </Text>
                             </RowItem>
                             <RowItem width={75}>
                               <Button
                                 style={{ borderRadius: "50%" }}
                                 onClick={() =>
-                                  this.handleAddValidator(validator)
+                                  this.handleAddValidator(validatorGroup)
                                 }
                               >
                                 <Icon icon="plus" color={COLORS.LIGHT_WHITE} />
@@ -428,7 +504,7 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
                           </StakingRow>
                         </View>
                       );
-                    })} */}
+                    })}
                   </Card>
                 </View>
               </View>
@@ -439,7 +515,25 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
     );
   }
 
+  handleSortList = (sortFilter: CELO_VALIDATORS_LIST_SORT_FILTER) => () => {
+    const {
+      validatorsListSortFilter,
+      sortValidatorsListAscending,
+    } = this.state;
+    let sortDirection = true;
+    if (sortFilter === validatorsListSortFilter) {
+      sortDirection = !sortValidatorsListAscending;
+    }
+
+    this.setState({
+      validatorsListSortFilter: sortFilter,
+      sortValidatorsListAscending: sortDirection,
+    });
+  };
+
   handleAddValidator = (validator: ICeloValidatorGroup) => {
+    Toast.warn("⚠️ Ledger actions coming soon.");
+
     // TODO: Not implemented yet.
     // Set the selected validator in the transactions workflow
     // this.props.setDelegationValidatorSelection(validator);
@@ -456,18 +550,6 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
     // });
   };
 
-  handleRewardsClaimAction = () => {
-    if (!this.props.ledger.connected) {
-      this.props.setSigninNetworkName(this.props.network.name);
-    }
-
-    this.props.openLedgerDialog({
-      signinType: "LEDGER",
-      ledgerAccessType: "PERFORM_ACTION",
-      ledgerActionType: "CLAIM",
-    });
-  };
-
   handleClickValidator = (address: string) => {
     if (this.state.showValidatorDetailsAddress === address) {
       this.setState({ showValidatorDetailsAddress: "" });
@@ -475,22 +557,21 @@ class ValidatorsListPage extends React.Component<IProps, IState> {
       this.setState({ showValidatorDetailsAddress: address });
     }
   };
-
-  setSortFilter = (filter: VALIDATORS_LIST_SORT_FILTER) => () => {
-    this.props.setValidatorListSortType(filter);
-  };
 }
 
-const adjustValue = (value: GenericNumberType) => {
+/**
+ * Adjust some values to render correctly for Celo.
+ */
+const adjustCeloValue = (value: GenericNumberType) => {
   const x = divide(Number(value), 10e17, Number);
   return formatCurrencyAmount(x);
 };
 
-const getVotesAvailable = (capacity: number, votingPower: number) => {
-  return (((capacity - votingPower) / capacity) * 100).toFixed(2);
-  // const fraction = divide(subtract(capacity, votingPower), capacity);
-  // const percent = multiply(fraction, 100, Number).toFixed(2);
-  // return percent;
+/**
+ * Helper to render Celo currency values.
+ */
+const renderCurrencyValue = (value: string, denomSize: number) => {
+  return formatCurrencyAmount(denomToUnit(value, denomSize));
 };
 
 /** ===========================================================================
@@ -502,15 +583,10 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
   network: Modules.selectors.ledger.networkSelector(state),
-  sortListAscending: Modules.selectors.app.appSelector(state)
-    .sortValidatorsListAscending,
-  validatorSortField: Modules.selectors.app.appSelector(state)
-    .validatorsListSortFilter,
 });
 
 const dispatchProps = {
   setLocale: Modules.actions.settings.setLocale,
-  setValidatorListSortType: Modules.actions.app.setValidatorListSortType,
   openLedgerDialog: Modules.actions.ledger.openLedgerDialog,
   setSigninNetworkName: Modules.actions.ledger.setSigninNetworkName,
   openSelectNetworkDialog: Modules.actions.ledger.openSelectNetworkDialog,
@@ -542,4 +618,4 @@ export default composeWithProps<ComponentProps>(
   withFiatPriceData,
   withCeloAccountBalances,
   withCeloValidatorGroups,
-)(ValidatorsListPage);
+)(CeloValidatorsListPage);

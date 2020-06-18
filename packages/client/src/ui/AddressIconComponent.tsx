@@ -1,4 +1,9 @@
-import { deriveNetworkFromAddress, NETWORK_NAME } from "@anthem/utils";
+import {
+  deriveNetworkFromAddress,
+  ICeloValidatorGroup,
+  ICosmosValidator,
+  NETWORK_NAME,
+} from "@anthem/utils";
 import { NetworkLogoIcon } from "assets/images";
 import axios from "axios";
 import { COLORS } from "constants/colors";
@@ -20,7 +25,9 @@ import {
 interface IProps {
   address: string;
   networkName: NETWORK_NAME;
-  validatorOperatorAddressMap: ValidatorOperatorAddressMap;
+  validatorOperatorAddressMap: ValidatorOperatorAddressMap<
+    ICosmosValidator | ICeloValidatorGroup
+  >;
 }
 
 interface IState {
@@ -46,6 +53,7 @@ class AddressIconComponent extends React.Component<IProps, IState> {
   async componentDidMount() {
     const { address, networkName, validatorOperatorAddressMap } = this.props;
     const validator = getValidatorNameFromAddress(
+      // @ts-ignore
       validatorOperatorAddressMap,
       address,
       networkName,

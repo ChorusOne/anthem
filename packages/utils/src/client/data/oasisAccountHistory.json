@@ -601,6 +601,20 @@
           "amount": "11244940194613"
         }
       ]
+    },
+    {
+      "date": "2020-06-17T00:00:05Z",
+      "height": "529997",
+      "address": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+      "balance": "3870740775",
+      "meta": { "is_validator": false, "is_delegator": false },
+      "delegations": [
+        {
+          "delegator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "validator": "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=",
+          "amount": "11244940194613"
+        }
+      ]
     }
   ]
 }

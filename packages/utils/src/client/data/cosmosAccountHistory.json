@@ -3738,6 +3738,18 @@
         "height": 2276053,
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "timestamp": "2020-06-15T16:00:07.000Z"
+      },
+      {
+        "balance": "93404626",
+        "height": 2286393,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-06-16T12:51:10.000Z"
+      },
+      {
+        "balance": "93547408",
+        "height": 2287954,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-06-16T16:00:04.000Z"
       }
     ],
     "validatorCommissions": [
@@ -6854,6 +6866,18 @@
         "height": 2276053,
         "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
         "timestamp": "2020-06-15T16:00:07.000Z"
+      },
+      {
+        "balance": "7250810924",
+        "height": 2286393,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-06-16T12:51:10.000Z"
+      },
+      {
+        "balance": "7261911339",
+        "height": 2287954,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-06-16T16:00:04.000Z"
       }
     ],
     "fiatPriceHistory": [
@@ -7339,7 +7363,8 @@
       { "price": 2.85975, "timestamp": "2020-06-13T00:00:00.000Z" },
       { "price": 2.8009999999999997, "timestamp": "2020-06-14T00:00:00.000Z" },
       { "price": 2.6912499999999997, "timestamp": "2020-06-15T00:00:00.000Z" },
-      { "price": 2.72475, "timestamp": "2020-06-16T00:00:00.000Z" }
+      { "price": 2.71725, "timestamp": "2020-06-16T00:00:00.000Z" },
+      { "price": 2.70825, "timestamp": "2020-06-17T00:00:00.000Z" }
     ]
   }
 }

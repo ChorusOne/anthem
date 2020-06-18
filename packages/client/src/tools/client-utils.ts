@@ -2,6 +2,7 @@ import {
   assertUnreachable,
   COIN_DENOMS,
   getValidatorAddressFromDelegatorAddress,
+  ICeloValidatorGroup,
   ICosmosAccountBalances,
   ICosmosBalance,
   ICosmosTransaction,
@@ -15,7 +16,6 @@ import {
 import { ApolloError } from "apollo-client";
 import BigNumber from "bignumber.js";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
-import { VALIDATORS_LIST_SORT_FILTER } from "modules/app/store";
 import queryString, { ParsedQuery } from "query-string";
 import { AvailableReward } from "ui/CreateTransactionForm";
 import Toast from "ui/Toast";
@@ -520,7 +520,7 @@ export const race = async <T extends {}>(
 };
 
 export interface PriceHistoryMap {
-  [key: string]: string;
+  [key: string]: number;
 }
 
 /**
@@ -552,15 +552,13 @@ export const getPriceFromTransactionTimestamp = (
 ): string => {
   const date = formatFiatPriceDate(new Date(Number(timestamp)));
   if (date in priceHistory) {
-    return priceHistory[date];
+    return String(priceHistory[date]);
   }
 
   return "";
 };
 
-export interface ValidatorOperatorAddressMap {
-  [key: string]: ICosmosValidator;
-}
+export type ValidatorOperatorAddressMap<V> = Map<string, V>;
 
 /**
  * Reduce a list of validators to a map keyed by the operator_address for
@@ -569,13 +567,12 @@ export interface ValidatorOperatorAddressMap {
 export const getValidatorOperatorAddressMap = <V extends {}>(
   validatorList: V[],
   getAddressFn: (validator: V) => string,
-): ValidatorOperatorAddressMap => {
+): ValidatorOperatorAddressMap<V> => {
   return validatorList.reduce((addressMap, validator) => {
-    return {
-      ...addressMap,
-      [getAddressFn(validator)]: validator,
-    };
-  }, {});
+    const address = getAddressFn(validator);
+    addressMap.set(address, validator);
+    return addressMap;
+  }, new Map());
 };
 
 /**
@@ -583,7 +580,7 @@ export const getValidatorOperatorAddressMap = <V extends {}>(
  * with that address.
  */
 export const getValidatorNameFromAddress = (
-  validatorOperatorAddressMap: ValidatorOperatorAddressMap,
+  validatorOperatorAddressMap: ValidatorOperatorAddressMap<ICosmosValidator>,
   address: string,
   networkName: NETWORK_NAME,
 ): Nullable<ICosmosValidator> => {
@@ -592,9 +589,14 @@ export const getValidatorNameFromAddress = (
     networkName,
   );
 
-  if (validatorAddress && validatorAddress in validatorOperatorAddressMap) {
-    const validator = validatorOperatorAddressMap[validatorAddress];
-    return validator;
+  if (
+    validatorAddress &&
+    validatorOperatorAddressMap.has(validatorAddress.toUpperCase())
+  ) {
+    const validator = validatorOperatorAddressMap.get(
+      validatorAddress.toUpperCase(),
+    );
+    return validator || null;
   }
 
   return null;
@@ -623,9 +625,10 @@ const isChorusOne = (moniker: string) => moniker === "Chorus One";
  * Sort validators list and put Chorus 1st and Certus 2nd. Apply no sorting
  * to the rest of the list.
  */
-export const sortValidatorsChorusOnTop = (
-  validators: ReadonlyArray<ICosmosValidator>,
-): ICosmosValidator[] => {
+export const sortValidatorsChorusOnTop = <V extends {}>(
+  validators: V[],
+  validatorNameGetter: (v: V) => string,
+): V[] => {
   if (!validators) {
     return [];
   }
@@ -634,7 +637,7 @@ export const sortValidatorsChorusOnTop = (
 
   for (let i = 0; i < validators.length; i++) {
     const validator = validators[i];
-    if (isChorusOne(validator.description.moniker)) {
+    if (isChorusOne(validatorNameGetter(validator))) {
       reordered[0] = validator;
     } else {
       reordered[i + 1] = validator;
@@ -644,12 +647,19 @@ export const sortValidatorsChorusOnTop = (
   return reordered;
 };
 
+export enum COSMOS_VALIDATORS_SORT_FILTER {
+  CUSTOM_DEFAULT = "CUSTOM_DEFAULT",
+  NAME = "NAME",
+  VOTING_POWER = "VOTING_POWER",
+  COMMISSION = "COMMISSION",
+}
+
 /**
  * Handle sorting the validators list by different parameters.
  */
 export const sortValidatorsList = (
   validators: ICosmosValidator[],
-  sortField: VALIDATORS_LIST_SORT_FILTER,
+  sortField: COSMOS_VALIDATORS_SORT_FILTER,
   sortAscending: boolean,
   totalStake: string,
 ) => {
@@ -657,9 +667,12 @@ export const sortValidatorsList = (
   let result = [];
 
   switch (sortField) {
-    case VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT:
-      return sortValidatorsChorusOnTop(list);
-    case VALIDATORS_LIST_SORT_FILTER.NAME:
+    case COSMOS_VALIDATORS_SORT_FILTER.CUSTOM_DEFAULT:
+      return sortValidatorsChorusOnTop<ICosmosValidator>(
+        list,
+        v => v.description.moniker,
+      );
+    case COSMOS_VALIDATORS_SORT_FILTER.NAME:
       result = list.sort((a, b) => {
         const aName = a.description.moniker;
         const bName = b.description.moniker;
@@ -670,14 +683,14 @@ export const sortValidatorsList = (
         }
       });
       break;
-    case VALIDATORS_LIST_SORT_FILTER.VOTING_POWER:
+    case COSMOS_VALIDATORS_SORT_FILTER.VOTING_POWER:
       result = list.sort((a, b) => {
         const aPower = divide(a.tokens, totalStake, Number);
         const bPower = divide(b.tokens, totalStake, Number);
         return sortAscending ? aPower - bPower : bPower - aPower;
       });
       break;
-    case VALIDATORS_LIST_SORT_FILTER.COMMISSION:
+    case COSMOS_VALIDATORS_SORT_FILTER.COMMISSION:
       result = list.sort((a, b) => {
         const aRate = Number(a.commission.commission_rates.rate);
         const bRate = Number(b.commission.commission_rates.rate);
@@ -688,7 +701,73 @@ export const sortValidatorsList = (
       return assertUnreachable(sortField);
   }
 
-  return sortValidatorsChorusOnTop(result);
+  return sortValidatorsChorusOnTop<ICosmosValidator>(
+    result,
+    v => v.description.moniker,
+  );
+};
+
+export const getCeloVotesAvailablePercentage = (
+  capacity: number,
+  votingPower: number,
+) => {
+  const open = subtract(capacity, votingPower, Number);
+  const fraction = divide(open, capacity, Number);
+  const percent = multiply(fraction, 100, Number);
+  return percent;
+};
+
+export enum CELO_VALIDATORS_LIST_SORT_FILTER {
+  CUSTOM_DEFAULT = "CUSTOM_DEFAULT",
+  NAME = "NAME",
+  VOTING_POWER = "VOTING_POWER",
+  OPEN_VOTES = "OPEN_VOTES",
+}
+
+/**
+ * Handle sorting the validators list by different parameters.
+ */
+export const sortCeloValidatorsList = (
+  validators: ICeloValidatorGroup[],
+  sortField: CELO_VALIDATORS_LIST_SORT_FILTER,
+  sortAscending: boolean,
+) => {
+  const list = validators.slice();
+
+  switch (sortField) {
+    case CELO_VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT:
+      return sortValidatorsChorusOnTop<ICeloValidatorGroup>(list, v => v.name);
+    case CELO_VALIDATORS_LIST_SORT_FILTER.NAME:
+      return list.sort((a, b) => {
+        const aName = a.name;
+        const bName = b.name;
+        if (sortAscending) {
+          return aName.localeCompare(bName);
+        } else {
+          return bName.localeCompare(aName);
+        }
+      });
+    case CELO_VALIDATORS_LIST_SORT_FILTER.VOTING_POWER:
+      return list.sort((a, b) => {
+        const aCapacity = Number(a.capacityAvailable);
+        const bCapacity = Number(b.capacityAvailable);
+        return sortAscending ? aCapacity - bCapacity : bCapacity - aCapacity;
+      });
+    case CELO_VALIDATORS_LIST_SORT_FILTER.OPEN_VOTES:
+      return list.sort((a, b) => {
+        const aOpen = getCeloVotesAvailablePercentage(
+          a.capacityAvailable,
+          a.votingPower,
+        );
+        const bOpen = getCeloVotesAvailablePercentage(
+          b.capacityAvailable,
+          b.votingPower,
+        );
+        return sortAscending ? aOpen - bOpen : bOpen - aOpen;
+      });
+    default:
+      return assertUnreachable(sortField);
+  }
 };
 
 /**
@@ -843,8 +922,8 @@ export const formatCommissionRate = (rate: string) => {
  * Format the validators voting power. The voting power is the validator
  * stake divided by the entire network stake.
  */
-export const getPercentageFromTotal = (staked: string, totalStake: string) => {
-  const share = divide(staked, totalStake);
+export const getPercentageFromTotal = (fraction: string, total: string) => {
+  const share = divide(fraction, total);
   const power = multiply(share, 100, Number).toFixed(2);
   return power;
 };

@@ -1,6 +1,7 @@
 import {
   assertUnreachable,
   ICosmosTransaction,
+  ICosmosValidator,
   NetworkDefinition,
 } from "@anthem/utils";
 import { Card, Elevation, Position, Tooltip } from "@blueprintjs/core";
@@ -71,7 +72,7 @@ interface IProps extends TranslateMethodProps {
   fiatCurrency: FiatCurrency;
   network: NetworkDefinition;
   setAddress: typeof Modules.actions.ledger.setAddress;
-  validatorOperatorAddressMap: ValidatorOperatorAddressMap;
+  validatorOperatorAddressMap: ValidatorOperatorAddressMap<ICosmosValidator>;
   onCopySuccess: (address: string) => void;
   addressOrValidator: (address: string) => string;
   getFiatPriceForTransaction: (timestamp: string, amount: string) => string;
