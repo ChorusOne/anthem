@@ -363,9 +363,9 @@ class CeloBalancesComponent extends React.Component<
     const denomSize = network.denominationSize;
 
     // Helper to render Celo currency values
-    const renderCurrency = (value: string) => {
+    const renderCurrency = (value: string, convertToFiat = displayFiat) => {
       let result = denomToUnit(value, denomSize, Number);
-      if (displayFiat) {
+      if (convertToFiat) {
         result = fiatPrice * result;
       }
       return formatCurrencyAmount(result);
@@ -394,7 +394,7 @@ class CeloBalancesComponent extends React.Component<
                   style={{ marginRight: 2 }}
                   color={COLORS.BALANCE_SHADE_ONE}
                 />
-                <BalanceTitle>Gold Balance:</BalanceTitle>
+                <BalanceTitle>Balance:</BalanceTitle>
                 <BalanceText data-cy="celo-gold-balance-available">
                   {renderCurrency(availableGoldBalance)}
                 </BalanceText>
@@ -405,7 +405,7 @@ class CeloBalancesComponent extends React.Component<
                   style={{ marginRight: 2 }}
                   color={COLORS.BALANCE_SHADE_TWO}
                 />
-                <BalanceTitle>Locked Gold:</BalanceTitle>
+                <BalanceTitle>Locked:</BalanceTitle>
                 <BalanceText data-cy="celo-gold-balance-locked">
                   {renderCurrency(totalLockedGoldBalance)}
                 </BalanceText>
@@ -429,7 +429,7 @@ class CeloBalancesComponent extends React.Component<
                 />
                 <BalanceTitle>cUSD Balance:</BalanceTitle>
                 <BalanceText data-cy="celo-usd-balance-available">
-                  {renderCurrency(celoUSDValue)}
+                  {renderCurrency(celoUSDValue, false)}
                 </BalanceText>
               </BalanceLine>
             </View>

@@ -49,6 +49,7 @@ import {
   StakingRow,
   StakingRowSummary,
   Text,
+  ValidatorCapacityCircle,
   ValidatorDetailRow,
   ValidatorDetails,
   ValidatorListCard,
@@ -194,7 +195,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                         CELO_VALIDATORS_LIST_SORT_FILTER.OPEN_VOTES,
                       )}
                     >
-                      <H5 style={{ margin: 0 }}>Open Votes</H5>
+                      <H5 style={{ margin: 0 }}>Capacity</H5>
                       <SortFilterIcon
                         ascending={sortValidatorsListAscending}
                         active={
@@ -221,6 +222,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           <View key={v.group}>
                             <ValidatorRowExpandable
                               data-cy={`validator-${v.group}`}
+                              highlight={v.name === "Chorus One"}
                               onClick={() => this.handleClickValidator(v.group)}
                             >
                               <RowItem width={45}>
@@ -233,7 +235,9 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                 />
                               </RowItem>
                               <RowItem width={150}>
-                                <H5 style={{ margin: 0 }}>
+                                <H5
+                                  style={{ margin: 0, wordWrap: "break-word" }}
+                                >
                                   {v.name || "(no name set)"}
                                 </H5>
                               </RowItem>
@@ -244,7 +248,9 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                               </RowItem>
                               <RowItem width={150}>
                                 <Text>
-                                  {votingCapacityPercentage.toFixed(2)}%
+                                  <ValidatorCapacityCircle
+                                    capacity={votingCapacityPercentage}
+                                  />
                                 </Text>
                               </RowItem>
                               <RowItem>
@@ -312,10 +318,39 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                       onClick={() => this.handleAddValidator(v)}
                                       data-cy="delegate-button"
                                     >
-                                      Lock Gold
+                                      Lock Celo
                                     </Button>
                                   </RowItem>
                                 </ValidatorDetailRow>
+                                {v.validatorAddresses.map((address, index) => {
+                                  // Only render label for first row
+                                  const renderTitle = index === 0;
+                                  return (
+                                    <ValidatorDetailRow key={address}>
+                                      {renderTitle ? (
+                                        <RowItem width={200}>
+                                          <H6 style={{ margin: 0 }}>
+                                            Group Members
+                                          </H6>
+                                        </RowItem>
+                                      ) : (
+                                        <RowItem width={200} />
+                                      )}
+                                      <RowItem width={150}>
+                                        <Text>
+                                          {formatAddressString(address, true)}
+                                        </Text>
+                                      </RowItem>
+                                      <RowItem
+                                        onClick={() =>
+                                          copyTextToClipboard(address)
+                                        }
+                                      >
+                                        <CopyIcon />
+                                      </RowItem>
+                                    </ValidatorDetailRow>
+                                  );
+                                })}
                               </ValidatorDetails>
                             </Collapse>
                           </View>
@@ -349,7 +384,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
                       <RowItem width={125}>
-                        <H6 style={{ margin: 0 }}>TOTAL LOCKED</H6>
+                        <H6 style={{ margin: 0 }}>LOCKED</H6>
                       </RowItem>
                       <RowItem width={125}>
                         <Text>

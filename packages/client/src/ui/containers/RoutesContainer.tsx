@@ -19,6 +19,7 @@ import LedgerDialogComponents from "ui/LedgerDialogWorkflow";
 import LogoutAlertComponent from "ui/LogoutAlert";
 import NotificationsBanner from "ui/NotificationsBanner";
 import DashboardPage from "ui/pages/DashboardPage";
+import GovernancePage from "ui/pages/GovernancePage";
 import HelpPage from "ui/pages/HelpPage";
 import LandingPage from "ui/pages/LandingPage";
 import SettingsPage from "ui/pages/SettingsPage";
@@ -80,8 +81,9 @@ class RoutesContainer extends React.Component<IProps> {
               component={TransactionDetailContainer}
             />
             <Route key={4} path="/delegate" component={ValidatorsPage} />
-            <Route key={5} path="/help" component={HelpPage} />
-            <Route key={6} path="/settings" component={SettingsPage} />
+            <Route key={5} path="/governance" component={GovernancePage} />
+            <Route key={6} path="/help" component={HelpPage} />
+            <Route key={7} path="/settings" component={SettingsPage} />
             <Route
               key={7}
               component={() =>

@@ -98,22 +98,14 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         title="Staking"
         icon={IconNames.BANK_ACCOUNT}
       />,
-      // <NavItem
-      //   path={pathname}
-      //   closeHandler={close}
-      //   key="Wallet"
-      //   route="Wallet"
-      //   title={tString("Wallet")}
-      //   icon={IconNames.CREDIT_CARD}
-      // />,
-      // <NavItem
-      //   path={pathname}
-      //   closeHandler={close}
-      //   key="Governance"
-      //   route="Governance"
-      //   title={tString("Governance")}
-      //   icon={IconNames.OFFICE}
-      // />,
+      <NavItem
+        path={pathname}
+        closeHandler={close}
+        key="Governance"
+        route="Governance"
+        title={tString("Governance")}
+        icon={IconNames.TAKE_ACTION}
+      />,
     ];
 
     const BOTTOM_ROUTE_LINKS: ReadonlyArray<JSX.Element> = [
@@ -133,7 +125,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         key="Help"
         route="Help"
         title={tString("Help")}
-        icon={IconNames.INFO_SIGN}
+        icon={IconNames.LIGHTBULB}
       />,
       address && (
         <NavItem

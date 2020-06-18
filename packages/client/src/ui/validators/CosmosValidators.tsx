@@ -238,6 +238,7 @@ class CosmosValidatorsListPage extends React.Component<IProps, IState> {
                         return (
                           <View key={v.operator_address}>
                             <ValidatorRowExpandable
+                              highlight={v.description.moniker === "Chorus One"}
                               data-cy={`validator-${v.operator_address}`}
                               onClick={() =>
                                 this.handleClickValidator(v.operator_address)
@@ -325,6 +326,7 @@ class CosmosValidatorsListPage extends React.Component<IProps, IState> {
                                       {formatCommissionRate(
                                         v.commission.commission_rates.rate,
                                       )}
+                                      %
                                     </Text>
                                   </RowItem>
                                 </ValidatorDetailRow>
@@ -337,6 +339,7 @@ class CosmosValidatorsListPage extends React.Component<IProps, IState> {
                                       {formatCommissionRate(
                                         v.commission.commission_rates.max_rate,
                                       )}
+                                      %
                                     </Text>
                                   </RowItem>
                                 </ValidatorDetailRow>
@@ -352,6 +355,7 @@ class CosmosValidatorsListPage extends React.Component<IProps, IState> {
                                         v.commission.commission_rates
                                           .max_change_rate,
                                       )}
+                                      %
                                     </Text>
                                   </RowItem>
                                   <RowItem width={150}>
@@ -360,7 +364,7 @@ class CosmosValidatorsListPage extends React.Component<IProps, IState> {
                                       onClick={() => this.handleAddValidator(v)}
                                       data-cy="delegate-button"
                                     >
-                                      Add Validator
+                                      Stake
                                     </Button>
                                   </RowItem>
                                 </ValidatorDetailRow>

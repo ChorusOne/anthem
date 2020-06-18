@@ -56,4 +56,7 @@ export enum COLORS {
 
   // Call to action color
   FOCUS = "#148972",
+
+  // Network Brand Colors
+  CELO = "rgb(47, 201, 116)",
 }

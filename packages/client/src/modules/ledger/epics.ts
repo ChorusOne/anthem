@@ -24,6 +24,7 @@ import { connectCeloAddress } from "tools/celo-ledger-utils";
 import {
   capitalizeString,
   getQueryParamsFromUrl,
+  isValidChartTab,
   onChartView,
   wait,
 } from "tools/client-utils";
@@ -284,13 +285,20 @@ const syncAddressToUrlEpic: EpicSignature = (action$, state$, deps) => {
       const { transactionsPage } = state$.value.transaction;
       const params = getQueryParamsFromUrl(deps.router.location.search);
 
+      const tab = window.location.pathname.split("/")[1];
+      const onDashboard = isValidChartTab(tab);
+
       const search =
         transactionsPage > 1
           ? `?address=${address}&page=${transactionsPage}`
           : `?address=${address}`;
 
       if (params.address !== address) {
-        deps.router.replace({ search });
+        if (!onDashboard) {
+          deps.router.push({ pathname: "/total", search });
+        } else {
+          deps.router.replace({ search });
+        }
       }
     }),
     ignoreElements(),

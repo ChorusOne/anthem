@@ -570,7 +570,7 @@ export const getValidatorOperatorAddressMap = <V extends {}>(
 ): ValidatorOperatorAddressMap<V> => {
   return validatorList.reduce((addressMap, validator) => {
     const address = getAddressFn(validator);
-    addressMap.set(address, validator);
+    addressMap.set(address.toUpperCase(), validator);
     return addressMap;
   }, new Map());
 };
@@ -733,12 +733,14 @@ export const sortCeloValidatorsList = (
   sortAscending: boolean,
 ) => {
   const list = validators.slice();
+  let result: ICeloValidatorGroup[] = [];
 
   switch (sortField) {
     case CELO_VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT:
-      return sortValidatorsChorusOnTop<ICeloValidatorGroup>(list, v => v.name);
+      result = list;
+      break;
     case CELO_VALIDATORS_LIST_SORT_FILTER.NAME:
-      return list.sort((a, b) => {
+      result = list.sort((a, b) => {
         const aName = a.name;
         const bName = b.name;
         if (sortAscending) {
@@ -747,14 +749,16 @@ export const sortCeloValidatorsList = (
           return bName.localeCompare(aName);
         }
       });
+      break;
     case CELO_VALIDATORS_LIST_SORT_FILTER.VOTING_POWER:
-      return list.sort((a, b) => {
+      result = list.sort((a, b) => {
         const aCapacity = Number(a.capacityAvailable);
         const bCapacity = Number(b.capacityAvailable);
         return sortAscending ? aCapacity - bCapacity : bCapacity - aCapacity;
       });
+      break;
     case CELO_VALIDATORS_LIST_SORT_FILTER.OPEN_VOTES:
-      return list.sort((a, b) => {
+      result = list.sort((a, b) => {
         const aOpen = getCeloVotesAvailablePercentage(
           a.capacityAvailable,
           a.votingPower,
@@ -765,9 +769,12 @@ export const sortCeloValidatorsList = (
         );
         return sortAscending ? aOpen - bOpen : bOpen - aOpen;
       });
+      break;
     default:
       return assertUnreachable(sortField);
   }
+
+  return sortValidatorsChorusOnTop<ICeloValidatorGroup>(result, v => v.name);
 };
 
 /**
