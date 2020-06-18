@@ -41,7 +41,6 @@ const KeyboardShortcutsPopover = () => {
         content="Click to view keyboard shortcuts"
       >
         <Icon
-          // icon="control"
           icon="console"
           color={COLORS.DARK_GRAY}
           style={{ marginRight: 12 }}
