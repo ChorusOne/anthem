@@ -238,6 +238,7 @@ class CosmosValidatorsListPage extends React.Component<IProps, IState> {
                         return (
                           <View key={v.operator_address}>
                             <ValidatorRowExpandable
+                              highlight={v.description.moniker === "Chorus One"}
                               data-cy={`validator-${v.operator_address}`}
                               onClick={() =>
                                 this.handleClickValidator(v.operator_address)

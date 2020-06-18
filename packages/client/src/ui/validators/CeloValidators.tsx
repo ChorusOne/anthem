@@ -39,6 +39,7 @@ import {
   DashboardLoader,
   PageContainer,
   PageScrollableContent,
+  Row,
   View,
 } from "ui/SharedComponents";
 import Toast from "ui/Toast";
@@ -222,6 +223,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           <View key={v.group}>
                             <ValidatorRowExpandable
                               data-cy={`validator-${v.group}`}
+                              highlight={v.name === "Chorus One"}
                               onClick={() => this.handleClickValidator(v.group)}
                             >
                               <RowItem width={45}>
@@ -321,6 +323,35 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                     </Button>
                                   </RowItem>
                                 </ValidatorDetailRow>
+                                {v.validatorAddresses.map((address, index) => {
+                                  // Only render label for first row
+                                  const renderTitle = index === 0;
+                                  return (
+                                    <ValidatorDetailRow key={address}>
+                                      {renderTitle ? (
+                                        <RowItem width={200}>
+                                          <H6 style={{ margin: 0 }}>
+                                            Group Members
+                                          </H6>
+                                        </RowItem>
+                                      ) : (
+                                        <RowItem width={200} />
+                                      )}
+                                      <RowItem width={150}>
+                                        <Text>
+                                          {formatAddressString(address, true)}
+                                        </Text>
+                                      </RowItem>
+                                      <RowItem
+                                        onClick={() =>
+                                          copyTextToClipboard(address)
+                                        }
+                                      >
+                                        <CopyIcon />
+                                      </RowItem>
+                                    </ValidatorDetailRow>
+                                  );
+                                })}
                               </ValidatorDetails>
                             </Collapse>
                           </View>

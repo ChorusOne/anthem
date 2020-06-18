@@ -36,6 +36,14 @@ export const StakingRowSummary = styled(StakingRow)`
 export const ValidatorRowExpandable = styled(ValidatorRowBase)`
   height: 70px;
 
+  border-radius: ${(props: { highlight: boolean }) =>
+    props.highlight ? 8 : 0}px;
+
+  border: ${(props: { highlight: boolean; theme: IThemeProps }) => {
+    const color = props.theme.isDarkTheme ? COLORS.CHORUS_MINT : COLORS.CELO;
+    return props.highlight ? `1px solid ${color}` : "none";
+  }};
+
   &:hover {
     cursor: pointer;
   }
