@@ -394,7 +394,7 @@ class CeloBalancesComponent extends React.Component<
                   style={{ marginRight: 2 }}
                   color={COLORS.BALANCE_SHADE_ONE}
                 />
-                <BalanceTitle>Celo Balance:</BalanceTitle>
+                <BalanceTitle>Balance:</BalanceTitle>
                 <BalanceText data-cy="celo-gold-balance-available">
                   {renderCurrency(availableGoldBalance)}
                 </BalanceText>
