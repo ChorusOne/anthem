@@ -88,6 +88,6 @@ export const SortFilterIcon = ({
   ascending: boolean;
 }) => {
   return active ? (
-    <Icon color={COLORS.PRIMARY} icon={ascending ? "caret-down" : "caret-up"} />
+    <Icon color={COLORS.PRIMARY} icon={ascending ? "caret-up" : "caret-down"} />
   ) : null;
 };
