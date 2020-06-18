@@ -98,22 +98,14 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         title="Staking"
         icon={IconNames.BANK_ACCOUNT}
       />,
-      // <NavItem
-      //   path={pathname}
-      //   closeHandler={close}
-      //   key="Wallet"
-      //   route="Wallet"
-      //   title={tString("Wallet")}
-      //   icon={IconNames.CREDIT_CARD}
-      // />,
-      // <NavItem
-      //   path={pathname}
-      //   closeHandler={close}
-      //   key="Governance"
-      //   route="Governance"
-      //   title={tString("Governance")}
-      //   icon={IconNames.OFFICE}
-      // />,
+      <NavItem
+        path={pathname}
+        closeHandler={close}
+        key="Governance"
+        route="Governance"
+        title={tString("Governance")}
+        icon={IconNames.OFFICE}
+      />,
     ];
 
     const BOTTOM_ROUTE_LINKS: ReadonlyArray<JSX.Element> = [

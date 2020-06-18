@@ -74,6 +74,11 @@ class GovernancePage extends React.Component<IProps, IState> {
       case "COSMOS":
       case "OASIS":
       case "CELO":
+        return (
+          <PanelMessageText>
+            Governance is coming soon for Celo.
+          </PanelMessageText>
+        );
       default:
         return null;
     }
