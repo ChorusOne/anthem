@@ -104,7 +104,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         key="Governance"
         route="Governance"
         title={tString("Governance")}
-        icon={IconNames.OFFICE}
+        icon={IconNames.TAKE_ACTION}
       />,
     ];
 
@@ -125,7 +125,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         key="Help"
         route="Help"
         title={tString("Help")}
-        icon={IconNames.INFO_SIGN}
+        icon={IconNames.LIGHTBULB}
       />,
       address && (
         <NavItem
