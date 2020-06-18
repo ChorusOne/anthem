@@ -54,6 +54,23 @@ export const ValidatorDetails = styled.div`
     props.theme.isDarkTheme ? Colors.DARK_GRAY3 : Colors.LIGHT_GRAY3};
 `;
 
+export const ValidatorCapacityCircle = styled.div`
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  margin-left: 26px;
+  background: ${({ capacity }: { capacity: number }) => {
+    // Render a color based on the percent capacity
+    return capacity > 75
+      ? "red"
+      : capacity > 50
+      ? "orange"
+      : capacity > 25
+      ? "yellow"
+      : COLORS.CHORUS_MINT;
+  }};
+`;
+
 export const RowItem = styled.div<{ width?: number }>`
   padding-left: 4px;
   padding-right: 4px;
@@ -68,10 +85,6 @@ export const RowItemHeader = styled(RowItem)`
 
   &:hover {
     cursor: pointer;
-
-    h5 {
-      color: ${COLORS.LIGHT_GRAY};
-    }
   }
 `;
 

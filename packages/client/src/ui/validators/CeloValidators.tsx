@@ -49,6 +49,7 @@ import {
   StakingRow,
   StakingRowSummary,
   Text,
+  ValidatorCapacityCircle,
   ValidatorDetailRow,
   ValidatorDetails,
   ValidatorListCard,
@@ -194,7 +195,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                         CELO_VALIDATORS_LIST_SORT_FILTER.OPEN_VOTES,
                       )}
                     >
-                      <H5 style={{ margin: 0 }}>Open Votes</H5>
+                      <H5 style={{ margin: 0 }}>Capacity</H5>
                       <SortFilterIcon
                         ascending={sortValidatorsListAscending}
                         active={
@@ -233,7 +234,9 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                 />
                               </RowItem>
                               <RowItem width={150}>
-                                <H5 style={{ margin: 0 }}>
+                                <H5
+                                  style={{ margin: 0, wordWrap: "break-word" }}
+                                >
                                   {v.name || "(no name set)"}
                                 </H5>
                               </RowItem>
@@ -244,7 +247,9 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                               </RowItem>
                               <RowItem width={150}>
                                 <Text>
-                                  {votingCapacityPercentage.toFixed(2)}%
+                                  <ValidatorCapacityCircle
+                                    capacity={votingCapacityPercentage}
+                                  />
                                 </Text>
                               </RowItem>
                               <RowItem>
@@ -312,7 +317,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                       onClick={() => this.handleAddValidator(v)}
                                       data-cy="delegate-button"
                                     >
-                                      Lock CELO
+                                      Lock Celo
                                     </Button>
                                   </RowItem>
                                 </ValidatorDetailRow>
