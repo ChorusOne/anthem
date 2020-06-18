@@ -43,9 +43,14 @@ class NotificationsBanner extends React.Component<IProps> {
       case "COSMOS":
         return (
           <BannerText>
-            <b>BETA:</b> Anthem provides data for the Cosmos network but is
-            currently in a beta release. You may experience data integrity
-            issues.{" "}
+            <b>
+              <span role="img" aria-label="warning-emoji">
+                ⚠️
+              </span>{" "}
+              BETA:
+            </b>{" "}
+            Anthem provides data for the Cosmos network but is currently in a
+            beta release. You may experience data integrity issues.{" "}
             <Link
               to="/help"
               onClick={this.props.displayDataIntegrityHelpLabel}
@@ -73,7 +78,10 @@ class NotificationsBanner extends React.Component<IProps> {
       case "CELO":
         return (
           <BannerText>
-            <b>{name}</b> Network is still in development.
+            <span role="img" aria-label="warning-emoji">
+              ⚠️
+            </span>{" "}
+            <b>{name} Network</b> is still in development.
           </BannerText>
         );
       default:
@@ -94,6 +102,7 @@ const Banner = styled.div`
   left: 0;
   right: 0;
   position: fixed;
+  padding: 0;
   padding-left: 265px;
   padding-right: 5px;
   display: flex;
@@ -109,6 +118,7 @@ const Banner = styled.div`
 
 const BannerText = styled.p`
   margin: 0;
+  padding: 0;
   font-weight: 300px;
   color: ${COLORS.WHITE};
 `;

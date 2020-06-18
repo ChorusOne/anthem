@@ -7,11 +7,7 @@ import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-  capitalizeString,
-  copyTextToClipboard,
-  formatAddressString,
-} from "tools/client-utils";
+import { copyTextToClipboard, formatAddressString } from "tools/client-utils";
 import { denomToUnit } from "tools/currency-utils";
 import { formatDate, formatTime } from "tools/date-utils";
 import { TranslateMethodProps } from "tools/i18n-utils";
