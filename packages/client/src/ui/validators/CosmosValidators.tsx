@@ -360,7 +360,7 @@ class CosmosValidatorsListPage extends React.Component<IProps, IState> {
                                       onClick={() => this.handleAddValidator(v)}
                                       data-cy="delegate-button"
                                     >
-                                      Add Validator
+                                      Stake
                                     </Button>
                                   </RowItem>
                                 </ValidatorDetailRow>
