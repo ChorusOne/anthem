@@ -33,9 +33,7 @@ class CeloTransactionDetailLoadingContainer extends React.PureComponent<
 > {
   render(): JSX.Element {
     const { fiatPriceHistory, i18n } = this.props;
-    const hash = this.props.location.pathname
-      .replace("/txs/", "")
-      .toLowerCase();
+    const hash = this.props.location.pathname.replace("/txs/", "");
 
     // Transaction may already exist in Apollo cache. Use this data first.
     const transactionMayExist = this.maybeFindTransactionInApolloCache(hash);
