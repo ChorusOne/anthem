@@ -570,7 +570,7 @@ export const getValidatorOperatorAddressMap = <V extends {}>(
 ): ValidatorOperatorAddressMap<V> => {
   return validatorList.reduce((addressMap, validator) => {
     const address = getAddressFn(validator);
-    addressMap.set(address, validator);
+    addressMap.set(address.toUpperCase(), validator);
     return addressMap;
   }, new Map());
 };
