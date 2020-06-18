@@ -325,6 +325,7 @@ class CosmosValidatorsListPage extends React.Component<IProps, IState> {
                                       {formatCommissionRate(
                                         v.commission.commission_rates.rate,
                                       )}
+                                      %
                                     </Text>
                                   </RowItem>
                                 </ValidatorDetailRow>
@@ -337,6 +338,7 @@ class CosmosValidatorsListPage extends React.Component<IProps, IState> {
                                       {formatCommissionRate(
                                         v.commission.commission_rates.max_rate,
                                       )}
+                                      %
                                     </Text>
                                   </RowItem>
                                 </ValidatorDetailRow>
@@ -352,6 +354,7 @@ class CosmosValidatorsListPage extends React.Component<IProps, IState> {
                                         v.commission.commission_rates
                                           .max_change_rate,
                                       )}
+                                      %
                                     </Text>
                                   </RowItem>
                                   <RowItem width={150}>
