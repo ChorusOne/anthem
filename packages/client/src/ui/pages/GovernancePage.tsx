@@ -52,10 +52,11 @@ class GovernancePage extends React.Component<IProps, IState> {
   }
 
   render(): Nullable<JSX.Element> {
+    const { i18n } = this.props;
     if (this.state.hasError) {
       return (
         <PanelMessageText>
-          {this.props.i18n.tString("Error fetching data...")}
+          {i18n.tString("Error fetching data...")}
         </PanelMessageText>
       );
     }
@@ -75,9 +76,14 @@ class GovernancePage extends React.Component<IProps, IState> {
       case "OASIS":
       case "CELO":
         return (
-          <PanelMessageText>
-            Governance is coming soon for Celo.
-          </PanelMessageText>
+          <PageContainerScrollable>
+            <PageTitle data-cy="governance-page-title">
+              {i18n.tString("Governance")}
+            </PageTitle>
+            <PanelMessageText>
+              Governance is coming soon for Celo.
+            </PanelMessageText>
+          </PageContainerScrollable>
         );
       default:
         return null;
