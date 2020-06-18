@@ -38,7 +38,7 @@ interface NetworksMap {
  * ============================================================================
  */
 
-export type COIN_DENOMS = "uatom" | "ukava" | "uluna" | "oasis" | "cGLD";
+export type COIN_DENOMS = "uatom" | "ukava" | "uluna" | "oasis" | "CELO";
 
 export type NETWORK_NAME = "COSMOS" | "TERRA" | "KAVA" | "OASIS" | "CELO";
 
@@ -121,8 +121,8 @@ const NETWORKS: NetworksMap = {
     // available: true,
     available: false,
     name: "CELO",
-    denom: "cGLD",
-    descriptor: "cGLD",
+    denom: "CELO",
+    descriptor: "CELO",
     chainId: "celo",
     cryptoCompareTicker: "CGLD",
     ledgerAppVersion: "1.0.1",

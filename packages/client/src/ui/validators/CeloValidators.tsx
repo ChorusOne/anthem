@@ -312,7 +312,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                       onClick={() => this.handleAddValidator(v)}
                                       data-cy="delegate-button"
                                     >
-                                      Lock Gold
+                                      Lock CELO
                                     </Button>
                                   </RowItem>
                                 </ValidatorDetailRow>
@@ -349,7 +349,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
                       <RowItem width={125}>
-                        <H6 style={{ margin: 0 }}>TOTAL LOCKED</H6>
+                        <H6 style={{ margin: 0 }}>LOCKED</H6>
                       </RowItem>
                       <RowItem width={125}>
                         <Text>
