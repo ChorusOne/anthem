@@ -10,6 +10,7 @@ import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import { convertCeloEpochToTimestamp } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import PageAddressBar from "ui/PageAddressBar";
@@ -81,6 +82,12 @@ class CeloGovernancePage extends React.Component<IProps, IState> {
                                 <b>Details:</b> {x.gist}
                               </Text>
                             </ProposalRow>
+                            <ProposalRow>
+                              <Text>
+                                <b>Expiration Epoch:</b>{" "}
+                                {convertCeloEpochToTimestamp(x.expirationEpoch)}
+                              </Text>
+                            </ProposalRow>
                           </View>
                         );
                       })}
@@ -131,11 +138,7 @@ const ProposalsPanel = styled.div`
   flex-wrap: wrap;
 `;
 
-const ProposalRow = styled.div`
-  /* display: flex; */
-  /* align-items: center;
-  justify-content: center; */
-`;
+const ProposalRow = styled.div``;
 
 const Text = styled.p`
   margin: 0;

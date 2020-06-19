@@ -997,3 +997,12 @@ export const deriveCurrentDelegationsInformation = (
     delegations,
   };
 };
+
+/**
+ * Convert a Celo epoch to a timestamp.
+ */
+export const convertCeloEpochToTimestamp = (epoch: number): string => {
+  const e = new BigNumber(epoch);
+  const date = new Date(e.multipliedBy(1000).toNumber());
+  return date.toLocaleString();
+};
