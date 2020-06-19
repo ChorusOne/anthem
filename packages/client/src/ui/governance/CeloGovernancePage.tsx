@@ -3,9 +3,10 @@ import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
+import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
-import BalancesSwitchContainer from "ui/balances/BalancesSwitchContainer";
-import { PageContainerScrollable, PageTitle, Row } from "ui/SharedComponents";
+import PageAddressBar from "ui/PageAddressBar";
+import { PageContainerScrollable, Row } from "ui/SharedComponents";
 
 /** ===========================================================================
  * Types & Config
@@ -15,31 +16,55 @@ import { PageContainerScrollable, PageTitle, Row } from "ui/SharedComponents";
 interface IState {}
 
 /** ===========================================================================
- * React Component
+ * Celo Governance Page
  * ============================================================================
  */
 
 class CeloGovernancePage extends React.Component<IProps, IState> {
   render(): Nullable<JSX.Element> {
-    const { i18n } = this.props;
     return (
       <PageContainerScrollable>
-        <PageTitle data-cy="governance-page-title">
-          {i18n.tString("Governance")}
-        </PageTitle>
-        <Card
-          elevation={Elevation.TWO}
-          style={{ flex: 1, margin: 6, borderRadius: 0, minHeight: 325 }}
-        >
-          <Row>
-            <H5 style={{ margin: 0 }}>Proposals</H5>
-          </Row>
-          <BalancesSwitchContainer />
-        </Card>
+        <PageAddressBar pageTitle="Governance" />
+        <Row>
+          <Panel>
+            <H5 style={{ margin: 2, paddingLeft: 12 }}>Proposals</H5>
+            <Card
+              elevation={Elevation.TWO}
+              style={{ margin: 6, borderRadius: 0, height: 275 }}
+            ></Card>
+          </Panel>
+          <Panel>
+            <H5 style={{ margin: 2, paddingLeft: 12 }}>Proposal Details</H5>
+            <Card
+              elevation={Elevation.TWO}
+              style={{ margin: 6, borderRadius: 0, height: 275 }}
+            ></Card>
+          </Panel>
+        </Row>
+        <Row style={{ marginTop: 12 }}>
+          <Panel>
+            <H5 style={{ margin: 2, paddingLeft: 12 }}>Events</H5>
+            <Card
+              elevation={Elevation.TWO}
+              style={{ margin: 6, borderRadius: 0, height: 275 }}
+            ></Card>
+          </Panel>
+        </Row>
       </PageContainerScrollable>
     );
   }
 }
+
+/** ===========================================================================
+ * Styles
+ * ============================================================================
+ */
+
+const Panel = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+`;
 
 /** ===========================================================================
  * Props
