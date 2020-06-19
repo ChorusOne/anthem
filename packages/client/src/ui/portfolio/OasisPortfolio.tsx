@@ -22,10 +22,15 @@ import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
 import { toDateKey } from "tools/date-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
-import { DashboardError } from "ui/pages/DashboardPage";
 import Toast from "ui/Toast";
 import CurrencySettingsToggle from "../CurrencySettingToggle";
-import { Button, DashboardLoader, Row, View } from "../SharedComponents";
+import {
+  Button,
+  DashboardError,
+  DashboardLoader,
+  Row,
+  View,
+} from "../SharedComponents";
 
 /** ===========================================================================
  * React Component

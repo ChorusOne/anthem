@@ -37,13 +37,12 @@ import {
   onActiveTab,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
-import { tFnString } from "tools/i18n-utils";
 import AddressInputDashboardBar from "ui/AddressInputDashboardBar";
 import BalancesSwitchContainer from "ui/balances/BalancesSwitchContainer";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import LoginStart from "ui/LoginStart";
 import PortfolioSwitchContainer from "ui/portfolio/PortfolioSwitchContainer";
-import { View } from "ui/SharedComponents";
+import { DashboardError, View } from "ui/SharedComponents";
 import Toast from "ui/Toast";
 import TransactionSwitchContainer from "ui/transactions/TransactionSwitchContainer";
 
@@ -451,18 +450,6 @@ const shouldShowCommissionsLink = (
     cosmosAccountHistory.cosmosAccountHistory.validatorCommissions.length
   );
 };
-
-export const DashboardError = ({
-  tString,
-  text,
-}: {
-  tString: tFnString;
-  text?: string | JSX.Element;
-}) => (
-  <p style={{ marginTop: 85, textAlign: "center" }}>
-    {text ? text : tString("Error fetching data...")}
-  </p>
-);
 
 const DashboardDefaultView = styled.div`
   margin-top: -30px;

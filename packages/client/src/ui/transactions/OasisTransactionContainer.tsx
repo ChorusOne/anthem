@@ -10,8 +10,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
-import { DashboardError } from "ui/pages/DashboardPage";
-import { DashboardLoader } from "ui/SharedComponents";
+import { DashboardError, DashboardLoader } from "ui/SharedComponents";
 import OasisTransactionList from "./OasisTransactionList";
 
 /** ===========================================================================

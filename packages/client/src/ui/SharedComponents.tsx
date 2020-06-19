@@ -13,6 +13,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import Loader from "react-loader-spinner";
 import styled, { CSSProperties } from "styled-components";
 import { IThemeProps } from "ui/containers/ThemeContainer";
+import { tFnString } from "tools/i18n-utils";
 
 /** ===========================================================================
  * Common components shared throughout the application
@@ -140,6 +141,23 @@ export const LoaderBars = ({ style }: { style?: CSSProperties }) => (
   <View style={style}>
     <Loader type="Bars" color={COLORS.CTA} height={124} width={124} />
   </View>
+);
+
+/** ===========================================================================
+ * DashboardError
+ * ============================================================================
+ */
+
+export const DashboardError = ({
+  tString,
+  text,
+}: {
+  tString: tFnString;
+  text?: string | JSX.Element;
+}) => (
+  <p style={{ marginTop: 85, textAlign: "center" }}>
+    {text ? text : tString("Error fetching data...")}
+  </p>
 );
 
 /** ===========================================================================

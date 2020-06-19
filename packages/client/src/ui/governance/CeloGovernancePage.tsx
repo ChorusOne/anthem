@@ -1,3 +1,4 @@
+import { ICeloGovernanceProposal } from "@anthem/utils";
 import { Card, Elevation, H5 } from "@blueprintjs/core";
 import {
   CeloGovernanceProposalsProps,
@@ -10,9 +11,14 @@ import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
+import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import PageAddressBar from "ui/PageAddressBar";
-import { PageContainerScrollable, Row } from "ui/SharedComponents";
-
+import {
+  DashboardError,
+  DashboardLoader,
+  PageContainerScrollable,
+  Row,
+} from "ui/SharedComponents";
 /** ===========================================================================
  * Types & Config
  * ============================================================================
@@ -27,35 +33,53 @@ interface IState {}
 
 class CeloGovernancePage extends React.Component<IProps, IState> {
   render(): Nullable<JSX.Element> {
-    console.log(this.props.celoGovernanceProposals);
+    const { celoGovernanceProposals, i18n } = this.props;
+
     return (
       <PageContainerScrollable>
         <PageAddressBar pageTitle="Governance" />
-        <ProposalsPanel>
-          <Panel>
-            <H5 style={{ margin: 2, paddingLeft: 12 }}>Proposals</H5>
-            <Card
-              elevation={Elevation.TWO}
-              style={{ margin: 6, borderRadius: 0, height: 275 }}
-            ></Card>
-          </Panel>
-          <Panel>
-            <H5 style={{ margin: 2, paddingLeft: 12 }}>Proposal Details</H5>
-            <Card
-              elevation={Elevation.TWO}
-              style={{ margin: 6, borderRadius: 0, height: 275 }}
-            ></Card>
-          </Panel>
-        </ProposalsPanel>
-        <Row style={{ marginTop: 12 }}>
-          <Panel>
-            <H5 style={{ margin: 2, paddingLeft: 12 }}>Events</H5>
-            <Card
-              elevation={Elevation.TWO}
-              style={{ margin: 6, borderRadius: 0, height: 275 }}
-            ></Card>
-          </Panel>
-        </Row>
+        <GraphQLGuardComponent
+          tString={i18n.tString}
+          dataKey="celoGovernanceProposals"
+          result={celoGovernanceProposals}
+          errorComponent={<DashboardError tString={i18n.tString} />}
+          loadingComponent={<DashboardLoader />}
+        >
+          {(proposals: ICeloGovernanceProposal[]) => {
+            console.log(proposals);
+            return (
+              <>
+                <ProposalsPanel>
+                  <Panel>
+                    <H5 style={{ margin: 2, paddingLeft: 12 }}>Proposals</H5>
+                    <Card
+                      elevation={Elevation.TWO}
+                      style={{ margin: 6, borderRadius: 0, height: 275 }}
+                    ></Card>
+                  </Panel>
+                  <Panel>
+                    <H5 style={{ margin: 2, paddingLeft: 12 }}>
+                      Proposal Details
+                    </H5>
+                    <Card
+                      elevation={Elevation.TWO}
+                      style={{ margin: 6, borderRadius: 0, height: 275 }}
+                    ></Card>
+                  </Panel>
+                </ProposalsPanel>
+                <Row style={{ marginTop: 12 }}>
+                  <Panel>
+                    <H5 style={{ margin: 2, paddingLeft: 12 }}>Events</H5>
+                    <Card
+                      elevation={Elevation.TWO}
+                      style={{ margin: 6, borderRadius: 0, height: 275 }}
+                    ></Card>
+                  </Panel>
+                </Row>
+              </>
+            );
+          }}
+        </GraphQLGuardComponent>
       </PageContainerScrollable>
     );
   }

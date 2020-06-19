@@ -28,11 +28,11 @@ import {
 } from "tools/cosmos-chart-utils";
 import { chartExportBuilder } from "tools/csv-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
-import { DashboardError } from "ui/pages/DashboardPage";
 import CurrencySettingsToggle from "../CurrencySettingToggle";
 import {
   Button,
   Centered,
+  DashboardError,
   DashboardLoader,
   Row,
   View,
