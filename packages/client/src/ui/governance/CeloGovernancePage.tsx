@@ -5,7 +5,6 @@ import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
-import { IThemeProps } from "ui/containers/ThemeContainer";
 import PageAddressBar from "ui/PageAddressBar";
 import { PageContainerScrollable, Row } from "ui/SharedComponents";
 

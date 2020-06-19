@@ -15,7 +15,7 @@ import {
   createStringTranslationMethodFromLocale,
   createTranslationMethodFromLocale,
 } from "tools/i18n-utils";
-import GovernancePage from "ui/pages/GovernancePage";
+import GovernancePage from "ui/governance/GovernanceSwitchContainer";
 import SettingsPage from "ui/pages/SettingsPage";
 import WalletPage from "ui/pages/WalletPage";
 
