@@ -372,7 +372,6 @@ const ExpandCollapseIcon = ({ onClick }: { onClick: () => void }) => (
 
 const DashboardNavigationLink = ({
   title,
-  address,
   pathname,
   localizedTitle,
 }: INavItemProps) => {
@@ -413,7 +412,6 @@ const NavLinkContainer = styled.div`
 
 const getMobileDashboardNavigationLink = ({
   title,
-  address,
   history,
   pathname,
   localizedTitle,
