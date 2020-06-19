@@ -29,6 +29,7 @@ export default [
   "celoSystemBalances",
   "celoSystemHistory",
   "celoValidatorGroups",
+  "celoGovernanceProposals",
   "prices",
   "fiatPriceHistory",
   "dailyPercentChange",

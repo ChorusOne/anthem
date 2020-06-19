@@ -54,6 +54,7 @@ type Query {
   celoSystemBalances: CeloSystemBalances!
   celoSystemHistory: [CeloSystemHistory!]!
   celoValidatorGroups: [CeloValidatorGroup!]!
+  celoGovernanceProposals: [CeloGovernanceProposal!]!
 
   # Fiat price APIs
   fiatCurrencies: [FiatCurrency!]!
@@ -162,6 +163,22 @@ type CeloValidatorGroup {
   multiplier: Float!
   groupShare: Float!
   validatorAddresses: [String!]!
+}
+
+type CeloGovernanceProposal {
+  proposalID: Float!
+  index: Float!
+  blockNumber: Float!
+  stage: String!
+  proposer: String!
+  yesVotes: Float!
+  noVotes: Float!
+  abstainVotes: Float!
+  description: String!
+  proposalEpoch: Float!
+  referendumEpoch: Float!
+  executionEpoch: Float!
+  expirationEpoch: Float!
 }
 
 # *****************************************************************************

@@ -95,6 +95,23 @@ export interface ICeloDelegation {
   pendingVotes: Scalars["String"];
 }
 
+export interface ICeloGovernanceProposal {
+   __typename?: "CeloGovernanceProposal";
+  proposalID: Scalars["Float"];
+  index: Scalars["Float"];
+  blockNumber: Scalars["Float"];
+  stage: Scalars["String"];
+  proposer: Scalars["String"];
+  yesVotes: Scalars["Float"];
+  noVotes: Scalars["Float"];
+  abstainVotes: Scalars["Float"];
+  description: Scalars["String"];
+  proposalEpoch: Scalars["Float"];
+  referendumEpoch: Scalars["Float"];
+  executionEpoch: Scalars["Float"];
+  expirationEpoch: Scalars["Float"];
+}
+
 export interface ICeloSystemBalances {
    __typename?: "CeloSystemBalances";
   height: Scalars["String"];
@@ -675,6 +692,7 @@ export interface IQuery {
   celoSystemBalances: ICeloSystemBalances;
   celoSystemHistory: ICeloSystemHistory[];
   celoValidatorGroups: ICeloValidatorGroup[];
+  celoGovernanceProposals: ICeloGovernanceProposal[];
   /** Fiat price APIs */
   fiatCurrencies: IFiatCurrency[];
   fiatPriceHistory: IFiatPrice[];
@@ -931,6 +949,16 @@ export type ICeloAccountHistoryQuery = (
       { __typename?: "CeloDelegation" }
       & Pick<ICeloDelegation, "group" | "totalVotes" | "activeVotes" | "pendingVotes">
     )> }
+  )> }
+);
+
+export interface ICeloGovernanceProposalsQueryVariables {}
+
+export type ICeloGovernanceProposalsQuery = (
+  { __typename?: "Query" }
+  & { celoGovernanceProposals: Array<(
+    { __typename?: "CeloGovernanceProposal" }
+    & Pick<ICeloGovernanceProposal, "proposalID" | "index" | "blockNumber" | "stage" | "proposer" | "yesVotes" | "noVotes" | "abstainVotes" | "description" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch">
   )> }
 );
 
@@ -1787,6 +1815,67 @@ export function useCeloAccountHistoryLazyQuery(baseOptions?: ApolloReactHooks.La
 export type CeloAccountHistoryQueryHookResult = ReturnType<typeof useCeloAccountHistoryQuery>;
 export type CeloAccountHistoryLazyQueryHookResult = ReturnType<typeof useCeloAccountHistoryLazyQuery>;
 export type CeloAccountHistoryQueryResult = ApolloReactCommon.QueryResult<ICeloAccountHistoryQuery, ICeloAccountHistoryQueryVariables>;
+export const CeloGovernanceProposalsDocument = gql`
+    query celoGovernanceProposals {
+  celoGovernanceProposals {
+    proposalID
+    index
+    blockNumber
+    stage
+    proposer
+    yesVotes
+    noVotes
+    abstainVotes
+    description
+    proposalEpoch
+    referendumEpoch
+    executionEpoch
+    expirationEpoch
+  }
+}
+    `;
+export type CeloGovernanceProposalsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloGovernanceProposalsQuery, ICeloGovernanceProposalsQueryVariables>, "query">;
+
+export const CeloGovernanceProposalsComponent = (props: CeloGovernanceProposalsComponentProps) => (
+      <ApolloReactComponents.Query<ICeloGovernanceProposalsQuery, ICeloGovernanceProposalsQueryVariables> query={CeloGovernanceProposalsDocument} {...props} />
+    );
+
+export type ICeloGovernanceProposalsProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICeloGovernanceProposalsQuery, ICeloGovernanceProposalsQueryVariables> & TChildProps;
+export function withCeloGovernanceProposals<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ICeloGovernanceProposalsQuery,
+  ICeloGovernanceProposalsQueryVariables,
+  ICeloGovernanceProposalsProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, ICeloGovernanceProposalsQuery, ICeloGovernanceProposalsQueryVariables, ICeloGovernanceProposalsProps<TChildProps>>(CeloGovernanceProposalsDocument, {
+      alias: "celoGovernanceProposals",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useCeloGovernanceProposalsQuery__
+ *
+ * To run a query within a React component, call `useCeloGovernanceProposalsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCeloGovernanceProposalsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCeloGovernanceProposalsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCeloGovernanceProposalsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ICeloGovernanceProposalsQuery, ICeloGovernanceProposalsQueryVariables>) {
+        return ApolloReactHooks.useQuery<ICeloGovernanceProposalsQuery, ICeloGovernanceProposalsQueryVariables>(CeloGovernanceProposalsDocument, baseOptions);
+      }
+export function useCeloGovernanceProposalsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ICeloGovernanceProposalsQuery, ICeloGovernanceProposalsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ICeloGovernanceProposalsQuery, ICeloGovernanceProposalsQueryVariables>(CeloGovernanceProposalsDocument, baseOptions);
+        }
+export type CeloGovernanceProposalsQueryHookResult = ReturnType<typeof useCeloGovernanceProposalsQuery>;
+export type CeloGovernanceProposalsLazyQueryHookResult = ReturnType<typeof useCeloGovernanceProposalsLazyQuery>;
+export type CeloGovernanceProposalsQueryResult = ApolloReactCommon.QueryResult<ICeloGovernanceProposalsQuery, ICeloGovernanceProposalsQueryVariables>;
 export const CeloSystemBalancesDocument = gql`
     query celoSystemBalances {
   celoSystemBalances {

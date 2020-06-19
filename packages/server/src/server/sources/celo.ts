@@ -158,6 +158,52 @@ const fetchValidatorGroups = async (): Promise<IQuery["celoValidatorGroups"]> =>
   return AxiosUtil.get<IQuery["celoValidatorGroups"]>(url);
 };
 
+/**
+ * Fetch current governance proposals
+ */
+const fetchGovernanceProposals = async (): Promise<IQuery["celoGovernanceProposals"]> => {
+  // const host = getHostFromNetworkName("CELO");
+  // const url = `${host}/system/referendum_proposals`;
+  // const response = AxiosUtil.get<IQuery["celoGovernanceProposals"]>(url);
+
+  const mockProposals = [
+    {
+      proposalID: 1,
+      index: 0,
+      blockNumber: 144000,
+      stage: "Referendum",
+      proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+      yesVotes: 4.775186165115204e24,
+      noVotes: 0,
+      abstainVotes: 0,
+      description:
+        "https://gist.github.com/aslawson/a1f693f0e4c5fd391eac463237c4182a",
+      proposalEpoch: 1588120122,
+      referendumEpoch: 1588206522,
+      executionEpoch: 1588379322,
+      expirationEpoch: 1588638522,
+    },
+    {
+      proposalID: 1,
+      index: 0,
+      blockNumber: 130000,
+      stage: "Referendum",
+      proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+      yesVotes: 3.134e23,
+      noVotes: 0,
+      abstainVotes: 0,
+      description:
+        "https://gist.github.com/aslawson/a1f693f0e4c5fd391eac463237c4182a",
+      proposalEpoch: 1588120122,
+      referendumEpoch: 1588206522,
+      executionEpoch: 1588379322,
+      expirationEpoch: 1588638522,
+    },
+  ];
+
+  return mockProposals;
+};
+
 /** ===========================================================================
  * Utils
  * ============================================================================
@@ -217,6 +263,7 @@ const CELO = {
   fetchSystemBalances,
   fetchSystemHistory,
   fetchValidatorGroups,
+  fetchGovernanceProposals,
 };
 
 export default CELO;

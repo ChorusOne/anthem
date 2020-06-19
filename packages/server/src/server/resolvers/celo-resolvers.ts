@@ -74,6 +74,12 @@ const CeloResolvers = {
   celoValidatorGroups: async (): Promise<IQuery["celoValidatorGroups"]> => {
     return CELO.fetchValidatorGroups();
   },
+
+  celoGovernanceProposals: async (): Promise<
+    IQuery["celoGovernanceProposals"]
+  > => {
+    return CELO.fetchGovernanceProposals();
+  },
 };
 
 /** ===========================================================================

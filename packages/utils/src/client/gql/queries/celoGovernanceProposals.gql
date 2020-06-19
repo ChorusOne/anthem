@@ -1,0 +1,17 @@
+query celoGovernanceProposals{
+    celoGovernanceProposals{
+        proposalID
+        index
+        blockNumber
+        stage
+        proposer
+        yesVotes
+        noVotes
+        abstainVotes
+        description
+        proposalEpoch
+        referendumEpoch
+        executionEpoch
+        expirationEpoch
+    }
+}
