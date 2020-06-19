@@ -5,6 +5,7 @@ import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
+import { IThemeProps } from "ui/containers/ThemeContainer";
 import PageAddressBar from "ui/PageAddressBar";
 import { PageContainerScrollable, Row } from "ui/SharedComponents";
 
@@ -25,7 +26,7 @@ class CeloGovernancePage extends React.Component<IProps, IState> {
     return (
       <PageContainerScrollable>
         <PageAddressBar pageTitle="Governance" />
-        <Row>
+        <ProposalsPanel>
           <Panel>
             <H5 style={{ margin: 2, paddingLeft: 12 }}>Proposals</H5>
             <Card
@@ -40,7 +41,7 @@ class CeloGovernancePage extends React.Component<IProps, IState> {
               style={{ margin: 6, borderRadius: 0, height: 275 }}
             ></Card>
           </Panel>
-        </Row>
+        </ProposalsPanel>
         <Row style={{ marginTop: 12 }}>
           <Panel>
             <H5 style={{ margin: 2, paddingLeft: 12 }}>Events</H5>
@@ -64,6 +65,12 @@ const Panel = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 250px;
+`;
+
+const ProposalsPanel = styled.div`
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 /** ===========================================================================
