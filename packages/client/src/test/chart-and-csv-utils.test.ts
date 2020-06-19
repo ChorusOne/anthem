@@ -42,6 +42,17 @@ describe("chart-and-csv-utils", () => {
         commissionsPool,
       ] = row.map(Number);
 
+      // Sanity checks:
+      expect(isNaN(rate)).toBeFalsy();
+      expect(isNaN(total)).toBeFalsy();
+      expect(isNaN(available)).toBeFalsy();
+      expect(isNaN(staking)).toBeFalsy();
+      expect(isNaN(unbonding)).toBeFalsy();
+      expect(isNaN(dailyRewards)).toBeFalsy();
+      expect(isNaN(rewardPool)).toBeFalsy();
+      expect(isNaN(dailyCommissions)).toBeFalsy();
+      expect(isNaN(commissionsPool)).toBeFalsy();
+
       // Check fiat rewards
       expect((rate * dailyRewards).toFixed(2)).toBe(
         dailyRewardsFiat.toFixed(2),
