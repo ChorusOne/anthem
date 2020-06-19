@@ -8,6 +8,7 @@ query celoGovernanceProposals{
         yesVotes
         noVotes
         abstainVotes
+        gist
         description
         proposalEpoch
         referendumEpoch

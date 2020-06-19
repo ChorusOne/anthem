@@ -105,6 +105,7 @@ export interface ICeloGovernanceProposal {
   yesVotes: Scalars["Float"];
   noVotes: Scalars["Float"];
   abstainVotes: Scalars["Float"];
+  gist: Scalars["String"];
   description: Scalars["String"];
   proposalEpoch: Scalars["Float"];
   referendumEpoch: Scalars["Float"];
@@ -958,7 +959,7 @@ export type ICeloGovernanceProposalsQuery = (
   { __typename?: "Query" }
   & { celoGovernanceProposals: Array<(
     { __typename?: "CeloGovernanceProposal" }
-    & Pick<ICeloGovernanceProposal, "proposalID" | "index" | "blockNumber" | "stage" | "proposer" | "yesVotes" | "noVotes" | "abstainVotes" | "description" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch">
+    & Pick<ICeloGovernanceProposal, "proposalID" | "index" | "blockNumber" | "stage" | "proposer" | "yesVotes" | "noVotes" | "abstainVotes" | "gist" | "description" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch">
   )> }
 );
 
@@ -1826,6 +1827,7 @@ export const CeloGovernanceProposalsDocument = gql`
     yesVotes
     noVotes
     abstainVotes
+    gist
     description
     proposalEpoch
     referendumEpoch

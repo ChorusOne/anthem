@@ -1,8 +1,8 @@
 import {
   ICeloAccountBalances,
+  ICeloGovernanceProposal,
   ICeloTransaction,
   ICeloTransactionTags,
-  IDelegation,
   IQuery,
   NetworkDefinition,
 } from "@anthem/utils";
@@ -55,6 +55,22 @@ interface CeloTransactionResponse {
     value: number;
     raw: any;
   };
+}
+
+interface CeloGovernanceProposalResponse {
+  proposalID: number;
+  index: number;
+  blockNumber: number;
+  stage: string;
+  proposer: string;
+  yesVotes: number;
+  noVotes: number;
+  abstainVotes: number;
+  description: string;
+  proposalEpoch: number;
+  referendumEpoch: number;
+  executionEpoch: number;
+  expirationEpoch: number;
 }
 
 /** ===========================================================================
@@ -164,9 +180,9 @@ const fetchGovernanceProposals = async (): Promise<IQuery["celoGovernanceProposa
   // Real API:
   // const host = getHostFromNetworkName("CELO");
   // const url = `${host}/system/referendum_proposals`;
-  // const response = AxiosUtil.get<IQuery["celoGovernanceProposals"]>(url);
+  // const response = AxiosUtil.get<CeloGovernanceProposalResponse[]>(url);
 
-  const mockProposals = [
+  const mockProposals: CeloGovernanceProposalResponse[] = [
     {
       proposalID: 1,
       index: 0,
@@ -201,7 +217,8 @@ const fetchGovernanceProposals = async (): Promise<IQuery["celoGovernanceProposa
     },
   ];
 
-  return mockProposals;
+  const result = await transformGovernanceProposals(mockProposals);
+  return result;
 };
 
 /** ===========================================================================
@@ -233,6 +250,37 @@ const formatCeloTransaction = (tx: CeloTransactionResponse) => {
   };
 
   return result;
+};
+
+/**
+ * Fetch the actual gist content for each proposal.
+ */
+const transformGovernanceProposals = async (
+  proposals: CeloGovernanceProposalResponse[],
+): Promise<ICeloGovernanceProposal[]> => {
+  return Promise.all(
+    proposals.map(async content => {
+      const gist = content.description;
+      return {
+        ...content,
+        gist,
+        description: await fetchProposalGistContent(gist),
+      };
+    }),
+  );
+};
+
+/**
+ * Given a proposal GitHub gist link fetch the raw content.
+ */
+const fetchProposalGistContent = async (gistUrl: string) => {
+  try {
+    const url = `${gistUrl}/raw`;
+    const description = await AxiosUtil.get<string>(url);
+    return description;
+  } catch (err) {
+    return "";
+  }
 };
 
 /** ===========================================================================
