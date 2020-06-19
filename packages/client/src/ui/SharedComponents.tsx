@@ -12,8 +12,8 @@ import React, { ChangeEvent } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import Loader from "react-loader-spinner";
 import styled, { CSSProperties } from "styled-components";
-import { IThemeProps } from "ui/containers/ThemeContainer";
 import { tFnString } from "tools/i18n-utils";
+import { IThemeProps } from "ui/containers/ThemeContainer";
 
 /** ===========================================================================
  * Common components shared throughout the application
