@@ -43,7 +43,7 @@ export const chartExportBuilder = ({
     validatorRewardsChartData.data,
   );
 
-  const fiatPriceMap = getFiatPriceHistoryMap(fiatPriceHistory, "MMM DD YYYY");
+  const fiatPriceMap = getFiatPriceHistoryMap(fiatPriceHistory, "MMM DD, YYYY");
 
   // Map balances by day timestamp to help join balances and rewards data.
   const balanceMapByTime = availableChartData.data;
