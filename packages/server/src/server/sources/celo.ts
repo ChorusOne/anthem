@@ -1,7 +1,6 @@
 import {
   ICeloAccountBalances,
   ICeloTransaction,
-  ICeloTransactionDetails,
   ICeloTransactionTags,
   IDelegation,
   IQuery,
@@ -162,6 +161,7 @@ const fetchValidatorGroups = async (): Promise<IQuery["celoValidatorGroups"]> =>
  * Fetch current governance proposals
  */
 const fetchGovernanceProposals = async (): Promise<IQuery["celoGovernanceProposals"]> => {
+  // Real API:
   // const host = getHostFromNetworkName("CELO");
   // const url = `${host}/system/referendum_proposals`;
   // const response = AxiosUtil.get<IQuery["celoGovernanceProposals"]>(url);
@@ -218,21 +218,6 @@ const stringifyTags = (tag: ICeloTransactionTags) => {
     eventname: tag.eventname,
     source: tag.source,
     parameters: JSON.stringify(tag.parameters), // Return tags as JSON
-  };
-};
-
-/**
- * Transform the delegations to match the expected GraphQL schema
- * definition.
- */
-const convertDelegations = (
-  delegation: CeloDelegation,
-  address: string,
-): IDelegation => {
-  return {
-    delegator_address: address,
-    validator_address: delegation.group,
-    shares: delegation.totalVotes,
   };
 };
 
