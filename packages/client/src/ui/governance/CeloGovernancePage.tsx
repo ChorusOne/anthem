@@ -1,4 +1,9 @@
 import { Card, Elevation, H5 } from "@blueprintjs/core";
+import {
+  CeloGovernanceProposalsProps,
+  withCeloGovernanceProposals,
+  withGraphQLVariables,
+} from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
@@ -22,6 +27,7 @@ interface IState {}
 
 class CeloGovernancePage extends React.Component<IProps, IState> {
   render(): Nullable<JSX.Element> {
+    console.log(this.props.celoGovernanceProposals);
     return (
       <PageContainerScrollable>
         <PageAddressBar pageTitle="Governance" />
@@ -90,11 +96,18 @@ const withProps = connect(mapStateToProps, dispatchProps);
 
 interface ComponentProps {}
 
-interface IProps extends ComponentProps, ConnectProps {}
+interface IProps
+  extends ComponentProps,
+    ConnectProps,
+    CeloGovernanceProposalsProps {}
 
 /** ===========================================================================
  * Export
  * ============================================================================
  */
 
-export default composeWithProps<ComponentProps>(withProps)(CeloGovernancePage);
+export default composeWithProps<ComponentProps>(
+  withProps,
+  withGraphQLVariables,
+  withCeloGovernanceProposals,
+)(CeloGovernancePage);
