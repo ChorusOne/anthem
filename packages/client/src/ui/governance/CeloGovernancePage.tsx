@@ -18,6 +18,7 @@ import {
   DashboardLoader,
   PageContainerScrollable,
   Row,
+  View,
 } from "ui/SharedComponents";
 
 /** ===========================================================================
@@ -56,7 +57,34 @@ class CeloGovernancePage extends React.Component<IProps, IState> {
                     <Card
                       elevation={Elevation.TWO}
                       style={{ margin: 6, borderRadius: 0, height: 275 }}
-                    ></Card>
+                    >
+                      {proposals.map(x => {
+                        return (
+                          <View key={x.proposalID} style={{ marginTop: 12 }}>
+                            <ProposalRow>
+                              <Text>
+                                <b>Proposal ID:</b> {x.proposalID}
+                              </Text>
+                            </ProposalRow>
+                            <ProposalRow>
+                              <Text>
+                                <b>Stage:</b> {x.stage}
+                              </Text>
+                            </ProposalRow>
+                            <ProposalRow>
+                              <Text>
+                                <b>Proposer:</b> {x.proposer}
+                              </Text>
+                            </ProposalRow>
+                            <ProposalRow>
+                              <Text>
+                                <b>Details:</b> {x.gist}
+                              </Text>
+                            </ProposalRow>
+                          </View>
+                        );
+                      })}
+                    </Card>
                   </Panel>
                   <Panel>
                     <H5 style={{ margin: 2, paddingLeft: 12 }}>
@@ -101,6 +129,16 @@ const Panel = styled.div`
 const ProposalsPanel = styled.div`
   display: flex;
   flex-wrap: wrap;
+`;
+
+const ProposalRow = styled.div`
+  /* display: flex; */
+  /* align-items: center;
+  justify-content: center; */
+`;
+
+const Text = styled.p`
+  margin: 0;
 `;
 
 /** ===========================================================================

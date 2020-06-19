@@ -200,7 +200,7 @@ const fetchGovernanceProposals = async (): Promise<IQuery["celoGovernanceProposa
       expirationEpoch: 1588638522,
     },
     {
-      proposalID: 1,
+      proposalID: 2,
       index: 0,
       blockNumber: 130000,
       stage: "Referendum",
