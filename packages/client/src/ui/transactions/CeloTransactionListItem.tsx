@@ -212,7 +212,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           <EventContextBox>
             <EventText style={{ fontWeight: "bold" }}>Value</EventText>
             <EventText data-cy="transaction-value">
-              {denomToUnit(value, size)} cGLD
+              {denomToUnit(value, size)} CELO
             </EventText>
           </EventContextBox>
         </EventRowItem>
@@ -221,7 +221,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           <EventContextBox>
             <EventText style={{ fontWeight: "bold" }}>Fee</EventText>
             <EventText data-cy="transaction-value">
-              {denomToUnit(fee, size)} cGLD
+              {denomToUnit(fee, size)} CELO
             </EventText>
           </EventContextBox>
         </EventRowItem>

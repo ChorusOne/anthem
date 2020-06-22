@@ -106,7 +106,8 @@ class PortfolioSwitchContainer extends React.Component<IProps, IState> {
   downloadDataToFile = (CSV: string) => {
     // Create the file name
     const dateStringPrefix = moment(Date.now()).format("MM-DD-YYYY");
-    const fileName = `anthem-cosmos-data-${dateStringPrefix}.csv`;
+    const { network } = this.props.ledger;
+    const fileName = `${network.name}-account-history-${dateStringPrefix}.csv`;
 
     try {
       const hiddenElement = document.createElement("a");
