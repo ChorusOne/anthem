@@ -220,20 +220,18 @@ const formatCeloTransaction = (tx: CeloTransactionResponse) => {
  * Transform the proposal history by fetching and adding the GitHub gist
  * content to the proposals.
  */
-const addGistContentToProposals = (
+const addGistContentToProposals = async (
   proposalHistory: CeloGovernanceProposalHistoryResponse,
 ) => {
-  const proposals = Object.entries(proposalHistory).reduce(
-    async (result, [key, value]) => {
-      return {
-        ...result,
-        [key]: await fetchGistContentForProposalList(value),
-      };
-    },
-    {},
-  );
+  const entries = Object.entries(proposalHistory);
+  const result: { [key: string]: any } = {};
 
-  return proposals as IQuery["celoGovernanceProposals"];
+  for (const [key, value] of entries) {
+    const gists = await fetchGistContentForProposalList(value);
+    result[key] = gists;
+  }
+
+  return result as IQuery["celoGovernanceProposals"];
 };
 
 /**
