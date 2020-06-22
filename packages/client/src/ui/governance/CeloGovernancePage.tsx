@@ -1,4 +1,12 @@
-import { ICeloGovernanceProposalHistory } from "@anthem/utils";
+import {
+  assertUnreachable,
+  IApprovedProposal,
+  ICeloGovernanceProposalHistory,
+  IExecutionProposal,
+  IExpiredProposal,
+  IQueuedProposal,
+  IReferendumProposal,
+} from "@anthem/utils";
 import {
   Card,
   Checkbox,
@@ -25,6 +33,7 @@ import {
   copyTextToClipboard,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
+import { addValuesInList, divide } from "tools/math-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import PageAddressBar from "ui/PageAddressBar";
@@ -38,6 +47,18 @@ import {
   View,
 } from "ui/SharedComponents";
 import Toast from "ui/Toast";
+
+/** ===========================================================================
+ * Types & Config
+ * ============================================================================
+ */
+
+type GovernanceProposalType =
+  | IQueuedProposal
+  | IApprovedProposal
+  | IReferendumProposal
+  | IExecutionProposal
+  | IExpiredProposal;
 
 /** ===========================================================================
  * Celo Governance Wrapper Component
@@ -113,6 +134,7 @@ class CeloGovernanceComponent extends React.Component<
   render() {
     const { selectedProposal, selectedProposalID } = this.state;
     const { proposals } = this.props;
+    console.log(selectedProposal);
     return (
       <>
         <ProposalsPanel>
@@ -197,60 +219,7 @@ class CeloGovernanceComponent extends React.Component<
               elevation={Elevation.TWO}
               style={{ margin: 6, borderRadius: 3, padding: 0, height: 275 }}
             >
-              {selectedProposal ? (
-                <View style={{ height: "100%" }}>
-                  <TopSection>
-                    <Text style={{ fontWeight: "bold" }}>
-                      Current Status of Proposal #{selectedProposal.proposalID}:
-                    </Text>
-                    <Text style={{ marginTop: 8 }}>
-                      Stage: <i>{selectedProposal.stage}</i>
-                    </Text>
-                    <VotingBar
-                      votes={{
-                        yes: 52,
-                        no: 27,
-                        abstain: 11,
-                        remaining: 10,
-                      }}
-                    />
-                  </TopSection>
-                  <BottomSection>
-                    <Text style={{ fontWeight: "bold" }}>Your Vote:</Text>
-                    <Row
-                      style={{
-                        width: "75%",
-                        margin: "auto",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <Checkbox
-                        value="yes"
-                        label="Yes"
-                        onChange={() => this.handleVoteCheck("yes")}
-                        checked={this.state.vote === "yes"}
-                      />
-                      <Checkbox
-                        value="no"
-                        label="No"
-                        onChange={() => this.handleVoteCheck("no")}
-                        checked={this.state.vote === "no"}
-                      />
-                      <Checkbox
-                        value="abstain"
-                        label="Abstain"
-                        onChange={() => this.handleVoteCheck("abstain")}
-                        checked={this.state.vote === "abstain"}
-                      />
-                    </Row>
-                    <Row>
-                      <Button onClick={this.handleVote}>Vote</Button>
-                    </Row>
-                  </BottomSection>
-                </View>
-              ) : (
-                <Text>No proposals to view.</Text>
-              )}
+              {this.renderProposalDetailPanel()}
             </Card>
           </Panel>
         </ProposalsPanel>
@@ -276,6 +245,99 @@ class CeloGovernanceComponent extends React.Component<
     );
   }
 
+  renderProposalDetailPanel = () => {
+    const { selectedProposal } = this.state;
+
+    if (!selectedProposal) {
+      return <Text>No proposals to view.</Text>;
+    }
+
+    const proposal = selectedProposal as GovernanceProposalType;
+    switch (proposal.__typename) {
+      case undefined: {
+        return null;
+      }
+      case "QueuedProposal":
+      case "ApprovedProposal":
+      case "ExpiredProposal": {
+        return (
+          <View style={{ height: "100%", padding: 16 }}>
+            <Text style={{ fontWeight: "bold" }}>
+              Current Status of Proposal #{proposal.proposalID}:
+            </Text>
+            <Text style={{ marginTop: 8 }}>
+              Stage: <i>{proposal.stage}</i>
+            </Text>
+          </View>
+        );
+      }
+      case "ReferendumProposal":
+      case "ExecutionProposal":
+        const { yesVotes, noVotes, abstainVotes } = proposal;
+        const total = addValuesInList(
+          [yesVotes, noVotes, abstainVotes],
+          Number,
+        );
+        const yes = divide(yesVotes, total, Number) * 100;
+        const no = divide(noVotes, total, Number) * 100;
+        const abstain = divide(abstainVotes, total, Number) * 100;
+        return (
+          <View style={{ height: "100%" }}>
+            <TopSection>
+              <Text style={{ fontWeight: "bold" }}>
+                Current Status of Proposal #{proposal.proposalID}:
+              </Text>
+              <Text style={{ marginTop: 8 }}>
+                Stage: <i>{proposal.stage}</i>
+              </Text>
+              <VotingBar
+                votes={{
+                  yes,
+                  no,
+                  abstain,
+                  remaining: 0,
+                }}
+              />
+            </TopSection>
+            <BottomSection>
+              <Text style={{ fontWeight: "bold" }}>Your Vote:</Text>
+              <Row
+                style={{
+                  width: "75%",
+                  margin: "auto",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Checkbox
+                  value="yes"
+                  label="Yes"
+                  onChange={() => this.handleVoteCheck("yes")}
+                  checked={this.state.vote === "yes"}
+                />
+                <Checkbox
+                  value="no"
+                  label="No"
+                  onChange={() => this.handleVoteCheck("no")}
+                  checked={this.state.vote === "no"}
+                />
+                <Checkbox
+                  value="abstain"
+                  label="Abstain"
+                  onChange={() => this.handleVoteCheck("abstain")}
+                  checked={this.state.vote === "abstain"}
+                />
+              </Row>
+              <Row>
+                <Button onClick={this.handleVote}>Vote</Button>
+              </Row>
+            </BottomSection>
+          </View>
+        );
+      default:
+        return assertUnreachable(proposal);
+    }
+  };
+
   handleSelectProposal = (proposal: GenericProposalHistory) => {
     this.setState({
       selectedProposal: proposal,
@@ -290,7 +352,7 @@ class CeloGovernanceComponent extends React.Component<
   handleVote = () => {
     const { vote } = this.state;
     if (!vote) {
-      Toast.warn("Please selected a vote");
+      Toast.warn("Please selected a vote.");
     } else {
       Toast.warn("Voting coming soon...");
     }
