@@ -1,5 +1,13 @@
 import { ICeloGovernanceProposalHistory } from "@anthem/utils";
-import { Card, Code, Collapse, Colors, Elevation, H5 } from "@blueprintjs/core";
+import {
+  Card,
+  Checkbox,
+  Code,
+  Collapse,
+  Colors,
+  Elevation,
+  H5,
+} from "@blueprintjs/core";
 import { CopyIcon } from "assets/images";
 import { COLORS } from "constants/colors";
 import {
@@ -21,6 +29,7 @@ import { IThemeProps } from "ui/containers/ThemeContainer";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import PageAddressBar from "ui/PageAddressBar";
 import {
+  Button,
   DashboardError,
   DashboardLoader,
   Link,
@@ -28,19 +37,10 @@ import {
   Row,
   View,
 } from "ui/SharedComponents";
+import Toast from "ui/Toast";
 
 /** ===========================================================================
- * Types & Config
- * ============================================================================
- */
-
-interface IState {
-  selectedProposalID: Nullable<number>;
-  selectedProposal: Nullable<GenericProposalHistory>;
-}
-
-/** ===========================================================================
- * Celo Governance Page
+ * Celo Governance Wrapper Component
  * ============================================================================
  */
 
@@ -67,9 +67,27 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
   }
 }
 
+/** ===========================================================================
+ * Types & Config
+ * ============================================================================
+ */
+
+type Vote = "yes" | "no" | "abstain";
+
+interface IState {
+  vote: Nullable<Vote>;
+  selectedProposalID: Nullable<number>;
+  selectedProposal: Nullable<GenericProposalHistory>;
+}
+
 interface CeloGovernanceComponentProps {
   proposals: GenericProposalHistory[];
 }
+
+/** ===========================================================================
+ * Governance Component
+ * ============================================================================
+ */
 
 class CeloGovernanceComponent extends React.Component<
   CeloGovernanceComponentProps,
@@ -79,8 +97,9 @@ class CeloGovernanceComponent extends React.Component<
     super(props);
 
     this.state = {
-      selectedProposalID: null,
+      vote: null,
       selectedProposal: null,
+      selectedProposalID: null,
     };
   }
 
@@ -176,24 +195,58 @@ class CeloGovernanceComponent extends React.Component<
             <H5 style={{ margin: 2, paddingLeft: 12 }}>Proposal Details</H5>
             <Card
               elevation={Elevation.TWO}
-              style={{ margin: 6, borderRadius: 3, height: 275 }}
+              style={{ margin: 6, borderRadius: 3, padding: 0, height: 275 }}
             >
               {selectedProposal ? (
-                <View>
-                  <Text style={{ fontWeight: "bold" }}>
-                    Current Status of Proposal #{selectedProposal.proposalID}:
-                  </Text>
-                  <Text style={{ marginTop: 8 }}>
-                    Stage: <i>{selectedProposal.stage}</i>
-                  </Text>
-                  <VotingBar
-                    votes={{
-                      yes: 52,
-                      no: 27,
-                      abstain: 11,
-                      remaining: 10,
-                    }}
-                  />
+                <View style={{ height: "100%" }}>
+                  <TopSection>
+                    <Text style={{ fontWeight: "bold" }}>
+                      Current Status of Proposal #{selectedProposal.proposalID}:
+                    </Text>
+                    <Text style={{ marginTop: 8 }}>
+                      Stage: <i>{selectedProposal.stage}</i>
+                    </Text>
+                    <VotingBar
+                      votes={{
+                        yes: 52,
+                        no: 27,
+                        abstain: 11,
+                        remaining: 10,
+                      }}
+                    />
+                  </TopSection>
+                  <BottomSection>
+                    <Text style={{ fontWeight: "bold" }}>Your Vote:</Text>
+                    <Row
+                      style={{
+                        width: "75%",
+                        margin: "auto",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Checkbox
+                        value="yes"
+                        label="Yes"
+                        onChange={() => this.handleVoteCheck("yes")}
+                        checked={this.state.vote === "yes"}
+                      />
+                      <Checkbox
+                        value="no"
+                        label="No"
+                        onChange={() => this.handleVoteCheck("no")}
+                        checked={this.state.vote === "no"}
+                      />
+                      <Checkbox
+                        value="abstain"
+                        label="Abstain"
+                        onChange={() => this.handleVoteCheck("abstain")}
+                        checked={this.state.vote === "abstain"}
+                      />
+                    </Row>
+                    <Row>
+                      <Button onClick={this.handleVote}>Vote</Button>
+                    </Row>
+                  </BottomSection>
                 </View>
               ) : (
                 <Text>No proposals to view.</Text>
@@ -228,6 +281,19 @@ class CeloGovernanceComponent extends React.Component<
       selectedProposal: proposal,
       selectedProposalID: proposal.proposalID,
     });
+  };
+
+  handleVoteCheck = (vote: Vote) => {
+    this.setState({ vote });
+  };
+
+  handleVote = () => {
+    const { vote } = this.state;
+    if (!vote) {
+      Toast.warn("Please selected a vote");
+    } else {
+      Toast.warn("Voting coming soon...");
+    }
   };
 }
 
@@ -329,6 +395,20 @@ const Text = styled.p`
 const Bold = styled.p`
   margin: 0;
   font-weight: bold;
+`;
+
+const TopSection = styled.div`
+  height: 60%;
+  width: 100%;
+  padding: 16px;
+`;
+
+const BottomSection = styled.div`
+  padding: 16px;
+  height: 40%;
+  width: 100%;
+  background: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? Colors.DARK_GRAY5 : Colors.LIGHT_GRAY3};
 `;
 
 interface VotingBarProps {
