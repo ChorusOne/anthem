@@ -50,6 +50,7 @@ class CeloGovernancePage extends React.Component<IProps, IState> {
         >
           {(proposalHistory: ICeloGovernanceProposalHistory) => {
             const proposals = groupAndSortProposals(proposalHistory);
+            console.log(proposalHistory);
             console.log(proposals);
             return (
               <>
@@ -58,7 +59,12 @@ class CeloGovernancePage extends React.Component<IProps, IState> {
                     <H5 style={{ margin: 2, paddingLeft: 12 }}>Proposals</H5>
                     <Card
                       elevation={Elevation.TWO}
-                      style={{ margin: 6, borderRadius: 0, height: 275 }}
+                      style={{
+                        margin: 6,
+                        height: 275,
+                        borderRadius: 0,
+                        overflowY: "scroll",
+                      }}
                     >
                       {proposals.map(x => {
                         return (
@@ -152,6 +158,7 @@ const groupAndSortProposals = (
   proposalHistory: ICeloGovernanceProposalHistory,
 ) => {
   return Object.values(proposalHistory)
+    .filter(x => Array.isArray(x))
     .flat()
     .sort((a, b) => {
       return a.proposalID - b.proposalID;
