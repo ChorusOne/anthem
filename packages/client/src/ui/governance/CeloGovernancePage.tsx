@@ -1,5 +1,5 @@
 import { ICeloGovernanceProposalHistory } from "@anthem/utils";
-import { Card, Elevation, H5 } from "@blueprintjs/core";
+import { Card, Collapse, Colors, Elevation, H5 } from "@blueprintjs/core";
 import { COLORS } from "constants/colors";
 import {
   CeloGovernanceProposalsProps,
@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { convertCeloEpochToTimestamp } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
+import { IThemeProps } from "ui/containers/ThemeContainer";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import PageAddressBar from "ui/PageAddressBar";
 import {
@@ -28,7 +29,9 @@ import {
  * ============================================================================
  */
 
-interface IState {}
+interface IState {
+  selectedProposalID: Nullable<number>;
+}
 
 /** ===========================================================================
  * Celo Governance Page
@@ -36,7 +39,16 @@ interface IState {}
  */
 
 class CeloGovernancePage extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
+
+    this.state = {
+      selectedProposalID: null,
+    };
+  }
+
   render(): Nullable<JSX.Element> {
+    const { selectedProposalID } = this.state;
     const { celoGovernanceProposals, i18n } = this.props;
 
     return (
@@ -69,40 +81,48 @@ class CeloGovernancePage extends React.Component<IProps, IState> {
                       }}
                     >
                       <ProposalBanner>
-                        <Text style={{ flex: 1 }}>ID</Text>
-                        <Text style={{ flex: 2 }}>Stage</Text>
-                        <Text style={{ flex: 3 }}>Title</Text>
-                        <Text style={{ flex: 2 }}>Expiration</Text>
+                        <Text style={{ flex: 1, fontWeight: "bold" }}>ID</Text>
+                        <Text style={{ flex: 2, fontWeight: "bold" }}>
+                          Stage
+                        </Text>
+                        <Text style={{ flex: 3, fontWeight: "bold" }}>
+                          Title
+                        </Text>
+                        <Text style={{ flex: 2, fontWeight: "bold" }}>
+                          Expiration
+                        </Text>
                       </ProposalBanner>
                       {proposals.map(x => {
                         return (
                           <View key={x.proposalID} style={{ marginTop: 12 }}>
-                            <ProposalRow>
-                              <Text>
-                                <b>Proposal ID:</b> {x.proposalID}
+                            <ClickableProposalRow
+                              onClick={() =>
+                                this.handleSelectProposal(x.proposalID)
+                              }
+                            >
+                              <Text style={{ flex: 1 }}>{x.proposalID}</Text>
+                              <Text style={{ flex: 2 }}>{x.stage}</Text>
+                              <Text style={{ flex: 3 }}>Title...</Text>
+                              <Text style={{ flex: 2, fontSize: 12 }}>
+                                {convertCeloEpochToTimestamp(
+                                  x.queuedAtTimestamp,
+                                )}
                               </Text>
-                            </ProposalRow>
-                            <ProposalRow>
-                              <Text>
-                                <b>Stage:</b> {x.stage}
-                              </Text>
-                            </ProposalRow>
-                            <ProposalRow>
-                              <Text>
-                                <b>Proposer:</b> {x.proposer}
-                              </Text>
-                            </ProposalRow>
-                            <ProposalRow>
-                              <Text>
-                                <b>Details:</b> {x.gist}
-                              </Text>
-                            </ProposalRow>
-                            <ProposalRow>
-                              <Text>
-                                <b>Expiration Epoch:</b>{" "}
-                                {convertCeloEpochToTimestamp(x.expirationEpoch)}
-                              </Text>
-                            </ProposalRow>
+                            </ClickableProposalRow>
+                            <Collapse
+                              isOpen={x.proposalID === selectedProposalID}
+                            >
+                              <ProposalDetailsRow>
+                                <Text>
+                                  <b>Proposer:</b> {x.proposer}
+                                </Text>
+                              </ProposalDetailsRow>
+                              <ProposalDetailsRow>
+                                <Text>
+                                  <b>Details:</b> {x.gist}
+                                </Text>
+                              </ProposalDetailsRow>
+                            </Collapse>
                           </View>
                         );
                       })}
@@ -134,6 +154,10 @@ class CeloGovernancePage extends React.Component<IProps, IState> {
       </PageContainerScrollable>
     );
   }
+
+  handleSelectProposal = (id: number) => {
+    this.setState({ selectedProposalID: id });
+  };
 }
 
 /** ===========================================================================
@@ -161,11 +185,36 @@ const ProposalBanner = styled.div`
   height: 25px;
   padding-left: 8px;
   padding-right: 8px;
-  background: ${COLORS.LIGHT_GRAY};
   color: ${COLORS.HEAVY_DARK_TEXT};
+  background: ${Colors.GRAY4};
 `;
 
-const ProposalRow = styled.div``;
+const ClickableProposalRow = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  padding: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const ProposalDetailsRow = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 8px;
+  padding-right: 8px;
+  background: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? Colors.DARK_GRAY5 : Colors.LIGHT_GRAY3};
+`;
 
 const Text = styled.p`
   margin: 0;
@@ -181,7 +230,7 @@ const groupAndSortProposals = (
     .filter(x => Array.isArray(x))
     .flat()
     .sort((a, b) => {
-      return a.proposalID - b.proposalID;
+      return b.proposalID - a.proposalID;
     });
 };
 
