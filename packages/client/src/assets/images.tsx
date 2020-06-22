@@ -24,189 +24,218 @@ import { ReactComponent as LedgerIconSvg } from "../assets/landing-page/ledger-i
  * ============================================================================
  */
 
-export const HeroBackgroundImage = () => (
+interface IconProps {
+  style?: React.CSSProperties;
+  onClick?: (args?: any) => void;
+}
+
+export const HeroBackgroundImage = (props: IconProps) => (
   <HeroIllustrationImageBackgroundSvg
+    {...props}
     alt="Hero Background Shadow"
     src={require("../assets/landing-page/hero-bg.svg")}
   />
 );
 
-export const HeroIllustrationImage = () => (
+export const HeroIllustrationImage = (props: IconProps) => (
   <HeroIllustrationImageSvg
+    {...props}
     alt="Hero Illustration"
     src={require("../assets/landing-page/hero-illustration.svg")}
   />
 );
 
-export const LaptopImage = () => (
+export const LaptopImage = (props: IconProps) => (
   <LaptopImageBase
+    {...props}
     alt="Laptop"
     src={require("../assets/landing-page/laptop.png")}
   />
 );
 
-export const TreesImage = () => (
+export const TreesImage = (props: IconProps) => (
   <LoginContainerImagesBase
+    {...props}
     style={{ left: 35 }}
     alt="Crypto Tress Artwork"
     src={require("../assets/landing-page/trees.svg")}
   />
 );
 
-export const BitcoinTreesImage = () => (
+export const BitcoinTreesImage = (props: IconProps) => (
   <LoginContainerImagesBase
+    {...props}
     style={{ right: 35 }}
     alt="Bitcoin Artwork"
     src={require("../assets/landing-page/bitcoin-flowers.svg")}
   />
 );
 
-export const EarnIcon = () => (
+export const EarnIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={32}
     alt="Earn"
     src={require("../assets/landing-page/earn-icon.svg")}
   />
 );
 
-export const ConnectIcon = () => (
+export const ConnectIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={32}
     alt="Connect"
     src={require("../assets/landing-page/connect-icon.svg")}
   />
 );
 
-export const ObserveIcon = () => (
+export const ObserveIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={32}
     alt="Observe"
     src={require("../assets/landing-page/observe-icon.svg")}
   />
 );
 
-export const PlayIcon = () => (
+export const PlayIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={36}
     alt="Observe"
     src={require("../assets/landing-page/play-icon.svg")}
   />
 );
 
-export const TxChangeValidatorIcon = () => (
+export const TxChangeValidatorIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={32}
     alt="Validator Icon"
     src={require("../assets/transactions/change-validator.svg")}
   />
 );
 
-export const TxReceiveIcon = () => (
+export const TxReceiveIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={32}
     alt="Validator Icon"
     src={require("../assets/transactions/receive-icon.svg")}
   />
 );
 
-export const TxRewardWithdrawalIcon = () => (
+export const TxRewardWithdrawalIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={32}
     alt="Validator Icon"
     src={require("../assets/transactions/reward-withdrawal.svg")}
   />
 );
 
-export const TxSendIcon = () => (
+export const TxSendIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={32}
     alt="Validator Icon"
     src={require("../assets/transactions/send-icon.svg")}
   />
 );
 
-export const TxStakeIcon = () => (
+export const TxStakeIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={32}
     alt="Validator Icon"
     src={require("../assets/transactions/stake-icon.svg")}
   />
 );
 
-export const TxVoteIcon = () => (
+export const TxVoteIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={32}
     alt="Validator Icon"
     src={require("../assets/transactions/vote-icon.svg")}
   />
 );
 
-export const TxWithdrawalStakeIcon = () => (
+export const TxWithdrawalStakeIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={32}
     alt="Validator Icon"
     src={require("../assets/transactions/withdrawal-stake.svg")}
   />
 );
 
-export const OasisBurnIcon = () => (
+export const OasisBurnIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={32}
     alt="Transfer"
     src={require("../assets/transactions/send-icon.svg")}
   />
 );
 
-export const OasisTransferIcon = () => (
+export const OasisTransferIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={32}
     alt="Transfer"
     src={require("../assets/transactions/change-validator.svg")}
   />
 );
 
-export const OasisEscrowTakeIcon = () => (
+export const OasisEscrowTakeIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={32}
     alt="Transfer"
     src={require("../assets/transactions/stake-icon.svg")}
   />
 );
 
-export const OasisEscrowAddIcon = () => (
+export const OasisEscrowAddIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={32}
     alt="Transfer"
     src={require("../assets/transactions/reward-withdrawal.svg")}
   />
 );
 
-export const OasisEscrowReclaimIcon = () => (
+export const OasisEscrowReclaimIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={32}
     alt="Transfer"
     src={require("../assets/transactions/withdrawal-stake.svg")}
   />
 );
 
-export const OasisGenericEvent = () => (
+export const OasisGenericEvent = (props: IconProps) => (
   <Image
+    {...props}
     width={32}
     alt="Oasis Event"
     src={require("../assets/transactions/vote-icon.svg")}
   />
 );
 
-export const CopyIcon = () => (
+export const CopyIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={22}
     alt="Clipboard Copy Icon"
     src={require("../assets/transactions/copy-icon.svg")}
   />
 );
 
-export const LinkIcon = () => (
+export const LinkIcon = (props: IconProps) => (
   <Image
+    {...props}
     width={18}
     alt="Clipboard Copy Icon"
     src={require("../assets/transactions/link-icon.svg")}

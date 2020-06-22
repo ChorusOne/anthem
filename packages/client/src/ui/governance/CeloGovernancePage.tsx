@@ -1,5 +1,6 @@
 import { ICeloGovernanceProposalHistory } from "@anthem/utils";
-import { Card, Collapse, Colors, Elevation, H5 } from "@blueprintjs/core";
+import { Card, Code, Collapse, Colors, Elevation, H5 } from "@blueprintjs/core";
+import { CopyIcon } from "assets/images";
 import { COLORS } from "constants/colors";
 import {
   CeloGovernanceProposalsProps,
@@ -11,7 +12,10 @@ import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { convertCeloEpochToTimestamp } from "tools/client-utils";
+import {
+  convertCeloEpochToTimestamp,
+  copyTextToClipboard,
+} from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
@@ -19,6 +23,7 @@ import PageAddressBar from "ui/PageAddressBar";
 import {
   DashboardError,
   DashboardLoader,
+  Link,
   PageContainerScrollable,
   Row,
   View,
@@ -81,16 +86,18 @@ class CeloGovernancePage extends React.Component<IProps, IState> {
                       }}
                     >
                       <ProposalBanner>
-                        <Text style={{ flex: 1, fontWeight: "bold" }}>ID</Text>
-                        <Text style={{ flex: 2, fontWeight: "bold" }}>
-                          Stage
-                        </Text>
-                        <Text style={{ flex: 3, fontWeight: "bold" }}>
-                          Title
-                        </Text>
-                        <Text style={{ flex: 2, fontWeight: "bold" }}>
-                          Expiration
-                        </Text>
+                        <ProposalTitleText style={{ flex: 1 }}>
+                          ID
+                        </ProposalTitleText>
+                        <ProposalTitleText style={{ flex: 2 }}>
+                          STAGE
+                        </ProposalTitleText>
+                        <ProposalTitleText style={{ flex: 3 }}>
+                          TITLE
+                        </ProposalTitleText>
+                        <ProposalTitleText style={{ flex: 2 }}>
+                          EXPIRATION
+                        </ProposalTitleText>
                       </ProposalBanner>
                       {proposals.map(x => {
                         return (
@@ -100,7 +107,9 @@ class CeloGovernancePage extends React.Component<IProps, IState> {
                                 this.handleSelectProposal(x.proposalID)
                               }
                             >
-                              <Text style={{ flex: 1 }}>{x.proposalID}</Text>
+                              <Text style={{ flex: 1, paddingLeft: 2 }}>
+                                {x.proposalID}
+                              </Text>
                               <Text style={{ flex: 2 }}>{x.stage}</Text>
                               <Text style={{ flex: 3 }}>Title...</Text>
                               <Text style={{ flex: 2, fontSize: 12 }}>
@@ -112,16 +121,34 @@ class CeloGovernancePage extends React.Component<IProps, IState> {
                             <Collapse
                               isOpen={x.proposalID === selectedProposalID}
                             >
-                              <ProposalDetailsRow>
-                                <Text>
-                                  <b>Proposer:</b> {x.proposer}
-                                </Text>
-                              </ProposalDetailsRow>
-                              <ProposalDetailsRow>
-                                <Text>
-                                  <b>Details:</b> {x.gist}
-                                </Text>
-                              </ProposalDetailsRow>
+                              <ProposalDetails>
+                                <ProposalDetailsRow>
+                                  <Block />
+                                  <ProposerRow style={{ flex: 7 }}>
+                                    <Text>
+                                      <b>Proposer:</b> <Code>{x.proposer}</Code>{" "}
+                                    </Text>
+                                    <CopyIcon
+                                      style={{ marginLeft: 6 }}
+                                      onClick={() => {
+                                        copyTextToClipboard(x.proposer);
+                                      }}
+                                    />
+                                  </ProposerRow>
+                                </ProposalDetailsRow>
+                                <ProposalDetailsRow>
+                                  <Block />
+                                  <Text style={{ flex: 7 }}>
+                                    <b>Details:</b>{" "}
+                                    <Link
+                                      href={x.gist}
+                                      style={{ fontSize: 12 }}
+                                    >
+                                      {x.gist}
+                                    </Link>
+                                  </Text>
+                                </ProposalDetailsRow>
+                              </ProposalDetails>
                             </Collapse>
                           </View>
                         );
@@ -156,7 +183,9 @@ class CeloGovernancePage extends React.Component<IProps, IState> {
   }
 
   handleSelectProposal = (id: number) => {
-    this.setState({ selectedProposalID: id });
+    this.setState(ps => ({
+      selectedProposalID: id === ps.selectedProposalID ? null : id,
+    }));
   };
 }
 
@@ -203,17 +232,37 @@ const ClickableProposalRow = styled.div`
   }
 `;
 
+const Block = styled.div`
+  flex: 1;
+`;
+
+const ProposalDetails = styled.div`
+  padding-top: 8px;
+  padding-bottom: 8px;
+  background: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? Colors.DARK_GRAY5 : Colors.LIGHT_GRAY3};
+`;
+
 const ProposalDetailsRow = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
   width: 100%;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
   padding-left: 8px;
   padding-right: 8px;
-  background: ${(props: { theme: IThemeProps }) =>
-    props.theme.isDarkTheme ? Colors.DARK_GRAY5 : Colors.LIGHT_GRAY3};
+`;
+
+const ProposerRow = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ProposalTitleText = styled.p`
+  margin: 0;
+  font-size: 12px;
+  font-weight: bold;
 `;
 
 const Text = styled.p`
