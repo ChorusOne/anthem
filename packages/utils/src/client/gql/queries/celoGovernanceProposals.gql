@@ -7,7 +7,6 @@ query celoGovernanceProposals{
             stage
             proposer
             upvotes
-            description
             proposalEpoch
             referendumEpoch
             executionEpoch
@@ -15,6 +14,8 @@ query celoGovernanceProposals{
             queuedAtBlockNumber
             deposit
             queuedAtTimestamp
+            gist
+            description
         }
         approvalProposals{
             proposalID
@@ -22,7 +23,6 @@ query celoGovernanceProposals{
             currentBlockNumber
             stage
             proposer
-            description
             proposalEpoch
             referendumEpoch
             executionEpoch
@@ -30,6 +30,8 @@ query celoGovernanceProposals{
             queuedAtBlockNumber
             deposit
             queuedAtTimestamp
+            gist
+            description
         }
         referendumProposals{
             proposalID
@@ -40,7 +42,6 @@ query celoGovernanceProposals{
             yesVotes
             noVotes
             abstainVotes
-            description
             proposalEpoch
             referendumEpoch
             executionEpoch
@@ -48,6 +49,8 @@ query celoGovernanceProposals{
             queuedAtBlockNumber
             deposit
             queuedAtTimestamp
+            gist
+            description
         }
         executionProposals{
             proposalID
@@ -58,7 +61,6 @@ query celoGovernanceProposals{
             yesVotes
             noVotes
             abstainVotes
-            description
             proposalEpoch
             referendumEpoch
             executionEpoch
@@ -66,6 +68,8 @@ query celoGovernanceProposals{
             queuedAtBlockNumber
             deposit
             queuedAtTimestamp
+            gist
+            description
         }
         expiredProposals{
             proposalID
@@ -76,6 +80,7 @@ query celoGovernanceProposals{
             queuedAtBlockNumber
             deposit
             queuedAtTimestamp
+            gist
             description
         }
     }

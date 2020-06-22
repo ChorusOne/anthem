@@ -1,0 +1,82 @@
+{
+  "celoGovernanceProposals": {
+    "queuedProposals": [],
+    "approvalProposals": [],
+    "referendumProposals": [],
+    "executionProposals": [],
+    "expiredProposals": [
+      {
+        "proposalID": 1,
+        "currentBlockNumber": 1046984,
+        "stage": "Expiration",
+        "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+        "executed": true,
+        "queuedAtBlockNumber": 91471,
+        "deposit": 100000000000000000000,
+        "queuedAtTimestamp": 1588031167,
+        "gist": "https://gist.github.com/aslawson/a1f693f0e4c5fd391eac463237c4182a",
+        "description": "RC1 - \n1. Unfreeze Election contract  -- enables validator elections\n2. Set Carbon Offset Fund to Project Wren (https://projectwren.com/about) & keeps fraction as 1/1000\n3. Unfreeze EpochRewards contract -- enables epoch rewards (excluding voter rewards)\n"
+      },
+      {
+        "proposalID": 2,
+        "currentBlockNumber": 1046984,
+        "stage": "Expiration",
+        "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+        "executed": true,
+        "queuedAtBlockNumber": 381386,
+        "deposit": 100000000000000000000,
+        "queuedAtTimestamp": 1589480751,
+        "gist": "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0001.md",
+        "description": ""
+      },
+      {
+        "proposalID": 3,
+        "currentBlockNumber": 1046984,
+        "stage": "Expiration",
+        "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+        "executed": true,
+        "queuedAtBlockNumber": 381439,
+        "deposit": 100000000000000000000,
+        "queuedAtTimestamp": 1589481016,
+        "gist": "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0002.md",
+        "description": ""
+      },
+      {
+        "proposalID": 4,
+        "currentBlockNumber": 1046984,
+        "stage": "Expiration",
+        "proposer": "0x351aebcded9240ae77dd0a3987e2110b15e0f038",
+        "executed": true,
+        "queuedAtBlockNumber": 749447,
+        "deposit": 100000000000000000000,
+        "queuedAtTimestamp": 1591321252,
+        "gist": "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0003.md",
+        "description": ""
+      },
+      {
+        "proposalID": 5,
+        "currentBlockNumber": 1046984,
+        "stage": "Expiration",
+        "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+        "executed": false,
+        "queuedAtBlockNumber": 866676,
+        "deposit": 100000000000000000000,
+        "queuedAtTimestamp": 1591907429,
+        "gist": "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0004.md",
+        "description": ""
+      },
+      {
+        "proposalID": 6,
+        "currentBlockNumber": 1046984,
+        "stage": "Expiration",
+        "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+        "executed": true,
+        "queuedAtBlockNumber": 886135,
+        "deposit": 100000000000000000000,
+        "queuedAtTimestamp": 1592004724,
+        "gist": "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0004.md",
+        "description": ""
+      }
+    ]
+  }
+}
