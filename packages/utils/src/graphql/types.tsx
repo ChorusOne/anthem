@@ -30,6 +30,23 @@ export interface IAccountCoin {
   amount: Scalars["String"];
 }
 
+export interface IApprovedProposal {
+   __typename?: "ApprovedProposal";
+  proposalID: Scalars["Float"];
+  index: Scalars["Float"];
+  currentBlockNumber: Scalars["Float"];
+  stage: Scalars["String"];
+  proposer: Scalars["String"];
+  description: Scalars["String"];
+  proposalEpoch: Scalars["Float"];
+  referendumEpoch: Scalars["Float"];
+  executionEpoch: Scalars["Float"];
+  expirationEpoch: Scalars["Float"];
+  queuedAtBlockNumber: Scalars["Float"];
+  deposit: Scalars["Float"];
+  queuedAtTimestamp: Scalars["Float"];
+}
+
 export interface IAvailableReward {
    __typename?: "AvailableReward";
   reward: Maybe<ICosmosBalance[]>;
@@ -95,22 +112,13 @@ export interface ICeloDelegation {
   pendingVotes: Scalars["String"];
 }
 
-export interface ICeloGovernanceProposal {
-   __typename?: "CeloGovernanceProposal";
-  proposalID: Scalars["Float"];
-  index: Scalars["Float"];
-  blockNumber: Scalars["Float"];
-  stage: Scalars["String"];
-  proposer: Scalars["String"];
-  yesVotes: Scalars["Float"];
-  noVotes: Scalars["Float"];
-  abstainVotes: Scalars["Float"];
-  gist: Scalars["String"];
-  description: Scalars["String"];
-  proposalEpoch: Scalars["Float"];
-  referendumEpoch: Scalars["Float"];
-  executionEpoch: Scalars["Float"];
-  expirationEpoch: Scalars["Float"];
+export interface ICeloGovernanceProposalHistory {
+   __typename?: "CeloGovernanceProposalHistory";
+  queuedProposals: IQueuedProposal[];
+  approvalProposals: IApprovedProposal[];
+  referendumProposals: IReferendumProposal[];
+  executionProposals: IExecutionProposal[];
+  expiredProposals: IExpiredProposal[];
 }
 
 export interface ICeloSystemBalances {
@@ -390,6 +398,39 @@ export interface IDelegation {
   delegator_address: Scalars["String"];
   validator_address: Scalars["String"];
   shares: Scalars["String"];
+}
+
+export interface IExecutionProposal {
+   __typename?: "ExecutionProposal";
+  proposalID: Scalars["Float"];
+  index: Scalars["Float"];
+  currentBlockNumber: Scalars["Float"];
+  stage: Scalars["String"];
+  proposer: Scalars["String"];
+  yesVotes: Scalars["Float"];
+  noVotes: Scalars["Float"];
+  abstainVotes: Scalars["Float"];
+  description: Scalars["String"];
+  proposalEpoch: Scalars["Float"];
+  referendumEpoch: Scalars["Float"];
+  executionEpoch: Scalars["Float"];
+  expirationEpoch: Scalars["Float"];
+  queuedAtBlockNumber: Scalars["Float"];
+  deposit: Scalars["Float"];
+  queuedAtTimestamp: Scalars["Float"];
+}
+
+export interface IExpiredProposal {
+   __typename?: "ExpiredProposal";
+  proposalID: Scalars["Float"];
+  currentBlockNumber: Scalars["Float"];
+  stage: Scalars["String"];
+  proposer: Scalars["String"];
+  executed: Maybe<Scalars["Boolean"]>;
+  queuedAtBlockNumber: Scalars["Float"];
+  deposit: Scalars["Float"];
+  queuedAtTimestamp: Scalars["Float"];
+  description: Scalars["String"];
 }
 
 export interface IFiatCurrency {
@@ -693,7 +734,7 @@ export interface IQuery {
   celoSystemBalances: ICeloSystemBalances;
   celoSystemHistory: ICeloSystemHistory[];
   celoValidatorGroups: ICeloValidatorGroup[];
-  celoGovernanceProposals: ICeloGovernanceProposal[];
+  celoGovernanceProposals: ICeloGovernanceProposalHistory;
   /** Fiat price APIs */
   fiatCurrencies: IFiatCurrency[];
   fiatPriceHistory: IFiatPrice[];
@@ -834,6 +875,44 @@ export interface IQueryPricesArgs {
   versus: Scalars["String"];
 }
 
+export interface IQueuedProposal {
+   __typename?: "QueuedProposal";
+  proposalID: Scalars["Float"];
+  index: Scalars["Float"];
+  currentBlockNumber: Scalars["Float"];
+  stage: Scalars["String"];
+  proposer: Scalars["String"];
+  upvotes: Scalars["Float"];
+  description: Scalars["String"];
+  proposalEpoch: Scalars["Float"];
+  referendumEpoch: Scalars["Float"];
+  executionEpoch: Scalars["Float"];
+  expirationEpoch: Scalars["Float"];
+  queuedAtBlockNumber: Scalars["Float"];
+  deposit: Scalars["Float"];
+  queuedAtTimestamp: Scalars["Float"];
+}
+
+export interface IReferendumProposal {
+   __typename?: "ReferendumProposal";
+  proposalID: Scalars["Float"];
+  index: Scalars["Float"];
+  currentBlockNumber: Scalars["Float"];
+  stage: Scalars["String"];
+  proposer: Scalars["String"];
+  yesVotes: Scalars["Float"];
+  noVotes: Scalars["Float"];
+  abstainVotes: Scalars["Float"];
+  description: Scalars["String"];
+  proposalEpoch: Scalars["Float"];
+  referendumEpoch: Scalars["Float"];
+  executionEpoch: Scalars["Float"];
+  expirationEpoch: Scalars["Float"];
+  queuedAtBlockNumber: Scalars["Float"];
+  deposit: Scalars["Float"];
+  queuedAtTimestamp: Scalars["Float"];
+}
+
 export interface ITag {
    __typename?: "Tag";
   key: Scalars["String"];
@@ -957,10 +1036,25 @@ export interface ICeloGovernanceProposalsQueryVariables {}
 
 export type ICeloGovernanceProposalsQuery = (
   { __typename?: "Query" }
-  & { celoGovernanceProposals: Array<(
-    { __typename?: "CeloGovernanceProposal" }
-    & Pick<ICeloGovernanceProposal, "proposalID" | "index" | "blockNumber" | "stage" | "proposer" | "yesVotes" | "noVotes" | "abstainVotes" | "gist" | "description" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch">
-  )> }
+  & { celoGovernanceProposals: (
+    { __typename?: "CeloGovernanceProposalHistory" }
+    & { queuedProposals: Array<(
+      { __typename?: "QueuedProposal" }
+      & Pick<IQueuedProposal, "proposalID" | "index" | "currentBlockNumber" | "stage" | "proposer" | "upvotes" | "description" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp">
+    )>, approvalProposals: Array<(
+      { __typename?: "ApprovedProposal" }
+      & Pick<IApprovedProposal, "proposalID" | "index" | "currentBlockNumber" | "stage" | "proposer" | "description" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp">
+    )>, referendumProposals: Array<(
+      { __typename?: "ReferendumProposal" }
+      & Pick<IReferendumProposal, "proposalID" | "index" | "currentBlockNumber" | "stage" | "proposer" | "yesVotes" | "noVotes" | "abstainVotes" | "description" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp">
+    )>, executionProposals: Array<(
+      { __typename?: "ExecutionProposal" }
+      & Pick<IExecutionProposal, "proposalID" | "index" | "currentBlockNumber" | "stage" | "proposer" | "yesVotes" | "noVotes" | "abstainVotes" | "description" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp">
+    )>, expiredProposals: Array<(
+      { __typename?: "ExpiredProposal" }
+      & Pick<IExpiredProposal, "proposalID" | "currentBlockNumber" | "stage" | "proposer" | "executed" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp" | "description">
+    )> }
+  ) }
 );
 
 export interface ICeloSystemBalancesQueryVariables {}
@@ -1819,20 +1913,84 @@ export type CeloAccountHistoryQueryResult = ApolloReactCommon.QueryResult<ICeloA
 export const CeloGovernanceProposalsDocument = gql`
     query celoGovernanceProposals {
   celoGovernanceProposals {
-    proposalID
-    index
-    blockNumber
-    stage
-    proposer
-    yesVotes
-    noVotes
-    abstainVotes
-    gist
-    description
-    proposalEpoch
-    referendumEpoch
-    executionEpoch
-    expirationEpoch
+    queuedProposals {
+      proposalID
+      index
+      currentBlockNumber
+      stage
+      proposer
+      upvotes
+      description
+      proposalEpoch
+      referendumEpoch
+      executionEpoch
+      expirationEpoch
+      queuedAtBlockNumber
+      deposit
+      queuedAtTimestamp
+    }
+    approvalProposals {
+      proposalID
+      index
+      currentBlockNumber
+      stage
+      proposer
+      description
+      proposalEpoch
+      referendumEpoch
+      executionEpoch
+      expirationEpoch
+      queuedAtBlockNumber
+      deposit
+      queuedAtTimestamp
+    }
+    referendumProposals {
+      proposalID
+      index
+      currentBlockNumber
+      stage
+      proposer
+      yesVotes
+      noVotes
+      abstainVotes
+      description
+      proposalEpoch
+      referendumEpoch
+      executionEpoch
+      expirationEpoch
+      queuedAtBlockNumber
+      deposit
+      queuedAtTimestamp
+    }
+    executionProposals {
+      proposalID
+      index
+      currentBlockNumber
+      stage
+      proposer
+      yesVotes
+      noVotes
+      abstainVotes
+      description
+      proposalEpoch
+      referendumEpoch
+      executionEpoch
+      expirationEpoch
+      queuedAtBlockNumber
+      deposit
+      queuedAtTimestamp
+    }
+    expiredProposals {
+      proposalID
+      currentBlockNumber
+      stage
+      proposer
+      executed
+      queuedAtBlockNumber
+      deposit
+      queuedAtTimestamp
+      description
+    }
   }
 }
     `;

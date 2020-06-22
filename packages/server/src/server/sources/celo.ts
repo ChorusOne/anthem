@@ -1,6 +1,5 @@
 import {
   ICeloAccountBalances,
-  ICeloGovernanceProposal,
   ICeloTransaction,
   ICeloTransactionTags,
   IQuery,
@@ -57,20 +56,20 @@ interface CeloTransactionResponse {
   };
 }
 
-interface CeloGovernanceProposalResponse {
+interface CeloGovernanceProposalHistoryResponse {
+  queuedProposals: GenericProposalHistory[];
+  approvalProposals: GenericProposalHistory[];
+  referendumProposals: GenericProposalHistory[];
+  executionProposals: GenericProposalHistory[];
+  expiredProposals: GenericProposalHistory[];
+}
+
+// Only contains shard type definitions common to each proposal type
+interface GenericProposalHistory {
   proposalID: number;
-  index: number;
-  blockNumber: number;
   stage: string;
   proposer: string;
-  yesVotes: number;
-  noVotes: number;
-  abstainVotes: number;
   description: string;
-  proposalEpoch: number;
-  referendumEpoch: number;
-  executionEpoch: number;
-  expirationEpoch: number;
 }
 
 /** ===========================================================================
@@ -177,48 +176,13 @@ const fetchValidatorGroups = async (): Promise<IQuery["celoValidatorGroups"]> =>
  * Fetch current governance proposals
  */
 const fetchGovernanceProposals = async (): Promise<IQuery["celoGovernanceProposals"]> => {
-  // Real API:
-  // const host = getHostFromNetworkName("CELO");
-  // const url = `${host}/system/referendum_proposals`;
-  // const response = AxiosUtil.get<CeloGovernanceProposalResponse[]>(url);
+  const host = getHostFromNetworkName("CELO");
+  const url = `${host}/system/proposals_history`;
+  const response = await AxiosUtil.get<CeloGovernanceProposalHistoryResponse>(
+    url,
+  );
 
-  const mockProposals: CeloGovernanceProposalResponse[] = [
-    {
-      proposalID: 1,
-      index: 0,
-      blockNumber: 144000,
-      stage: "Referendum",
-      proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
-      yesVotes: 4.775186165115204e24,
-      noVotes: 0,
-      abstainVotes: 0,
-      description:
-        "https://gist.github.com/aslawson/a1f693f0e4c5fd391eac463237c4182a",
-      proposalEpoch: 1588120122,
-      referendumEpoch: 1588206522,
-      executionEpoch: 1588379322,
-      expirationEpoch: 1588638522,
-    },
-    {
-      proposalID: 2,
-      index: 0,
-      blockNumber: 130000,
-      stage: "Referendum",
-      proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
-      yesVotes: 3.134e23,
-      noVotes: 0,
-      abstainVotes: 0,
-      description:
-        "https://gist.github.com/aslawson/a1f693f0e4c5fd391eac463237c4182a",
-      proposalEpoch: 1588120122,
-      referendumEpoch: 1588206522,
-      executionEpoch: 1588379322,
-      expirationEpoch: 1588638522,
-    },
-  ];
-
-  const result = await transformGovernanceProposals(mockProposals);
-  return result;
+  return addGistContentToProposals(response);
 };
 
 /** ===========================================================================
@@ -253,11 +217,31 @@ const formatCeloTransaction = (tx: CeloTransactionResponse) => {
 };
 
 /**
+ * Transform the proposal history by fetching and adding the GitHub gist
+ * content to the proposals.
+ */
+const addGistContentToProposals = (
+  proposalHistory: CeloGovernanceProposalHistoryResponse,
+) => {
+  const proposals = Object.entries(proposalHistory).reduce(
+    async (result, [key, value]) => {
+      return {
+        ...result,
+        [key]: await fetchGistContentForProposalList(value),
+      };
+    },
+    {},
+  );
+
+  return proposals as IQuery["celoGovernanceProposals"];
+};
+
+/**
  * Fetch the actual gist content for each proposal.
  */
-const transformGovernanceProposals = async (
-  proposals: CeloGovernanceProposalResponse[],
-): Promise<ICeloGovernanceProposal[]> => {
+const fetchGistContentForProposalList = async (
+  proposals: GenericProposalHistory[],
+): Promise<GenericProposalHistory[]> => {
   return Promise.all(
     proposals.map(async content => {
       const gist = content.description;
