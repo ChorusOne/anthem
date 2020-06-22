@@ -180,7 +180,6 @@ type QueuedProposal {
   stage: String!
   proposer: String!
   upvotes: Float!
-  description: String!
   proposalEpoch: Float!
   referendumEpoch: Float!
   executionEpoch: Float!
@@ -188,6 +187,8 @@ type QueuedProposal {
   queuedAtBlockNumber: Float!
   deposit: Float!
   queuedAtTimestamp: Float!
+  gist: String!
+  description: String!
 }
 
 type ApprovedProposal {
@@ -196,7 +197,6 @@ type ApprovedProposal {
   currentBlockNumber: Float!
   stage: String!
   proposer: String!
-  description: String!
   proposalEpoch: Float!
   referendumEpoch: Float!
   executionEpoch: Float!
@@ -204,6 +204,8 @@ type ApprovedProposal {
   queuedAtBlockNumber: Float!
   deposit: Float!
   queuedAtTimestamp: Float!
+  gist: String!
+  description: String!
 }
 
 type ReferendumProposal {
@@ -215,7 +217,6 @@ type ReferendumProposal {
   yesVotes: Float!
   noVotes: Float!
   abstainVotes: Float!
-  description: String!
   proposalEpoch: Float!
   referendumEpoch: Float!
   executionEpoch: Float!
@@ -223,6 +224,8 @@ type ReferendumProposal {
   queuedAtBlockNumber: Float!
   deposit: Float!
   queuedAtTimestamp: Float!
+  gist: String!
+  description: String!
 }
 
 type ExecutionProposal {
@@ -234,7 +237,6 @@ type ExecutionProposal {
   yesVotes: Float!
   noVotes: Float!
   abstainVotes: Float!
-  description: String!
   proposalEpoch: Float!
   referendumEpoch: Float!
   executionEpoch: Float!
@@ -242,6 +244,8 @@ type ExecutionProposal {
   queuedAtBlockNumber: Float!
   deposit: Float!
   queuedAtTimestamp: Float!
+  gist: String!
+  description: String!
 }
 
 type ExpiredProposal {
@@ -253,6 +257,7 @@ type ExpiredProposal {
   queuedAtBlockNumber: Float!
   deposit: Float!
   queuedAtTimestamp: Float!
+  gist: String!
   description: String!
 }
 

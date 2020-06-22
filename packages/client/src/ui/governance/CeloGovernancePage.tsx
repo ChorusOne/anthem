@@ -1,5 +1,6 @@
 import { ICeloGovernanceProposalHistory } from "@anthem/utils";
 import { Card, Elevation, H5 } from "@blueprintjs/core";
+import { COLORS } from "constants/colors";
 import {
   CeloGovernanceProposalsProps,
   withCeloGovernanceProposals,
@@ -62,10 +63,17 @@ class CeloGovernancePage extends React.Component<IProps, IState> {
                       style={{
                         margin: 6,
                         height: 275,
+                        padding: 0,
                         borderRadius: 0,
                         overflowY: "scroll",
                       }}
                     >
+                      <ProposalBanner>
+                        <Text style={{ flex: 1 }}>ID</Text>
+                        <Text style={{ flex: 2 }}>Stage</Text>
+                        <Text style={{ flex: 3 }}>Title</Text>
+                        <Text style={{ flex: 2 }}>Expiration</Text>
+                      </ProposalBanner>
                       {proposals.map(x => {
                         return (
                           <View key={x.proposalID} style={{ marginTop: 12 }}>
@@ -143,6 +151,18 @@ const Panel = styled.div`
 const ProposalsPanel = styled.div`
   display: flex;
   flex-wrap: wrap;
+`;
+
+const ProposalBanner = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  height: 25px;
+  padding-left: 8px;
+  padding-right: 8px;
+  background: ${COLORS.LIGHT_GRAY};
+  color: ${COLORS.HEAVY_DARK_TEXT};
 `;
 
 const ProposalRow = styled.div``;
