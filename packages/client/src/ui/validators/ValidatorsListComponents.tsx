@@ -70,11 +70,11 @@ export const ValidatorCapacityCircle = styled.div`
   background: ${({ capacity }: { capacity: number }) => {
     // Render a color based on the percent capacity
     return capacity > 90
-      ? "red"
+      ? COLORS.ERROR
       : capacity > 75
       ? "orange"
       : capacity > 55
-      ? "yellow"
+      ? COLORS.WARNING
       : COLORS.CHORUS_MINT;
   }};
 `;

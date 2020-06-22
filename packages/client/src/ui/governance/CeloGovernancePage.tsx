@@ -36,6 +36,7 @@ import {
 
 interface IState {
   selectedProposalID: Nullable<number>;
+  selectedProposal: Nullable<GenericProposalHistory>;
 }
 
 /** ===========================================================================
@@ -43,19 +44,9 @@ interface IState {
  * ============================================================================
  */
 
-class CeloGovernancePage extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-
-    this.state = {
-      selectedProposalID: null,
-    };
-  }
-
+class CeloGovernancePage extends React.Component<IProps, {}> {
   render(): Nullable<JSX.Element> {
-    const { selectedProposalID } = this.state;
     const { celoGovernanceProposals, i18n } = this.props;
-
     return (
       <PageContainerScrollable>
         <PageAddressBar pageTitle="Governance" />
@@ -68,122 +59,139 @@ class CeloGovernancePage extends React.Component<IProps, IState> {
         >
           {(proposalHistory: ICeloGovernanceProposalHistory) => {
             const proposals = groupAndSortProposals(proposalHistory);
-            console.log(proposalHistory);
-            console.log(proposals);
-            return (
-              <>
-                <ProposalsPanel>
-                  <Panel>
-                    <H5 style={{ margin: 2, paddingLeft: 12 }}>Proposals</H5>
-                    <Card
-                      elevation={Elevation.TWO}
-                      style={{
-                        margin: 6,
-                        height: 275,
-                        padding: 0,
-                        borderRadius: 0,
-                        overflowY: "scroll",
-                      }}
-                    >
-                      <ProposalBanner>
-                        <ProposalTitleText style={{ flex: 1 }}>
-                          ID
-                        </ProposalTitleText>
-                        <ProposalTitleText style={{ flex: 2 }}>
-                          STAGE
-                        </ProposalTitleText>
-                        <ProposalTitleText style={{ flex: 3 }}>
-                          TITLE
-                        </ProposalTitleText>
-                        <ProposalTitleText style={{ flex: 2 }}>
-                          EXPIRATION
-                        </ProposalTitleText>
-                      </ProposalBanner>
-                      {proposals.map(x => {
-                        return (
-                          <View key={x.proposalID} style={{ marginTop: 12 }}>
-                            <ClickableProposalRow
-                              onClick={() =>
-                                this.handleSelectProposal(x.proposalID)
-                              }
-                            >
-                              <Text style={{ flex: 1, paddingLeft: 2 }}>
-                                {x.proposalID}
-                              </Text>
-                              <Text style={{ flex: 2 }}>{x.stage}</Text>
-                              <Text style={{ flex: 3 }}>Title...</Text>
-                              <Text style={{ flex: 2, fontSize: 12 }}>
-                                {convertCeloEpochToTimestamp(
-                                  x.queuedAtTimestamp,
-                                )}
-                              </Text>
-                            </ClickableProposalRow>
-                            <Collapse
-                              isOpen={x.proposalID === selectedProposalID}
-                            >
-                              <ProposalDetails>
-                                <ProposalDetailsRow>
-                                  <Block />
-                                  <ProposerRow style={{ flex: 7 }}>
-                                    <Text>
-                                      <b>Proposer:</b> <Code>{x.proposer}</Code>{" "}
-                                    </Text>
-                                    <CopyIcon
-                                      style={{ marginLeft: 6 }}
-                                      onClick={() => {
-                                        copyTextToClipboard(x.proposer);
-                                      }}
-                                    />
-                                  </ProposerRow>
-                                </ProposalDetailsRow>
-                                <ProposalDetailsRow>
-                                  <Block />
-                                  <Text style={{ flex: 7 }}>
-                                    <b>Details:</b>{" "}
-                                    <Link
-                                      href={x.gist}
-                                      style={{ fontSize: 12 }}
-                                    >
-                                      {x.gist}
-                                    </Link>
-                                  </Text>
-                                </ProposalDetailsRow>
-                              </ProposalDetails>
-                            </Collapse>
-                          </View>
-                        );
-                      })}
-                    </Card>
-                  </Panel>
-                  <Panel>
-                    <H5 style={{ margin: 2, paddingLeft: 12 }}>
-                      Proposal Details
-                    </H5>
-                    <Card
-                      elevation={Elevation.TWO}
-                      style={{ margin: 6, borderRadius: 0, height: 275 }}
-                    ></Card>
-                  </Panel>
-                </ProposalsPanel>
-                <Row style={{ marginTop: 12 }}>
-                  <Panel>
-                    <H5 style={{ margin: 2, paddingLeft: 12 }}>Events</H5>
-                    <Card
-                      elevation={Elevation.TWO}
-                      style={{ margin: 6, borderRadius: 0, height: 275 }}
-                    ></Card>
-                  </Panel>
-                </Row>
-              </>
-            );
+            return <CeloGovernanceComponent proposals={proposals} />;
           }}
         </GraphQLGuardComponent>
       </PageContainerScrollable>
     );
   }
+}
 
-  handleSelectProposal = (id: number) => {
+interface CeloGovernanceComponentProps {
+  proposals: GenericProposalHistory[];
+}
+
+class CeloGovernanceComponent extends React.Component<
+  CeloGovernanceComponentProps,
+  IState
+> {
+  constructor(props: CeloGovernanceComponentProps) {
+    super(props);
+
+    this.state = {
+      selectedProposalID: null,
+      selectedProposal: null,
+    };
+  }
+
+  componentDidMount() {
+    const firstProposal = this.props.proposals[0];
+    if (firstProposal) {
+      this.setState({ selectedProposal: firstProposal });
+    }
+  }
+
+  render() {
+    const { selectedProposal, selectedProposalID } = this.state;
+    const { proposals } = this.props;
+    return (
+      <>
+        <ProposalsPanel>
+          <Panel>
+            <H5 style={{ margin: 2, paddingLeft: 12 }}>Proposals</H5>
+            <Card
+              elevation={Elevation.TWO}
+              style={{
+                margin: 6,
+                height: 275,
+                padding: 0,
+                borderRadius: 3,
+                overflowY: "scroll",
+              }}
+            >
+              <ProposalBanner>
+                <ProposalTitleText style={{ flex: 1 }}>ID</ProposalTitleText>
+                <ProposalTitleText style={{ flex: 3 }}>STAGE</ProposalTitleText>
+                <ProposalTitleText style={{ flex: 4 }}>TITLE</ProposalTitleText>
+                <ProposalTitleText style={{ flex: 2 }}>
+                  EXPIRATION
+                </ProposalTitleText>
+              </ProposalBanner>
+              {proposals.map(x => {
+                return (
+                  <ClickableRowWrapper
+                    onClick={() => this.handleSelectProposal(x)}
+                    key={x.proposalID}
+                  >
+                    <ProposalRow>
+                      <Text style={{ flex: 1, paddingLeft: 2 }}>
+                        {x.proposalID}
+                      </Text>
+                      <Text style={{ flex: 3 }}>{x.stage}</Text>
+                      <Text style={{ flex: 4 }}>Title...</Text>
+                      <Text style={{ flex: 2, fontSize: 12 }}>
+                        {convertCeloEpochToTimestamp(x.queuedAtTimestamp)}
+                      </Text>
+                    </ProposalRow>
+                    <Collapse isOpen={x.proposalID === selectedProposalID}>
+                      <ProposalDetails>
+                        <ProposalDetailsRow>
+                          <Block />
+                          <ProposerRow style={{ flex: 9 }}>
+                            <Text>
+                              <b>Proposer:</b> <Code>{x.proposer}</Code>{" "}
+                            </Text>
+                            <CopyIcon
+                              style={{ marginLeft: 6 }}
+                              onClick={() => {
+                                copyTextToClipboard(x.proposer);
+                              }}
+                            />
+                          </ProposerRow>
+                        </ProposalDetailsRow>
+                        <ProposalDetailsRow>
+                          <Block />
+                          <Text style={{ flex: 9 }}>
+                            <b>Details:</b>{" "}
+                            <Link href={x.gist} style={{ fontSize: 12 }}>
+                              {x.gist}
+                            </Link>
+                          </Text>
+                        </ProposalDetailsRow>
+                      </ProposalDetails>
+                    </Collapse>
+                  </ClickableRowWrapper>
+                );
+              })}
+            </Card>
+          </Panel>
+          <Panel>
+            <H5 style={{ margin: 2, paddingLeft: 12 }}>Proposal Details</H5>
+            <Card
+              elevation={Elevation.TWO}
+              style={{ margin: 6, borderRadius: 3, height: 275 }}
+            >
+              {selectedProposal && <Text>{selectedProposal.proposalID}</Text>}
+            </Card>
+          </Panel>
+        </ProposalsPanel>
+        <Row style={{ marginTop: 12 }}>
+          <Panel>
+            <H5 style={{ margin: 2, paddingLeft: 12 }}>Events</H5>
+            <Card
+              elevation={Elevation.TWO}
+              style={{ margin: 6, borderRadius: 3, height: 275 }}
+            ></Card>
+          </Panel>
+        </Row>
+      </>
+    );
+  }
+
+  handleSelectProposal = (proposal: GenericProposalHistory) => {
+    const id = proposal.proposalID;
     this.setState(ps => ({
+      selectedProposal: proposal,
       selectedProposalID: id === ps.selectedProposalID ? null : id,
     }));
   };
@@ -218,7 +226,20 @@ const ProposalBanner = styled.div`
   background: ${Colors.GRAY4};
 `;
 
-const ClickableProposalRow = styled.div`
+const ClickableRowWrapper = styled.div`
+  padding-top: 4px;
+  border-bottom: 1px solid;
+  border-bottom-color: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? Colors.DARK_GRAY3 : Colors.LIGHT_GRAY1};
+
+  &:hover {
+    cursor: pointer;
+    background: ${(props: { theme: IThemeProps }) =>
+      props.theme.isDarkTheme ? Colors.DARK_GRAY3 : Colors.LIGHT_GRAY3};
+  }
+`;
+
+const ProposalRow = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -226,10 +247,6 @@ const ClickableProposalRow = styled.div`
   padding: 4px;
   padding-left: 8px;
   padding-right: 8px;
-
-  &:hover {
-    cursor: pointer;
-  }
 `;
 
 const Block = styled.div`
@@ -237,8 +254,8 @@ const Block = styled.div`
 `;
 
 const ProposalDetails = styled.div`
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   background: ${(props: { theme: IThemeProps }) =>
     props.theme.isDarkTheme ? Colors.DARK_GRAY5 : Colors.LIGHT_GRAY3};
 `;
@@ -261,6 +278,7 @@ const ProposerRow = styled.div`
 
 const ProposalTitleText = styled.p`
   margin: 0;
+  padding: 0;
   font-size: 12px;
   font-weight: bold;
 `;
@@ -269,12 +287,21 @@ const Text = styled.p`
   margin: 0;
 `;
 
+interface GenericProposalHistory {
+  proposalID: number;
+  stage: string;
+  proposer: string;
+  description: string;
+  gist: string;
+  queuedAtTimestamp: number;
+}
+
 /**
  * Group all of the proposal stages together and sort them by proposal ID.
  */
 const groupAndSortProposals = (
   proposalHistory: ICeloGovernanceProposalHistory,
-) => {
+): GenericProposalHistory[] => {
   return Object.values(proposalHistory)
     .filter(x => Array.isArray(x))
     .flat()
