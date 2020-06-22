@@ -1,4 +1,4 @@
-import { ICeloGovernanceProposal } from "@anthem/utils";
+import { ICeloGovernanceProposalHistory } from "@anthem/utils";
 import { Card, Elevation, H5 } from "@blueprintjs/core";
 import {
   CeloGovernanceProposalsProps,
@@ -48,7 +48,8 @@ class CeloGovernancePage extends React.Component<IProps, IState> {
           errorComponent={<DashboardError tString={i18n.tString} />}
           loadingComponent={<DashboardLoader />}
         >
-          {(proposals: ICeloGovernanceProposal[]) => {
+          {(proposalHistory: ICeloGovernanceProposalHistory) => {
+            const proposals = groupAndSortProposals(proposalHistory);
             console.log(proposals);
             return (
               <>
@@ -143,6 +144,19 @@ const ProposalRow = styled.div``;
 const Text = styled.p`
   margin: 0;
 `;
+
+/**
+ * Group all of the proposal stages together and sort them by proposal ID.
+ */
+const groupAndSortProposals = (
+  proposalHistory: ICeloGovernanceProposalHistory,
+) => {
+  return Object.values(proposalHistory)
+    .flat()
+    .sort((a, b) => {
+      return a.proposalID - b.proposalID;
+    });
+};
 
 /** ===========================================================================
  * Props
