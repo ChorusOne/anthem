@@ -139,7 +139,14 @@ class CeloGovernanceComponent extends React.Component<
                           <Block />
                           <ProposerRow style={{ flex: 9 }}>
                             <Text>
-                              <b>Proposer:</b> <Code>{x.proposer}</Code>{" "}
+                              <b>Proposer:</b>{" "}
+                              <Code
+                                onClick={() => {
+                                  copyTextToClipboard(x.proposer);
+                                }}
+                              >
+                                {x.proposer}
+                              </Code>{" "}
                             </Text>
                             <CopyIcon
                               style={{ marginLeft: 6 }}
@@ -175,6 +182,15 @@ class CeloGovernanceComponent extends React.Component<
             </Card>
           </Panel>
         </ProposalsPanel>
+        <View style={{ marginTop: 8 }}>
+          <LinkText>
+            Learn more about Celo governance{" "}
+            <Link href="https://medium.com/chorus-one/an-overview-of-governance-on-celo-93ebc3aacf22">
+              here
+            </Link>
+            .
+          </LinkText>
+        </View>
         <Row style={{ marginTop: 12 }}>
           <Panel>
             <H5 style={{ margin: 2, paddingLeft: 12 }}>Events</H5>
@@ -189,10 +205,9 @@ class CeloGovernanceComponent extends React.Component<
   }
 
   handleSelectProposal = (proposal: GenericProposalHistory) => {
-    const id = proposal.proposalID;
     this.setState(ps => ({
       selectedProposal: proposal,
-      selectedProposalID: id === ps.selectedProposalID ? null : id,
+      selectedProposalID: proposal.proposalID,
     }));
   };
 }
@@ -251,6 +266,11 @@ const ProposalRow = styled.div`
 
 const Block = styled.div`
   flex: 1;
+`;
+
+const LinkText = styled.i`
+  font-size: 13px;
+  margin-left: 12px;
 `;
 
 const ProposalDetails = styled.div`
