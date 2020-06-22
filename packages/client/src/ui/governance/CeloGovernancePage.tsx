@@ -178,7 +178,26 @@ class CeloGovernanceComponent extends React.Component<
               elevation={Elevation.TWO}
               style={{ margin: 6, borderRadius: 3, height: 275 }}
             >
-              {selectedProposal && <Text>{selectedProposal.proposalID}</Text>}
+              {selectedProposal ? (
+                <View>
+                  <Text style={{ fontWeight: "bold" }}>
+                    Current Status of Proposal #{selectedProposal.proposalID}:
+                  </Text>
+                  <Text style={{ marginTop: 8 }}>
+                    Stage: <i>{selectedProposal.stage}</i>
+                  </Text>
+                  <VotingBar
+                    votes={{
+                      yes: 52,
+                      no: 27,
+                      abstain: 11,
+                      remaining: 10,
+                    }}
+                  />
+                </View>
+              ) : (
+                <Text>No proposals to view.</Text>
+              )}
             </Card>
           </Panel>
         </ProposalsPanel>
@@ -205,10 +224,10 @@ class CeloGovernanceComponent extends React.Component<
   }
 
   handleSelectProposal = (proposal: GenericProposalHistory) => {
-    this.setState(ps => ({
+    this.setState({
       selectedProposal: proposal,
       selectedProposalID: proposal.proposalID,
-    }));
+    });
   };
 }
 
@@ -305,6 +324,69 @@ const ProposalTitleText = styled.p`
 
 const Text = styled.p`
   margin: 0;
+`;
+
+const Bold = styled.p`
+  margin: 0;
+  font-weight: bold;
+`;
+
+interface VotingBarProps {
+  votes: {
+    yes: number;
+    no: number;
+    abstain: number;
+    remaining: number;
+  };
+}
+
+const VotingBar = (votingBarProps: VotingBarProps) => {
+  const { votes } = votingBarProps;
+
+  const yes = `${votes.yes}%`;
+  const no = `${votes.no}%`;
+  const abstain = `${votes.abstain}%`;
+  const remaining = `${votes.remaining}%`;
+
+  return (
+    <View>
+      <Row style={{ width: "100%", marginTop: 12, height: 45 }}>
+        <VoteBox style={{ width: yes, background: COLORS.CHORUS }} />
+        <VoteBox style={{ width: no, background: COLORS.ERROR }} />
+        <VoteBox style={{ width: abstain, background: COLORS.DARK_TEXT }} />
+        <VoteBox style={{ width: remaining, background: COLORS.DARK_GRAY }} />
+      </Row>
+      <Row style={{ marginTop: 12, justifyContent: "flex-start" }}>
+        <Row style={{ marginRight: 10 }}>
+          <Square style={{ background: COLORS.CHORUS }} />
+          <Bold>Yes ({votes.yes}%)</Bold>
+        </Row>
+        <Row style={{ marginRight: 10 }}>
+          <Square style={{ background: COLORS.ERROR }} />
+          <Bold>No ({votes.no}%)</Bold>
+        </Row>
+        <Row style={{ marginRight: 10 }}>
+          <Square style={{ background: COLORS.DARK_TEXT }} />
+          <Bold>Abstain ({votes.abstain}%)</Bold>
+        </Row>
+        <Row style={{ marginRight: 10 }}>
+          <Square style={{ background: COLORS.DARK_GRAY }} />
+          <Bold>Remaining ({votes.remaining}%)</Bold>
+        </Row>
+      </Row>
+    </View>
+  );
+};
+
+const Square = styled.div`
+  height: 12px;
+  width: 12px;
+  border-radius: 1px;
+  margin-right: 10px;
+`;
+
+const VoteBox = styled.div`
+  height: 100%;
 `;
 
 interface GenericProposalHistory {
