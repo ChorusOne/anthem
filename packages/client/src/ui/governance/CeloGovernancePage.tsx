@@ -2,6 +2,7 @@ import {
   assertUnreachable,
   IApprovedProposal,
   ICeloGovernanceProposalHistory,
+  ICeloTransaction,
   IExecutionProposal,
   IExpiredProposal,
   IQueuedProposal,
@@ -37,7 +38,7 @@ import {
 import { composeWithProps } from "tools/context-utils";
 import { addValuesInList, divide } from "tools/math-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
-import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
+import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import PageAddressBar from "ui/PageAddressBar";
 import {
   Button,
@@ -69,22 +70,32 @@ type GovernanceProposalType =
 
 class CeloGovernancePage extends React.Component<IProps, {}> {
   render(): Nullable<JSX.Element> {
-    const { celoGovernanceProposals, i18n } = this.props;
+    const { transactions, celoGovernanceProposals, i18n } = this.props;
     return (
       <PageContainerScrollable>
         <PageAddressBar pageTitle="Governance" />
-        <GraphQLGuardComponent
+        <GraphQLGuardComponentMultipleQueries
           tString={i18n.tString}
-          dataKey="celoGovernanceProposals"
-          result={celoGovernanceProposals}
+          results={[
+            [transactions, "transactions"],
+            [celoGovernanceProposals, "celoGovernanceProposals"],
+          ]}
           errorComponent={<DashboardError tString={i18n.tString} />}
           loadingComponent={<DashboardLoader />}
         >
-          {(proposalHistory: ICeloGovernanceProposalHistory) => {
+          {(
+            governanceHistory: ICeloTransaction[],
+            proposalHistory: ICeloGovernanceProposalHistory,
+          ) => {
             const proposals = groupAndSortProposals(proposalHistory);
-            return <CeloGovernanceComponent proposals={proposals} />;
+            return (
+              <CeloGovernanceComponent
+                proposals={proposals}
+                governanceTransactionHistory={governanceHistory}
+              />
+            );
           }}
-        </GraphQLGuardComponent>
+        </GraphQLGuardComponentMultipleQueries>
       </PageContainerScrollable>
     );
   }
@@ -105,6 +116,7 @@ interface IState {
 
 interface CeloGovernanceComponentProps {
   proposals: GenericProposalHistory[];
+  governanceTransactionHistory: ICeloTransaction[];
 }
 
 /** ===========================================================================
@@ -136,7 +148,6 @@ class CeloGovernanceComponent extends React.Component<
   render() {
     const { selectedProposal, selectedProposalID } = this.state;
     const { proposals } = this.props;
-    console.log(selectedProposal);
     return (
       <>
         <ProposalsPanel>
@@ -240,7 +251,9 @@ class CeloGovernanceComponent extends React.Component<
             <Card
               elevation={Elevation.TWO}
               style={{ margin: 6, borderRadius: 3, height: 275 }}
-            ></Card>
+            >
+              {this.renderGovernanceProposalsHistory()}
+            </Card>
           </Panel>
         </Row>
       </>
@@ -255,6 +268,9 @@ class CeloGovernanceComponent extends React.Component<
     }
 
     const proposal = selectedProposal as GovernanceProposalType;
+
+    console.log(proposal);
+
     switch (proposal.__typename) {
       case undefined: {
         return null;
@@ -338,6 +354,12 @@ class CeloGovernanceComponent extends React.Component<
       default:
         return assertUnreachable(proposal);
     }
+  };
+
+  renderGovernanceProposalsHistory = () => {
+    // Render the Celo transactions list with the list of governance history
+    console.log(this.props.governanceTransactionHistory);
+    return null;
   };
 
   handleSelectProposal = (proposal: GenericProposalHistory) => {
