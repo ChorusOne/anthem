@@ -72,6 +72,9 @@ interface GenericProposalHistory {
   description: string;
 }
 
+/**
+ * Mock proposals data used for development.
+ */
 const mockProposals = {
   queuedProposals: [
     {
@@ -299,10 +302,14 @@ const fetchTransactions = async (
   };
 };
 
+/**
+ * Fetch governance tagged transactions.
+ */
 const fetchGovernanceTransactions = async (
   address: string,
 ): Promise<IQuery["celoGovernanceTransactions"]> => {
   return [];
+  // TODO: Link to actual API when it exists.
   // const host = getHostFromNetworkName("CELO");
   // const url = `${host}/account/${address}/transactions?filter=governance`;
   // const response = await AxiosUtil.get<CeloTransactionResponse[]>(url);
