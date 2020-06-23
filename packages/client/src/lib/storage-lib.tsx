@@ -1,3 +1,4 @@
+import { deriveNetworkFromAddress } from "@anthem/utils";
 import { BANNER_NOTIFICATIONS_KEYS } from "modules/app/store";
 import { ParsedQuery } from "query-string";
 
@@ -68,7 +69,15 @@ class StorageClass {
       KEYS.RECENT_ADDRESSES,
     );
     if (Array.isArray(recentAddresses) && recentAddresses.length) {
-      return recentAddresses;
+      // Filter out any invalid addresses
+      return recentAddresses.filter(address => {
+        try {
+          deriveNetworkFromAddress(address);
+          return true;
+        } catch (err) {
+          return false;
+        }
+      });
     } else {
       return [];
     }

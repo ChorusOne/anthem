@@ -205,7 +205,7 @@ class CeloGovernanceComponent extends React.Component<
                   QUEUED AT TIME
                 </ProposalTitleText>
               </ProposalBanner>
-              <View style={{ height: 250, overflowY: "scroll" }}>
+              <ProposalsList>
                 {proposals.map(x => {
                   return (
                     <ClickableRowWrapper
@@ -267,7 +267,7 @@ class CeloGovernanceComponent extends React.Component<
                     </ClickableRowWrapper>
                   );
                 })}
-              </View>
+              </ProposalsList>
             </Card>
           </Panel>
           <Panel>
@@ -524,6 +524,12 @@ const ProposalBanner = styled.div`
   color: ${COLORS.HEAVY_DARK_TEXT};
   background: ${(props: { theme: IThemeProps }) =>
     props.theme.isDarkTheme ? Colors.GRAY1 : Colors.GRAY5};
+`;
+
+const ProposalsList = styled.div`
+  height: 250px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 `;
 
 const ClickableRowWrapper = styled.div`
