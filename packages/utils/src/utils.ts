@@ -23,10 +23,10 @@ export const deriveNetworkFromAddress = (
     return NETWORKS.TERRA;
   } else if (address.substring(0, 4) === "kava") {
     return NETWORKS.KAVA;
+  } else if (address.substring(0, 5) === "oasis") {
+    return NETWORKS.OASIS;
   } else if (address.substring(0, 2) === "0x" && address.length === 42) {
     return NETWORKS.CELO;
-  } else if (address.length === 44) {
-    return NETWORKS.OASIS;
   }
 
   throw new Error(
