@@ -4,11 +4,8 @@ import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import { composeWithProps } from "tools/context-utils";
-import {
-  PageContainerScrollable,
-  PageTitle,
-  PanelMessageText,
-} from "ui/SharedComponents";
+import CeloGovernancePage from "ui/governance/CeloGovernancePage";
+import { PanelMessageText } from "ui/SharedComponents";
 
 /** ===========================================================================
  * Types & Config
@@ -72,19 +69,10 @@ class GovernancePage extends React.Component<IProps, IState> {
     }
 
     switch (network.name) {
+      case "CELO":
+        return <CeloGovernancePage />;
       case "COSMOS":
       case "OASIS":
-      case "CELO":
-        return (
-          <PageContainerScrollable>
-            <PageTitle data-cy="governance-page-title">
-              {i18n.tString("Governance")}
-            </PageTitle>
-            <PanelMessageText>
-              Governance is coming soon for Celo.
-            </PanelMessageText>
-          </PageContainerScrollable>
-        );
       default:
         return null;
     }

@@ -10,8 +10,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
-import { DashboardError } from "ui/pages/DashboardPage";
-import { DashboardLoader } from "ui/SharedComponents";
+import { DashboardError, DashboardLoader } from "ui/SharedComponents";
 import CeloTransactionList from "./CeloTransactionList";
 
 /** ===========================================================================
@@ -72,10 +71,10 @@ interface ComponentProps {}
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
-export type TransactionListProps = ConnectProps & RouteComponentProps;
+export type CeloTransactionListProps = ConnectProps & RouteComponentProps;
 
 interface IProps
-  extends TransactionListProps,
+  extends CeloTransactionListProps,
     CeloTransactionsProps,
     ComponentProps {}
 

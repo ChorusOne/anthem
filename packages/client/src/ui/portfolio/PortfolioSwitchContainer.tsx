@@ -1,15 +1,10 @@
 import * as Sentry from "@sentry/browser";
-import {
-  CosmosTransactionsProps,
-  FiatPriceHistoryProps,
-  ValidatorsProps,
-} from "graphql/queries";
+import { CosmosTransactionsProps } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import moment from "moment-timezone";
 import React from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
 import { PanelMessageText } from "ui/SharedComponents";
 import CeloPortfolio from "./CeloPortfolio";
@@ -106,7 +101,8 @@ class PortfolioSwitchContainer extends React.Component<IProps, IState> {
   downloadDataToFile = (CSV: string) => {
     // Create the file name
     const dateStringPrefix = moment(Date.now()).format("MM-DD-YYYY");
-    const fileName = `anthem-cosmos-data-${dateStringPrefix}.csv`;
+    const { network } = this.props.ledger;
+    const fileName = `${network.name}-account-history-${dateStringPrefix}.csv`;
 
     try {
       const hiddenElement = document.createElement("a");
@@ -148,13 +144,8 @@ interface ComponentProps {
 
 type ConnectProps = ReturnType<typeof mapStateToProps>;
 
-export type TransactionListProps = ConnectProps &
-  FiatPriceHistoryProps &
-  ValidatorsProps &
-  RouteComponentProps;
-
 interface IProps
-  extends TransactionListProps,
+  extends ConnectProps,
     CosmosTransactionsProps,
     ComponentProps {}
 

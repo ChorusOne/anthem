@@ -37,7 +37,6 @@ import {
   onActiveTab,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
-import { tFnString } from "tools/i18n-utils";
 import AddressInputDashboardBar from "ui/AddressInputDashboardBar";
 import BalancesSwitchContainer from "ui/balances/BalancesSwitchContainer";
 import { IThemeProps } from "ui/containers/ThemeContainer";
@@ -372,7 +371,6 @@ const ExpandCollapseIcon = ({ onClick }: { onClick: () => void }) => (
 
 const DashboardNavigationLink = ({
   title,
-  address,
   pathname,
   localizedTitle,
 }: INavItemProps) => {
@@ -413,7 +411,6 @@ const NavLinkContainer = styled.div`
 
 const getMobileDashboardNavigationLink = ({
   title,
-  address,
   history,
   pathname,
   localizedTitle,
@@ -453,18 +450,6 @@ const shouldShowCommissionsLink = (
     cosmosAccountHistory.cosmosAccountHistory.validatorCommissions.length
   );
 };
-
-export const DashboardError = ({
-  tString,
-  text,
-}: {
-  tString: tFnString;
-  text?: string | JSX.Element;
-}) => (
-  <p style={{ marginTop: 85, textAlign: "center" }}>
-    {text ? text : tString("Error fetching data...")}
-  </p>
-);
 
 const DashboardDefaultView = styled.div`
   margin-top: -30px;

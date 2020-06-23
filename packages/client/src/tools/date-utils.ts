@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js";
 import moment from "moment-timezone";
 
 /** ===========================================================================
@@ -9,6 +10,7 @@ export type GenericDateFormat = string | number | Date;
 
 const UTC_TIMEZONE = "Etc/UTC";
 const DATE_FORMAT = "MMM DD, YYYY";
+const DATE_AND_TIME_FORMAT = "MMM DD, YYYY hh:mm:ss A";
 const CSV_DATE_FORMAT = "MMM DD YYYY";
 
 const setTimeZone = (date: any) => {
@@ -91,4 +93,22 @@ export const getDateInFuture = (date: Date, daysInFuture: number) => {
   return moment(date)
     .add(daysInFuture, "days")
     .format(DATE_FORMAT);
+};
+
+/**
+ * Convert a Celo epoch to a timestamp displaying the date.
+ */
+export const convertCeloEpochToDate = (epoch: number): string => {
+  const e = new BigNumber(epoch);
+  const date = new Date(e.multipliedBy(1000).toNumber());
+  return moment(date).format(DATE_FORMAT);
+};
+
+/**
+ * Convert a Celo epoch to a timestamp displaying the date and time.
+ */
+export const convertCeloEpochToTimestamp = (epoch: number): string => {
+  const e = new BigNumber(epoch);
+  const date = new Date(e.multipliedBy(1000).toNumber());
+  return moment(date).format(DATE_AND_TIME_FORMAT);
 };

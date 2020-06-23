@@ -2,6 +2,7 @@ import {
   deriveNetworkFromAddress,
   ICeloAccountBalancesQueryVariables,
   ICeloAccountHistoryQueryVariables,
+  ICeloGovernanceTransactionsQueryVariables,
   ICeloTransactionQueryVariables,
   ICeloTransactionsQueryVariables,
   IQuery,
@@ -63,6 +64,13 @@ const CeloResolvers = {
     return CELO.fetchTransaction(args.hash);
   },
 
+  celoGovernanceTransactions: async (
+    _: void,
+    args: ICeloGovernanceTransactionsQueryVariables,
+  ): Promise<IQuery["celoGovernanceTransactions"]> => {
+    return CELO.fetchGovernanceTransactions(args.address);
+  },
+
   celoSystemBalances: async (): Promise<IQuery["celoSystemBalances"]> => {
     return CELO.fetchSystemBalances();
   },
@@ -73,6 +81,12 @@ const CeloResolvers = {
 
   celoValidatorGroups: async (): Promise<IQuery["celoValidatorGroups"]> => {
     return CELO.fetchValidatorGroups();
+  },
+
+  celoGovernanceProposals: async (): Promise<
+    IQuery["celoGovernanceProposals"]
+  > => {
+    return CELO.fetchGovernanceProposals();
   },
 };
 

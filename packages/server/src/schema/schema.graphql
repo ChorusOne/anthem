@@ -50,10 +50,12 @@ type Query {
     startingPage: Float
     pageSize: Float
   ): CeloTransactionResult!
+  celoGovernanceTransactions(address: String!): [CeloTransaction!]!
   celoTransaction(hash: String!): CeloTransaction!
   celoSystemBalances: CeloSystemBalances!
   celoSystemHistory: [CeloSystemHistory!]!
   celoValidatorGroups: [CeloValidatorGroup!]!
+  celoGovernanceProposals: CeloGovernanceProposalHistory!
 
   # Fiat price APIs
   fiatCurrencies: [FiatCurrency!]!
@@ -162,6 +164,102 @@ type CeloValidatorGroup {
   multiplier: Float!
   groupShare: Float!
   validatorAddresses: [String!]!
+}
+
+type CeloGovernanceProposalHistory {
+  queuedProposals: [QueuedProposal!]!
+  approvalProposals: [ApprovedProposal!]!
+  referendumProposals: [ReferendumProposal!]!
+  executionProposals: [ExecutionProposal!]!
+  expiredProposals: [ExpiredProposal!]!
+}
+
+type QueuedProposal {
+  proposalID: Float!
+  index: Float!
+  currentBlockNumber: Float!
+  stage: String!
+  proposer: String!
+  upvotes: Float!
+  proposalEpoch: Float!
+  referendumEpoch: Float!
+  executionEpoch: Float!
+  expirationEpoch: Float!
+  queuedAtBlockNumber: Float!
+  deposit: Float!
+  queuedAtTimestamp: Float!
+  gist: String!
+  description: String!
+}
+
+type ApprovedProposal {
+  proposalID: Float!
+  index: Float!
+  currentBlockNumber: Float!
+  stage: String!
+  proposer: String!
+  proposalEpoch: Float!
+  referendumEpoch: Float!
+  executionEpoch: Float!
+  expirationEpoch: Float!
+  queuedAtBlockNumber: Float!
+  deposit: Float!
+  queuedAtTimestamp: Float!
+  gist: String!
+  description: String!
+}
+
+type ReferendumProposal {
+  proposalID: Float!
+  index: Float!
+  currentBlockNumber: Float!
+  stage: String!
+  proposer: String!
+  yesVotes: Float!
+  noVotes: Float!
+  abstainVotes: Float!
+  proposalEpoch: Float!
+  referendumEpoch: Float!
+  executionEpoch: Float!
+  expirationEpoch: Float!
+  queuedAtBlockNumber: Float!
+  deposit: Float!
+  queuedAtTimestamp: Float!
+  gist: String!
+  description: String!
+}
+
+type ExecutionProposal {
+  proposalID: Float!
+  index: Float!
+  currentBlockNumber: Float!
+  stage: String!
+  proposer: String!
+  yesVotes: Float!
+  noVotes: Float!
+  abstainVotes: Float!
+  proposalEpoch: Float!
+  referendumEpoch: Float!
+  executionEpoch: Float!
+  expirationEpoch: Float!
+  queuedAtBlockNumber: Float!
+  deposit: Float!
+  queuedAtTimestamp: Float!
+  gist: String!
+  description: String!
+}
+
+type ExpiredProposal {
+  proposalID: Float!
+  currentBlockNumber: Float!
+  stage: String!
+  proposer: String!
+  executed: Boolean
+  queuedAtBlockNumber: Float!
+  deposit: Float!
+  queuedAtTimestamp: Float!
+  gist: String!
+  description: String!
 }
 
 # *****************************************************************************

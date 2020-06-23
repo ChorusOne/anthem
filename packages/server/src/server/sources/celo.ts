@@ -1,9 +1,7 @@
 import {
   ICeloAccountBalances,
   ICeloTransaction,
-  ICeloTransactionDetails,
   ICeloTransactionTags,
-  IDelegation,
   IQuery,
   NetworkDefinition,
 } from "@anthem/utils";
@@ -57,6 +55,192 @@ interface CeloTransactionResponse {
     raw: any;
   };
 }
+
+interface CeloGovernanceProposalHistoryResponse {
+  queuedProposals: GenericProposalHistory[];
+  approvalProposals: GenericProposalHistory[];
+  referendumProposals: GenericProposalHistory[];
+  executionProposals: GenericProposalHistory[];
+  expiredProposals: GenericProposalHistory[];
+}
+
+// Only contains shard type definitions common to each proposal type
+interface GenericProposalHistory {
+  proposalID: number;
+  stage: string;
+  proposer: string;
+  description: string;
+}
+
+/**
+ * Mock proposals data used for development.
+ */
+const mockProposals = {
+  queuedProposals: [
+    {
+      proposalID: 1,
+      index: 0,
+      currentBlockNumber: 400000,
+      stage: "Queued",
+      proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+      upvotes: 1.4285841e24,
+      description:
+        "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0001.md",
+      proposalEpoch: 1589480751,
+      referendumEpoch: 1589567151,
+      executionEpoch: 1589739951,
+      expirationEpoch: 1589999151,
+      queuedAtBlockNumber: 381386,
+      deposit: 100000000000000000000,
+      queuedAtTimestamp: 1589480751,
+    },
+    {
+      proposalID: 2,
+      index: 1,
+      currentBlockNumber: 400000,
+      stage: "Queued",
+      proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+      upvotes: 2.135001e23,
+      description:
+        "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0002.md",
+      proposalEpoch: 1589481016,
+      referendumEpoch: 1589567416,
+      executionEpoch: 1589740216,
+      expirationEpoch: 1589999416,
+      queuedAtBlockNumber: 381439,
+      deposit: 100000000000000000000,
+      queuedAtTimestamp: 1589481016,
+    },
+  ],
+  approvalProposals: [
+    {
+      proposalID: 3,
+      index: 0,
+      currentBlockNumber: 410000,
+      stage: "Approval",
+      proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+      description:
+        "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0001.md",
+      proposalEpoch: 1589574880,
+      referendumEpoch: 1589661280,
+      executionEpoch: 1589834080,
+      expirationEpoch: 1590093280,
+      queuedAtBlockNumber: 381386,
+      deposit: 100000000000000000000,
+      queuedAtTimestamp: 1589480751,
+    },
+    {
+      proposalID: 4,
+      index: 1,
+      currentBlockNumber: 410000,
+      stage: "Approval",
+      proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+      description:
+        "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0002.md",
+      proposalEpoch: 1589574880,
+      referendumEpoch: 1589661280,
+      executionEpoch: 1589834080,
+      expirationEpoch: 1590093280,
+      queuedAtBlockNumber: 381439,
+      deposit: 100000000000000000000,
+      queuedAtTimestamp: 1589481016,
+    },
+  ],
+  referendumProposals: [
+    {
+      proposalID: 5,
+      index: 0,
+      currentBlockNumber: 450000,
+      stage: "Referendum",
+      proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+      yesVotes: 4.726916770837158e25,
+      noVotes: 0,
+      abstainVotes: 0,
+      description:
+        "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0001.md",
+      proposalEpoch: 1589574880,
+      referendumEpoch: 1589661280,
+      executionEpoch: 1589834080,
+      expirationEpoch: 1590093280,
+      queuedAtBlockNumber: 381386,
+      deposit: 100000000000000000000,
+      queuedAtTimestamp: 1589480751,
+    },
+    {
+      proposalID: 6,
+      index: 1,
+      currentBlockNumber: 450000,
+      stage: "Referendum",
+      proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+      yesVotes: 4.728916770837158e25,
+      noVotes: 0,
+      abstainVotes: 0,
+      description:
+        "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0002.md",
+      proposalEpoch: 1589574880,
+      referendumEpoch: 1589661280,
+      executionEpoch: 1589834080,
+      expirationEpoch: 1590093280,
+      queuedAtBlockNumber: 381439,
+      deposit: 100000000000000000000,
+      queuedAtTimestamp: 1589481016,
+    },
+  ],
+  executionProposals: [
+    {
+      proposalID: 7,
+      index: 0,
+      currentBlockNumber: 452035,
+      stage: "Execution",
+      proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+      yesVotes: 4.726916770837158e25,
+      noVotes: 0,
+      abstainVotes: 0,
+      description:
+        "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0001.md",
+      proposalEpoch: 1589574880,
+      referendumEpoch: 1589661280,
+      executionEpoch: 1589834080,
+      expirationEpoch: 1590093280,
+      queuedAtBlockNumber: 381386,
+      deposit: 100000000000000000000,
+      queuedAtTimestamp: 1589480751,
+    },
+    {
+      proposalID: 8,
+      index: 1,
+      currentBlockNumber: 452035,
+      stage: "Execution",
+      proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+      yesVotes: 4.728916770837158e25,
+      noVotes: 0,
+      abstainVotes: 0,
+      description:
+        "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0002.md",
+      proposalEpoch: 1589574880,
+      referendumEpoch: 1589661280,
+      executionEpoch: 1589834080,
+      expirationEpoch: 1590093280,
+      queuedAtBlockNumber: 381439,
+      deposit: 100000000000000000000,
+      queuedAtTimestamp: 1589481016,
+    },
+  ],
+  expiredProposals: [
+    {
+      proposalID: 9,
+      currentBlockNumber: 453000,
+      stage: "Expiration",
+      proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+      executed: true,
+      queuedAtBlockNumber: 91471,
+      deposit: 100000000000000000000,
+      queuedAtTimestamp: 1588031167,
+      description:
+        "https://gist.github.com/aslawson/a1f693f0e4c5fd391eac463237c4182a",
+    },
+  ],
+};
 
 /** ===========================================================================
  * Celo REST API Utils
@@ -119,6 +303,22 @@ const fetchTransactions = async (
 };
 
 /**
+ * Fetch governance tagged transactions.
+ */
+const fetchGovernanceTransactions = async (
+  address: string,
+): Promise<IQuery["celoGovernanceTransactions"]> => {
+  const host = getHostFromNetworkName("CELO");
+  const url = `${host}/accounts/${address}/transactions?filter_by_source=governance`;
+  const response = await AxiosUtil.get<CeloTransactionResponse[]>(url);
+  const formattedResponse: ICeloTransaction[] = response.map(
+    formatCeloTransaction,
+  );
+
+  return formattedResponse;
+};
+
+/**
  * Fetch a single transaction by hash.
  */
 const fetchTransaction = async (hash: string): Promise<ICeloTransaction> => {
@@ -158,6 +358,20 @@ const fetchValidatorGroups = async (): Promise<IQuery["celoValidatorGroups"]> =>
   return AxiosUtil.get<IQuery["celoValidatorGroups"]>(url);
 };
 
+/**
+ * Fetch current governance proposals
+ */
+const fetchGovernanceProposals = async (): Promise<IQuery["celoGovernanceProposals"]> => {
+  // const host = getHostFromNetworkName("CELO");
+  // const url = `${host}/system/proposals_history`;
+  // const response = await AxiosUtil.get<CeloGovernanceProposalHistoryResponse>(
+  //   url,
+  // );
+
+  // return addGistContentToProposals(response);
+  return addGistContentToProposals(mockProposals);
+};
+
 /** ===========================================================================
  * Utils
  * ============================================================================
@@ -176,21 +390,6 @@ const stringifyTags = (tag: ICeloTransactionTags) => {
 };
 
 /**
- * Transform the delegations to match the expected GraphQL schema
- * definition.
- */
-const convertDelegations = (
-  delegation: CeloDelegation,
-  address: string,
-): IDelegation => {
-  return {
-    delegator_address: address,
-    validator_address: delegation.group,
-    shares: delegation.totalVotes,
-  };
-};
-
-/**
  * Transform Celo transaction response data.
  */
 const formatCeloTransaction = (tx: CeloTransactionResponse) => {
@@ -204,6 +403,56 @@ const formatCeloTransaction = (tx: CeloTransactionResponse) => {
   return result;
 };
 
+/**
+ * Transform the proposal history by fetching and adding the GitHub gist
+ * content to the proposals.
+ */
+const addGistContentToProposals = async (
+  proposalHistory: CeloGovernanceProposalHistoryResponse,
+) => {
+  const entries = Object.entries(proposalHistory);
+  const result: { [key: string]: any } = {};
+
+  for (const [key, value] of entries) {
+    const gists = await fetchGistContentForProposalList(value);
+    result[key] = gists;
+  }
+
+  return result as IQuery["celoGovernanceProposals"];
+};
+
+/**
+ * Fetch the actual gist content for each proposal.
+ */
+const fetchGistContentForProposalList = async (
+  proposals: GenericProposalHistory[],
+): Promise<GenericProposalHistory[]> => {
+  return Promise.all(
+    proposals.map(async content => {
+      const gist = content.description;
+      const gistContent = await fetchProposalGistContent(gist);
+      return {
+        ...content,
+        gist,
+        description: gistContent,
+      };
+    }),
+  );
+};
+
+/**
+ * Given a proposal GitHub gist link fetch the raw content.
+ */
+const fetchProposalGistContent = async (gistUrl: string) => {
+  try {
+    const url = `${gistUrl}/raw`;
+    const description = await AxiosUtil.get<string>(url);
+    return description;
+  } catch (err) {
+    return "";
+  }
+};
+
 /** ===========================================================================
  * Export
  * ============================================================================
@@ -214,9 +463,11 @@ const CELO = {
   fetchAccountHistory,
   fetchTransactions,
   fetchTransaction,
+  fetchGovernanceTransactions,
   fetchSystemBalances,
   fetchSystemHistory,
   fetchValidatorGroups,
+  fetchGovernanceProposals,
 };
 
 export default CELO;

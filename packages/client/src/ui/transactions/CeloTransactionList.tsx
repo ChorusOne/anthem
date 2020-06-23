@@ -3,7 +3,7 @@ import { H5 } from "@blueprintjs/core";
 import React from "react";
 import { Centered } from "ui/SharedComponents";
 import Toast from "ui/Toast";
-import { TransactionListProps } from "./CeloTransactionContainer";
+import { CeloTransactionListProps } from "./CeloTransactionContainer";
 import CeloTransactionListItem from "./CeloTransactionListItem";
 import { TransactionPaginationControls } from "./TransactionComponents";
 
@@ -96,7 +96,7 @@ class CeloTransactionList extends React.PureComponent<IProps> {
  * ============================================================================
  */
 
-interface ComponentProps extends TransactionListProps {
+interface ComponentProps extends CeloTransactionListProps {
   isDetailView?: boolean;
   moreResultsExist?: boolean;
   transactions: ICeloTransaction[];

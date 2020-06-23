@@ -34,8 +34,12 @@ import { tFnString } from "tools/i18n-utils";
 import { addValuesInList } from "tools/math-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
-import { DashboardError } from "ui/pages/DashboardPage";
-import { Button, DashboardLoader, View } from "ui/SharedComponents";
+import {
+  Button,
+  DashboardError,
+  DashboardLoader,
+  View,
+} from "ui/SharedComponents";
 import Toast from "ui/Toast";
 
 /** ===========================================================================

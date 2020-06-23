@@ -247,11 +247,9 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                 </Text>
                               </RowItem>
                               <RowItem width={150}>
-                                <Text>
-                                  <ValidatorCapacityCircle
-                                    capacity={votingCapacityPercentage}
-                                  />
-                                </Text>
+                                <ValidatorCapacityCircle
+                                  capacity={votingCapacityPercentage}
+                                />
                               </RowItem>
                               <RowItem>
                                 <Icon

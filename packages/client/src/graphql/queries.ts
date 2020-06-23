@@ -1,6 +1,8 @@
 import {
   CeloAccountBalancesDocument,
   CeloAccountHistoryDocument,
+  CeloGovernanceProposalsDocument,
+  CeloGovernanceTransactionsDocument,
   CeloTransactionDocument,
   CeloTransactionsDocument,
   CeloValidatorGroupsDocument,
@@ -475,3 +477,47 @@ export const withCeloValidatorGroups = graphql(CeloValidatorGroupsDocument, {
   name: "celoValidatorGroups",
   ...noPollingConfig(["address", "fiat"]),
 });
+
+/** ===========================================================================
+ * Celo Governance Proposals
+ * ============================================================================
+ */
+
+interface CeloGovernanceProposalsQueryResult extends QueryResult {
+  data: void;
+  celoGovernanceProposals: IQuery["celoGovernanceProposals"];
+}
+
+export interface CeloGovernanceProposalsProps {
+  celoGovernanceProposals: CeloGovernanceProposalsQueryResult;
+}
+
+export const withCeloGovernanceProposals = graphql(
+  CeloGovernanceProposalsDocument,
+  {
+    name: "celoGovernanceProposals",
+    ...noPollingConfig(["address", "fiat"]),
+  },
+);
+
+/** ===========================================================================
+ * Celo Governance Transactions History
+ * ============================================================================
+ */
+
+interface CeloGovernanceTransactionsQueryResult extends QueryResult {
+  data: void;
+  celoGovernanceTransactions: IQuery["celoGovernanceTransactions"];
+}
+
+export interface CeloGovernanceTransactionsProps {
+  transactions: CeloGovernanceTransactionsQueryResult;
+}
+
+export const withCeloGovernanceTransactions = graphql(
+  CeloGovernanceTransactionsDocument,
+  {
+    name: "transactions",
+    ...noPollingConfig(["address"]),
+  },
+);

@@ -14,8 +14,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
-import { DashboardError } from "ui/pages/DashboardPage";
-import { DashboardLoader } from "ui/SharedComponents";
+import { DashboardError, DashboardLoader } from "ui/SharedComponents";
 import CosmosTransactionList from "./CosmosTransactionList";
 
 /** ===========================================================================
@@ -88,13 +87,13 @@ interface ComponentProps {}
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
-export type TransactionListProps = ConnectProps &
+export type CosmosTransactionListProps = ConnectProps &
   FiatPriceHistoryProps &
   ValidatorsProps &
   RouteComponentProps;
 
 interface IProps
-  extends TransactionListProps,
+  extends CosmosTransactionListProps,
     CosmosTransactionsProps,
     ComponentProps {}
 
