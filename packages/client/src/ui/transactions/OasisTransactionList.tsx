@@ -3,7 +3,7 @@ import { H5 } from "@blueprintjs/core";
 import React from "react";
 import { Centered } from "ui/SharedComponents";
 import Toast from "ui/Toast";
-import { TransactionListProps } from "./OasisTransactionContainer";
+import { OasisTransactionListProps } from "./OasisTransactionContainer";
 import OasisTransactionListItem from "./OasisTransactionListItem";
 import { TransactionPaginationControls } from "./TransactionComponents";
 
@@ -91,7 +91,7 @@ class OasisTransactionList extends React.PureComponent<IProps> {
  * ============================================================================
  */
 
-interface ComponentProps extends TransactionListProps {
+interface ComponentProps extends OasisTransactionListProps {
   isDetailView?: boolean;
   moreResultsExist?: boolean;
   transactions: IOasisTransaction[];

@@ -87,13 +87,13 @@ interface ComponentProps {}
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
-export type TransactionListProps = ConnectProps &
+export type CosmosTransactionListProps = ConnectProps &
   FiatPriceHistoryProps &
   ValidatorsProps &
   RouteComponentProps;
 
 interface IProps
-  extends TransactionListProps,
+  extends CosmosTransactionListProps,
     CosmosTransactionsProps,
     ComponentProps {}
 

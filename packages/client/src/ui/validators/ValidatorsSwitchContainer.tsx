@@ -1,14 +1,9 @@
 import * as Sentry from "@sentry/browser";
-import {
-  CosmosTransactionsProps,
-  FiatPriceHistoryProps,
-  ValidatorsProps,
-} from "graphql/queries";
+import { CosmosTransactionsProps } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps } from "react-router";
 import { composeWithProps } from "tools/context-utils";
 import { PanelMessageText } from "ui/SharedComponents";
 import CosmosValidators from "ui/validators/CosmosValidators";
@@ -103,13 +98,8 @@ interface ComponentProps {}
 
 type ConnectProps = ReturnType<typeof mapStateToProps>;
 
-export type TransactionListProps = ConnectProps &
-  FiatPriceHistoryProps &
-  ValidatorsProps &
-  RouteComponentProps;
-
 interface IProps
-  extends TransactionListProps,
+  extends ConnectProps,
     CosmosTransactionsProps,
     ComponentProps {}
 

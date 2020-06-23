@@ -13,7 +13,7 @@ import {
 import { convertCryptoToFiat, unitToDenom } from "tools/currency-utils";
 import { Centered } from "ui/SharedComponents";
 import Toast from "ui/Toast";
-import { TransactionListProps } from "./CosmosTransactionContainer";
+import { CosmosTransactionListProps } from "./CosmosTransactionContainer";
 import TransactionListItem from "./CosmosTransactionListItem";
 import { TransactionPaginationControls } from "./TransactionComponents";
 
@@ -221,7 +221,7 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
  * ============================================================================
  */
 
-interface ComponentProps extends TransactionListProps {
+interface ComponentProps extends CosmosTransactionListProps {
   isDetailView?: boolean;
   extraLiveTransactions: ICosmosTransaction[];
   moreResultsExist?: boolean;

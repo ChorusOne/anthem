@@ -71,10 +71,10 @@ interface ComponentProps {}
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
-export type TransactionListProps = ConnectProps & RouteComponentProps;
+export type OasisTransactionListProps = ConnectProps & RouteComponentProps;
 
 interface IProps
-  extends TransactionListProps,
+  extends OasisTransactionListProps,
     OasisTransactionsProps,
     ComponentProps {}
 
