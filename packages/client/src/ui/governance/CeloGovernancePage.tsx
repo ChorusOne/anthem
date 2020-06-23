@@ -352,6 +352,11 @@ class CeloGovernanceComponent extends React.Component<
                 {convertCeloEpochToTimestamp(proposal.expirationEpoch)}
               </Text>
             </DetailRowText>
+            {proposal.__typename === "QueuedProposal" && (
+              <Row style={{ marginTop: 24 }}>
+                <Button onClick={this.handleUpVote}>Up Vote</Button>
+              </Row>
+            )}
           </View>
         );
       case "ExpiredProposal": {
@@ -453,6 +458,10 @@ class CeloGovernanceComponent extends React.Component<
     } else {
       Toast.warn("Governance voting coming soon...");
     }
+  };
+
+  handleUpVote = () => {
+    Toast.warn("Governance up-voting coming soon...");
   };
 
   renderTransactionItem = (transaction: ICeloTransaction) => {

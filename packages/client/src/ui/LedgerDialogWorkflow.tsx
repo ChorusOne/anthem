@@ -351,25 +351,34 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
               <Column
                 style={{ marginTop: 6, height: 150, overflowY: "scroll" }}
               >
-                {recentAddressList.map(address => {
-                  const network = deriveNetworkFromAddress(address);
-                  const formattedAddress = formatAddressString(
-                    address,
-                    !this.props.settings.isDesktop,
-                    25,
-                  );
-                  return (
-                    <Link
-                      replace
-                      key={address}
-                      style={{ marginTop: 2, marginBottom: 2 }}
-                      to={`/${activeChartTab.toLowerCase()}?address=${address}`}
-                    >
-                      <NetworkLabel>{network.name}</NetworkLabel>
-                      <RecentAddress>{formattedAddress}</RecentAddress>
-                    </Link>
-                  );
-                })}
+                {recentAddressList
+                  .filter(address => {
+                    try {
+                      deriveNetworkFromAddress(address);
+                      return true;
+                    } catch (err) {
+                      return false;
+                    }
+                  })
+                  .map(address => {
+                    const network = deriveNetworkFromAddress(address);
+                    const formattedAddress = formatAddressString(
+                      address,
+                      !this.props.settings.isDesktop,
+                      25,
+                    );
+                    return (
+                      <Link
+                        replace
+                        key={address}
+                        style={{ marginTop: 2, marginBottom: 2 }}
+                        to={`/${activeChartTab.toLowerCase()}?address=${address}`}
+                      >
+                        <NetworkLabel>{network.name}</NetworkLabel>
+                        <RecentAddress>{formattedAddress}</RecentAddress>
+                      </Link>
+                    );
+                  })}
               </Column>
               <ClearAllLink onClick={this.props.clearAllRecentAddresses}>
                 {tString("Clear all addresses")}
