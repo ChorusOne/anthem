@@ -94,10 +94,10 @@ const loginWithAddress = (type: any, network: Network, useLedger = false) => {
   const address =
     network === "cosmos"
       ? "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd"
-      : "CVzqFIADD2Ed0khGBNf4Rvh7vSNtrL1ULTkWYQszDpc=";
+      : "oasis1qr4qenu52c2g3fyjytazsjs68e7xxr4mkujttmxq=";
 
   const addressPrefix =
-    network === "cosmos" ? "cosmos15...um7trd" : "CVzqFIAD...szDpc=";
+    network === "cosmos" ? "cosmos15...um7trd" : "oasis1qr...jttmxq";
 
   /**
    * Visit the app. Expect redirect to login and initiate the login
