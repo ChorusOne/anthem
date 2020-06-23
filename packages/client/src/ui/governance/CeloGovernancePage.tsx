@@ -46,7 +46,7 @@ import {
   DashboardError,
   DashboardLoader,
   Link,
-  PageContainerScrollable,
+  PageContainer,
   Row,
   View,
 } from "ui/SharedComponents";
@@ -83,7 +83,7 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
   render(): Nullable<JSX.Element> {
     const { transactions, celoGovernanceProposals, i18n } = this.props;
     return (
-      <PageContainerScrollable>
+      <PageContainer>
         <PageAddressBar pageTitle="Governance" />
         <GraphQLGuardComponentMultipleQueries
           tString={i18n.tString}
@@ -107,7 +107,7 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
             );
           }}
         </GraphQLGuardComponentMultipleQueries>
-      </PageContainerScrollable>
+      </PageContainer>
     );
   }
 }
@@ -157,7 +157,7 @@ class CeloGovernanceComponent extends React.Component<
   }
 
   render() {
-    const { selectedProposal, selectedProposalID } = this.state;
+    const { selectedProposalID } = this.state;
     const { proposals } = this.props;
     return (
       <>
