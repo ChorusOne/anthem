@@ -206,6 +206,16 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     const size = network.denominationSize;
     const { value, gasUsed, gasPrice } = transaction.details;
     const fee = multiply(gasUsed, gasPrice);
+    const hasTagValue = maybeGetValueFromTags(transaction);
+
+    // Set the transaction value as the value or the value from the tag or
+    // default to zero... OK!
+    const transactionValue = value
+      ? value
+      : hasTagValue
+      ? hasTagValue.value
+      : 0;
+
     return (
       <>
         <EventRowItem style={{ minWidth: 215 }}>
@@ -213,7 +223,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           <EventContextBox>
             <EventText style={{ fontWeight: "bold" }}>Value</EventText>
             <EventText data-cy="transaction-value">
-              {denomToUnit(value, size)} {network.denom}
+              {denomToUnit(transactionValue, size)} {network.denom}
             </EventText>
           </EventContextBox>
         </EventRowItem>
@@ -221,7 +231,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           <EventIconBox />
           <EventContextBox>
             <EventText style={{ fontWeight: "bold" }}>Fee</EventText>
-            <EventText data-cy="transaction-value">
+            <EventText data-cy="transaction-fee">
               {denomToUnit(fee, size)} {network.denom}
             </EventText>
           </EventContextBox>
@@ -259,6 +269,27 @@ const getCeloTransactionType = (transaction: ICeloTransaction) => {
     // Default transaction type where no specific tag information is present.
     return { contract: "", type: "Celo Transaction" };
   }
+};
+
+/**
+ * Try to extract the transaction value information from the transaction tags.
+ */
+const maybeGetValueFromTags = (
+  transaction: ICeloTransaction,
+): Nullable<{ to: string; value: string }> => {
+  const { tags } = transaction;
+  try {
+    const { parameters } = tags[0];
+    const data = JSON.parse(parameters);
+    const { account, value } = data;
+    if (account && value) {
+      return { to: account, value };
+    }
+  } catch (err) {
+    // Do nothing
+  }
+
+  return null;
 };
 
 /** ===========================================================================
