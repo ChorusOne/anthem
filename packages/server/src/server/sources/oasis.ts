@@ -319,6 +319,16 @@ const fetchTransaction = async (hash: string): Promise<IOasisTransaction> => {
  * ============================================================================
  */
 
+// Generate a random hash for now.
+const randomHash = () => {
+  const x = () =>
+    Math.random()
+      .toString(36)
+      .substring(7);
+
+  return `${x()}${x()}${x()}${x()}`;
+};
+
 /**
  * Map the transaction type onto the transaction data.
  */
@@ -328,6 +338,7 @@ const combineWithType = (
 ) => {
   const result: IOasisTransaction = {
     ...transaction,
+    hash: randomHash(),
     // @ts-ignore
     data: { ...transaction.data, type },
   };
