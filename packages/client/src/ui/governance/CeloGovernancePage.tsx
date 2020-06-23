@@ -6,6 +6,7 @@ import {
   IExpiredProposal,
   IQueuedProposal,
   IReferendumProposal,
+  withCeloGovernanceTransactions,
 } from "@anthem/utils";
 import {
   Card,
@@ -20,6 +21,7 @@ import { CopyIcon } from "assets/images";
 import { COLORS } from "constants/colors";
 import {
   CeloGovernanceProposalsProps,
+  CeloGovernanceTransactionsProps,
   withCeloGovernanceProposals,
   withGraphQLVariables,
 } from "graphql/queries";
@@ -575,6 +577,7 @@ interface ComponentProps {}
 interface IProps
   extends ComponentProps,
     ConnectProps,
+    CeloGovernanceTransactionsProps,
     CeloGovernanceProposalsProps {}
 
 /** ===========================================================================
@@ -586,4 +589,5 @@ export default composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
   withCeloGovernanceProposals,
+  withCeloGovernanceTransactions,
 )(CeloGovernancePage);

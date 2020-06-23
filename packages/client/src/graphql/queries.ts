@@ -2,6 +2,7 @@ import {
   CeloAccountBalancesDocument,
   CeloAccountHistoryDocument,
   CeloGovernanceProposalsDocument,
+  CeloGovernanceTransactionsDocument,
   CeloTransactionDocument,
   CeloTransactionsDocument,
   CeloValidatorGroupsDocument,
@@ -496,5 +497,27 @@ export const withCeloGovernanceProposals = graphql(
   {
     name: "celoGovernanceProposals",
     ...noPollingConfig(["address", "fiat"]),
+  },
+);
+
+/** ===========================================================================
+ * Celo Governance Transactions History
+ * ============================================================================
+ */
+
+interface CeloGovernanceTransactionsQueryResult extends QueryResult {
+  data: void;
+  celoGovernanceTransactions: IQuery["celoGovernanceTransactions"];
+}
+
+export interface CeloGovernanceTransactionsProps {
+  transactions: CeloGovernanceTransactionsQueryResult;
+}
+
+export const withCeloGovernanceTransactions = graphql(
+  CeloGovernanceTransactionsDocument,
+  {
+    name: "transactions",
+    ...noPollingConfig(["address"]),
   },
 );
