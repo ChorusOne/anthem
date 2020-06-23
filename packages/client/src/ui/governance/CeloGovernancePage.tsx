@@ -7,7 +7,6 @@ import {
   IExpiredProposal,
   IQueuedProposal,
   IReferendumProposal,
-  withCeloGovernanceTransactions,
 } from "@anthem/utils";
 import {
   Card,
@@ -24,6 +23,7 @@ import {
   CeloGovernanceProposalsProps,
   CeloGovernanceTransactionsProps,
   withCeloGovernanceProposals,
+  withCeloGovernanceTransactions,
   withGraphQLVariables,
 } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
@@ -77,16 +77,16 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
         <GraphQLGuardComponentMultipleQueries
           tString={i18n.tString}
           results={[
-            [transactions, "transactions"],
+            [transactions, "celoGovernanceTransactions"],
             [celoGovernanceProposals, "celoGovernanceProposals"],
           ]}
           errorComponent={<DashboardError tString={i18n.tString} />}
           loadingComponent={<DashboardLoader />}
         >
-          {(
-            governanceHistory: ICeloTransaction[],
-            proposalHistory: ICeloGovernanceProposalHistory,
-          ) => {
+          {([governanceHistory, proposalHistory]: [
+            ICeloTransaction[],
+            ICeloGovernanceProposalHistory,
+          ]) => {
             const proposals = groupAndSortProposals(proposalHistory);
             return (
               <CeloGovernanceComponent
@@ -359,7 +359,11 @@ class CeloGovernanceComponent extends React.Component<
   renderGovernanceProposalsHistory = () => {
     // Render the Celo transactions list with the list of governance history
     console.log(this.props.governanceTransactionHistory);
-    return null;
+    return (
+      <View>
+        <Text>Governance transaction history coming soon.</Text>
+      </View>
+    );
   };
 
   handleSelectProposal = (proposal: GenericProposalHistory) => {
@@ -409,7 +413,8 @@ const ProposalBanner = styled.div`
   padding-left: 8px;
   padding-right: 8px;
   color: ${COLORS.HEAVY_DARK_TEXT};
-  background: ${Colors.GRAY4};
+  background: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? Colors.GRAY1 : Colors.GRAY5};
 `;
 
 const ClickableRowWrapper = styled.div`
