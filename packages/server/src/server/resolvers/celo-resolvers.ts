@@ -64,7 +64,7 @@ const CeloResolvers = {
     return CELO.fetchTransaction(args.hash);
   },
 
-  celoGovernanceTransaction: async (
+  celoGovernanceTransactions: async (
     _: void,
     args: ICeloGovernanceTransactionsQueryVariables,
   ): Promise<IQuery["celoGovernanceTransactions"]> => {
