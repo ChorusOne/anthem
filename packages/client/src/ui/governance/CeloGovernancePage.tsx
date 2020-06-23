@@ -401,6 +401,7 @@ class CeloGovernanceComponent extends React.Component<
                 style={{
                   width: "75%",
                   margin: "auto",
+                  marginTop: 12,
                   justifyContent: "space-between",
                 }}
               >
@@ -587,14 +588,17 @@ const Bold = styled.p`
 `;
 
 const TopSection = styled.div`
-  height: 60%;
+  height: 58%;
   width: 100%;
   padding: 16px;
 `;
 
 const BottomSection = styled.div`
-  padding: 16px;
-  height: 40%;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+  height: 42%;
   width: 100%;
   background: ${(props: { theme: IThemeProps }) =>
     props.theme.isDarkTheme ? Colors.DARK_GRAY5 : Colors.LIGHT_GRAY3};
