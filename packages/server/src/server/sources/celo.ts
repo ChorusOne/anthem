@@ -309,7 +309,7 @@ const fetchGovernanceTransactions = async (
   address: string,
 ): Promise<IQuery["celoGovernanceTransactions"]> => {
   const host = getHostFromNetworkName("CELO");
-  const url = `${host}/account/${address}/transactions?filter_by_source=governance`;
+  const url = `${host}/accounts/${address}/transactions?filter_by_source=governance`;
   const response = await AxiosUtil.get<CeloTransactionResponse[]>(url);
   const formattedResponse: ICeloTransaction[] = response.map(
     formatCeloTransaction,

@@ -29,6 +29,7 @@ import {
 } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
+import { SettingsState } from "modules/settings/store";
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
@@ -39,6 +40,7 @@ import {
   convertCeloEpochToDate,
   convertCeloEpochToTimestamp,
 } from "tools/date-utils";
+import { I18nProps } from "tools/i18n-utils";
 import { addValuesInList, divide } from "tools/math-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
@@ -53,6 +55,7 @@ import {
   View,
 } from "ui/SharedComponents";
 import Toast from "ui/Toast";
+import CeloTransactionListItem from "ui/transactions/CeloTransactionListItem";
 
 /** ===========================================================================
  * Types & Config
@@ -83,8 +86,16 @@ type GovernanceProposalType =
 
 class CeloGovernancePage extends React.Component<IProps, {}> {
   render(): Nullable<JSX.Element> {
-    const { transactions, celoGovernanceProposals, i18n, ledger } = this.props;
+    const {
+      i18n,
+      ledger,
+      settings,
+      setAddress,
+      transactions,
+      celoGovernanceProposals,
+    } = this.props;
     const { network } = ledger;
+
     return (
       <PageContainer>
         <PageAddressBar pageTitle="Governance" />
@@ -104,8 +115,12 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
             const proposals = groupAndSortProposals(proposalHistory);
             return (
               <CeloGovernanceComponent
+                i18n={i18n}
                 network={network}
+                settings={settings}
                 proposals={proposals}
+                address={ledger.address}
+                setAddress={setAddress}
                 governanceTransactionHistory={governanceHistory}
               />
             );
@@ -130,9 +145,13 @@ interface IState {
 }
 
 interface CeloGovernanceComponentProps {
+  address: string;
+  i18n: I18nProps["i18n"];
   network: NetworkDefinition;
+  settings: SettingsState;
   proposals: GenericProposalHistory[];
   governanceTransactionHistory: ICeloTransaction[];
+  setAddress: typeof Modules.actions.ledger.setAddress;
 }
 
 /** ===========================================================================
@@ -163,7 +182,7 @@ class CeloGovernanceComponent extends React.Component<
 
   render() {
     const { selectedProposalID } = this.state;
-    const { network, proposals } = this.props;
+    const { network, proposals, governanceTransactionHistory } = this.props;
     return (
       <>
         <ProposalsPanel>
@@ -272,12 +291,9 @@ class CeloGovernanceComponent extends React.Component<
         <Row style={{ marginTop: 12 }}>
           <Panel>
             <H5 style={{ margin: 2, paddingLeft: 12 }}>Events</H5>
-            <Card
-              elevation={Elevation.TWO}
-              style={{ margin: 6, borderRadius: 3, height: 275 }}
-            >
-              {this.renderGovernanceProposalsHistory()}
-            </Card>
+            <TransactionsContainer>
+              {governanceTransactionHistory.map(this.renderTransactionItem)}
+            </TransactionsContainer>
           </Panel>
         </Row>
       </>
@@ -418,16 +434,6 @@ class CeloGovernanceComponent extends React.Component<
     }
   };
 
-  renderGovernanceProposalsHistory = () => {
-    // Render the Celo transactions list with the list of governance history
-    console.log(this.props.governanceTransactionHistory);
-    return (
-      <View>
-        <Text>Governance transaction history coming soon.</Text>
-      </View>
-    );
-  };
-
   handleSelectProposal = (proposal: GenericProposalHistory) => {
     this.setState({
       selectedProposal: proposal,
@@ -446,6 +452,36 @@ class CeloGovernanceComponent extends React.Component<
     } else {
       Toast.warn("Governance voting coming soon...");
     }
+  };
+
+  renderTransactionItem = (transaction: ICeloTransaction) => {
+    const { address, network, settings, i18n, setAddress } = this.props;
+    const { t, tString, locale } = i18n;
+    const { isDesktop, fiatCurrency } = settings;
+    return (
+      <CeloTransactionListItem
+        t={t}
+        locale={locale}
+        tString={tString}
+        address={address}
+        network={network}
+        isDetailView={false}
+        isDesktop={isDesktop}
+        key={transaction.hash}
+        setAddress={setAddress}
+        transaction={transaction}
+        fiatCurrency={fiatCurrency}
+        onCopySuccess={this.onCopySuccess}
+      />
+    );
+  };
+
+  onCopySuccess = (address: string) => {
+    Toast.success(
+      this.props.i18n.tString("Address {{address}} copied to clipboard", {
+        address,
+      }),
+    );
   };
 }
 
@@ -628,6 +664,13 @@ const DetailRowText = styled.div`
   align-items: center;
 `;
 
+const TransactionsContainer = styled.div`
+  padding: 8px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: calc(100vh - 500px);
+`;
+
 /**
  * Group all of the proposal stages together and sort them by proposal ID.
  */
@@ -649,10 +692,13 @@ const groupAndSortProposals = (
 
 const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
+  settings: Modules.selectors.settings(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
 });
 
-const dispatchProps = {};
+const dispatchProps = {
+  setAddress: Modules.actions.ledger.setAddress,
+};
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
