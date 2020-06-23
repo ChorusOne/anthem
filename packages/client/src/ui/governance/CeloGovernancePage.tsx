@@ -31,11 +31,12 @@ import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import {
-  convertCeloEpochToTimestamp,
-  copyTextToClipboard,
-} from "tools/client-utils";
+import { copyTextToClipboard } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
+import {
+  convertCeloEpochToDate,
+  convertCeloEpochToTimestamp,
+} from "tools/date-utils";
 import { addValuesInList, divide } from "tools/math-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
@@ -55,6 +56,16 @@ import Toast from "ui/Toast";
  * Types & Config
  * ============================================================================
  */
+
+interface GenericProposalHistory {
+  proposalID: number;
+  stage: string;
+  proposer: string;
+  description: string;
+  gist: string;
+  deposit: number;
+  queuedAtTimestamp: number;
+}
 
 type GovernanceProposalType =
   | IQueuedProposal
@@ -168,7 +179,7 @@ class CeloGovernanceComponent extends React.Component<
                 <ProposalTitleText style={{ flex: 3 }}>STAGE</ProposalTitleText>
                 <ProposalTitleText style={{ flex: 4 }}>TITLE</ProposalTitleText>
                 <ProposalTitleText style={{ flex: 2 }}>
-                  EXPIRATION
+                  QUEUED AT TIME
                 </ProposalTitleText>
               </ProposalBanner>
               {proposals.map(x => {
@@ -184,7 +195,7 @@ class CeloGovernanceComponent extends React.Component<
                       <Text style={{ flex: 3 }}>{x.stage}</Text>
                       <Text style={{ flex: 4 }}>Title...</Text>
                       <Text style={{ flex: 2, fontSize: 12 }}>
-                        {convertCeloEpochToTimestamp(x.queuedAtTimestamp)}
+                        {convertCeloEpochToDate(x.queuedAtTimestamp)}
                       </Text>
                     </ProposalRow>
                     <Collapse isOpen={x.proposalID === selectedProposalID}>
@@ -217,6 +228,12 @@ class CeloGovernanceComponent extends React.Component<
                             <Link href={x.gist} style={{ fontSize: 12 }}>
                               {x.gist}
                             </Link>
+                          </Text>
+                        </ProposalDetailsRow>
+                        <ProposalDetailsRow>
+                          <Block />
+                          <Text style={{ flex: 9 }}>
+                            <b>Deposit:</b> {x.deposit}
                           </Text>
                         </ProposalDetailsRow>
                       </ProposalDetails>
@@ -277,15 +294,49 @@ class CeloGovernanceComponent extends React.Component<
       }
       case "QueuedProposal":
       case "ApprovedProposal":
+        return (
+          <View style={{ height: "100%", padding: 16 }}>
+            <H5>Current Status of Proposal #{proposal.proposalID}:</H5>
+            <DetailRowText>
+              <Bold style={{ marginRight: 4 }}>Stage:</Bold>
+              <i>{proposal.stage}</i>
+            </DetailRowText>
+            <DetailRowText>
+              <Bold style={{ marginRight: 4 }}>Proposal Epoch:</Bold>
+              <Text>{convertCeloEpochToTimestamp(proposal.proposalEpoch)}</Text>
+            </DetailRowText>
+            <DetailRowText>
+              <Bold style={{ marginRight: 4 }}>Referendum Epoch:</Bold>
+              <Text>
+                {convertCeloEpochToTimestamp(proposal.referendumEpoch)}
+              </Text>
+            </DetailRowText>
+            <DetailRowText>
+              <Bold style={{ marginRight: 4 }}>Execution Epoch:</Bold>
+              <Text>
+                {convertCeloEpochToTimestamp(proposal.executionEpoch)}
+              </Text>
+            </DetailRowText>
+            <DetailRowText>
+              <Bold style={{ marginRight: 4 }}>Expiration Epoch:</Bold>
+              <Text>
+                {convertCeloEpochToTimestamp(proposal.expirationEpoch)}
+              </Text>
+            </DetailRowText>
+          </View>
+        );
       case "ExpiredProposal": {
         return (
           <View style={{ height: "100%", padding: 16 }}>
-            <Text style={{ fontWeight: "bold" }}>
-              Current Status of Proposal #{proposal.proposalID}:
-            </Text>
-            <Text style={{ marginTop: 8 }}>
-              Stage: <i>{proposal.stage}</i>
-            </Text>
+            <H5>Current Status of Proposal #{proposal.proposalID}:</H5>
+            <DetailRowText>
+              <Bold style={{ marginRight: 4 }}>Stage:</Bold>
+              <i>{proposal.stage}</i>
+            </DetailRowText>
+            <DetailRowText>
+              <Bold style={{ marginRight: 4 }}>Proposal Executed:</Bold>
+              <i>{proposal.executed ? "Yes" : "No"}</i>
+            </DetailRowText>
           </View>
         );
       }
@@ -560,14 +611,11 @@ const VoteBox = styled.div`
   height: 100%;
 `;
 
-interface GenericProposalHistory {
-  proposalID: number;
-  stage: string;
-  proposer: string;
-  description: string;
-  gist: string;
-  queuedAtTimestamp: number;
-}
+const DetailRowText = styled.div`
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+`;
 
 /**
  * Group all of the proposal stages together and sort them by proposal ID.
