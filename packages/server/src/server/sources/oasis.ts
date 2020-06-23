@@ -296,12 +296,10 @@ const fetchTransactions = async (
 
 /**
  * Fetch a transaction by hash.
- *
- * TODO: The API is not supported yet.
  */
 const fetchTransaction = async (hash: string): Promise<IOasisTransaction> => {
   const host = getHostFromNetworkName("OASIS");
-  const url = `${host}/???`;
+  const url = `${host}/transaction?hash=${hash}`;
   const response = await AxiosUtil.get<OasisTransaction>(url);
 
   if (!response) {
