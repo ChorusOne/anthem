@@ -299,6 +299,19 @@ const fetchTransactions = async (
   };
 };
 
+const fetchGovernanceTransactions = async (
+  address: string,
+): Promise<IQuery["celoGovernanceTransactions"]> => {
+  const host = getHostFromNetworkName("CELO");
+  const url = `${host}/account/${address}/transactions?filter=governance`;
+  const response = await AxiosUtil.get<CeloTransactionResponse[]>(url);
+  const formattedResponse: ICeloTransaction[] = response.map(
+    formatCeloTransaction,
+  );
+
+  return formattedResponse;
+};
+
 /**
  * Fetch a single transaction by hash.
  */
@@ -444,6 +457,7 @@ const CELO = {
   fetchAccountHistory,
   fetchTransactions,
   fetchTransaction,
+  fetchGovernanceTransactions,
   fetchSystemBalances,
   fetchSystemHistory,
   fetchValidatorGroups,

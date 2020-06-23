@@ -50,6 +50,7 @@ type Query {
     startingPage: Float
     pageSize: Float
   ): CeloTransactionResult!
+  celoGovernanceTransactions(address: String!): [CeloTransaction!]!
   celoTransaction(hash: String!): CeloTransaction!
   celoSystemBalances: CeloSystemBalances!
   celoSystemHistory: [CeloSystemHistory!]!

@@ -733,6 +733,7 @@ export interface IQuery {
   celoAccountBalances: ICeloAccountBalances;
   celoAccountHistory: ICeloAccountSnapshot[];
   celoTransactions: ICeloTransactionResult;
+  celoGovernanceTransactions: ICeloTransaction[];
   celoTransaction: ICeloTransaction;
   celoSystemBalances: ICeloSystemBalances;
   celoSystemHistory: ICeloSystemHistory[];
@@ -857,6 +858,10 @@ export interface IQueryCeloTransactionsArgs {
   address: Scalars["String"];
   startingPage: Maybe<Scalars["Float"]>;
   pageSize: Maybe<Scalars["Float"]>;
+}
+
+export interface IQueryCeloGovernanceTransactionsArgs {
+  address: Scalars["String"];
 }
 
 export interface IQueryCeloTransactionArgs {
@@ -1060,6 +1065,25 @@ export type ICeloGovernanceProposalsQuery = (
       & Pick<IExpiredProposal, "proposalID" | "currentBlockNumber" | "stage" | "proposer" | "executed" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp" | "gist" | "description">
     )> }
   ) }
+);
+
+export interface ICeloGovernanceTransactionsQueryVariables {
+  address: Scalars["String"];
+}
+
+export type ICeloGovernanceTransactionsQuery = (
+  { __typename?: "Query" }
+  & { celoGovernanceTransactions: Array<(
+    { __typename?: "CeloTransaction" }
+    & Pick<ICeloTransaction, "blockNumber" | "timestamp" | "hash" | "from" | "to">
+    & { details: (
+      { __typename?: "CeloTransactionDetails" }
+      & Pick<ICeloTransactionDetails, "nonce" | "gasLimit" | "gasPrice" | "gasUsed" | "feeCurrency" | "gatewayFeeRecipient" | "gatewayFee" | "to" | "value">
+    ), tags: Array<(
+      { __typename?: "CeloTransactionTags" }
+      & Pick<ICeloTransactionTags, "eventname" | "source" | "parameters">
+    )> }
+  )> }
 );
 
 export interface ICeloSystemBalancesQueryVariables {}
@@ -2046,6 +2070,76 @@ export function useCeloGovernanceProposalsLazyQuery(baseOptions?: ApolloReactHoo
 export type CeloGovernanceProposalsQueryHookResult = ReturnType<typeof useCeloGovernanceProposalsQuery>;
 export type CeloGovernanceProposalsLazyQueryHookResult = ReturnType<typeof useCeloGovernanceProposalsLazyQuery>;
 export type CeloGovernanceProposalsQueryResult = ApolloReactCommon.QueryResult<ICeloGovernanceProposalsQuery, ICeloGovernanceProposalsQueryVariables>;
+export const CeloGovernanceTransactionsDocument = gql`
+    query celoGovernanceTransactions($address: String!) {
+  celoGovernanceTransactions(address: $address) {
+    blockNumber
+    timestamp
+    hash
+    from
+    to
+    details {
+      nonce
+      gasLimit
+      gasPrice
+      gasUsed
+      feeCurrency
+      gatewayFeeRecipient
+      gatewayFee
+      to
+      value
+    }
+    tags {
+      eventname
+      source
+      parameters
+    }
+  }
+}
+    `;
+export type CeloGovernanceTransactionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloGovernanceTransactionsQuery, ICeloGovernanceTransactionsQueryVariables>, "query"> & ({ variables: ICeloGovernanceTransactionsQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+export const CeloGovernanceTransactionsComponent = (props: CeloGovernanceTransactionsComponentProps) => (
+      <ApolloReactComponents.Query<ICeloGovernanceTransactionsQuery, ICeloGovernanceTransactionsQueryVariables> query={CeloGovernanceTransactionsDocument} {...props} />
+    );
+
+export type ICeloGovernanceTransactionsProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICeloGovernanceTransactionsQuery, ICeloGovernanceTransactionsQueryVariables> & TChildProps;
+export function withCeloGovernanceTransactions<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ICeloGovernanceTransactionsQuery,
+  ICeloGovernanceTransactionsQueryVariables,
+  ICeloGovernanceTransactionsProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, ICeloGovernanceTransactionsQuery, ICeloGovernanceTransactionsQueryVariables, ICeloGovernanceTransactionsProps<TChildProps>>(CeloGovernanceTransactionsDocument, {
+      alias: "celoGovernanceTransactions",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useCeloGovernanceTransactionsQuery__
+ *
+ * To run a query within a React component, call `useCeloGovernanceTransactionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCeloGovernanceTransactionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCeloGovernanceTransactionsQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *   },
+ * });
+ */
+export function useCeloGovernanceTransactionsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ICeloGovernanceTransactionsQuery, ICeloGovernanceTransactionsQueryVariables>) {
+        return ApolloReactHooks.useQuery<ICeloGovernanceTransactionsQuery, ICeloGovernanceTransactionsQueryVariables>(CeloGovernanceTransactionsDocument, baseOptions);
+      }
+export function useCeloGovernanceTransactionsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ICeloGovernanceTransactionsQuery, ICeloGovernanceTransactionsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ICeloGovernanceTransactionsQuery, ICeloGovernanceTransactionsQueryVariables>(CeloGovernanceTransactionsDocument, baseOptions);
+        }
+export type CeloGovernanceTransactionsQueryHookResult = ReturnType<typeof useCeloGovernanceTransactionsQuery>;
+export type CeloGovernanceTransactionsLazyQueryHookResult = ReturnType<typeof useCeloGovernanceTransactionsLazyQuery>;
+export type CeloGovernanceTransactionsQueryResult = ApolloReactCommon.QueryResult<ICeloGovernanceTransactionsQuery, ICeloGovernanceTransactionsQueryVariables>;
 export const CeloSystemBalancesDocument = gql`
     query celoSystemBalances {
   celoSystemBalances {
