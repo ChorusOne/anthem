@@ -308,6 +308,7 @@ type OasisTransactionResult {
 }
 
 type OasisTransaction {
+  hash: String!
   fee: String!
   gas: Int!
   gas_price: String!

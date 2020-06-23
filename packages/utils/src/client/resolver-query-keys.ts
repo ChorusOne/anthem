@@ -26,7 +26,7 @@ export default [
   "celoAccountHistory",
   "celoTransactions",
   "celoTransaction",
-  "celoGovernanceTransaction",
+  "celoGovernanceTransactions",
   "celoSystemBalances",
   "celoSystemHistory",
   "celoValidatorGroups",

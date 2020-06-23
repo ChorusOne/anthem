@@ -636,6 +636,7 @@ export interface IOasisRegisterRuntimeEvent {
 
 export interface IOasisTransaction {
    __typename?: "OasisTransaction";
+  hash: Scalars["String"];
   fee: Scalars["String"];
   gas: Scalars["Int"];
   gas_price: Scalars["String"];
@@ -1695,7 +1696,7 @@ export type IOasisTransactionQuery = (
   { __typename?: "Query" }
   & { oasisTransaction: (
     { __typename?: "OasisTransaction" }
-    & Pick<IOasisTransaction, "fee" | "gas" | "gas_price" | "height" | "method" | "date" | "sender">
+    & Pick<IOasisTransaction, "hash" | "fee" | "gas" | "gas_price" | "height" | "method" | "date" | "sender">
     & { data: (
       { __typename?: "OasisBurnEvent" }
       & Pick<IOasisBurnEvent, "type" | "owner" | "tokens">
@@ -1752,7 +1753,7 @@ export type IOasisTransactionsQuery = (
     & Pick<IOasisTransactionResult, "page" | "limit" | "moreResultsExist">
     & { data: Array<(
       { __typename?: "OasisTransaction" }
-      & Pick<IOasisTransaction, "fee" | "gas" | "gas_price" | "height" | "method" | "date" | "sender">
+      & Pick<IOasisTransaction, "hash" | "fee" | "gas" | "gas_price" | "height" | "method" | "date" | "sender">
       & { data: (
         { __typename?: "OasisBurnEvent" }
         & Pick<IOasisBurnEvent, "type" | "owner" | "tokens">
@@ -4042,6 +4043,7 @@ export type OasisAccountHistoryQueryResult = ApolloReactCommon.QueryResult<IOasi
 export const OasisTransactionDocument = gql`
     query oasisTransaction($hash: String!) {
   oasisTransaction(hash: $hash) {
+    hash
     fee
     gas
     gas_price
@@ -4171,6 +4173,7 @@ export const OasisTransactionsDocument = gql`
     page
     limit
     data {
+      hash
       fee
       gas
       gas_price

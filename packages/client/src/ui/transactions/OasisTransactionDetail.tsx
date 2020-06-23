@@ -119,15 +119,14 @@ class OasisTransactionDetailLoadingContainer extends React.PureComponent<
   maybeFindTransactionInApolloCache = (
     hash: string,
   ): Nullable<IOasisTransaction> => {
-    return null;
-    // const { transactions } = this.props;
-    // let result = null;
+    const { transactions } = this.props;
+    let result = null;
 
-    // if (transactions && transactions.oasisTransactions) {
-    //   result = transactions.oasisTransactions.data.find(t => t.hash === hash);
-    // }
+    if (transactions && transactions.oasisTransactions) {
+      result = transactions.oasisTransactions.data.find(t => t.hash === hash);
+    }
 
-    // return result || null;
+    return result || null;
   };
 
   onCopySuccess = (address: string) => {
