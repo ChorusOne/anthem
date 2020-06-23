@@ -7,6 +7,7 @@ import {
   IExpiredProposal,
   IQueuedProposal,
   IReferendumProposal,
+  NetworkDefinition,
 } from "@anthem/utils";
 import {
   Card,
@@ -33,6 +34,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { copyTextToClipboard } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
+import { denomToUnit } from "tools/currency-utils";
 import {
   convertCeloEpochToDate,
   convertCeloEpochToTimestamp,
@@ -81,7 +83,8 @@ type GovernanceProposalType =
 
 class CeloGovernancePage extends React.Component<IProps, {}> {
   render(): Nullable<JSX.Element> {
-    const { transactions, celoGovernanceProposals, i18n } = this.props;
+    const { transactions, celoGovernanceProposals, i18n, ledger } = this.props;
+    const { network } = ledger;
     return (
       <PageContainer>
         <PageAddressBar pageTitle="Governance" />
@@ -101,6 +104,7 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
             const proposals = groupAndSortProposals(proposalHistory);
             return (
               <CeloGovernanceComponent
+                network={network}
                 proposals={proposals}
                 governanceTransactionHistory={governanceHistory}
               />
@@ -126,6 +130,7 @@ interface IState {
 }
 
 interface CeloGovernanceComponentProps {
+  network: NetworkDefinition;
   proposals: GenericProposalHistory[];
   governanceTransactionHistory: ICeloTransaction[];
 }
@@ -158,7 +163,7 @@ class CeloGovernanceComponent extends React.Component<
 
   render() {
     const { selectedProposalID } = this.state;
-    const { proposals } = this.props;
+    const { network, proposals } = this.props;
     return (
       <>
         <ProposalsPanel>
@@ -233,7 +238,9 @@ class CeloGovernanceComponent extends React.Component<
                         <ProposalDetailsRow>
                           <Block />
                           <Text style={{ flex: 9 }}>
-                            <b>Deposit:</b> {x.deposit}
+                            <b>Deposit:</b>{" "}
+                            {denomToUnit(x.deposit, network.denominationSize)}{" "}
+                            {network.denom}
                           </Text>
                         </ProposalDetailsRow>
                       </ProposalDetails>
@@ -301,6 +308,12 @@ class CeloGovernanceComponent extends React.Component<
               <Bold style={{ marginRight: 4 }}>Stage:</Bold>
               <i>{proposal.stage}</i>
             </DetailRowText>
+            {proposal.__typename === "QueuedProposal" && (
+              <DetailRowText>
+                <Bold style={{ marginRight: 4 }}>Proposal Upvotes:</Bold>
+                <Text>{proposal.upvotes}</Text>
+              </DetailRowText>
+            )}
             <DetailRowText>
               <Bold style={{ marginRight: 4 }}>Proposal Epoch:</Bold>
               <Text>{convertCeloEpochToTimestamp(proposal.proposalEpoch)}</Text>
@@ -353,9 +366,7 @@ class CeloGovernanceComponent extends React.Component<
         return (
           <View style={{ height: "100%" }}>
             <TopSection>
-              <Text style={{ fontWeight: "bold" }}>
-                Current Status of Proposal #{proposal.proposalID}:
-              </Text>
+              <H5>Current Status of Proposal #{proposal.proposalID}:</H5>
               <Text style={{ marginTop: 8 }}>
                 Stage: <i>{proposal.stage}</i>
               </Text>
@@ -433,7 +444,7 @@ class CeloGovernanceComponent extends React.Component<
     if (!vote) {
       Toast.warn("Please selected a vote.");
     } else {
-      Toast.warn("Voting coming soon...");
+      Toast.warn("Governance voting coming soon...");
     }
   };
 }

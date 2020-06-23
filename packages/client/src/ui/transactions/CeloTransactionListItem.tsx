@@ -202,8 +202,9 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderTransactionValues = () => {
-    const size = this.props.network.denominationSize;
-    const { value, gasUsed, gasPrice } = this.props.transaction.details;
+    const { network, transaction } = this.props;
+    const size = network.denominationSize;
+    const { value, gasUsed, gasPrice } = transaction.details;
     const fee = multiply(gasUsed, gasPrice);
     return (
       <>
@@ -212,7 +213,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           <EventContextBox>
             <EventText style={{ fontWeight: "bold" }}>Value</EventText>
             <EventText data-cy="transaction-value">
-              {denomToUnit(value, size)} CELO
+              {denomToUnit(value, size)} {network.denom}
             </EventText>
           </EventContextBox>
         </EventRowItem>
@@ -221,7 +222,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           <EventContextBox>
             <EventText style={{ fontWeight: "bold" }}>Fee</EventText>
             <EventText data-cy="transaction-value">
-              {denomToUnit(fee, size)} CELO
+              {denomToUnit(fee, size)} {network.denom}
             </EventText>
           </EventContextBox>
         </EventRowItem>
