@@ -195,7 +195,6 @@ class CeloGovernanceComponent extends React.Component<
                 height: 275,
                 padding: 0,
                 borderRadius: 3,
-                overflowY: "scroll",
               }}
             >
               <ProposalBanner>
@@ -206,67 +205,69 @@ class CeloGovernanceComponent extends React.Component<
                   QUEUED AT TIME
                 </ProposalTitleText>
               </ProposalBanner>
-              {proposals.map(x => {
-                return (
-                  <ClickableRowWrapper
-                    onClick={() => this.handleSelectProposal(x)}
-                    key={x.proposalID}
-                  >
-                    <ProposalRow>
-                      <Text style={{ flex: 1, paddingLeft: 2 }}>
-                        {x.proposalID}
-                      </Text>
-                      <Text style={{ flex: 3 }}>{x.stage}</Text>
-                      <Text style={{ flex: 4 }}>Title...</Text>
-                      <Text style={{ flex: 2, fontSize: 12 }}>
-                        {convertCeloEpochToDate(x.queuedAtTimestamp)}
-                      </Text>
-                    </ProposalRow>
-                    <Collapse isOpen={x.proposalID === selectedProposalID}>
-                      <ProposalDetails>
-                        <ProposalDetailsRow>
-                          <Block />
-                          <ProposerRow style={{ flex: 9 }}>
-                            <Text>
-                              <b>Proposer:</b>{" "}
-                              <Code
+              <View style={{ height: 250, overflowY: "scroll" }}>
+                {proposals.map(x => {
+                  return (
+                    <ClickableRowWrapper
+                      onClick={() => this.handleSelectProposal(x)}
+                      key={x.proposalID}
+                    >
+                      <ProposalRow>
+                        <Text style={{ flex: 1, paddingLeft: 2 }}>
+                          {x.proposalID}
+                        </Text>
+                        <Text style={{ flex: 3 }}>{x.stage}</Text>
+                        <Text style={{ flex: 4 }}>Title...</Text>
+                        <Text style={{ flex: 2, fontSize: 12 }}>
+                          {convertCeloEpochToDate(x.queuedAtTimestamp)}
+                        </Text>
+                      </ProposalRow>
+                      <Collapse isOpen={x.proposalID === selectedProposalID}>
+                        <ProposalDetails>
+                          <ProposalDetailsRow>
+                            <Block />
+                            <ProposerRow style={{ flex: 9 }}>
+                              <Text>
+                                <b>Proposer:</b>{" "}
+                                <Code
+                                  onClick={() => {
+                                    copyTextToClipboard(x.proposer);
+                                  }}
+                                >
+                                  {x.proposer}
+                                </Code>{" "}
+                              </Text>
+                              <CopyIcon
+                                style={{ marginLeft: 6 }}
                                 onClick={() => {
                                   copyTextToClipboard(x.proposer);
                                 }}
-                              >
-                                {x.proposer}
-                              </Code>{" "}
+                              />
+                            </ProposerRow>
+                          </ProposalDetailsRow>
+                          <ProposalDetailsRow>
+                            <Block />
+                            <Text style={{ flex: 9 }}>
+                              <b>Details:</b>{" "}
+                              <Link href={x.gist} style={{ fontSize: 12 }}>
+                                {x.gist}
+                              </Link>
                             </Text>
-                            <CopyIcon
-                              style={{ marginLeft: 6 }}
-                              onClick={() => {
-                                copyTextToClipboard(x.proposer);
-                              }}
-                            />
-                          </ProposerRow>
-                        </ProposalDetailsRow>
-                        <ProposalDetailsRow>
-                          <Block />
-                          <Text style={{ flex: 9 }}>
-                            <b>Details:</b>{" "}
-                            <Link href={x.gist} style={{ fontSize: 12 }}>
-                              {x.gist}
-                            </Link>
-                          </Text>
-                        </ProposalDetailsRow>
-                        <ProposalDetailsRow>
-                          <Block />
-                          <Text style={{ flex: 9 }}>
-                            <b>Deposit:</b>{" "}
-                            {denomToUnit(x.deposit, network.denominationSize)}{" "}
-                            {network.denom}
-                          </Text>
-                        </ProposalDetailsRow>
-                      </ProposalDetails>
-                    </Collapse>
-                  </ClickableRowWrapper>
-                );
-              })}
+                          </ProposalDetailsRow>
+                          <ProposalDetailsRow>
+                            <Block />
+                            <Text style={{ flex: 9 }}>
+                              <b>Deposit:</b>{" "}
+                              {denomToUnit(x.deposit, network.denominationSize)}{" "}
+                              {network.denom}
+                            </Text>
+                          </ProposalDetailsRow>
+                        </ProposalDetails>
+                      </Collapse>
+                    </ClickableRowWrapper>
+                  );
+                })}
+              </View>
             </Card>
           </Panel>
           <Panel>
