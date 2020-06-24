@@ -164,7 +164,7 @@ SCREEN_SIZES.forEach(({ size, type }) => {
       cy.url().should("include", `txs/${COSMOS.tx_hash}`);
     });
 
-    it.only("Celo transactions can be viewed by hash", () => {
+    it("Celo transactions can be viewed by hash", () => {
       if (!type.isDesktop()) {
         return;
       }
