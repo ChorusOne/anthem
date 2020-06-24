@@ -27,7 +27,7 @@ SCREEN_SIZES.forEach(({ size, type }) => {
       // Enter an Oasis address
       UTILS.typeText(
         "dashboard-address-input",
-        "oasis1qqhjc0phd0wg43luhly2ufsuw2h3gc5v3ukk4ku2={enter}",
+        "oasis1qqhjc0phd0wg43luhly2ufsuw2h3gc5v3ukk4ku2{enter}",
       );
 
       cy.contains("Balance (ROSE)");
@@ -79,7 +79,7 @@ SCREEN_SIZES.forEach(({ size, type }) => {
       // Enter an Oasis address
       UTILS.typeText(
         "dashboard-address-input",
-        "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd={enter}",
+        "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd{enter}",
       );
 
       cy.contains("Balance (ATOM)");

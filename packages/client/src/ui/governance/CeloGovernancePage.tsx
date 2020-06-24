@@ -181,7 +181,13 @@ class CeloGovernanceComponent extends React.Component<
 
   render() {
     const { selectedProposalID } = this.state;
-    const { network, proposals, governanceTransactionHistory } = this.props;
+    const {
+      network,
+      proposals,
+      governanceTransactionHistory,
+      settings,
+    } = this.props;
+    const { isDesktop } = settings;
     return (
       <>
         <ProposalsPanel>
@@ -201,7 +207,7 @@ class CeloGovernanceComponent extends React.Component<
                 <ProposalTitleText style={{ flex: 3 }}>STAGE</ProposalTitleText>
                 <ProposalTitleText style={{ flex: 4 }}>TITLE</ProposalTitleText>
                 <ProposalTitleText style={{ flex: 2 }}>
-                  QUEUED AT TIME
+                  {isDesktop ? "QUEUED AT TIME" : "QUEUED"}
                 </ProposalTitleText>
               </ProposalBanner>
               <ProposalsList>
@@ -224,7 +230,7 @@ class CeloGovernanceComponent extends React.Component<
                       <Collapse isOpen={x.proposalID === selectedProposalID}>
                         <ProposalDetails>
                           <ProposalDetailsRow>
-                            <Block />
+                            {isDesktop && <Block />}
                             <ProposerRow style={{ flex: 9 }}>
                               <Text>
                                 <b>Proposer:</b>{" "}
@@ -245,7 +251,7 @@ class CeloGovernanceComponent extends React.Component<
                             </ProposerRow>
                           </ProposalDetailsRow>
                           <ProposalDetailsRow>
-                            <Block />
+                            {isDesktop && <Block />}
                             <Text style={{ flex: 9 }}>
                               <b>Details:</b>{" "}
                               <Link href={x.gist} style={{ fontSize: 12 }}>
@@ -254,7 +260,7 @@ class CeloGovernanceComponent extends React.Component<
                             </Text>
                           </ProposalDetailsRow>
                           <ProposalDetailsRow>
-                            <Block />
+                            {isDesktop && <Block />}
                             <Text style={{ flex: 9 }}>
                               <b>Deposit:</b>{" "}
                               {denomToUnit(x.deposit, network.denominationSize)}{" "}
@@ -318,8 +324,6 @@ class CeloGovernanceComponent extends React.Component<
     }
 
     const proposal = selectedProposal as GovernanceProposalType;
-
-    console.log(proposal);
 
     switch (proposal.__typename) {
       case undefined: {
