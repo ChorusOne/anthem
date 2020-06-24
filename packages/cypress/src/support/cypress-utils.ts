@@ -84,20 +84,25 @@ const setViewportSize = (size: any) => {
   }
 };
 
-type Network = "cosmos" | "oasis"; // Only these two for now
+type Network = "cosmos" | "celo" | "oasis";
 
 /**
  * Helper to login using the address login.
  */
 const loginWithAddress = (type: any, network: Network, useLedger = false) => {
   // Set an address before each test.
-  const address =
-    network === "cosmos"
-      ? "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd"
-      : "oasis1qr4qenu52c2g3fyjytazsjs68e7xxr4mkujttmxq=";
-
-  const addressPrefix =
-    network === "cosmos" ? "cosmos15...um7trd" : "oasis1qr...jttmxq";
+  let address = "";
+  let addressPrefix = "";
+  if (network === "cosmos") {
+    address = "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd";
+    addressPrefix = "cosmos15...um7trd";
+  } else if (network === "celo") {
+    address = "0x471ece3750da237f93b8e339c536989b8978a438";
+    addressPrefix = "0x471ece...78a438";
+  } else if (network === "oasis") {
+    address = "oasis1qr4qenu52c2g3fyjytazsjs68e7xxr4mkujttmxq=";
+    addressPrefix = "oasis1qr...jttmxq";
+  }
 
   /**
    * Visit the app. Expect redirect to login and initiate the login
@@ -126,12 +131,10 @@ const loginWithAddress = (type: any, network: Network, useLedger = false) => {
   }
 
   if (type.isDesktop()) {
-    if (network === "cosmos") {
-      cy.get(find("user-selected-address-bar")).should(
-        "have.text",
-        addressPrefix,
-      );
-    }
+    cy.get(find("user-selected-address-bar")).should(
+      "have.text",
+      addressPrefix,
+    );
   }
 
   cy.url().should("contain", address);
