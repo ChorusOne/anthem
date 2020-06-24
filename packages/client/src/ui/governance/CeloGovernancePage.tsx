@@ -293,9 +293,17 @@ class CeloGovernanceComponent extends React.Component<
             <H5 style={{ margin: 2, paddingLeft: 12 }}>
               Governance Transactions
             </H5>
-            <TransactionsContainer>
-              {governanceTransactionHistory.map(this.renderTransactionItem)}
-            </TransactionsContainer>
+            {governanceTransactionHistory.length ? (
+              <TransactionsContainer>
+                {governanceTransactionHistory.map(this.renderTransactionItem)}
+              </TransactionsContainer>
+            ) : (
+              <TransactionsContainer>
+                <Text style={{ marginTop: 6, marginLeft: 6 }}>
+                  No governance transaction history exists.
+                </Text>
+              </TransactionsContainer>
+            )}
           </Panel>
         </Row>
       </>
