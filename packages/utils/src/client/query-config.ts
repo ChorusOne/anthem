@@ -82,6 +82,16 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   },
   {
     variables: {
+      address: CELO.account,
+    },
+    testQuery: (gql: string) => {
+      return (
+        gql.includes("celoGovernanceTransactions") && gql.includes("$address")
+      );
+    },
+  },
+  {
+    variables: {
       hash: CELO.tx_hash,
     },
     testQuery: (gql: string) =>
