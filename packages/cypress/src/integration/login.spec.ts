@@ -1,4 +1,7 @@
 import { SCREEN_SIZES, UTILS } from "../support/cypress-utils";
+import { NETWORK_ADDRESS_DEFAULTS } from "@anthem/utils";
+
+const { COSMOS, OASIS, CELO } = NETWORK_ADDRESS_DEFAULTS;
 
 /** ===========================================================================
  * Test logging in with an address
@@ -25,10 +28,7 @@ SCREEN_SIZES.forEach(({ size, type }) => {
       UTILS.checkForNetwork("cosmos");
 
       // Enter an Oasis address
-      UTILS.typeText(
-        "dashboard-address-input",
-        "oasis1qqhjc0phd0wg43luhly2ufsuw2h3gc5v3ukk4ku2{enter}",
-      );
+      UTILS.typeText("dashboard-address-input", `${OASIS.account}{enter}`);
 
       cy.contains("Balance (ROSE)");
       UTILS.checkForNetwork("oasis");
@@ -77,10 +77,7 @@ SCREEN_SIZES.forEach(({ size, type }) => {
       UTILS.checkForNetwork("celo");
 
       // Enter an Oasis address
-      UTILS.typeText(
-        "dashboard-address-input",
-        "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd{enter}",
-      );
+      UTILS.typeText("dashboard-address-input", `${COSMOS.account}{enter}`);
 
       cy.contains("Balance (ATOM)");
       UTILS.checkForNetwork("cosmos");
@@ -151,15 +148,13 @@ SCREEN_SIZES.forEach(({ size, type }) => {
       }
 
       const id = "transaction-hash-link";
-      const hash =
-        "E0BC81E3B76F70466D8F235F02EDD3F3E23E8C52A40D27A650BC14A9E6F8239C";
 
       // Enter a Cosmos transaction hash
-      UTILS.typeText(id, hash);
+      UTILS.typeText(id, COSMOS.tx_hash);
 
       UTILS.checkForNetwork("cosmos");
       cy.contains("Transaction Detail");
-      cy.url().should("include", `txs/${hash}`);
+      cy.url().should("include", `txs/${COSMOS.tx_hash}`);
     });
 
     it("Celo transactions can be viewed by hash", () => {
@@ -168,17 +163,14 @@ SCREEN_SIZES.forEach(({ size, type }) => {
       }
 
       // Login with Celo
-      UTILS.searchInAddressInput("0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673");
-
-      const hash =
-        "0xdb33159c19e457e500adae015e4923d3851f355f7319c3ded15a8cfe4503d002";
+      UTILS.searchInAddressInput(CELO.account);
 
       // Enter a Celo transaction hash
-      UTILS.searchInAddressInput(hash);
+      UTILS.searchInAddressInput(CELO.tx_hash);
 
       UTILS.checkForNetwork("celo");
       cy.contains("Transaction Detail");
-      cy.url().should("include", `txs/${hash}`);
+      cy.url().should("include", `txs/${CELO.tx_hash}`);
     });
   });
 });
