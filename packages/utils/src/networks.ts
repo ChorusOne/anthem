@@ -40,6 +40,8 @@ interface Addresses {
  * Address defaults to be used in various places, e.g. fetching fixed client
  * data for app development and in the Cypress tests to interact with the
  * app.
+ *
+ * More values can be filled in as needed.
  */
 const NETWORK_ADDRESS_DEFAULTS: { [key: string]: Addresses } = {
   COSMOS: {
