@@ -259,7 +259,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
         {entries.map(([key, value]) => {
           if (key === "value") {
             return (
-              <EventRowItem style={{ minWidth: 215 }}>
+              <EventRowItem key={key} style={{ minWidth: 215 }}>
                 <EventIconBox />
                 <EventContextBox>
                   <EventText style={{ fontWeight: "bold" }}>
@@ -274,6 +274,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           } else {
             return (
               <ClickableEventRow
+                key={key}
                 style={{ minWidth: 215 }}
                 onClick={() => copyTextToClipboard(value)}
               >
