@@ -161,7 +161,7 @@ SCREEN_SIZES.forEach(({ size, type }) => {
 
       UTILS.checkForNetwork("cosmos");
       cy.contains("Transaction Detail");
-      cy.url().should("include", `txs/${COSMOS.tx_hash}`);
+      cy.url().should("include", `txs/${COSMOS.tx_hash.toLowerCase()}`);
     });
 
     it("Celo transactions can be viewed by hash", () => {
@@ -177,7 +177,7 @@ SCREEN_SIZES.forEach(({ size, type }) => {
 
       UTILS.checkForNetwork("celo");
       cy.contains("Transaction Detail");
-      cy.url().should("include", `txs/${CELO.tx_hash}`);
+      cy.url().should("include", `txs/${CELO.tx_hash.toLowerCase()}`);
     });
   });
 });
