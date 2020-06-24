@@ -50,7 +50,6 @@ import {
   DashboardError,
   DashboardLoader,
   Link,
-  PageContainer,
   Row,
   View,
 } from "ui/SharedComponents";
@@ -97,7 +96,7 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
     const { network } = ledger;
 
     return (
-      <PageContainer>
+      <View>
         <PageAddressBar pageTitle="Governance" />
         <GraphQLGuardComponentMultipleQueries
           tString={i18n.tString}
@@ -126,7 +125,7 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
             );
           }}
         </GraphQLGuardComponentMultipleQueries>
-      </PageContainer>
+      </View>
     );
   }
 }
@@ -291,7 +290,9 @@ class CeloGovernanceComponent extends React.Component<
         </View>
         <Row style={{ marginTop: 12 }}>
           <Panel>
-            <H5 style={{ margin: 2, paddingLeft: 12 }}>Events</H5>
+            <H5 style={{ margin: 2, paddingLeft: 12 }}>
+              Governance Transactions
+            </H5>
             <TransactionsContainer>
               {governanceTransactionHistory.map(this.renderTransactionItem)}
             </TransactionsContainer>
