@@ -275,6 +275,7 @@ const fetchTransactions = async (
   const host = getHostFromNetworkName(network.name);
   const params = `limit=${pageSize + 1}&page=${startingPage}`;
   const url = `${host}/account/${address}/transactions?${params}`;
+  console.log(url);
   const response = await AxiosUtil.get<OasisTransaction[]>(url);
   // const response = MOCK_OASIS_EVENTS;
 

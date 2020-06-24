@@ -1,0 +1,38 @@
+query cosmosAccountHistory($address: String!, $fiat: String!){
+    cosmosAccountHistory(address: $address, fiat: $fiat){
+        balanceHistory{
+            address
+            denom
+            balance
+            height
+            timestamp
+            chain
+        }
+        delegations{
+            balance
+            address
+            timestamp
+        }
+        unbondings{
+            balance
+            address
+            timestamp
+        }
+        delegatorRewards{
+            balance
+            height
+            address
+            timestamp
+        }
+        validatorCommissions{
+            balance
+            height
+            validator
+            timestamp
+        }
+        fiatPriceHistory{
+            price
+            timestamp
+        }
+    }
+}

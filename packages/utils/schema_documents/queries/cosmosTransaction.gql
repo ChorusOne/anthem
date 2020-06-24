@@ -1,0 +1,91 @@
+query cosmosTransaction($hash: String!, $network: String!){
+    cosmosTransaction(hash: $hash, network: $network){
+        hash
+        height
+        log{
+            code
+            message
+            success
+            log
+            msg_index
+        }
+        gaswanted
+        gasused
+        memo
+        fees{
+            amount{
+                denom
+                amount
+            }
+            gas
+        }
+        tags{
+            key
+            value
+        }
+        msgs{
+            type
+            value{
+                ... on MsgSend {
+                    amounts{
+                        denom
+                        amount
+                    }
+                    to_address
+                    from_address
+                }
+                ... on MsgVote {
+                    proposal_id
+                    voter
+                    option
+                }
+                ... on MsgDelegate {
+                    amount{
+                        denom
+                        amount
+                    }
+                    delegator_address
+                    validator_address
+                }
+                ... on MsgSubmitProposal {
+                    title
+                    description
+                    proposal_type
+                    proposer
+                    initial_deposit{
+                        denom
+                        amount
+                    }
+                }
+                ... on MsgBeginRedelegate {
+                    amount{
+                        denom
+                        amount
+                    }
+                    delegator_address
+                    validator_src_address
+                    validator_dst_address
+                }
+                ... on MsgModifyWithdrawAddress {
+                    withdraw_address
+                    validator_address
+                }
+                ... on MsgBeginRedelegateLegacy {
+                    shares_amount
+                    delegator_address
+                    validator_src_address
+                    validator_dst_address
+                }
+                ... on MsgWithdrawDelegationReward {
+                    delegator_address
+                    validator_address
+                }
+                ... on MsgWithdrawValidatorCommission {
+                    validator_address
+                }
+            }
+        }
+        timestamp
+        chain
+    }
+}

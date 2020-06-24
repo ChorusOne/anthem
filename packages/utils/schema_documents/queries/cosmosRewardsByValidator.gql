@@ -1,0 +1,9 @@
+query cosmosRewardsByValidator($address: String!){
+    cosmosRewardsByValidator(address: $address){
+        reward{
+            denom
+            amount
+        }
+        validator_address
+    }
+}

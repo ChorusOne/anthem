@@ -1,0 +1,11 @@
+query cosmosStakingPool($network: String!){
+    cosmosStakingPool(network: $network){
+        loose_tokens
+        bonded_tokens
+        not_bonded_tokens
+        inflation_last_time
+        inflation
+        date_last_commission_reset
+        prev_bonded_shares
+    }
+}

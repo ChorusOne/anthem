@@ -1,0 +1,31 @@
+query cosmosAccountBalances($address: String!){
+    cosmosAccountBalances(address: $address){
+        balance{
+            denom
+            amount
+        }
+        rewards{
+            denom
+            amount
+        }
+        delegations{
+            delegator_address
+            validator_address
+            shares
+        }
+        unbonding{
+            delegator_address
+            validator_address
+            entries{
+                balance
+                initial_balance
+                creation_height
+                completion_time
+            }
+        }
+        commissions{
+            denom
+            amount
+        }
+    }
+}

@@ -9,6 +9,7 @@
     "build"
   ],
   "scripts": {
+    "setup": "cp sample.env .env",
     "build": "tsc",
     "watch": "tsc -w",
     "prettier": "prettier --list-different \"src/**/*.ts\" \"src/**/*.{ts,json}\"",
