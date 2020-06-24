@@ -1,9 +1,9 @@
 {
   "celoSystemBalances": {
-    "height": "1048741",
-    "goldTokenSupply": "602420852928368947112752090",
-    "totalLockedGoldBalance": "313367808983082536316606653",
+    "height": "1077268",
+    "goldTokenSupply": "602541926292760966031622066",
+    "totalLockedGoldBalance": "313473730192043801907463762",
     "nonVotingLockedGoldBalance": "80693696036968459262835030",
-    "totalCeloUSDValue": "5756109155291107821132441"
+    "totalCeloUSDValue": "5793393922303943865221216"
   }
 }
