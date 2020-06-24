@@ -7,7 +7,11 @@ import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
 import React from "react";
 import { Link } from "react-router-dom";
-import { copyTextToClipboard, formatAddressString } from "tools/client-utils";
+import {
+  capitalizeString,
+  copyTextToClipboard,
+  formatAddressString,
+} from "tools/client-utils";
 import { denomToUnit } from "tools/currency-utils";
 import { formatDate, formatTime } from "tools/date-utils";
 import { TranslateMethodProps } from "tools/i18n-utils";
@@ -51,6 +55,8 @@ interface IProps extends TranslateMethodProps {
 
 class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
   render(): Nullable<JSX.Element> {
+    const { transaction } = this.props;
+    const tagData = maybeGetValueFromTags(transaction);
     return (
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
         <EventRow data-cy="transaction-list-item">
@@ -63,6 +69,9 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           {this.renderTransactionValues()}
           {this.renderBlockExplorerLink()}
         </EventRowBottom>
+        {tagData && (
+          <EventRowBottom>{this.renderTagValues(tagData)}</EventRowBottom>
+        )}
       </Card>
     );
   }
@@ -78,7 +87,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
         </EventIconBox>
         <EventContextBox>
           <Row>
-            {!!contract && <Code style={{ marginRight: 4 }}>{contract}</Code>}
+            {!!contract && <Code style={{ marginRight: 6 }}>{contract}</Code>}
             <EventText style={{ fontWeight: "bold" }}>{type}</EventText>
           </Row>
           <EventText data-cy="transaction-timestamp">
@@ -206,15 +215,6 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     const size = network.denominationSize;
     const { value, gasUsed, gasPrice } = transaction.details;
     const fee = multiply(gasUsed, gasPrice);
-    const hasTagValue = maybeGetValueFromTags(transaction);
-
-    // Set the transaction value as the value or the value from the tag or
-    // default to zero... OK!
-    const transactionValue = value
-      ? value
-      : hasTagValue
-      ? hasTagValue.value
-      : 0;
 
     return (
       <>
@@ -223,7 +223,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           <EventContextBox>
             <EventText style={{ fontWeight: "bold" }}>Value</EventText>
             <EventText data-cy="transaction-value">
-              {denomToUnit(transactionValue, size)} {network.denom}
+              {denomToUnit(value, size)} {network.denom}
             </EventText>
           </EventContextBox>
         </EventRowItem>
@@ -236,6 +236,67 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
             </EventText>
           </EventContextBox>
         </EventRowItem>
+      </>
+    );
+  };
+
+  renderTagValues = (data: { [key: string]: string }) => {
+    const { network } = this.props;
+    const size = network.denominationSize;
+    const entries = Object.entries(data);
+
+    return (
+      <>
+        <EventRowItem style={{ minWidth: 300 }}>
+          <EventIconBox />
+          <EventContextBox>
+            <Row>
+              <EventText style={{ fontWeight: "bold" }}>
+                Internal Transaction Data
+              </EventText>
+            </Row>
+          </EventContextBox>
+        </EventRowItem>
+        {entries.map(([key, value]) => {
+          if (key === "value") {
+            return (
+              <EventRowItem style={{ minWidth: 215 }}>
+                <EventIconBox />
+                <EventContextBox>
+                  <EventText style={{ fontWeight: "bold" }}>
+                    {capitalizeString(key)}
+                  </EventText>
+                  <EventText data-cy="transaction-value">
+                    {denomToUnit(value, size)} {network.denom}
+                  </EventText>
+                </EventContextBox>
+              </EventRowItem>
+            );
+          } else {
+            return (
+              <ClickableEventRow
+                style={{ minWidth: 215 }}
+                onClick={() => copyTextToClipboard(value)}
+              >
+                <EventIconBox>
+                  <AddressIconComponent
+                    address={value}
+                    networkName={this.props.network.name}
+                    validatorOperatorAddressMap={new Map()}
+                  />
+                </EventIconBox>
+                <EventContextBox>
+                  <EventText style={{ fontWeight: "bold" }}>
+                    {capitalizeString(key)}
+                  </EventText>
+                  <EventText style={{ fontWeight: 100, fontSize: 13 }}>
+                    {formatAddressString(value, true)}
+                  </EventText>
+                </EventContextBox>
+              </ClickableEventRow>
+            );
+          }
+        })}
       </>
     );
   };
@@ -276,14 +337,13 @@ const getCeloTransactionType = (transaction: ICeloTransaction) => {
  */
 const maybeGetValueFromTags = (
   transaction: ICeloTransaction,
-): Nullable<{ to: string; value: string }> => {
+): Nullable<{ [key: string]: string }> => {
   const { tags } = transaction;
   try {
     const { parameters } = tags[0];
     const data = JSON.parse(parameters);
-    const { account, value } = data;
-    if (account && value) {
-      return { to: account, value };
+    if ("value" in data) {
+      return data;
     }
   } catch (err) {
     // Do nothing
