@@ -21,7 +21,7 @@ const COSMOS_TX_HASH =
 const COSMOS_VALIDATOR_ADDRESS =
   "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707";
 
-const OASIS_ADDRESS = "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=";
+const OASIS_ADDRESS = "oasis1qqhjc0phd0wg43luhly2ufsuw2h3gc5v3ukk4ku2";
 const OASIS_TX_HASH = ""; // TODO: ???
 
 const CELO_ADDRESS = "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673";

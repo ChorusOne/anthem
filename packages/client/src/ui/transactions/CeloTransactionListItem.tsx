@@ -130,7 +130,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
         </EventContextBox>
       </ClickableEventRow>
     ) : (
-      <Link to={`/txs/${hash}`}>
+      <Link to={`/txs/${hash}`} data-cy="transaction-hash-link">
         <ClickableEventRow onClick={() => null}>
           <EventIconBox>
             <LinkIcon />

@@ -100,7 +100,7 @@ const loginWithAddress = (type: any, network: Network, useLedger = false) => {
     address = "0x471ece3750da237f93b8e339c536989b8978a438";
     addressPrefix = "0x471ece...78a438";
   } else if (network === "oasis") {
-    address = "oasis1qr4qenu52c2g3fyjytazsjs68e7xxr4mkujttmxq=";
+    address = "oasis1qqhjc0phd0wg43luhly2ufsuw2h3gc5v3ukk4ku2";
     addressPrefix = "oasis1qr...jttmxq";
   }
 
