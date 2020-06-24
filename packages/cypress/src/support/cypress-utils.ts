@@ -1,3 +1,7 @@
+import { NETWORK_ADDRESS_DEFAULTS } from "@anthem/utils";
+
+const { COSMOS, OASIS, CELO } = NETWORK_ADDRESS_DEFAULTS;
+
 /** ===========================================================================
  * Types & Constants
  * ============================================================================
@@ -76,7 +80,7 @@ const shouldContainText = (id: string, text: string) => {
  */
 const searchInAddressInput = (search: string) => {
   const id = "dashboard-address-input";
-  typeText(id, search);
+  typeText(id, `${search}{enter}`);
 };
 
 /**
@@ -125,14 +129,14 @@ const loginWithAddress = (type: any, network: Network, useLedger = false) => {
   let address = "";
   let addressPrefix = "";
   if (network === "cosmos") {
-    address = "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd";
+    address = COSMOS.account;
     addressPrefix = "cosmos15...um7trd";
   } else if (network === "celo") {
-    address = "0x471ece3750da237f93b8e339c536989b8978a438";
-    addressPrefix = "0x471ece...78a438";
+    address = CELO.account;
+    addressPrefix = "0x47b2dB...BF0673";
   } else if (network === "oasis") {
-    address = "oasis1qqhjc0phd0wg43luhly2ufsuw2h3gc5v3ukk4ku2";
-    addressPrefix = "oasis1qr...jttmxq";
+    address = OASIS.account;
+    addressPrefix = "oasis1qq...kk4ku2";
   }
 
   /**

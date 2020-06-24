@@ -142,22 +142,29 @@ SCREEN_SIZES.forEach(({ size, type }) => {
   });
 
   describe("Transaction details can be viewed by searching transaction hashes", () => {
+    beforeEach(() => {
+      UTILS.setViewportSize(size);
+      UTILS.loginWithAddress(type, "cosmos");
+    });
+
+    afterEach(() => {
+      UTILS.logout(type);
+    });
+
     it("Cosmos transactions can be viewed by hash", () => {
       if (!type.isDesktop()) {
         return;
       }
 
-      const id = "transaction-hash-link";
-
       // Enter a Cosmos transaction hash
-      UTILS.typeText(id, COSMOS.tx_hash);
+      UTILS.searchInAddressInput(COSMOS.tx_hash);
 
       UTILS.checkForNetwork("cosmos");
       cy.contains("Transaction Detail");
       cy.url().should("include", `txs/${COSMOS.tx_hash}`);
     });
 
-    it("Celo transactions can be viewed by hash", () => {
+    it.only("Celo transactions can be viewed by hash", () => {
       if (!type.isDesktop()) {
         return;
       }
