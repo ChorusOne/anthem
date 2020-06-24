@@ -614,7 +614,7 @@ export interface IOasisRateEvent {
 export interface IOasisRegisterEntityEvent {
    __typename?: "OasisRegisterEntityEvent";
   type: IOasisTransactionType;
-  id: Scalars["String"];
+  id: Maybe<Scalars["String"]>;
   nodes: Array<Scalars["String"]>;
   allow_entity_signed_nodes: Scalars["Boolean"];
 }
@@ -622,15 +622,15 @@ export interface IOasisRegisterEntityEvent {
 export interface IOasisRegisterNodeEvent {
    __typename?: "OasisRegisterNodeEvent";
   type: IOasisTransactionType;
-  id: Scalars["String"];
-  entity_id: Scalars["String"];
-  expiration: Scalars["Float"];
+  id: Maybe<Scalars["String"]>;
+  entity_id: Maybe<Scalars["String"]>;
+  expiration: Maybe<Scalars["Float"]>;
 }
 
 export interface IOasisRegisterRuntimeEvent {
    __typename?: "OasisRegisterRuntimeEvent";
   type: IOasisTransactionType;
-  id: Scalars["String"];
+  id: Maybe<Scalars["String"]>;
   version: Scalars["String"];
 }
 
@@ -684,7 +684,7 @@ export interface IOasisTransferEvent {
 export interface IOasisUnfreezeNodeEvent {
    __typename?: "OasisUnfreezeNodeEvent";
   type: IOasisTransactionType;
-  id: Scalars["String"];
+  id: Maybe<Scalars["String"]>;
 }
 
 export interface IOasisUnknownEvent {

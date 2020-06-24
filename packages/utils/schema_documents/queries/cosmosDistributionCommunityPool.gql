@@ -1,6 +1,0 @@
-query cosmosDistributionCommunityPool($network: String!){
-    cosmosDistributionCommunityPool(network: $network){
-        denom
-        amount
-    }
-}

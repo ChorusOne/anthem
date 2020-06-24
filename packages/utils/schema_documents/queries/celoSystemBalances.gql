@@ -1,9 +1,0 @@
-query celoSystemBalances{
-    celoSystemBalances{
-        height
-        goldTokenSupply
-        totalLockedGoldBalance
-        nonVotingLockedGoldBalance
-        totalCeloUSDValue
-    }
-}

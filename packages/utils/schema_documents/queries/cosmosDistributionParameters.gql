@@ -1,7 +1,0 @@
-query cosmosDistributionParameters($network: String!){
-    cosmosDistributionParameters(network: $network){
-        base_proposer_reward
-        bonus_proposer_reward
-        community_tax
-    }
-}

@@ -121,19 +121,19 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
       }
       case IOasisTransactionType.RegisterEntity: {
         const event = transaction.data as IOasisRegisterEntityEvent;
-        return this.renderEventInfoBox(event.id, "Entity id");
+        return this.renderEventInfoBox(event.id || "no id found", "Entity id");
       }
       case IOasisTransactionType.RegisterNode: {
         const event = transaction.data as IOasisRegisterEntityEvent;
-        return this.renderEventInfoBox(event.id, "Node id");
+        return this.renderEventInfoBox(event.id || "no id found", "Node id");
       }
       case IOasisTransactionType.RegisterRuntime: {
         const event = transaction.data as IOasisRegisterRuntimeEvent;
-        return this.renderEventInfoBox(event.id, "Runtime id");
+        return this.renderEventInfoBox(event.id || "no id found", "Runtime id");
       }
       case IOasisTransactionType.UnfreezeNode: {
         const event = transaction.data as IOasisUnfreezeNodeEvent;
-        return this.renderEventInfoBox(event.id, "Node id");
+        return this.renderEventInfoBox(event.id || "no id found", "Node id");
       }
       case IOasisTransactionType.UnknownEvent: {
         const event = transaction.data as IOasisUnknownEvent;

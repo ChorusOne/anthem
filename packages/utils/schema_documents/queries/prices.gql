@@ -1,5 +1,0 @@
-query prices($currency: String!, $versus: String!){
-    prices(currency: $currency, versus: $versus){
-        price
-    }
-}

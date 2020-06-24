@@ -1,6 +1,0 @@
-query fiatPriceHistory($fiat: String!, $network: String!){
-    fiatPriceHistory(fiat: $fiat, network: $network){
-        price
-        timestamp
-    }
-}

@@ -384,7 +384,7 @@ type OasisEscrowReclaimEvent {
 
 type OasisRegisterEntityEvent {
   type: OasisTransactionType!
-  id: String!
+  id: String
   nodes: [String!]!
   allow_entity_signed_nodes: Boolean!
 }
@@ -392,18 +392,18 @@ type OasisRegisterEntityEvent {
 type OasisRegisterNodeEvent {
   type: OasisTransactionType!
   id: String
-  entity_id: String!
-  expiration: Float!
+  entity_id: String
+  expiration: Float
 }
 
 type OasisUnfreezeNodeEvent {
   type: OasisTransactionType!
-  id: String!
+  id: String
 }
 
 type OasisRegisterRuntimeEvent {
   type: OasisTransactionType!
-  id: String!
+  id: String
   version: String!
 }
 

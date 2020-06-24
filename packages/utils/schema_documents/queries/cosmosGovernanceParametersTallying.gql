@@ -1,7 +1,0 @@
-query cosmosGovernanceParametersTallying($network: String!){
-    cosmosGovernanceParametersTallying(network: $network){
-        threshold
-        veto
-        governance_penalty
-    }
-}
