@@ -60,14 +60,14 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     return (
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
         <EventRow data-cy="transaction-list-item">
-          {this.renderTypeAndTimestamp()}
-          {this.renderAddressBlocks()}
-          {this.renderHash()}
+          {this.renderTypeAndTimestamp(transaction)}
+          {this.renderAddressBlocks(transaction)}
+          {this.renderHash(transaction)}
         </EventRow>
         <EventRowBottom>
-          {this.renderBlockNumber()}
-          {this.renderTransactionValues()}
-          {this.renderBlockExplorerLink()}
+          {this.renderBlockNumber(transaction)}
+          {this.renderTransactionValues(transaction)}
+          {this.renderBlockExplorerLink(transaction)}
         </EventRowBottom>
         {tagData && (
           <EventRowBottom>{this.renderTagValues(tagData)}</EventRowBottom>
@@ -76,9 +76,8 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   }
 
-  renderTypeAndTimestamp = () => {
-    const { transaction } = this.props;
-    const { contract, type } = getCeloTransactionType(this.props.transaction);
+  renderTypeAndTimestamp = (transaction: ICeloTransaction) => {
+    const { contract, type } = getCeloTransactionType(transaction);
     const time = Number(transaction.timestamp) * 1000;
     return (
       <EventRowItem style={{ minWidth: 300 }}>
@@ -98,8 +97,8 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderBlockNumber = () => {
-    const { blockNumber } = this.props.transaction;
+  renderBlockNumber = (transaction: ICeloTransaction) => {
+    const { blockNumber } = transaction;
     return (
       <EventRowItem style={{ minWidth: 300 }}>
         <EventIconBox>
@@ -115,8 +114,8 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderHash = () => {
-    const { hash } = this.props.transaction;
+  renderHash = (transaction: ICeloTransaction) => {
+    const { hash } = transaction;
 
     const TxHashLink = this.props.isDetailView ? (
       <ClickableEventRow onClick={() => copyTextToClipboard(hash)}>
@@ -158,8 +157,8 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderBlockExplorerLink = () => {
-    const { hash } = this.props.transaction;
+  renderBlockExplorerLink = (transaction: ICeloTransaction) => {
+    const { hash } = transaction;
     const link = `https://explorer.celo.org/tx/${hash}`;
     return (
       <a target="_blank" href={link} rel="noopener noreferrer">
@@ -177,8 +176,8 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderAddressBlocks = () => {
-    const { from, to } = this.props.transaction;
+  renderAddressBlocks = (transaction: ICeloTransaction) => {
+    const { from, to } = transaction;
     return (
       <>
         {!!from ? this.renderAddressBox(from, "From") : null}
@@ -210,8 +209,8 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderTransactionValues = () => {
-    const { network, transaction } = this.props;
+  renderTransactionValues = (transaction: ICeloTransaction) => {
+    const { network } = this.props;
     const size = network.denominationSize;
     const { value, gasUsed, gasPrice } = transaction.details;
     const fee = multiply(gasUsed, gasPrice);
