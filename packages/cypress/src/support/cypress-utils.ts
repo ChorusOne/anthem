@@ -72,6 +72,14 @@ const shouldContainText = (id: string, text: string) => {
 };
 
 /**
+ * Search some value in the dashboard address bar.
+ */
+const searchInAddressInput = (search: string) => {
+  const id = "dashboard-address-input";
+  typeText(id, search);
+};
+
+/**
  * Set the test browser viewport size using Cypress. This is used
  * to set the viewport size before a test begins to test various
  * viewport sizes.
@@ -85,6 +93,29 @@ const setViewportSize = (size: any) => {
 };
 
 type Network = "cosmos" | "celo" | "oasis";
+
+/**
+ * Basic check to determine which network is connected.
+ */
+const checkForNetwork = (network: Network) => {
+  switch (network) {
+    case "oasis": {
+      cy.contains("ROSE Price");
+      cy.contains("NETWORK: OASIS");
+      break;
+    }
+    case "celo": {
+      cy.contains("CELO Price");
+      cy.contains("NETWORK: CELO");
+      break;
+    }
+    case "cosmos": {
+      cy.contains("ATOM Price");
+      cy.contains("NETWORK: COSMOS");
+      break;
+    }
+  }
+};
 
 /**
  * Helper to login using the address login.
@@ -176,5 +207,7 @@ export const UTILS = {
   shouldContainText,
   setViewportSize,
   loginWithAddress,
+  searchInAddressInput,
+  checkForNetwork,
   logout,
 };

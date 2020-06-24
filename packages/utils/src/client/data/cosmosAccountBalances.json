@@ -2,8 +2,8 @@
   "cosmosAccountBalances": {
     "balance": [{ "denom": "uatom", "amount": "348585020" }],
     "rewards": [
-      { "denom": "uatom", "amount": "101183720.510060784517486782" },
-      { "denom": "uatom", "amount": "39544.289427134813000000" }
+      { "denom": "uatom", "amount": "101195981.418550863892253829" },
+      { "denom": "uatom", "amount": "39546.523293114549000000" }
     ],
     "delegations": [
       {
@@ -19,7 +19,7 @@
     ],
     "unbonding": [],
     "commissions": [
-      { "denom": "uatom", "amount": "7858700436.886159854248329874" }
+      { "denom": "uatom", "amount": "7859653945.367899863942064499" }
     ]
   }
 }

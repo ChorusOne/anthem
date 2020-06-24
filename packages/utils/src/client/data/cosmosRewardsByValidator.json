@@ -2,12 +2,12 @@
   "cosmosRewardsByValidator": [
     {
       "reward": [
-        { "denom": "uatom", "amount": "101183720.510060784517486782" }
+        { "denom": "uatom", "amount": "101195981.418550863892253829" }
       ],
       "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707"
     },
     {
-      "reward": [{ "denom": "uatom", "amount": "39544.289427134813000000" }],
+      "reward": [{ "denom": "uatom", "amount": "39546.523293114549000000" }],
       "validator_address": "cosmosvaloper14lultfckehtszvzw4ehu0apvsr77afvyju5zzy"
     }
   ]
