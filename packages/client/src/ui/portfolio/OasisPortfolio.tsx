@@ -26,7 +26,7 @@ import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
 import { toDateKey } from "tools/date-utils";
-import { addValuesInList } from "tools/math-utils";
+import { addValuesInList, subtract } from "tools/math-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import Toast from "ui/Toast";
 import CurrencySettingsToggle from "../CurrencySettingToggle";
@@ -297,6 +297,7 @@ const getOasisCSV = (
     `Total Balance (${coin})`,
     `Available Balance (${coin})`,
     `Staked Balance (${coin})`,
+    `Daily Rewards (${coin})`,
     `Accumulated Rewards (${coin})`,
   ];
 
@@ -305,6 +306,8 @@ const getOasisCSV = (
 
   // Assemble CSV file string with headers
   let CSV = `${ADDRESS_INFO}${CSV_HEADERS.join(",")}\n`;
+
+  let dailyRewards = "0";
 
   for (const x of accountHistory) {
     const dateKey = toDateKey(x.date, true);
@@ -320,6 +323,7 @@ const getOasisCSV = (
       String,
     );
     const rewards = denomToUnit(x.rewards, network.denominationSize, String);
+    dailyRewards = subtract(rewards, dailyRewards, String);
     const total = addValuesInList([balance, staked, debonding, rewards]);
 
     // Create the CSV row
@@ -329,6 +333,7 @@ const getOasisCSV = (
       total,
       balance,
       staked,
+      dailyRewards,
       rewards,
     ].join(",");
 
