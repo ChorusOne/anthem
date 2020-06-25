@@ -15,6 +15,7 @@ import {
 import { Card, Elevation, Position, Tooltip } from "@blueprintjs/core";
 import { OasisLogo } from "assets/icons";
 import {
+  CopyIcon,
   LinkIcon,
   OasisBurnIcon,
   OasisEscrowAddIcon,
@@ -254,7 +255,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
     const TxHashLink = this.props.isDetailView ? (
       <ClickableEventRow onClick={() => copyTextToClipboard(hash)}>
         <EventIconBox>
-          <LinkIcon />
+          <CopyIcon />
         </EventIconBox>
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>Hash</EventText>
