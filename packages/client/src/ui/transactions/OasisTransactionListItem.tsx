@@ -15,6 +15,7 @@ import {
 import { Card, Elevation, Position, Tooltip } from "@blueprintjs/core";
 import { OasisLogo } from "assets/icons";
 import {
+  CopyIcon,
   LinkIcon,
   OasisBurnIcon,
   OasisEscrowAddIcon,
@@ -74,9 +75,9 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
         <EventRow data-cy="transaction-list-item">
           {this.renderTypeAndTimestamp()}
+          {this.renderHash()}
           {this.renderAddressBlocks()}
           {this.renderFeeAmount(transaction.fee)}
-          {this.renderHash()}
         </EventRow>
       </Card>
     );
@@ -121,19 +122,35 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
       }
       case IOasisTransactionType.RegisterEntity: {
         const event = transaction.data as IOasisRegisterEntityEvent;
-        return this.renderEventInfoBox(event.id || "no id found", "Entity id");
+        if (event.id) {
+          return this.renderEventInfoBox(event.id, "Entity id");
+        } else {
+          return null;
+        }
       }
       case IOasisTransactionType.RegisterNode: {
         const event = transaction.data as IOasisRegisterEntityEvent;
-        return this.renderEventInfoBox(event.id || "no id found", "Node id");
+        if (event.id) {
+          return this.renderEventInfoBox(event.id, "Node id");
+        } else {
+          return null;
+        }
       }
       case IOasisTransactionType.RegisterRuntime: {
         const event = transaction.data as IOasisRegisterRuntimeEvent;
-        return this.renderEventInfoBox(event.id || "no id found", "Runtime id");
+        if (event.id) {
+          return this.renderEventInfoBox(event.id, "Runtime id");
+        } else {
+          return null;
+        }
       }
       case IOasisTransactionType.UnfreezeNode: {
         const event = transaction.data as IOasisUnfreezeNodeEvent;
-        return this.renderEventInfoBox(event.id || "no id found", "Node id");
+        if (event.id) {
+          return this.renderEventInfoBox(event.id, "Node id");
+        } else {
+          return null;
+        }
       }
       case IOasisTransactionType.UnknownEvent: {
         const event = transaction.data as IOasisUnknownEvent;
@@ -168,14 +185,15 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderFeeAmount = (amount: string) => {
-    const { denominationSize } = this.props.network;
+    const { denominationSize, denom } = this.props.network;
     return (
       <EventRowItem style={{ minWidth: 150 }}>
         <EventIconBox />
         <EventContextBox>
-          <EventText style={{ fontWeight: "bold" }}>Fee</EventText>
+          <EventText style={{ fontWeight: "bold" }}>Transaction Fee</EventText>
           <EventText>
-            {formatCurrencyAmount(denomToUnit(amount, denominationSize))}
+            {formatCurrencyAmount(denomToUnit(amount, denominationSize))}{" "}
+            {denom}
           </EventText>
         </EventContextBox>
       </EventRowItem>
@@ -183,14 +201,14 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderTransactionAmount = (amount: string) => {
-    const { denominationSize } = this.props.network;
+    const { denominationSize, denom } = this.props.network;
     return (
       <EventRowItem style={{ minWidth: 200 }}>
         <EventIconBox>
           <EventIcon src={OasisLogo} />
         </EventIconBox>
         <EventContextBox>
-          <EventText style={{ fontWeight: "bold" }}>Amount</EventText>
+          <EventText style={{ fontWeight: "bold" }}>Amount {denom}</EventText>
           <EventText>
             {formatCurrencyAmount(denomToUnit(amount, denominationSize))}
           </EventText>
@@ -237,7 +255,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
     const TxHashLink = this.props.isDetailView ? (
       <ClickableEventRow onClick={() => copyTextToClipboard(hash)}>
         <EventIconBox>
-          <LinkIcon />
+          <CopyIcon />
         </EventIconBox>
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>Hash</EventText>

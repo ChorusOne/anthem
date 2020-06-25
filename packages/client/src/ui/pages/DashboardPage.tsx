@@ -133,7 +133,7 @@ class DashboardPage extends React.Component<IProps> {
               {isDesktop && TRANSACTIONS_SUPPORTED && (
                 <View>
                   <Button
-                    text="Download All (JSON)"
+                    text="Download All"
                     onClick={this.fetchAndDownloadTransactionHistory}
                   />
                   <Button
