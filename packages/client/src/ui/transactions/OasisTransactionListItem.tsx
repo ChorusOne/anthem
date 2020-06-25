@@ -76,12 +76,13 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
         <EventRow data-cy="transaction-list-item">
           {this.renderTypeAndTimestamp()}
-          {this.renderHash()}
           {this.renderAddressBlocks()}
         </EventRow>
         <EventRowBottom>
           {this.renderBlockHeight(transaction)}
           {this.renderFeeAmount(transaction)}
+          {this.renderHash()}
+          {this.renderBlockExplorerLink(transaction)}
         </EventRowBottom>
       </Card>
     );
@@ -191,7 +192,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
   renderBlockHeight = (transaction: IOasisTransaction) => {
     const { height } = transaction;
     return (
-      <EventRowItem style={{ minWidth: 300 }}>
+      <EventRowItem style={{ minWidth: 200 }}>
         <EventIconBox>
           <OasisGenericEvent />
         </EventIconBox>
@@ -208,8 +209,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
     const { denominationSize, denom } = this.props.network;
     return (
       <>
-        <EventRowItem style={{ minWidth: 200 }}>
-          <EventIconBox />
+        <EventRowItem style={{ minWidth: 125 }}>
           <EventContextBox>
             <EventText style={{ fontWeight: "bold" }}>Fee</EventText>
             <EventText>
@@ -217,8 +217,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
             </EventText>
           </EventContextBox>
         </EventRowItem>
-        <EventRowItem style={{ minWidth: 200 }}>
-          <EventIconBox />
+        <EventRowItem style={{ minWidth: 125 }}>
           <EventContextBox>
             <EventText style={{ fontWeight: "bold" }}>Gas</EventText>
             <EventText>
@@ -226,8 +225,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
             </EventText>
           </EventContextBox>
         </EventRowItem>
-        <EventRowItem style={{ minWidth: 200 }}>
-          <EventIconBox />
+        <EventRowItem style={{ minWidth: 125 }}>
           <EventContextBox>
             <EventText style={{ fontWeight: "bold" }}>Gas Price</EventText>
             <EventText>
@@ -329,6 +327,25 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
       </Tooltip>
     ) : (
       TxHashLink
+    );
+  };
+
+  renderBlockExplorerLink = (transaction: IOasisTransaction) => {
+    const { hash } = transaction;
+    const link = `https://oasismonitor.com/operation/${hash}`;
+    return (
+      <a target="_blank" href={link} rel="noopener noreferrer">
+        <ClickableEventRow onClick={() => null}>
+          <EventIconBox>
+            <LinkIcon />
+          </EventIconBox>
+          <EventContextBox>
+            <EventText style={{ fontWeight: 200 }}>
+              View on Oasis Monitor
+            </EventText>
+          </EventContextBox>
+        </ClickableEventRow>
+      </a>
     );
   };
 
