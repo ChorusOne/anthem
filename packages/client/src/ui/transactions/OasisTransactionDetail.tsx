@@ -38,17 +38,7 @@ class OasisTransactionDetailLoadingContainer extends React.PureComponent<
     // Transaction may already exist in Apollo cache. Use this data first.
     const transactionMayExist = this.maybeFindTransactionInApolloCache(hash);
     if (transactionMayExist) {
-      return (
-        <View>
-          <GraphQLGuardComponentMultipleQueries
-            tString={i18n.tString}
-            loadingComponent={<DashboardLoader />}
-            results={[[fiatPriceHistory, "fiatPriceHistory"]]}
-          >
-            {() => this.renderTransaction(transactionMayExist)}
-          </GraphQLGuardComponentMultipleQueries>
-        </View>
-      );
+      return this.renderTransaction(transactionMayExist);
     } else {
       return (
         <View>

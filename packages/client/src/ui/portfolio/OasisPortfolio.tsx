@@ -99,6 +99,7 @@ class OasisPortfolio extends React.PureComponent<
           }
         >
           {(accountHistory: IOasisAccountHistory[]) => {
+            // console.log(accountHistory);
             const chartData = getChartData(accountHistory, network);
             const options = getHighchartsChartOptions({
               tString,

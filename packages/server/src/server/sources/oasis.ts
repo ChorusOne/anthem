@@ -71,6 +71,7 @@ enum OasisTransactionMethod {
 }
 
 interface OasisTransactionBase {
+  hash: string;
   fee: string;
   gas: number;
   gas_price: string;
@@ -278,7 +279,7 @@ const fetchTransactions = async (
   const response = await AxiosUtil.get<OasisTransaction[]>(url);
   // const response = MOCK_OASIS_EVENTS;
 
-  const pages = response.slice(0, pageSize);
+  const pages = Array.isArray(response) ? response.slice(0, pageSize) : [];
   const moreResultsExist = response.length > pageSize;
 
   // Transform the response data
@@ -320,7 +321,7 @@ const fetchTransaction = async (hash: string): Promise<IOasisTransaction> => {
  */
 
 // Generate a random hash for now.
-const randomHash = () => {
+const getRandomHash = () => {
   const x = () =>
     Math.random()
       .toString(36)
@@ -338,7 +339,6 @@ const combineWithType = (
 ) => {
   const result: IOasisTransaction = {
     ...transaction,
-    hash: randomHash(),
     // @ts-ignore
     data: { ...transaction.data, type },
   };
@@ -429,6 +429,7 @@ const txBase = {
 const deregister: TxDeregisterEntity = {
   ...txBase,
   method: OasisTransactionMethod.DE_REGISTER_ENTITY,
+  hash: getRandomHash(),
   data: {
     id: "sa8df70af7as0",
     nodes: ["sa980df7a0", "sa9d67f89a", "as9df76sa9"],
@@ -439,6 +440,7 @@ const deregister: TxDeregisterEntity = {
 const register: TxRegisterEntity = {
   ...txBase,
   method: OasisTransactionMethod.REGISTER_ENTITY,
+  hash: getRandomHash(),
   data: {
     id: "sa8df70af7as0",
     nodes: ["sa980df7a0", "sa9d67f89a", "as9df76sa9"],
@@ -449,6 +451,7 @@ const register: TxRegisterEntity = {
 const rateEvent: TxRate = {
   ...txBase,
   method: OasisTransactionMethod.RATE,
+  hash: getRandomHash(),
   data: {
     start: "Start",
     rate: "Rate",
@@ -458,6 +461,7 @@ const rateEvent: TxRate = {
 const amend: TxAmendCommissionSchedule = {
   ...txBase,
   method: OasisTransactionMethod.AMEND_COMMISSION_SCHEDULE,
+  hash: getRandomHash(),
   data: {
     rates: ["1", "2", "3"],
     bounds: ["1", "2", "3"],
@@ -467,6 +471,7 @@ const amend: TxAmendCommissionSchedule = {
 const registerRuntime: TxRegisterRuntime = {
   ...txBase,
   method: OasisTransactionMethod.REGISTER_RUNTIME,
+  hash: getRandomHash(),
   data: {
     id: "as9fd7as97f6sad0",
     version: "1.2.4",
@@ -476,6 +481,7 @@ const registerRuntime: TxRegisterRuntime = {
 const boundEvent: TxBound = {
   ...txBase,
   method: OasisTransactionMethod.BOUND,
+  hash: getRandomHash(),
   data: {
     start: "Start",
     rate_min: "Rate Min",
@@ -486,6 +492,7 @@ const boundEvent: TxBound = {
 const unfreezeNode: TxUnfreezeNode = {
   ...txBase,
   method: OasisTransactionMethod.UN_FREEZE_NODE,
+  hash: getRandomHash(),
   data: {
     id: "s76fd9af9s8ad",
   },
@@ -494,6 +501,7 @@ const unfreezeNode: TxUnfreezeNode = {
 const registerNode: TxRegisterNode = {
   ...txBase,
   method: OasisTransactionMethod.REGISTER_NODE,
+  hash: getRandomHash(),
   data: {
     id: "s0a9f780sa97f0sad",
     entity_id: "saf967as986f784as67d5f",
@@ -504,6 +512,7 @@ const registerNode: TxRegisterNode = {
 const unknown: TxUnknownMethod = {
   ...txBase,
   method: OasisTransactionMethod.UNKNOWN_METHOD,
+  hash: getRandomHash(),
   data: {
     method_name: "HEIST",
   },
