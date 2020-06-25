@@ -543,11 +543,13 @@ class OasisBalancesComponent extends React.Component<
       available,
       staked,
       unbonding,
-      // rewards,
+      rewards,
       // commissions,
       // meta,
       // delegations,
     } = balances;
+
+    console.log(balances);
 
     const stakedBalance = staked.balance;
     const unbondingBalance = unbonding.balance;
@@ -558,10 +560,16 @@ class OasisBalancesComponent extends React.Component<
       return formatCurrencyAmount(denomToUnit(value, denomSize));
     };
 
-    const total = addValuesInList([available, stakedBalance, unbondingBalance]);
+    const total = addValuesInList([
+      available,
+      stakedBalance,
+      unbondingBalance,
+      rewards,
+    ]);
 
     const percentages: number[] = [
       getPercentage(available, total),
+      getPercentage(rewards, total),
       getPercentage(stakedBalance, total),
       getPercentage(unbondingBalance, total),
     ];
@@ -616,9 +624,11 @@ class OasisBalancesComponent extends React.Component<
                   color={COLORS.BALANCE_SHADE_FIVE}
                 />
                 <BalanceTitle>Rewards:</BalanceTitle>
-                <BalanceText data-cy="oasis-balance-rewards">n/a</BalanceText>
+                <BalanceText data-cy="oasis-balance-rewards">
+                  {renderCurrency(rewards)}
+                </BalanceText>
               </BalanceLine>
-              <BalanceLine style={{ marginTop: 6 }}>
+              {/* <BalanceLine style={{ marginTop: 6 }}>
                 <Icon
                   icon={IconNames.DOT}
                   style={{ marginRight: 2 }}
@@ -628,7 +638,7 @@ class OasisBalancesComponent extends React.Component<
                 <BalanceText data-cy="oasis-balance-commissions">
                   n/a
                 </BalanceText>
-              </BalanceLine>
+              </BalanceLine> */}
             </View>
             <BalancePieChart
               percentages={percentages}
