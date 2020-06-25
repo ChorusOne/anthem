@@ -3828,6 +3828,24 @@
         "height": 2371262,
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "timestamp": "2020-06-23T16:00:06.000Z"
+      },
+      {
+        "balance": "101922358",
+        "height": 2379382,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-06-24T08:22:10.000Z"
+      },
+      {
+        "balance": "102268372",
+        "height": 2383159,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-06-24T16:00:05.000Z"
+      },
+      {
+        "balance": "102371941",
+        "height": 2384288,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-06-24T18:16:38.000Z"
       }
     ],
     "validatorCommissions": [
@@ -7034,6 +7052,24 @@
         "height": 2371262,
         "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
         "timestamp": "2020-06-23T16:00:06.000Z"
+      },
+      {
+        "balance": "7913058035",
+        "height": 2379382,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-06-24T08:22:10.000Z"
+      },
+      {
+        "balance": "7939961805",
+        "height": 2383159,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-06-24T16:00:05.000Z"
+      },
+      {
+        "balance": "7948014658",
+        "height": 2384288,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-06-24T18:16:38.000Z"
       }
     ],
     "fiatPriceHistory": [
@@ -7527,7 +7563,8 @@
       { "price": 2.60725, "timestamp": "2020-06-21T00:00:00.000Z" },
       { "price": 2.6494999999999997, "timestamp": "2020-06-22T00:00:00.000Z" },
       { "price": 2.73625, "timestamp": "2020-06-23T00:00:00.000Z" },
-      { "price": 2.783, "timestamp": "2020-06-24T00:00:00.000Z" }
+      { "price": 2.7402499999999996, "timestamp": "2020-06-24T00:00:00.000Z" },
+      { "price": 2.64025, "timestamp": "2020-06-25T00:00:00.000Z" }
     ]
   }
 }
