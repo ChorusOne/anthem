@@ -130,7 +130,7 @@ class OasisPortfolio extends React.PureComponent<
               return (
                 <View style={{ paddingTop: 110 }}>
                   <p style={{ margin: 0, textAlign: "center" }}>
-                    {t("No data exists yet.")}
+                    No account history data exists yet.
                   </p>
                 </View>
               );

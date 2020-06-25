@@ -616,6 +616,10 @@ export const wait = async (time: number = 1000) => {
  * Determine if there is any data present in a response.
  */
 export const isGraphQLResponseDataEmpty = (x?: any) => {
+  if (Array.isArray(x)) {
+    return false;
+  }
+
   return !Boolean(x) || !Object.keys(x).length;
 };
 

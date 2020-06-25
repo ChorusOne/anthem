@@ -266,6 +266,7 @@ const fetchAccountHistory = async (
   const host = getHostFromNetworkName(network.name);
   const url = `${host}/account/${address}/history`;
   const response = await AxiosUtil.get<OasisAccountHistory[]>(url);
+  console.log(response);
   return response;
 };
 
