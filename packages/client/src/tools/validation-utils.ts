@@ -89,8 +89,7 @@ export const validateNetworkAddress = (
     return "";
   }
 
-  if (address.length === 44) {
-    console.warn("[TODO]: Fix address validation for Oasis addresses!");
+  if (address.substring(0, 5) === "oasis") {
     return "";
   }
 
