@@ -391,7 +391,8 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
           {!currentAddress && recentAddressList.length === 0 && (
             <View style={{ marginTop: 18 }}>
               <AddressSubtitle>
-                Don't have an address on hand? Try this one:
+                Don't have an address on hand? Choose one below to explore a
+                network you're interested in.
               </AddressSubtitle>
               <Column
                 style={{ marginTop: 6, maxHeight: 85, overflowY: "scroll" }}
@@ -401,11 +402,44 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
                   style={{ marginTop: 2, marginBottom: 2 }}
                   to={`/${activeChartTab.toLowerCase()}?address=cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd`}
                 >
-                  {formatAddressString(
-                    "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
-                    !this.props.settings.isDesktop,
-                    25,
-                  )}
+                  <Row style={{ justifyContent: "flex-start" }}>
+                    <NetworkLogoIcon
+                      network="COSMOS"
+                      styles={{ width: 22, height: 22, marginRight: 6 }}
+                    />
+                    <View>
+                      <NetworkLabel>COSMOS</NetworkLabel>
+                      <RecentAddress>
+                        {formatAddressString(
+                          "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+                          !this.props.settings.isDesktop,
+                          25,
+                        )}
+                      </RecentAddress>
+                    </View>
+                  </Row>
+                </Link>
+                <Link
+                  replace
+                  style={{ marginTop: 2, marginBottom: 2 }}
+                  to={`/${activeChartTab.toLowerCase()}?address=oasis1qrllkgqgqheus3qvq69wzsmh7799agg8lgsyecfq`}
+                >
+                  <Row style={{ justifyContent: "flex-start" }}>
+                    <NetworkLogoIcon
+                      network="OASIS"
+                      styles={{ width: 22, height: 22, marginRight: 6 }}
+                    />
+                    <View>
+                      <NetworkLabel>OASIS</NetworkLabel>
+                      <RecentAddress>
+                        {formatAddressString(
+                          "oasis1qrllkgqgqheus3qvq69wzsmh7799agg8lgsyecfq",
+                          !this.props.settings.isDesktop,
+                          25,
+                        )}
+                      </RecentAddress>
+                    </View>
+                  </Row>
                 </Link>
               </Column>
             </View>
