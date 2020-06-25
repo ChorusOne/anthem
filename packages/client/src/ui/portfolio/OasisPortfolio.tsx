@@ -328,8 +328,8 @@ const getOasisCSV = (
       "n/a", // Fiat balances not supported for Oasis yet
       total,
       balance,
-      staked, // Staked balance not supported for Oasis yet
-      rewards, // Rewards not supported for Oasis yet
+      staked,
+      rewards,
     ].join(",");
 
     // Add the row to the CSV
