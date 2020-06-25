@@ -246,6 +246,7 @@ const getChartData = (
           x.balance,
           x.rewards,
           x.staked_balance.balance,
+          x.debonding_balance.balance,
         ]);
         break;
       case "AVAILABLE":
@@ -296,7 +297,6 @@ const getOasisCSV = (
     `Total Balance (${coin})`,
     `Available Balance (${coin})`,
     `Staked Balance (${coin})`,
-    `Daily Rewards (${coin})`,
     `Accumulated Rewards (${coin})`,
   ];
 
@@ -309,16 +309,27 @@ const getOasisCSV = (
   for (const x of accountHistory) {
     const dateKey = toDateKey(x.date, true);
     const balance = denomToUnit(x.balance, network.denominationSize, String);
+    const staked = denomToUnit(
+      x.staked_balance.balance,
+      network.denominationSize,
+      String,
+    );
+    const debonding = denomToUnit(
+      x.debonding_balance.balance,
+      network.denominationSize,
+      String,
+    );
+    const rewards = denomToUnit(x.rewards, network.denominationSize, String);
+    const total = addValuesInList([balance, staked, debonding, rewards]);
 
     // Create the CSV row
     const row = [
       dateKey,
       "n/a", // Fiat balances not supported for Oasis yet
+      total,
       balance,
-      balance,
-      "n/a", // Staked balance not supported for Oasis yet
-      "n/a", // Rewards not supported for Oasis yet
-      "n/a", // Rewards not supported for Oasis yet
+      staked, // Staked balance not supported for Oasis yet
+      rewards, // Rewards not supported for Oasis yet
     ].join(",");
 
     // Add the row to the CSV
