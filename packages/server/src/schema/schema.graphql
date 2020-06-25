@@ -277,11 +277,13 @@ type OasisAccountBalances {
 
 type OasisAccountHistory {
   date: String!
-  height: String!
+  height: Float!
   address: String!
   balance: String!
   meta: OasisAccountMeta!
   delegations: [OasisDelegation!]
+  debonding_balance: OasisBalance!
+  staked_balance: OasisBalance!
 }
 
 type OasisDelegation {

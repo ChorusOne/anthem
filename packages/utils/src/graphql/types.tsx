@@ -534,11 +534,13 @@ export interface IOasisAccountBalances {
 export interface IOasisAccountHistory {
    __typename?: "OasisAccountHistory";
   date: Scalars["String"];
-  height: Scalars["String"];
+  height: Scalars["Float"];
   address: Scalars["String"];
   balance: Scalars["String"];
   meta: IOasisAccountMeta;
   delegations: Maybe<IOasisDelegation[]>;
+  debonding_balance: IOasisBalance;
+  staked_balance: IOasisBalance;
 }
 
 export interface IOasisAccountMeta {
@@ -1684,7 +1686,13 @@ export type IOasisAccountHistoryQuery = (
     ), delegations: Maybe<Array<(
       { __typename?: "OasisDelegation" }
       & Pick<IOasisDelegation, "delegator" | "validator" | "amount">
-    )>> }
+    )>>, debonding_balance: (
+      { __typename?: "OasisBalance" }
+      & Pick<IOasisBalance, "balance" | "shares">
+    ), staked_balance: (
+      { __typename?: "OasisBalance" }
+      & Pick<IOasisBalance, "balance" | "shares">
+    ) }
   )> }
 );
 
@@ -3992,6 +4000,14 @@ export const OasisAccountHistoryDocument = gql`
       delegator
       validator
       amount
+    }
+    debonding_balance {
+      balance
+      shares
+    }
+    staked_balance {
+      balance
+      shares
     }
   }
 }

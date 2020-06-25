@@ -13,5 +13,13 @@ query oasisAccountHistory($address: String!, $fiat: String!){
             validator
             amount
         }
+        debonding_balance{
+            balance
+            shares
+        }
+        staked_balance{
+            balance
+            shares
+        }
     }
 }

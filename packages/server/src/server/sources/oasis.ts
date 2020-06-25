@@ -44,6 +44,8 @@ interface OasisAccountHistory {
   height: number;
   address: string;
   balance: string;
+  staked_balance: Balance;
+  debonding_balance: Balance;
   delegations: OasisDelegation[];
   meta: AccountMeta;
 }
@@ -259,7 +261,7 @@ const fetchAccountBalances = async (
 const fetchAccountHistory = async (
   address: string,
   network: NetworkDefinition,
-): Promise<any> => {
+): Promise<IQuery["oasisAccountHistory"]> => {
   const host = getHostFromNetworkName(network.name);
   const url = `${host}/account/${address}/history`;
   const response = await AxiosUtil.get<OasisAccountHistory[]>(url);
