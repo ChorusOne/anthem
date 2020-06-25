@@ -279,6 +279,7 @@ type OasisAccountHistory {
   date: String!
   height: Float!
   address: String!
+  rewards: String!
   balance: String!
   meta: OasisAccountMeta!
   delegations: [OasisDelegation!]

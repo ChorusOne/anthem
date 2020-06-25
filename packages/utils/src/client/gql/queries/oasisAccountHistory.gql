@@ -3,6 +3,7 @@ query oasisAccountHistory($address: String!, $fiat: String!){
         date
         height
         address
+        rewards
         balance
         meta{
             is_validator

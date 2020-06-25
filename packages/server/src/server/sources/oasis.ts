@@ -44,6 +44,7 @@ interface OasisAccountHistory {
   height: number;
   address: string;
   balance: string;
+  rewards: string;
   staked_balance: Balance;
   debonding_balance: Balance;
   delegations: OasisDelegation[];

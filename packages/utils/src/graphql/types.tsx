@@ -536,6 +536,7 @@ export interface IOasisAccountHistory {
   date: Scalars["String"];
   height: Scalars["Float"];
   address: Scalars["String"];
+  rewards: Scalars["String"];
   balance: Scalars["String"];
   meta: IOasisAccountMeta;
   delegations: Maybe<IOasisDelegation[]>;
@@ -1679,7 +1680,7 @@ export type IOasisAccountHistoryQuery = (
   { __typename?: "Query" }
   & { oasisAccountHistory: Array<(
     { __typename?: "OasisAccountHistory" }
-    & Pick<IOasisAccountHistory, "date" | "height" | "address" | "balance">
+    & Pick<IOasisAccountHistory, "date" | "height" | "address" | "rewards" | "balance">
     & { meta: (
       { __typename?: "OasisAccountMeta" }
       & Pick<IOasisAccountMeta, "is_validator" | "is_delegator">
@@ -3991,6 +3992,7 @@ export const OasisAccountHistoryDocument = gql`
     date
     height
     address
+    rewards
     balance
     meta {
       is_validator

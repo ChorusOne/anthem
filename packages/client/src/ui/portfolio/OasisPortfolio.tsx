@@ -1,4 +1,8 @@
-import { IOasisAccountHistory, NetworkDefinition } from "@anthem/utils";
+import {
+  assertUnreachable,
+  IOasisAccountHistory,
+  NetworkDefinition,
+} from "@anthem/utils";
 import * as Sentry from "@sentry/browser";
 import { FiatCurrency } from "constants/fiat";
 import {
@@ -11,6 +15,7 @@ import {
 } from "graphql/queries";
 import * as Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
@@ -21,6 +26,7 @@ import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
 import { toDateKey } from "tools/date-utils";
+import { addValuesInList } from "tools/math-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import Toast from "ui/Toast";
 import CurrencySettingsToggle from "../CurrencySettingToggle";
@@ -99,8 +105,16 @@ class OasisPortfolio extends React.PureComponent<
           }
         >
           {(accountHistory: IOasisAccountHistory[]) => {
-            console.log(accountHistory);
-            const chartData = getChartData(accountHistory, network);
+            const chartData = getChartData(
+              accountHistory,
+              network,
+              app.activeChartTab,
+            );
+
+            if (!chartData) {
+              return null;
+            }
+
             const options = getHighchartsChartOptions({
               tString,
               network,
@@ -124,8 +138,6 @@ class OasisPortfolio extends React.PureComponent<
 
             const { activeChartTab } = app;
             switch (activeChartTab) {
-              case "REWARDS":
-              case "STAKING":
               case "COMMISSIONS":
                 return (
                   <View style={{ paddingTop: 110 }}>
@@ -137,6 +149,8 @@ class OasisPortfolio extends React.PureComponent<
                 );
               case "TOTAL":
               case "AVAILABLE":
+              case "REWARDS":
+              case "STAKING":
                 return (
                   <View>
                     <Row style={{ justifyContent: "space-between" }}>
@@ -220,12 +234,40 @@ class OasisPortfolio extends React.PureComponent<
 const getChartData = (
   accountHistory: IOasisAccountHistory[],
   network: NetworkDefinition,
-): ChartData => {
+  type: PORTFOLIO_CHART_TYPES,
+): Nullable<ChartData> => {
   const series: { [key: string]: number } = {};
 
   for (const x of accountHistory) {
+    let value = "";
+    switch (type) {
+      case "TOTAL":
+        value = addValuesInList([
+          x.balance,
+          x.rewards,
+          x.staked_balance.balance,
+        ]);
+        break;
+      case "AVAILABLE":
+        value = x.balance;
+        break;
+      case "REWARDS":
+        value = x.rewards;
+        break;
+      case "STAKING":
+        value = x.staked_balance.balance;
+        break;
+      case "COMMISSIONS":
+        // Commissions are not supported yet
+        return null;
+      default:
+        console.warn(`Unexpected activeChartTab received: ${type}`);
+        assertUnreachable(type);
+    }
+
     const key = toDateKey(x.date);
-    series[key] = denomToUnit(x.balance, network.denominationSize, Number);
+    const result = denomToUnit(value, network.denominationSize, Number);
+    series[key] = result;
   }
 
   return {
