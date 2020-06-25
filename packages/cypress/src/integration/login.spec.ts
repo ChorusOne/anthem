@@ -30,7 +30,7 @@ SCREEN_SIZES.forEach(({ size, type }) => {
       // Enter an Oasis address
       UTILS.typeText("dashboard-address-input", `${OASIS.account}{enter}`);
 
-      cy.contains("Balance (ROSE)");
+      cy.contains("Balance (AMBR)");
       UTILS.checkForNetwork("oasis");
     });
 
@@ -118,7 +118,7 @@ SCREEN_SIZES.forEach(({ size, type }) => {
     });
 
     it("After logging in with an address balance details are visible for that address", () => {
-      cy.contains("Balance (ROSE)");
+      cy.contains("Balance (AMBR)");
 
       if (type.isDesktop()) {
         UTILS.checkForNetwork("oasis");
