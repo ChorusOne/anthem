@@ -1,4 +1,5 @@
 import { Variables } from "graphql-request/dist/src/types";
+import { NETWORK_ADDRESS_DEFAULTS } from "src/networks";
 
 /** ===========================================================================
  * Configuration for automatically runnings GraphQL queries against the
@@ -15,18 +16,7 @@ export interface VarConfig {
   testQuery: (s: string) => boolean;
 }
 
-const COSMOS_ADDRESS = "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd";
-const COSMOS_TX_HASH =
-  "E0BC81E3B76F70466D8F235F02EDD3F3E23E8C52A40D27A650BC14A9E6F8239C";
-const COSMOS_VALIDATOR_ADDRESS =
-  "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707";
-
-const OASIS_ADDRESS = "LL2rD5jOQoO9QWyPOw8BhEX1i15mGhdrEcDVOaOAYVk=";
-const OASIS_TX_HASH = ""; // TODO: ???
-
-const CELO_ADDRESS = "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673";
-const CELO_TX_HASH =
-  "0xdb33159c19e457e500adae015e4923d3851f355f7319c3ded15a8cfe4503d002";
+const { COSMOS, OASIS, CELO } = NETWORK_ADDRESS_DEFAULTS;
 
 /**
  * Variable config source of truth for which variables will be mapped
@@ -37,7 +27,7 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   {
     variables: {
       fiat: "USD",
-      address: OASIS_ADDRESS,
+      address: OASIS.account,
     },
     testQuery: (gql: string) => {
       return (
@@ -49,7 +39,7 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   },
   {
     variables: {
-      address: OASIS_ADDRESS,
+      address: OASIS.account,
     },
     testQuery: (gql: string) => {
       return gql.includes("oasisTransactions") && gql.includes("$address");
@@ -57,14 +47,14 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   },
   {
     variables: {
-      hash: OASIS_TX_HASH,
+      hash: OASIS.tx_hash,
     },
     testQuery: (gql: string) =>
       gql.includes("oasisTransaction") && gql.includes("$hash"),
   },
   {
     variables: {
-      address: OASIS_ADDRESS,
+      address: OASIS.account,
     },
     testQuery: (gql: string) => gql.includes("oasisAccountBalances"),
   },
@@ -72,7 +62,7 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   {
     variables: {
       fiat: "USD",
-      address: CELO_ADDRESS,
+      address: CELO.account,
     },
     testQuery: (gql: string) => {
       return (
@@ -84,7 +74,7 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   },
   {
     variables: {
-      address: CELO_ADDRESS,
+      address: CELO.account,
     },
     testQuery: (gql: string) => {
       return gql.includes("celoTransactions") && gql.includes("$address");
@@ -92,14 +82,24 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   },
   {
     variables: {
-      hash: CELO_TX_HASH,
+      address: CELO.account,
+    },
+    testQuery: (gql: string) => {
+      return (
+        gql.includes("celoGovernanceTransactions") && gql.includes("$address")
+      );
+    },
+  },
+  {
+    variables: {
+      hash: CELO.tx_hash,
     },
     testQuery: (gql: string) =>
       gql.includes("celoTransaction") && gql.includes("$hash"),
   },
   {
     variables: {
-      address: CELO_ADDRESS,
+      address: CELO.account,
     },
     testQuery: (gql: string) => gql.includes("celoAccountBalances"),
   },
@@ -108,7 +108,7 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
     variables: {
       fiat: "USD",
       network: "COSMOS",
-      validatorAddress: COSMOS_VALIDATOR_ADDRESS,
+      validatorAddress: COSMOS.validator,
     },
     testQuery: (gql: string) => {
       return gql.includes("$fiat") && gql.includes("$validatorAddress");
@@ -127,7 +127,7 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
     variables: {
       fiat: "USD",
       network: "COSMOS",
-      address: COSMOS_ADDRESS,
+      address: COSMOS.account,
     },
     testQuery: (gql: string) => {
       return gql.includes("$fiat") && gql.includes("$address");
@@ -145,14 +145,14 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   {
     variables: {
       network: "COSMOS",
-      address: COSMOS_ADDRESS,
+      address: COSMOS.account,
     },
     testQuery: (gql: string) => gql.includes("$address"),
   },
   {
     variables: {
       network: "COSMOS",
-      hash: COSMOS_TX_HASH,
+      hash: COSMOS.tx_hash,
     },
     testQuery: (gql: string) =>
       gql.includes("cosmosTransaction") && gql.includes("$hash"),
@@ -160,7 +160,7 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
   {
     variables: {
       network: "COSMOS",
-      validatorAddress: COSMOS_VALIDATOR_ADDRESS,
+      validatorAddress: COSMOS.validator,
     },
     testQuery: (gql: string) => gql.includes("$validatorAddress"),
   },

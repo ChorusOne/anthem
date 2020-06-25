@@ -16,8 +16,8 @@ You will need [NodeJS](https://nodejs.org/en/) and [yarn](https://yarnpkg.com/la
 # Clone the repo
 $ git clone https://github.com/ChorusOne/anthem.git
 
-# Use Node LTS
-$ nvm install --lts && nvm alias default lts/*
+# Use Node LTS (alias default if you want)
+$ nvm install 12.18.0 && nvm alias default 12.18.0
 
 # Install Lerna
 $ npm i -g lerna

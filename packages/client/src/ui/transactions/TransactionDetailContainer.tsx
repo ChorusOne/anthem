@@ -8,6 +8,7 @@ import PageAddressBar from "ui/PageAddressBar";
 import { Centered, View } from "ui/SharedComponents";
 import CeloTransactionDetail from "./CeloTransactionDetail";
 import CosmosTransactionDetail from "./CosmosTransactionDetail";
+import OasisTransactionDetail from "./OasisTransactionDetail";
 
 /** ===========================================================================
  * React Component
@@ -45,7 +46,7 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
       case "CELO":
         return <CeloTransactionDetail />;
       case "OASIS":
-        return null;
+        return <OasisTransactionDetail />;
       default:
         return null;
     }

@@ -50,7 +50,6 @@ import {
   DashboardError,
   DashboardLoader,
   Link,
-  PageContainer,
   Row,
   View,
 } from "ui/SharedComponents";
@@ -97,7 +96,7 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
     const { network } = ledger;
 
     return (
-      <PageContainer>
+      <View>
         <PageAddressBar pageTitle="Governance" />
         <GraphQLGuardComponentMultipleQueries
           tString={i18n.tString}
@@ -126,7 +125,7 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
             );
           }}
         </GraphQLGuardComponentMultipleQueries>
-      </PageContainer>
+      </View>
     );
   }
 }
@@ -182,7 +181,13 @@ class CeloGovernanceComponent extends React.Component<
 
   render() {
     const { selectedProposalID } = this.state;
-    const { network, proposals, governanceTransactionHistory } = this.props;
+    const {
+      network,
+      proposals,
+      governanceTransactionHistory,
+      settings,
+    } = this.props;
+    const { isDesktop } = settings;
     return (
       <>
         <ProposalsPanel>
@@ -195,7 +200,6 @@ class CeloGovernanceComponent extends React.Component<
                 height: 275,
                 padding: 0,
                 borderRadius: 3,
-                overflowY: "scroll",
               }}
             >
               <ProposalBanner>
@@ -203,70 +207,72 @@ class CeloGovernanceComponent extends React.Component<
                 <ProposalTitleText style={{ flex: 3 }}>STAGE</ProposalTitleText>
                 <ProposalTitleText style={{ flex: 4 }}>TITLE</ProposalTitleText>
                 <ProposalTitleText style={{ flex: 2 }}>
-                  QUEUED AT TIME
+                  {isDesktop ? "QUEUED AT TIME" : "QUEUED"}
                 </ProposalTitleText>
               </ProposalBanner>
-              {proposals.map(x => {
-                return (
-                  <ClickableRowWrapper
-                    onClick={() => this.handleSelectProposal(x)}
-                    key={x.proposalID}
-                  >
-                    <ProposalRow>
-                      <Text style={{ flex: 1, paddingLeft: 2 }}>
-                        {x.proposalID}
-                      </Text>
-                      <Text style={{ flex: 3 }}>{x.stage}</Text>
-                      <Text style={{ flex: 4 }}>Title...</Text>
-                      <Text style={{ flex: 2, fontSize: 12 }}>
-                        {convertCeloEpochToDate(x.queuedAtTimestamp)}
-                      </Text>
-                    </ProposalRow>
-                    <Collapse isOpen={x.proposalID === selectedProposalID}>
-                      <ProposalDetails>
-                        <ProposalDetailsRow>
-                          <Block />
-                          <ProposerRow style={{ flex: 9 }}>
-                            <Text>
-                              <b>Proposer:</b>{" "}
-                              <Code
+              <ProposalsList>
+                {proposals.map(x => {
+                  return (
+                    <ClickableRowWrapper
+                      onClick={() => this.handleSelectProposal(x)}
+                      key={x.proposalID}
+                    >
+                      <ProposalRow>
+                        <Text style={{ flex: 1, paddingLeft: 2 }}>
+                          {x.proposalID}
+                        </Text>
+                        <Text style={{ flex: 3 }}>{x.stage}</Text>
+                        <Text style={{ flex: 4 }}>Title...</Text>
+                        <Text style={{ flex: 2, fontSize: 12 }}>
+                          {convertCeloEpochToDate(x.queuedAtTimestamp)}
+                        </Text>
+                      </ProposalRow>
+                      <Collapse isOpen={x.proposalID === selectedProposalID}>
+                        <ProposalDetails>
+                          <ProposalDetailsRow>
+                            {isDesktop && <Block />}
+                            <ProposerRow style={{ flex: 9 }}>
+                              <Text>
+                                <b>Proposer:</b>{" "}
+                                <Code
+                                  onClick={() => {
+                                    copyTextToClipboard(x.proposer);
+                                  }}
+                                >
+                                  {x.proposer}
+                                </Code>{" "}
+                              </Text>
+                              <CopyIcon
+                                style={{ marginLeft: 6 }}
                                 onClick={() => {
                                   copyTextToClipboard(x.proposer);
                                 }}
-                              >
-                                {x.proposer}
-                              </Code>{" "}
+                              />
+                            </ProposerRow>
+                          </ProposalDetailsRow>
+                          <ProposalDetailsRow>
+                            {isDesktop && <Block />}
+                            <Text style={{ flex: 9 }}>
+                              <b>Details:</b>{" "}
+                              <Link href={x.gist} style={{ fontSize: 12 }}>
+                                {x.gist}
+                              </Link>
                             </Text>
-                            <CopyIcon
-                              style={{ marginLeft: 6 }}
-                              onClick={() => {
-                                copyTextToClipboard(x.proposer);
-                              }}
-                            />
-                          </ProposerRow>
-                        </ProposalDetailsRow>
-                        <ProposalDetailsRow>
-                          <Block />
-                          <Text style={{ flex: 9 }}>
-                            <b>Details:</b>{" "}
-                            <Link href={x.gist} style={{ fontSize: 12 }}>
-                              {x.gist}
-                            </Link>
-                          </Text>
-                        </ProposalDetailsRow>
-                        <ProposalDetailsRow>
-                          <Block />
-                          <Text style={{ flex: 9 }}>
-                            <b>Deposit:</b>{" "}
-                            {denomToUnit(x.deposit, network.denominationSize)}{" "}
-                            {network.denom}
-                          </Text>
-                        </ProposalDetailsRow>
-                      </ProposalDetails>
-                    </Collapse>
-                  </ClickableRowWrapper>
-                );
-              })}
+                          </ProposalDetailsRow>
+                          <ProposalDetailsRow>
+                            {isDesktop && <Block />}
+                            <Text style={{ flex: 9 }}>
+                              <b>Deposit:</b>{" "}
+                              {denomToUnit(x.deposit, network.denominationSize)}{" "}
+                              {network.denom}
+                            </Text>
+                          </ProposalDetailsRow>
+                        </ProposalDetails>
+                      </Collapse>
+                    </ClickableRowWrapper>
+                  );
+                })}
+              </ProposalsList>
             </Card>
           </Panel>
           <Panel>
@@ -290,10 +296,20 @@ class CeloGovernanceComponent extends React.Component<
         </View>
         <Row style={{ marginTop: 12 }}>
           <Panel>
-            <H5 style={{ margin: 2, paddingLeft: 12 }}>Events</H5>
-            <TransactionsContainer>
-              {governanceTransactionHistory.map(this.renderTransactionItem)}
-            </TransactionsContainer>
+            <H5 style={{ margin: 2, paddingLeft: 12 }}>
+              Governance Transactions
+            </H5>
+            {governanceTransactionHistory.length ? (
+              <TransactionsContainer>
+                {governanceTransactionHistory.map(this.renderTransactionItem)}
+              </TransactionsContainer>
+            ) : (
+              <TransactionsContainer>
+                <Text style={{ marginTop: 6, marginLeft: 6 }}>
+                  No governance transaction history exists.
+                </Text>
+              </TransactionsContainer>
+            )}
           </Panel>
         </Row>
       </>
@@ -308,8 +324,6 @@ class CeloGovernanceComponent extends React.Component<
     }
 
     const proposal = selectedProposal as GovernanceProposalType;
-
-    console.log(proposal);
 
     switch (proposal.__typename) {
       case undefined: {
@@ -352,6 +366,11 @@ class CeloGovernanceComponent extends React.Component<
                 {convertCeloEpochToTimestamp(proposal.expirationEpoch)}
               </Text>
             </DetailRowText>
+            {proposal.__typename === "QueuedProposal" && (
+              <Row style={{ marginTop: 24 }}>
+                <Button onClick={this.handleUpVote}>Up Vote</Button>
+              </Row>
+            )}
           </View>
         );
       case "ExpiredProposal": {
@@ -455,6 +474,10 @@ class CeloGovernanceComponent extends React.Component<
     }
   };
 
+  handleUpVote = () => {
+    Toast.warn("Governance up-voting coming soon...");
+  };
+
   renderTransactionItem = (transaction: ICeloTransaction) => {
     const { address, network, settings, i18n, setAddress } = this.props;
     const { t, tString, locale } = i18n;
@@ -514,6 +537,12 @@ const ProposalBanner = styled.div`
   color: ${COLORS.HEAVY_DARK_TEXT};
   background: ${(props: { theme: IThemeProps }) =>
     props.theme.isDarkTheme ? Colors.GRAY1 : Colors.GRAY5};
+`;
+
+const ProposalsList = styled.div`
+  height: 250px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 `;
 
 const ClickableRowWrapper = styled.div`

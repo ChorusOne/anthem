@@ -3,6 +3,7 @@ query oasisTransactions($address: String!, $startingPage: Float, $pageSize: Floa
         page
         limit
         data{
+            hash
             fee
             gas
             gas_price

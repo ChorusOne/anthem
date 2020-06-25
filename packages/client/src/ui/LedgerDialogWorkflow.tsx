@@ -3,7 +3,11 @@ import {
   getNetworkDefinitionFromIdentifier,
 } from "@anthem/utils";
 import { Classes, Colors, Dialog, H6, Icon } from "@blueprintjs/core";
-import { ChorusLogoIconOnly, ChorusLogoIconOnlyIconDark } from "assets/images";
+import {
+  ChorusLogoIconOnly,
+  ChorusLogoIconOnlyIconDark,
+  NetworkLogoIcon,
+} from "assets/images";
 import { COLORS } from "constants/colors";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
@@ -362,11 +366,19 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
                     <Link
                       replace
                       key={address}
-                      style={{ marginTop: 2, marginBottom: 2 }}
+                      style={{ marginTop: 4, marginBottom: 2 }}
                       to={`/${activeChartTab.toLowerCase()}?address=${address}`}
                     >
-                      <NetworkLabel>{network.name}</NetworkLabel>
-                      <RecentAddress>{formattedAddress}</RecentAddress>
+                      <Row style={{ justifyContent: "flex-start" }}>
+                        <NetworkLogoIcon
+                          network={network.name}
+                          styles={{ width: 22, height: 22, marginRight: 6 }}
+                        />
+                        <View>
+                          <NetworkLabel>{network.name}</NetworkLabel>
+                          <RecentAddress>{formattedAddress}</RecentAddress>
+                        </View>
+                      </Row>
                     </Link>
                   );
                 })}
@@ -560,7 +572,6 @@ const NetworkLabel = styled.p`
   width: 75px;
   font-weight: bold;
   font-size: 9px;
-  margin-top: 4px;
   margin-bottom: -6px;
   color: ${(props: { theme: IThemeProps }) =>
     props.theme.isDarkTheme ? Colors.LIGHT_GRAY1 : Colors.DARK_GRAY5};

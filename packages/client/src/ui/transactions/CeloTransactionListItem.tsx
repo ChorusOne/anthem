@@ -7,7 +7,11 @@ import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
 import React from "react";
 import { Link } from "react-router-dom";
-import { copyTextToClipboard, formatAddressString } from "tools/client-utils";
+import {
+  capitalizeString,
+  copyTextToClipboard,
+  formatAddressString,
+} from "tools/client-utils";
 import { denomToUnit } from "tools/currency-utils";
 import { formatDate, formatTime } from "tools/date-utils";
 import { TranslateMethodProps } from "tools/i18n-utils";
@@ -51,25 +55,29 @@ interface IProps extends TranslateMethodProps {
 
 class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
   render(): Nullable<JSX.Element> {
+    const { transaction } = this.props;
+    const tagData = maybeGetValueFromTags(transaction);
     return (
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
         <EventRow data-cy="transaction-list-item">
-          {this.renderTypeAndTimestamp()}
-          {this.renderAddressBlocks()}
-          {this.renderHash()}
+          {this.renderTypeAndTimestamp(transaction)}
+          {this.renderAddressBlocks(transaction)}
+          {this.renderHash(transaction)}
         </EventRow>
         <EventRowBottom>
-          {this.renderBlockNumber()}
-          {this.renderTransactionValues()}
-          {this.renderBlockExplorerLink()}
+          {this.renderBlockNumber(transaction)}
+          {this.renderTransactionValues(transaction)}
+          {this.renderBlockExplorerLink(transaction)}
         </EventRowBottom>
+        {tagData && (
+          <EventRowBottom>{this.renderTagValues(tagData)}</EventRowBottom>
+        )}
       </Card>
     );
   }
 
-  renderTypeAndTimestamp = () => {
-    const { transaction } = this.props;
-    const { contract, type } = getCeloTransactionType(this.props.transaction);
+  renderTypeAndTimestamp = (transaction: ICeloTransaction) => {
+    const { contract, type } = getCeloTransactionType(transaction);
     const time = Number(transaction.timestamp) * 1000;
     return (
       <EventRowItem style={{ minWidth: 300 }}>
@@ -78,7 +86,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
         </EventIconBox>
         <EventContextBox>
           <Row>
-            {!!contract && <Code style={{ marginRight: 4 }}>{contract}</Code>}
+            {!!contract && <Code style={{ marginRight: 6 }}>{contract}</Code>}
             <EventText style={{ fontWeight: "bold" }}>{type}</EventText>
           </Row>
           <EventText data-cy="transaction-timestamp">
@@ -89,8 +97,8 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderBlockNumber = () => {
-    const { blockNumber } = this.props.transaction;
+  renderBlockNumber = (transaction: ICeloTransaction) => {
+    const { blockNumber } = transaction;
     return (
       <EventRowItem style={{ minWidth: 300 }}>
         <EventIconBox>
@@ -106,8 +114,8 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderHash = () => {
-    const { hash } = this.props.transaction;
+  renderHash = (transaction: ICeloTransaction) => {
+    const { hash } = transaction;
 
     const TxHashLink = this.props.isDetailView ? (
       <ClickableEventRow onClick={() => copyTextToClipboard(hash)}>
@@ -122,7 +130,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
         </EventContextBox>
       </ClickableEventRow>
     ) : (
-      <Link to={`/txs/${hash}`}>
+      <Link to={`/txs/${hash}`} data-cy="transaction-hash-link">
         <ClickableEventRow onClick={() => null}>
           <EventIconBox>
             <LinkIcon />
@@ -149,8 +157,8 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderBlockExplorerLink = () => {
-    const { hash } = this.props.transaction;
+  renderBlockExplorerLink = (transaction: ICeloTransaction) => {
+    const { hash } = transaction;
     const link = `https://explorer.celo.org/tx/${hash}`;
     return (
       <a target="_blank" href={link} rel="noopener noreferrer">
@@ -168,8 +176,8 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderAddressBlocks = () => {
-    const { from, to } = this.props.transaction;
+  renderAddressBlocks = (transaction: ICeloTransaction) => {
+    const { from, to } = transaction;
     return (
       <>
         {!!from ? this.renderAddressBox(from, "From") : null}
@@ -201,20 +209,11 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderTransactionValues = () => {
-    const { network, transaction } = this.props;
+  renderTransactionValues = (transaction: ICeloTransaction) => {
+    const { network } = this.props;
     const size = network.denominationSize;
     const { value, gasUsed, gasPrice } = transaction.details;
     const fee = multiply(gasUsed, gasPrice);
-    const hasTagValue = maybeGetValueFromTags(transaction);
-
-    // Set the transaction value as the value or the value from the tag or
-    // default to zero... OK!
-    const transactionValue = value
-      ? value
-      : hasTagValue
-      ? hasTagValue.value
-      : 0;
 
     return (
       <>
@@ -223,7 +222,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           <EventContextBox>
             <EventText style={{ fontWeight: "bold" }}>Value</EventText>
             <EventText data-cy="transaction-value">
-              {denomToUnit(transactionValue, size)} {network.denom}
+              {denomToUnit(value, size)} {network.denom}
             </EventText>
           </EventContextBox>
         </EventRowItem>
@@ -236,6 +235,68 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
             </EventText>
           </EventContextBox>
         </EventRowItem>
+      </>
+    );
+  };
+
+  renderTagValues = (data: { [key: string]: string }) => {
+    const { network } = this.props;
+    const size = network.denominationSize;
+    const entries = Object.entries(data);
+
+    return (
+      <>
+        <EventRowItem style={{ minWidth: 300 }}>
+          <EventIconBox />
+          <EventContextBox>
+            <Row>
+              <EventText style={{ fontWeight: "bold" }}>
+                Internal Transaction Data
+              </EventText>
+            </Row>
+          </EventContextBox>
+        </EventRowItem>
+        {entries.map(([key, value]) => {
+          if (key === "value") {
+            return (
+              <EventRowItem key={key} style={{ minWidth: 215 }}>
+                <EventIconBox />
+                <EventContextBox>
+                  <EventText style={{ fontWeight: "bold" }}>
+                    {capitalizeString(key)}
+                  </EventText>
+                  <EventText data-cy="transaction-value">
+                    {denomToUnit(value, size)} {network.denom}
+                  </EventText>
+                </EventContextBox>
+              </EventRowItem>
+            );
+          } else {
+            return (
+              <ClickableEventRow
+                key={key}
+                style={{ minWidth: 215 }}
+                onClick={() => copyTextToClipboard(value)}
+              >
+                <EventIconBox>
+                  <AddressIconComponent
+                    address={value}
+                    networkName={this.props.network.name}
+                    validatorOperatorAddressMap={new Map()}
+                  />
+                </EventIconBox>
+                <EventContextBox>
+                  <EventText style={{ fontWeight: "bold" }}>
+                    {capitalizeString(key)}
+                  </EventText>
+                  <EventText style={{ fontWeight: 100, fontSize: 13 }}>
+                    {formatAddressString(value, true)}
+                  </EventText>
+                </EventContextBox>
+              </ClickableEventRow>
+            );
+          }
+        })}
       </>
     );
   };
@@ -276,14 +337,13 @@ const getCeloTransactionType = (transaction: ICeloTransaction) => {
  */
 const maybeGetValueFromTags = (
   transaction: ICeloTransaction,
-): Nullable<{ to: string; value: string }> => {
+): Nullable<{ [key: string]: string }> => {
   const { tags } = transaction;
   try {
     const { parameters } = tags[0];
     const data = JSON.parse(parameters);
-    const { account, value } = data;
-    if (account && value) {
-      return { to: account, value };
+    if ("value" in data) {
+      return data;
     }
   } catch (err) {
     // Do nothing

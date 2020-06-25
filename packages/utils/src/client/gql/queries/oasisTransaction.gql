@@ -1,5 +1,6 @@
 query oasisTransaction($hash: String!){
     oasisTransaction(hash: $hash){
+        hash
         fee
         gas
         gas_price

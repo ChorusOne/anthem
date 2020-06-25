@@ -1,3 +1,7 @@
+import { NETWORK_ADDRESS_DEFAULTS } from "@anthem/utils";
+
+const { COSMOS, OASIS, CELO } = NETWORK_ADDRESS_DEFAULTS;
+
 /** ===========================================================================
  * Types & Constants
  * ============================================================================
@@ -72,6 +76,14 @@ const shouldContainText = (id: string, text: string) => {
 };
 
 /**
+ * Search some value in the dashboard address bar.
+ */
+const searchInAddressInput = (search: string) => {
+  const id = "dashboard-address-input";
+  typeText(id, `${search}{enter}`);
+};
+
+/**
  * Set the test browser viewport size using Cypress. This is used
  * to set the viewport size before a test begins to test various
  * viewport sizes.
@@ -84,20 +96,48 @@ const setViewportSize = (size: any) => {
   }
 };
 
-type Network = "cosmos" | "oasis"; // Only these two for now
+type Network = "cosmos" | "celo" | "oasis";
+
+/**
+ * Basic check to determine which network is connected.
+ */
+const checkForNetwork = (network: Network) => {
+  switch (network) {
+    case "oasis": {
+      cy.contains("ROSE Price");
+      cy.contains("NETWORK: OASIS");
+      break;
+    }
+    case "celo": {
+      cy.contains("CELO Price");
+      cy.contains("NETWORK: CELO");
+      break;
+    }
+    case "cosmos": {
+      cy.contains("ATOM Price");
+      cy.contains("NETWORK: COSMOS");
+      break;
+    }
+  }
+};
 
 /**
  * Helper to login using the address login.
  */
 const loginWithAddress = (type: any, network: Network, useLedger = false) => {
   // Set an address before each test.
-  const address =
-    network === "cosmos"
-      ? "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd"
-      : "CVzqFIADD2Ed0khGBNf4Rvh7vSNtrL1ULTkWYQszDpc=";
-
-  const addressPrefix =
-    network === "cosmos" ? "cosmos15...um7trd" : "CVzqFIAD...szDpc=";
+  let address = "";
+  let addressPrefix = "";
+  if (network === "cosmos") {
+    address = COSMOS.account;
+    addressPrefix = "cosmos15...um7trd";
+  } else if (network === "celo") {
+    address = CELO.account;
+    addressPrefix = "0x47b2dB...BF0673";
+  } else if (network === "oasis") {
+    address = OASIS.account;
+    addressPrefix = "oasis1qq...kk4ku2";
+  }
 
   /**
    * Visit the app. Expect redirect to login and initiate the login
@@ -126,12 +166,10 @@ const loginWithAddress = (type: any, network: Network, useLedger = false) => {
   }
 
   if (type.isDesktop()) {
-    if (network === "cosmos") {
-      cy.get(find("user-selected-address-bar")).should(
-        "have.text",
-        addressPrefix,
-      );
-    }
+    cy.get(find("user-selected-address-bar")).should(
+      "have.text",
+      addressPrefix,
+    );
   }
 
   cy.url().should("contain", address);
@@ -173,5 +211,7 @@ export const UTILS = {
   shouldContainText,
   setViewportSize,
   loginWithAddress,
+  searchInAddressInput,
+  checkForNetwork,
   logout,
 };

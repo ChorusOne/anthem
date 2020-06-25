@@ -566,12 +566,17 @@ class OasisBalancesComponent extends React.Component<
       getPercentage(unbondingBalance, total),
     ];
 
+    /**
+     * NOTE: For Oasis only the balances exist currently so these are
+     * centered in the panel using extra padding and margin.
+     */
+
     return (
       <>
-        <SummaryContainer>
+        <SummaryContainer style={{ paddingTop: 50 }}>
           <BalanceContainer>
             <View>
-              <BalanceLine>
+              <BalanceLine style={{ marginTop: 6 }}>
                 <Icon
                   icon={IconNames.DOT}
                   style={{ marginRight: 2 }}
@@ -582,7 +587,7 @@ class OasisBalancesComponent extends React.Component<
                   {renderCurrency(available)}
                 </BalanceText>
               </BalanceLine>
-              <BalanceLine>
+              <BalanceLine style={{ marginTop: 6 }}>
                 <Icon
                   icon={IconNames.DOT}
                   style={{ marginRight: 2 }}
@@ -593,7 +598,7 @@ class OasisBalancesComponent extends React.Component<
                   {renderCurrency(stakedBalance)}
                 </BalanceText>
               </BalanceLine>
-              <BalanceLine>
+              <BalanceLine style={{ marginTop: 6 }}>
                 <Icon
                   icon={IconNames.DOT}
                   style={{ marginRight: 2 }}
@@ -604,7 +609,7 @@ class OasisBalancesComponent extends React.Component<
                   {renderCurrency(unbondingBalance)}
                 </BalanceText>
               </BalanceLine>
-              <BalanceLine>
+              <BalanceLine style={{ marginTop: 6 }}>
                 <Icon
                   icon={IconNames.DOT}
                   style={{ marginRight: 2 }}
@@ -613,7 +618,7 @@ class OasisBalancesComponent extends React.Component<
                 <BalanceTitle>Rewards:</BalanceTitle>
                 <BalanceText data-cy="oasis-balance-rewards">n/a</BalanceText>
               </BalanceLine>
-              <BalanceLine>
+              <BalanceLine style={{ marginTop: 6 }}>
                 <Icon
                   icon={IconNames.DOT}
                   style={{ marginRight: 2 }}

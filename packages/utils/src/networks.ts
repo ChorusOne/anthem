@@ -30,6 +30,48 @@ interface NetworksMap {
   [key: string]: NetworkDefinition;
 }
 
+interface Addresses {
+  account: string;
+  validator: string;
+  tx_hash: string;
+}
+
+/**
+ * Address defaults to be used in various places, e.g. fetching fixed client
+ * data for app development and in the Cypress tests to interact with the
+ * app.
+ *
+ * More values can be filled in as needed.
+ */
+const NETWORK_ADDRESS_DEFAULTS: { [key: string]: Addresses } = {
+  COSMOS: {
+    account: "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+    validator: "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+    tx_hash: "E0BC81E3B76F70466D8F235F02EDD3F3E23E8C52A40D27A650BC14A9E6F8239C",
+  },
+  TERRA: {
+    account: "",
+    validator: "",
+    tx_hash: "",
+  },
+  KAVA: {
+    account: "",
+    validator: "",
+    tx_hash: "",
+  },
+  OASIS: {
+    account: "oasis1qqhjc0phd0wg43luhly2ufsuw2h3gc5v3ukk4ku2",
+    validator: "",
+    tx_hash: "",
+  },
+  CELO: {
+    account: "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+    validator: "",
+    tx_hash:
+      "0xdb33159c19e457e500adae015e4923d3851f355f7319c3ded15a8cfe4503d002",
+  },
+};
+
 /** ===========================================================================
  * Networks
  * ---------------------------------------------------------------------------
@@ -153,4 +195,4 @@ const AVAILABLE_NETWORKS = Object.values(NETWORKS).filter(n => n.available);
  * ============================================================================
  */
 
-export { NETWORKS, AVAILABLE_NETWORKS };
+export { NETWORKS, AVAILABLE_NETWORKS, NETWORK_ADDRESS_DEFAULTS };

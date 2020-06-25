@@ -12,9 +12,10 @@ import {
   IOasisUnknownEvent,
   NetworkDefinition,
 } from "@anthem/utils";
-import { Card, Elevation } from "@blueprintjs/core";
+import { Card, Elevation, Position, Tooltip } from "@blueprintjs/core";
 import { OasisLogo } from "assets/icons";
 import {
+  LinkIcon,
   OasisBurnIcon,
   OasisEscrowAddIcon,
   OasisEscrowReclaimIcon,
@@ -26,7 +27,8 @@ import { FiatCurrency } from "constants/fiat";
 import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
 import React from "react";
-import { formatAddressString } from "tools/client-utils";
+import { Link } from "react-router-dom";
+import { copyTextToClipboard, formatAddressString } from "tools/client-utils";
 import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
 import { formatDate, formatTime } from "tools/date-utils";
 import { TranslateMethodProps } from "tools/i18n-utils";
@@ -40,6 +42,7 @@ import {
   EventRowItem,
   EventText,
   TransactionCardStyles,
+  TransactionLinkText,
 } from "./TransactionComponents";
 
 /** ===========================================================================
@@ -73,6 +76,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
           {this.renderTypeAndTimestamp()}
           {this.renderAddressBlocks()}
           {this.renderFeeAmount(transaction.fee)}
+          {this.renderHash()}
         </EventRow>
       </Card>
     );
@@ -117,19 +121,19 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
       }
       case IOasisTransactionType.RegisterEntity: {
         const event = transaction.data as IOasisRegisterEntityEvent;
-        return this.renderEventInfoBox(event.id, "Entity id");
+        return this.renderEventInfoBox(event.id || "no id found", "Entity id");
       }
       case IOasisTransactionType.RegisterNode: {
         const event = transaction.data as IOasisRegisterEntityEvent;
-        return this.renderEventInfoBox(event.id, "Node id");
+        return this.renderEventInfoBox(event.id || "no id found", "Node id");
       }
       case IOasisTransactionType.RegisterRuntime: {
         const event = transaction.data as IOasisRegisterRuntimeEvent;
-        return this.renderEventInfoBox(event.id, "Runtime id");
+        return this.renderEventInfoBox(event.id || "no id found", "Runtime id");
       }
       case IOasisTransactionType.UnfreezeNode: {
         const event = transaction.data as IOasisUnfreezeNodeEvent;
-        return this.renderEventInfoBox(event.id, "Node id");
+        return this.renderEventInfoBox(event.id || "no id found", "Node id");
       }
       case IOasisTransactionType.UnknownEvent: {
         const event = transaction.data as IOasisUnknownEvent;
@@ -224,6 +228,49 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
           <EventText>{info}</EventText>
         </EventContextBox>
       </EventRow>
+    );
+  };
+
+  renderHash = () => {
+    const { hash } = this.props.transaction;
+
+    const TxHashLink = this.props.isDetailView ? (
+      <ClickableEventRow onClick={() => copyTextToClipboard(hash)}>
+        <EventIconBox>
+          <LinkIcon />
+        </EventIconBox>
+        <EventContextBox>
+          <EventText style={{ fontWeight: "bold" }}>Hash</EventText>
+          <TransactionLinkText style={{ fontWeight: 100, fontSize: 13 }}>
+            {hash.slice(0, 15)}...
+          </TransactionLinkText>
+        </EventContextBox>
+      </ClickableEventRow>
+    ) : (
+      <Link to={`/txs/${hash}`} data-cy="transaction-hash-link">
+        <ClickableEventRow onClick={() => null}>
+          <EventIconBox>
+            <LinkIcon />
+          </EventIconBox>
+          <EventContextBox>
+            <EventText style={{ fontWeight: "bold" }}>Hash</EventText>
+            <EventText
+              style={{ fontWeight: 100, fontSize: 13 }}
+              data-cy="transaction-block-number"
+            >
+              {hash.slice(0, 15)}...
+            </EventText>
+          </EventContextBox>
+        </ClickableEventRow>
+      </Link>
+    );
+
+    return this.props.isDetailView && this.props.isDesktop ? (
+      <Tooltip position={Position.TOP} content="Click to copy hash">
+        {TxHashLink}
+      </Tooltip>
+    ) : (
+      TxHashLink
     );
   };
 
