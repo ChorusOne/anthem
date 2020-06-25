@@ -539,17 +539,7 @@ class OasisBalancesComponent extends React.Component<
   render(): JSX.Element {
     const { balances, network } = this.props;
 
-    const {
-      available,
-      staked,
-      unbonding,
-      rewards,
-      // commissions,
-      // meta,
-      // delegations,
-    } = balances;
-
-    console.log(balances);
+    const { available, staked, unbonding, rewards } = balances;
 
     const stakedBalance = staked.balance;
     const unbondingBalance = unbonding.balance;

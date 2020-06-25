@@ -88,7 +88,7 @@ class OasisPortfolio extends React.PureComponent<
       fullSize,
       oasisAccountHistory,
     } = this.props;
-    const { t, tString } = i18n;
+    const { tString } = i18n;
     const { fiatCurrency, currencySetting, isDarkTheme } = settings;
 
     return (

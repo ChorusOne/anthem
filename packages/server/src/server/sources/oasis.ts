@@ -266,7 +266,6 @@ const fetchAccountHistory = async (
   const host = getHostFromNetworkName(network.name);
   const url = `${host}/account/${address}/history`;
   const response = await AxiosUtil.get<OasisAccountHistory[]>(url);
-  console.log(response);
   return response;
 };
 
@@ -281,8 +280,6 @@ const fetchTransactions = async (
   const params = `limit=${pageSize + 1}&page=${startingPage}`;
   const url = `${host}/account/${address}/transactions?${params}`;
   const response = await AxiosUtil.get<OasisTransaction[]>(url);
-  // const response = MOCK_OASIS_EVENTS;
-
   const pages = Array.isArray(response) ? response.slice(0, pageSize) : [];
   const moreResultsExist = response.length > pageSize;
 
@@ -324,16 +321,6 @@ const fetchTransaction = async (hash: string): Promise<IOasisTransaction> => {
  * ============================================================================
  */
 
-// Generate a random hash for now.
-const getRandomHash = () => {
-  const x = () =>
-    Math.random()
-      .toString(36)
-      .substring(7);
-
-  return `${x()}${x()}${x()}${x()}`;
-};
-
 /**
  * Map the transaction type onto the transaction data.
  */
@@ -343,7 +330,6 @@ const combineWithType = (
 ) => {
   const result: IOasisTransaction = {
     ...transaction,
-    // @ts-ignore
     data: { ...transaction.data, type },
   };
 
@@ -415,124 +401,6 @@ const adaptOasisTransaction = (
     }
   }
 };
-
-/** ===========================================================================
- * Mock Transactions for Testing
- * ============================================================================
- */
-
-const txBase = {
-  fee: "1",
-  gas_price: "0",
-  gas: 1000,
-  sender: "Xk9WLxZWcLjef1BZQD2PSpgapW5zBvPO1H8lZgkEUWU=",
-  date: "2020-05-11T21:35:24Z",
-  height: 2547,
-};
-
-const deregister: TxDeregisterEntity = {
-  ...txBase,
-  method: OasisTransactionMethod.DE_REGISTER_ENTITY,
-  hash: getRandomHash(),
-  data: {
-    id: "sa8df70af7as0",
-    nodes: ["sa980df7a0", "sa9d67f89a", "as9df76sa9"],
-    allow_entity_signed_nodes: true,
-  },
-};
-
-const register: TxRegisterEntity = {
-  ...txBase,
-  method: OasisTransactionMethod.REGISTER_ENTITY,
-  hash: getRandomHash(),
-  data: {
-    id: "sa8df70af7as0",
-    nodes: ["sa980df7a0", "sa9d67f89a", "as9df76sa9"],
-    allow_entity_signed_nodes: true,
-  },
-};
-
-const rateEvent: TxRate = {
-  ...txBase,
-  method: OasisTransactionMethod.RATE,
-  hash: getRandomHash(),
-  data: {
-    start: "Start",
-    rate: "Rate",
-  },
-};
-
-const amend: TxAmendCommissionSchedule = {
-  ...txBase,
-  method: OasisTransactionMethod.AMEND_COMMISSION_SCHEDULE,
-  hash: getRandomHash(),
-  data: {
-    rates: ["1", "2", "3"],
-    bounds: ["1", "2", "3"],
-  },
-};
-
-const registerRuntime: TxRegisterRuntime = {
-  ...txBase,
-  method: OasisTransactionMethod.REGISTER_RUNTIME,
-  hash: getRandomHash(),
-  data: {
-    id: "as9fd7as97f6sad0",
-    version: "1.2.4",
-  },
-};
-
-const boundEvent: TxBound = {
-  ...txBase,
-  method: OasisTransactionMethod.BOUND,
-  hash: getRandomHash(),
-  data: {
-    start: "Start",
-    rate_min: "Rate Min",
-    rate_max: "Rate Max",
-  },
-};
-
-const unfreezeNode: TxUnfreezeNode = {
-  ...txBase,
-  method: OasisTransactionMethod.UN_FREEZE_NODE,
-  hash: getRandomHash(),
-  data: {
-    id: "s76fd9af9s8ad",
-  },
-};
-
-const registerNode: TxRegisterNode = {
-  ...txBase,
-  method: OasisTransactionMethod.REGISTER_NODE,
-  hash: getRandomHash(),
-  data: {
-    id: "s0a9f780sa97f0sad",
-    entity_id: "saf967as986f784as67d5f",
-    expiration: 15000,
-  },
-};
-
-const unknown: TxUnknownMethod = {
-  ...txBase,
-  method: OasisTransactionMethod.UNKNOWN_METHOD,
-  hash: getRandomHash(),
-  data: {
-    method_name: "HEIST",
-  },
-};
-
-const MOCK_OASIS_EVENTS: OasisTransaction[] = [
-  deregister,
-  register,
-  rateEvent,
-  amend,
-  registerRuntime,
-  boundEvent,
-  unfreezeNode,
-  registerNode,
-  unknown,
-];
 
 /** ===========================================================================
  * Export
