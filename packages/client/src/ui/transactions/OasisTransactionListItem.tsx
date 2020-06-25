@@ -40,6 +40,7 @@ import {
   EventIcon,
   EventIconBox,
   EventRow,
+  EventRowBottom,
   EventRowItem,
   EventText,
   TransactionCardStyles,
@@ -77,8 +78,11 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
           {this.renderTypeAndTimestamp()}
           {this.renderHash()}
           {this.renderAddressBlocks()}
-          {this.renderFeeAmount(transaction.fee)}
         </EventRow>
+        <EventRowBottom>
+          {this.renderBlockHeight(transaction)}
+          {this.renderFeeAmount(transaction)}
+        </EventRowBottom>
       </Card>
     );
   }
@@ -170,7 +174,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
     const { transaction } = this.props;
     const Icon = getOasisTransactionTypeIcon(transaction.data.type);
     return (
-      <EventRowItem style={{ minWidth: 215 }}>
+      <EventRowItem style={{ minWidth: 300 }}>
         <EventIconBox>{Icon}</EventIconBox>
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>
@@ -184,19 +188,55 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderFeeAmount = (amount: string) => {
-    const { denominationSize, denom } = this.props.network;
+  renderBlockHeight = (transaction: IOasisTransaction) => {
+    const { height } = transaction;
     return (
-      <EventRowItem style={{ minWidth: 150 }}>
-        <EventIconBox />
+      <EventRowItem style={{ minWidth: 300 }}>
+        <EventIconBox>
+          <OasisGenericEvent />
+        </EventIconBox>
         <EventContextBox>
-          <EventText style={{ fontWeight: "bold" }}>Transaction Fee</EventText>
-          <EventText>
-            {formatCurrencyAmount(denomToUnit(amount, denominationSize))}{" "}
-            {denom}
-          </EventText>
+          <EventText style={{ fontWeight: "bold" }}>Block Number</EventText>
+          <EventText data-cy="transaction-block-number">{height}</EventText>
         </EventContextBox>
       </EventRowItem>
+    );
+  };
+
+  renderFeeAmount = (transaction: IOasisTransaction) => {
+    const { fee, gas, gas_price } = transaction;
+    const { denominationSize, denom } = this.props.network;
+    return (
+      <>
+        <EventRowItem style={{ minWidth: 200 }}>
+          <EventIconBox />
+          <EventContextBox>
+            <EventText style={{ fontWeight: "bold" }}>Fee</EventText>
+            <EventText>
+              {formatCurrencyAmount(denomToUnit(fee, denominationSize))} {denom}
+            </EventText>
+          </EventContextBox>
+        </EventRowItem>
+        <EventRowItem style={{ minWidth: 200 }}>
+          <EventIconBox />
+          <EventContextBox>
+            <EventText style={{ fontWeight: "bold" }}>Gas</EventText>
+            <EventText>
+              {formatCurrencyAmount(denomToUnit(gas, denominationSize))} {denom}
+            </EventText>
+          </EventContextBox>
+        </EventRowItem>
+        <EventRowItem style={{ minWidth: 200 }}>
+          <EventIconBox />
+          <EventContextBox>
+            <EventText style={{ fontWeight: "bold" }}>Gas Price</EventText>
+            <EventText>
+              {formatCurrencyAmount(denomToUnit(gas_price, denominationSize))}{" "}
+              {denom}
+            </EventText>
+          </EventContextBox>
+        </EventRowItem>
+      </>
     );
   };
 
