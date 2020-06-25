@@ -1,0 +1,18 @@
+{
+  "oasisTransaction": {
+    "hash": "756d7f36d88002b7195a25cc0050b365e00324d3187f4ae986bc66d6bbe63d4b",
+    "fee": "0",
+    "gas": 1168,
+    "gas_price": "0",
+    "height": 64148,
+    "method": "registry.RegisterNode",
+    "date": "2020-06-23T00:52:36Z",
+    "sender": "oasis1qqhjc0phd0wg43luhly2ufsuw2h3gc5v3ukk4ku2",
+    "data": {
+      "type": "REGISTER_NODE",
+      "id": null,
+      "entity_id": null,
+      "expiration": null
+    }
+  }
+}

@@ -62,7 +62,7 @@ const NETWORK_ADDRESS_DEFAULTS: { [key: string]: Addresses } = {
   OASIS: {
     account: "oasis1qqhjc0phd0wg43luhly2ufsuw2h3gc5v3ukk4ku2",
     validator: "",
-    tx_hash: "",
+    tx_hash: "756d7f36d88002b7195a25cc0050b365e00324d3187f4ae986bc66d6bbe63d4b",
   },
   CELO: {
     account: "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",

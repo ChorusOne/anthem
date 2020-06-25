@@ -1,5 +1,5 @@
 import { Variables } from "graphql-request/dist/src/types";
-import { NETWORK_ADDRESS_DEFAULTS } from "src/networks";
+import { NETWORK_ADDRESS_DEFAULTS } from "../networks";
 
 /** ===========================================================================
  * Configuration for automatically runnings GraphQL queries against the

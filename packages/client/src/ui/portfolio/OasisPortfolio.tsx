@@ -1,4 +1,8 @@
-import { IOasisAccountHistory, NetworkDefinition } from "@anthem/utils";
+import {
+  assertUnreachable,
+  IOasisAccountHistory,
+  NetworkDefinition,
+} from "@anthem/utils";
 import * as Sentry from "@sentry/browser";
 import { FiatCurrency } from "constants/fiat";
 import {
@@ -11,6 +15,7 @@ import {
 } from "graphql/queries";
 import * as Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
@@ -21,6 +26,7 @@ import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
 import { toDateKey } from "tools/date-utils";
+import { addValuesInList } from "tools/math-utils";
 import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import Toast from "ui/Toast";
 import CurrencySettingsToggle from "../CurrencySettingToggle";
@@ -82,7 +88,7 @@ class OasisPortfolio extends React.PureComponent<
       fullSize,
       oasisAccountHistory,
     } = this.props;
-    const { t, tString } = i18n;
+    const { tString } = i18n;
     const { fiatCurrency, currencySetting, isDarkTheme } = settings;
 
     return (
@@ -99,8 +105,16 @@ class OasisPortfolio extends React.PureComponent<
           }
         >
           {(accountHistory: IOasisAccountHistory[]) => {
-            // console.log(accountHistory);
-            const chartData = getChartData(accountHistory, network);
+            const chartData = getChartData(
+              accountHistory,
+              network,
+              app.activeChartTab,
+            );
+
+            if (!chartData) {
+              return null;
+            }
+
             const options = getHighchartsChartOptions({
               tString,
               network,
@@ -116,7 +130,7 @@ class OasisPortfolio extends React.PureComponent<
               return (
                 <View style={{ paddingTop: 110 }}>
                   <p style={{ margin: 0, textAlign: "center" }}>
-                    {t("No data exists yet.")}
+                    No account history data exists yet.
                   </p>
                 </View>
               );
@@ -124,8 +138,6 @@ class OasisPortfolio extends React.PureComponent<
 
             const { activeChartTab } = app;
             switch (activeChartTab) {
-              case "REWARDS":
-              case "STAKING":
               case "COMMISSIONS":
                 return (
                   <View style={{ paddingTop: 110 }}>
@@ -137,6 +149,8 @@ class OasisPortfolio extends React.PureComponent<
                 );
               case "TOTAL":
               case "AVAILABLE":
+              case "REWARDS":
+              case "STAKING":
                 return (
                   <View>
                     <Row style={{ justifyContent: "space-between" }}>
@@ -220,12 +234,41 @@ class OasisPortfolio extends React.PureComponent<
 const getChartData = (
   accountHistory: IOasisAccountHistory[],
   network: NetworkDefinition,
-): ChartData => {
+  type: PORTFOLIO_CHART_TYPES,
+): Nullable<ChartData> => {
   const series: { [key: string]: number } = {};
 
   for (const x of accountHistory) {
+    let value = "";
+    switch (type) {
+      case "TOTAL":
+        value = addValuesInList([
+          x.balance,
+          x.rewards,
+          x.staked_balance.balance,
+          x.debonding_balance.balance,
+        ]);
+        break;
+      case "AVAILABLE":
+        value = x.balance;
+        break;
+      case "REWARDS":
+        value = x.rewards;
+        break;
+      case "STAKING":
+        value = x.staked_balance.balance;
+        break;
+      case "COMMISSIONS":
+        // Commissions are not supported yet
+        return null;
+      default:
+        console.warn(`Unexpected activeChartTab received: ${type}`);
+        assertUnreachable(type);
+    }
+
     const key = toDateKey(x.date);
-    series[key] = denomToUnit(x.balance, network.denominationSize, Number);
+    const result = denomToUnit(value, network.denominationSize, Number);
+    series[key] = result;
   }
 
   return {
@@ -254,7 +297,6 @@ const getOasisCSV = (
     `Total Balance (${coin})`,
     `Available Balance (${coin})`,
     `Staked Balance (${coin})`,
-    `Daily Rewards (${coin})`,
     `Accumulated Rewards (${coin})`,
   ];
 
@@ -267,16 +309,27 @@ const getOasisCSV = (
   for (const x of accountHistory) {
     const dateKey = toDateKey(x.date, true);
     const balance = denomToUnit(x.balance, network.denominationSize, String);
+    const staked = denomToUnit(
+      x.staked_balance.balance,
+      network.denominationSize,
+      String,
+    );
+    const debonding = denomToUnit(
+      x.debonding_balance.balance,
+      network.denominationSize,
+      String,
+    );
+    const rewards = denomToUnit(x.rewards, network.denominationSize, String);
+    const total = addValuesInList([balance, staked, debonding, rewards]);
 
     // Create the CSV row
     const row = [
       dateKey,
       "n/a", // Fiat balances not supported for Oasis yet
+      total,
       balance,
-      balance,
-      "n/a", // Staked balance not supported for Oasis yet
-      "n/a", // Rewards not supported for Oasis yet
-      "n/a", // Rewards not supported for Oasis yet
+      staked, // Staked balance not supported for Oasis yet
+      rewards, // Rewards not supported for Oasis yet
     ].join(",");
 
     // Add the row to the CSV
