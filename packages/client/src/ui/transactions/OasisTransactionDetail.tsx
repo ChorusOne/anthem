@@ -32,7 +32,7 @@ class OasisTransactionDetailLoadingContainer extends React.PureComponent<
   IProps
 > {
   render(): JSX.Element {
-    const { fiatPriceHistory, i18n } = this.props;
+    const { i18n } = this.props;
     const hash = this.props.location.pathname.replace("/txs/", "");
 
     // Transaction may already exist in Apollo cache. Use this data first.
@@ -66,10 +66,7 @@ class OasisTransactionDetailLoadingContainer extends React.PureComponent<
                       </Centered>
                     </View>
                   }
-                  results={[
-                    [transaction, ["data", "oasisTransaction"]],
-                    [fiatPriceHistory, "fiatPriceHistory"],
-                  ]}
+                  results={[[transaction, ["data", "oasisTransaction"]]]}
                 >
                   {([transactionResult]: readonly [IOasisTransaction]) => {
                     return this.renderTransaction(transactionResult);
