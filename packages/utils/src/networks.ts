@@ -81,7 +81,7 @@ const NETWORK_ADDRESS_DEFAULTS: { [key: string]: Addresses } = {
  * ============================================================================
  */
 
-export type COIN_DENOMS = "uatom" | "ukava" | "uluna" | "ROSE" | "CELO";
+export type COIN_DENOMS = "uatom" | "ukava" | "uluna" | "AMBR" | "CELO";
 
 export type NETWORK_NAME = "COSMOS" | "TERRA" | "KAVA" | "OASIS" | "CELO";
 
@@ -148,8 +148,8 @@ const NETWORKS: NetworksMap = {
   OASIS: {
     available: false,
     name: "OASIS",
-    denom: "ROSE",
-    descriptor: "ROSE",
+    denom: "AMBR", // For Amber testnet
+    descriptor: "AMBR",
     chainId: "oasis",
     cryptoCompareTicker: "OASIS",
     ledgerAppVersion: "n/a",

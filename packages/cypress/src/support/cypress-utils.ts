@@ -104,7 +104,7 @@ type Network = "cosmos" | "celo" | "oasis";
 const checkForNetwork = (network: Network) => {
   switch (network) {
     case "oasis": {
-      cy.contains("ROSE Price");
+      cy.contains("AMBR Price");
       cy.contains("NETWORK: OASIS");
       break;
     }

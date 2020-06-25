@@ -75,6 +75,14 @@ class NotificationsBanner extends React.Component<IProps> {
           </BannerText>
         );
       case "OASIS":
+        return (
+          <BannerText>
+            <span role="img" aria-label="warning-emoji">
+              🚧
+            </span>{" "}
+            Connected to the <b>Oasis Amber Testnet.</b>
+          </BannerText>
+        );
       case "CELO":
         return (
           <BannerText>
