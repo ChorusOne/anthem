@@ -35,10 +35,8 @@ class StorageClass {
    * Stored Address:
    */
   getAddress = (urlAddress?: string): string => {
-    const addressParam = urlAddress;
-
-    if (typeof addressParam === "string") {
-      return addressParam;
+    if (urlAddress && typeof urlAddress === "string") {
+      return urlAddress;
     } else {
       const address = this.getItem(KEYS.ADDRESS_KEY);
       if (address) {
