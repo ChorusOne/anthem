@@ -73,7 +73,7 @@ class RoutesContainer extends React.Component<IProps> {
               exact
               key={2}
               component={DashboardPage}
-              path="/:path(total|available|staking|rewards|commissions)"
+              path="/:path(total|available|staking|rewards|commissions)/:address"
             />
             <Route
               key={3}
@@ -82,12 +82,12 @@ class RoutesContainer extends React.Component<IProps> {
             />
             <Route
               key={4}
-              path="/:network/delegate"
+              path="/:network/delegate/:address"
               component={ValidatorsPage}
             />
             <Route
               key={5}
-              path="/:network/governance"
+              path="/:network/governance/:address"
               component={GovernanceSwitchContainer}
             />
             <Route key={6} path="/help" component={HelpPage} />
