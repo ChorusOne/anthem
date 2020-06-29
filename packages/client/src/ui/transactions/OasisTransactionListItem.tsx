@@ -193,9 +193,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
     const { height } = transaction;
     return (
       <EventRowItem style={{ minWidth: 200 }}>
-        <EventIconBox>
-          <OasisGenericEvent />
-        </EventIconBox>
+        <EventIconBox />
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>Block Number</EventText>
           <EventText data-cy="transaction-block-number">{height}</EventText>

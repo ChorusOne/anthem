@@ -101,9 +101,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     const { blockNumber } = transaction;
     return (
       <EventRowItem style={{ minWidth: 300 }}>
-        <EventIconBox>
-          <OasisGenericEvent />
-        </EventIconBox>
+        <EventIconBox />
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>Block Number</EventText>
           <EventText data-cy="transaction-block-number">
@@ -251,7 +249,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           <EventContextBox>
             <Row>
               <EventText style={{ fontWeight: "bold" }}>
-                Internal Transaction Data
+                Contract Call
               </EventText>
             </Row>
           </EventContextBox>
