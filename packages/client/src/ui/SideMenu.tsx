@@ -75,7 +75,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
     const open = () => this.setMobileMenuState(true);
     const close = () => this.setMobileMenuState(false);
 
-    const dashboardTab = this.props.app.activeChartTab;
+    const { activeChartTab } = this.props.app;
     const ledgerConnected = this.props.ledger.connected;
     const validator = this.getValidatorFromDelegatorAddressIfExists();
 
@@ -89,7 +89,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         key="Dashboard"
         title={tString("Dashboard")}
         icon={IconNames.TIMELINE_BAR_CHART}
-        route={`/${name.toLowerCase()}/${dashboardTab.toLowerCase()}`}
+        route={`/${name.toLowerCase()}/${activeChartTab.toLowerCase()}`}
       />,
       <NavItem
         key="Staking"
@@ -405,6 +405,7 @@ interface INavItemProps {
 
 const NavItem = ({ route, title, icon, path, closeHandler }: INavItemProps) => {
   const active = onActiveRoute(path, route);
+  console.log(path, route, active);
   const cypressLabel = `${title.toLowerCase()}-navigation-link`;
   return (
     <Link onClick={closeHandler} data-cy={cypressLabel} to={route}>

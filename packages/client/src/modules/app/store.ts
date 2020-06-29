@@ -123,7 +123,7 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
     const { pathname } = action.payload;
     const chartViewActive = onPageWhichIncludesAddressParam(pathname);
     if (chartViewActive) {
-      const tab = pathname.split("/")[1];
+      const tab = pathname.split("/")[2];
       const validTab = isValidChartTab(tab);
       if (validTab) {
         activeChartTab = validTab;

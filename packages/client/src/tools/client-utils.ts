@@ -89,16 +89,16 @@ export enum OASIS_ADDRESS_ENUM {
 /**
  * Determine if a given route link is on the current active route.
  */
-export const onActiveRoute = (pathName: string, routeName: string): boolean => {
-  return pathName === routeName;
+export const onActiveRoute = (path: string, route: string): boolean => {
+  return path === route;
 };
 
 /**
  * Determine if the given tab is active given the current route.
  */
-export const onActiveTab = (pathName: string, tabName: string): boolean => {
-  const path = pathName.split("/")[1];
-  return !!path && path.toLowerCase() === tabName.toLowerCase();
+export const onActiveTab = (pathname: string, tab: string): boolean => {
+  const path = pathname.split("/")[2];
+  return !!path && path.toLowerCase() === tab.toLowerCase();
 };
 
 /**
@@ -118,6 +118,77 @@ export const getQueryParamsFromUrl = (paramString: string) => {
  */
 export const getAddressFromUrl = (url: string) => {
   return url.split("/")[3];
+};
+
+/**
+ * Crudely determine if some path string is included in the current URL.
+ */
+export const onPath = (url: string, pathString: string): boolean => {
+  return url.includes(pathString);
+};
+
+/**
+ * Return true if a URL pathname is on a page which includes the
+ * address= param.
+ */
+export const onPageWhichIncludesAddressParam = (pathname: string) => {
+  return /total|available|staking|rewards|commissions|delegate|governance/.test(
+    pathname,
+  );
+};
+
+/**
+ * Check if a pathname includes a chart view.
+ */
+export const onChartTab = (pathname: string) => {
+  return /total|available|staking|rewards|commissions/.test(pathname);
+};
+
+/**
+ * Valid chart tab keys.
+ */
+export const CHART_TABS: ReadonlyArray<PORTFOLIO_CHART_TYPES> = [
+  "TOTAL",
+  "AVAILABLE",
+  "STAKING",
+  "REWARDS",
+  "COMMISSIONS",
+];
+
+/**
+ *  Determine if a string is a valid chart tab key.
+ */
+export const isValidChartTab = (
+  tab: string,
+): Nullable<PORTFOLIO_CHART_TYPES> => {
+  // @ts-ignore
+  if (new Set(CHART_TABS).has(tab.toUpperCase())) {
+    return tab.toUpperCase() as PORTFOLIO_CHART_TYPES;
+  } else {
+    return null;
+  }
+};
+
+/**
+ * Return information on which dashboard tab the user is viewing from the
+ * given url location.
+ */
+export const getPortfolioTypeFromUrl = (
+  path: string,
+): PORTFOLIO_CHART_TYPES | null => {
+  if (onPath(path, "/total")) {
+    return "TOTAL";
+  } else if (onPath(path, "/available")) {
+    return "AVAILABLE";
+  } else if (onPath(path, "/rewards")) {
+    return "REWARDS";
+  } else if (onPath(path, "/staking")) {
+    return "STAKING";
+  } else if (onPath(path, "/commissions")) {
+    return "COMMISSIONS";
+  }
+
+  return null;
 };
 
 /**
@@ -397,70 +468,6 @@ export const canRenderGraphQL = (graphqlProps: {
   error?: ApolloError;
 }): boolean => {
   return !graphqlProps.loading && !graphqlProps.error && graphqlProps.data;
-};
-
-/**
- * Crudely determine if some path string is included in the current URL.
- */
-export const onPath = (url: string, pathString: string): boolean => {
-  return url.includes(pathString);
-};
-
-/**
- * Return true if a URL pathname is on a page which includes the
- * address= param.
- */
-export const onPageWhichIncludesAddressParam = (pathname: string) => {
-  return /total|available|staking|rewards|commissions|delegate|governance/.test(
-    pathname,
-  );
-};
-
-/**
- * Valid chart tab keys.
- */
-export const CHART_TABS: ReadonlyArray<PORTFOLIO_CHART_TYPES> = [
-  "TOTAL",
-  "AVAILABLE",
-  "STAKING",
-  "REWARDS",
-  "COMMISSIONS",
-];
-
-/**
- *  Determine if a string is a valid chart tab key.
- */
-export const isValidChartTab = (
-  tab: string,
-): Nullable<PORTFOLIO_CHART_TYPES> => {
-  // @ts-ignore
-  if (new Set(CHART_TABS).has(tab.toUpperCase())) {
-    return tab.toUpperCase() as PORTFOLIO_CHART_TYPES;
-  } else {
-    return null;
-  }
-};
-
-/**
- * Return information on which dashboard tab the user is viewing from the
- * given url location.
- */
-export const getPortfolioTypeFromUrl = (
-  path: string,
-): PORTFOLIO_CHART_TYPES | null => {
-  if (onPath(path, "/total")) {
-    return "TOTAL";
-  } else if (onPath(path, "/available")) {
-    return "AVAILABLE";
-  } else if (onPath(path, "/rewards")) {
-    return "REWARDS";
-  } else if (onPath(path, "/staking")) {
-    return "STAKING";
-  } else if (onPath(path, "/commissions")) {
-    return "COMMISSIONS";
-  }
-
-  return null;
 };
 
 /**

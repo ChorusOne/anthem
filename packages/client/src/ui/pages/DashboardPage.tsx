@@ -1,3 +1,4 @@
+import { NetworkDefinition } from "@anthem/utils";
 import {
   Button,
   Card,
@@ -53,7 +54,7 @@ import TransactionSwitchContainer from "ui/transactions/TransactionSwitchContain
 
 class DashboardPage extends React.Component<IProps> {
   componentDidMount() {
-    const tab = window.location.pathname.split("/")[1];
+    const tab = window.location.pathname.split("/")[2];
     const validTab = isValidChartTab(tab);
     if (validTab) {
       this.props.setActiveChartTab(validTab);
@@ -157,12 +158,14 @@ class DashboardPage extends React.Component<IProps> {
     const {
       i18n,
       address,
+      ledger,
       history,
       settings,
       location,
       cosmosAccountHistory,
     } = this.props;
     const { tString } = i18n;
+    const { network } = ledger;
     const { pathname } = location;
 
     const commissionsLinkAvailable = shouldShowCommissionsLink(
@@ -188,6 +191,7 @@ class DashboardPage extends React.Component<IProps> {
                 <DashboardNavigationLink
                   key={title}
                   title={title}
+                  network={network}
                   address={address}
                   pathname={pathname}
                   localizedTitle={tString(title as PORTFOLIO_CHART_TYPES)}
@@ -209,6 +213,7 @@ class DashboardPage extends React.Component<IProps> {
                     title,
                     address,
                     history,
+                    network,
                     pathname,
                     localizedTitle: tString(title),
                   }),
@@ -336,6 +341,7 @@ interface INavItemProps {
   address: string;
   pathname: string;
   localizedTitle: string;
+  network: NetworkDefinition;
   title: PORTFOLIO_CHART_TYPES;
 }
 
@@ -371,11 +377,13 @@ const ExpandCollapseIcon = ({ onClick }: { onClick: () => void }) => (
 
 const DashboardNavigationLink = ({
   title,
+  address,
+  network,
   pathname,
   localizedTitle,
 }: INavItemProps) => {
   const active = onActiveTab(pathname, title);
-  const path = `/${title.toLowerCase()}`;
+  const path = `${title.toLowerCase()}?address=${address}`;
   const onClickFunction = () => runAnalyticsForTab(title);
   return (
     <Link
@@ -411,12 +419,14 @@ const NavLinkContainer = styled.div`
 
 const getMobileDashboardNavigationLink = ({
   title,
+  address,
+  network,
   history,
   pathname,
   localizedTitle,
 }: INavItemProps & { history: History }) => {
   const active = onActiveRoute(pathname, localizedTitle);
-  const path = `/${title.toLowerCase()}`;
+  const path = `/${network.name.toLowerCase()}/${title.toLowerCase()}?address=${address}`;
   const onClickFunction = () => {
     history.push(path);
     runAnalyticsForTab(title);
