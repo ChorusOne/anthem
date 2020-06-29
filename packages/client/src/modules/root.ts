@@ -109,7 +109,8 @@ const rootEpic = (action$: any, store$: any, dependencies: any) => {
 };
 
 const resubscribeOnError = (error: any, source: any) => {
-  console.log(error);
+  // Log the error:
+  console.log("[ERROR]: Uncaught error from epics: ", error);
   // Handle error side effects
   return source;
 };
