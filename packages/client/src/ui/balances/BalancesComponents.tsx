@@ -249,7 +249,7 @@ class CosmosBalancesComponent extends React.Component<
           <ActionContainer>
             <H5>{tString("What do you want to do?")}</H5>
             <DelegationControlsContainer>
-              <Link to="/delegate">
+              <Link to="/cosmos/delegate">
                 <Button
                   style={{ width: 125, marginRight: 12 }}
                   onClick={() => null}
@@ -446,7 +446,7 @@ class CeloBalancesComponent extends React.Component<
         <ActionContainer>
           <H5>Celo Ledger Transactions</H5>
           <DelegationControlsContainer>
-            <Link to="/delegate">
+            <Link to="/celo/delegate">
               <Button
                 style={{ width: 125, marginRight: 12 }}
                 onClick={() => null}

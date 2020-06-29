@@ -412,7 +412,11 @@ const searchTransactionNavigationEpic: EpicSignature = (
   return action$.pipe(
     filter(isActionOf(Actions.searchTransactionByHash)),
     pluck("payload"),
-    tap(hash => deps.router.push({ pathname: `/txs/${hash.toLowerCase()}` })),
+    tap(hash => {
+      const { network } = state$.value.ledger.ledger;
+      const pathname = `/${network.name.toLowerCase()}/txs/${hash.toLowerCase()}`;
+      deps.router.push({ pathname });
+    }),
     ignoreElements(),
   );
 };
