@@ -305,8 +305,8 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
       </ClickableEventRow>
     ) : (
       <Link
-        to={`${name.toLowerCase()}/txs/${hash}`}
         data-cy="transaction-hash-link"
+        to={`${name.toLowerCase()}/txs/${hash}`}
       >
         <ClickableEventRow onClick={() => null}>
           <EventIconBox>

@@ -69,6 +69,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
     const { t, tString } = i18n;
     const { pathname } = location;
     const { isDesktop } = settings;
+    const { name } = network;
 
     const { mobileMenuOpen } = this.state;
     const open = () => this.setMobileMenuState(true);
@@ -91,20 +92,20 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         icon={IconNames.TIMELINE_BAR_CHART}
       />,
       <NavItem
+        key="Staking"
+        title="Staking"
         path={pathname}
         closeHandler={close}
-        key="Staking"
-        route="Delegate"
-        title="Staking"
         icon={IconNames.BANK_ACCOUNT}
+        route={`/${name.toLowerCase()}/delegate`}
       />,
       <NavItem
+        key="Governance"
         path={pathname}
         closeHandler={close}
-        key="Governance"
-        route="Governance"
         title={tString("Governance")}
         icon={IconNames.TAKE_ACTION}
+        route={`/${name.toLowerCase()}/governance`}
       />,
     ];
 
@@ -114,7 +115,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
           path={pathname}
           closeHandler={close}
           key="Settings"
-          route="Settings"
+          route="/settings"
           title={tString("Settings")}
           icon={IconNames.COG}
         />
@@ -123,7 +124,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         path={pathname}
         closeHandler={close}
         key="Help"
-        route="Help"
+        route="/help"
         title={tString("Help")}
         icon={IconNames.LIGHTBULB}
       />,
@@ -144,7 +145,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
             this.props.openLogoutMenu();
           }}
           key="Logout"
-          route="Logout"
+          route="/logout"
           title={tString("Logout")}
           icon={IconNames.LOG_OUT}
         />
@@ -406,11 +407,7 @@ const NavItem = ({ route, title, icon, path, closeHandler }: INavItemProps) => {
   const active = onActiveRoute(path, route);
   const cypressLabel = `${title.toLowerCase()}-navigation-link`;
   return (
-    <Link
-      onClick={closeHandler}
-      data-cy={cypressLabel}
-      to={`/${route.toLowerCase()}`}
-    >
+    <Link onClick={closeHandler} data-cy={cypressLabel} to={route}>
       <NavLinkContainer activeRoute={active}>
         <Icon
           icon={icon}
