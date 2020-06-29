@@ -36,7 +36,7 @@ import ValidatorsPage from "ui/validators/ValidatorsSwitchContainer";
 
 class RoutesContainer extends React.Component<IProps> {
   render(): JSX.Element {
-    const { address, settings } = this.props;
+    const { address, network, settings } = this.props;
     const SHOW_LANDING_PAGE = !address;
     // Alternate welcome page:
     // NOTE: To enable, also redirect to /welcome in the ledger logoutEpic
@@ -73,7 +73,7 @@ class RoutesContainer extends React.Component<IProps> {
               exact
               key={2}
               component={DashboardPage}
-              path="/:path(total|available|staking|rewards|commissions)/:address"
+              path="/:network/:path(total|available|staking|rewards|commissions)"
             />
             <Route
               key={3}
@@ -82,12 +82,12 @@ class RoutesContainer extends React.Component<IProps> {
             />
             <Route
               key={4}
-              path="/:network/delegate/:address"
+              path="/:network/delegate"
               component={ValidatorsPage}
             />
             <Route
               key={5}
-              path="/:network/governance/:address"
+              path="/:network/governance"
               component={GovernanceSwitchContainer}
             />
             <Route key={6} path="/help" component={HelpPage} />
@@ -96,7 +96,7 @@ class RoutesContainer extends React.Component<IProps> {
               key={7}
               component={() =>
                 !!address ? (
-                  <Redirect to="/total" />
+                  <Redirect to={`/${network.name.toLowerCase()}/total`} />
                 ) : (
                   <Redirect to="/welcome" />
                 )
@@ -186,6 +186,7 @@ const DevLabelText = styled.p`
 const mapStateToProps = (state: ReduxStoreState) => ({
   settings: Modules.selectors.settings(state),
   address: Modules.selectors.ledger.addressSelector(state),
+  network: Modules.selectors.ledger.networkSelector(state),
 });
 
 type ConnectProps = ReturnType<typeof mapStateToProps>;

@@ -25,7 +25,7 @@ import {
   capitalizeString,
   getQueryParamsFromUrl,
   isValidChartTab,
-  onChartView,
+  onPageWhichIncludesAddressParam,
   wait,
 } from "tools/client-utils";
 import { getAccAddress } from "tools/terra-library/key-utils";
@@ -280,8 +280,7 @@ const syncAddressToUrlEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.setAddressSuccess)),
     pluck("payload"),
-    pluck("address"),
-    tap(address => {
+    tap(({ address, network }) => {
       const { transactionsPage } = state$.value.transaction;
       const params = getQueryParamsFromUrl(deps.router.location.search);
 
@@ -295,7 +294,10 @@ const syncAddressToUrlEpic: EpicSignature = (action$, state$, deps) => {
 
       if (params.address !== address) {
         if (!onDashboard) {
-          deps.router.push({ pathname: "/total", search });
+          deps.router.push({
+            search,
+            pathname: `${network.name.toLowerCase()}/total`,
+          });
         } else {
           deps.router.replace({ search });
         }
@@ -356,7 +358,11 @@ const syncAddressToUrlOnNavigationEpic: EpicSignature = (
 
       // Update if an address exists, the chart view is active, and
       // if the path search values do not match
-      if (!!address && onChartView(locationState.pathname) && !params.address) {
+      if (
+        !!address &&
+        onPageWhichIncludesAddressParam(locationState.pathname) &&
+        !params.address
+      ) {
         deps.router.replace({ search });
       }
     }),
@@ -388,7 +394,7 @@ const syncAddressToUrlOnInitializationEpic: EpicSignature = (
 
       // If the current location does not include the address, sync it
       if (
-        onChartView(location.pathname) &&
+        onPageWhichIncludesAddressParam(location.pathname) &&
         !location.search.includes(address)
       ) {
         deps.router.replace({ search });

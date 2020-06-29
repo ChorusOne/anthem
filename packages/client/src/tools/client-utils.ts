@@ -405,10 +405,13 @@ export const onPath = (url: string, pathString: string): boolean => {
 };
 
 /**
- * Return true if a URL pathname is on the chart (dashboard) view.
+ * Return true if a URL pathname is on a page which includes the
+ * address= param.
  */
-export const onChartView = (pathname: string) => {
-  return /total|available|staking|rewards|commissions/.test(pathname);
+export const onPageWhichIncludesAddressParam = (pathname: string) => {
+  return /total|available|staking|rewards|commissions|delegate|governance/.test(
+    pathname,
+  );
 };
 
 /**

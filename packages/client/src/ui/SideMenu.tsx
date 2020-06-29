@@ -87,9 +87,9 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         path={pathname}
         closeHandler={close}
         key="Dashboard"
-        route={`${dashboardTab}`}
         title={tString("Dashboard")}
         icon={IconNames.TIMELINE_BAR_CHART}
+        route={`/${name.toLowerCase()}/${dashboardTab.toLowerCase()}`}
       />,
       <NavItem
         key="Staking"

@@ -289,7 +289,6 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderHash = () => {
     const { hash } = this.props.transaction;
-    const { name } = this.props.network;
 
     const TxHashLink = this.props.isDetailView ? (
       <ClickableEventRow onClick={() => copyTextToClipboard(hash)}>
@@ -304,10 +303,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
         </EventContextBox>
       </ClickableEventRow>
     ) : (
-      <Link
-        data-cy="transaction-hash-link"
-        to={`${name.toLowerCase()}/txs/${hash}`}
-      >
+      <Link data-cy="transaction-hash-link" to={`txs/${hash}`}>
         <ClickableEventRow onClick={() => null}>
           <EventIconBox>
             <LinkIcon />
