@@ -12,7 +12,6 @@ SCREEN_SIZES.forEach(({ size, type }) => {
   describe("Anthem supports governance for Celo networks", () => {
     beforeEach(() => {
       UTILS.setViewportSize(size);
-      // UTILS.loginWithAddress(type, "celo");
     });
 
     afterEach(() => {
