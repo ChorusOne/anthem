@@ -1,7 +1,7 @@
 import { ICeloTransaction, NetworkDefinition } from "@anthem/utils";
 import { Card, Code, Elevation, Position, Tooltip } from "@blueprintjs/core";
 import { CeloLogo } from "assets/icons";
-import { LinkIcon, OasisGenericEvent } from "assets/images";
+import { LinkIcon } from "assets/images";
 import { FiatCurrency } from "constants/fiat";
 import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
