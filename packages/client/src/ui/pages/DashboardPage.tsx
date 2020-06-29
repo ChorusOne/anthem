@@ -55,7 +55,7 @@ import TransactionSwitchContainer from "ui/transactions/TransactionSwitchContain
 class DashboardPage extends React.Component<IProps> {
   componentDidMount() {
     const tab = window.location.pathname.split("/")[2];
-    const validTab = isValidChartTab(tab);
+    const validTab = tab && isValidChartTab(tab);
     if (validTab) {
       this.props.setActiveChartTab(validTab);
     }
