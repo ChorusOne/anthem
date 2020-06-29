@@ -131,9 +131,11 @@ export const initializeNetwork = (
   const networkDefinition = NETWORKS[network.toUpperCase()];
   if (networkDefinition) {
     return networkDefinition;
-  } else {
+  } else if (address) {
     const derivedNetwork = deriveNetworkFromAddress(address);
     return derivedNetwork;
+  } else {
+    return NETWORKS.COSMOS;
   }
 };
 

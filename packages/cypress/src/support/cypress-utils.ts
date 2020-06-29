@@ -143,7 +143,7 @@ const loginWithAddress = (type: any, network: Network, useLedger = false) => {
    * Visit the app. Expect redirect to login and initiate the login
    * enter address flow.
    */
-  cy.visit(`${APP_URL}/total`);
+  cy.visit(`${APP_URL}/${network}/total`);
   cy.url().should("contain", "/login");
 
   /**
