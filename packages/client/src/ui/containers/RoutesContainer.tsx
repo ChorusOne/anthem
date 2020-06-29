@@ -41,6 +41,7 @@ class RoutesContainer extends React.Component<IProps> {
     // Alternate welcome page:
     // NOTE: To enable, also redirect to /welcome in the ledger logoutEpic
     // const SHOW_LANDING_PAGE = history.location.pathname === "/login";
+    // Update with a network UI component: NetworkOverview/NetworkSummary.
 
     if (SHOW_LANDING_PAGE) {
       return (
