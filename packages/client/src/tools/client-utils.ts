@@ -114,6 +114,13 @@ export const getQueryParamsFromUrl = (paramString: string) => {
 };
 
 /**
+ * Get address from url. The urls schemes are :network/:page/:address.
+ */
+export const getAddressFromUrl = (url: string) => {
+  return url.split("/")[3];
+};
+
+/**
  * Initialize the network when the app launches.
  */
 export const initializeNetwork = (

@@ -24,6 +24,7 @@ import {
   tap,
 } from "rxjs/operators";
 import {
+  getAddressFromUrl,
   getQueryParamsFromUrl,
   initializeNetwork,
   wait,
@@ -51,9 +52,9 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
       Analytics.initialize();
     }),
     map(() => {
-      console.log(window.location);
       const params = getQueryParamsFromUrl(window.location.search);
-      let address = StorageModule.getAddress(params);
+      const urlAddress = getAddressFromUrl(window.location.pathname);
+      let address = StorageModule.getAddress(urlAddress);
       const { tString } = i18nSelector(state$.value);
 
       // Convert validator address to operator addresses

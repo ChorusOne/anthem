@@ -35,8 +35,8 @@ class StorageClass {
   /**
    * Stored Address:
    */
-  getAddress = (queryParams: ParsedQuery<string>): string => {
-    const addressParam = queryParams.address;
+  getAddress = (urlAddress?: string): string => {
+    const addressParam = urlAddress;
 
     if (typeof addressParam === "string") {
       return addressParam;
