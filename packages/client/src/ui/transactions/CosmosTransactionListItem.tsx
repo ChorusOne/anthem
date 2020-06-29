@@ -342,6 +342,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderTransactionHashLink = (hash: string, chain: string) => {
+    const { name } = this.props.network;
     // If viewing in the transaction list view, render a link to the detail
     // view. Otherwise just render a link to copy the hash.
     const TxHashLink = this.props.isDetailView ? (
@@ -355,7 +356,10 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
         </EventContextBox>
       </ClickableEventRow>
     ) : (
-      <Link to={`/txs/${hash}`} data-cy="transaction-hash-link">
+      <Link
+        data-cy="transaction-hash-link"
+        to={`${name.toLowerCase()}/txs/${hash}`}
+      >
         <ClickableEventRow onClick={() => null}>
           <EventIconBox>
             <LinkIcon />

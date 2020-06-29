@@ -77,7 +77,7 @@ class RoutesContainer extends React.Component<IProps> {
             />
             <Route
               key={3}
-              path="/txs/*"
+              path="/:network/txs/*"
               component={TransactionDetailContainer}
             />
             <Route key={4} path="/delegate" component={ValidatorsPage} />
