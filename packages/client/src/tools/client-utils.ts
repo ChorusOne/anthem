@@ -1,6 +1,7 @@
 import {
   assertUnreachable,
   COIN_DENOMS,
+  deriveNetworkFromAddress,
   getValidatorAddressFromDelegatorAddress,
   ICeloValidatorGroup,
   ICosmosAccountBalances,
@@ -11,6 +12,7 @@ import {
   IUnbondingDelegationEntry,
   NETWORK_NAME,
   NetworkDefinition,
+  NETWORKS,
   RequestFailure,
 } from "@anthem/utils";
 import { ApolloError } from "apollo-client";
@@ -131,6 +133,20 @@ export const getQueryParamsFromUrl = (paramString: string) => {
   }
 
   return queryString.parse(paramString);
+};
+
+/**
+ * Initialize the network when the app launches.
+ */
+export const initializeNetwork = (url: string, address: string): NetworkDefinition => {
+  const network = url.split("/")[1];
+  const networkDefinition = NETWORKS[network.toUpperCase()];
+  if (networkDefinition) {
+    return networkDefinition;
+  } else {
+    const derivedNetwork = deriveNetworkFromAddress(address);
+    return derivedNetwork;
+  }
 };
 
 /**

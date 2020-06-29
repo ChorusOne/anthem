@@ -23,7 +23,11 @@ import {
   take,
   tap,
 } from "rxjs/operators";
-import { getQueryParamsFromUrl, wait } from "tools/client-utils";
+import {
+  getQueryParamsFromUrl,
+  initializeNetwork,
+  wait,
+} from "tools/client-utils";
 import {
   validateEmailAddress,
   validateNetworkAddress,
@@ -47,6 +51,7 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
       Analytics.initialize();
     }),
     map(() => {
+      console.log(window.location);
       const params = getQueryParamsFromUrl(window.location.search);
       let address = StorageModule.getAddress(params);
       const { tString } = i18nSelector(state$.value);
@@ -57,7 +62,6 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
       }
 
       const addressError = validateNetworkAddress(address, "", tString);
-      let network = NETWORKS.COSMOS; // Default to Cosmos
 
       if (addressError && address !== "") {
         address = "";
@@ -65,13 +69,12 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
           tString("Invalid address found in URL, redirecting to login page."),
         );
         StorageModule.setAddress("");
-      } else if (address !== "") {
-        network = deriveNetworkFromAddress(address);
       }
 
       // Try to initialize the transactions page from the url
       const paramsPage = Number(params.page);
       const page = !isNaN(paramsPage) ? paramsPage : 1;
+      const network = initializeNetwork(location.pathname, address);
 
       return Actions.initializeAppSuccess({
         address,
