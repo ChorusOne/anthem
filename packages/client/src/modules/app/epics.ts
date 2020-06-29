@@ -1,8 +1,6 @@
 import {
   CosmosAccountBalancesDocument,
   CosmosTransactionsDocument,
-  deriveNetworkFromAddress,
-  NETWORKS,
   validatorAddressToOperatorAddress,
 } from "@anthem/utils";
 import { graphqlSelector } from "graphql/queries";

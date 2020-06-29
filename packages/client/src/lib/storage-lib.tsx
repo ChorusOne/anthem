@@ -1,6 +1,5 @@
 import { deriveNetworkFromAddress } from "@anthem/utils";
 import { BANNER_NOTIFICATIONS_KEYS } from "modules/app/store";
-import { ParsedQuery } from "query-string";
 
 /** ===========================================================================
  * Locale Storage Module.

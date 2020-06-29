@@ -18,7 +18,7 @@ import {
 import { ApolloError } from "apollo-client";
 import BigNumber from "bignumber.js";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
-import queryString, { ParsedQuery } from "query-string";
+import queryString from "query-string";
 import { AvailableReward } from "ui/CreateTransactionForm";
 import Toast from "ui/Toast";
 import {
