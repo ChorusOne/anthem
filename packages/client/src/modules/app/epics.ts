@@ -74,7 +74,7 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
       // Try to initialize the transactions page from the url
       const paramsPage = Number(params.page);
       const page = !isNaN(paramsPage) ? paramsPage : 1;
-      const network = initializeNetwork(location.pathname, address);
+      const network = initializeNetwork(window.location.pathname, address);
 
       return Actions.initializeAppSuccess({
         address,

@@ -110,35 +110,16 @@ export const identity = <T extends {}>(x: T): T => x;
  * Parse the query parameters from the current url.
  */
 export const getQueryParamsFromUrl = (paramString: string) => {
-  // Parse manually to check Oasis addresses, which can contain unusual characters
-  const qs = paramString.replace("?", "");
-  const pairs = qs.split("&");
-  const params: { [key: string]: string } = pairs.reduce((result, pair) => {
-    // Oasis address may have +, /, and = characters...
-    if (pair.includes("address=")) {
-      const address = pair.replace("address=", "");
-      return { ...result, address };
-    } else {
-      const [key, value] = pair.split("=");
-      return { ...result, [key]: value };
-    }
-  }, {});
-
-  if (!!params.address) {
-    const { address } = params;
-    const oasisAddressProxyTest = address.length === 44;
-    if (oasisAddressProxyTest) {
-      return params as ParsedQuery<string>;
-    }
-  }
-
   return queryString.parse(paramString);
 };
 
 /**
  * Initialize the network when the app launches.
  */
-export const initializeNetwork = (url: string, address: string): NetworkDefinition => {
+export const initializeNetwork = (
+  url: string,
+  address: string,
+): NetworkDefinition => {
   const network = url.split("/")[1];
   const networkDefinition = NETWORKS[network.toUpperCase()];
   if (networkDefinition) {
