@@ -19,14 +19,14 @@ export const APP_URL = Cypress.env("HOST");
  * screen sizes.
  */
 export const SCREEN_SIZES = [
-  {
-    type: getScreenType(true),
-    size: "iphone-6+",
-  },
-  {
-    type: getScreenType(true),
-    size: "ipad-2",
-  },
+  // {
+  //   type: getScreenType(true),
+  //   size: "iphone-6+",
+  // },
+  // {
+  //   type: getScreenType(true),
+  //   size: "ipad-2",
+  // },
   {
     type: getScreenType(false),
     size: [1024, 768],
