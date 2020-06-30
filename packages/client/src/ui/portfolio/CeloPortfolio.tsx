@@ -280,12 +280,12 @@ const getChartData = (
       case "STAKING":
         value = x.totalLockedGoldBalance;
         break;
-      case "cUSD":
-        value = x.celoUSDValue;
-        break;
       case "COMMISSIONS":
         // Commissions are not supported yet
         return null;
+      case "CUSD":
+        value = x.celoUSDValue;
+        break;
       default:
         console.warn(`Unexpected activeChartTab received: ${tab}`);
         assertUnreachable(tab);
