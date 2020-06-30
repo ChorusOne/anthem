@@ -17,12 +17,12 @@ import { Query, QueryResult } from "react-apollo";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { withRouter } from "react-router-dom";
+import { getTransactionHashFromUrl } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import { Centered, DashboardLoader, View } from "ui/SharedComponents";
 import Toast from "ui/Toast";
 import OasisTransactionListItem from "./OasisTransactionListItem";
-import { getTransactionHashFromUrl } from "tools/client-utils";
 
 /** ===========================================================================
  * React Component
