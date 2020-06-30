@@ -3,7 +3,15 @@ import {
   ICeloValidatorGroup,
   IQuery,
 } from "@anthem/utils";
-import { Card, Collapse, H5, H6, Icon } from "@blueprintjs/core";
+import {
+  Card,
+  Collapse,
+  H5,
+  H6,
+  Icon,
+  Position,
+  Tooltip,
+} from "@blueprintjs/core";
 import { CopyIcon, NetworkLogoIcon } from "assets/images";
 import { COLORS } from "constants/colors";
 import {
@@ -255,10 +263,18 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                               <RowItem width={150}>
                                 <Text>{votingPowerFraction}%</Text>
                               </RowItem>
-                              <RowItem width={150}>
-                                <ValidatorCapacityCircle
-                                  capacity={votingCapacityPercentage}
-                                />
+                              <RowItem width={150} style={{ paddingLeft: 26 }}>
+                                <Tooltip
+                                  usePortal={false}
+                                  position={Position.TOP}
+                                  content={`Available Voting Capacity: ${votingCapacityPercentage.toFixed(
+                                    2,
+                                  )}%`}
+                                >
+                                  <ValidatorCapacityCircle
+                                    capacity={votingCapacityPercentage}
+                                  />
+                                </Tooltip>
                               </RowItem>
                               <RowItem>
                                 <Icon
