@@ -3,6 +3,7 @@ import {
   CeloAccountHistoryDocument,
   CeloGovernanceProposalsDocument,
   CeloGovernanceTransactionsDocument,
+  CeloSystemBalancesDocument,
   CeloTransactionDocument,
   CeloTransactionsDocument,
   CeloValidatorGroupsDocument,
@@ -381,6 +382,25 @@ export interface OasisTransactionsProps {
 export const withOasisTransactions = graphql(OasisTransactionsDocument, {
   name: "transactions",
   ...noPollingConfig(["address", "startingPage"]),
+});
+
+/** ===========================================================================
+ * Celo System Balances
+ * ============================================================================
+ */
+
+interface CeloSystemBalancesQueryResult extends QueryResult {
+  data: void;
+  celoSystemBalances: IQuery["celoSystemBalances"];
+}
+
+export interface CeloSystemBalancesProps {
+  celoSystemBalances: CeloSystemBalancesQueryResult;
+}
+
+export const withCeloSystemBalances = graphql(CeloSystemBalancesDocument, {
+  name: "celoSystemBalances",
+  ...noPollingConfig([]),
 });
 
 /** ===========================================================================

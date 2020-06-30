@@ -1,5 +1,6 @@
 import {
   ICeloAccountBalances,
+  ICeloSystemBalances,
   ICeloValidatorGroup,
   IQuery,
 } from "@anthem/utils";
@@ -8,9 +9,11 @@ import { CopyIcon, NetworkLogoIcon } from "assets/images";
 import { COLORS } from "constants/colors";
 import {
   CeloAccountBalancesProps,
+  CeloSystemBalancesProps,
   CeloValidatorsProps,
   FiatPriceDataProps,
   withCeloAccountBalances,
+  withCeloSystemBalances,
   withCeloValidatorGroups,
   withFiatPriceData,
   withGraphQLVariables,
@@ -27,6 +30,7 @@ import {
   getPercentageFromTotal,
   getValidatorOperatorAddressMap,
   sortCeloValidatorsList,
+  getPercentage,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
@@ -92,6 +96,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
       i18n,
       prices,
       network,
+      celoSystemBalances,
       celoValidatorGroups,
       celoAccountBalances,
     } = this.props;
@@ -116,12 +121,19 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
           results={[
             [celoValidatorGroups, "celoValidatorGroups"],
             [celoAccountBalances, "celoAccountBalances"],
+            [celoSystemBalances, "celoSystemBalances"],
             [prices, "prices"],
           ]}
         >
-          {([validatorList, accountBalancesResponse, pricesResponse]: [
+          {([
+            validatorList,
+            accountBalancesResponse,
+            systemBalancesResponse,
+            pricesResponse,
+          ]: [
             IQuery["celoValidatorGroups"],
             ICeloAccountBalances,
+            ICeloSystemBalances,
             IQuery["prices"],
           ]) => {
             const {
@@ -133,6 +145,9 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
               pendingWithdrawalBalance,
               celoUSDValue,
             } = accountBalancesResponse;
+
+            const totalSystemGold =
+              systemBalancesResponse.totalLockedGoldBalance;
 
             const validatorOperatorAddressMap = getValidatorOperatorAddressMap<
               ICeloValidatorGroup
@@ -218,6 +233,17 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           v.votingPower,
                         );
 
+                        const powerPercentage = getPercentage(
+                          v.votingPower,
+                          totalSystemGold,
+                        );
+
+                        console.log(
+                          v.votingPower,
+                          +totalSystemGold,
+                          powerPercentage,
+                        );
+
                         return (
                           <View key={v.group}>
                             <ValidatorRowExpandable
@@ -242,9 +268,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                 </H5>
                               </RowItem>
                               <RowItem width={150}>
-                                <Text>
-                                  {adjustCeloValue(v.capacityAvailable)}
-                                </Text>
+                                <Text>{adjustCeloValue(powerPercentage)}</Text>
                               </RowItem>
                               <RowItem width={150}>
                                 <ValidatorCapacityCircle
@@ -638,6 +662,7 @@ interface IProps
     FiatPriceDataProps,
     CeloAccountBalancesProps,
     CeloValidatorsProps,
+    CeloSystemBalancesProps,
     ConnectProps {}
 
 /** ===========================================================================
@@ -651,4 +676,5 @@ export default composeWithProps<ComponentProps>(
   withFiatPriceData,
   withCeloAccountBalances,
   withCeloValidatorGroups,
+  withCeloSystemBalances,
 )(CeloValidatorsListPage);
