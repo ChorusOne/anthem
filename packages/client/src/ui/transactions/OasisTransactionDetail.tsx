@@ -17,6 +17,7 @@ import { Query, QueryResult } from "react-apollo";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { withRouter } from "react-router-dom";
+import { getTransactionHashFromUrl } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import { Centered, DashboardLoader, View } from "ui/SharedComponents";
@@ -33,7 +34,7 @@ class OasisTransactionDetailLoadingContainer extends React.PureComponent<
 > {
   render(): JSX.Element {
     const { i18n } = this.props;
-    const hash = this.props.location.pathname.replace("/txs/", "");
+    const hash = getTransactionHashFromUrl(this.props.location.pathname);
 
     // Transaction may already exist in Apollo cache. Use this data first.
     const transactionMayExist = this.maybeFindTransactionInApolloCache(hash);

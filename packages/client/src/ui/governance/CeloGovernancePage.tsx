@@ -414,39 +414,41 @@ class CeloGovernanceComponent extends React.Component<
                 }}
               />
             </TopSection>
-            <BottomSection>
-              <Text style={{ fontWeight: "bold" }}>Your Vote:</Text>
-              <Row
-                style={{
-                  width: "75%",
-                  margin: "auto",
-                  marginTop: 12,
-                  justifyContent: "space-between",
-                }}
-              >
-                <Checkbox
-                  value="yes"
-                  label="Yes"
-                  onChange={() => this.handleVoteCheck("yes")}
-                  checked={this.state.vote === "yes"}
-                />
-                <Checkbox
-                  value="no"
-                  label="No"
-                  onChange={() => this.handleVoteCheck("no")}
-                  checked={this.state.vote === "no"}
-                />
-                <Checkbox
-                  value="abstain"
-                  label="Abstain"
-                  onChange={() => this.handleVoteCheck("abstain")}
-                  checked={this.state.vote === "abstain"}
-                />
-              </Row>
-              <Row>
-                <Button onClick={this.handleVote}>Vote</Button>
-              </Row>
-            </BottomSection>
+            {proposal.__typename === "ReferendumProposal" && (
+              <BottomSection>
+                <Text style={{ fontWeight: "bold" }}>Your Vote:</Text>
+                <Row
+                  style={{
+                    width: "75%",
+                    margin: "auto",
+                    marginTop: 12,
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Checkbox
+                    value="yes"
+                    label="Yes"
+                    onChange={() => this.handleVoteCheck("yes")}
+                    checked={this.state.vote === "yes"}
+                  />
+                  <Checkbox
+                    value="no"
+                    label="No"
+                    onChange={() => this.handleVoteCheck("no")}
+                    checked={this.state.vote === "no"}
+                  />
+                  <Checkbox
+                    value="abstain"
+                    label="Abstain"
+                    onChange={() => this.handleVoteCheck("abstain")}
+                    checked={this.state.vote === "abstain"}
+                  />
+                </Row>
+                <Row>
+                  <Button onClick={this.handleVote}>Vote</Button>
+                </Row>
+              </BottomSection>
+            )}
           </View>
         );
       default:
