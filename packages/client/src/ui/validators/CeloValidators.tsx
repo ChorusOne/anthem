@@ -27,14 +27,19 @@ import {
   copyTextToClipboard,
   formatAddressString,
   getCeloVotesAvailablePercentage,
+  getPercentage,
   getPercentageFromTotal,
   getValidatorOperatorAddressMap,
   sortCeloValidatorsList,
-  getPercentage,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
-import { divide, GenericNumberType, subtract } from "tools/math-utils";
+import {
+  divide,
+  GenericNumberType,
+  multiply,
+  subtract,
+} from "tools/math-utils";
 import AddressIconComponent from "ui/AddressIconComponent";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import PageAddressBar from "ui/PageAddressBar";
@@ -233,16 +238,11 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           v.votingPower,
                         );
 
-                        const powerPercentage = getPercentage(
-                          v.votingPower,
-                          totalSystemGold,
-                        );
-
-                        console.log(
-                          v.votingPower,
-                          +totalSystemGold,
-                          powerPercentage,
-                        );
+                        const votingPowerFraction = multiply(
+                          v.votingPowerFraction,
+                          100,
+                          Number,
+                        ).toFixed(2);
 
                         return (
                           <View key={v.group}>
@@ -268,7 +268,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                 </H5>
                               </RowItem>
                               <RowItem width={150}>
-                                <Text>{adjustCeloValue(powerPercentage)}</Text>
+                                <Text>{votingPowerFraction}%</Text>
                               </RowItem>
                               <RowItem width={150}>
                                 <ValidatorCapacityCircle
