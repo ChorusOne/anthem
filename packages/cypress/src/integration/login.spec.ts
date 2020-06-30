@@ -196,9 +196,6 @@ SCREEN_SIZES.forEach(({ size, type }) => {
         return;
       }
 
-      // Enter a Cosmos transaction hash
-      UTILS.searchInAddressInput(COSMOS.tx_hash);
-
       UTILS.checkForNetwork("celo");
       cy.contains("cUSD");
     });
