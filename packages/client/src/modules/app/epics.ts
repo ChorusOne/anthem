@@ -22,6 +22,7 @@ import {
   tap,
 } from "rxjs/operators";
 import {
+  chartTabValidForNetwork,
   getAddressFromUrl,
   getQueryParamsFromUrl,
   initializeNetwork,
@@ -80,6 +81,30 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
         network,
         page,
       });
+    }),
+  );
+};
+
+/**
+ * Handling syncing the activeChartTab state to the url when
+ * the url changes.
+ */
+const setActiveChartTabEpic: EpicSignature = (action$, state$, deps) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.onRouteChange)),
+    pluck("payload"),
+    pluck("pathname"),
+    map(pathname => {
+      const { network } = state$.value.ledger.ledger;
+      const { activeChartTab } = state$.value.app.app;
+      const tab = pathname.split("/")[2];
+      const validTab = chartTabValidForNetwork(tab, network);
+
+      if (validTab && validTab !== activeChartTab) {
+        return Actions.setActiveChartTab(validTab);
+      } else {
+        return Actions.empty("No need to update the active chart tab...");
+      }
     }),
   );
 };
@@ -281,6 +306,7 @@ const refreshBalanceAndTransactionsEpic: EpicSignature = (
 
 export default combineEpics(
   appInitializationEpic,
+  setActiveChartTabEpic,
   newsletterSignupEpic,
   monthlySummaryTooltipEpic,
   highlightDataIntegrityHelpLabel,

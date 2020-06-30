@@ -331,11 +331,11 @@ const getBalanceCardStyles = () => ({
 });
 
 interface INavItemProps {
+  title: string;
   address: string;
   pathname: string;
   localizedTitle: string;
   network: NetworkDefinition;
-  title: ALL_AVAILABLE_CHART_TABS;
 }
 
 const TransactionsContainer = styled.div`
@@ -435,7 +435,7 @@ const getMobileDashboardNavigationLink = ({
   );
 };
 
-const runAnalyticsForTab = (title: ALL_AVAILABLE_CHART_TABS): void => {
+const runAnalyticsForTab = (title: string): void => {
   if (title === "TOTAL") {
     Analytics.viewPortfolioBalances();
   } else if (title === "REWARDS") {
