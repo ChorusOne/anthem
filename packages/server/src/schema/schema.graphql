@@ -131,7 +131,7 @@ type CeloTransactionDetails {
   feeCurrency: String
   gatewayFeeRecipient: String
   gatewayFee: Float!
-  to: String!
+  to: String
   value: Float!
 }
 
