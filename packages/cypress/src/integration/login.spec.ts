@@ -180,4 +180,27 @@ SCREEN_SIZES.forEach(({ size, type }) => {
       cy.url().should("include", `celo/txs/${CELO.tx_hash.toLowerCase()}`);
     });
   });
+
+  describe("Celo Network display cUSD portfolio chart", () => {
+    beforeEach(() => {
+      UTILS.setViewportSize(size);
+      UTILS.loginWithAddress(type, "celo");
+    });
+
+    afterEach(() => {
+      UTILS.logout(type);
+    });
+
+    it("cUSD chart is visible", () => {
+      if (!type.isDesktop()) {
+        return;
+      }
+
+      // Enter a Cosmos transaction hash
+      UTILS.searchInAddressInput(COSMOS.tx_hash);
+
+      UTILS.checkForNetwork("celo");
+      cy.contains("cUSD");
+    });
+  });
 });
