@@ -1,7 +1,7 @@
 import { ICeloTransaction, NetworkDefinition } from "@anthem/utils";
 import { Card, Code, Elevation, Position, Tooltip } from "@blueprintjs/core";
 import { CeloLogo } from "assets/icons";
-import { LinkIcon, OasisGenericEvent } from "assets/images";
+import { LinkIcon } from "assets/images";
 import { FiatCurrency } from "constants/fiat";
 import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
@@ -101,9 +101,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     const { blockNumber } = transaction;
     return (
       <EventRowItem style={{ minWidth: 300 }}>
-        <EventIconBox>
-          <OasisGenericEvent />
-        </EventIconBox>
+        <EventIconBox />
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>Block Number</EventText>
           <EventText data-cy="transaction-block-number">
@@ -130,7 +128,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
         </EventContextBox>
       </ClickableEventRow>
     ) : (
-      <Link to={`/txs/${hash}`} data-cy="transaction-hash-link">
+      <Link data-cy="transaction-hash-link" to={`txs/${hash}`}>
         <ClickableEventRow onClick={() => null}>
           <EventIconBox>
             <LinkIcon />
@@ -251,7 +249,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           <EventContextBox>
             <Row>
               <EventText style={{ fontWeight: "bold" }}>
-                Internal Transaction Data
+                Contract Call
               </EventText>
             </Row>
           </EventContextBox>

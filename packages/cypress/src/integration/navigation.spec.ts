@@ -52,16 +52,16 @@ SCREEN_SIZES.forEach(({ type, size }) => {
      */
     it("All navigation sub-routes in the Dashboard can be visited", () => {
       if (type.isDesktop()) {
-        cy.visit(`${APP_URL}/total`);
+        cy.visit(`${APP_URL}/cosmos/total`);
         cy.url().should("contain", "/total");
 
-        cy.visit(`${APP_URL}/available`);
+        cy.visit(`${APP_URL}/cosmos/available`);
         cy.url().should("contain", "/available");
 
-        cy.visit(`${APP_URL}/rewards`);
+        cy.visit(`${APP_URL}/cosmos/rewards`);
         cy.url().should("contain", "/rewards");
 
-        cy.visit(`${APP_URL}/staking`);
+        cy.visit(`${APP_URL}/cosmos/staking`);
         cy.url().should("contain", "/staking");
       }
     });

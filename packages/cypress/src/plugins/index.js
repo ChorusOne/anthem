@@ -20,12 +20,12 @@ module.exports = on => {
   // See the following:
   // - https://github.com/cypress-io/cypress/issues/350#issuecomment-503231128
   // - https://docs.cypress.io/api/plugins/browser-launch-api.html#Usage
-  on("before:browser:launch", (browser = {}, args) => {
+  on("before:browser:launch", (browser = {}, launchOptions) => {
     if (browser.name === "chrome") {
-      args.push("--disable-dev-shm-usage");
-      return args;
+      launchOptions.args.push("--disable-dev-shm-usage");
     }
-    return args;
+
+    return launchOptions;
   });
 
   // Webpack setup

@@ -1,6 +1,7 @@
 import {
   assertUnreachable,
   COIN_DENOMS,
+  deriveNetworkFromAddress,
   getValidatorAddressFromDelegatorAddress,
   ICeloValidatorGroup,
   ICosmosAccountBalances,
@@ -11,12 +12,13 @@ import {
   IUnbondingDelegationEntry,
   NETWORK_NAME,
   NetworkDefinition,
+  NETWORKS,
   RequestFailure,
 } from "@anthem/utils";
 import { ApolloError } from "apollo-client";
 import BigNumber from "bignumber.js";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
-import queryString, { ParsedQuery } from "query-string";
+import queryString from "query-string";
 import { AvailableReward } from "ui/CreateTransactionForm";
 import Toast from "ui/Toast";
 import {
@@ -87,17 +89,16 @@ export enum OASIS_ADDRESS_ENUM {
 /**
  * Determine if a given route link is on the current active route.
  */
-export const onActiveRoute = (pathName: string, routeName: string): boolean => {
-  const path = pathName.split("/")[1];
-  return !!path && path.toLowerCase() === routeName.toLowerCase();
+export const onActiveRoute = (path: string, route: string): boolean => {
+  return path === route;
 };
 
 /**
  * Determine if the given tab is active given the current route.
  */
-export const onActiveTab = (pathName: string, tabName: string): boolean => {
-  const path = pathName.split("/")[1];
-  return !!path && path.toLowerCase() === tabName.toLowerCase();
+export const onActiveTab = (pathname: string, tab: string): boolean => {
+  const path = pathname.split("/")[2];
+  return !!path && path.toLowerCase() === tab.toLowerCase();
 };
 
 /**
@@ -109,29 +110,104 @@ export const identity = <T extends {}>(x: T): T => x;
  * Parse the query parameters from the current url.
  */
 export const getQueryParamsFromUrl = (paramString: string) => {
-  // Parse manually to check Oasis addresses, which can contain unusual characters
-  const qs = paramString.replace("?", "");
-  const pairs = qs.split("&");
-  const params: { [key: string]: string } = pairs.reduce((result, pair) => {
-    // Oasis address may have +, /, and = characters...
-    if (pair.includes("address=")) {
-      const address = pair.replace("address=", "");
-      return { ...result, address };
-    } else {
-      const [key, value] = pair.split("=");
-      return { ...result, [key]: value };
-    }
-  }, {});
+  return queryString.parse(paramString);
+};
 
-  if (!!params.address) {
-    const { address } = params;
-    const oasisAddressProxyTest = address.length === 44;
-    if (oasisAddressProxyTest) {
-      return params as ParsedQuery<string>;
-    }
+/**
+ * Get address from url. The urls schemes are :network/:page/:address.
+ */
+export const getAddressFromUrl = (url: string) => {
+  return url.split("/")[3];
+};
+
+/**
+ * Crudely determine if some path string is included in the current URL.
+ */
+export const onPath = (url: string, pathString: string): boolean => {
+  return url.includes(pathString);
+};
+
+/**
+ * Return true if a URL pathname is on a page which includes the
+ * address= param.
+ */
+export const onPageWhichIncludesAddressParam = (pathname: string) => {
+  return /total|available|staking|rewards|commissions|delegate|governance/.test(
+    pathname,
+  );
+};
+
+/**
+ * Check if a pathname includes a chart view.
+ */
+export const onChartTab = (pathname: string) => {
+  return /total|available|staking|rewards|commissions/.test(pathname);
+};
+
+/**
+ * Valid chart tab keys.
+ */
+export const CHART_TABS: ReadonlyArray<PORTFOLIO_CHART_TYPES> = [
+  "TOTAL",
+  "AVAILABLE",
+  "STAKING",
+  "REWARDS",
+  "COMMISSIONS",
+];
+
+/**
+ *  Determine if a string is a valid chart tab key.
+ */
+export const isValidChartTab = (
+  tab: string,
+): Nullable<PORTFOLIO_CHART_TYPES> => {
+  // @ts-ignore
+  if (new Set(CHART_TABS).has(tab.toUpperCase())) {
+    return tab.toUpperCase() as PORTFOLIO_CHART_TYPES;
+  } else {
+    return null;
+  }
+};
+
+/**
+ * Return information on which dashboard tab the user is viewing from the
+ * given url location.
+ */
+export const getPortfolioTypeFromUrl = (
+  path: string,
+): PORTFOLIO_CHART_TYPES | null => {
+  if (onPath(path, "/total")) {
+    return "TOTAL";
+  } else if (onPath(path, "/available")) {
+    return "AVAILABLE";
+  } else if (onPath(path, "/rewards")) {
+    return "REWARDS";
+  } else if (onPath(path, "/staking")) {
+    return "STAKING";
+  } else if (onPath(path, "/commissions")) {
+    return "COMMISSIONS";
   }
 
-  return queryString.parse(paramString);
+  return null;
+};
+
+/**
+ * Initialize the network when the app launches.
+ */
+export const initializeNetwork = (
+  url: string,
+  address: string,
+): NetworkDefinition => {
+  const network = url.split("/")[1];
+  const networkDefinition = NETWORKS[network.toUpperCase()];
+  if (networkDefinition) {
+    return networkDefinition;
+  } else if (address) {
+    const derivedNetwork = deriveNetworkFromAddress(address);
+    return derivedNetwork;
+  } else {
+    return NETWORKS.COSMOS;
+  }
 };
 
 /**
@@ -392,67 +468,6 @@ export const canRenderGraphQL = (graphqlProps: {
   error?: ApolloError;
 }): boolean => {
   return !graphqlProps.loading && !graphqlProps.error && graphqlProps.data;
-};
-
-/**
- * Crudely determine if some path string is included in the current URL.
- */
-export const onPath = (url: string, pathString: string): boolean => {
-  return url.includes(pathString);
-};
-
-/**
- * Return true if a URL pathname is on the chart (dashboard) view.
- */
-export const onChartView = (pathname: string) => {
-  return /total|available|staking|rewards|commissions/.test(pathname);
-};
-
-/**
- * Valid chart tab keys.
- */
-export const CHART_TABS: ReadonlyArray<PORTFOLIO_CHART_TYPES> = [
-  "TOTAL",
-  "AVAILABLE",
-  "STAKING",
-  "REWARDS",
-  "COMMISSIONS",
-];
-
-/**
- *  Determine if a string is a valid chart tab key.
- */
-export const isValidChartTab = (
-  tab: string,
-): Nullable<PORTFOLIO_CHART_TYPES> => {
-  // @ts-ignore
-  if (new Set(CHART_TABS).has(tab.toUpperCase())) {
-    return tab.toUpperCase() as PORTFOLIO_CHART_TYPES;
-  } else {
-    return null;
-  }
-};
-
-/**
- * Return information on which dashboard tab the user is viewing from the
- * given url location.
- */
-export const getPortfolioTypeFromUrl = (
-  path: string,
-): PORTFOLIO_CHART_TYPES | null => {
-  if (onPath(path, "/total")) {
-    return "TOTAL";
-  } else if (onPath(path, "/available")) {
-    return "AVAILABLE";
-  } else if (onPath(path, "/rewards")) {
-    return "REWARDS";
-  } else if (onPath(path, "/staking")) {
-    return "STAKING";
-  } else if (onPath(path, "/commissions")) {
-    return "COMMISSIONS";
-  }
-
-  return null;
 };
 
 /**

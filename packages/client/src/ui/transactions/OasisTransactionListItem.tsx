@@ -193,9 +193,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
     const { height } = transaction;
     return (
       <EventRowItem style={{ minWidth: 200 }}>
-        <EventIconBox>
-          <OasisGenericEvent />
-        </EventIconBox>
+        <EventIconBox />
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>Block Number</EventText>
           <EventText data-cy="transaction-block-number">{height}</EventText>
@@ -303,7 +301,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
         </EventContextBox>
       </ClickableEventRow>
     ) : (
-      <Link to={`/txs/${hash}`} data-cy="transaction-hash-link">
+      <Link data-cy="transaction-hash-link" to={`txs/${hash}`}>
         <ClickableEventRow onClick={() => null}>
           <EventIconBox>
             <LinkIcon />

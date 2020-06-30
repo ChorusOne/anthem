@@ -146,7 +146,7 @@ const NETWORKS: NetworksMap = {
     denominationSize: 1e6,
   },
   OASIS: {
-    available: false,
+    available: true,
     name: "OASIS",
     denom: "AMBR", // For Amber testnet
     descriptor: "AMBR",

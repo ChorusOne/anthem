@@ -2,7 +2,10 @@ import { Pathname, Search } from "history";
 import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import StorageModule from "lib/storage-lib";
 import { combineReducers } from "redux";
-import { isValidChartTab, onChartView } from "tools/client-utils";
+import {
+  isValidChartTab,
+  onPageWhichIncludesAddressParam,
+} from "tools/client-utils";
 import { createReducer } from "typesafe-actions";
 import actions, { ActionTypes } from "./actions";
 
@@ -118,9 +121,9 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
 
     // Update the active chart tab if viewing the portfolio
     const { pathname } = action.payload;
-    const chartViewActive = onChartView(pathname);
+    const chartViewActive = onPageWhichIncludesAddressParam(pathname);
     if (chartViewActive) {
-      const tab = pathname.split("/")[1];
+      const tab = pathname.split("/")[2];
       const validTab = isValidChartTab(tab);
       if (validTab) {
         activeChartTab = validTab;

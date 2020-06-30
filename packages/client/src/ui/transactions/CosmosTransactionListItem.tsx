@@ -355,7 +355,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
         </EventContextBox>
       </ClickableEventRow>
     ) : (
-      <Link to={`/txs/${hash}`} data-cy="transaction-hash-link">
+      <Link data-cy="transaction-hash-link" to={`txs/${hash}`}>
         <ClickableEventRow onClick={() => null}>
           <EventIconBox>
             <LinkIcon />

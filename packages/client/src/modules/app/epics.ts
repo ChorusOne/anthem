@@ -1,8 +1,6 @@
 import {
   CosmosAccountBalancesDocument,
   CosmosTransactionsDocument,
-  deriveNetworkFromAddress,
-  NETWORKS,
   validatorAddressToOperatorAddress,
 } from "@anthem/utils";
 import { graphqlSelector } from "graphql/queries";
@@ -23,7 +21,12 @@ import {
   take,
   tap,
 } from "rxjs/operators";
-import { getQueryParamsFromUrl, wait } from "tools/client-utils";
+import {
+  getAddressFromUrl,
+  getQueryParamsFromUrl,
+  initializeNetwork,
+  wait,
+} from "tools/client-utils";
 import {
   validateEmailAddress,
   validateNetworkAddress,
@@ -48,7 +51,8 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
     }),
     map(() => {
       const params = getQueryParamsFromUrl(window.location.search);
-      let address = StorageModule.getAddress(params);
+      const urlAddress = getAddressFromUrl(window.location.pathname);
+      let address = StorageModule.getAddress(urlAddress);
       const { tString } = i18nSelector(state$.value);
 
       // Convert validator address to operator addresses
@@ -57,7 +61,6 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
       }
 
       const addressError = validateNetworkAddress(address, "", tString);
-      let network = NETWORKS.COSMOS; // Default to Cosmos
 
       if (addressError && address !== "") {
         address = "";
@@ -65,13 +68,12 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
           tString("Invalid address found in URL, redirecting to login page."),
         );
         StorageModule.setAddress("");
-      } else if (address !== "") {
-        network = deriveNetworkFromAddress(address);
       }
 
       // Try to initialize the transactions page from the url
       const paramsPage = Number(params.page);
       const page = !isNaN(paramsPage) ? paramsPage : 1;
+      const network = initializeNetwork(window.location.pathname, address);
 
       return Actions.initializeAppSuccess({
         address,

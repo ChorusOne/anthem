@@ -367,7 +367,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
                       replace
                       key={address}
                       style={{ marginTop: 4, marginBottom: 2 }}
-                      to={`/${activeChartTab.toLowerCase()}?address=${address}`}
+                      to={`/${network.name.toLowerCase()}/${activeChartTab.toLowerCase()}?address=${address}`}
                     >
                       <Row style={{ justifyContent: "flex-start" }}>
                         <NetworkLogoIcon
@@ -400,7 +400,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
                 <Link
                   replace
                   style={{ marginTop: 2, marginBottom: 2 }}
-                  to={`/${activeChartTab.toLowerCase()}?address=cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd`}
+                  to={`/cosmos/${activeChartTab.toLowerCase()}?address=cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd`}
                 >
                   <Row style={{ justifyContent: "flex-start" }}>
                     <NetworkLogoIcon
@@ -422,7 +422,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
                 <Link
                   replace
                   style={{ marginTop: 2, marginBottom: 2 }}
-                  to={`/${activeChartTab.toLowerCase()}?address=oasis1qrllkgqgqheus3qvq69wzsmh7799agg8lgsyecfq`}
+                  to={`/oasis/${activeChartTab.toLowerCase()}?address=oasis1qrllkgqgqheus3qvq69wzsmh7799agg8lgsyecfq`}
                 >
                   <Row style={{ justifyContent: "flex-start" }}>
                     <NetworkLogoIcon

@@ -31,6 +31,7 @@ import {
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
 import { toDateKeyCelo } from "tools/date-utils";
+import { addValuesInList } from "tools/math-utils";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import Toast from "ui/Toast";
 import CurrencySettingsToggle from "../CurrencySettingToggle";
@@ -259,7 +260,11 @@ const getChartData = (
     let value = "";
     switch (type) {
       case "TOTAL":
-        value = x.totalLockedGoldBalance;
+        value = addValuesInList([
+          x.totalLockedGoldBalance,
+          x.availableGoldBalance,
+          x.pendingWithdrawalBalance,
+        ]);
         break;
       case "AVAILABLE":
         value = x.availableGoldBalance;
@@ -320,7 +325,7 @@ const getCeloCSV = (
     `Voting Locked Gold Balance (${coin})`,
     `Pending Withdrawal Balance (${coin})`,
     `Reward (${coin})`,
-    `cUSD Balance (${coin})`,
+    `cUSD Balance`,
   ];
 
   // Add info text about the address and network

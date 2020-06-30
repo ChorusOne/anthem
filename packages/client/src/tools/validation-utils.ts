@@ -84,12 +84,10 @@ export const validateNetworkAddress = (
     );
   }
 
+  /**
+   * TODO: Improve Celo address validation.
+   */
   if (address.substring(0, 2) === "0x" && address.length === 42) {
-    console.warn("[TODO]: Fix address validation for Celo addresses!");
-    return "";
-  }
-
-  if (address.substring(0, 5) === "oasis") {
     return "";
   }
 

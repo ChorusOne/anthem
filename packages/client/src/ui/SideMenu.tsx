@@ -69,12 +69,13 @@ class SideMenuComponent extends React.Component<IProps, IState> {
     const { t, tString } = i18n;
     const { pathname } = location;
     const { isDesktop } = settings;
+    const { name } = network;
 
     const { mobileMenuOpen } = this.state;
     const open = () => this.setMobileMenuState(true);
     const close = () => this.setMobileMenuState(false);
 
-    const dashboardTab = this.props.app.activeChartTab;
+    const { activeChartTab } = this.props.app;
     const ledgerConnected = this.props.ledger.connected;
     const validator = this.getValidatorFromDelegatorAddressIfExists();
 
@@ -86,25 +87,25 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         path={pathname}
         closeHandler={close}
         key="Dashboard"
-        route={`${dashboardTab}`}
         title={tString("Dashboard")}
         icon={IconNames.TIMELINE_BAR_CHART}
+        route={`/${name.toLowerCase()}/${activeChartTab.toLowerCase()}`}
       />,
       <NavItem
-        path={pathname}
-        closeHandler={close}
         key="Staking"
-        route="Delegate"
         title="Staking"
-        icon={IconNames.BANK_ACCOUNT}
-      />,
-      <NavItem
         path={pathname}
         closeHandler={close}
+        icon={IconNames.BANK_ACCOUNT}
+        route={`/${name.toLowerCase()}/delegate`}
+      />,
+      <NavItem
         key="Governance"
-        route="Governance"
+        path={pathname}
+        closeHandler={close}
         title={tString("Governance")}
         icon={IconNames.TAKE_ACTION}
+        route={`/${name.toLowerCase()}/governance`}
       />,
     ];
 
@@ -114,7 +115,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
           path={pathname}
           closeHandler={close}
           key="Settings"
-          route="Settings"
+          route="/settings"
           title={tString("Settings")}
           icon={IconNames.COG}
         />
@@ -123,7 +124,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
         path={pathname}
         closeHandler={close}
         key="Help"
-        route="Help"
+        route="/help"
         title={tString("Help")}
         icon={IconNames.LIGHTBULB}
       />,
@@ -144,7 +145,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
             this.props.openLogoutMenu();
           }}
           key="Logout"
-          route="Logout"
+          route="/logout"
           title={tString("Logout")}
           icon={IconNames.LOG_OUT}
         />
@@ -406,11 +407,7 @@ const NavItem = ({ route, title, icon, path, closeHandler }: INavItemProps) => {
   const active = onActiveRoute(path, route);
   const cypressLabel = `${title.toLowerCase()}-navigation-link`;
   return (
-    <Link
-      onClick={closeHandler}
-      data-cy={cypressLabel}
-      to={`/${route.toLowerCase()}`}
-    >
+    <Link onClick={closeHandler} data-cy={cypressLabel} to={route}>
       <NavLinkContainer activeRoute={active}>
         <Icon
           icon={icon}

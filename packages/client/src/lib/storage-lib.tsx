@@ -1,6 +1,5 @@
 import { deriveNetworkFromAddress } from "@anthem/utils";
 import { BANNER_NOTIFICATIONS_KEYS } from "modules/app/store";
-import { ParsedQuery } from "query-string";
 
 /** ===========================================================================
  * Locale Storage Module.
@@ -35,11 +34,9 @@ class StorageClass {
   /**
    * Stored Address:
    */
-  getAddress = (queryParams: ParsedQuery<string>): string => {
-    const addressParam = queryParams.address;
-
-    if (typeof addressParam === "string") {
-      return addressParam;
+  getAddress = (urlAddress?: string): string => {
+    if (urlAddress && typeof urlAddress === "string") {
+      return urlAddress;
     } else {
       const address = this.getItem(KEYS.ADDRESS_KEY);
       if (address) {

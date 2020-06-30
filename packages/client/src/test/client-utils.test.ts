@@ -177,13 +177,17 @@ describe("utils", () => {
   });
 
   test("onActiveRoute matches routes correctly", () => {
-    expect(onActiveRoute("/dashboard", "Dashboard")).toBeTruthy();
-    expect(onActiveRoute("/wallet", "Wallet")).toBeTruthy();
-    expect(onActiveRoute("/governance", "Governance")).toBeTruthy();
+    expect(
+      onActiveRoute("/cosmos/dashboard", "/cosmos/dashboard"),
+    ).toBeTruthy();
+    expect(onActiveRoute("/cosmos/wallet", "/cosmos/wallet")).toBeTruthy();
+    expect(
+      onActiveRoute("/cosmos/governance", "/cosmos/governance"),
+    ).toBeTruthy();
 
-    expect(onActiveRoute("/wallet", "Dashboard")).toBeFalsy();
-    expect(onActiveRoute("/settings", "Dashboard")).toBeFalsy();
-    expect(onActiveRoute("/help", "helped")).toBeFalsy();
+    expect(onActiveRoute("/cosmos/wallet", "wallet")).toBeFalsy();
+    expect(onActiveRoute("/cosmos/settings", "settings")).toBeFalsy();
+    expect(onActiveRoute("/cosmos/help", "help")).toBeFalsy();
   });
 
   test("getQueryParamsFromUrl", () => {
