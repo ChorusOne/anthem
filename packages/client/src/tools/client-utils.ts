@@ -222,6 +222,20 @@ export const isChartTabValidForNetwork = (
 };
 
 /**
+ * Get the default active tab for a network.
+ */
+export const getDefaultChartTabForNetwork = (
+  activeTab: ALL_POSSIBLE_CHART_TABS,
+  network: NetworkDefinition,
+): ALL_POSSIBLE_CHART_TABS => {
+  if (isChartTabValidForNetwork(activeTab, network)) {
+    return activeTab;
+  } else {
+    return "TOTAL";
+  }
+};
+
+/**
  * Return information on which dashboard tab the user is viewing from the
  * given url location.
  */

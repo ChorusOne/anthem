@@ -304,7 +304,7 @@ const syncAddressToUrlEpic: EpicSignature = (action$, state$, deps) => {
       if (!onValidChartTab && onChartView) {
         deps.router.replace({
           search,
-          pathname: `${network.name.toLowerCase()}/total`,
+          pathname: `/${network.name.toLowerCase()}/total`,
         });
       }
     }),
