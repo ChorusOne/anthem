@@ -18,9 +18,7 @@ const HelpPage: React.FC<IProps> = (props: IProps) => {
   const { t, tString } = props.i18n;
   return (
     <PageContainerScrollable>
-      <PageTitle data-cy="help-page-title">
-        {props.i18n.tString("Help")}
-      </PageTitle>
+      <PageTitle data-cy="help-page-title">Anthem Help Page</PageTitle>
       <Line />
       <RowContainer>
         <H5 className={Classes.CONTROL_INDICATOR}>{t("What is Anthem?")}</H5>
@@ -200,6 +198,24 @@ const HelpPage: React.FC<IProps> = (props: IProps) => {
           manually and comparing with the transaction history, which should
           represent an exact record of transactions which occurred for an
           address.
+        </p>
+      </RowContainer>
+      <PageTitle data-cy="help-page-title">Celo Network</PageTitle>
+      <Line />
+      <RowContainer id="help-page-data-integrity-disclaimer">
+        <H5 className={Classes.CONTROL_INDICATOR}>Celo Staking Capacity</H5>
+        <p>
+          In Celo there is a limit to how much can be staked with a particular
+          validator group. As a token holder, you will not receive rewards when
+          the capacity of a group has been reached. Our validator list displays
+          color coded capacity and in addition (when expanding) the remaining
+          capacity of each group. A green capacity button for example means that
+          this group has enough room to accept delegations. We use the following
+          colors to display remaining capacity: Green = this group has more than
+          10% of its total capacity available. Yellow = this group has between
+          5-10% of its total capacity available. Orange = this group has between
+          1-5% of its total capacity available. Red = this group is at capacity,
+          or has less than 1% of its available capacity left.
         </p>
       </RowContainer>
     </PageContainerScrollable>
