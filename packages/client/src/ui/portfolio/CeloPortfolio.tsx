@@ -327,7 +327,8 @@ const getCeloCSV = (
     `Non Voting Locked Gold Balance (${coin})`,
     `Voting Locked Gold Balance (${coin})`,
     `Pending Withdrawal Balance (${coin})`,
-    `Reward (${coin})`,
+    `Daily Rewards (${coin})`,
+    `Accumulated Rewards (${coin})`,
     `cUSD Balance`,
   ];
 
@@ -336,6 +337,8 @@ const getCeloCSV = (
 
   // Assemble CSV file string with headers
   let CSV = `${ADDRESS_INFO}${CSV_HEADERS.join(",")}\n`;
+
+  let accumulatedRewards = "0";
 
   for (const snapshot of accountHistory) {
     const {
@@ -358,6 +361,8 @@ const getCeloCSV = (
     const voting = denomToUnit(votingLockedGoldBalance, size, String);
     const pending = denomToUnit(pendingWithdrawalBalance, size, String);
     const reward = denomToUnit(snapshotReward, size, String);
+    accumulatedRewards = add(snapshotReward, accumulatedRewards);
+    const totalRewards = denomToUnit(accumulatedRewards, size, String);
     const cUSD = denomToUnit(celoUSDValue, size, String);
 
     // Create the CSV row
@@ -370,6 +375,7 @@ const getCeloCSV = (
       voting,
       pending,
       reward,
+      totalRewards,
       cUSD,
     ].join(",");
 
