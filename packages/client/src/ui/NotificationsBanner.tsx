@@ -89,7 +89,7 @@ class NotificationsBanner extends React.Component<IProps> {
             <span role="img" aria-label="warning-emoji">
               ⚠️
             </span>{" "}
-            <b>{name} Network</b> is still in development.
+            <b>{name} Network</b> is in beta.
           </BannerText>
         );
       default:
