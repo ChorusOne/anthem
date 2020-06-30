@@ -31,7 +31,7 @@ import {
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
 import { toDateKeyCelo } from "tools/date-utils";
-import { addValuesInList } from "tools/math-utils";
+import { add, addValuesInList } from "tools/math-utils";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import Toast from "ui/Toast";
 import CurrencySettingsToggle from "../CurrencySettingToggle";
@@ -256,6 +256,8 @@ const getChartData = (
 ): Nullable<ChartData> => {
   const series: { [key: string]: number } = {};
 
+  let accumulatedRewards = "0";
+
   for (const x of accountHistory) {
     let value = "";
     switch (type) {
@@ -270,7 +272,8 @@ const getChartData = (
         value = x.availableGoldBalance;
         break;
       case "REWARDS":
-        value = x.snapshotReward;
+        accumulatedRewards = add(x.snapshotReward, accumulatedRewards);
+        value = accumulatedRewards;
         break;
       case "STAKING":
         value = x.totalLockedGoldBalance;
