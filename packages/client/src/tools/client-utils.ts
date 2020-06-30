@@ -140,6 +140,13 @@ export const onChartTab = (pathname?: string) => {
 };
 
 /**
+ * Get the transactions from the url.
+ */
+export const getTransactionHashFromUrl = (url: string) => {
+  return url.split("/")[3];
+};
+
+/**
  * Base chart tabs which are shared across networks.
  */
 const BASE_CHART_TAB_MAP = {
