@@ -3,10 +3,10 @@ import StorageModule from "lib/storage-lib";
 describe("storage-utils", () => {
   test("localStorage address", () => {
     const address = "cosmos16nte2qf5l0u39s86wcwu4fff4vdtvg7yn3uksu";
-    let result = StorageModule.getAddress("");
+    let result = StorageModule.getAddress({});
     expect(result).toBe("");
     StorageModule.setAddress(address);
-    result = StorageModule.getAddress("");
+    result = StorageModule.getAddress({});
     expect(result).toBe(address);
   });
 
