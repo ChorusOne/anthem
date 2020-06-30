@@ -17,7 +17,6 @@ import {
 } from "@anthem/utils";
 import { ApolloError } from "apollo-client";
 import BigNumber from "bignumber.js";
-import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import queryString from "query-string";
 import { AvailableReward } from "ui/CreateTransactionForm";
 import Toast from "ui/Toast";
@@ -114,13 +113,6 @@ export const getQueryParamsFromUrl = (paramString: string) => {
 };
 
 /**
- * Get address from url. The urls schemes are :network/:page/:address.
- */
-export const getAddressFromUrl = (url: string) => {
-  return url.split("/")[3];
-};
-
-/**
  * Crudely determine if some path string is included in the current URL.
  */
 export const onPath = (url: string, pathString: string): boolean => {
@@ -132,7 +124,7 @@ export const onPath = (url: string, pathString: string): boolean => {
  * address= param.
  */
 export const onPageWhichIncludesAddressParam = (pathname: string) => {
-  return /total|available|staking|rewards|commissions|delegate|governance/.test(
+  return /total|available|staking|rewards|commissions|cusd|delegate|governance/.test(
     pathname,
   );
 };
@@ -140,32 +132,98 @@ export const onPageWhichIncludesAddressParam = (pathname: string) => {
 /**
  * Check if a pathname includes a chart view.
  */
-export const onChartTab = (pathname: string) => {
-  return /total|available|staking|rewards|commissions/.test(pathname);
+export const onChartTab = (pathname?: string) => {
+  return (
+    !!pathname &&
+    /total|available|staking|rewards|commissions|cusd/.test(pathname)
+  );
 };
 
 /**
- * Valid chart tab keys.
+ * Base chart tabs which are shared across networks.
  */
-export const CHART_TABS: ReadonlyArray<PORTFOLIO_CHART_TYPES> = [
-  "TOTAL",
-  "AVAILABLE",
-  "STAKING",
-  "REWARDS",
-  "COMMISSIONS",
-];
+const BASE_CHART_TAB_MAP = {
+  TOTAL: "TOTAL",
+  AVAILABLE: "AVAILABLE",
+  STAKING: "STAKING",
+  REWARDS: "REWARDS",
+  COMMISSIONS: "COMMISSIONS",
+};
+
+const ALL_POSSIBLE_CHART_TAB_MAP = {
+  ...BASE_CHART_TAB_MAP,
+  CUSD: "cUSD",
+};
+
+export type BASE_CHART_TABS =
+  | "TOTAL"
+  | "AVAILABLE"
+  | "STAKING"
+  | "REWARDS"
+  | "COMMISSIONS";
+
+export type ALL_POSSIBLE_CHART_TABS =
+  | "TOTAL"
+  | "AVAILABLE"
+  | "STAKING"
+  | "REWARDS"
+  | "COMMISSIONS"
+  | "CUSD";
+
+/**
+ * Get the list of chart tabs which are available for a network.
+ */
+export const getChartTabsForNetwork = (
+  network: NetworkDefinition,
+  commissionsAvailable: boolean,
+) => {
+  const result: { [key: string]: string } = {};
+
+  for (const [key, value] of Object.entries(ALL_POSSIBLE_CHART_TAB_MAP)) {
+    if (key in BASE_CHART_TAB_MAP || network.customChartTabs.has(key)) {
+      if (key === "COMMISSIONS" && !commissionsAvailable) {
+        continue;
+      }
+
+      result[key] = value;
+    }
+  }
+
+  return result;
+};
 
 /**
  *  Determine if a string is a valid chart tab key.
  */
-export const isValidChartTab = (
+export const isChartTabValidForNetwork = (
   tab: string,
-): Nullable<PORTFOLIO_CHART_TYPES> => {
-  // @ts-ignore
-  if (new Set(CHART_TABS).has(tab.toUpperCase())) {
-    return tab.toUpperCase() as PORTFOLIO_CHART_TYPES;
+  network: NetworkDefinition,
+): Nullable<ALL_POSSIBLE_CHART_TABS> => {
+  const name = tab.toUpperCase() as ALL_POSSIBLE_CHART_TABS;
+
+  if (name in BASE_CHART_TAB_MAP) {
+    return name;
+  } else if (
+    name in ALL_POSSIBLE_CHART_TAB_MAP &&
+    network.customChartTabs.has(name)
+  ) {
+    return name;
   } else {
     return null;
+  }
+};
+
+/**
+ * Get the default active tab for a network.
+ */
+export const getDefaultChartTabForNetwork = (
+  activeTab: ALL_POSSIBLE_CHART_TABS,
+  network: NetworkDefinition,
+): ALL_POSSIBLE_CHART_TABS => {
+  if (isChartTabValidForNetwork(activeTab, network)) {
+    return activeTab;
+  } else {
+    return "TOTAL";
   }
 };
 
@@ -175,17 +233,25 @@ export const isValidChartTab = (
  */
 export const getPortfolioTypeFromUrl = (
   path: string,
-): PORTFOLIO_CHART_TYPES | null => {
+): ALL_POSSIBLE_CHART_TABS | null => {
+  let result = null;
+
   if (onPath(path, "/total")) {
-    return "TOTAL";
+    result = ALL_POSSIBLE_CHART_TAB_MAP.TOTAL;
   } else if (onPath(path, "/available")) {
-    return "AVAILABLE";
+    result = ALL_POSSIBLE_CHART_TAB_MAP.AVAILABLE;
   } else if (onPath(path, "/rewards")) {
-    return "REWARDS";
+    result = ALL_POSSIBLE_CHART_TAB_MAP.REWARDS;
   } else if (onPath(path, "/staking")) {
-    return "STAKING";
+    result = ALL_POSSIBLE_CHART_TAB_MAP.STAKING;
   } else if (onPath(path, "/commissions")) {
-    return "COMMISSIONS";
+    result = ALL_POSSIBLE_CHART_TAB_MAP.COMMISSIONS;
+  } else if (onPath(path, "/cusd")) {
+    result = ALL_POSSIBLE_CHART_TAB_MAP.CUSD;
+  }
+
+  if (result) {
+    return result as ALL_POSSIBLE_CHART_TABS;
   }
 
   return null;
@@ -771,9 +837,9 @@ export const sortCeloValidatorsList = (
       break;
     case CELO_VALIDATORS_LIST_SORT_FILTER.VOTING_POWER:
       result = list.sort((a, b) => {
-        const aCapacity = Number(a.capacityAvailable);
-        const bCapacity = Number(b.capacityAvailable);
-        return sortAscending ? aCapacity - bCapacity : bCapacity - aCapacity;
+        const aFraction = Number(a.votingPowerFraction);
+        const bFraction = Number(b.votingPowerFraction);
+        return sortAscending ? aFraction - bFraction : bFraction - aFraction;
       });
       break;
     case CELO_VALIDATORS_LIST_SORT_FILTER.OPEN_VOTES:

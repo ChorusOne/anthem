@@ -21,7 +21,6 @@ import {
   withGraphQLVariables,
 } from "graphql/queries";
 import { History } from "history";
-import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import Analytics from "lib/analytics-lib";
 import ENV from "lib/client-env";
 import Modules, { ReduxStoreState } from "modules/root";
@@ -31,9 +30,9 @@ import { connect } from "react-redux";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import {
-  CHART_TABS,
+  getChartTabsForNetwork,
   getPortfolioTypeFromUrl,
-  isValidChartTab,
+  isChartTabValidForNetwork,
   onActiveRoute,
   onActiveTab,
 } from "tools/client-utils";
@@ -54,8 +53,9 @@ import TransactionSwitchContainer from "ui/transactions/TransactionSwitchContain
 
 class DashboardPage extends React.Component<IProps> {
   componentDidMount() {
+    const { network } = this.props.ledger;
     const tab = window.location.pathname.split("/")[2];
-    const validTab = tab && isValidChartTab(tab);
+    const validTab = tab && isChartTabValidForNetwork(tab, network);
     if (validTab) {
       this.props.setActiveChartTab(validTab);
     }
@@ -156,7 +156,6 @@ class DashboardPage extends React.Component<IProps> {
 
   renderDashboardNavigationLinks = () => {
     const {
-      i18n,
       address,
       ledger,
       history,
@@ -164,21 +163,14 @@ class DashboardPage extends React.Component<IProps> {
       location,
       cosmosAccountHistory,
     } = this.props;
-    const { tString } = i18n;
     const { network } = ledger;
     const { pathname } = location;
 
-    const commissionsLinkAvailable = shouldShowCommissionsLink(
+    const commissionsTabAvailable = shouldShowCommissionsLink(
       cosmosAccountHistory,
     );
 
-    const AVAILABLE_TABS = CHART_TABS.filter(tab => {
-      if (tab === "COMMISSIONS") {
-        return commissionsLinkAvailable;
-      } else {
-        return true;
-      }
-    });
+    const tabs = getChartTabsForNetwork(network, commissionsTabAvailable);
 
     if (settings.isDesktop) {
       return (
@@ -187,14 +179,14 @@ class DashboardPage extends React.Component<IProps> {
             <DashboardNavigationBar />
           ) : (
             <DashboardNavigationBar>
-              {AVAILABLE_TABS.map(title => (
+              {Object.values(tabs).map(title => (
                 <DashboardNavigationLink
                   key={title}
                   title={title}
                   network={network}
                   address={address}
                   pathname={pathname}
-                  localizedTitle={tString(title as PORTFOLIO_CHART_TYPES)}
+                  localizedTitle={title}
                 />
               ))}
             </DashboardNavigationBar>
@@ -208,14 +200,14 @@ class DashboardPage extends React.Component<IProps> {
           <Popover
             content={
               <Menu>
-                {AVAILABLE_TABS.map(title =>
+                {Object.values(tabs).map(title =>
                   getMobileDashboardNavigationLink({
                     title,
                     address,
                     history,
                     network,
                     pathname,
-                    localizedTitle: tString(title),
+                    localizedTitle: title,
                   }),
                 )}
               </Menu>
@@ -245,6 +237,7 @@ class DashboardPage extends React.Component<IProps> {
         REWARDS: tString("Rewards"),
         STAKING: tString("Staking"),
         COMMISSIONS: tString("Commission"),
+        CUSD: "cUSD",
       };
 
       const tabTitle = tabToText[portfolioType];
@@ -338,11 +331,11 @@ const getBalanceCardStyles = () => ({
 });
 
 interface INavItemProps {
+  title: string;
   address: string;
   pathname: string;
   localizedTitle: string;
   network: NetworkDefinition;
-  title: PORTFOLIO_CHART_TYPES;
 }
 
 const TransactionsContainer = styled.div`
@@ -442,7 +435,7 @@ const getMobileDashboardNavigationLink = ({
   );
 };
 
-const runAnalyticsForTab = (title: PORTFOLIO_CHART_TYPES): void => {
+const runAnalyticsForTab = (title: string): void => {
   if (title === "TOTAL") {
     Analytics.viewPortfolioBalances();
   } else if (title === "REWARDS") {
@@ -453,7 +446,7 @@ const runAnalyticsForTab = (title: PORTFOLIO_CHART_TYPES): void => {
 const shouldShowCommissionsLink = (
   cosmosAccountHistory: CosmosAccountHistoryQueryResult,
 ) => {
-  return (
+  return !!(
     cosmosAccountHistory &&
     cosmosAccountHistory.cosmosAccountHistory &&
     cosmosAccountHistory.cosmosAccountHistory.validatorCommissions &&

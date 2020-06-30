@@ -2,7 +2,7 @@ import { NetworkDefinition } from "@anthem/utils";
 import { Colors } from "@blueprintjs/core";
 import { COLORS } from "constants/colors";
 import { CURRENCY_SETTING, FiatCurrency } from "constants/fiat";
-import { PORTFOLIO_CHART_TYPES } from "i18n/english";
+import { ALL_POSSIBLE_CHART_TABS } from "./client-utils";
 import { formatCurrencyAmount } from "./currency-utils";
 import { fromDateKey, getDateInFuture, toDateKey } from "./date-utils";
 import { tFnString } from "./i18n-utils";
@@ -17,7 +17,7 @@ export interface ChartSeries {
 }
 
 export interface ChartData {
-  type: PORTFOLIO_CHART_TYPES;
+  type: ALL_POSSIBLE_CHART_TABS;
   data: ChartSeries;
   withdrawalEventDates: WithdrawalEventDates;
   withdrawalsMap: { [key: string]: string };
@@ -187,7 +187,7 @@ interface TooltipArguments {
   xIndexPosition: number;
   currencySetting: CURRENCY_SETTING;
   fiatCurrency: FiatCurrency;
-  chartType: PORTFOLIO_CHART_TYPES;
+  chartType: ALL_POSSIBLE_CHART_TABS;
   tString: tFnString;
   withdrawalDateSet?: WithdrawalEventDates;
 }

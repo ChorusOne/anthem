@@ -14,7 +14,11 @@
  * ============================================================================
  */
 
-export type PORTFOLIO_CHART_TYPES =
+/**
+ * NOTE: This are the shared portfolio chart types. Some networks (e.g. Celo)
+ * support custom chart views.
+ */
+type PORTFOLIO_CHART_TYPES =
   | "TOTAL"
   | "AVAILABLE"
   | "REWARDS"

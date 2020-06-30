@@ -1,11 +1,7 @@
 import { Pathname, Search } from "history";
-import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import StorageModule from "lib/storage-lib";
 import { combineReducers } from "redux";
-import {
-  isValidChartTab,
-  onPageWhichIncludesAddressParam,
-} from "tools/client-utils";
+import { ALL_POSSIBLE_CHART_TABS } from "tools/client-utils";
 import { createReducer } from "typesafe-actions";
 import actions, { ActionTypes } from "./actions";
 
@@ -49,7 +45,7 @@ const loading = createReducer<LoadingState, ActionTypes>(initialState)
 export type BANNER_NOTIFICATIONS_KEYS = "monthly_summary_newsletter";
 
 interface AppState {
-  activeChartTab: PORTFOLIO_CHART_TYPES;
+  activeChartTab: ALL_POSSIBLE_CHART_TABS;
   activeBannerKey: Nullable<BANNER_NOTIFICATIONS_KEYS>;
   notificationsBannerVisible: boolean;
   dashboardInputFocused: boolean;
@@ -117,22 +113,8 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
     activeChartTab: action.payload,
   }))
   .handleAction(actions.onRouteChange, (state, action) => {
-    let activeChartTab = state.activeChartTab;
-
-    // Update the active chart tab if viewing the portfolio
-    const { pathname } = action.payload;
-    const chartViewActive = onPageWhichIncludesAddressParam(pathname);
-    if (chartViewActive) {
-      const tab = pathname.split("/")[2];
-      const validTab = isValidChartTab(tab);
-      if (validTab) {
-        activeChartTab = validTab;
-      }
-    }
-
     return {
       ...state,
-      activeChartTab,
       locationState: {
         search: action.payload.search,
         pathname: action.payload.pathname,

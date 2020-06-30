@@ -22,9 +22,10 @@ import {
   tap,
 } from "rxjs/operators";
 import {
-  getAddressFromUrl,
   getQueryParamsFromUrl,
   initializeNetwork,
+  isChartTabValidForNetwork,
+  onChartTab,
   wait,
 } from "tools/client-utils";
 import {
@@ -51,8 +52,7 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
     }),
     map(() => {
       const params = getQueryParamsFromUrl(window.location.search);
-      const urlAddress = getAddressFromUrl(window.location.pathname);
-      let address = StorageModule.getAddress(urlAddress);
+      let address = StorageModule.getAddress(params);
       const { tString } = i18nSelector(state$.value);
 
       // Convert validator address to operator addresses
@@ -80,6 +80,31 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
         network,
         page,
       });
+    }),
+  );
+};
+
+/**
+ * Handling syncing the activeChartTab state to the url when
+ * the url changes.
+ */
+const setActiveChartTabEpic: EpicSignature = (action$, state$, deps) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.onRouteChange)),
+    pluck("payload"),
+    pluck("pathname"),
+    filter(pathname => onChartTab(pathname)),
+    map(pathname => {
+      const { network } = state$.value.ledger.ledger;
+      const { activeChartTab } = state$.value.app.app;
+      const tab = pathname.split("/")[2];
+      const validTab = isChartTabValidForNetwork(tab, network);
+
+      if (validTab && validTab !== activeChartTab) {
+        return Actions.setActiveChartTab(validTab);
+      } else {
+        return Actions.empty("No need to update the active chart tab...");
+      }
     }),
   );
 };
@@ -281,6 +306,7 @@ const refreshBalanceAndTransactionsEpic: EpicSignature = (
 
 export default combineEpics(
   appInitializationEpic,
+  setActiveChartTabEpic,
   newsletterSignupEpic,
   monthlySummaryTooltipEpic,
   highlightDataIntegrityHelpLabel,

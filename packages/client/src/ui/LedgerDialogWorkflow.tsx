@@ -15,7 +15,11 @@ import React, { ChangeEvent } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import styled, { CSSProperties } from "styled-components";
-import { formatAddressString, onPath } from "tools/client-utils";
+import {
+  formatAddressString,
+  getDefaultChartTabForNetwork,
+  onPath,
+} from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
@@ -357,17 +361,26 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
               >
                 {recentAddressList.map(address => {
                   const network = deriveNetworkFromAddress(address);
+
                   const formattedAddress = formatAddressString(
                     address,
                     !this.props.settings.isDesktop,
                     25,
                   );
+
+                  const activeTab = getDefaultChartTabForNetwork(
+                    activeChartTab,
+                    network,
+                  );
+
+                  const addressLink = `/${network.name.toLowerCase()}/${activeTab.toLowerCase()}?address=${address}`;
+
                   return (
                     <Link
                       replace
                       key={address}
+                      to={addressLink}
                       style={{ marginTop: 4, marginBottom: 2 }}
-                      to={`/${network.name.toLowerCase()}/${activeChartTab.toLowerCase()}?address=${address}`}
                     >
                       <Row style={{ justifyContent: "flex-start" }}>
                         <NetworkLogoIcon

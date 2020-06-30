@@ -35,10 +35,8 @@ export const StakingRowSummary = styled(StakingRow)`
 
 export const ValidatorRowExpandable = styled(ValidatorRowBase)`
   height: 70px;
-
   border-radius: ${(props: { highlight: boolean }) =>
     props.highlight ? 8 : 0}px;
-
   border: ${(props: { highlight: boolean; theme: IThemeProps }) => {
     const color = props.theme.isDarkTheme ? COLORS.CHORUS_MINT : COLORS.CELO;
     return props.highlight ? `1px solid ${color}` : "none";
@@ -46,6 +44,9 @@ export const ValidatorRowExpandable = styled(ValidatorRowBase)`
 
   &:hover {
     cursor: pointer;
+    background: red;
+    background: ${(props: { theme: IThemeProps }) =>
+      props.theme.isDarkTheme ? Colors.DARK_GRAY3 : Colors.LIGHT_GRAY3};
   }
 `;
 
@@ -64,8 +65,8 @@ export const ValidatorDetails = styled.div`
 
 export const ValidatorCapacityCircle = styled.div`
   border-radius: 50%;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   margin-left: 26px;
   background: ${({ capacity }: { capacity: number }) => {
     // Render a color based on the percent capacity:

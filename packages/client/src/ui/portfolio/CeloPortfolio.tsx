@@ -16,7 +16,6 @@ import {
 } from "graphql/queries";
 import * as Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
@@ -24,6 +23,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
 import {
+  ALL_POSSIBLE_CHART_TABS,
   capitalizeString,
   getFiatPriceHistoryMap,
   PriceHistoryMap,
@@ -31,7 +31,7 @@ import {
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
 import { toDateKeyCelo } from "tools/date-utils";
-import { addValuesInList } from "tools/math-utils";
+import { add, addValuesInList } from "tools/math-utils";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import Toast from "ui/Toast";
 import CurrencySettingsToggle from "../CurrencySettingToggle";
@@ -117,7 +117,7 @@ class CeloPortfolio extends React.PureComponent<
             IQuery["fiatPriceHistory"],
           ]) => {
             const getChartOptions = (
-              type: PORTFOLIO_CHART_TYPES,
+              type: ALL_POSSIBLE_CHART_TABS,
             ): Nullable<Highcharts.Options> => {
               const format = "MMM DD, YYYY";
               const priceHistory = getFiatPriceHistoryMap(fiatPrices, format);
@@ -163,7 +163,7 @@ class CeloPortfolio extends React.PureComponent<
                 <View style={{ paddingTop: 110 }}>
                   <p style={{ margin: 0, textAlign: "center" }}>
                     {capitalizeString(app.activeChartTab)} account history is
-                    not supported yet for Oasis.
+                    not supported yet for Celo.
                   </p>
                 </View>
               );
@@ -249,16 +249,20 @@ class CeloPortfolio extends React.PureComponent<
 const getChartData = (
   accountHistory: ICeloAccountSnapshot[],
   network: NetworkDefinition,
-  type: PORTFOLIO_CHART_TYPES,
+  type: ALL_POSSIBLE_CHART_TABS,
   fiatPriceHistory: PriceHistoryMap,
   firstPrice: number,
   displayFiatPrices: boolean,
 ): Nullable<ChartData> => {
   const series: { [key: string]: number } = {};
 
+  const tab = type;
+
+  let accumulatedRewards = "0";
+
   for (const x of accountHistory) {
     let value = "";
-    switch (type) {
+    switch (tab) {
       case "TOTAL":
         value = addValuesInList([
           x.totalLockedGoldBalance,
@@ -270,7 +274,8 @@ const getChartData = (
         value = x.availableGoldBalance;
         break;
       case "REWARDS":
-        value = x.snapshotReward;
+        accumulatedRewards = add(x.snapshotReward, accumulatedRewards);
+        value = accumulatedRewards;
         break;
       case "STAKING":
         value = x.totalLockedGoldBalance;
@@ -278,9 +283,12 @@ const getChartData = (
       case "COMMISSIONS":
         // Commissions are not supported yet
         return null;
+      case "CUSD":
+        value = x.celoUSDValue;
+        break;
       default:
-        console.warn(`Unexpected activeChartTab received: ${type}`);
-        assertUnreachable(type);
+        console.warn(`Unexpected activeChartTab received: ${tab}`);
+        assertUnreachable(tab);
     }
 
     const key = toDateKeyCelo(x.snapshotDate);
@@ -296,7 +304,7 @@ const getChartData = (
   }
 
   return {
-    type,
+    type: tab,
     data: series,
     withdrawalsMap: {},
     withdrawalEventDates: {},
@@ -324,7 +332,8 @@ const getCeloCSV = (
     `Non Voting Locked Gold Balance (${coin})`,
     `Voting Locked Gold Balance (${coin})`,
     `Pending Withdrawal Balance (${coin})`,
-    `Reward (${coin})`,
+    `Daily Rewards (${coin})`,
+    `Accumulated Rewards (${coin})`,
     `cUSD Balance`,
   ];
 
@@ -333,6 +342,8 @@ const getCeloCSV = (
 
   // Assemble CSV file string with headers
   let CSV = `${ADDRESS_INFO}${CSV_HEADERS.join(",")}\n`;
+
+  let accumulatedRewards = "0";
 
   for (const snapshot of accountHistory) {
     const {
@@ -355,6 +366,8 @@ const getCeloCSV = (
     const voting = denomToUnit(votingLockedGoldBalance, size, String);
     const pending = denomToUnit(pendingWithdrawalBalance, size, String);
     const reward = denomToUnit(snapshotReward, size, String);
+    accumulatedRewards = add(snapshotReward, accumulatedRewards);
+    const totalRewards = denomToUnit(accumulatedRewards, size, String);
     const cUSD = denomToUnit(celoUSDValue, size, String);
 
     // Create the CSV row
@@ -367,6 +380,7 @@ const getCeloCSV = (
       voting,
       pending,
       reward,
+      totalRewards,
       cUSD,
     ].join(",");
 
