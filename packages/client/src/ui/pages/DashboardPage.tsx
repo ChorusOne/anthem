@@ -237,7 +237,7 @@ class DashboardPage extends React.Component<IProps> {
         REWARDS: tString("Rewards"),
         STAKING: tString("Staking"),
         COMMISSIONS: tString("Commission"),
-        cUSD: "cUSD",
+        CUSD: "cUSD",
       };
 
       const tabTitle = tabToText[portfolioType];

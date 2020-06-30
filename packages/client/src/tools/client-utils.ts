@@ -176,7 +176,7 @@ export type ALL_POSSIBLE_CHART_TABS =
   | "STAKING"
   | "REWARDS"
   | "COMMISSIONS"
-  | "cUSD";
+  | "CUSD";
 
 /**
  * Get the list of chart tabs which are available for a network.
@@ -210,16 +210,12 @@ export const isChartTabValidForNetwork = (
   const name = tab.toUpperCase() as ALL_POSSIBLE_CHART_TABS;
 
   if (name in BASE_CHART_TAB_MAP) {
-    // @ts-ignore
-    const result = BASE_CHART_TAB_MAP[name];
-    return result as ALL_POSSIBLE_CHART_TABS;
+    return name;
   } else if (
     name in ALL_POSSIBLE_CHART_TAB_MAP &&
     network.customChartTabs.has(name)
   ) {
-    // @ts-ignore
-    const result = ALL_POSSIBLE_CHART_TAB_MAP[name];
-    return result as ALL_POSSIBLE_CHART_TABS;
+    return name;
   } else {
     return null;
   }
