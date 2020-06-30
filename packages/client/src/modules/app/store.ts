@@ -1,12 +1,7 @@
 import { Pathname, Search } from "history";
-import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import StorageModule from "lib/storage-lib";
 import { combineReducers } from "redux";
-import {
-  chartTabValidForNetwork,
-  onPageWhichIncludesAddressParam,
-  VALID_CHART_TABS,
-} from "tools/client-utils";
+import { ALL_POSSIBLE_CHART_TABS } from "tools/client-utils";
 import { createReducer } from "typesafe-actions";
 import actions, { ActionTypes } from "./actions";
 
@@ -50,7 +45,7 @@ const loading = createReducer<LoadingState, ActionTypes>(initialState)
 export type BANNER_NOTIFICATIONS_KEYS = "monthly_summary_newsletter";
 
 interface AppState {
-  activeChartTab: VALID_CHART_TABS;
+  activeChartTab: ALL_POSSIBLE_CHART_TABS;
   activeBannerKey: Nullable<BANNER_NOTIFICATIONS_KEYS>;
   notificationsBannerVisible: boolean;
   dashboardInputFocused: boolean;

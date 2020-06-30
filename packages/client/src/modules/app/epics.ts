@@ -22,10 +22,10 @@ import {
   tap,
 } from "rxjs/operators";
 import {
-  chartTabValidForNetwork,
   getAddressFromUrl,
   getQueryParamsFromUrl,
   initializeNetwork,
+  isChartTabValidForNetwork,
   onChartTab,
   wait,
 } from "tools/client-utils";
@@ -100,7 +100,7 @@ const setActiveChartTabEpic: EpicSignature = (action$, state$, deps) => {
       const { network } = state$.value.ledger.ledger;
       const { activeChartTab } = state$.value.app.app;
       const tab = pathname.split("/")[2];
-      const validTab = chartTabValidForNetwork(tab, network);
+      const validTab = isChartTabValidForNetwork(tab, network);
 
       if (validTab && validTab !== activeChartTab) {
         return Actions.setActiveChartTab(validTab);

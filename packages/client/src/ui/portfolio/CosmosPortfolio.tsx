@@ -19,7 +19,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { throttle } from "throttle-debounce";
 import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
-import { getPortfolioTypeFromUrl, SHARED_CHART_TABS } from "tools/client-utils";
+import { BASE_CHART_TABS, getPortfolioTypeFromUrl } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import {
   getChartTotalGraph,
@@ -209,7 +209,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
       if (noData) {
         // Get a relevant message to display for an empty portfolio graph.
         const portfolioType = app.activeChartTab;
-        const getEmptyGraphMessage = (type: SHARED_CHART_TABS): string => {
+        const getEmptyGraphMessage = (type: BASE_CHART_TABS): string => {
           switch (type) {
             case "TOTAL":
             case "AVAILABLE":
@@ -231,7 +231,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
           <Centered style={{ flexDirection: "column" }}>
             <H5>{t("No data exists yet.")}</H5>
             <p style={{ textAlign: "center" }}>
-              {getEmptyGraphMessage(portfolioType as SHARED_CHART_TABS)}
+              {getEmptyGraphMessage(portfolioType as BASE_CHART_TABS)}
             </p>
           </Centered>
         );

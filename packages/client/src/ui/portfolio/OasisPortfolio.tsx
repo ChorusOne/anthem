@@ -22,9 +22,9 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
 import {
+  ALL_POSSIBLE_CHART_TABS,
+  BASE_CHART_TABS,
   capitalizeString,
-  SHARED_CHART_TABS,
-  VALID_CHART_TABS,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
@@ -237,10 +237,10 @@ class OasisPortfolio extends React.PureComponent<
 const getChartData = (
   accountHistory: IOasisAccountHistory[],
   network: NetworkDefinition,
-  type: VALID_CHART_TABS,
+  type: ALL_POSSIBLE_CHART_TABS,
 ): Nullable<ChartData> => {
   const series: { [key: string]: number } = {};
-  const tab = type as SHARED_CHART_TABS;
+  const tab = type as BASE_CHART_TABS;
 
   for (const x of accountHistory) {
     let value = "";

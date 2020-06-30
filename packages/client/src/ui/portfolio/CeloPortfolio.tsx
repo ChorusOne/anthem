@@ -16,7 +16,6 @@ import {
 } from "graphql/queries";
 import * as Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
@@ -24,11 +23,10 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
 import {
+  ALL_POSSIBLE_CHART_TABS,
   capitalizeString,
   getFiatPriceHistoryMap,
   PriceHistoryMap,
-  SHARED_CHART_TABS,
-  VALID_CHART_TABS,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
@@ -119,7 +117,7 @@ class CeloPortfolio extends React.PureComponent<
             IQuery["fiatPriceHistory"],
           ]) => {
             const getChartOptions = (
-              type: VALID_CHART_TABS,
+              type: ALL_POSSIBLE_CHART_TABS,
             ): Nullable<Highcharts.Options> => {
               const format = "MMM DD, YYYY";
               const priceHistory = getFiatPriceHistoryMap(fiatPrices, format);
@@ -251,7 +249,7 @@ class CeloPortfolio extends React.PureComponent<
 const getChartData = (
   accountHistory: ICeloAccountSnapshot[],
   network: NetworkDefinition,
-  type: VALID_CHART_TABS,
+  type: ALL_POSSIBLE_CHART_TABS,
   fiatPriceHistory: PriceHistoryMap,
   firstPrice: number,
   displayFiatPrices: boolean,

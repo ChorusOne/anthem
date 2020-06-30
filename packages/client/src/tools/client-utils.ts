@@ -147,7 +147,10 @@ export const onChartTab = (pathname?: string) => {
   );
 };
 
-const CHART_TAB_MAP = {
+/**
+ * Base chart tabs which are shared across networks.
+ */
+const BASE_CHART_TAB_MAP = {
   TOTAL: "TOTAL",
   AVAILABLE: "AVAILABLE",
   STAKING: "STAKING",
@@ -155,19 +158,19 @@ const CHART_TAB_MAP = {
   COMMISSIONS: "COMMISSIONS",
 };
 
-const ALL_CHART_TAB_MAP = {
-  ...CHART_TAB_MAP,
+const ALL_POSSIBLE_CHART_TAB_MAP = {
+  ...BASE_CHART_TAB_MAP,
   CUSD: "cUSD",
 };
 
-export type SHARED_CHART_TABS =
+export type BASE_CHART_TABS =
   | "TOTAL"
   | "AVAILABLE"
   | "STAKING"
   | "REWARDS"
   | "COMMISSIONS";
 
-export type VALID_CHART_TABS =
+export type ALL_POSSIBLE_CHART_TABS =
   | "TOTAL"
   | "AVAILABLE"
   | "STAKING"
@@ -175,14 +178,17 @@ export type VALID_CHART_TABS =
   | "COMMISSIONS"
   | "cUSD";
 
+/**
+ * Get the list of chart tabs which are available for a network.
+ */
 export const getChartTabsForNetwork = (
   network: NetworkDefinition,
   commissionsAvailable: boolean,
 ) => {
   const result: { [key: string]: string } = {};
 
-  for (const [key, value] of Object.entries(ALL_CHART_TAB_MAP)) {
-    if (key in CHART_TAB_MAP || network.customChartTabs.has(key)) {
+  for (const [key, value] of Object.entries(ALL_POSSIBLE_CHART_TAB_MAP)) {
+    if (key in BASE_CHART_TAB_MAP || network.customChartTabs.has(key)) {
       if (key === "COMMISSIONS" && !commissionsAvailable) {
         continue;
       }
@@ -197,20 +203,23 @@ export const getChartTabsForNetwork = (
 /**
  *  Determine if a string is a valid chart tab key.
  */
-export const chartTabValidForNetwork = (
+export const isChartTabValidForNetwork = (
   tab: string,
   network: NetworkDefinition,
-): Nullable<VALID_CHART_TABS> => {
-  const name = tab.toUpperCase() as VALID_CHART_TABS;
+): Nullable<ALL_POSSIBLE_CHART_TABS> => {
+  const name = tab.toUpperCase() as ALL_POSSIBLE_CHART_TABS;
 
-  if (name in CHART_TAB_MAP) {
+  if (name in BASE_CHART_TAB_MAP) {
     // @ts-ignore
-    const result = CHART_TAB_MAP[name];
-    return result as VALID_CHART_TABS;
-  } else if (name in ALL_CHART_TAB_MAP && network.customChartTabs.has(name)) {
+    const result = BASE_CHART_TAB_MAP[name];
+    return result as ALL_POSSIBLE_CHART_TABS;
+  } else if (
+    name in ALL_POSSIBLE_CHART_TAB_MAP &&
+    network.customChartTabs.has(name)
+  ) {
     // @ts-ignore
-    const result = ALL_CHART_TAB_MAP[name];
-    return result as VALID_CHART_TABS;
+    const result = ALL_POSSIBLE_CHART_TAB_MAP[name];
+    return result as ALL_POSSIBLE_CHART_TABS;
   } else {
     return null;
   }
@@ -222,25 +231,25 @@ export const chartTabValidForNetwork = (
  */
 export const getPortfolioTypeFromUrl = (
   path: string,
-): VALID_CHART_TABS | null => {
+): ALL_POSSIBLE_CHART_TABS | null => {
   let result = null;
 
   if (onPath(path, "/total")) {
-    result = ALL_CHART_TAB_MAP.TOTAL;
+    result = ALL_POSSIBLE_CHART_TAB_MAP.TOTAL;
   } else if (onPath(path, "/available")) {
-    result = ALL_CHART_TAB_MAP.AVAILABLE;
+    result = ALL_POSSIBLE_CHART_TAB_MAP.AVAILABLE;
   } else if (onPath(path, "/rewards")) {
-    result = ALL_CHART_TAB_MAP.REWARDS;
+    result = ALL_POSSIBLE_CHART_TAB_MAP.REWARDS;
   } else if (onPath(path, "/staking")) {
-    result = ALL_CHART_TAB_MAP.STAKING;
+    result = ALL_POSSIBLE_CHART_TAB_MAP.STAKING;
   } else if (onPath(path, "/commissions")) {
-    result = ALL_CHART_TAB_MAP.COMMISSIONS;
+    result = ALL_POSSIBLE_CHART_TAB_MAP.COMMISSIONS;
   } else if (onPath(path, "/cusd")) {
-    result = ALL_CHART_TAB_MAP.CUSD;
+    result = ALL_POSSIBLE_CHART_TAB_MAP.CUSD;
   }
 
   if (result) {
-    return result as VALID_CHART_TABS;
+    return result as ALL_POSSIBLE_CHART_TABS;
   }
 
   return null;

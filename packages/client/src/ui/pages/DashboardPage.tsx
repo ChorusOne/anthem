@@ -30,9 +30,9 @@ import { connect } from "react-redux";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import {
-  chartTabValidForNetwork,
   getChartTabsForNetwork,
   getPortfolioTypeFromUrl,
+  isChartTabValidForNetwork,
   onActiveRoute,
   onActiveTab,
 } from "tools/client-utils";
@@ -55,7 +55,7 @@ class DashboardPage extends React.Component<IProps> {
   componentDidMount() {
     const { network } = this.props.ledger;
     const tab = window.location.pathname.split("/")[2];
-    const validTab = tab && chartTabValidForNetwork(tab, network);
+    const validTab = tab && isChartTabValidForNetwork(tab, network);
     if (validTab) {
       this.props.setActiveChartTab(validTab);
     }
