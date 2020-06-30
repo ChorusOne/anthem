@@ -1,6 +1,5 @@
 import {
   ICeloAccountBalances,
-  ICeloSystemBalances,
   ICeloValidatorGroup,
   IQuery,
 } from "@anthem/utils";
@@ -9,11 +8,9 @@ import { CopyIcon, NetworkLogoIcon } from "assets/images";
 import { COLORS } from "constants/colors";
 import {
   CeloAccountBalancesProps,
-  CeloSystemBalancesProps,
   CeloValidatorsProps,
   FiatPriceDataProps,
   withCeloAccountBalances,
-  withCeloSystemBalances,
   withCeloValidatorGroups,
   withFiatPriceData,
   withGraphQLVariables,
@@ -27,7 +24,6 @@ import {
   copyTextToClipboard,
   formatAddressString,
   getCeloVotesAvailablePercentage,
-  getPercentage,
   getPercentageFromTotal,
   getValidatorOperatorAddressMap,
   sortCeloValidatorsList,

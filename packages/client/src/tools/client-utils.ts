@@ -17,7 +17,6 @@ import {
 } from "@anthem/utils";
 import { ApolloError } from "apollo-client";
 import BigNumber from "bignumber.js";
-import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import queryString from "query-string";
 import { AvailableReward } from "ui/CreateTransactionForm";
 import Toast from "ui/Toast";
