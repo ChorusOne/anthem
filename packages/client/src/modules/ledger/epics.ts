@@ -23,8 +23,8 @@ import {
 import { connectCeloAddress } from "tools/celo-ledger-utils";
 import {
   capitalizeString,
+  chartTabValidForNetwork,
   getQueryParamsFromUrl,
-  isValidChartTab,
   onPageWhichIncludesAddressParam,
   wait,
 } from "tools/client-utils";
@@ -285,7 +285,7 @@ const syncAddressToUrlEpic: EpicSignature = (action$, state$, deps) => {
       const params = getQueryParamsFromUrl(deps.router.location.search);
 
       const tab = window.location.pathname.split("/")[1];
-      const onDashboard = isValidChartTab(tab);
+      const onDashboard = chartTabValidForNetwork(tab, network);
 
       const search =
         transactionsPage > 1

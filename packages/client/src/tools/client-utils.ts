@@ -144,26 +144,62 @@ export const onChartTab = (pathname: string) => {
   return /total|available|staking|rewards|commissions/.test(pathname);
 };
 
-/**
- * Valid chart tab keys.
- */
-export const CHART_TABS: ReadonlyArray<PORTFOLIO_CHART_TYPES> = [
-  "TOTAL",
-  "AVAILABLE",
-  "STAKING",
-  "REWARDS",
-  "COMMISSIONS",
-];
+const CHART_TAB_MAP = {
+  TOTAL: "TOTAL",
+  AVAILABLE: "AVAILABLE",
+  STAKING: "STAKING",
+  REWARDS: "REWARDS",
+  COMMISSIONS: "COMMISSIONS",
+};
+
+const ALL_CHART_TAB_MAP = {
+  ...CHART_TAB_MAP,
+  CUSD: "cUSD",
+};
+
+export type VALID_CHART_TABS =
+  | "TOTAL"
+  | "AVAILABLE"
+  | "STAKING"
+  | "REWARDS"
+  | "COMMISSIONS"
+  | "CUSD";
+
+export const getChartTabsForNetwork = (
+  network: NetworkDefinition,
+  commissionsAvailable: boolean,
+) => {
+  const result: { [key: string]: string } = {};
+
+  for (const [key, value] of Object.entries(ALL_CHART_TAB_MAP)) {
+    if (key in CHART_TAB_MAP || network.customChartTabs.has(key)) {
+      if (key === "COMMISSIONS" && !commissionsAvailable) {
+        continue;
+      }
+
+      result[key] = value;
+    }
+  }
+
+  return result;
+};
 
 /**
  *  Determine if a string is a valid chart tab key.
  */
-export const isValidChartTab = (
+export const chartTabValidForNetwork = (
   tab: string,
-): Nullable<PORTFOLIO_CHART_TYPES> => {
-  // @ts-ignore
-  if (new Set(CHART_TABS).has(tab.toUpperCase())) {
-    return tab.toUpperCase() as PORTFOLIO_CHART_TYPES;
+  network: NetworkDefinition,
+): Nullable<VALID_CHART_TABS> => {
+  const name = tab.toUpperCase() as VALID_CHART_TABS;
+
+  if (name in CHART_TAB_MAP) {
+    // @ts-ignore
+    const result = CHART_TAB_MAP[name];
+    return result as VALID_CHART_TABS;
+  } else if (name in ALL_CHART_TAB_MAP && network.customChartTabs.has(name)) {
+    const result = ALL_CHART_TAB_MAP[name];
+    return result as VALID_CHART_TABS;
   } else {
     return null;
   }

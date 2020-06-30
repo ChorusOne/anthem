@@ -3,7 +3,7 @@ import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import StorageModule from "lib/storage-lib";
 import { combineReducers } from "redux";
 import {
-  isValidChartTab,
+  chartTabValidForNetwork,
   onPageWhichIncludesAddressParam,
 } from "tools/client-utils";
 import { createReducer } from "typesafe-actions";
@@ -124,7 +124,7 @@ const app = createReducer<AppState, ActionTypes>(initialAppState)
     const chartViewActive = onPageWhichIncludesAddressParam(pathname);
     if (chartViewActive) {
       const tab = pathname.split("/")[2];
-      const validTab = isValidChartTab(tab);
+      const validTab = chartTabValidForNetwork(tab);
       if (validTab) {
         activeChartTab = validTab;
       }
