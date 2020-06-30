@@ -22,7 +22,6 @@ import {
   tap,
 } from "rxjs/operators";
 import {
-  getAddressFromUrl,
   getQueryParamsFromUrl,
   initializeNetwork,
   isChartTabValidForNetwork,
@@ -53,8 +52,7 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
     }),
     map(() => {
       const params = getQueryParamsFromUrl(window.location.search);
-      const urlAddress = getAddressFromUrl(window.location.pathname);
-      let address = StorageModule.getAddress(urlAddress);
+      let address = StorageModule.getAddress(params);
       const { tString } = i18nSelector(state$.value);
 
       // Convert validator address to operator addresses

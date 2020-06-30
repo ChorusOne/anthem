@@ -113,13 +113,6 @@ export const getQueryParamsFromUrl = (paramString: string) => {
 };
 
 /**
- * Get address from url. The urls schemes are :network/:page/:address.
- */
-export const getAddressFromUrl = (url: string) => {
-  return url.split("/")[3];
-};
-
-/**
  * Crudely determine if some path string is included in the current URL.
  */
 export const onPath = (url: string, pathString: string): boolean => {
