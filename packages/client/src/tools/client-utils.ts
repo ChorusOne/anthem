@@ -170,7 +170,7 @@ export type VALID_CHART_TABS =
   | "STAKING"
   | "REWARDS"
   | "COMMISSIONS"
-  | "CUSD";
+  | "cUSD";
 
 export const getChartTabsForNetwork = (
   network: NetworkDefinition,
@@ -205,6 +205,7 @@ export const chartTabValidForNetwork = (
     const result = CHART_TAB_MAP[name];
     return result as VALID_CHART_TABS;
   } else if (name in ALL_CHART_TAB_MAP && network.customChartTabs.has(name)) {
+    // @ts-ignore
     const result = ALL_CHART_TAB_MAP[name];
     return result as VALID_CHART_TABS;
   } else {

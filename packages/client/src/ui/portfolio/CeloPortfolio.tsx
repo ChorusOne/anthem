@@ -258,7 +258,7 @@ const getChartData = (
 ): Nullable<ChartData> => {
   const series: { [key: string]: number } = {};
 
-  const tab = type as SHARED_CHART_TABS;
+  const tab = type;
 
   let accumulatedRewards = "0";
 
@@ -281,6 +281,9 @@ const getChartData = (
         break;
       case "STAKING":
         value = x.totalLockedGoldBalance;
+        break;
+      case "cUSD":
+        value = x.celoUSDValue;
         break;
       case "COMMISSIONS":
         // Commissions are not supported yet
