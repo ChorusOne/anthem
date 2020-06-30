@@ -771,9 +771,9 @@ export const sortCeloValidatorsList = (
       break;
     case CELO_VALIDATORS_LIST_SORT_FILTER.VOTING_POWER:
       result = list.sort((a, b) => {
-        const aCapacity = Number(a.capacityAvailable);
-        const bCapacity = Number(b.capacityAvailable);
-        return sortAscending ? aCapacity - bCapacity : bCapacity - aCapacity;
+        const aFraction = Number(a.votingPowerFraction);
+        const bFraction = Number(b.votingPowerFraction);
+        return sortAscending ? aFraction - bFraction : bFraction - aFraction;
       });
       break;
     case CELO_VALIDATORS_LIST_SORT_FILTER.OPEN_VOTES:
