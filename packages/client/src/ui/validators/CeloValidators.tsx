@@ -101,7 +101,6 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
       i18n,
       prices,
       network,
-      celoSystemBalances,
       celoValidatorGroups,
       celoAccountBalances,
     } = this.props;
@@ -126,19 +125,12 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
           results={[
             [celoValidatorGroups, "celoValidatorGroups"],
             [celoAccountBalances, "celoAccountBalances"],
-            [celoSystemBalances, "celoSystemBalances"],
             [prices, "prices"],
           ]}
         >
-          {([
-            validatorList,
-            accountBalancesResponse,
-            systemBalancesResponse,
-            pricesResponse,
-          ]: [
+          {([validatorList, accountBalancesResponse, pricesResponse]: [
             IQuery["celoValidatorGroups"],
             ICeloAccountBalances,
-            ICeloSystemBalances,
             IQuery["prices"],
           ]) => {
             const {
@@ -150,9 +142,6 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
               pendingWithdrawalBalance,
               celoUSDValue,
             } = accountBalancesResponse;
-
-            const totalSystemGold =
-              systemBalancesResponse.totalLockedGoldBalance;
 
             const validatorOperatorAddressMap = getValidatorOperatorAddressMap<
               ICeloValidatorGroup
@@ -662,7 +651,6 @@ interface IProps
     FiatPriceDataProps,
     CeloAccountBalancesProps,
     CeloValidatorsProps,
-    CeloSystemBalancesProps,
     ConnectProps {}
 
 /** ===========================================================================
@@ -676,5 +664,4 @@ export default composeWithProps<ComponentProps>(
   withFiatPriceData,
   withCeloAccountBalances,
   withCeloValidatorGroups,
-  withCeloSystemBalances,
 )(CeloValidatorsListPage);
