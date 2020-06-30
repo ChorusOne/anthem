@@ -1,6 +1,7 @@
 import { deriveNetworkFromAddress } from "@anthem/utils";
 import { BANNER_NOTIFICATIONS_KEYS } from "modules/app/store";
 import { ParsedQuery } from "query-string";
+import { validateNetworkAddress } from "tools/validation-utils";
 
 /** ===========================================================================
  * Locale Storage Module.
@@ -33,7 +34,9 @@ class StorageClass {
   };
 
   /**
-   * Stored Address:
+   * Default to the address derived from the routing params, if it exists,
+   * to allow deep links to work correctly. Otherwise, use the stored
+   * address.
    */
   getAddress = (params: ParsedQuery<string>): string => {
     const { address } = params;
