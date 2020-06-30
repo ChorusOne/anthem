@@ -172,7 +172,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                         CELO_VALIDATORS_LIST_SORT_FILTER.NAME,
                       )}
                     >
-                      <H5 style={{ margin: 0 }}>Validator</H5>
+                      <H5 style={{ margin: 0 }}>Validator Group</H5>
                       <SortFilterIcon
                         ascending={sortValidatorsListAscending}
                         active={
@@ -189,7 +189,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                         CELO_VALIDATORS_LIST_SORT_FILTER.VOTING_POWER,
                       )}
                     >
-                      <H5 style={{ margin: 0 }}>Voting Capacity</H5>
+                      <H5 style={{ margin: 0 }}>Voting Power</H5>
                       <SortFilterIcon
                         ascending={sortValidatorsListAscending}
                         active={
