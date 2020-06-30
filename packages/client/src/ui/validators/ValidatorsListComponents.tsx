@@ -67,7 +67,6 @@ export const ValidatorCapacityCircle = styled.div`
   border-radius: 50%;
   width: 14px;
   height: 14px;
-  margin-left: 26px;
   background: ${({ capacity }: { capacity: number }) => {
     // Render a color based on the percent capacity:
     return capacity < 1
