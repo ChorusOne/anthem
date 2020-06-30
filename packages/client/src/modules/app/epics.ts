@@ -26,6 +26,7 @@ import {
   getAddressFromUrl,
   getQueryParamsFromUrl,
   initializeNetwork,
+  onChartTab,
   wait,
 } from "tools/client-utils";
 import {
@@ -94,6 +95,7 @@ const setActiveChartTabEpic: EpicSignature = (action$, state$, deps) => {
     filter(isActionOf(Actions.onRouteChange)),
     pluck("payload"),
     pluck("pathname"),
+    filter(pathname => onChartTab(pathname)),
     map(pathname => {
       const { network } = state$.value.ledger.ledger;
       const { activeChartTab } = state$.value.app.app;

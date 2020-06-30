@@ -140,8 +140,11 @@ export const onPageWhichIncludesAddressParam = (pathname: string) => {
 /**
  * Check if a pathname includes a chart view.
  */
-export const onChartTab = (pathname: string) => {
-  return /total|available|staking|rewards|commissions|cusd/.test(pathname);
+export const onChartTab = (pathname?: string) => {
+  return (
+    !!pathname &&
+    /total|available|staking|rewards|commissions|cusd/.test(pathname)
+  );
 };
 
 const CHART_TAB_MAP = {

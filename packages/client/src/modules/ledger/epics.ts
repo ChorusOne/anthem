@@ -25,6 +25,7 @@ import {
   capitalizeString,
   chartTabValidForNetwork,
   getQueryParamsFromUrl,
+  onChartTab,
   onPageWhichIncludesAddressParam,
   wait,
 } from "tools/client-utils";
@@ -279,28 +280,32 @@ const saveAddressEpic: EpicSignature = action$ => {
 const syncAddressToUrlEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.setAddressSuccess)),
+    filter(() => {
+      const { location } = deps.router;
+      return onPageWhichIncludesAddressParam(location.pathname);
+    }),
     pluck("payload"),
     tap(({ address, network }) => {
       const { transactionsPage } = state$.value.transaction;
-      const params = getQueryParamsFromUrl(deps.router.location.search);
-
-      const tab = window.location.pathname.split("/")[1];
-      const onDashboard = chartTabValidForNetwork(tab, network);
+      const { location } = deps.router;
+      const tab = location.pathname.split("/")[2];
+      const onChartView = onChartTab(tab);
+      const onValidChartTab = chartTabValidForNetwork(tab, network);
 
       const search =
         transactionsPage > 1
           ? `?address=${address}&page=${transactionsPage}`
           : `?address=${address}`;
 
-      if (params.address !== address) {
-        if (!onDashboard) {
-          deps.router.push({
-            search,
-            pathname: `${network.name.toLowerCase()}/total`,
-          });
-        } else {
-          deps.router.replace({ search });
-        }
+      if (search !== location.search) {
+        deps.router.replace({ search });
+      }
+
+      if (!onValidChartTab && onChartView) {
+        deps.router.replace({
+          search,
+          pathname: `${network.name.toLowerCase()}/total`,
+        });
       }
     }),
     ignoreElements(),
