@@ -132,7 +132,7 @@ export const onPath = (url: string, pathString: string): boolean => {
  * address= param.
  */
 export const onPageWhichIncludesAddressParam = (pathname: string) => {
-  return /total|available|staking|rewards|commissions|delegate|governance/.test(
+  return /total|available|staking|rewards|commissions|cusd|delegate|governance/.test(
     pathname,
   );
 };
@@ -141,7 +141,7 @@ export const onPageWhichIncludesAddressParam = (pathname: string) => {
  * Check if a pathname includes a chart view.
  */
 export const onChartTab = (pathname: string) => {
-  return /total|available|staking|rewards|commissions/.test(pathname);
+  return /total|available|staking|rewards|commissions|cusd/.test(pathname);
 };
 
 const CHART_TAB_MAP = {
@@ -156,6 +156,13 @@ const ALL_CHART_TAB_MAP = {
   ...CHART_TAB_MAP,
   CUSD: "cUSD",
 };
+
+export type SHARED_CHART_TABS =
+  | "TOTAL"
+  | "AVAILABLE"
+  | "STAKING"
+  | "REWARDS"
+  | "COMMISSIONS";
 
 export type VALID_CHART_TABS =
   | "TOTAL"
@@ -211,17 +218,25 @@ export const chartTabValidForNetwork = (
  */
 export const getPortfolioTypeFromUrl = (
   path: string,
-): PORTFOLIO_CHART_TYPES | null => {
+): VALID_CHART_TABS | null => {
+  let result = null;
+
   if (onPath(path, "/total")) {
-    return "TOTAL";
+    result = ALL_CHART_TAB_MAP.TOTAL;
   } else if (onPath(path, "/available")) {
-    return "AVAILABLE";
+    result = ALL_CHART_TAB_MAP.AVAILABLE;
   } else if (onPath(path, "/rewards")) {
-    return "REWARDS";
+    result = ALL_CHART_TAB_MAP.REWARDS;
   } else if (onPath(path, "/staking")) {
-    return "STAKING";
+    result = ALL_CHART_TAB_MAP.STAKING;
   } else if (onPath(path, "/commissions")) {
-    return "COMMISSIONS";
+    result = ALL_CHART_TAB_MAP.COMMISSIONS;
+  } else if (onPath(path, "/cusd")) {
+    result = ALL_CHART_TAB_MAP.CUSD;
+  }
+
+  if (result) {
+    return result as VALID_CHART_TABS;
   }
 
   return null;

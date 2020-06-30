@@ -11,7 +11,6 @@ import {
 } from "graphql/queries";
 import * as Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import Analytics from "lib/analytics-lib";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
@@ -20,7 +19,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { throttle } from "throttle-debounce";
 import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
-import { getPortfolioTypeFromUrl } from "tools/client-utils";
+import { getPortfolioTypeFromUrl, SHARED_CHART_TABS } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import {
   getChartTotalGraph,
@@ -210,7 +209,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
       if (noData) {
         // Get a relevant message to display for an empty portfolio graph.
         const portfolioType = app.activeChartTab;
-        const getEmptyGraphMessage = (type: PORTFOLIO_CHART_TYPES): string => {
+        const getEmptyGraphMessage = (type: SHARED_CHART_TABS): string => {
           switch (type) {
             case "TOTAL":
             case "AVAILABLE":
@@ -232,7 +231,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
           <Centered style={{ flexDirection: "column" }}>
             <H5>{t("No data exists yet.")}</H5>
             <p style={{ textAlign: "center" }}>
-              {getEmptyGraphMessage(portfolioType as PORTFOLIO_CHART_TYPES)}
+              {getEmptyGraphMessage(portfolioType as SHARED_CHART_TABS)}
             </p>
           </Centered>
         );

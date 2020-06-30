@@ -156,7 +156,6 @@ class DashboardPage extends React.Component<IProps> {
 
   renderDashboardNavigationLinks = () => {
     const {
-      i18n,
       address,
       ledger,
       history,
@@ -238,6 +237,7 @@ class DashboardPage extends React.Component<IProps> {
         REWARDS: tString("Rewards"),
         STAKING: tString("Staking"),
         COMMISSIONS: tString("Commission"),
+        CUSD: "cUSD",
       };
 
       const tabTitle = tabToText[portfolioType];

@@ -27,6 +27,8 @@ import {
   capitalizeString,
   getFiatPriceHistoryMap,
   PriceHistoryMap,
+  SHARED_CHART_TABS,
+  VALID_CHART_TABS,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
@@ -117,7 +119,7 @@ class CeloPortfolio extends React.PureComponent<
             IQuery["fiatPriceHistory"],
           ]) => {
             const getChartOptions = (
-              type: PORTFOLIO_CHART_TYPES,
+              type: VALID_CHART_TABS,
             ): Nullable<Highcharts.Options> => {
               const format = "MMM DD, YYYY";
               const priceHistory = getFiatPriceHistoryMap(fiatPrices, format);
@@ -163,7 +165,7 @@ class CeloPortfolio extends React.PureComponent<
                 <View style={{ paddingTop: 110 }}>
                   <p style={{ margin: 0, textAlign: "center" }}>
                     {capitalizeString(app.activeChartTab)} account history is
-                    not supported yet for Oasis.
+                    not supported yet for Celo.
                   </p>
                 </View>
               );
@@ -249,18 +251,20 @@ class CeloPortfolio extends React.PureComponent<
 const getChartData = (
   accountHistory: ICeloAccountSnapshot[],
   network: NetworkDefinition,
-  type: PORTFOLIO_CHART_TYPES,
+  type: VALID_CHART_TABS,
   fiatPriceHistory: PriceHistoryMap,
   firstPrice: number,
   displayFiatPrices: boolean,
 ): Nullable<ChartData> => {
   const series: { [key: string]: number } = {};
 
+  const tab = type as SHARED_CHART_TABS;
+
   let accumulatedRewards = "0";
 
   for (const x of accountHistory) {
     let value = "";
-    switch (type) {
+    switch (tab) {
       case "TOTAL":
         value = addValuesInList([
           x.totalLockedGoldBalance,
@@ -282,8 +286,8 @@ const getChartData = (
         // Commissions are not supported yet
         return null;
       default:
-        console.warn(`Unexpected activeChartTab received: ${type}`);
-        assertUnreachable(type);
+        console.warn(`Unexpected activeChartTab received: ${tab}`);
+        assertUnreachable(tab);
     }
 
     const key = toDateKeyCelo(x.snapshotDate);
@@ -299,7 +303,7 @@ const getChartData = (
   }
 
   return {
-    type,
+    type: tab,
     data: series,
     withdrawalsMap: {},
     withdrawalEventDates: {},

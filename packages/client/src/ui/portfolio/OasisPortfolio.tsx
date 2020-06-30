@@ -15,14 +15,17 @@ import {
 } from "graphql/queries";
 import * as Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { PORTFOLIO_CHART_TYPES } from "i18n/english";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
-import { capitalizeString } from "tools/client-utils";
+import {
+  capitalizeString,
+  SHARED_CHART_TABS,
+  VALID_CHART_TABS,
+} from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit } from "tools/currency-utils";
 import { toDateKey } from "tools/date-utils";
@@ -234,13 +237,14 @@ class OasisPortfolio extends React.PureComponent<
 const getChartData = (
   accountHistory: IOasisAccountHistory[],
   network: NetworkDefinition,
-  type: PORTFOLIO_CHART_TYPES,
+  type: VALID_CHART_TABS,
 ): Nullable<ChartData> => {
   const series: { [key: string]: number } = {};
+  const tab = type as SHARED_CHART_TABS;
 
   for (const x of accountHistory) {
     let value = "";
-    switch (type) {
+    switch (tab) {
       case "TOTAL":
         value = addValuesInList([
           x.balance,
@@ -262,8 +266,8 @@ const getChartData = (
         // Commissions are not supported yet
         return null;
       default:
-        console.warn(`Unexpected activeChartTab received: ${type}`);
-        assertUnreachable(type);
+        console.warn(`Unexpected activeChartTab received: ${tab}`);
+        assertUnreachable(tab);
     }
 
     const key = toDateKey(x.date);

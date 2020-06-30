@@ -74,7 +74,7 @@ class RoutesContainer extends React.Component<IProps> {
               exact
               key={2}
               component={DashboardPage}
-              path="/:network/:path(total|available|staking|rewards|commissions)"
+              path="/:network/:path(total|available|staking|rewards|commissions|cusd)"
             />
             <Route
               key={3}

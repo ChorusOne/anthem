@@ -294,11 +294,13 @@ const syncAddressToUrlEpic: EpicSignature = (action$, state$, deps) => {
 
       if (params.address !== address) {
         if (!onDashboard) {
+          console.log("redirect");
           deps.router.push({
             search,
             pathname: `${network.name.toLowerCase()}/total`,
           });
         } else {
+          console.log("x---");
           deps.router.replace({ search });
         }
       }
