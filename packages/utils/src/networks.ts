@@ -150,7 +150,7 @@ const NETWORKS: NetworksMap = {
     customChartTabs: new Set(),
   },
   OASIS: {
-    available: true,
+    available: false,
     name: "OASIS",
     denom: "AMBR", // For Amber testnet
     descriptor: "AMBR",
@@ -170,8 +170,7 @@ const NETWORKS: NetworksMap = {
     customChartTabs: new Set(),
   },
   CELO: {
-    // available: true,
-    available: false,
+    available: true,
     name: "CELO",
     denom: "CELO",
     descriptor: "CELO",
@@ -180,8 +179,7 @@ const NETWORKS: NetworksMap = {
     ledgerAppVersion: "1.0.1",
     ledgerAppName: "Celo",
     ledgerDocsLink: "https://docs.celo.org/celo-gold-holder-guide/ledger",
-    // supportsLedger: true,
-    supportsLedger: false,
+    supportsLedger: true,
     supportsFiatPrices: true,
     supportsBalances: true,
     supportsPortfolio: true,
