@@ -1,4 +1,3 @@
-import { NetworkDefinition } from "@anthem/utils";
 import { Button } from "@blueprintjs/core";
 import { withGraphQLVariables } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";

@@ -40,7 +40,6 @@ import { composeWithProps } from "tools/context-utils";
 import AddressInputDashboardBar from "ui/AddressInputDashboardBar";
 import BalancesSwitchContainer from "ui/balances/BalancesSwitchContainer";
 import { IThemeProps } from "ui/containers/ThemeContainer";
-import LoginStart from "ui/LoginStart";
 import PortfolioSwitchContainer from "ui/portfolio/PortfolioSwitchContainer";
 import { View } from "ui/SharedComponents";
 import Toast from "ui/Toast";
@@ -62,7 +61,7 @@ class DashboardPage extends React.Component<IProps> {
   }
 
   render(): JSX.Element {
-    const { address, ledger, i18n, app, settings } = this.props;
+    const { ledger, i18n, app, settings } = this.props;
     const { t, tString } = i18n;
     const { network } = ledger;
     const { portfolioExpanded, transactionsExpanded } = app;

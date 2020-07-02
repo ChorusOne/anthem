@@ -37,7 +37,7 @@ import ValidatorsPage from "ui/validators/ValidatorsSwitchContainer";
 
 class RoutesContainer extends React.Component<IProps> {
   render(): JSX.Element {
-    const { address, history, network, settings } = this.props;
+    const { address, history, settings } = this.props;
     const SHOW_LANDING_PAGE = history.location.pathname === "/login";
 
     if (SHOW_LANDING_PAGE) {
@@ -177,7 +177,6 @@ const DevLabelText = styled.p`
 const mapStateToProps = (state: ReduxStoreState) => ({
   settings: Modules.selectors.settings(state),
   address: Modules.selectors.ledger.addressSelector(state),
-  network: Modules.selectors.ledger.networkSelector(state),
 });
 
 type ConnectProps = ReturnType<typeof mapStateToProps>;
