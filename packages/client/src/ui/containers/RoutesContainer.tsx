@@ -36,12 +36,8 @@ import ValidatorsPage from "ui/validators/ValidatorsSwitchContainer";
 
 class RoutesContainer extends React.Component<IProps> {
   render(): JSX.Element {
-    const { address, network, settings } = this.props;
-    const SHOW_LANDING_PAGE = !address;
-    // Alternate welcome page:
-    // NOTE: To enable, also redirect to /welcome in the ledger logoutEpic
-    // const SHOW_LANDING_PAGE = history.location.pathname === "/login";
-    // Update with a network UI component: NetworkOverview/NetworkSummary.
+    const { address, history, network, settings } = this.props;
+    const SHOW_LANDING_PAGE = history.location.pathname === "/login";
 
     if (SHOW_LANDING_PAGE) {
       return (
@@ -68,8 +64,7 @@ class RoutesContainer extends React.Component<IProps> {
         <SideMenuComponent />
         <PageContainer>
           <Switch>
-            {/* <Route key={0} exact path="/login" component={LandingPage} /> */}
-            {/* <Route key={1} path="/welcome" component={DashboardPage} /> */}
+            <Route key={1} path="/networks" component={DashboardPage} />
             <Route
               exact
               key={2}
