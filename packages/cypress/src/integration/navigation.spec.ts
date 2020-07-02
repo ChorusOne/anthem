@@ -15,25 +15,22 @@ SCREEN_SIZES.forEach(({ type, size }) => {
      * Default login page route.
      */
     it("The default app page displays the /login route", () => {
-      cy.visit(APP_URL);
+      cy.visit(`${APP_URL}/login`);
       UTILS.shouldMatchText("login-page-title", "Earn Rewards on Cryptoassets");
     });
 
     /**
      * Redirect to login.
      */
-    it("Other routes redirect to /login if no address is set", () => {
+    it("Other routes redirect to /networks if no address is set", () => {
       cy.visit(`${APP_URL}`);
-      UTILS.shouldMatchText("login-page-title", "Earn Rewards on Cryptoassets");
-      cy.url().should("contain", "/login");
+      cy.url().should("contain", "/networks");
 
       cy.visit(`${APP_URL}/available`);
-      UTILS.shouldMatchText("login-page-title", "Earn Rewards on Cryptoassets");
-      cy.url().should("contain", "/login");
+      cy.url().should("contain", "/networks");
 
       cy.visit(`${APP_URL}/settings`);
-      UTILS.shouldMatchText("login-page-title", "Earn Rewards on Cryptoassets");
-      cy.url().should("contain", "/login");
+      cy.url().should("contain", "/networks");
     });
   });
 

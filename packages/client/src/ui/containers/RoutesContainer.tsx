@@ -12,6 +12,7 @@ import {
   withRouter,
 } from "react-router-dom";
 import styled from "styled-components";
+import { getQueryParamsFromUrl } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import GovernanceSwitchContainer from "ui/governance/GovernanceSwitchContainer";
@@ -37,8 +38,15 @@ import ValidatorsPage from "ui/validators/ValidatorsSwitchContainer";
 
 class RoutesContainer extends React.Component<IProps> {
   render(): JSX.Element {
-    const { address, history, settings } = this.props;
-    const SHOW_LANDING_PAGE = history.location.pathname === "/login";
+    const { address, network, history, settings } = this.props;
+    const { search, pathname } = history.location;
+    const SHOW_LANDING_PAGE = pathname === "/login" && !address;
+    const params = getQueryParamsFromUrl(search);
+
+    let shouldRedirect = !address;
+    if ("address" in params && !SHOW_LANDING_PAGE) {
+      shouldRedirect = false;
+    }
 
     if (SHOW_LANDING_PAGE) {
       return (
@@ -67,7 +75,7 @@ class RoutesContainer extends React.Component<IProps> {
           <Switch>
             <Route key={1} path="/networks" component={NetworkSummaryPage} />
             {/* if there's no address, redirect anything else back to /networks */}
-            {!address && (
+            {shouldRedirect && (
               <Route key={0} component={() => <Redirect to="/networks" />} />
             )}
             <Route
@@ -93,6 +101,12 @@ class RoutesContainer extends React.Component<IProps> {
             />
             <Route key={6} path="/help" component={HelpPage} />
             <Route key={7} path="/settings" component={SettingsPage} />
+            <Route
+              key={0}
+              component={() => (
+                <Redirect to={`/${network.name.toLowerCase()}/total`} />
+              )}
+            />
           </Switch>
         </PageContainer>
       </FixedAppBackgroundPage>
@@ -177,6 +191,7 @@ const DevLabelText = styled.p`
 const mapStateToProps = (state: ReduxStoreState) => ({
   settings: Modules.selectors.settings(state),
   address: Modules.selectors.ledger.addressSelector(state),
+  network: Modules.selectors.ledger.networkSelector(state),
 });
 
 type ConnectProps = ReturnType<typeof mapStateToProps>;

@@ -16,7 +16,6 @@ import LoginStart from "ui/LoginStart";
 
 class NetworkSummaryPage extends React.Component<IProps> {
   render(): JSX.Element {
-    console.log("NETWORKS");
     // const { address, ledger, i18n, app, settings } = this.props;
     return (
       <DashboardDefaultView>
