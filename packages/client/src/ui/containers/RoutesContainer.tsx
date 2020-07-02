@@ -94,7 +94,7 @@ class RoutesContainer extends React.Component<IProps> {
                 !!address ? (
                   <Redirect to={`/${network.name.toLowerCase()}/total`} />
                 ) : (
-                  <Redirect to="/welcome" />
+                  <Redirect to="/networks" />
                 )
               }
             />

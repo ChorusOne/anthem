@@ -82,32 +82,45 @@ class SideMenuComponent extends React.Component<IProps, IState> {
     const HAS_ADDRESS = !!address;
 
     // SideMenu route navigation links.
-    const TOP_ROUTE_LINKS: ReadonlyArray<JSX.Element> = [
+    const TOP_ROUTE_LINKS: JSX.Element[] = [
       <NavItem
         path={pathname}
         closeHandler={close}
-        key="Dashboard"
-        title={tString("Dashboard")}
-        icon={IconNames.TIMELINE_BAR_CHART}
-        route={`/${name.toLowerCase()}/${activeChartTab.toLowerCase()}`}
-      />,
-      <NavItem
-        key="Staking"
-        title="Staking"
-        path={pathname}
-        closeHandler={close}
-        icon={IconNames.BANK_ACCOUNT}
-        route={`/${name.toLowerCase()}/delegate`}
-      />,
-      <NavItem
-        key="Governance"
-        path={pathname}
-        closeHandler={close}
-        title={tString("Governance")}
-        icon={IconNames.TAKE_ACTION}
-        route={`/${name.toLowerCase()}/governance`}
+        key="Networks"
+        title="Networks"
+        icon={IconNames.GLOBE_NETWORK}
+        route={`/networks`}
       />,
     ];
+
+    if (HAS_ADDRESS) {
+      TOP_ROUTE_LINKS.push(
+        <NavItem
+          path={pathname}
+          closeHandler={close}
+          key="Dashboard"
+          title={tString("Dashboard")}
+          icon={IconNames.TIMELINE_BAR_CHART}
+          route={`/${name.toLowerCase()}/${activeChartTab.toLowerCase()}`}
+        />,
+        <NavItem
+          key="Staking"
+          title="Staking"
+          path={pathname}
+          closeHandler={close}
+          icon={IconNames.BANK_ACCOUNT}
+          route={`/${name.toLowerCase()}/delegate`}
+        />,
+        <NavItem
+          key="Governance"
+          path={pathname}
+          closeHandler={close}
+          title={tString("Governance")}
+          icon={IconNames.TAKE_ACTION}
+          route={`/${name.toLowerCase()}/governance`}
+        />,
+      );
+    }
 
     const BOTTOM_ROUTE_LINKS: ReadonlyArray<JSX.Element> = [
       address && (
