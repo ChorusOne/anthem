@@ -195,7 +195,7 @@ const logout = (type: any) => {
   cy.get(".bp3-intent-danger > .bp3-button-text").click({ force: true });
 
   // Assert the logout action has occurred successfully
-  cy.url().should("contain", "/login");
+  cy.url().should("contain", "/networks");
 };
 
 /** ===========================================================================
