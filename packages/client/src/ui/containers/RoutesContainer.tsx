@@ -22,11 +22,11 @@ import NotificationsBanner from "ui/NotificationsBanner";
 import DashboardPage from "ui/pages/DashboardPage";
 import HelpPage from "ui/pages/HelpPage";
 import LandingPage from "ui/pages/LandingPage";
+import NetworkSummaryPage from "ui/pages/NetworkSummaryPage";
 import SettingsPage from "ui/pages/SettingsPage";
 import SideMenuComponent from "ui/SideMenu";
 import TransactionDetailContainer from "ui/transactions/TransactionDetailContainer";
 import ValidatorsPage from "ui/validators/ValidatorsSwitchContainer";
-import NetworkSummaryPage from "ui/pages/NetworkSummaryPage";
 
 /** ===========================================================================
  * React Component
@@ -66,6 +66,10 @@ class RoutesContainer extends React.Component<IProps> {
         <PageContainer>
           <Switch>
             <Route key={1} path="/networks" component={NetworkSummaryPage} />
+            {/* if there's no address, redirect anything else back to /networks */}
+            {!address && (
+              <Route key={0} component={() => <Redirect to="/networks" />} />
+            )}
             <Route
               exact
               key={2}
@@ -89,16 +93,6 @@ class RoutesContainer extends React.Component<IProps> {
             />
             <Route key={6} path="/help" component={HelpPage} />
             <Route key={7} path="/settings" component={SettingsPage} />
-            <Route
-              key={7}
-              component={() =>
-                !!address ? (
-                  <Redirect to={`/${network.name.toLowerCase()}/total`} />
-                ) : (
-                  <Redirect to="/networks" />
-                )
-              }
-            />
           </Switch>
         </PageContainer>
       </FixedAppBackgroundPage>
