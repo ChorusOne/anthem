@@ -26,6 +26,7 @@ import SettingsPage from "ui/pages/SettingsPage";
 import SideMenuComponent from "ui/SideMenu";
 import TransactionDetailContainer from "ui/transactions/TransactionDetailContainer";
 import ValidatorsPage from "ui/validators/ValidatorsSwitchContainer";
+import NetworkSummaryPage from "ui/pages/NetworkSummaryPage";
 
 /** ===========================================================================
  * React Component
@@ -64,7 +65,7 @@ class RoutesContainer extends React.Component<IProps> {
         <SideMenuComponent />
         <PageContainer>
           <Switch>
-            <Route key={1} path="/networks" component={DashboardPage} />
+            <Route key={1} path="/networks" component={NetworkSummaryPage} />
             <Route
               exact
               key={2}

@@ -68,20 +68,6 @@ class DashboardPage extends React.Component<IProps> {
     const { portfolioExpanded, transactionsExpanded } = app;
     const { isDesktop, currencySetting, fiatCurrency } = settings;
 
-    if (!address) {
-      return (
-        <DashboardDefaultView>
-          <WelcomeTitle>Welcome to Anthem!</WelcomeTitle>
-          <LoginStart />
-          <Link to="/login">
-            <Button icon="arrow-left" style={{ marginTop: 24 }}>
-              Exit to Landing Page
-            </Button>
-          </Link>
-        </DashboardDefaultView>
-      );
-    }
-
     const HIDE_TOP_PANEL = transactionsExpanded;
     const IS_PORTFOLIO_EXPANDED = portfolioExpanded;
     const DISPLAY_TRANSACTIONS = !portfolioExpanded;
@@ -453,17 +439,6 @@ const shouldShowCommissionsLink = (
     cosmosAccountHistory.cosmosAccountHistory.validatorCommissions.length
   );
 };
-
-const DashboardDefaultView = styled.div`
-  margin-top: -30px;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const WelcomeTitle = styled.h1``;
 
 /** ===========================================================================
  * Props

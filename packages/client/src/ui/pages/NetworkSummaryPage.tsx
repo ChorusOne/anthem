@@ -15,10 +15,9 @@ import LoginStart from "ui/LoginStart";
  * ============================================================================
  */
 
-class DashboardPage extends React.Component<IProps> {
+class NetworkSummaryPage extends React.Component<IProps> {
   render(): JSX.Element {
-    const { address, ledger, i18n, app, settings } = this.props;
-
+    // const { address, ledger, i18n, app, settings } = this.props;
     return (
       <DashboardDefaultView>
         <WelcomeTitle>Welcome to Anthem!</WelcomeTitle>
@@ -88,4 +87,4 @@ export default composeWithProps<ComponentProps>(
   withProps,
   withRouter,
   withGraphQLVariables,
-)(DashboardPage);
+)(NetworkSummaryPage);
