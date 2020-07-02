@@ -241,7 +241,7 @@ const logoutEpic: EpicSignature = (action$, state$, deps) => {
       // Record analytics
       Analytics.logout();
 
-      // Redirect to welcome route
+      // Redirect to network summary route
       deps.router.push("/networks");
 
       // Render toast success message
