@@ -286,6 +286,26 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                               <ValidatorDetails>
                                 <ValidatorDetailRow>
                                   <RowItem width={200}>
+                                    <H6 style={{ margin: 0 }}>Group Score</H6>
+                                  </RowItem>
+                                  <RowItem width={150}>
+                                    <Text>
+                                      {(v.groupScore / 1e22).toFixed(2)}%
+                                    </Text>
+                                  </RowItem>
+                                </ValidatorDetailRow>
+                                <ValidatorDetailRow>
+                                  <RowItem width={200}>
+                                    <H6 style={{ margin: 0 }}>Group Share</H6>
+                                  </RowItem>
+                                  <RowItem width={150}>
+                                    <Text>
+                                      {(v.groupShare / 1e22).toFixed(2)}%
+                                    </Text>
+                                  </RowItem>
+                                </ValidatorDetailRow>
+                                <ValidatorDetailRow>
+                                  <RowItem width={200}>
                                     <H6 style={{ margin: 0 }}>Group Address</H6>
                                   </RowItem>
                                   <RowItem width={150}>
