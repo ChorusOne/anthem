@@ -233,6 +233,11 @@ class SideMenuComponent extends React.Component<IProps, IState> {
             </CopyToClipboard>
           )}
         </NetworkAddressContainer>
+        {!HAS_ADDRESS && (
+          <Link to="/login">
+            <ExitText>← Exit to Landing Page</ExitText>
+          </Link>
+        )}
         {validator && (
           <Tooltip
             usePortal={false}
@@ -564,6 +569,11 @@ const MobileCopyAddressBox = styled.div`
   margin-top: 75px;
   display: flex;
   flex-direction: row;
+`;
+
+const ExitText = styled.p`
+  margin-top: 12px;
+  font-size: 12px;
 `;
 
 /** ===========================================================================

@@ -37,70 +37,74 @@ class AddressInputDashboardBar extends React.Component<IProps, {}> {
       return null;
     }
 
-    const { i18n, network, prices, dailyPercentChange } = this.props;
+    const { i18n, address, network, prices, dailyPercentChange } = this.props;
     const { tString } = i18n;
 
     return (
       <AddressInputBar>
-        <GraphQLGuardComponent
-          tString={tString}
-          dataKey="prices"
-          errorComponent={
-            <Row style={{ width: 110 }}>
-              <NetworkLogoIcon network={network.name} />
-              <NetworkBar>
-                <b style={{ margin: 0, fontSize: 14 }}>{network.name}</b>
-                <p style={{ margin: 0 }}>Network</p>
-              </NetworkBar>
-            </Row>
-          }
-          result={prices}
-          loadingComponent={<p style={{ width: 135 }} />}
-        >
-          {(priceData: IQuery["prices"]) => {
-            const { price } = priceData;
-            const fiatPrice = formatCurrencyAmount(price, 2);
-            return (
-              <Row style={{ width: 140 }}>
-                <NetworkLogoIcon network={network.name} />
-                <NetworkBar>
-                  <p style={{ margin: 0, fontSize: 14 }}>
-                    {network.descriptor} {tString("Price")}
-                  </p>
-                  <b>
-                    {fiatPrice} {this.props.settings.fiatCurrency.symbol}
-                  </b>
-                </NetworkBar>
-              </Row>
-            );
-          }}
-        </GraphQLGuardComponent>
-        <GraphQLGuardComponent
-          tString={tString}
-          errorComponent={<p />}
-          loadingComponent={<p style={{ width: 115 }} />}
-          dataKey="dailyPercentChange"
-          result={dailyPercentChange}
-        >
-          {(percentageChange: IQuery["dailyPercentChange"]) => {
-            return (
-              <Row style={{ width: 115 }}>
-                <View style={{ textAlign: "center", marginRight: 20 }}>
-                  <p style={{ margin: 0, fontSize: 14 }}>
-                    {tString("Change")} (24h)
-                  </p>
-                  <b
-                    style={{
-                      color: getColorForPercentChange(percentageChange),
-                    }}
-                  >
-                    {renderPercentChange(percentageChange)}
-                  </b>
-                </View>
-              </Row>
-            );
-          }}
-        </GraphQLGuardComponent>
+        {!!address && (
+          <>
+            <GraphQLGuardComponent
+              tString={tString}
+              dataKey="prices"
+              errorComponent={
+                <Row style={{ width: 110 }}>
+                  <NetworkLogoIcon network={network.name} />
+                  <NetworkBar>
+                    <b style={{ margin: 0, fontSize: 14 }}>{network.name}</b>
+                    <p style={{ margin: 0 }}>Network</p>
+                  </NetworkBar>
+                </Row>
+              }
+              result={prices}
+              loadingComponent={<p style={{ width: 135 }} />}
+            >
+              {(priceData: IQuery["prices"]) => {
+                const { price } = priceData;
+                const fiatPrice = formatCurrencyAmount(price, 2);
+                return (
+                  <Row style={{ width: 140 }}>
+                    <NetworkLogoIcon network={network.name} />
+                    <NetworkBar>
+                      <p style={{ margin: 0, fontSize: 14 }}>
+                        {network.descriptor} {tString("Price")}
+                      </p>
+                      <b>
+                        {fiatPrice} {this.props.settings.fiatCurrency.symbol}
+                      </b>
+                    </NetworkBar>
+                  </Row>
+                );
+              }}
+            </GraphQLGuardComponent>
+            <GraphQLGuardComponent
+              tString={tString}
+              errorComponent={<p />}
+              loadingComponent={<p style={{ width: 115 }} />}
+              dataKey="dailyPercentChange"
+              result={dailyPercentChange}
+            >
+              {(percentageChange: IQuery["dailyPercentChange"]) => {
+                return (
+                  <Row style={{ width: 115 }}>
+                    <View style={{ textAlign: "center", marginRight: 20 }}>
+                      <p style={{ margin: 0, fontSize: 14 }}>
+                        {tString("Change")} (24h)
+                      </p>
+                      <b
+                        style={{
+                          color: getColorForPercentChange(percentageChange),
+                        }}
+                      >
+                        {renderPercentChange(percentageChange)}
+                      </b>
+                    </View>
+                  </Row>
+                );
+              }}
+            </GraphQLGuardComponent>
+          </>
+        )}
         <AddressInput
           tString={tString}
           onBlur={this.onBlurInput}
@@ -173,6 +177,7 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   settings: Modules.selectors.settings(state),
   app: Modules.selectors.app.appSelector(state),
   network: Modules.selectors.ledger.networkSelector(state),
+  address: Modules.selectors.ledger.addressSelector(state),
 });
 
 const dispatchProps = {
