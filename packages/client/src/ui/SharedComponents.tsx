@@ -13,6 +13,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import Loader from "react-loader-spinner";
 import styled, { CSSProperties } from "styled-components";
 import { tFnString } from "tools/i18n-utils";
+import { isGreaterThan, isLessThan } from "tools/math-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 
 /** ===========================================================================
@@ -397,4 +398,37 @@ export const SearchInput = (props: {
       />
     </Row>
   );
+};
+
+/** ===========================================================================
+ * Types & Config
+ * ============================================================================
+ */
+
+interface PercentChangeTextProps {
+  value: string;
+}
+
+export const PercentChangeText = (props: PercentChangeTextProps) => {
+  const { value } = props;
+  return (
+    <b style={{ color: getColorForPercentChange(value) }}>
+      {renderPercentChange(value)}
+    </b>
+  );
+};
+
+const getColorForPercentChange = (percentChange: string) => {
+  if (isGreaterThan(percentChange, 0)) {
+    return COLORS.BRIGHT_GREEN;
+  } else if (isLessThan(percentChange, 0)) {
+    return COLORS.ERROR;
+  } else {
+    return undefined;
+  }
+};
+
+const renderPercentChange = (percentChange: string) => {
+  const sign = isGreaterThan(percentChange, 0) ? "+" : "";
+  return `${sign}${percentChange}%`;
 };

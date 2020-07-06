@@ -10,9 +10,10 @@ import { RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
+import { formatCurrencyAmount } from "tools/currency-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import PageAddressBar from "ui/PageAddressBar";
-import { Button, PageContainer } from "ui/SharedComponents";
+import { Button, PageContainer, PercentChangeText } from "ui/SharedComponents";
 
 /**
  * Fixed data:
@@ -22,9 +23,9 @@ interface INetwork {
   name: NETWORK_NAME;
   tokenPrice: Nullable<number>;
   lastDayChange: Nullable<string>;
-  marketCapitalization: Nullable<string>;
-  expectedReward: Nullable<string>;
-  inflation: Nullable<string>;
+  marketCapitalization: Nullable<number>;
+  expectedReward: Nullable<number>;
+  inflation: Nullable<number>;
   supportsLedger: boolean;
 }
 
@@ -33,36 +34,36 @@ const NETWORKS: INetwork[] = [
     name: "COSMOS",
     tokenPrice: 2.29,
     lastDayChange: "5.2",
-    marketCapitalization: "800000000",
-    expectedReward: "8",
-    inflation: "7",
+    marketCapitalization: 800000000,
+    expectedReward: 8,
+    inflation: 7,
     supportsLedger: true,
   },
   {
     name: "TERRA",
     tokenPrice: 1.19,
     lastDayChange: "7.9",
-    marketCapitalization: "3250000",
-    expectedReward: "10",
-    inflation: "5",
+    marketCapitalization: 3250000,
+    expectedReward: 10,
+    inflation: 5,
     supportsLedger: true,
   },
   {
     name: "KAVA",
     tokenPrice: 5.03,
     lastDayChange: "-2.4",
-    marketCapitalization: "752122",
-    expectedReward: "12",
-    inflation: "10",
+    marketCapitalization: 752122,
+    expectedReward: 12,
+    inflation: 10,
     supportsLedger: true,
   },
   {
     name: "CELO",
     tokenPrice: 1.83,
     lastDayChange: "-5",
-    marketCapitalization: "12",
-    expectedReward: "6.5",
-    inflation: "3",
+    marketCapitalization: 12,
+    expectedReward: 6.5,
+    inflation: 3,
     supportsLedger: true,
   },
   {
@@ -83,7 +84,8 @@ const NETWORKS: INetwork[] = [
 
 class NetworkSummaryPage extends React.Component<IProps> {
   render(): JSX.Element {
-    // const { address, ledger, i18n, app, settings } = this.props;
+    const { settings } = this.props;
+    const fiatSymbol = settings.fiatCurrency.symbol;
     return (
       <PageContainer>
         <PageAddressBar pageTitle="Network Summaries" />
@@ -145,22 +147,63 @@ class NetworkSummaryPage extends React.Component<IProps> {
                   </Text>
                 </Item>
                 <Item>
-                  <Text>{network.tokenPrice || "n/a"}</Text>
+                  <Text>
+                    {network.tokenPrice ? (
+                      <span>
+                        ${network.tokenPrice} {fiatSymbol}
+                      </span>
+                    ) : (
+                      "n/a"
+                    )}
+                  </Text>
                 </Item>
                 <Item>
-                  <Text>{network.lastDayChange || "n/a"}</Text>
+                  <Text>
+                    {network.lastDayChange ? (
+                      <PercentChangeText value={network.lastDayChange} />
+                    ) : (
+                      "n/a"
+                    )}
+                  </Text>
                 </Item>
                 <Item>
-                  <Text>{network.marketCapitalization || "n/a"}</Text>
+                  <Text>
+                    {network.marketCapitalization ? (
+                      <span>
+                        ${formatCurrencyAmount(network.marketCapitalization)}{" "}
+                        {fiatSymbol}
+                      </span>
+                    ) : (
+                      "n/a"
+                    )}
+                  </Text>
                 </Item>
                 <Item>
-                  <Text>{network.expectedReward || "n/a"}</Text>
+                  <Text>
+                    {network.expectedReward ? (
+                      <span>{network.expectedReward}%</span>
+                    ) : (
+                      "n/a"
+                    )}
+                  </Text>
                 </Item>
                 <Item>
-                  <Text>{network.inflation || "n/a"}</Text>
+                  <Text>
+                    {network.inflation ? (
+                      <span>{network.inflation}%</span>
+                    ) : (
+                      "n/a"
+                    )}
+                  </Text>
                 </Item>
                 <Item>
-                  <Text>{network.inflation || "n/a"}</Text>
+                  <Text>
+                    {network.expectedReward && network.inflation ? (
+                      <span>{network.expectedReward - network.inflation}%</span>
+                    ) : (
+                      "n/a"
+                    )}
+                  </Text>
                 </Item>
                 <Item>
                   {network.supportsLedger && (

@@ -1,6 +1,5 @@
 import { IQuery } from "@anthem/utils";
 import { NetworkLogoIcon } from "assets/images";
-import { COLORS } from "constants/colors";
 import {
   DailyPercentChangeProps,
   FiatPriceDataProps,
@@ -16,9 +15,8 @@ import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 import { formatCurrencyAmount } from "tools/currency-utils";
-import { isGreaterThan, isLessThan } from "tools/math-utils";
 import AddressInput from "ui/AddressInput";
-import { View } from "ui/SharedComponents";
+import { PercentChangeText, View } from "ui/SharedComponents";
 import { GraphQLGuardComponent } from "./GraphQLGuardComponents";
 
 /** ===========================================================================
@@ -91,13 +89,7 @@ class AddressInputDashboardBar extends React.Component<IProps, {}> {
                       <p style={{ margin: 0, fontSize: 14 }}>
                         {tString("Change")} (24h)
                       </p>
-                      <b
-                        style={{
-                          color: getColorForPercentChange(percentageChange),
-                        }}
-                      >
-                        {renderPercentChange(percentageChange)}
-                      </b>
+                      <PercentChangeText value={percentageChange} />
                     </View>
                   </Row>
                 );
@@ -138,21 +130,6 @@ const AddressInputBar = styled.div`
   flex-direction: row;
   align-items: center;
 `;
-
-const getColorForPercentChange = (percentChange: string) => {
-  if (isGreaterThan(percentChange, 0)) {
-    return COLORS.BRIGHT_GREEN;
-  } else if (isLessThan(percentChange, 0)) {
-    return COLORS.ERROR;
-  } else {
-    return undefined;
-  }
-};
-
-const renderPercentChange = (percentChange: string) => {
-  const sign = isGreaterThan(percentChange, 0) ? "+" : "";
-  return `${sign}${percentChange}%`;
-};
 
 export const Row = styled.div`
   display: flex;
