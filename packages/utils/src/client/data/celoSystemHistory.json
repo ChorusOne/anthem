@@ -1,6 +1,134 @@
 {
   "celoSystemHistory": [
     {
+      "BlockNumber": "1180228",
+      "SnapshotDate": "30-06-2020",
+      "GoldTokenSupply": "602913124233332533454152035",
+      "TotalLockedGoldBalance": "318825574363592715672471765",
+      "NonVotingLockedGoldBalance": "85693699836968459262310742",
+      "TotalCeloUSDValue": "5832626442413204671810482"
+    },
+    {
+      "BlockNumber": "1162948",
+      "SnapshotDate": "29-06-2020",
+      "GoldTokenSupply": "602850987752518841945756734",
+      "TotalLockedGoldBalance": "318770326678498566948278863",
+      "NonVotingLockedGoldBalance": "85693699836968459262310742",
+      "TotalCeloUSDValue": "5863125742298589252236929"
+    },
+    {
+      "BlockNumber": "1145668",
+      "SnapshotDate": "28-06-2020",
+      "GoldTokenSupply": "602789185156247358435739325",
+      "TotalLockedGoldBalance": "318689592080508885761728685",
+      "NonVotingLockedGoldBalance": "85673697836968459262835030",
+      "TotalCeloUSDValue": "5871481853004475158724362"
+    },
+    {
+      "BlockNumber": "1128388",
+      "SnapshotDate": "27-06-2020",
+      "GoldTokenSupply": "602727370139255804615406616",
+      "TotalLockedGoldBalance": "318614218474115323067431937",
+      "NonVotingLockedGoldBalance": "85673697836968459262835030",
+      "TotalCeloUSDValue": "5851841775491322360123212"
+    },
+    {
+      "BlockNumber": "1111108",
+      "SnapshotDate": "26-06-2020",
+      "GoldTokenSupply": "602665578044976131079976429",
+      "TotalLockedGoldBalance": "313558807624924105106861535",
+      "NonVotingLockedGoldBalance": "80673695936968459262835030",
+      "TotalCeloUSDValue": "5832266394286728310139523"
+    },
+    {
+      "BlockNumber": "1093829",
+      "SnapshotDate": "25-06-2020",
+      "GoldTokenSupply": "602603702683527820345487474",
+      "TotalLockedGoldBalance": "313509142005991848523579520",
+      "NonVotingLockedGoldBalance": "80693696036968459262835030",
+      "TotalCeloUSDValue": "5812779126809869186156775"
+    },
+    {
+      "BlockNumber": "1076549",
+      "SnapshotDate": "24-06-2020",
+      "GoldTokenSupply": "602541926292760966031622066",
+      "TotalLockedGoldBalance": "313473730192043801907463762",
+      "NonVotingLockedGoldBalance": "80696449548067409641035645",
+      "TotalCeloUSDValue": "5793393922303943865221216"
+    },
+    {
+      "BlockNumber": "1059269",
+      "SnapshotDate": "23-06-2020",
+      "GoldTokenSupply": "602481328829872722312311324",
+      "TotalLockedGoldBalance": "313412971638695001973996953",
+      "NonVotingLockedGoldBalance": "80693696036968459262835030",
+      "TotalCeloUSDValue": "5774690647993116987278672"
+    },
+    {
+      "BlockNumber": "1041990",
+      "SnapshotDate": "22-06-2020",
+      "GoldTokenSupply": "602420852928368947112752090",
+      "TotalLockedGoldBalance": "313367808983082536316606653",
+      "NonVotingLockedGoldBalance": "80693696036968459262835030",
+      "TotalCeloUSDValue": "5756109155291107821132441"
+    },
+    {
+      "BlockNumber": "1024710",
+      "SnapshotDate": "21-06-2020",
+      "GoldTokenSupply": "602361667441385779441651051",
+      "TotalLockedGoldBalance": "313334345081991925996198446",
+      "NonVotingLockedGoldBalance": "80693696036968459262835030",
+      "TotalCeloUSDValue": "5737664813289853979260697"
+    },
+    {
+      "BlockNumber": "1007430",
+      "SnapshotDate": "20-06-2020",
+      "GoldTokenSupply": "602302346431609740858825863",
+      "TotalLockedGoldBalance": "313300903391815222754218109",
+      "NonVotingLockedGoldBalance": "80693696036968459262835030",
+      "TotalCeloUSDValue": "5718764966348458798507897"
+    },
+    {
+      "BlockNumber": "990150",
+      "SnapshotDate": "19-06-2020",
+      "GoldTokenSupply": "602242636914579340708980386",
+      "TotalLockedGoldBalance": "311498005475689555836382066",
+      "NonVotingLockedGoldBalance": "86424261036968459262835030",
+      "TotalCeloUSDValue": "5700002734783864411072932"
+    },
+    {
+      "BlockNumber": "972870",
+      "SnapshotDate": "18-06-2020",
+      "GoldTokenSupply": "602183254615265160808055061",
+      "TotalLockedGoldBalance": "311487946161325726055966078",
+      "NonVotingLockedGoldBalance": "87089261036968459262310742",
+      "TotalCeloUSDValue": "5681369418530810459344285"
+    },
+    {
+      "BlockNumber": "955590",
+      "SnapshotDate": "17-06-2020",
+      "GoldTokenSupply": "602123547286797198718418177",
+      "TotalLockedGoldBalance": "310552153396195765226703967",
+      "NonVotingLockedGoldBalance": "86444263136968459262310742",
+      "TotalCeloUSDValue": "5662423972638972936409833"
+    },
+    {
+      "BlockNumber": "938310",
+      "SnapshotDate": "16-06-2020",
+      "GoldTokenSupply": "602063949354796190530469951",
+      "TotalLockedGoldBalance": "310495633471153035116784781",
+      "NonVotingLockedGoldBalance": "86424261136968459262310742",
+      "TotalCeloUSDValue": "5643578575012649139641359"
+    },
+    {
+      "BlockNumber": "921030",
+      "SnapshotDate": "15-06-2020",
+      "GoldTokenSupply": "602003210499191958738969864",
+      "TotalLockedGoldBalance": "310462284919185599150149532",
+      "NonVotingLockedGoldBalance": "86424261136968459262310742",
+      "TotalCeloUSDValue": "5624842029548831154109880"
+    },
+    {
       "BlockNumber": "903750",
       "SnapshotDate": "14-06-2020",
       "GoldTokenSupply": "601942090879220197916522690",

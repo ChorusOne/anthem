@@ -38,28 +38,28 @@ describe("currency-utils", () => {
       new BigNumber(5000),
       NETWORKS.COSMOS,
     );
-    expect(result).toMatchInlineSnapshot(`"0.01324"`);
+    expect(result).toMatchInlineSnapshot(`"0.014825"`);
 
     result = convertCryptoToFiat(
       prices.prices,
       new BigNumber(15),
       NETWORKS.COSMOS,
     );
-    expect(result).toMatchInlineSnapshot(`"0.00003972"`);
+    expect(result).toMatchInlineSnapshot(`"0.000044475"`);
 
     result = convertCryptoToFiat(
       prices.prices,
       new BigNumber(1000000),
       NETWORKS.COSMOS,
     );
-    expect(result).toMatchInlineSnapshot(`"2.648"`);
+    expect(result).toMatchInlineSnapshot(`"2.965"`);
 
     result = convertCryptoToFiat(
       prices.prices,
       new BigNumber(100000000),
       NETWORKS.COSMOS,
     );
-    expect(result).toMatchInlineSnapshot(`"264.8"`);
+    expect(result).toMatchInlineSnapshot(`"296.5"`);
   });
 
   test("atomsToDenom", () => {
