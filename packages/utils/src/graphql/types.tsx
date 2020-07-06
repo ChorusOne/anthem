@@ -198,6 +198,7 @@ export interface ICeloValidatorGroup {
   totalCapacity: Scalars["Float"];
   multiplier: Scalars["Float"];
   groupShare: Scalars["Float"];
+  groupScore: Scalars["Float"];
   validatorDetails: ICeloValidatorDetail[];
 }
 
@@ -1166,7 +1167,7 @@ export type ICeloValidatorGroupsQuery = (
   { __typename?: "Query" }
   & { celoValidatorGroups: Array<(
     { __typename?: "CeloValidatorGroup" }
-    & Pick<ICeloValidatorGroup, "group" | "name" | "metadataURL" | "blockNumber" | "votingPower" | "votingPowerFraction" | "capacityAvailable" | "totalCapacity" | "multiplier" | "groupShare">
+    & Pick<ICeloValidatorGroup, "group" | "name" | "metadataURL" | "blockNumber" | "votingPower" | "votingPowerFraction" | "capacityAvailable" | "totalCapacity" | "multiplier" | "groupShare" | "groupScore">
     & { validatorDetails: Array<(
       { __typename?: "CeloValidatorDetail" }
       & Pick<ICeloValidatorDetail, "validatorAddress" | "validator_score">
@@ -2427,6 +2428,7 @@ export const CeloValidatorGroupsDocument = gql`
     totalCapacity
     multiplier
     groupShare
+    groupScore
     validatorDetails {
       validatorAddress
       validator_score

@@ -163,6 +163,7 @@ type CeloValidatorGroup {
   totalCapacity: Float!
   multiplier: Float!
   groupShare: Float!
+  groupScore: Float!
   validatorDetails: [CeloValidatorDetail!]!
 }
 

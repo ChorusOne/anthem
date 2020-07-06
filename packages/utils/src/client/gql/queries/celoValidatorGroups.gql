@@ -10,6 +10,7 @@ query celoValidatorGroups{
         totalCapacity
         multiplier
         groupShare
+        groupScore
         validatorDetails{
             validatorAddress
             validator_score
