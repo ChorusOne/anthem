@@ -163,7 +163,12 @@ type CeloValidatorGroup {
   totalCapacity: Float!
   multiplier: Float!
   groupShare: Float!
-  validatorAddresses: [String!]!
+  validatorDetails: [CeloValidatorDetail!]!
+}
+
+type CeloValidatorDetail {
+  validatorAddress: String!
+  validator_score: Float!
 }
 
 type CeloGovernanceProposalHistory {

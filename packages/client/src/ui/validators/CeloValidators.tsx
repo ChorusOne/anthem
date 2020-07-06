@@ -345,11 +345,12 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                     </Button>
                                   </RowItem>
                                 </ValidatorDetailRow>
-                                {v.validatorAddresses.map((address, index) => {
+                                {v.validatorDetails.map((details, index) => {
+                                  const { validatorAddress } = details;
                                   // Only render label for first row
                                   const renderTitle = index === 0;
                                   return (
-                                    <ValidatorDetailRow key={address}>
+                                    <ValidatorDetailRow key={validatorAddress}>
                                       {renderTitle ? (
                                         <RowItem width={200}>
                                           <H6 style={{ margin: 0 }}>
@@ -361,12 +362,15 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                       )}
                                       <RowItem width={150}>
                                         <Text>
-                                          {formatAddressString(address, true)}
+                                          {formatAddressString(
+                                            validatorAddress,
+                                            true,
+                                          )}
                                         </Text>
                                       </RowItem>
                                       <RowItem
                                         onClick={() =>
-                                          copyTextToClipboard(address)
+                                          copyTextToClipboard(validatorAddress)
                                         }
                                       >
                                         <CopyIcon />

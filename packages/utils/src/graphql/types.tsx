@@ -180,6 +180,12 @@ export interface ICeloTransactionTags {
   parameters: Scalars["String"];
 }
 
+export interface ICeloValidatorDetail {
+   __typename?: "CeloValidatorDetail";
+  validatorAddress: Scalars["String"];
+  validator_score: Scalars["Float"];
+}
+
 export interface ICeloValidatorGroup {
    __typename?: "CeloValidatorGroup";
   group: Scalars["String"];
@@ -192,7 +198,7 @@ export interface ICeloValidatorGroup {
   totalCapacity: Scalars["Float"];
   multiplier: Scalars["Float"];
   groupShare: Scalars["Float"];
-  validatorAddresses: Array<Scalars["String"]>;
+  validatorDetails: ICeloValidatorDetail[];
 }
 
 export interface ICommissionRates {
@@ -1160,7 +1166,11 @@ export type ICeloValidatorGroupsQuery = (
   { __typename?: "Query" }
   & { celoValidatorGroups: Array<(
     { __typename?: "CeloValidatorGroup" }
-    & Pick<ICeloValidatorGroup, "group" | "name" | "metadataURL" | "blockNumber" | "votingPower" | "votingPowerFraction" | "capacityAvailable" | "totalCapacity" | "multiplier" | "groupShare" | "validatorAddresses">
+    & Pick<ICeloValidatorGroup, "group" | "name" | "metadataURL" | "blockNumber" | "votingPower" | "votingPowerFraction" | "capacityAvailable" | "totalCapacity" | "multiplier" | "groupShare">
+    & { validatorDetails: Array<(
+      { __typename?: "CeloValidatorDetail" }
+      & Pick<ICeloValidatorDetail, "validatorAddress" | "validator_score">
+    )> }
   )> }
 );
 
@@ -2417,7 +2427,10 @@ export const CeloValidatorGroupsDocument = gql`
     totalCapacity
     multiplier
     groupShare
-    validatorAddresses
+    validatorDetails {
+      validatorAddress
+      validator_score
+    }
   }
 }
     `;
