@@ -431,5 +431,5 @@ const getColorForPercentChange = (percentChange: number) => {
 
 const renderPercentChange = (percentChange: number) => {
   const sign = isGreaterThan(percentChange, 0) ? "+" : "";
-  return `${sign}${percentChange}%`;
+  return `${sign}${percentChange.toFixed(2)}%`;
 };
