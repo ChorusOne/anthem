@@ -93,6 +93,8 @@ class SideMenuComponent extends React.Component<IProps, IState> {
       />,
     ];
 
+    const IS_CELO = network.name === "CELO";
+
     if (HAS_ADDRESS) {
       TOP_ROUTE_LINKS.push(
         <NavItem
@@ -104,8 +106,8 @@ class SideMenuComponent extends React.Component<IProps, IState> {
           route={`/${name.toLowerCase()}/${activeChartTab.toLowerCase()}`}
         />,
         <NavItem
-          key="Staking"
-          title="Staking"
+          key={IS_CELO ? "Voting" : "Staking"}
+          title={IS_CELO ? "Voting" : "Staking"}
           path={pathname}
           closeHandler={close}
           icon={IconNames.BANK_ACCOUNT}

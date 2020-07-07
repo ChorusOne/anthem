@@ -221,6 +221,7 @@ class DashboardPage extends React.Component<IProps> {
         AVAILABLE: tString("Available"),
         REWARDS: tString("Rewards"),
         STAKING: tString("Staking"),
+        VOTING: tString("Staking"),
         COMMISSIONS: tString("Commission"),
         CUSD: "cUSD",
       };

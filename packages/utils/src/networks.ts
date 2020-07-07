@@ -187,7 +187,7 @@ const NETWORKS: NetworksMap = {
     supportsValidatorsList: true,
     supportsGovernance: true,
     denominationSize: 1e18, // 1 cGLD = 1000000000000000000 wei
-    customChartTabs: new Set(["CUSD"]),
+    customChartTabs: new Set(["VOTING", "CUSD"]),
   },
 };
 

@@ -257,6 +257,7 @@ const getChartData = (
   const series: { [key: string]: number } = {};
 
   const tab = type;
+  console.log(type);
 
   let accumulatedRewards = "0";
 
@@ -277,7 +278,8 @@ const getChartData = (
         accumulatedRewards = add(x.snapshotReward, accumulatedRewards);
         value = accumulatedRewards;
         break;
-      case "STAKING":
+      case "STAKING": // Staking is Voting in Celo...
+      case "VOTING":
         value = x.totalLockedGoldBalance;
         break;
       case "COMMISSIONS":
