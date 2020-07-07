@@ -26,68 +26,6 @@ import {
   PercentChangeText,
 } from "ui/SharedComponents";
 
-/**
- * Fixed data:
- */
-
-interface INetwork {
-  name: NETWORK_NAME;
-  tokenPrice: Nullable<number>;
-  lastDayChange: Nullable<string>;
-  marketCapitalization: Nullable<number>;
-  expectedReward: Nullable<number>;
-  inflation: Nullable<number>;
-  supportsLedger: boolean;
-}
-
-const NETWORKS: INetwork[] = [
-  {
-    name: "COSMOS",
-    tokenPrice: 2.29,
-    lastDayChange: "5.2",
-    marketCapitalization: 800000000,
-    expectedReward: 8,
-    inflation: 7,
-    supportsLedger: true,
-  },
-  {
-    name: "TERRA",
-    tokenPrice: 1.19,
-    lastDayChange: "7.9",
-    marketCapitalization: 3250000,
-    expectedReward: 10,
-    inflation: 5,
-    supportsLedger: true,
-  },
-  {
-    name: "KAVA",
-    tokenPrice: 5.03,
-    lastDayChange: "-2.4",
-    marketCapitalization: 752122,
-    expectedReward: 12,
-    inflation: 10,
-    supportsLedger: true,
-  },
-  {
-    name: "CELO",
-    tokenPrice: 1.83,
-    lastDayChange: "-5",
-    marketCapitalization: 12,
-    expectedReward: 6.5,
-    inflation: 3,
-    supportsLedger: true,
-  },
-  {
-    name: "OASIS",
-    tokenPrice: null,
-    lastDayChange: null,
-    marketCapitalization: null,
-    expectedReward: null,
-    inflation: null,
-    supportsLedger: false,
-  },
-];
-
 /** ===========================================================================
  * React Component
  * ============================================================================

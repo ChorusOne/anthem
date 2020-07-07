@@ -149,26 +149,6 @@ const NETWORKS: NetworksMap = {
     denominationSize: 1e6,
     customChartTabs: new Set(),
   },
-  OASIS: {
-    available: false,
-    name: "OASIS",
-    denom: "AMBR", // For Amber testnet
-    descriptor: "AMBR",
-    chainId: "oasis",
-    cryptoCompareTicker: "OASIS",
-    ledgerAppVersion: "n/a",
-    ledgerAppName: "n/a",
-    ledgerDocsLink: "n/a",
-    supportsLedger: false,
-    supportsFiatPrices: false,
-    supportsBalances: true,
-    supportsPortfolio: true,
-    supportsTransactionsHistory: true,
-    supportsValidatorsList: false,
-    supportsGovernance: false,
-    denominationSize: 1e9,
-    customChartTabs: new Set(),
-  },
   CELO: {
     available: true,
     name: "CELO",
@@ -188,6 +168,26 @@ const NETWORKS: NetworksMap = {
     supportsGovernance: true,
     denominationSize: 1e18, // 1 cGLD = 1000000000000000000 wei
     customChartTabs: new Set(["VOTING", "CUSD"]),
+  },
+  OASIS: {
+    available: false,
+    name: "OASIS",
+    denom: "AMBR", // For Amber testnet
+    descriptor: "AMBR",
+    chainId: "oasis",
+    cryptoCompareTicker: "OASIS",
+    ledgerAppVersion: "n/a",
+    ledgerAppName: "n/a",
+    ledgerDocsLink: "n/a",
+    supportsLedger: false,
+    supportsFiatPrices: false,
+    supportsBalances: true,
+    supportsPortfolio: true,
+    supportsTransactionsHistory: true,
+    supportsValidatorsList: false,
+    supportsGovernance: false,
+    denominationSize: 1e9,
+    customChartTabs: new Set(),
   },
 };
 
