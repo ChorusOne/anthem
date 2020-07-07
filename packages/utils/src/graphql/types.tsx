@@ -530,12 +530,12 @@ export interface IMsgWithdrawValidatorCommission {
 export interface INetworkSummary {
    __typename?: "NetworkSummary";
   name: Scalars["String"];
-  tokenPrice: Maybe<Scalars["String"]>;
+  tokenPrice: Maybe<Scalars["Float"]>;
   lastDayChange: Maybe<Scalars["Float"]>;
   marketCapitalization: Maybe<Scalars["Float"]>;
   expectedReward: Maybe<Scalars["Float"]>;
   inflation: Maybe<Scalars["Float"]>;
-  supportsLedger: Maybe<Scalars["String"]>;
+  supportsLedger: Maybe<Scalars["Boolean"]>;
 }
 
 export interface IOasisAccountBalances {

@@ -166,11 +166,14 @@ const getBackFillPricesForNetwork = (
 };
 
 interface NetworkPriceData {
-  price: number;
-  dailyChange: number;
+  tokenPrice: number;
+  lastDayChange: number;
   marketCapitalization: number;
 }
 
+/**
+ * Get the fiat price data for a network for the network summary.
+ */
 const getPriceDataForNetwork = async (
   networkName: NETWORK_NAME,
   fiat: string,
@@ -184,9 +187,9 @@ const getPriceDataForNetwork = async (
   const price = await fetchExchangeRate(network.cryptoCompareTicker, fiat);
 
   return {
-    price: price.price,
     marketCapitalization: 0,
-    dailyChange: Number(daily),
+    lastDayChange: Number(daily),
+    tokenPrice: Number(price.price),
   };
 };
 
@@ -199,6 +202,7 @@ const EXCHANGE_DATA_API = {
   fetchDailyPercentChangeInPrice,
   fetchPortfolioFiatPriceHistory,
   fetchExchangeRate,
+  getPriceDataForNetwork,
 };
 
 export default EXCHANGE_DATA_API;

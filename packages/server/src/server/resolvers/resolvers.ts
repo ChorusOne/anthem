@@ -8,6 +8,7 @@ import {
   IPricesQueryVariables,
   IQuery,
   NetworkDefinition,
+  NETWORKS,
 } from "@anthem/utils";
 import UnionResolvers from "../resolve-types";
 import FIAT_CURRENCIES from "../sources/fiat-currencies";
@@ -93,8 +94,26 @@ const resolvers = {
       _: void,
       args: INetworkSummariesQueryVariables,
     ): Promise<IQuery["networkSummaries"]> => {
-      console.log(args);
-      return [];
+      const { fiat } = args;
+
+      const networks = Object.values(NETWORKS);
+      const summaries = await Promise.all(
+        networks.map(async n => {
+          const fiatData = await EXCHANGE_DATA_API.getPriceDataForNetwork(
+            n.name,
+            fiat,
+          );
+          return {
+            name: n.name,
+            ...fiatData,
+            expectedReward: 0,
+            inflation: 0,
+            supportsLedger: n.supportsLedger,
+          };
+        }),
+      );
+
+      return summaries;
     },
   },
 };

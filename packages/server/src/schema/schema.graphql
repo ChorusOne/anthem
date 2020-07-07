@@ -830,10 +830,10 @@ type FiatCurrency {
 
 type NetworkSummary {
   name: String!
-  tokenPrice: String
+  tokenPrice: Float
   lastDayChange: Float
   marketCapitalization: Float
   expectedReward: Float
   inflation: Float
-  supportsLedger: String
+  supportsLedger: Boolean
 }
