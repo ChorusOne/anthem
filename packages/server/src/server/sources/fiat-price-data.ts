@@ -166,6 +166,7 @@ const getBackFillPricesForNetwork = (
 };
 
 interface NetworkPriceData {
+  name: NETWORK_NAME;
   tokenPrice: Nullable<number>;
   lastDayChange: Nullable<number>;
   marketCapitalization: Nullable<number>;
@@ -175,30 +176,39 @@ interface NetworkPriceData {
  * Get the fiat price data for a network for the network summary.
  */
 const getPriceDataForNetwork = async (
-  networkName: NETWORK_NAME,
   fiat: string,
-): Promise<NetworkPriceData> => {
-  const network = NETWORKS[networkName];
+): Promise<NetworkPriceData[]> => {
+  const fiatSymbol = fiat.toUpperCase();
+  const networks = Object.values(NETWORKS).filter(n => n.supportsFiatPrices);
+  const cryptoSymbols = networks.map(n => n.cryptoCompareTicker).join(",");
 
-  if (network.supportsFiatPrices) {
-    const daily = await fetchDailyPercentChangeInPrice(
-      network.cryptoCompareTicker,
-      fiat,
-    );
-    const price = await fetchExchangeRate(network.cryptoCompareTicker, fiat);
+  const url = `${HOSTS.CRYPTO_COMPARE}/data/pricemultifull?fsyms=${cryptoSymbols}&tsyms=${fiatSymbol}&api_key=${ENV.CRYPTO_COMPARE_API_KEY}`;
 
-    return {
-      marketCapitalization: 0,
-      lastDayChange: Number(daily),
-      tokenPrice: Number(price.price),
-    };
-  } else {
-    return {
-      marketCapitalization: null,
-      lastDayChange: null,
-      tokenPrice: null,
-    };
-  }
+  // Fetch the price change
+  const response = await AxiosUtil.get(url);
+  const data = response.RAW;
+
+  const result = Object.values(NETWORKS).map(network => {
+    const { cryptoCompareTicker } = network;
+    if (cryptoCompareTicker in data) {
+      const values = data[cryptoCompareTicker][fiat];
+      return {
+        name: network.name,
+        tokenPrice: values.PRICE,
+        lastDayChange: values.CHANGEPCT24HOUR,
+        marketCapitalization: values.MKTCAP,
+      };
+    } else {
+      return {
+        name: network.name,
+        tokenPrice: null,
+        lastDayChange: null,
+        marketCapitalization: null,
+      };
+    }
+  });
+
+  return result;
 };
 
 /** ===========================================================================

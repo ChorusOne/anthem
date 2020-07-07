@@ -95,25 +95,19 @@ const resolvers = {
       args: INetworkSummariesQueryVariables,
     ): Promise<IQuery["networkSummaries"]> => {
       const { fiat } = args;
+      const fiatData = await EXCHANGE_DATA_API.getPriceDataForNetwork(fiat);
 
-      const networks = Object.values(NETWORKS);
-      const summaries = await Promise.all(
-        networks.map(async n => {
-          const fiatData = await EXCHANGE_DATA_API.getPriceDataForNetwork(
-            n.name,
-            fiat,
-          );
-          return {
-            name: n.name,
-            ...fiatData,
-            expectedReward: 0,
-            inflation: 0,
-            supportsLedger: n.supportsLedger,
-          };
-        }),
-      );
+      const result = fiatData.map(data => {
+        const network = NETWORKS[data.name];
+        return {
+          ...data,
+          expectedReward: 0,
+          inflation: 0,
+          supportsLedger: network.supportsLedger,
+        };
+      });
 
-      return summaries;
+      return result;
     },
   },
 };
