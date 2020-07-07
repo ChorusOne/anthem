@@ -43,9 +43,10 @@ SCREEN_SIZES.forEach(({ size, type }) => {
 
     it("After logging in with an address the staking page is accessible", () => {
       cy.visit(`${APP_URL}/celo/delegate/${CELO.account}`);
-      cy.contains("Staking");
+      cy.contains("Voting");
+      cy.contains("Your Validator Groups");
       cy.contains("Validator Group");
-      cy.contains("Voting Power");
+      cy.contains("% of Total Votes");
       cy.contains("Capacity");
 
       if (type.isDesktop()) {
