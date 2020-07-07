@@ -406,19 +406,20 @@ export const SearchInput = (props: {
  */
 
 interface PercentChangeTextProps {
-  value: string;
+  value: string | number;
 }
 
 export const PercentChangeText = (props: PercentChangeTextProps) => {
   const { value } = props;
+  const change = Number(value);
   return (
-    <b style={{ color: getColorForPercentChange(value) }}>
-      {renderPercentChange(value)}
+    <b style={{ color: getColorForPercentChange(change) }}>
+      {renderPercentChange(change)}
     </b>
   );
 };
 
-const getColorForPercentChange = (percentChange: string) => {
+const getColorForPercentChange = (percentChange: number) => {
   if (isGreaterThan(percentChange, 0)) {
     return COLORS.BRIGHT_GREEN;
   } else if (isLessThan(percentChange, 0)) {
@@ -428,7 +429,7 @@ const getColorForPercentChange = (percentChange: string) => {
   }
 };
 
-const renderPercentChange = (percentChange: string) => {
+const renderPercentChange = (percentChange: number) => {
   const sign = isGreaterThan(percentChange, 0) ? "+" : "";
   return `${sign}${percentChange}%`;
 };
