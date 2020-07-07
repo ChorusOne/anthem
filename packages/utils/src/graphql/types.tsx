@@ -527,6 +527,17 @@ export interface IMsgWithdrawValidatorCommission {
   validator_address: Maybe<Scalars["String"]>;
 }
 
+export interface INetworkSummary {
+   __typename?: "NetworkSummary";
+  name: Scalars["String"];
+  tokenPrice: Maybe<Scalars["String"]>;
+  lastDayChange: Maybe<Scalars["Float"]>;
+  marketCapitalization: Maybe<Scalars["Float"]>;
+  expectedReward: Maybe<Scalars["Float"]>;
+  inflation: Maybe<Scalars["Float"]>;
+  supportsLedger: Maybe<Scalars["String"]>;
+}
+
 export interface IOasisAccountBalances {
    __typename?: "OasisAccountBalances";
   available: Scalars["String"];
@@ -755,6 +766,7 @@ export interface IQuery {
   fiatPriceHistory: IFiatPrice[];
   dailyPercentChange: Scalars["String"];
   prices: IPrice;
+  networkSummaries: INetworkSummary[];
 }
 
 export interface IQueryCosmosAccountBalancesArgs {
@@ -892,6 +904,10 @@ export interface IQueryDailyPercentChangeArgs {
 export interface IQueryPricesArgs {
   currency: Scalars["String"];
   versus: Scalars["String"];
+}
+
+export interface IQueryNetworkSummariesArgs {
+  fiat: Scalars["String"];
 }
 
 export interface IQueuedProposal {
@@ -1654,6 +1670,18 @@ export type IFiatPriceHistoryQuery = (
   & { fiatPriceHistory: Array<(
     { __typename?: "FiatPrice" }
     & Pick<IFiatPrice, "price" | "timestamp">
+  )> }
+);
+
+export interface INetworkSummariesQueryVariables {
+  fiat: Scalars["String"];
+}
+
+export type INetworkSummariesQuery = (
+  { __typename?: "Query" }
+  & { networkSummaries: Array<(
+    { __typename?: "NetworkSummary" }
+    & Pick<INetworkSummary, "name" | "tokenPrice" | "lastDayChange" | "marketCapitalization" | "expectedReward" | "inflation" | "supportsLedger">
   )> }
 );
 
@@ -3932,6 +3960,62 @@ export function useFiatPriceHistoryLazyQuery(baseOptions?: ApolloReactHooks.Lazy
 export type FiatPriceHistoryQueryHookResult = ReturnType<typeof useFiatPriceHistoryQuery>;
 export type FiatPriceHistoryLazyQueryHookResult = ReturnType<typeof useFiatPriceHistoryLazyQuery>;
 export type FiatPriceHistoryQueryResult = ApolloReactCommon.QueryResult<IFiatPriceHistoryQuery, IFiatPriceHistoryQueryVariables>;
+export const NetworkSummariesDocument = gql`
+    query networkSummaries($fiat: String!) {
+  networkSummaries(fiat: $fiat) {
+    name
+    tokenPrice
+    lastDayChange
+    marketCapitalization
+    expectedReward
+    inflation
+    supportsLedger
+  }
+}
+    `;
+export type NetworkSummariesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<INetworkSummariesQuery, INetworkSummariesQueryVariables>, "query"> & ({ variables: INetworkSummariesQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+export const NetworkSummariesComponent = (props: NetworkSummariesComponentProps) => (
+      <ApolloReactComponents.Query<INetworkSummariesQuery, INetworkSummariesQueryVariables> query={NetworkSummariesDocument} {...props} />
+    );
+
+export type INetworkSummariesProps<TChildProps = {}> = ApolloReactHoc.DataProps<INetworkSummariesQuery, INetworkSummariesQueryVariables> & TChildProps;
+export function withNetworkSummaries<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  INetworkSummariesQuery,
+  INetworkSummariesQueryVariables,
+  INetworkSummariesProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, INetworkSummariesQuery, INetworkSummariesQueryVariables, INetworkSummariesProps<TChildProps>>(NetworkSummariesDocument, {
+      alias: "networkSummaries",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useNetworkSummariesQuery__
+ *
+ * To run a query within a React component, call `useNetworkSummariesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNetworkSummariesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNetworkSummariesQuery({
+ *   variables: {
+ *      fiat: // value for 'fiat'
+ *   },
+ * });
+ */
+export function useNetworkSummariesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<INetworkSummariesQuery, INetworkSummariesQueryVariables>) {
+        return ApolloReactHooks.useQuery<INetworkSummariesQuery, INetworkSummariesQueryVariables>(NetworkSummariesDocument, baseOptions);
+      }
+export function useNetworkSummariesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<INetworkSummariesQuery, INetworkSummariesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<INetworkSummariesQuery, INetworkSummariesQueryVariables>(NetworkSummariesDocument, baseOptions);
+        }
+export type NetworkSummariesQueryHookResult = ReturnType<typeof useNetworkSummariesQuery>;
+export type NetworkSummariesLazyQueryHookResult = ReturnType<typeof useNetworkSummariesLazyQuery>;
+export type NetworkSummariesQueryResult = ApolloReactCommon.QueryResult<INetworkSummariesQuery, INetworkSummariesQueryVariables>;
 export const OasisAccountBalancesDocument = gql`
     query oasisAccountBalances($address: String!) {
   oasisAccountBalances(address: $address) {

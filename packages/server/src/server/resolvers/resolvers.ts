@@ -4,6 +4,7 @@ import {
   getNetworkDefinitionFromTicker,
   IDailyPercentChangeQueryVariables,
   IFiatPriceHistoryQueryVariables,
+  INetworkSummariesQueryVariables,
   IPricesQueryVariables,
   IQuery,
   NetworkDefinition,
@@ -86,6 +87,13 @@ const resolvers = {
 
     fiatCurrencies: async (_: void): Promise<IQuery["fiatCurrencies"]> => {
       return FIAT_CURRENCIES;
+    },
+
+    networkSummaries: async (
+      _: void,
+      args: INetworkSummariesQueryVariables,
+    ): Promise<IQuery["networkSummaries"]> => {
+      return [];
     },
   },
 };
