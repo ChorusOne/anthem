@@ -91,7 +91,7 @@ class NetworkSummaryPage extends React.Component<IProps> {
         <PageAddressBar pageTitle="Network Summaries" />
         <Card>
           <HeaderRow>
-            <ItemHeader style={{ width: 50 }}>
+            <ItemHeader style={{ width: 60 }}>
               <ColumnHeader />
             </ItemHeader>
             <ItemHeader>
@@ -134,7 +134,7 @@ class NetworkSummaryPage extends React.Component<IProps> {
           {Object.values(NETWORKS).map(network => {
             return (
               <Row key={network.name}>
-                <Item style={{ width: 50 }}>
+                <Item style={{ width: 60 }}>
                   <NetworkLogoIcon network={network.name} />
                 </Item>
                 <Item>
