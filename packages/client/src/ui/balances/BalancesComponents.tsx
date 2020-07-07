@@ -398,7 +398,7 @@ class CeloBalancesComponent extends React.Component<
                   style={{ marginRight: 2 }}
                   color={COLORS.BALANCE_SHADE_ONE}
                 />
-                <BalanceTitle>Balance:</BalanceTitle>
+                <BalanceTitle>Available:</BalanceTitle>
                 <BalanceText data-cy="celo-gold-balance-available">
                   {renderCurrency(availableGoldBalance)}
                 </BalanceText>
@@ -431,7 +431,7 @@ class CeloBalancesComponent extends React.Component<
                   style={{ marginRight: 2 }}
                   color={COLORS.BALANCE_SHADE_FOUR}
                 />
-                <BalanceTitle>cUSD Balance:</BalanceTitle>
+                <BalanceTitle>cUSD:</BalanceTitle>
                 <BalanceText data-cy="celo-usd-balance-available">
                   {renderCurrency(celoUSDValue, false)}
                 </BalanceText>
@@ -452,7 +452,7 @@ class CeloBalancesComponent extends React.Component<
                 onClick={() => null}
                 data-cy="stake-button"
               >
-                Stake
+                Vote
               </Button>
             </Link>
             <Button

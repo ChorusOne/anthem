@@ -99,8 +99,6 @@ const setActiveChartTabEpic: EpicSignature = (action$, state$, deps) => {
       const { activeChartTab } = state$.value.app.app;
       const tab = pathname.split("/")[2];
       const validTab = isChartTabValidForNetwork(tab, network);
-      console.log(network);
-      console.log(tab, validTab);
 
       if (validTab && validTab !== activeChartTab) {
         return Actions.setActiveChartTab(validTab);

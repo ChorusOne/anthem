@@ -122,7 +122,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
 
     return (
       <PageContainer>
-        <PageAddressBar pageTitle="Staking" />
+        <PageAddressBar pageTitle="Voting" />
         <GraphQLGuardComponentMultipleQueries
           loadingComponent={<DashboardLoader style={{ marginTop: 150 }} />}
           tString={i18n.tString}
@@ -361,7 +361,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                       onClick={() => this.handleAddValidator(v)}
                                       data-cy="delegate-button"
                                     >
-                                      Lock Celo
+                                      Vote
                                     </Button>
                                   </RowItem>
                                 </ValidatorDetailRow>
@@ -427,6 +427,15 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                             network.denominationSize,
                           )}
                         </Text>
+                      </RowItem>
+                      <RowItem width={100}>
+                        <Button
+                          style={{ marginBottom: 6 }}
+                          onClick={this.handleLockGold}
+                          data-cy="lock-gold-button"
+                        >
+                          Lock Celo
+                        </Button>
                       </RowItem>
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
@@ -496,9 +505,8 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                     </ValidatorDetailRow>
                   </Card>
                   <StakingRow style={{ paddingLeft: 14 }}>
-                    <RowItem width={45} />
-                    <RowItemHeader width={150}>
-                      <H5 style={{ margin: 0 }}>Your Validators</H5>
+                    <RowItemHeader width={195}>
+                      <H5 style={{ margin: 0 }}>Your Validator Groups</H5>
                     </RowItemHeader>
                     <RowItemHeader width={100}>
                       <H5 style={{ margin: 0 }}>Amount</H5>
@@ -513,7 +521,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                         <NetworkLogoIcon network={network.name} />
                       </RowItem>
                       <RowItem width={150}>
-                        <H5 style={{ margin: 0 }}>STAKING</H5>
+                        <H5 style={{ margin: 0 }}>VOTING</H5>
                       </RowItem>
                       <RowItem width={100}>
                         <Text>
@@ -611,6 +619,12 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
       validatorsListSortFilter: sortFilter,
       sortValidatorsListAscending: sortDirection,
     });
+  };
+
+  handleLockGold = () => {
+    Toast.warn("⚠️ Ledger actions coming soon.");
+
+    // TODO: Not implemented yet.
   };
 
   handleAddValidator = (validator: ICeloValidatorGroup) => {
