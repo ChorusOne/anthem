@@ -166,9 +166,9 @@ const getBackFillPricesForNetwork = (
 };
 
 interface NetworkPriceData {
-  tokenPrice: number;
-  lastDayChange: number;
-  marketCapitalization: number;
+  tokenPrice: Nullable<number>;
+  lastDayChange: Nullable<number>;
+  marketCapitalization: Nullable<number>;
 }
 
 /**
@@ -180,17 +180,25 @@ const getPriceDataForNetwork = async (
 ): Promise<NetworkPriceData> => {
   const network = NETWORKS[networkName];
 
-  const daily = await fetchDailyPercentChangeInPrice(
-    network.cryptoCompareTicker,
-    fiat,
-  );
-  const price = await fetchExchangeRate(network.cryptoCompareTicker, fiat);
+  if (network.supportsFiatPrices) {
+    const daily = await fetchDailyPercentChangeInPrice(
+      network.cryptoCompareTicker,
+      fiat,
+    );
+    const price = await fetchExchangeRate(network.cryptoCompareTicker, fiat);
 
-  return {
-    marketCapitalization: 0,
-    lastDayChange: Number(daily),
-    tokenPrice: Number(price.price),
-  };
+    return {
+      marketCapitalization: 0,
+      lastDayChange: Number(daily),
+      tokenPrice: Number(price.price),
+    };
+  } else {
+    return {
+      marketCapitalization: null,
+      lastDayChange: null,
+      tokenPrice: null,
+    };
+  }
 };
 
 /** ===========================================================================
