@@ -99,6 +99,7 @@ const resolvers = {
 
       const result = fiatData.map(data => {
         const network = NETWORKS[data.name];
+        // TODO: Fetch inflation and supply metrics
         return {
           ...data,
           expectedReward: 0,
