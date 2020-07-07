@@ -18,6 +18,7 @@ import {
   FiatCurrenciesDocument,
   FiatPriceHistoryDocument,
   IQuery,
+  NetworkSummariesDocument,
   OasisAccountBalancesDocument,
   OasisAccountHistoryDocument,
   OasisTransactionsDocument,
@@ -183,6 +184,25 @@ export interface FiatCurrenciesProps {
 export const withFiatCurrencies = graphql(FiatCurrenciesDocument, {
   name: "fiatCurrencies",
   ...noPollingConfig(),
+});
+
+/** ===========================================================================
+ * Network Summaries
+ * ============================================================================
+ */
+
+interface NetworkSummariesDataQueryResult extends QueryResult {
+  data: void;
+  networkSummaries: IQuery["networkSummaries"];
+}
+
+export interface NetworkSummariesDataProps {
+  networkSummaries: NetworkSummariesDataQueryResult;
+}
+
+export const withNetworkSummariesData = graphql(NetworkSummariesDocument, {
+  name: "networkSummaries",
+  ...noPollingConfig(["fiat"]),
 });
 
 /** ===========================================================================

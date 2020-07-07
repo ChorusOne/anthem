@@ -1,7 +1,11 @@
 import { NETWORK_NAME } from "@anthem/utils";
 import { Card, Colors } from "@blueprintjs/core";
 import { NetworkLogoIcon } from "assets/images";
-import { withGraphQLVariables } from "graphql/queries";
+import {
+  NetworkSummariesDataProps,
+  withGraphQLVariables,
+  withNetworkSummariesData,
+} from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
@@ -84,8 +88,9 @@ const NETWORKS: INetwork[] = [
 
 class NetworkSummaryPage extends React.Component<IProps> {
   render(): JSX.Element {
-    const { settings } = this.props;
+    const { settings, networkSummaries } = this.props;
     const fiatSymbol = settings.fiatCurrency.symbol;
+    console.log(networkSummaries);
     return (
       <PageContainer>
         <PageAddressBar pageTitle="Network Summaries" />
@@ -298,7 +303,11 @@ type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
 interface ComponentProps {}
 
-interface IProps extends ComponentProps, ConnectProps, RouteComponentProps {}
+interface IProps
+  extends ComponentProps,
+    ConnectProps,
+    NetworkSummariesDataProps,
+    RouteComponentProps {}
 
 /** ===========================================================================
  * Export
@@ -309,4 +318,5 @@ export default composeWithProps<ComponentProps>(
   withProps,
   withRouter,
   withGraphQLVariables,
+  withNetworkSummariesData,
 )(NetworkSummaryPage);

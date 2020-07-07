@@ -257,7 +257,6 @@ const getChartData = (
   const series: { [key: string]: number } = {};
 
   const tab = type;
-  console.log(type);
 
   let accumulatedRewards = "0";
 

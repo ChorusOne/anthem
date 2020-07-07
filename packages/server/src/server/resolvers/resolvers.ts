@@ -93,6 +93,7 @@ const resolvers = {
       _: void,
       args: INetworkSummariesQueryVariables,
     ): Promise<IQuery["networkSummaries"]> => {
+      console.log(args);
       return [];
     },
   },

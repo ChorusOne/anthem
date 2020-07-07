@@ -1,4 +1,10 @@
-import { assertUnreachable, IQuery, NetworkDefinition } from "@anthem/utils";
+import {
+  assertUnreachable,
+  IQuery,
+  NETWORK_NAME,
+  NetworkDefinition,
+  NETWORKS,
+} from "@anthem/utils";
 import moment from "moment-timezone";
 import ENV from "../../tools/server-env";
 import {
@@ -34,6 +40,26 @@ export interface Price {
  * hard-coded data from Coin Gecko API.
  * ============================================================================
  */
+
+/**
+ * Fetch currency exchange price data for a currency pair.
+ */
+const fetchExchangeRate = async (
+  currencyId: string,
+  versusId: string,
+): Promise<IQuery["prices"]> => {
+  const versus = versusId.toUpperCase();
+  const currency = currencyId.toUpperCase();
+
+  const url = `${HOSTS.CRYPTO_COMPARE}/data/price?fsym=${currency}&tsyms=${versus}`;
+
+  // The API may fail from time to time, add a retry allowance:
+  const result = await AxiosUtil.get(url, 2);
+
+  return {
+    price: result[versus],
+  };
+};
 
 /**
  * Return the raw price data.
@@ -139,28 +165,28 @@ const getBackFillPricesForNetwork = (
   }
 };
 
-/** ===========================================================================
- * Coin Gecko REST API Utils
- * ============================================================================
- */
+interface NetworkPriceData {
+  price: number;
+  dailyChange: number;
+  marketCapitalization: number;
+}
 
-/**
- * Fetch currency exchange price data for a currency pair.
- */
-const fetchExchangeRate = async (
-  currencyId: string,
-  versusId: string,
-): Promise<IQuery["prices"]> => {
-  const versus = versusId.toUpperCase();
-  const currency = currencyId.toUpperCase();
+const getPriceDataForNetwork = async (
+  networkName: NETWORK_NAME,
+  fiat: string,
+): Promise<NetworkPriceData> => {
+  const network = NETWORKS[networkName];
 
-  const url = `${HOSTS.CRYPTO_COMPARE}/data/price?fsym=${currency}&tsyms=${versus}`;
-
-  // The API may fail from time to time, add a retry allowance:
-  const result = await AxiosUtil.get(url, 2);
+  const daily = await fetchDailyPercentChangeInPrice(
+    network.cryptoCompareTicker,
+    fiat,
+  );
+  const price = await fetchExchangeRate(network.cryptoCompareTicker, fiat);
 
   return {
-    price: result[versus],
+    price: price.price,
+    marketCapitalization: 0,
+    dailyChange: Number(daily),
   };
 };
 
