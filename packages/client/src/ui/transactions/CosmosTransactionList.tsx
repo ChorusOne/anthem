@@ -182,9 +182,7 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
     );
 
     const fiatPrice = convertCryptoToFiat(
-      {
-        price: Number(transactionPrice),
-      },
+      Number(transactionPrice),
       unitToDenom(amount, network.denominationSize),
       network,
     );

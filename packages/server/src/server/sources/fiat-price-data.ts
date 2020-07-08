@@ -89,6 +89,24 @@ const fetchPortfolioFiatPriceHistory = async (
 };
 
 /**
+ * Fetch price data for a currency pair.
+ */
+const fetchPriceData = async (crypto: string, fiat: string) => {
+  const from = crypto.toUpperCase();
+  const to = fiat.toUpperCase();
+  const url = `${HOSTS.CRYPTO_COMPARE}/data/pricemultifull?fsyms=${from}&tsyms=${to}&api_key=${ENV.CRYPTO_COMPARE_API_KEY}`;
+  const result = await AxiosUtil.get(url);
+
+  const data = result.RAW;
+  const values = data[from][to];
+
+  return {
+    price: values.PRICE,
+    lastDayChange: values.CHANGEPCT24HOUR,
+  };
+};
+
+/**
  * Fetch 24hr percent price change for a currency pair.
  */
 const fetchDailyPercentChangeInPrice = async (
@@ -167,9 +185,9 @@ const getBackFillPricesForNetwork = (
 
 interface NetworkPriceData {
   name: NETWORK_NAME;
-  tokenPrice: Nullable<number>;
-  lastDayChange: Nullable<number>;
-  marketCapitalization: Nullable<number>;
+  tokenPrice: number | null;
+  lastDayChange: number | null;
+  marketCapitalization: number | null;
 }
 
 /**
@@ -221,6 +239,7 @@ const EXCHANGE_DATA_API = {
   fetchPortfolioFiatPriceHistory,
   fetchExchangeRate,
   getPriceDataForNetwork,
+  fetchPriceData,
 };
 
 export default EXCHANGE_DATA_API;

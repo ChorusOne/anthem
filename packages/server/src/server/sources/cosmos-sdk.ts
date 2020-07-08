@@ -370,7 +370,7 @@ const fetchNetworkStats = async (network: NetworkDefinition) => {
   const expectedReward = inflationRate ? tokenRatio * inflationRate : null;
 
   const result = {
-    totalSupply,
+    totalSupply: supply,
     expectedReward,
     inflation: inflationRate,
   };

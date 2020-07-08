@@ -455,6 +455,12 @@ export interface IFiatPrice {
   timestamp: Scalars["String"];
 }
 
+export interface IFiatPriceData {
+   __typename?: "FiatPriceData";
+  price: Scalars["Float"];
+  lastDayChange: Scalars["Float"];
+}
+
 export interface ILogMessage {
    __typename?: "LogMessage";
   code: Maybe<Scalars["Int"]>;
@@ -766,6 +772,7 @@ export interface IQuery {
   fiatPriceHistory: IFiatPrice[];
   dailyPercentChange: Scalars["String"];
   prices: IPrice;
+  fiatPriceData: IFiatPriceData;
   networkSummaries: INetworkSummary[];
 }
 
@@ -904,6 +911,11 @@ export interface IQueryDailyPercentChangeArgs {
 export interface IQueryPricesArgs {
   currency: Scalars["String"];
   versus: Scalars["String"];
+}
+
+export interface IQueryFiatPriceDataArgs {
+  currency: Scalars["String"];
+  fiat: Scalars["String"];
 }
 
 export interface IQueryNetworkSummariesArgs {
@@ -1658,6 +1670,19 @@ export type IFiatCurrenciesQuery = (
     { __typename?: "FiatCurrency" }
     & Pick<IFiatCurrency, "name" | "symbol">
   )> }
+);
+
+export interface IFiatPriceDataQueryVariables {
+  currency: Scalars["String"];
+  fiat: Scalars["String"];
+}
+
+export type IFiatPriceDataQuery = (
+  { __typename?: "Query" }
+  & { fiatPriceData: (
+    { __typename?: "FiatPriceData" }
+    & Pick<IFiatPriceData, "price" | "lastDayChange">
+  ) }
 );
 
 export interface IFiatPriceHistoryQueryVariables {
@@ -3908,6 +3933,58 @@ export function useFiatCurrenciesLazyQuery(baseOptions?: ApolloReactHooks.LazyQu
 export type FiatCurrenciesQueryHookResult = ReturnType<typeof useFiatCurrenciesQuery>;
 export type FiatCurrenciesLazyQueryHookResult = ReturnType<typeof useFiatCurrenciesLazyQuery>;
 export type FiatCurrenciesQueryResult = ApolloReactCommon.QueryResult<IFiatCurrenciesQuery, IFiatCurrenciesQueryVariables>;
+export const FiatPriceDataDocument = gql`
+    query fiatPriceData($currency: String!, $fiat: String!) {
+  fiatPriceData(currency: $currency, fiat: $fiat) {
+    price
+    lastDayChange
+  }
+}
+    `;
+export type FiatPriceDataComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IFiatPriceDataQuery, IFiatPriceDataQueryVariables>, "query"> & ({ variables: IFiatPriceDataQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+export const FiatPriceDataComponent = (props: FiatPriceDataComponentProps) => (
+      <ApolloReactComponents.Query<IFiatPriceDataQuery, IFiatPriceDataQueryVariables> query={FiatPriceDataDocument} {...props} />
+    );
+
+export type IFiatPriceDataProps<TChildProps = {}> = ApolloReactHoc.DataProps<IFiatPriceDataQuery, IFiatPriceDataQueryVariables> & TChildProps;
+export function withFiatPriceData<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  IFiatPriceDataQuery,
+  IFiatPriceDataQueryVariables,
+  IFiatPriceDataProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, IFiatPriceDataQuery, IFiatPriceDataQueryVariables, IFiatPriceDataProps<TChildProps>>(FiatPriceDataDocument, {
+      alias: "fiatPriceData",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useFiatPriceDataQuery__
+ *
+ * To run a query within a React component, call `useFiatPriceDataQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFiatPriceDataQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFiatPriceDataQuery({
+ *   variables: {
+ *      currency: // value for 'currency'
+ *      fiat: // value for 'fiat'
+ *   },
+ * });
+ */
+export function useFiatPriceDataQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<IFiatPriceDataQuery, IFiatPriceDataQueryVariables>) {
+        return ApolloReactHooks.useQuery<IFiatPriceDataQuery, IFiatPriceDataQueryVariables>(FiatPriceDataDocument, baseOptions);
+      }
+export function useFiatPriceDataLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<IFiatPriceDataQuery, IFiatPriceDataQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<IFiatPriceDataQuery, IFiatPriceDataQueryVariables>(FiatPriceDataDocument, baseOptions);
+        }
+export type FiatPriceDataQueryHookResult = ReturnType<typeof useFiatPriceDataQuery>;
+export type FiatPriceDataLazyQueryHookResult = ReturnType<typeof useFiatPriceDataLazyQuery>;
+export type FiatPriceDataQueryResult = ApolloReactCommon.QueryResult<IFiatPriceDataQuery, IFiatPriceDataQueryVariables>;
 export const FiatPriceHistoryDocument = gql`
     query fiatPriceHistory($fiat: String!, $network: String!) {
   fiatPriceHistory(fiat: $fiat, network: $network) {

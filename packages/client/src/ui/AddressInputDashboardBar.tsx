@@ -1,9 +1,7 @@
 import { IQuery } from "@anthem/utils";
 import { NetworkLogoIcon } from "assets/images";
 import {
-  DailyPercentChangeProps,
   FiatPriceDataProps,
-  withDailyPercentChange,
   withFiatPriceData,
   withGraphQLVariables,
 } from "graphql/queries";
@@ -35,32 +33,31 @@ class AddressInputDashboardBar extends React.Component<IProps, {}> {
       return null;
     }
 
-    const { i18n, address, network, prices, dailyPercentChange } = this.props;
+    const { i18n, address, network, fiatPriceData } = this.props;
     const { tString } = i18n;
 
     return (
       <AddressInputBar>
         {!!address && (
-          <>
-            <GraphQLGuardComponent
-              tString={tString}
-              dataKey="prices"
-              errorComponent={
-                <Row style={{ width: 110 }}>
-                  <NetworkLogoIcon network={network.name} />
-                  <NetworkBar>
-                    <b style={{ margin: 0, fontSize: 14 }}>{network.name}</b>
-                    <p style={{ margin: 0 }}>Network</p>
-                  </NetworkBar>
-                </Row>
-              }
-              result={prices}
-              loadingComponent={<p style={{ width: 135 }} />}
-            >
-              {(priceData: IQuery["prices"]) => {
-                const { price } = priceData;
-                const fiatPrice = formatCurrencyAmount(price, 2);
-                return (
+          <GraphQLGuardComponent
+            tString={tString}
+            dataKey="fiatPriceData"
+            errorComponent={
+              <Row style={{ width: 110 }}>
+                <NetworkLogoIcon network={network.name} />
+                <NetworkBar>
+                  <b style={{ margin: 0, fontSize: 14 }}>{network.name}</b>
+                  <p style={{ margin: 0 }}>Network</p>
+                </NetworkBar>
+              </Row>
+            }
+            result={fiatPriceData}
+            loadingComponent={<p style={{ width: 135 }} />}
+          >
+            {(priceData: IQuery["fiatPriceData"]) => {
+              const { price, lastDayChange } = priceData;
+              return (
+                <>
                   <Row style={{ width: 140 }}>
                     <NetworkLogoIcon network={network.name} />
                     <NetworkBar>
@@ -68,34 +65,23 @@ class AddressInputDashboardBar extends React.Component<IProps, {}> {
                         {network.descriptor} {tString("Price")}
                       </p>
                       <b>
-                        {fiatPrice} {this.props.settings.fiatCurrency.symbol}
+                        {formatCurrencyAmount(price, 2)}{" "}
+                        {this.props.settings.fiatCurrency.symbol}
                       </b>
                     </NetworkBar>
                   </Row>
-                );
-              }}
-            </GraphQLGuardComponent>
-            <GraphQLGuardComponent
-              tString={tString}
-              errorComponent={<p />}
-              loadingComponent={<p style={{ width: 115 }} />}
-              dataKey="dailyPercentChange"
-              result={dailyPercentChange}
-            >
-              {(percentageChange: IQuery["dailyPercentChange"]) => {
-                return (
                   <Row style={{ width: 115 }}>
                     <View style={{ textAlign: "center", marginRight: 20 }}>
                       <p style={{ margin: 0, fontSize: 14 }}>
                         {tString("Change")} (24h)
                       </p>
-                      <PercentChangeText value={percentageChange} />
+                      <PercentChangeText value={lastDayChange} />
                     </View>
                   </Row>
-                );
-              }}
-            </GraphQLGuardComponent>
-          </>
+                </>
+              );
+            }}
+          </GraphQLGuardComponent>
         )}
         <AddressInput
           tString={tString}
@@ -168,11 +154,7 @@ type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
 interface ComponentProps {}
 
-interface IProps
-  extends ComponentProps,
-    ConnectProps,
-    FiatPriceDataProps,
-    DailyPercentChangeProps {}
+interface IProps extends ComponentProps, ConnectProps, FiatPriceDataProps {}
 
 /** ===========================================================================
  * Export
@@ -184,5 +166,4 @@ export default composeWithProps<ComponentProps>(
   withGraphQLVariables,
   withRouter,
   withFiatPriceData,
-  withDailyPercentChange,
 )(AddressInputDashboardBar);

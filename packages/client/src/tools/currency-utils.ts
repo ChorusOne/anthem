@@ -1,4 +1,4 @@
-import { IQuery, NetworkDefinition } from "@anthem/utils";
+import { NetworkDefinition } from "@anthem/utils";
 import BigNumber from "bignumber.js";
 import { trimZeroes } from "./client-utils";
 import {
@@ -99,18 +99,15 @@ export const unitToDenom: CurrencyConversionMethodTypes = (
  * exchange rate.
  */
 export const convertCryptoToFiat = (
-  priceQuery: IQuery["prices"] | undefined,
+  price: number,
   denom: string | BigNumber,
   network: NetworkDefinition,
 ): string => {
   const amount = valueToBigNumber(denom);
-  if (priceQuery) {
-    const { price } = priceQuery;
-    if (price) {
-      const atoms = denomToUnit(amount, network.denominationSize);
-      const fiat = multiply(atoms, price);
-      return fiat;
-    }
+  if (price) {
+    const atoms = denomToUnit(amount, network.denominationSize);
+    const fiat = multiply(atoms, price);
+    return fiat;
   }
 
   return "";

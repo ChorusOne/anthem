@@ -395,7 +395,7 @@ interface AccountBalancesResult {
  */
 export const getAccountBalances = (
   accountBalancesData: ICosmosAccountBalances | undefined,
-  rate: IQuery["prices"] | undefined,
+  rate: number,
   network: NetworkDefinition,
   maximumFractionDigits?: number,
 ): AccountBalancesResult => {

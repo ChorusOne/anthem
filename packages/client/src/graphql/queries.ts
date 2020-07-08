@@ -14,15 +14,14 @@ import {
   CosmosStakingPoolDocument,
   CosmosTransactionsDocument,
   CosmosValidatorsDocument,
-  DailyPercentChangeDocument,
   FiatCurrenciesDocument,
+  FiatPriceDataDocument,
   FiatPriceHistoryDocument,
   IQuery,
   NetworkSummariesDocument,
   OasisAccountBalancesDocument,
   OasisAccountHistoryDocument,
   OasisTransactionsDocument,
-  PricesDocument,
 } from "@anthem/utils";
 import ENV from "lib/client-env";
 import { ReduxStoreState } from "modules/root";
@@ -51,7 +50,6 @@ export const graphqlSelector = createSelector(
     return {
       fiat,
       address,
-      versus: fiat,
       startingPage,
       network: network.name,
       networkDefinition: network,
@@ -94,7 +92,6 @@ type VariablesKeys =
   | "address"
   | "fiat"
   | "currency"
-  | "versus"
   | "network"
   | "startingPage";
 
@@ -111,40 +108,21 @@ const noPollingConfig = (variableKeys?: ReadonlyArray<VariablesKeys>) => {
 };
 
 /** ===========================================================================
- * Fiat Prices
+ * Fiat Price Data
  * ============================================================================
  */
 
 interface FiatPriceDataQueryResult extends QueryResult {
   data: void;
-  prices: IQuery["prices"];
+  fiatPriceData: IQuery["fiatPriceData"];
 }
 
 export interface FiatPriceDataProps {
-  prices: FiatPriceDataQueryResult;
+  fiatPriceData: FiatPriceDataQueryResult;
 }
 
-export const withFiatPriceData = graphql(PricesDocument, {
-  name: "prices",
-  ...fastPollingConfig(["versus", "currency"]),
-});
-
-/** ===========================================================================
- * Daily Percentage Change
- * ============================================================================
- */
-
-interface DailyPercentChangeQueryResult extends QueryResult {
-  data: void;
-  dailyPercentChange: IQuery["dailyPercentChange"];
-}
-
-export interface DailyPercentChangeProps {
-  dailyPercentChange: DailyPercentChangeQueryResult;
-}
-
-export const withDailyPercentChange = graphql(DailyPercentChangeDocument, {
-  name: "dailyPercentChange",
+export const withFiatPriceData = graphql(FiatPriceDataDocument, {
+  name: "fiatPriceData",
   ...fastPollingConfig(["currency", "fiat"]),
 });
 

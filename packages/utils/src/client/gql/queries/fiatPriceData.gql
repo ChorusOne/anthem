@@ -1,0 +1,6 @@
+query fiatPriceData($currency: String!, $fiat: String!){
+    fiatPriceData(currency: $currency, fiat: $fiat){
+        price
+        lastDayChange
+    }
+}

@@ -103,8 +103,8 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
     } = this.state;
     const {
       i18n,
-      prices,
       network,
+      fiatPriceData,
       celoValidatorGroups,
       celoAccountBalances,
     } = this.props;
@@ -129,13 +129,13 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
           results={[
             [celoValidatorGroups, "celoValidatorGroups"],
             [celoAccountBalances, "celoAccountBalances"],
-            [prices, "prices"],
+            [fiatPriceData, "fiatPriceData"],
           ]}
         >
           {([validatorList, accountBalancesResponse, pricesResponse]: [
             IQuery["celoValidatorGroups"],
             ICeloAccountBalances,
-            IQuery["prices"],
+            IQuery["fiatPriceData"],
           ]) => {
             const {
               delegations,

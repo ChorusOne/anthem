@@ -35,5 +35,6 @@ export default [
   "fiatPriceHistory",
   "dailyPercentChange",
   "fiatCurrencies",
+  "fiatPriceData",
   "networkSummaries",
 ];

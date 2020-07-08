@@ -4,6 +4,7 @@ import {
   getNetworkDefinitionFromIdentifier,
   getNetworkDefinitionFromTicker,
   IDailyPercentChangeQueryVariables,
+  IFiatPriceDataQueryVariables,
   IFiatPriceHistoryQueryVariables,
   INetworkSummariesQueryVariables,
   IPricesQueryVariables,
@@ -92,6 +93,20 @@ const resolvers = {
 
     fiatCurrencies: async (_: void): Promise<IQuery["fiatCurrencies"]> => {
       return FIAT_CURRENCIES;
+    },
+
+    fiatPriceData: async (
+      _: void,
+      args: IFiatPriceDataQueryVariables,
+    ): Promise<IQuery["fiatPriceData"]> => {
+      const { currency, fiat } = args;
+      const network = getNetworkDefinitionFromTicker(currency);
+
+      if (!network.supportsFiatPrices) {
+        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
+      }
+
+      return EXCHANGE_DATA_API.fetchPriceData(currency, fiat);
     },
 
     networkSummaries: async (
