@@ -355,7 +355,7 @@ const fetchNetworkStats = async (network: NetworkDefinition) => {
     case "TERRA":
       supply = (await AxiosUtil.get(`${host}/supply/total/uluna`)).result;
       staking = (await AxiosUtil.get(`${host}/staking/pool`)).result;
-      inflation = null;
+      inflation = 0;
       break;
   }
 
