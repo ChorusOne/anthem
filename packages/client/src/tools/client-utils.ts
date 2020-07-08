@@ -148,6 +148,8 @@ export const getTransactionHashFromUrl = (url: string) => {
 
 /**
  * Base chart tabs which are shared across networks.
+ *
+ * TODO: Refactor these to be part of the networks configuration.
  */
 const BASE_CHART_TAB_MAP = {
   TOTAL: "TOTAL",
