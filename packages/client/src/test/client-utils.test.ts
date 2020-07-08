@@ -216,7 +216,7 @@ describe("utils", () => {
   test("getAccountBalances", () => {
     const result = getAccountBalances(
       cosmosAccountBalances.cosmosAccountBalances,
-      prices.prices,
+      100.52,
       NETWORKS.COSMOS,
     );
     expect(result).toMatchInlineSnapshot(`

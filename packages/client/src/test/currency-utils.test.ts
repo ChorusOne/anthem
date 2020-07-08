@@ -7,7 +7,6 @@ import {
   formatCurrencyAmount,
   unitToDenom,
 } from "tools/currency-utils";
-import prices from "../../../utils/src/client/data/prices.json";
 
 describe("currency-utils", () => {
   test("formatCurrencyAmount", () => {
@@ -34,28 +33,24 @@ describe("currency-utils", () => {
 
   test("convertAtomsToUsd", () => {
     let result = convertCryptoToFiat(
-      prices.prices,
+      10.52,
       new BigNumber(5000),
       NETWORKS.COSMOS,
     );
     expect(result).toMatchInlineSnapshot(`"0.014825"`);
 
-    result = convertCryptoToFiat(
-      prices.prices,
-      new BigNumber(15),
-      NETWORKS.COSMOS,
-    );
+    result = convertCryptoToFiat(10.52, new BigNumber(15), NETWORKS.COSMOS);
     expect(result).toMatchInlineSnapshot(`"0.000044475"`);
 
     result = convertCryptoToFiat(
-      prices.prices,
+      10.52,
       new BigNumber(1000000),
       NETWORKS.COSMOS,
     );
     expect(result).toMatchInlineSnapshot(`"2.965"`);
 
     result = convertCryptoToFiat(
-      prices.prices,
+      10.52,
       new BigNumber(100000000),
       NETWORKS.COSMOS,
     );
