@@ -208,7 +208,7 @@ const fetchNetworkSummaryStats = async () => {
   return {
     inflation: 0,
     expectedReward: 5,
-    totalSupply: 100,
+    totalSupply: 184448000,
   };
 };
 

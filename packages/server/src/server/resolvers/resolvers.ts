@@ -127,7 +127,7 @@ const resolvers = {
 
           // Calculate market cap directly using total supply and price.
           const marketCapitalization = tokenPrice
-            ? totalSupply * tokenPrice
+            ? (totalSupply * tokenPrice) / network.denominationSize
             : null;
 
           return {
