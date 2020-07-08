@@ -17,8 +17,13 @@ type Query {
   cosmosValidatorSets(network: String!): CosmosValidatorSet!
   cosmosLatestBlock(network: String!): CosmosBlockData!
   cosmosStakingPool(network: String!): CosmosStakingPool!
+  cosmosStakingParameters(network: String!): CosmosStakingParameters!
   cosmosGovernanceProposals(network: String!): [CosmosGovernanceProposal!]!
   cosmosGovernanceParametersDeposit(
+    network: String!
+  ): CosmosGovernanceParametersDeposit!
+  cosmosGovernanceParametersTallying(
+    network: String!
   ): CosmosGovernanceParametersTallying!
   cosmosGovernanceParametersVoting(
     network: String!
@@ -744,8 +749,13 @@ type BlockHeader {
 }
 
 type CosmosStakingPool {
+  loose_tokens: String
   bonded_tokens: String
   not_bonded_tokens: String
+  inflation_last_time: String
+  inflation: String
+  date_last_commission_reset: String
+  prev_bonded_shares: String
 }
 
 type CosmosStakingParameters {
