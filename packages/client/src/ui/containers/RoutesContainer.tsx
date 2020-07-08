@@ -73,36 +73,36 @@ class RoutesContainer extends React.Component<IProps> {
         <SideMenuComponent />
         <PageContainer>
           <Switch>
-            <Route key={1} path="/networks" component={NetworkSummaryPage} />
-            <Route key={6} path="/help" component={HelpPage} />
+            <Route key={0} path="/networks" component={NetworkSummaryPage} />
+            <Route key={1} path="/help" component={HelpPage} />
             {/* if there's no address, redirect anything else back to /networks */}
             {shouldRedirect && (
-              <Route key={0} component={() => <Redirect to="/networks" />} />
+              <Route key={2} component={() => <Redirect to="/networks" />} />
             )}
             <Route
               exact
-              key={2}
+              key={3}
               component={DashboardPage}
               path="/:network/:path(total|available|staking|voting|rewards|commissions|cusd)"
             />
             <Route
-              key={3}
+              key={4}
               path="/:network/txs/*"
               component={TransactionDetailContainer}
             />
             <Route
-              key={4}
+              key={5}
               path="/:network/delegate"
               component={ValidatorsPage}
             />
             <Route
-              key={5}
+              key={6}
               path="/:network/governance"
               component={GovernanceSwitchContainer}
             />
             <Route key={7} path="/settings" component={SettingsPage} />
             <Route
-              key={0}
+              key={8}
               component={() => (
                 <Redirect to={`/${network.name.toLowerCase()}/total`} />
               )}
