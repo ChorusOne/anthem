@@ -7,7 +7,7 @@
     "expiredProposals": [
       {
         "proposalID": 1,
-        "currentBlockNumber": 1286410,
+        "currentBlockNumber": 1324308,
         "stage": "Expiration",
         "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
         "executed": true,
@@ -19,7 +19,7 @@
       },
       {
         "proposalID": 2,
-        "currentBlockNumber": 1286410,
+        "currentBlockNumber": 1324308,
         "stage": "Expiration",
         "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
         "executed": true,
@@ -31,7 +31,7 @@
       },
       {
         "proposalID": 3,
-        "currentBlockNumber": 1286410,
+        "currentBlockNumber": 1324308,
         "stage": "Expiration",
         "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
         "executed": true,
@@ -43,7 +43,7 @@
       },
       {
         "proposalID": 4,
-        "currentBlockNumber": 1286410,
+        "currentBlockNumber": 1324308,
         "stage": "Expiration",
         "proposer": "0x351aebcded9240ae77dd0a3987e2110b15e0f038",
         "executed": true,
@@ -55,7 +55,7 @@
       },
       {
         "proposalID": 5,
-        "currentBlockNumber": 1286410,
+        "currentBlockNumber": 1324308,
         "stage": "Expiration",
         "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
         "executed": false,
@@ -67,7 +67,7 @@
       },
       {
         "proposalID": 6,
-        "currentBlockNumber": 1286410,
+        "currentBlockNumber": 1324308,
         "stage": "Expiration",
         "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
         "executed": true,
@@ -79,7 +79,7 @@
       },
       {
         "proposalID": 7,
-        "currentBlockNumber": 1286410,
+        "currentBlockNumber": 1324308,
         "stage": "Expiration",
         "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
         "executed": true,

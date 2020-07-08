@@ -37,24 +37,24 @@ describe("currency-utils", () => {
       new BigNumber(5000),
       NETWORKS.COSMOS,
     );
-    expect(result).toMatchInlineSnapshot(`"0.014825"`);
+    expect(result).toMatchInlineSnapshot(`"0.0526"`);
 
     result = convertCryptoToFiat(10.52, new BigNumber(15), NETWORKS.COSMOS);
-    expect(result).toMatchInlineSnapshot(`"0.000044475"`);
+    expect(result).toMatchInlineSnapshot(`"0.0001578"`);
 
     result = convertCryptoToFiat(
       10.52,
       new BigNumber(1000000),
       NETWORKS.COSMOS,
     );
-    expect(result).toMatchInlineSnapshot(`"2.965"`);
+    expect(result).toMatchInlineSnapshot(`"10.52"`);
 
     result = convertCryptoToFiat(
       10.52,
       new BigNumber(100000000),
       NETWORKS.COSMOS,
     );
-    expect(result).toMatchInlineSnapshot(`"296.5"`);
+    expect(result).toMatchInlineSnapshot(`"1052"`);
   });
 
   test("atomsToDenom", () => {
