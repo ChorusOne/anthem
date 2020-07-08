@@ -343,7 +343,7 @@ const fetchNetworkStats = async (network: NetworkDefinition) => {
 
   switch (network.name) {
     case "COSMOS":
-      supply = (await AxiosUtil.get(`${host}/supply/total`)).result;
+      supply = (await AxiosUtil.get(`${host}/supply/total/uatom`)).result;
       staking = (await AxiosUtil.get(`${host}/staking/pool`)).result;
       inflation = (await AxiosUtil.get(`${host}/minting/inflation`)).result;
       break;
@@ -358,8 +358,6 @@ const fetchNetworkStats = async (network: NetworkDefinition) => {
       inflation = null;
       break;
   }
-
-  const totalSupply = supply[0].amount;
 
   const { bonded_tokens, not_bonded_tokens } = staking;
 
