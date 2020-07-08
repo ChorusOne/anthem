@@ -143,7 +143,7 @@ class NetworkSummaryPage extends React.Component<IProps> {
                       <Item>
                         <Text>
                           {summary.expectedReward ? (
-                            <span>{summary.expectedReward}%</span>
+                            <span>{summary.expectedReward.toFixed(2)}%</span>
                           ) : (
                             "n/a"
                           )}
@@ -152,7 +152,7 @@ class NetworkSummaryPage extends React.Component<IProps> {
                       <Item>
                         <Text>
                           {summary.inflation ? (
-                            <span>{summary.inflation}%</span>
+                            <span>{summary.inflation.toFixed(2)}%</span>
                           ) : (
                             "n/a"
                           )}
@@ -162,7 +162,10 @@ class NetworkSummaryPage extends React.Component<IProps> {
                         <Text>
                           {summary.expectedReward && summary.inflation ? (
                             <span>
-                              {summary.expectedReward - summary.inflation}%
+                              {(
+                                summary.expectedReward - summary.inflation
+                              ).toFixed(2)}
+                              %
                             </span>
                           ) : (
                             "n/a"
