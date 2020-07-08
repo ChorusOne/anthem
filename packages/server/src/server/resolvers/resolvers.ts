@@ -48,21 +48,6 @@ const resolvers = {
     ...CosmosResolvers,
     ...CeloResolvers,
 
-    // Add fiat price resolvers:
-    prices: async (
-      _: void,
-      args: IPricesQueryVariables,
-    ): Promise<IQuery["prices"]> => {
-      const { currency, versus } = args;
-      const network = getNetworkDefinitionFromTicker(currency);
-
-      if (!network.supportsFiatPrices) {
-        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
-      }
-
-      return EXCHANGE_DATA_API.fetchExchangeRate(currency, versus);
-    },
-
     fiatPriceHistory: async (
       _: void,
       args: IFiatPriceHistoryQueryVariables,
@@ -77,6 +62,40 @@ const resolvers = {
       return EXCHANGE_DATA_API.fetchPortfolioFiatPriceHistory(fiat, network);
     },
 
+    fiatPriceData: async (
+      _: void,
+      args: IFiatPriceDataQueryVariables,
+    ): Promise<IQuery["fiatPriceData"]> => {
+      const { currency, fiat } = args;
+      const network = getNetworkDefinitionFromTicker(currency);
+
+      if (!network.supportsFiatPrices) {
+        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
+      }
+
+      return EXCHANGE_DATA_API.fetchPriceData(currency, fiat);
+    },
+
+    /**
+     * TODO: Deprecated, remove this.
+     */
+    prices: async (
+      _: void,
+      args: IPricesQueryVariables,
+    ): Promise<IQuery["prices"]> => {
+      const { currency, versus } = args;
+      const network = getNetworkDefinitionFromTicker(currency);
+
+      if (!network.supportsFiatPrices) {
+        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
+      }
+
+      return EXCHANGE_DATA_API.fetchExchangeRate(currency, versus);
+    },
+
+    /**
+     * TODO: Deprecated, remove this.
+     */
     dailyPercentChange: async (
       _: void,
       args: IDailyPercentChangeQueryVariables,
@@ -93,20 +112,6 @@ const resolvers = {
 
     fiatCurrencies: async (_: void): Promise<IQuery["fiatCurrencies"]> => {
       return FIAT_CURRENCIES;
-    },
-
-    fiatPriceData: async (
-      _: void,
-      args: IFiatPriceDataQueryVariables,
-    ): Promise<IQuery["fiatPriceData"]> => {
-      const { currency, fiat } = args;
-      const network = getNetworkDefinitionFromTicker(currency);
-
-      if (!network.supportsFiatPrices) {
-        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
-      }
-
-      return EXCHANGE_DATA_API.fetchPriceData(currency, fiat);
     },
 
     networkSummaries: async (
