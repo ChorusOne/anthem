@@ -83,9 +83,6 @@ const getQueryConfig = (pollInterval: number | undefined) => (
       pollInterval,
     };
   },
-  skip: (props: GraphQLConfigProps) => {
-    return props.graphql.address === "";
-  },
 });
 
 type VariablesKeys =

@@ -1,7 +1,9 @@
 import {
   assertUnreachable,
   deriveNetworkFromAddress,
+  FiatPriceDataDocument,
   getNetworkDefinitionFromIdentifier,
+  NetworkSummariesDocument,
   validatorAddressToOperatorAddress,
 } from "@anthem/utils";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
@@ -243,6 +245,13 @@ const logoutEpic: EpicSignature = (action$, state$, deps) => {
 
       // Redirect to network summary route
       deps.router.push("/networks");
+
+      // Refetch the network summaries data after the cache was cleared
+      const fiat = state$.value.settings.fiatCurrency.symbol;
+      client.query({
+        query: NetworkSummariesDocument,
+        variables: { fiat },
+      });
 
       // Render toast success message
       const { tString } = i18nSelector(state$.value);

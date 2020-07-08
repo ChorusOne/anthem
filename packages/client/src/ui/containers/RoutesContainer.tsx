@@ -74,6 +74,7 @@ class RoutesContainer extends React.Component<IProps> {
         <PageContainer>
           <Switch>
             <Route key={1} path="/networks" component={NetworkSummaryPage} />
+            <Route key={6} path="/help" component={HelpPage} />
             {/* if there's no address, redirect anything else back to /networks */}
             {shouldRedirect && (
               <Route key={0} component={() => <Redirect to="/networks" />} />
@@ -99,7 +100,6 @@ class RoutesContainer extends React.Component<IProps> {
               path="/:network/governance"
               component={GovernanceSwitchContainer}
             />
-            <Route key={6} path="/help" component={HelpPage} />
             <Route key={7} path="/settings" component={SettingsPage} />
             <Route
               key={0}
