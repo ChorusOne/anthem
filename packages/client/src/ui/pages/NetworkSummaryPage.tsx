@@ -48,142 +48,145 @@ class NetworkSummaryPage extends React.Component<IProps> {
           loadingComponent={<DashboardLoader />}
         >
           {(summaries: INetworkSummary[]) => {
-            console.log(summaries);
             return (
-              <Card>
-                <HeaderRow>
-                  <ItemHeader style={{ width: 60 }}>
-                    <ColumnHeader />
-                  </ItemHeader>
-                  <ItemHeader>
-                    <ColumnHeader>
-                      <Title>NETWORK</Title>
-                    </ColumnHeader>
-                  </ItemHeader>
-                  <ItemHeader>
-                    <ColumnHeader>
-                      <Title>TOKEN PRICE</Title>
-                    </ColumnHeader>
-                  </ItemHeader>
-                  <ItemHeader>
-                    <ColumnHeader>
-                      <Title>24H CHANGE</Title>
-                    </ColumnHeader>
-                  </ItemHeader>
-                  <ItemHeader>
-                    <ColumnHeader>
-                      <Title>MARKET CAPITALIZATION</Title>
-                    </ColumnHeader>
-                  </ItemHeader>
-                  <ItemHeader>
-                    <ColumnHeader>
-                      <Title>EXPECTED REWARD</Title>
-                    </ColumnHeader>
-                  </ItemHeader>
-                  <ItemHeader>
-                    <ColumnHeader>
-                      <Title>INFLATION</Title>
-                    </ColumnHeader>
-                  </ItemHeader>
-                  <ItemHeader>
-                    <ColumnHeader>
-                      <Title>ADJUSTED REWARD</Title>
-                    </ColumnHeader>
-                  </ItemHeader>
-                  <ItemHeader />
-                </HeaderRow>
-                {summaries.map(summary => {
-                  const name = summary.name as NETWORK_NAME;
-                  return (
-                    <Row key={name}>
-                      <Item style={{ width: 60 }}>
-                        <NetworkLogoIcon network={name} />
-                      </Item>
-                      <Item>
-                        <Text>
-                          {name ? <b>{capitalizeString(name)}</b> : "n/a"}
-                        </Text>
-                      </Item>
-                      <Item>
-                        <Text>
-                          {summary.tokenPrice ? (
-                            <span>
-                              ${formatCurrencyAmount(summary.tokenPrice, 2)}{" "}
-                              {fiatSymbol}
-                            </span>
-                          ) : (
-                            "n/a"
+              <Scrollable>
+                <Card style={{ minWidth: 1050 }}>
+                  <HeaderRow>
+                    <ItemHeader style={{ minWidth: 45 }}>
+                      <ColumnHeader />
+                    </ItemHeader>
+                    <ItemHeader>
+                      <ColumnHeader>
+                        <Title>NETWORK</Title>
+                      </ColumnHeader>
+                    </ItemHeader>
+                    <ItemHeader>
+                      <ColumnHeader>
+                        <Title>TOKEN PRICE</Title>
+                      </ColumnHeader>
+                    </ItemHeader>
+                    <ItemHeader>
+                      <ColumnHeader>
+                        <Title>24H CHANGE</Title>
+                      </ColumnHeader>
+                    </ItemHeader>
+                    <ItemHeader>
+                      <ColumnHeader>
+                        <Title>MARKET CAPITALIZATION</Title>
+                      </ColumnHeader>
+                    </ItemHeader>
+                    <ItemHeader>
+                      <ColumnHeader>
+                        <Title>EXPECTED REWARD</Title>
+                      </ColumnHeader>
+                    </ItemHeader>
+                    <ItemHeader>
+                      <ColumnHeader>
+                        <Title>INFLATION</Title>
+                      </ColumnHeader>
+                    </ItemHeader>
+                    <ItemHeader>
+                      <ColumnHeader>
+                        <Title>ADJUSTED REWARD</Title>
+                      </ColumnHeader>
+                    </ItemHeader>
+                    <ItemHeader />
+                  </HeaderRow>
+                  {summaries.map(summary => {
+                    const name = summary.name as NETWORK_NAME;
+                    return (
+                      <Row key={name}>
+                        <Item style={{ minWidth: 45 }}>
+                          <NetworkLogoIcon network={name} />
+                        </Item>
+                        <Item>
+                          <Text>
+                            {name ? <b>{capitalizeString(name)}</b> : "n/a"}
+                          </Text>
+                        </Item>
+                        <Item>
+                          <Text>
+                            {summary.tokenPrice ? (
+                              <span>
+                                ${formatCurrencyAmount(summary.tokenPrice, 2)}{" "}
+                                {fiatSymbol}
+                              </span>
+                            ) : (
+                              "n/a"
+                            )}
+                          </Text>
+                        </Item>
+                        <Item>
+                          <Text>
+                            {summary.lastDayChange ? (
+                              <PercentChangeText
+                                value={summary.lastDayChange}
+                              />
+                            ) : (
+                              "n/a"
+                            )}
+                          </Text>
+                        </Item>
+                        <Item>
+                          <Text>
+                            {summary.marketCapitalization ? (
+                              <span>
+                                $
+                                {formatCurrencyAmount(
+                                  summary.marketCapitalization,
+                                )}
+                              </span>
+                            ) : (
+                              "n/a"
+                            )}
+                          </Text>
+                        </Item>
+                        <Item>
+                          <Text>
+                            {summary.expectedReward ? (
+                              <span>{summary.expectedReward.toFixed(2)}%</span>
+                            ) : (
+                              "n/a"
+                            )}
+                          </Text>
+                        </Item>
+                        <Item>
+                          <Text>
+                            {summary.inflation ? (
+                              <span>{summary.inflation.toFixed(2)}%</span>
+                            ) : (
+                              "n/a"
+                            )}
+                          </Text>
+                        </Item>
+                        <Item>
+                          <Text>
+                            {summary.expectedReward && summary.inflation ? (
+                              <span>
+                                {(
+                                  summary.expectedReward - summary.inflation
+                                ).toFixed(2)}
+                                %
+                              </span>
+                            ) : (
+                              "n/a"
+                            )}
+                          </Text>
+                        </Item>
+                        <Item>
+                          {summary.supportsLedger && (
+                            <Button
+                              onClick={() => this.handleConnectNetwork(name)}
+                            >
+                              Connect
+                            </Button>
                           )}
-                        </Text>
-                      </Item>
-                      <Item>
-                        <Text>
-                          {summary.lastDayChange ? (
-                            <PercentChangeText value={summary.lastDayChange} />
-                          ) : (
-                            "n/a"
-                          )}
-                        </Text>
-                      </Item>
-                      <Item>
-                        <Text>
-                          {summary.marketCapitalization ? (
-                            <span>
-                              $
-                              {formatCurrencyAmount(
-                                summary.marketCapitalization,
-                              )}
-                            </span>
-                          ) : (
-                            "n/a"
-                          )}
-                        </Text>
-                      </Item>
-                      <Item>
-                        <Text>
-                          {summary.expectedReward ? (
-                            <span>{summary.expectedReward.toFixed(2)}%</span>
-                          ) : (
-                            "n/a"
-                          )}
-                        </Text>
-                      </Item>
-                      <Item>
-                        <Text>
-                          {summary.inflation ? (
-                            <span>{summary.inflation.toFixed(2)}%</span>
-                          ) : (
-                            "n/a"
-                          )}
-                        </Text>
-                      </Item>
-                      <Item>
-                        <Text>
-                          {summary.expectedReward && summary.inflation ? (
-                            <span>
-                              {(
-                                summary.expectedReward - summary.inflation
-                              ).toFixed(2)}
-                              %
-                            </span>
-                          ) : (
-                            "n/a"
-                          )}
-                        </Text>
-                      </Item>
-                      <Item>
-                        {summary.supportsLedger && (
-                          <Button
-                            onClick={() => this.handleConnectNetwork(name)}
-                          >
-                            Connect
-                          </Button>
-                        )}
-                      </Item>
-                    </Row>
-                  );
-                })}
-              </Card>
+                        </Item>
+                      </Row>
+                    );
+                  })}
+                </Card>
+              </Scrollable>
             );
           }}
         </GraphQLGuardComponent>
@@ -204,6 +207,10 @@ class NetworkSummaryPage extends React.Component<IProps> {
  * Styles and Helpers
  * ============================================================================
  */
+
+const Scrollable = styled.div`
+  overflow-x: scroll;
+`;
 
 const Row = styled.div`
   margin-top: 12px;
@@ -236,11 +243,11 @@ const Text = styled.p`
 const ColumnHeader = styled.div``;
 
 const ItemHeader = styled.div`
-  width: 200px;
+  min-width: 125px;
 `;
 
 const Item = styled.div`
-  width: 200px;
+  min-width: 125px;
 `;
 
 /** ===========================================================================
