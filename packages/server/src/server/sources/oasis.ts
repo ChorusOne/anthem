@@ -316,6 +316,17 @@ const fetchTransaction = async (hash: string): Promise<IOasisTransaction> => {
   }
 };
 
+/**
+ * Fetch network summary stats for Oasis.
+ */
+const fetchNetworkSummaryStats = async () => {
+  return {
+    inflation: 0,
+    expectedReward: 5,
+    totalSupply: 100,
+  };
+};
+
 /** ===========================================================================
  * Utils
  * ============================================================================
@@ -412,6 +423,7 @@ const OASIS = {
   fetchAccountHistory,
   fetchTransactions,
   fetchTransaction,
+  fetchNetworkSummaryStats,
 };
 
 export default OASIS;

@@ -201,6 +201,17 @@ const fetchGovernanceProposals = async (): Promise<IQuery["celoGovernanceProposa
   return addGistContentToProposals(response);
 };
 
+/**
+ * Fetch network summary stats for Celo.
+ */
+const fetchNetworkSummaryStats = async () => {
+  return {
+    inflation: 0,
+    expectedReward: 5,
+    totalSupply: 100,
+  };
+};
+
 /** ===========================================================================
  * Utils
  * ============================================================================
@@ -472,6 +483,7 @@ const CELO = {
   fetchSystemHistory,
   fetchValidatorGroups,
   fetchGovernanceProposals,
+  fetchNetworkSummaryStats,
 };
 
 export default CELO;

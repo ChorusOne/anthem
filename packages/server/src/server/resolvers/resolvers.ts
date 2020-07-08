@@ -1,4 +1,5 @@
 import {
+  assertUnreachable,
   ERRORS,
   getNetworkDefinitionFromIdentifier,
   getNetworkDefinitionFromTicker,
@@ -11,8 +12,11 @@ import {
   NETWORKS,
 } from "@anthem/utils";
 import UnionResolvers from "../resolve-types";
+import CELO from "../sources/celo";
+import COSMOS_SDK from "../sources/cosmos-sdk";
 import FIAT_CURRENCIES from "../sources/fiat-currencies";
 import EXCHANGE_DATA_API from "../sources/fiat-price-data";
+import OASIS from "../sources/oasis";
 import CeloResolvers from "./celo-resolvers";
 import CosmosResolvers from "./cosmos-resolvers";
 import OasisResolvers from "./oasis-resolvers";
@@ -97,16 +101,44 @@ const resolvers = {
       const { fiat } = args;
       const fiatData = await EXCHANGE_DATA_API.getPriceDataForNetwork(fiat);
 
-      const result = fiatData.map(data => {
-        const network = NETWORKS[data.name];
-        // TODO: Fetch inflation and supply metrics
-        return {
-          ...data,
-          expectedReward: 0,
-          inflation: 0,
-          supportsLedger: network.supportsLedger,
-        };
-      });
+      const result = await Promise.all(
+        fiatData.map(async data => {
+          const network = NETWORKS[data.name];
+          const { tokenPrice } = data;
+
+          let stats: any = {};
+          switch (network.name) {
+            case "COSMOS":
+            case "KAVA":
+            case "TERRA":
+              stats = await COSMOS_SDK.fetchNetworkStats(network);
+              break;
+            case "OASIS":
+              stats = await CELO.fetchNetworkSummaryStats();
+              break;
+            case "CELO":
+              stats = await OASIS.fetchNetworkSummaryStats();
+              break;
+            default:
+              assertUnreachable(network.name);
+          }
+
+          const { inflation, totalSupply, expectedReward } = stats;
+
+          // Calculate market cap directly using total supply and price.
+          const marketCapitalization = tokenPrice
+            ? totalSupply * tokenPrice
+            : null;
+
+          return {
+            ...data,
+            inflation,
+            expectedReward,
+            marketCapitalization,
+            supportsLedger: network.supportsLedger,
+          };
+        }),
+      );
 
       return result;
     },

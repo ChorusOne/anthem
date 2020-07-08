@@ -331,6 +331,36 @@ const fetchAvailableRewards = async (
   return response.result.rewards || [];
 };
 
+/**
+ * Fetch network summary stats for a Cosmos SDK network.
+ */
+const fetchNetworkStats = async (network: NetworkDefinition) => {
+  const host = getHostFromNetworkName(network.name);
+  const supply = (await AxiosUtil.get(`${host}/supply/total`)).result;
+  const staking = (await AxiosUtil.get(`${host}/staking/pool`)).result;
+  const inflation = (await AxiosUtil.get(`${host}/minting/inflation`)).result;
+
+  const totalSupply = supply[0].amount;
+
+  const { bonded_tokens, not_bonded_tokens } = staking;
+
+  const bonded = Number(bonded_tokens);
+  const notBonded = Number(not_bonded_tokens);
+  const inflationRate = Number(inflation);
+
+  // Inflation*(Bonded Tokens/(Not Bonded Token+ Bonded Tokens))
+  const tokenRatio = bonded_tokens / (notBonded + bonded);
+  const expectedReward = tokenRatio * inflation;
+
+  const result = {
+    totalSupply,
+    expectedReward,
+    inflation: inflationRate * 100,
+  };
+
+  return result;
+};
+
 /** ===========================================================================
  * Export
  * ============================================================================
@@ -357,6 +387,7 @@ const COSMOS_SDK = {
   fetchSlashingParameters,
   fetchDistributionCommunityPool,
   fetchDistributionParameters,
+  fetchNetworkStats,
 };
 
 export default COSMOS_SDK;
