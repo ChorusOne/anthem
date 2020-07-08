@@ -1,7 +1,6 @@
 import {
   assertUnreachable,
   deriveNetworkFromAddress,
-  FiatPriceDataDocument,
   getNetworkDefinitionFromIdentifier,
   NetworkSummariesDocument,
   validatorAddressToOperatorAddress,
