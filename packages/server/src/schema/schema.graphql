@@ -60,10 +60,11 @@ type Query {
   # Fiat price APIs
   fiatCurrencies: [FiatCurrency!]!
   fiatPriceHistory(fiat: String!, network: String!): [FiatPrice!]!
-  dailyPercentChange(currency: String!, fiat: String!): String!
-  prices(currency: String!, versus: String!): Price!
   fiatPriceData(currency: String!, fiat: String!): FiatPriceData!
   networkSummaries(fiat: String!): [NetworkSummary!]!
+  # Deprecated:
+  dailyPercentChange(currency: String!, fiat: String!): String!
+  prices(currency: String!, versus: String!): Price!
 }
 
 # *****************************************************************************
