@@ -136,7 +136,7 @@ const NETWORKS: NetworksMap = {
     name: "KAVA",
     denom: "ukava",
     descriptor: "KAVA",
-    chainId: "kava-2",
+    chainId: "kava-3",
     cryptoCompareTicker: "KAVA",
     ledgerAppVersion: "1.1.1",
     ledgerAppName: "Cosmos",
