@@ -132,8 +132,7 @@ class NetworkSummaryPage extends React.Component<IProps> {
                               $
                               {formatCurrencyAmount(
                                 summary.marketCapitalization,
-                              )}{" "}
-                              {fiatSymbol}
+                              )}
                             </span>
                           ) : (
                             "n/a"

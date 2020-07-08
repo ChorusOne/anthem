@@ -114,16 +114,16 @@ const resolvers = {
               stats = await COSMOS_SDK.fetchNetworkStats(network);
               break;
             case "OASIS":
-              stats = await CELO.fetchNetworkSummaryStats();
+              stats = await OASIS.fetchNetworkSummaryStats();
               break;
             case "CELO":
-              stats = await OASIS.fetchNetworkSummaryStats();
+              stats = await CELO.fetchNetworkSummaryStats();
               break;
             default:
               assertUnreachable(network.name);
           }
 
-          const { inflation, totalSupply, expectedReward } = stats;
+          const { inflation, totalSupply } = stats;
 
           // Calculate market cap directly using total supply and price.
           const marketCapitalization = tokenPrice
@@ -133,8 +133,8 @@ const resolvers = {
           return {
             ...data,
             inflation,
-            expectedReward,
             marketCapitalization,
+            expectedReward: network.expectedReward, // Use hard-coded value for now
             supportsLedger: network.supportsLedger,
           };
         }),

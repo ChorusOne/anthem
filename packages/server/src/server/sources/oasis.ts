@@ -321,9 +321,9 @@ const fetchTransaction = async (hash: string): Promise<IOasisTransaction> => {
  */
 const fetchNetworkSummaryStats = async () => {
   return {
-    inflation: 0,
-    expectedReward: 5,
-    totalSupply: 100,
+    inflation: null,
+    expectedReward: null,
+    totalSupply: null,
   };
 };
 

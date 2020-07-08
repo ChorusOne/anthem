@@ -367,7 +367,7 @@ const fetchNetworkStats = async (network: NetworkDefinition) => {
   const notBonded = Number(not_bonded_tokens);
   const inflationRate = inflation ? Number(inflation) * 100 : null;
 
-  // Inflation*(Bonded Tokens/(Not Bonded Token+ Bonded Tokens))
+  // Expected Reward = Inflation * (Bonded Tokens / (Not Bonded Token + Bonded Tokens))
   const tokenRatio = bonded_tokens / (notBonded + bonded);
   const expectedReward = inflationRate ? tokenRatio * inflationRate : null;
 

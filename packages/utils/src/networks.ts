@@ -25,6 +25,7 @@ export interface NetworkDefinition extends NetworkFeatureMeta {
   ledgerDocsLink: string;
   denominationSize: number;
   customChartTabs: Set<string>;
+  expectedReward: number | null;
 }
 
 interface NetworksMap {
@@ -107,6 +108,7 @@ const NETWORKS: NetworksMap = {
     supportsGovernance: false,
     denominationSize: 1e6, // 1 ATOM = 1,000,000 uatom
     customChartTabs: new Set(),
+    expectedReward: 9,
   },
   TERRA: {
     available: true,
@@ -127,6 +129,7 @@ const NETWORKS: NetworksMap = {
     supportsGovernance: false,
     denominationSize: 1e6,
     customChartTabs: new Set(),
+    expectedReward: 13,
   },
   KAVA: {
     available: true,
@@ -148,6 +151,7 @@ const NETWORKS: NetworksMap = {
     supportsGovernance: false,
     denominationSize: 1e6,
     customChartTabs: new Set(),
+    expectedReward: 9,
   },
   CELO: {
     available: true,
@@ -168,6 +172,7 @@ const NETWORKS: NetworksMap = {
     supportsGovernance: true,
     denominationSize: 1e18, // 1 cGLD = 1000000000000000000 wei
     customChartTabs: new Set(["VOTING", "CUSD"]),
+    expectedReward: 8,
   },
   OASIS: {
     available: false,
@@ -188,6 +193,7 @@ const NETWORKS: NetworksMap = {
     supportsGovernance: false,
     denominationSize: 1e9,
     customChartTabs: new Set(),
+    expectedReward: null,
   },
 };
 

@@ -206,9 +206,9 @@ const fetchGovernanceProposals = async (): Promise<IQuery["celoGovernanceProposa
  */
 const fetchNetworkSummaryStats = async () => {
   return {
-    inflation: 0,
-    expectedReward: 5,
-    totalSupply: 184448000,
+    inflation: null,
+    expectedReward: null,
+    totalSupply: 1.84448e26,
   };
 };
 
