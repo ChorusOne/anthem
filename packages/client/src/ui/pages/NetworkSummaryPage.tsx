@@ -108,8 +108,7 @@ class NetworkSummaryPage extends React.Component<IProps> {
                           <Text>
                             {summary.tokenPrice ? (
                               <span>
-                                ${formatCurrencyAmount(summary.tokenPrice, 2)}{" "}
-                                {fiatSymbol}
+                                ${formatCurrencyAmount(summary.tokenPrice, 2)}
                               </span>
                             ) : (
                               "n/a"
