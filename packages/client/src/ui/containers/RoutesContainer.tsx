@@ -12,6 +12,7 @@ import {
   withRouter,
 } from "react-router-dom";
 import styled from "styled-components";
+import { getQueryParamsFromUrl } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import GovernanceSwitchContainer from "ui/governance/GovernanceSwitchContainer";
@@ -22,6 +23,7 @@ import NotificationsBanner from "ui/NotificationsBanner";
 import DashboardPage from "ui/pages/DashboardPage";
 import HelpPage from "ui/pages/HelpPage";
 import LandingPage from "ui/pages/LandingPage";
+import NetworkSummaryPage from "ui/pages/NetworkSummaryPage";
 import SettingsPage from "ui/pages/SettingsPage";
 import SideMenuComponent from "ui/SideMenu";
 import TransactionDetailContainer from "ui/transactions/TransactionDetailContainer";
@@ -36,12 +38,15 @@ import ValidatorsPage from "ui/validators/ValidatorsSwitchContainer";
 
 class RoutesContainer extends React.Component<IProps> {
   render(): JSX.Element {
-    const { address, network, settings } = this.props;
-    const SHOW_LANDING_PAGE = !address;
-    // Alternate welcome page:
-    // NOTE: To enable, also redirect to /welcome in the ledger logoutEpic
-    // const SHOW_LANDING_PAGE = history.location.pathname === "/login";
-    // Update with a network UI component: NetworkOverview/NetworkSummary.
+    const { address, network, history, settings } = this.props;
+    const { search, pathname } = history.location;
+    const SHOW_LANDING_PAGE = pathname === "/login" && !address;
+    const params = getQueryParamsFromUrl(search);
+
+    let shouldRedirect = !address;
+    if ("address" in params && !SHOW_LANDING_PAGE) {
+      shouldRedirect = false;
+    }
 
     if (SHOW_LANDING_PAGE) {
       return (
@@ -68,40 +73,39 @@ class RoutesContainer extends React.Component<IProps> {
         <SideMenuComponent />
         <PageContainer>
           <Switch>
-            {/* <Route key={0} exact path="/login" component={LandingPage} /> */}
-            {/* <Route key={1} path="/welcome" component={DashboardPage} /> */}
+            <Route key={0} path="/networks" component={NetworkSummaryPage} />
+            <Route key={1} path="/help" component={HelpPage} />
+            {/* if there's no address, redirect anything else back to /networks */}
+            {shouldRedirect && (
+              <Route key={2} component={() => <Redirect to="/networks" />} />
+            )}
             <Route
               exact
-              key={2}
+              key={3}
               component={DashboardPage}
-              path="/:network/:path(total|available|staking|rewards|commissions|cusd)"
+              path="/:network/:path(total|available|staking|voting|rewards|commissions|cusd)"
             />
             <Route
-              key={3}
+              key={4}
               path="/:network/txs/*"
               component={TransactionDetailContainer}
             />
             <Route
-              key={4}
+              key={5}
               path="/:network/delegate"
               component={ValidatorsPage}
             />
             <Route
-              key={5}
+              key={6}
               path="/:network/governance"
               component={GovernanceSwitchContainer}
             />
-            <Route key={6} path="/help" component={HelpPage} />
             <Route key={7} path="/settings" component={SettingsPage} />
             <Route
-              key={7}
-              component={() =>
-                !!address ? (
-                  <Redirect to={`/${network.name.toLowerCase()}/total`} />
-                ) : (
-                  <Redirect to="/welcome" />
-                )
-              }
+              key={8}
+              component={() => (
+                <Redirect to={`/${network.name.toLowerCase()}/total`} />
+              )}
             />
           </Switch>
         </PageContainer>

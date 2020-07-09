@@ -216,28 +216,28 @@ describe("utils", () => {
   test("getAccountBalances", () => {
     const result = getAccountBalances(
       cosmosAccountBalances.cosmosAccountBalances,
-      prices.prices,
+      100.52,
       NETWORKS.COSMOS,
     );
     expect(result).toMatchInlineSnapshot(`
       Object {
         "balance": "348.59",
-        "balanceFiat": "923.05",
-        "commissions": "7,990.43",
-        "commissionsFiat": "21,158.65",
+        "balanceFiat": "35,039.77",
+        "commissions": "9,101.28",
+        "commissionsFiat": "914,860.37",
         "delegations": "5,000.00",
-        "delegationsFiat": "13,240.00",
+        "delegationsFiat": "502,600.00",
         "percentages": Array [
-          2.5932659616500597,
-          37.19703676783653,
-          0.7656447050254722,
+          2.393032632853423,
+          34.32494936780153,
+          0.8018434105678117,
           0,
-          59.44405256548794,
+          62.48017458877724,
         ],
-        "rewards": "102.92",
-        "rewardsFiat": "272.53",
-        "total": "13,441.93",
-        "totalFiat": "35,594.23",
+        "rewards": "116.80",
+        "rewardsFiat": "11,740.92",
+        "total": "14,566.66",
+        "totalFiat": "1,464,241.05",
         "unbonding": "0",
         "unbondingFiat": "0",
       }

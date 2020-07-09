@@ -1,4 +1,10 @@
-import { assertUnreachable, IQuery, NetworkDefinition } from "@anthem/utils";
+import {
+  assertUnreachable,
+  IQuery,
+  NETWORK_NAME,
+  NetworkDefinition,
+  NETWORKS,
+} from "@anthem/utils";
 import moment from "moment-timezone";
 import ENV from "../../tools/server-env";
 import {
@@ -63,34 +69,21 @@ const fetchPortfolioFiatPriceHistory = async (
 };
 
 /**
- * Fetch 24hr percent price change for a currency pair.
+ * Fetch price data for a currency pair.
  */
-const fetchDailyPercentChangeInPrice = async (
-  crypto: string,
-  fiat: string,
-): Promise<string> => {
-  // Validate the input
+const fetchPriceData = async (crypto: string, fiat: string) => {
   const from = crypto.toUpperCase();
   const to = fiat.toUpperCase();
-
-  const url = `${HOSTS.CRYPTO_COMPARE}/data/v2/histohour?fsym=${from}&tsym=${to}&limit=24&api_key=${ENV.CRYPTO_COMPARE_API_KEY}`;
-
-  // Fetch the price change
+  const url = `${HOSTS.CRYPTO_COMPARE}/data/pricemultifull?fsyms=${from}&tsyms=${to}&api_key=${ENV.CRYPTO_COMPARE_API_KEY}`;
   const result = await AxiosUtil.get(url);
 
-  const prices: ReadonlyArray<Price> = result.Data.Data;
+  const data = result.RAW;
+  const values = data[from][to];
 
-  // Get the average price 24 hours ago and now
-  const average = (price: Price) => (price.high + price.low) / 2;
-  const priceThen = average(prices[0]);
-  const priceNow = average(prices[prices.length - 1]);
-
-  // Determine the percent change
-  const change = (priceNow - priceThen) / priceNow;
-  const percentage = change * 100;
-
-  // Format
-  return percentage.toFixed(2);
+  return {
+    price: values.PRICE,
+    lastDayChange: values.CHANGEPCT24HOUR,
+  };
 };
 
 const convertBackfilledPrices = (data: { [key: string]: number }) => {
@@ -139,13 +132,56 @@ const getBackFillPricesForNetwork = (
   }
 };
 
-/** ===========================================================================
- * Coin Gecko REST API Utils
- * ============================================================================
+interface NetworkPriceData {
+  name: NETWORK_NAME;
+  tokenPrice: number | null;
+  lastDayChange: number | null;
+  marketCapitalization: number | null;
+}
+
+/**
+ * Get the fiat price data for a network for the network summary.
  */
+const getPriceDataForNetwork = async (
+  fiat: string,
+): Promise<NetworkPriceData[]> => {
+  const fiatSymbol = fiat.toUpperCase();
+  const networks = Object.values(NETWORKS).filter(n => n.supportsFiatPrices);
+  const cryptoSymbols = networks.map(n => n.cryptoCompareTicker).join(",");
+
+  const url = `${HOSTS.CRYPTO_COMPARE}/data/pricemultifull?fsyms=${cryptoSymbols}&tsyms=${fiatSymbol}&api_key=${ENV.CRYPTO_COMPARE_API_KEY}`;
+
+  // Fetch the price change
+  const response = await AxiosUtil.get(url);
+  const data = response.RAW;
+
+  const result = Object.values(NETWORKS).map(network => {
+    const { cryptoCompareTicker } = network;
+    if (cryptoCompareTicker in data) {
+      const values = data[cryptoCompareTicker][fiat];
+      return {
+        name: network.name,
+        tokenPrice: values.PRICE,
+        lastDayChange: values.CHANGEPCT24HOUR,
+        marketCapitalization: values.MKTCAP,
+      };
+    } else {
+      return {
+        name: network.name,
+        tokenPrice: null,
+        lastDayChange: null,
+        marketCapitalization: null,
+      };
+    }
+  });
+
+  return result;
+};
 
 /**
  * Fetch currency exchange price data for a currency pair.
+ *
+ * TODO: Deprecated, can remove later.
  */
 const fetchExchangeRate = async (
   currencyId: string,
@@ -164,6 +200,39 @@ const fetchExchangeRate = async (
   };
 };
 
+/**
+ * Fetch 24hr percent price change for a currency pair.
+ *
+ * TODO: Deprecated, can remove later.
+ */
+const fetchDailyPercentChangeInPrice = async (
+  crypto: string,
+  fiat: string,
+): Promise<string> => {
+  // Validate the input
+  const from = crypto.toUpperCase();
+  const to = fiat.toUpperCase();
+
+  const url = `${HOSTS.CRYPTO_COMPARE}/data/v2/histohour?fsym=${from}&tsym=${to}&limit=24&api_key=${ENV.CRYPTO_COMPARE_API_KEY}`;
+
+  // Fetch the price change
+  const result = await AxiosUtil.get(url);
+
+  const prices: ReadonlyArray<Price> = result.Data.Data;
+
+  // Get the average price 24 hours ago and now
+  const average = (price: Price) => (price.high + price.low) / 2;
+  const priceThen = average(prices[0]);
+  const priceNow = average(prices[prices.length - 1]);
+
+  // Determine the percent change
+  const change = (priceNow - priceThen) / priceNow;
+  const percentage = change * 100;
+
+  // Format
+  return percentage.toFixed(2);
+};
+
 /** ===========================================================================
  * Export
  * ============================================================================
@@ -172,7 +241,9 @@ const fetchExchangeRate = async (
 const EXCHANGE_DATA_API = {
   fetchDailyPercentChangeInPrice,
   fetchPortfolioFiatPriceHistory,
+  fetchPriceData,
   fetchExchangeRate,
+  getPriceDataForNetwork,
 };
 
 export default EXCHANGE_DATA_API;

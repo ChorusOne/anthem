@@ -124,7 +124,7 @@ export const onPath = (url: string, pathString: string): boolean => {
  * address= param.
  */
 export const onPageWhichIncludesAddressParam = (pathname: string) => {
-  return /total|available|staking|rewards|commissions|cusd|delegate|governance/.test(
+  return /total|available|staking|voting|rewards|commissions|cusd|delegate|governance/.test(
     pathname,
   );
 };
@@ -135,7 +135,7 @@ export const onPageWhichIncludesAddressParam = (pathname: string) => {
 export const onChartTab = (pathname?: string) => {
   return (
     !!pathname &&
-    /total|available|staking|rewards|commissions|cusd/.test(pathname)
+    /total|available|staking|voting|rewards|commissions|cusd/.test(pathname)
   );
 };
 
@@ -148,6 +148,8 @@ export const getTransactionHashFromUrl = (url: string) => {
 
 /**
  * Base chart tabs which are shared across networks.
+ *
+ * TODO: Refactor these to be part of the networks configuration.
  */
 const BASE_CHART_TAB_MAP = {
   TOTAL: "TOTAL",
@@ -158,7 +160,12 @@ const BASE_CHART_TAB_MAP = {
 };
 
 const ALL_POSSIBLE_CHART_TAB_MAP = {
-  ...BASE_CHART_TAB_MAP,
+  TOTAL: "TOTAL",
+  AVAILABLE: "AVAILABLE",
+  STAKING: "STAKING",
+  VOTING: "VOTING",
+  REWARDS: "REWARDS",
+  COMMISSIONS: "COMMISSIONS",
   CUSD: "cUSD",
 };
 
@@ -173,6 +180,7 @@ export type ALL_POSSIBLE_CHART_TABS =
   | "TOTAL"
   | "AVAILABLE"
   | "STAKING"
+  | "VOTING"
   | "REWARDS"
   | "COMMISSIONS"
   | "CUSD";
@@ -192,7 +200,11 @@ export const getChartTabsForNetwork = (
         continue;
       }
 
-      result[key] = value;
+      if (key === "STAKING" && network.name === "CELO") {
+        continue;
+      } else {
+        result[key] = value;
+      }
     }
   }
 
@@ -385,7 +397,7 @@ interface AccountBalancesResult {
  */
 export const getAccountBalances = (
   accountBalancesData: ICosmosAccountBalances | undefined,
-  rate: IQuery["prices"] | undefined,
+  rate: number,
   network: NetworkDefinition,
   maximumFractionDigits?: number,
 ): AccountBalancesResult => {

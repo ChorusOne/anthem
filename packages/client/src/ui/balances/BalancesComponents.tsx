@@ -2,7 +2,6 @@ import {
   ICeloAccountBalances,
   ICosmosAccountBalances,
   IOasisAccountBalances,
-  IPrice,
   NetworkDefinition,
 } from "@anthem/utils";
 import { Colors, H5, Icon } from "@blueprintjs/core";
@@ -54,9 +53,9 @@ class CosmosBalancesContainer extends React.Component<
   render(): JSX.Element {
     const {
       i18n,
-      prices,
       settings,
       ledger,
+      fiatPriceData,
       cosmosAccountBalances,
     } = this.props;
     const { tString } = i18n;
@@ -71,7 +70,7 @@ class CosmosBalancesContainer extends React.Component<
         errorComponent={<DashboardError tString={tString} />}
         results={[
           [cosmosAccountBalances, "cosmosAccountBalances"],
-          [prices, "prices"],
+          [fiatPriceData, "fiatPriceData"],
         ]}
       >
         {() => {
@@ -89,8 +88,8 @@ class CosmosBalancesContainer extends React.Component<
                 network={network}
                 tString={tString}
                 isDesktop={isDesktop}
-                prices={prices.prices}
                 currencySetting={currencySetting}
+                price={fiatPriceData.fiatPriceData.price}
                 handleSendReceive={this.handleSendReceiveAction}
               />
             );
@@ -121,7 +120,7 @@ class CosmosBalancesContainer extends React.Component<
 interface CosmosComponentBalancesProps {
   network: NetworkDefinition;
   balances: ICosmosAccountBalances;
-  prices: IPrice;
+  price: number;
   currencySetting: CURRENCY_SETTING;
   isDesktop: boolean;
   tString: tFnString;
@@ -133,7 +132,7 @@ class CosmosBalancesComponent extends React.Component<
 > {
   render(): JSX.Element {
     const {
-      prices,
+      price,
       network,
       tString,
       balances,
@@ -142,7 +141,7 @@ class CosmosBalancesComponent extends React.Component<
       handleSendReceive,
     } = this.props;
 
-    const fiatConversionRate = prices;
+    const fiatConversionRate = price;
     const balancesResult = getAccountBalances(
       balances,
       fiatConversionRate,
@@ -283,7 +282,13 @@ class CeloBalancesContainer extends React.Component<
   {}
 > {
   render(): JSX.Element {
-    const { i18n, prices, ledger, celoAccountBalances, settings } = this.props;
+    const {
+      i18n,
+      fiatPriceData,
+      ledger,
+      celoAccountBalances,
+      settings,
+    } = this.props;
     const { tString } = i18n;
     const { network } = ledger;
     const { currencySetting } = settings;
@@ -296,7 +301,7 @@ class CeloBalancesContainer extends React.Component<
         errorComponent={<DashboardError tString={tString} />}
         results={[
           [celoAccountBalances, "celoAccountBalances"],
-          [prices, "prices"],
+          [fiatPriceData, "fiatPriceData"],
         ]}
       >
         {() => {
@@ -312,8 +317,8 @@ class CeloBalancesContainer extends React.Component<
               <CeloBalancesComponent
                 balances={data}
                 network={network}
-                prices={prices.prices}
                 currencySetting={currencySetting}
+                price={fiatPriceData.fiatPriceData.price}
               />
             );
           }
@@ -341,7 +346,7 @@ class CeloBalancesContainer extends React.Component<
 }
 
 interface CeloComponentBalancesProps {
-  prices: IPrice;
+  price: number;
   network: NetworkDefinition;
   balances: ICeloAccountBalances;
   currencySetting: CURRENCY_SETTING;
@@ -351,8 +356,8 @@ class CeloBalancesComponent extends React.Component<
   CeloComponentBalancesProps
 > {
   render(): JSX.Element {
-    const { balances, network, prices, currencySetting } = this.props;
-    const fiatPrice = prices.price;
+    const { balances, network, price, currencySetting } = this.props;
+    const fiatPrice = price;
     const displayFiat = currencySetting === "fiat";
 
     const {
@@ -398,7 +403,7 @@ class CeloBalancesComponent extends React.Component<
                   style={{ marginRight: 2 }}
                   color={COLORS.BALANCE_SHADE_ONE}
                 />
-                <BalanceTitle>Balance:</BalanceTitle>
+                <BalanceTitle>Available:</BalanceTitle>
                 <BalanceText data-cy="celo-gold-balance-available">
                   {renderCurrency(availableGoldBalance)}
                 </BalanceText>
@@ -431,7 +436,7 @@ class CeloBalancesComponent extends React.Component<
                   style={{ marginRight: 2 }}
                   color={COLORS.BALANCE_SHADE_FOUR}
                 />
-                <BalanceTitle>cUSD Balance:</BalanceTitle>
+                <BalanceTitle>cUSD:</BalanceTitle>
                 <BalanceText data-cy="celo-usd-balance-available">
                   {renderCurrency(celoUSDValue, false)}
                 </BalanceText>
@@ -452,7 +457,7 @@ class CeloBalancesComponent extends React.Component<
                 onClick={() => null}
                 data-cy="stake-button"
               >
-                Stake
+                Vote
               </Button>
             </Link>
             <Button
@@ -479,7 +484,7 @@ class OasisBalancesContainer extends React.Component<
   {}
 > {
   render(): JSX.Element {
-    const { i18n, prices, ledger, oasisAccountBalances } = this.props;
+    const { i18n, fiatPriceData, ledger, oasisAccountBalances } = this.props;
     const { tString } = i18n;
     const { network } = ledger;
 
@@ -491,7 +496,7 @@ class OasisBalancesContainer extends React.Component<
         errorComponent={<DashboardError tString={tString} />}
         results={[
           [oasisAccountBalances, "oasisAccountBalances"],
-          [prices, "prices"],
+          [fiatPriceData, "fiatPriceData"],
         ]}
       >
         {() => {

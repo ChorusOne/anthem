@@ -25,6 +25,7 @@ export interface NetworkDefinition extends NetworkFeatureMeta {
   ledgerDocsLink: string;
   denominationSize: number;
   customChartTabs: Set<string>;
+  expectedReward: number | null;
 }
 
 interface NetworksMap {
@@ -63,7 +64,7 @@ const NETWORK_ADDRESS_DEFAULTS: { [key: string]: Addresses } = {
   OASIS: {
     account: "oasis1qqhjc0phd0wg43luhly2ufsuw2h3gc5v3ukk4ku2",
     validator: "",
-    tx_hash: "756d7f36d88002b7195a25cc0050b365e00324d3187f4ae986bc66d6bbe63d4b",
+    tx_hash: "076625844d57e7ce4c270a79d769b2a7ab6e6d12d8d3ec2fa566eee2d0f89f03",
   },
   CELO: {
     account: "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
@@ -107,6 +108,7 @@ const NETWORKS: NetworksMap = {
     supportsGovernance: false,
     denominationSize: 1e6, // 1 ATOM = 1,000,000 uatom
     customChartTabs: new Set(),
+    expectedReward: 9,
   },
   TERRA: {
     available: true,
@@ -127,13 +129,14 @@ const NETWORKS: NetworksMap = {
     supportsGovernance: false,
     denominationSize: 1e6,
     customChartTabs: new Set(),
+    expectedReward: 13,
   },
   KAVA: {
     available: true,
     name: "KAVA",
     denom: "ukava",
     descriptor: "KAVA",
-    chainId: "kava-2",
+    chainId: "kava-3",
     cryptoCompareTicker: "KAVA",
     ledgerAppVersion: "1.1.1",
     ledgerAppName: "Cosmos",
@@ -148,6 +151,28 @@ const NETWORKS: NetworksMap = {
     supportsGovernance: false,
     denominationSize: 1e6,
     customChartTabs: new Set(),
+    expectedReward: 9,
+  },
+  CELO: {
+    available: true,
+    name: "CELO",
+    denom: "CELO",
+    descriptor: "CELO",
+    chainId: "celo",
+    cryptoCompareTicker: "CELO",
+    ledgerAppVersion: "1.0.1",
+    ledgerAppName: "Celo",
+    ledgerDocsLink: "https://docs.celo.org/celo-gold-holder-guide/ledger",
+    supportsLedger: true,
+    supportsFiatPrices: true,
+    supportsBalances: true,
+    supportsPortfolio: true,
+    supportsTransactionsHistory: true,
+    supportsValidatorsList: true,
+    supportsGovernance: true,
+    denominationSize: 1e18, // 1 cGLD = 1000000000000000000 wei
+    customChartTabs: new Set(["VOTING", "CUSD"]),
+    expectedReward: 8,
   },
   OASIS: {
     available: false,
@@ -168,26 +193,7 @@ const NETWORKS: NetworksMap = {
     supportsGovernance: false,
     denominationSize: 1e9,
     customChartTabs: new Set(),
-  },
-  CELO: {
-    available: true,
-    name: "CELO",
-    denom: "CELO",
-    descriptor: "CELO",
-    chainId: "celo",
-    cryptoCompareTicker: "CGLD",
-    ledgerAppVersion: "1.0.1",
-    ledgerAppName: "Celo",
-    ledgerDocsLink: "https://docs.celo.org/celo-gold-holder-guide/ledger",
-    supportsLedger: true,
-    supportsFiatPrices: true,
-    supportsBalances: true,
-    supportsPortfolio: true,
-    supportsTransactionsHistory: true,
-    supportsValidatorsList: true,
-    supportsGovernance: true,
-    denominationSize: 1e18, // 1 cGLD = 1000000000000000000 wei
-    customChartTabs: new Set(["CUSD"]),
+    expectedReward: null,
   },
 };
 

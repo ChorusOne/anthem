@@ -62,7 +62,7 @@
           {
             "eventname": "GoldLocked",
             "source": "LockedGold",
-            "parameters": "{\"account\":\"0x00000000000000000000000047b2db6af05a55d42ed0f3731735f9479abf0673\",\"value\":\"10000000000000000000000\"}"
+            "parameters": "{\"account\":\"0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673\",\"value\":\"10000000000000000000000\"}"
           }
         ]
       },
@@ -87,7 +87,7 @@
           {
             "eventname": "GoldLocked",
             "source": "LockedGold",
-            "parameters": "{\"account\":\"0x00000000000000000000000047b2db6af05a55d42ed0f3731735f9479abf0673\",\"value\":\"10000000000000000000000\"}"
+            "parameters": "{\"account\":\"0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673\",\"value\":\"10000000000000000000000\"}"
           }
         ]
       },
@@ -112,7 +112,7 @@
           {
             "eventname": "GoldLocked",
             "source": "LockedGold",
-            "parameters": "{\"account\":\"0x00000000000000000000000047b2db6af05a55d42ed0f3731735f9479abf0673\",\"value\":\"10000000000000000000000\"}"
+            "parameters": "{\"account\":\"0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673\",\"value\":\"10000000000000000000000\"}"
           }
         ]
       },
@@ -137,7 +137,7 @@
           {
             "eventname": "GoldLocked",
             "source": "LockedGold",
-            "parameters": "{\"account\":\"0x00000000000000000000000047b2db6af05a55d42ed0f3731735f9479abf0673\",\"value\":\"10000000000000000000000\"}"
+            "parameters": "{\"account\":\"0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673\",\"value\":\"10000000000000000000000\"}"
           }
         ]
       },
@@ -181,7 +181,7 @@
           {
             "eventname": "GoldLocked",
             "source": "LockedGold",
-            "parameters": "{\"account\":\"0x00000000000000000000000047b2db6af05a55d42ed0f3731735f9479abf0673\",\"value\":\"10000000000000000000000\"}"
+            "parameters": "{\"account\":\"0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673\",\"value\":\"10000000000000000000000\"}"
           }
         ]
       },

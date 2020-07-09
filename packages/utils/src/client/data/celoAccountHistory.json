@@ -1002,6 +1002,326 @@
           "pendingVotes": "0"
         }
       ]
+    },
+    {
+      "snapshotDate": "15-06-2020",
+      "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+      "height": "921030",
+      "snapshotReward": "8025597229310057495",
+      "availableGoldBalance": "1000000000000000016",
+      "totalLockedGoldBalance": "50215392507999151428709",
+      "nonVotingLockedGoldBalance": "0",
+      "votingLockedGoldBalance": "0",
+      "pendingWithdrawalBalance": "0",
+      "celoUSDValue": "31739343832246937745037",
+      "delegations": [
+        {
+          "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+          "totalVotes": "50215392507999151428709",
+          "activeVotes": "50215392507999151428709",
+          "pendingVotes": "0"
+        }
+      ]
+    },
+    {
+      "snapshotDate": "16-06-2020",
+      "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+      "height": "938310",
+      "snapshotReward": "8024468414803827128",
+      "availableGoldBalance": "1000000000000000016",
+      "totalLockedGoldBalance": "50223416976413955255838",
+      "nonVotingLockedGoldBalance": "0",
+      "votingLockedGoldBalance": "0",
+      "pendingWithdrawalBalance": "0",
+      "celoUSDValue": "32719648544086945894783",
+      "delegations": [
+        {
+          "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+          "totalVotes": "50223416976413955255838",
+          "activeVotes": "50223416976413955255838",
+          "pendingVotes": "0"
+        }
+      ]
+    },
+    {
+      "snapshotDate": "17-06-2020",
+      "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+      "height": "955590",
+      "snapshotReward": "7911864145568921903",
+      "availableGoldBalance": "1000000000000000016",
+      "totalLockedGoldBalance": "50231328840559524177741",
+      "nonVotingLockedGoldBalance": "0",
+      "votingLockedGoldBalance": "0",
+      "pendingWithdrawalBalance": "0",
+      "celoUSDValue": "33702823449509181101710",
+      "delegations": [
+        {
+          "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+          "totalVotes": "50231328840559524177741",
+          "activeVotes": "50231328840559524177741",
+          "pendingVotes": "0"
+        }
+      ]
+    },
+    {
+      "snapshotDate": "18-06-2020",
+      "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+      "height": "972870",
+      "snapshotReward": "8022361256197378759",
+      "availableGoldBalance": "1000000000000000016",
+      "totalLockedGoldBalance": "50239351201815721556501",
+      "nonVotingLockedGoldBalance": "0",
+      "votingLockedGoldBalance": "0",
+      "pendingWithdrawalBalance": "0",
+      "celoUSDValue": "34689976139733736005481",
+      "delegations": [
+        {
+          "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+          "totalVotes": "50239351201815721556501",
+          "activeVotes": "50239351201815721556501",
+          "pendingVotes": "0"
+        }
+      ]
+    },
+    {
+      "snapshotDate": "19-06-2020",
+      "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+      "height": "990150",
+      "snapshotReward": "8021305373073707618",
+      "availableGoldBalance": "1000000000000000016",
+      "totalLockedGoldBalance": "50247372507188795264120",
+      "nonVotingLockedGoldBalance": "0",
+      "votingLockedGoldBalance": "0",
+      "pendingWithdrawalBalance": "0",
+      "celoUSDValue": "35680677339088882152208",
+      "delegations": [
+        {
+          "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+          "totalVotes": "50247372507188795264120",
+          "activeVotes": "50247372507188795264120",
+          "pendingVotes": "0"
+        }
+      ]
+    },
+    {
+      "snapshotDate": "20-06-2020",
+      "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+      "height": "1007430",
+      "snapshotReward": "8020256621160046557",
+      "availableGoldBalance": "1000000000000000016",
+      "totalLockedGoldBalance": "50255392763809955310677",
+      "nonVotingLockedGoldBalance": "0",
+      "votingLockedGoldBalance": "0",
+      "pendingWithdrawalBalance": "0",
+      "celoUSDValue": "36674542316415396179938",
+      "delegations": [
+        {
+          "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+          "totalVotes": "50255392763809955310677",
+          "activeVotes": "50255392763809955310677",
+          "pendingVotes": "0"
+        }
+      ]
+    },
+    {
+      "snapshotDate": "21-06-2020",
+      "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+      "height": "1024710",
+      "snapshotReward": "8019241513866568295",
+      "availableGoldBalance": "1000000000000000016",
+      "totalLockedGoldBalance": "50263412005323821878972",
+      "nonVotingLockedGoldBalance": "0",
+      "votingLockedGoldBalance": "0",
+      "pendingWithdrawalBalance": "0",
+      "celoUSDValue": "37671228317946469667653",
+      "delegations": [
+        {
+          "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+          "totalVotes": "50263412005323821878972",
+          "activeVotes": "50263412005323821878972",
+          "pendingVotes": "0"
+        }
+      ]
+    },
+    {
+      "snapshotDate": "22-06-2020",
+      "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+      "height": "1041990",
+      "snapshotReward": "8018202839190249822",
+      "availableGoldBalance": "1000000000000000016",
+      "totalLockedGoldBalance": "50271430208163012128794",
+      "nonVotingLockedGoldBalance": "0",
+      "votingLockedGoldBalance": "0",
+      "pendingWithdrawalBalance": "0",
+      "celoUSDValue": "38670420288877056406241",
+      "delegations": [
+        {
+          "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+          "totalVotes": "50271430208163012128794",
+          "activeVotes": "50271430208163012128794",
+          "pendingVotes": "0"
+        }
+      ]
+    },
+    {
+      "snapshotDate": "23-06-2020",
+      "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+      "height": "1059269",
+      "snapshotReward": "8017067423245188985",
+      "availableGoldBalance": "1000000000000000016",
+      "totalLockedGoldBalance": "50279447275586257317780",
+      "nonVotingLockedGoldBalance": "0",
+      "votingLockedGoldBalance": "0",
+      "pendingWithdrawalBalance": "0",
+      "celoUSDValue": "39671825317726195393444",
+      "delegations": [
+        {
+          "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+          "totalVotes": "50279447275586257317780",
+          "activeVotes": "50279447275586257317780",
+          "pendingVotes": "0"
+        }
+      ]
+    },
+    {
+      "snapshotDate": "24-06-2020",
+      "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+      "height": "1076549",
+      "snapshotReward": "8015913036105215738",
+      "availableGoldBalance": "1000000000000000016",
+      "totalLockedGoldBalance": "50287463188622362533518",
+      "nonVotingLockedGoldBalance": "0",
+      "votingLockedGoldBalance": "0",
+      "pendingWithdrawalBalance": "0",
+      "celoUSDValue": "40675188320892222757746",
+      "delegations": [
+        {
+          "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+          "totalVotes": "50287463188622362533518",
+          "activeVotes": "50287463188622362533518",
+          "pendingVotes": "0"
+        }
+      ]
+    },
+    {
+      "snapshotDate": "25-06-2020",
+      "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+      "height": "1093829",
+      "snapshotReward": "8014748814333822174",
+      "availableGoldBalance": "1000000000000000016",
+      "totalLockedGoldBalance": "50295477937436696355693",
+      "nonVotingLockedGoldBalance": "0",
+      "votingLockedGoldBalance": "0",
+      "pendingWithdrawalBalance": "0",
+      "celoUSDValue": "41680280699200156612315",
+      "delegations": [
+        {
+          "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+          "totalVotes": "50295477937436696355693",
+          "activeVotes": "50295477937436696355693",
+          "pendingVotes": "0"
+        }
+      ]
+    },
+    {
+      "snapshotDate": "26-06-2020",
+      "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+      "height": "1111108",
+      "snapshotReward": "8013463647348120588",
+      "availableGoldBalance": "1000000000000000016",
+      "totalLockedGoldBalance": "50303491401084044476281",
+      "nonVotingLockedGoldBalance": "0",
+      "votingLockedGoldBalance": "0",
+      "pendingWithdrawalBalance": "0",
+      "celoUSDValue": "42686882701478728864596",
+      "delegations": [
+        {
+          "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+          "totalVotes": "50303491401084044476281",
+          "activeVotes": "50303491401084044476281",
+          "pendingVotes": "0"
+        }
+      ]
+    },
+    {
+      "snapshotDate": "27-06-2020",
+      "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+      "height": "1128388",
+      "snapshotReward": "8012183694461577430",
+      "availableGoldBalance": "1000000000000000016",
+      "totalLockedGoldBalance": "50311503584778506053712",
+      "nonVotingLockedGoldBalance": "0",
+      "votingLockedGoldBalance": "0",
+      "pendingWithdrawalBalance": "0",
+      "celoUSDValue": "43694810906723350755895",
+      "delegations": [
+        {
+          "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+          "totalVotes": "50311503584778506053712",
+          "activeVotes": "50311503584778506053712",
+          "pendingVotes": "0"
+        }
+      ]
+    },
+    {
+      "snapshotDate": "28-06-2020",
+      "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+      "height": "1145668",
+      "snapshotReward": "8010895029469016477",
+      "availableGoldBalance": "1000000000000000016",
+      "totalLockedGoldBalance": "50319514479807975070190",
+      "nonVotingLockedGoldBalance": "0",
+      "votingLockedGoldBalance": "0",
+      "pendingWithdrawalBalance": "0",
+      "celoUSDValue": "44703898615916983417072",
+      "delegations": [
+        {
+          "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+          "totalVotes": "50319514479807975070190",
+          "activeVotes": "50319514479807975070190",
+          "pendingVotes": "0"
+        }
+      ]
+    },
+    {
+      "snapshotDate": "29-06-2020",
+      "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+      "height": "1162948",
+      "snapshotReward": "8009613692553649362",
+      "availableGoldBalance": "1000000000000000016",
+      "totalLockedGoldBalance": "50327524093500528719553",
+      "nonVotingLockedGoldBalance": "0",
+      "votingLockedGoldBalance": "0",
+      "pendingWithdrawalBalance": "0",
+      "celoUSDValue": "45713997769952249320765",
+      "delegations": [
+        {
+          "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+          "totalVotes": "50327524093500528719553",
+          "activeVotes": "50327524093500528719553",
+          "pendingVotes": "0"
+        }
+      ]
+    },
+    {
+      "snapshotDate": "30-06-2020",
+      "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+      "height": "1180228",
+      "snapshotReward": "8008261207887007924",
+      "availableGoldBalance": "1000000000000000016",
+      "totalLockedGoldBalance": "50335532354708415727477",
+      "nonVotingLockedGoldBalance": "0",
+      "votingLockedGoldBalance": "0",
+      "pendingWithdrawalBalance": "0",
+      "celoUSDValue": "46724965359886303567563",
+      "delegations": [
+        {
+          "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+          "totalVotes": "50335532354708415727477",
+          "activeVotes": "50335532354708415727477",
+          "pendingVotes": "0"
+        }
+      ]
     }
   ]
 }

@@ -60,6 +60,9 @@ type Query {
   # Fiat price APIs
   fiatCurrencies: [FiatCurrency!]!
   fiatPriceHistory(fiat: String!, network: String!): [FiatPrice!]!
+  fiatPriceData(currency: String!, fiat: String!): FiatPriceData!
+  networkSummaries(fiat: String!): [NetworkSummary!]!
+  # Deprecated:
   dailyPercentChange(currency: String!, fiat: String!): String!
   prices(currency: String!, versus: String!): Price!
 }
@@ -163,7 +166,13 @@ type CeloValidatorGroup {
   totalCapacity: Float!
   multiplier: Float!
   groupShare: Float!
-  validatorAddresses: [String!]!
+  groupScore: Float!
+  validatorDetails: [CeloValidatorDetail!]!
+}
+
+type CeloValidatorDetail {
+  validatorAddress: String!
+  validator_score: Float!
 }
 
 type CeloGovernanceProposalHistory {
@@ -819,4 +828,19 @@ type Price {
 type FiatCurrency {
   name: String!
   symbol: String!
+}
+
+type FiatPriceData {
+  price: Float!
+  lastDayChange: Float!
+}
+
+type NetworkSummary {
+  name: String!
+  tokenPrice: Float
+  lastDayChange: Float
+  marketCapitalization: Float
+  expectedReward: Float
+  inflation: Float
+  supportsLedger: Boolean
 }

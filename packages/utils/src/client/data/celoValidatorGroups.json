@@ -4,1059 +4,1637 @@
       "group": "0x82f8bcf96f24ba60ef041d192c7ce04c907e2fb8",
       "name": "syncnode_group",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 2.8470580604758936e24,
-      "votingPowerFraction": "0.01222776904169958190747884214",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.2252632323655649e25,
+      "blockNumber": 1324308,
+      "votingPower": 2.862968539183181e24,
+      "votingPowerFraction": "0.0121709937682853319756529853",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.234066485652544e25,
       "multiplier": 1e24,
       "groupShare": 0,
-      "validatorAddresses": [
-        "0xd5fb8a8e6e81bc77d7d807c05b5b8aeae7c2a458",
-        "0x10d8b2e0eb7888bf034078defe61aaaa7754ca65"
+      "groupScore": 4.9951040528885e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xd5fb8a8e6e81bc77d7d807c05b5b8aeae7c2a458",
+          "validator_score": 9.990208105777e23
+        },
+        {
+          "validatorAddress": "0x084efaedbd599eff54f00d1b57fab2f792555e79",
+          "validator_score": 0
+        }
       ]
     },
     {
       "group": "0xc64df5be250264bf2888591d87cdeb13bfadc501",
-      "name": "kytzu.com",
-      "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 2.984292283612887e24,
-      "votingPowerFraction": "0.01281717338453048323040829535",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.254675125732724e24,
+      "name": "Kytzu Group",
+      "metadataURL": "https://gist.githubusercontent.com/cachitu/84a96450d895aedbc3d414f73d269641/raw/dd0d275d4d91fd642f8978bbacfb4990284555c6/celo_mainnet_group.json",
+      "blockNumber": 1324308,
+      "votingPower": 2.990467537799497e24,
+      "votingPowerFraction": "0.0127130149244327675451850923",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.308931749361003e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0xbbc724bdf633287e8bc18ac45800e2ed13877a73"]
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xbbc724bdf633287e8bc18ac45800e2ed13877a73",
+          "validator_score": 9.990449950447e23
+        }
+      ]
     },
     {
       "group": "0xeefcfdfc8f5ced9799a13eca58de2ba7534eab92",
       "name": "sparkpool-group",
       "metadataURL": "https://gist.githubusercontent.com/WilliamGuozi/b78b751df572f6a8adc9847141ee1aea/raw/9f79aee0772bf4583ac9edd4aaefa0f7f99e6a6f/group-metadata-rc1.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.919108406585483e24,
-      "votingPowerFraction": "0.0125372165390419114301389282",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.18949124870532e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.925148779278196e24,
+      "votingPowerFraction": "0.0124353331434301366726992012",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.243612990839703e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0xa87710b8dc870483a2be526ebca9f5048720edce"]
+      "groupScore": 9.990279605251e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xa87710b8dc870483a2be526ebca9f5048720edce",
+          "validator_score": 9.990279605251e23
+        }
+      ]
     },
     {
       "group": "0x7c75b0b81a54359e9dccda9cb663ca2e3de6b710",
       "name": "wotrust",
       "metadataURL": "https://gist.github.com/zviadm/9e051567e5b9be03cfd4fd3868d1c80c/raw",
-      "blockNumber": 1104126,
-      "votingPower": 3.2206270887711804e24,
-      "votingPowerFraction": "0.01383220270694185814100714144",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.2626201351950937e25,
+      "blockNumber": 1324308,
+      "votingPower": 3.2727496082074946e24,
+      "votingPowerFraction": "0.01391304673505637638844158917",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.2750445925549755e25,
       "multiplier": 1e24,
       "groupShare": 1e24,
-      "validatorAddresses": [
-        "0x6ac7e3d0bdeb78ddcf3d9b15208b50c08271c213",
-        "0x206296befffb68fce658535d443c732892162005"
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x6ac7e3d0bdeb78ddcf3d9b15208b50c08271c213",
+          "validator_score": 9.990449950447e23
+        },
+        {
+          "validatorAddress": "0x206296befffb68fce658535d443c732892162005",
+          "validator_score": 9.990449950447e23
+        }
       ]
     },
     {
       "group": "0x0f66619058bb9675f3d394fcc2ce236a29901571",
       "name": "Alive29",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 2.786424334407156e24,
-      "votingPowerFraction": "0.0119673545426772903308493222",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.056807176526992e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.8343510579654454e24,
+      "votingPowerFraction": "0.0120493357127397925132061754",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.152815269526952e24,
       "multiplier": 1e24,
       "groupShare": 5e23,
-      "validatorAddresses": ["0x48ac52662cbf32f8fc0cd8c1122c7560b482c2ad"]
+      "groupScore": 9.990439866235e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x48ac52662cbf32f8fc0cd8c1122c7560b482c2ad",
+          "validator_score": 9.990439866235e23
+        }
+      ]
     },
     {
       "group": "0xcc4b2bcbbc9639ef1e91f47acfd12bd131525e79",
       "name": "Blockdaemon",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 3.3841441069501865e24,
-      "votingPowerFraction": "0.0145344884665607067728018971",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.2789718370129943e25,
+      "blockNumber": 1324308,
+      "votingPower": 3.3910479883570065e24,
+      "votingPowerFraction": "0.01441595440864497346029057526",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.2868744305699267e25,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": [
-        "0x45d8170f30b0d408196ab0e14af47d77b18f0a38",
-        "0xc8d1dc1ac8e0ac039a8b1284ef687d557f812e5c"
+      "groupScore": 9.9467081702065e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x45d8170f30b0d408196ab0e14af47d77b18f0a38",
+          "validator_score": 9.957630461194e23
+        },
+        {
+          "validatorAddress": "0xc8d1dc1ac8e0ac039a8b1284ef687d557f812e5c",
+          "validator_score": 9.935785879219e23
+        }
       ]
     },
     {
       "group": "0xd491e5ec7bbb4c6ea9ee522f21f6621706e65a3e",
       "name": "www.nodeasy.com",
       "metadataURL": "https://gist.githubusercontent.com/culmore2015/52e17faf347bf96dc99f7347026fe669/raw/323e8dd4bb20e9e8fc335ae7829d1d839ba5fc5b/celo-group-metadata.json",
-      "blockNumber": 1104126,
+      "blockNumber": 1324308,
       "votingPower": 1.1e23,
-      "votingPowerFraction": "0.000472436657776527526189431044",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 6.380382842119837e24,
+      "votingPowerFraction": "0.000467629768259121503987108933",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 6.428464211561507e24,
       "multiplier": 1e24,
       "groupShare": 5e23,
-      "validatorAddresses": ["0x4013c00bd208facb6342ea40c2450b716318ebba"]
+      "groupScore": 7.700976544609e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x4013c00bd208facb6342ea40c2450b716318ebba",
+          "validator_score": 7.700976544609e23
+        }
+      ]
     },
     {
       "group": "0xacdf897493a6000dbe256791e8a2becbb405fd4f",
       "name": "Simply Staking",
-      "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 2.8923570728914715e24,
-      "votingPowerFraction": "0.01242232280557406394432476314",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.162739915011309e24,
+      "metadataURL": "https://gist.githubusercontent.com/SimplyVC/44ce7d3beaf407ee7dc0ed8787b9f02a/raw/1cd9e327d17a63e0746e5927013852619e4359d4/celo-mainnet-metadata-jun20",
+      "blockNumber": 1324308,
+      "votingPower": 2.898328029405518e24,
+      "votingPowerFraction": "0.01232131331572562596793145317",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.216792240967025e24,
       "multiplier": 1e24,
       "groupShare": 0,
-      "validatorAddresses": ["0xc2023e0d13f53d181f29b99d829cd75628337d15"]
+      "groupScore": 9.907369231614e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xc2023e0d13f53d181f29b99d829cd75628337d15",
+          "validator_score": 9.907369231614e23
+        }
+      ]
     },
     {
       "group": "0x7194dfe766a92308880a943fd70f31c8e7c50e66",
       "name": "ChainLayer",
       "metadataURL": "https://gist.githubusercontent.com/tyrion70/f4352f7e1c44718c29dcd01c543e0d78/raw/20176a4adb97b48a2ad3fdbf1d8d3c9f1b70a143/group_metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 3.551228031020118e24,
-      "votingPowerFraction": "0.01525209365434057394125853693",
-      "capacityAvailable": 1.2540765684239674e25,
-      "totalCapacity": 1.609199371525979e25,
+      "blockNumber": 1324308,
+      "votingPower": 3.497143013580574e24,
+      "votingPowerFraction": "0.01486698342736081489880490355",
+      "capacityAvailable": 1.2636928423123014e25,
+      "totalCapacity": 1.6134071436703588e25,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": [
-        "0x4fc4ea624db2e4a1d6195a03744d505cbcd9431b",
-        "0xd341b9beb934207c476bdb618bd372e6fea21f88",
-        "0xd9bba95f03425816c5c04e159372b64eb14e6939"
+      "groupScore": 9.517914534901e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x4fc4ea624db2e4a1d6195a03744d505cbcd9431b",
+          "validator_score": 9.952297661197e23
+        },
+        {
+          "validatorAddress": "0xd341b9beb934207c476bdb618bd372e6fea21f88",
+          "validator_score": 9.952297661197e23
+        },
+        {
+          "validatorAddress": "0xd9bba95f03425816c5c04e159372b64eb14e6939",
+          "validator_score": 8.649148282309e23
+        }
       ]
     },
     {
       "group": "0xd72ed2e3db984bac3bb351fe652200de527effcf",
       "name": "chainvibes",
       "metadataURL": "https://gist.githubusercontent.com/Creamers158/e3d0b171ea40f3780754aca8775cff30/raw/a2372507113c5d878669139876445e134fb83fe2/group_metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.9216218703256854e24,
-      "votingPowerFraction": "0.0125480115609406746998747487",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.2327196133505442e25,
+      "blockNumber": 1324308,
+      "votingPower": 2.87769793890524e24,
+      "votingPowerFraction": "0.0122336110935455351395637725",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.196162150466747e24,
       "multiplier": 1e24,
       "groupShare": 5e23,
-      "validatorAddresses": [
-        "0x00a9e8869e40e038d0fae63d825a732e6fff48d1",
-        "0x1a4f4fd50e236056a188dd58fcc937e324f35141"
+      "groupScore": 9.990165161935e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x00a9e8869e40e038d0fae63d825a732e6fff48d1",
+          "validator_score": 9.990165161935e23
+        }
       ]
     },
     {
       "group": "0xf83c93ea360b66ddcd532960304948b1c10786a1",
       "name": "DSRV CeloWhale.com",
       "metadataURL": "https://gist.githubusercontent.com/hqueue/af860c94b965bcb5f016095bbdf99cf8/raw/cbf9b8405e8cb396ada1808414ce256e40928799/celo-mainnet-group-metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 3.8152574617182967e24,
-      "votingPowerFraction": "0.0163860680342831807939534672",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.3220831724898052e25,
+      "blockNumber": 1324308,
+      "votingPower": 3.8210445028209514e24,
+      "votingPowerFraction": "0.0162439468669268327360194308",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.329874082016321e25,
       "multiplier": 1e24,
       "groupShare": 2e23,
-      "validatorAddresses": [
-        "0x588ed7deeff8df7c00ff187c398936b101583ec7",
-        "0x1ab89fa8bdbd48f4426379abeb59803dd5283e3f"
+      "groupScore": 9.863551084566e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x588ed7deeff8df7c00ff187c398936b101583ec7",
+          "validator_score": 9.793581125901e23
+        },
+        {
+          "validatorAddress": "0x1ab89fa8bdbd48f4426379abeb59803dd5283e3f",
+          "validator_score": 9.933521043231e23
+        }
       ]
     },
     {
       "group": "0x061e9958028dcaa66fd8b255ad95194203b6c4da",
       "name": "Easy2Stake Group",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 2.7832219145371276e24,
-      "votingPowerFraction": "0.01195360053776644320585402534",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.053604756656964e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.7889811037513427e24,
+      "votingPowerFraction": "0.0118564598838755396536232594",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.10744531531285e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0x1dd301feaa72f4c07b3ca56ce0c27e98e66b77bd"]
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x1dd301feaa72f4c07b3ca56ce0c27e98e66b77bd",
+          "validator_score": 9.990449950447e23
+        }
+      ]
     },
     {
       "group": "0xc8a81d473992c7c6d3f469a8263f24914625709d",
       "name": "moonli.me",
       "metadataURL": "https://gist.githubusercontent.com/y3v63n/8f8c8abc1b2ab7e1acadc05ae380dd9d/raw/ecf855a7ad8f43026837f4c1c00d15ec3e5972a5/group-metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.8665443831540295e24,
-      "votingPowerFraction": "0.01231146043404879543152577437",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.136927225273867e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.8860407850250615e24,
+      "votingPowerFraction": "0.0122690780317058417006317123",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.204504996586568e24,
       "multiplier": 1e24,
       "groupShare": 0,
-      "validatorAddresses": ["0xddbca691842fd452d8f53575fdfdc2314eb3ad57"]
+      "groupScore": 9.564006045709e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xddbca691842fd452d8f53575fdfdc2314eb3ad57",
+          "validator_score": 9.564006045709e23
+        }
+      ]
     },
     {
       "group": "0x81ae1c73a326325216e25ff1af9ea3871195036e",
       "name": "The Celo Group",
       "metadataURL": "https://gist.githubusercontent.com/kvdv80/4cfb8759004e3e0061bc85ddc97fe079/raw/339959b1567b47054f4ecf33be1ca440318100c9/metadata_group.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.820962205940271e24,
-      "votingPowerFraction": "0.01211569051171201915483628207",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.2226536469120027e25,
+      "blockNumber": 1324308,
+      "votingPower": 2.827241959085431e24,
+      "votingPowerFraction": "0.01201911365581440649684683183",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.2304938276427691e25,
       "multiplier": 1e24,
       "groupShare": 8e22,
-      "validatorAddresses": [
-        "0xfe38631e7e164d20754387f7165b9c5b427da17b",
-        "0xfea4a08b3f7e209cb507bdccc52d87c3b0e124e7"
+      "groupScore": 7.320641716648e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xfe38631e7e164d20754387f7165b9c5b427da17b",
+          "validator_score": 9.955693433296e23
+        },
+        {
+          "validatorAddress": "0xfea4a08b3f7e209cb507bdccc52d87c3b0e124e7",
+          "validator_score": 4.68559e23
+        }
       ]
     },
     {
       "group": "0x8851f4852ce427191dc8d9065d720619889e3260",
       "name": "Moonlet.io",
       "metadataURL": "https://gist.githubusercontent.com/krisboit/cf426aa51618090cd5af540dc1b0d3ee/raw/2aee95190acfe8a7b4bc3d75139d2f9a09b836fc/metadata-group.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.813175650657865e24,
-      "votingPowerFraction": "0.01208224820122827272632715784",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.2218749913837622e25,
+      "blockNumber": 1324308,
+      "votingPower": 2.8190273124760925e24,
+      "votingPowerFraction": "0.0119841917168120848336006058",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.2296723629818352e25,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": [
-        "0x399b3d48fdcd668d274afc6f4be05475a325c6c6",
-        "0x2536075aa9f3d6d5bb7effd0e537a85beac9612d"
+      "groupScore": 9.5028395241205e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x399b3d48fdcd668d274afc6f4be05475a325c6c6",
+          "validator_score": 9.990449950447e23
+        },
+        {
+          "validatorAddress": "0x2536075aa9f3d6d5bb7effd0e537a85beac9612d",
+          "validator_score": 9.015229097794e23
+        }
       ]
     },
     {
       "group": "0xddaa60b6d803674bbc434f1c2b261ceb67c2fd7c",
       "name": "PretoriaResearchLab.io",
       "metadataURL": "https://gist.githubusercontent.com/aaronmboyd/514cf03b0a54ef14fcc4d96eb57dc6e7/raw/22d258376a2f129d2811c7ace88649f0996b3ac7/celo-mainnet-group-metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 3.067686549462018e24,
-      "votingPowerFraction": "0.01317534164121676340165610707",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.338069391581855e24,
+      "blockNumber": 1324308,
+      "votingPower": 3.0689598504483326e24,
+      "votingPowerFraction": "0.0130466998514700169952969608",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.387424062009839e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0xe4036c56b0026eb86f058c77c55e73e9d65d2ea0"]
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xe4036c56b0026eb86f058c77c55e73e9d65d2ea0",
+          "validator_score": 9.990449950447e23
+        }
+      ]
     },
     {
       "group": "0xb33e9e01e561a1da60f7cb42508500e571afb6eb",
       "name": "Validator.Capital",
       "metadataURL": "https://gist.githubusercontent.com/haferman/076030460b10379569cd7f512580ab46/raw/ddae9e6ce16fb334e3dc2c2f39759bf8d7ba9424/group_metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.921101558523011e24,
-      "votingPowerFraction": "0.0125457768848583347187617571",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.2326675821702767e25,
+      "blockNumber": 1324308,
+      "votingPower": 3.0498186694634335e24,
+      "votingPowerFraction": "0.01296532725121388886552815827",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.2527514986805695e25,
       "multiplier": 1e24,
-      "groupShare": 1e24,
-      "validatorAddresses": [
-        "0x0f412760759a2fad4f07cee36bfdaa218814de89",
-        "0x07adf41f00dd7ec9c63c445f3fad5ccbdc2a7c85"
+      "groupShare": 4.5e23,
+      "groupScore": 9.9632402632855e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x0f412760759a2fad4f07cee36bfdaa218814de89",
+          "validator_score": 9.990107381026e23
+        },
+        {
+          "validatorAddress": "0x07adf41f00dd7ec9c63c445f3fad5ccbdc2a7c85",
+          "validator_score": 9.936373145545e23
+        }
       ]
     },
     {
       "group": "0x0d4f8cea48cdadeae345431577a64983c0535b12",
       "name": "Censusworks",
       "metadataURL": "https://gist.github.com/JamesCowling/4935af404dab56cb948b3f0d55c883a5/raw",
-      "blockNumber": 1104126,
-      "votingPower": 3.388000628909231e24,
-      "votingPowerFraction": "0.01455105176060591311559674336",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.2793574892088987e25,
+      "blockNumber": 1324308,
+      "votingPower": 3.420153900337799e24,
+      "votingPowerFraction": "0.014539688871140867741927096",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.2897850217680058e25,
       "multiplier": 1e24,
       "groupShare": 1e24,
-      "validatorAddresses": [
-        "0x2bdc5ccda08a7f821ae0df72b5fda60cd58d6353",
-        "0x0ebdccd9091efb1243417bdf3addd63132962586"
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x2bdc5ccda08a7f821ae0df72b5fda60cd58d6353",
+          "validator_score": 9.990449950447e23
+        },
+        {
+          "validatorAddress": "0x0ebdccd9091efb1243417bdf3addd63132962586",
+          "validator_score": 9.990449950447e23
+        }
       ]
     },
     {
       "group": "0x580f29ab04b7ed4e5aa86584d38c9317d9cf0358",
       "name": "Cypher Core",
       "metadataURL": "https://gist.githubusercontent.com/jim380/815b56d7529e2639975962a493d965f9/raw/8f475ca54d616fb1fee9bd924e7690094fb134f3/celo_metadata_group",
-      "blockNumber": 1104126,
-      "votingPower": 2.786429241941994e24,
-      "votingPowerFraction": "0.01196737561994417070122622575",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.056812084061831e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.7921950679268163e24,
+      "votingPowerFraction": "0.01187012302317162929468376936",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.110659279488324e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0x4e957bbc61afdab63263ffdbaf201f6f596e3e2d"]
+      "groupScore": 9.989281405243e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x4e957bbc61afdab63263ffdbaf201f6f596e3e2d",
+          "validator_score": 9.989281405243e23
+        }
+      ]
     },
     {
       "group": "0x95ae59515915d6c493a846ae022f93726652b50a",
       "name": "Masternode24.de",
       "metadataURL": "https://gist.githubusercontent.com/alex-m24/eafbc55a93e2c9208afa3802ccb4c813/raw/d04aa9760f4e9af9d46eefb95a1e35367dfe7a84/celo-group-metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.779010112826215e24,
-      "votingPowerFraction": "0.0119355113602798890497689142",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.049392954946052e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.805670445205925e24,
+      "votingPowerFraction": "0.0119274092736646633809153131",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.124134656767432e24,
       "multiplier": 1e24,
       "groupShare": 5e23,
-      "validatorAddresses": ["0x9c542c0b5af5e04e2d1e67cf1fc176e91bc18da0"]
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x9c542c0b5af5e04e2d1e67cf1fc176e91bc18da0",
+          "validator_score": 9.990449950447e23
+        }
+      ]
     },
     {
       "group": "0xfaa0b40645ee5e8d9ae38393e8cdf8e5baa71d13",
       "name": "Staking Fund",
       "metadataURL": "https://gist.githubusercontent.com/winslyn/1e2d7dde3011344ae42d6a50d179e7a9/raw/0b9ad1a5f35c63961f14663427e19d5b16a435b1/group-metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.7866396846794735e24,
-      "votingPowerFraction": "0.0119682794459764278073080627",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.057022526799311e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.7924059461234804e24,
+      "votingPowerFraction": "0.0118710195042828728798077016",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.110870157684987e24,
       "multiplier": 1e24,
       "groupShare": 0,
-      "validatorAddresses": ["0x7b3859147b1c173fff7182e58a4ec81c1d287224"]
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x7b3859147b1c173fff7182e58a4ec81c1d287224",
+          "validator_score": 9.990449950447e23
+        }
+      ]
     },
     {
       "group": "0x0339df3fe4f5ccc864eae8491e5c8aec4611a631",
       "name": "Tessellated Geometry Alliance",
       "metadataURL": "https://gist.githubusercontent.com/keefertaylor/459be0ced22468ff207f35bc4805dce4/raw/4c90286e0dc948a479febbd6c3f6109583924fc4/gistfile1.txt",
-      "blockNumber": 1104126,
-      "votingPower": 2.786425616713222e24,
-      "votingPowerFraction": "0.011967360050026309659065688",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.056808458833058e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.79219143519653e24,
+      "votingPowerFraction": "0.01187010757978233989675374654",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.110655646758037e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0x44a7af700aca1b24ecdb818df4d202772d606cb4"]
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x44a7af700aca1b24ecdb818df4d202772d606cb4",
+          "validator_score": 9.990449950447e23
+        }
+      ]
     },
     {
       "group": "0x8580db53c3ebc56230662b771cef2707e92ef83a",
       "name": "Goods & Services",
       "metadataURL": "https://gist.githubusercontent.com/Bijan-Massoumi/99a1803f48f6d67835be3ba01c261269/raw/bbeda094c949361acc9dcd84c6af5517aa67f1e9/group_metadata_rc1",
-      "blockNumber": 1104126,
-      "votingPower": 2.7832219145371276e24,
-      "votingPowerFraction": "0.01195360053776644320585402534",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.053604756656964e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.7889811037513427e24,
+      "votingPowerFraction": "0.0118564598838755396536232594",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.10744531531285e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0xf2aadf8ff2ad7e5c1efb0d45cb622618ba6636a7"]
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xf2aadf8ff2ad7e5c1efb0d45cb622618ba6636a7",
+          "validator_score": 9.990449950447e23
+        }
+      ]
     },
     {
       "group": "0x3fef91a3422f4da394c08f115632d3e075d0effd",
       "name": "stakevalley",
       "metadataURL": "https://celo-metadata.s3-us-west-2.amazonaws.com/mainnet/stakevalley-metadata-20200503.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.766415915519563e24,
-      "votingPowerFraction": "0.01188142081043504380583060503",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.0367987576394e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.772140328876427e24,
+      "votingPowerFraction": "0.0117848667234022585851156962",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.090604540437933e24,
       "multiplier": 1e24,
       "groupShare": 9.9e23,
-      "validatorAddresses": ["0x5b38657e507b03355add04cdc6e2b92acc12326e"]
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x5b38657e507b03355add04cdc6e2b92acc12326e",
+          "validator_score": 9.990449950447e23
+        }
+      ]
     },
     {
       "group": "0x3dcf2ed8dc84a63ffd2bfdc3cdb2fa0b1aeafe5c",
       "name": "StakesStoneGroup",
       "metadataURL": "https://gist.githubusercontent.com/daluxxx/e6877152e7b9cf9dd70d94b6b6271cc7/raw/280c5022532a7f12f57a30ced30f923e413928ab/group_metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.78641144889669e24,
-      "votingPowerFraction": "0.01196729920097276164511534213",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.056794291016527e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.79217467860481e24,
+      "votingPowerFraction": "0.0118700363444995856370438232",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.110638890166317e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0x5f2e4e239bcd86e1cf97538ea7d5e2ec639a3bc4"]
+      "groupScore": 9.942236758356508e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x5f2e4e239bcd86e1cf97538ea7d5e2ec639a3bc4",
+          "validator_score": 9.942236758356508e23
+        }
+      ]
     },
     {
       "group": "0x0b04c6ca6f2ea2c57d51c28bb3e82b0c9b4072eb",
       "name": "StakeServe",
       "metadataURL": "",
-      "blockNumber": 1104126,
+      "blockNumber": 1324308,
       "votingPower": 1e22,
-      "votingPowerFraction": "4.29487870705934114717664586e-05",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 6.280382842119837e24,
+      "votingPowerFraction": "4.25117971144655912715553576e-05",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 6.328464211561507e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0xd5906766fa2c56700270312f8c9049bca9939c11"]
+      "groupScore": 0,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xd5906766fa2c56700270312f8c9049bca9939c11",
+          "validator_score": 0
+        }
+      ]
     },
     {
       "group": "0x481eade762d6d0b49580189b78709c9347b395bf",
       "name": "HappyCelo",
       "metadataURL": "https://gist.githubusercontent.com/andrewpaulicek/ddc46052b336796d0b99897971a6fd10/raw/5142c770b231840246dcf6921bbd76cc69df17cf/celo-group-metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.826942848048999e24,
-      "votingPowerFraction": "0.0121413766441593345718954886",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.2232517111228753e25,
+      "blockNumber": 1324308,
+      "votingPower": 2.8227141736214037e24,
+      "votingPowerFraction": "0.01199986522611195108448525874",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.2300410490963664e25,
       "multiplier": 1e24,
       "groupShare": 0,
-      "validatorAddresses": [
-        "0xf0b25502595911b64de75f453b34557c1b2c4760",
-        "0x55564902239df06184357580807ff7b40a75210a"
+      "groupScore": 7.4810571086665e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xf0b25502595911b64de75f453b34557c1b2c4760",
+          "validator_score": 9.751810201417e23
+        },
+        {
+          "validatorAddress": "0x55564902239df06184357580807ff7b40a75210a",
+          "validator_score": 5.210304015916e23
+        }
       ]
     },
     {
       "group": "0x07fa1874ad4655ad0c763a7876503509be11e29e",
       "name": "Bi23 Labs",
       "metadataURL": "https://gist.githubusercontent.com/bi23com/8a54c8a3a1c2916de97501496a44de95/raw/bccd96f1b13ae404bab8a8b3be62a4ca6a10c5b6/bi23_celo_group_metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 3.387794565090086e24,
-      "votingPowerFraction": "0.0145501667414967713515753051",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.279336882826984e25,
+      "blockNumber": 1324308,
+      "votingPower": 3.389758579651083e24,
+      "votingPowerFraction": "0.01441047290051458761840275477",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.2867454896993342e25,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": [
-        "0x997490f08b9b99db00657e2b1bbec180cf804a27",
-        "0x3a3fd49f95a7a7e230fa68da03ef9c6486ebb2fb"
+      "groupScore": 9.95158515736e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x997490f08b9b99db00657e2b1bbec180cf804a27",
+          "validator_score": 9.990449950447e23
+        },
+        {
+          "validatorAddress": "0x3a3fd49f95a7a7e230fa68da03ef9c6486ebb2fb",
+          "validator_score": 9.912720364273e23
+        }
       ]
     },
     {
       "group": "0xa1e923892df867fb5cb7575cca2538c394ad1bd9",
       "name": "BitCat",
       "metadataURL": "https://gist.githubusercontent.com/wjdfx/25d4d18e7a023aa8babc85ee75f52a68/raw/dc509c1c9c00e0ee890134ab2402dabb80c5bdce",
-      "blockNumber": 1104126,
+      "blockNumber": 1324308,
       "votingPower": 3202673007667200000,
-      "votingPowerFraction": "1.375509210630355531261705035e-08",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 6.270386044792844e24,
+      "votingPowerFraction": "1.361513851259233094304765933e-08",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 6.318467414234514e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0xdb0625daf57c4b08367349bdbed2a0da069d497f"]
+      "groupScore": 8.332281830026e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xdb0625daf57c4b08367349bdbed2a0da069d497f",
+          "validator_score": 8.332281830026e23
+        }
+      ]
     },
     {
       "group": "0xe141831c2c1198d79b9ff61cd97c3baca7f071e0",
       "name": "swiftstaking",
       "metadataURL": "https://gist.githubusercontent.com/sharppanda/af0d266a8777a0caa5af2e1e4e1762b5/raw/845c5c48cca4994e1776382b408b9b8e3c51f8ec/celo-metadata-group.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.809172650587359e24,
-      "votingPowerFraction": "0.0120650558014610967775424986",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.2214746913767113e25,
+      "blockNumber": 1324308,
+      "votingPower": 2.814985538429908e24,
+      "votingPowerFraction": "0.01196700940898869426972881404",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.2292681855772168e25,
       "multiplier": 1e24,
       "groupShare": 0,
-      "validatorAddresses": [
-        "0x77ecf3c7ac7082344edfee10e41edb72fa3d1951",
-        "0xcc5dbdf5c397d69dfc28da44f690492942c2910a"
+      "groupScore": 9.8064302356765e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x77ecf3c7ac7082344edfee10e41edb72fa3d1951",
+          "validator_score": 9.988604922043e23
+        },
+        {
+          "validatorAddress": "0xcc5dbdf5c397d69dfc28da44f690492942c2910a",
+          "validator_score": 9.62425554931e23
+        }
       ]
     },
     {
       "group": "0x5402172e972b31fc9f0383f53f45823ab5037379",
       "name": "gunray",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 2.779020403116309e24,
-      "votingPowerFraction": "0.0119355555558277033515609283",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.049403245236146e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.782184332578041e24,
+      "votingPowerFraction": "0.01182756558816025535877027527",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.100648544139548e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0xe5f947368c986dfe7a025b9b35dee3e5ac3a330e"]
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xe5f947368c986dfe7a025b9b35dee3e5ac3a330e",
+          "validator_score": 9.990449950447e23
+        }
+      ]
     },
     {
       "group": "0x614b7654ba0cc6000abe526779911b70c1f7125a",
       "name": "huglester",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 2.786423408767191e24,
-      "votingPowerFraction": "0.0119673505671659141505401216",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.056806250887028e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.792189222681701e24,
+      "votingPowerFraction": "0.01187009817398418656919143923",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.110653434243208e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0x5e69cca114a77ab0a5804108faf0cd1e1c802a5e"]
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x5e69cca114a77ab0a5804108faf0cd1e1c802a5e",
+          "validator_score": 9.990449950447e23
+        }
+      ]
     },
     {
       "group": "0x8493bd3de67ac341d4cc11531f96a1a2cdbf29ad",
       "name": "Ryabina | Celomap.io",
       "metadataURL": "https://ryabina.io/1588685612-group_metadata.json",
-      "blockNumber": 1104126,
+      "blockNumber": 1324308,
       "votingPower": 0,
       "votingPowerFraction": "0",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 6.270382842119837e24,
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 6.318464211561507e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0x1aef9bf15de73adba318fc8aea3d2f45d120cc8a"]
+      "groupScore": 8.137812363904e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x1aef9bf15de73adba318fc8aea3d2f45d120cc8a",
+          "validator_score": 8.137812363904e23
+        }
+      ]
     },
     {
       "group": "0x01b2b83fdf26afc3ca7062c35bc68c8dde56db04",
       "name": "Figment Networks",
       "metadataURL": "https://figmentcelometadata.s3.ca-central-1.amazonaws.com/figmentgroup.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.868436212508876e24,
-      "votingPowerFraction": "0.01231958561166231639627727595",
-      "capacityAvailable": 1.2540765684239674e25,
-      "totalCapacity": 1.540920189674855e25,
+      "blockNumber": 1324308,
+      "votingPower": 7.86822187688322e24,
+      "votingPowerFraction": "0.033449225208165912259259135",
+      "capacityAvailable": 1.2636928423123014e25,
+      "totalCapacity": 2.0505150300006232e25,
       "multiplier": 1e24,
-      "groupShare": 2e23,
-      "validatorAddresses": [
-        "0x0e47ea88480788289bda37d8ae0c2cd680623cfa",
-        "0x90b056b00952d71bc7866c067b49f5b062098ac9",
-        "0xddc60b465c204aa7358ce4f009d2dbc65af5c4b4"
+      "groupShare": 0,
+      "groupScore": 6.060216650149e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x0e47ea88480788289bda37d8ae0c2cd680623cfa",
+          "validator_score": 9.990449950447e23
+        },
+        {
+          "validatorAddress": "0x90b056b00952d71bc7866c067b49f5b062098ac9",
+          "validator_score": 4.0951e23
+        },
+        {
+          "validatorAddress": "0xddc60b465c204aa7358ce4f009d2dbc65af5c4b4",
+          "validator_score": 4.0951e23
+        }
       ]
     },
     {
       "group": "0x8a12cab622b8093208931fa008d12d6ba5af47e4",
       "name": "TDlabs | Staked.us",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 3.608676569882663e24,
-      "votingPowerFraction": "0.01549882816065298899558949156",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.3014250833062419e25,
+      "blockNumber": 1324308,
+      "votingPower": 3.615718284110401e24,
+      "votingPowerFraction": "0.0153710682117165032400050598",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.3093414601452661e25,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": [
-        "0x92aae14a531086a665daff6eedb5b71e00acc6d1",
-        "0x2632a1ce82fc88f4e0bfcec1f19c6cf60c2e2254"
+      "groupScore": 4.712946519709888e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x92aae14a531086a665daff6eedb5b71e00acc6d1",
+          "validator_score": 2.600285642723e23
+        },
+        {
+          "validatorAddress": "0x2632a1ce82fc88f4e0bfcec1f19c6cf60c2e2254",
+          "validator_score": 6.825607396696776e23
+        }
       ]
     },
     {
       "group": "0x6cf4bb9ff947610944c6d8e0e5ea26b1dea73196",
-      "name": "Bambarello",
+      "name": "Perfect Stake",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 2.78318806988965e24,
-      "votingPowerFraction": "0.01195345517911064321757348107",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.053570912009487e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.78894718907074e24,
+      "votingPowerFraction": "0.011856315706473440464686892",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.107411400632246e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0x249ef45381b29d9955b365c33f202127499b873f"]
+      "groupScore": 9.966312178399e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x249ef45381b29d9955b365c33f202127499b873f",
+          "validator_score": 9.966312178399e23
+        }
+      ]
     },
     {
       "group": "0xdadbd6cfb29b054adc9c4c2ef0f21f0bbdb44871",
       "name": "Bison Trails",
       "metadataURL": "https://bisontrails.co/celo-metadata/bisontrails/0xDaDBd6Cfb29b054aDC9c4c2Ef0F21f0BBdb44871.json",
-      "blockNumber": 1104126,
-      "votingPower": 3.05382694774598e24,
-      "votingPowerFraction": "0.01311581633291823002560998235",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.2459401210925735e25,
+      "blockNumber": 1324308,
+      "votingPower": 3.0575586929150896e24,
+      "votingPowerFraction": "0.01299823148187768948457966066",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.253525501025735e25,
       "multiplier": 1e24,
       "groupShare": 0,
-      "validatorAddresses": [
-        "0x089b1654325cce14fb3e2dabca2803bc489e83e7",
-        "0x30e0bfc25df7642ee19ff4fbcbe9ddea4d1935bc"
+      "groupScore": 9.922629692667755e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x089b1654325cce14fb3e2dabca2803bc489e83e7",
+          "validator_score": 9.942236758356508e23
+        },
+        {
+          "validatorAddress": "0x30e0bfc25df7642ee19ff4fbcbe9ddea4d1935bc",
+          "validator_score": 9.903022626979e23
+        }
       ]
     },
     {
       "group": "0xd018838832f6112de72ee6cc9967c56b333a0d1c",
       "name": "dynamic",
       "metadataURL": "https://gist.githubusercontent.com/dynamicCelo/a993a3153a25a38e6c4d4942ba97f6b8/raw/1a1e9f15f7a4ab00cd3638c4cf33db85407707c0/group-metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.7788651112104636e24,
-      "votingPowerFraction": "0.01193488859592790889924746595",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.0492479533303e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.7820243552206094e24,
+      "votingPowerFraction": "0.01182688549566405013338225534",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.100488566782117e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0x3bebd7ed4ca0ce7bfd69fc6aef31ddd21c460158"]
+      "groupScore": 9.736737013611e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x3bebd7ed4ca0ce7bfd69fc6aef31ddd21c460158",
+          "validator_score": 9.736737013611e23
+        }
+      ]
     },
     {
       "group": "0xc7d5409fee80b3ac37dbc111664dc511a5982469",
       "name": "nonce",
       "metadataURL": "https://gist.githubusercontent.com/s3unha/c7890a2ee3f5ac63ff752398a2a9c7ca/raw/72100bbb1e032966e05e642705e9c30723e6db06/group-metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.7864177588758036e24,
-      "votingPowerFraction": "0.01196732630156769929512782197",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.05680060099564e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.7921655360510123e24,
+      "votingPowerFraction": "0.01186999747786036915799672226",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.110629747612519e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0x1819b44553fa39a983d1c92238e1f18aee30ef51"]
+      "groupScore": 9.875730527947e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x1819b44553fa39a983d1c92238e1f18aee30ef51",
+          "validator_score": 9.875730527947e23
+        }
+      ]
     },
     {
       "group": "0x15ed3f6b79f5fb9ef1d99d37314dd626b3005f0b",
       "name": "AG",
       "metadataURL": "https://gist.githubusercontent.com/AGx10k/9a4327253ee3f0939368a92bda51eda1/raw/5087fb703f4e3ccb7821a352237f8f8978989d78/celo-mainnet-group-metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.8129888063088196e24,
-      "votingPowerFraction": "0.0120814457274120237291461891",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.083371648428657e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.818809590741561e24,
+      "votingPowerFraction": "0.01198326614259150264969094353",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.137273802303068e24,
       "multiplier": 1e24,
       "groupShare": 2e23,
-      "validatorAddresses": ["0x943e9a5c750adcc467575f4fe81bf6b1c3a2aed7"]
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x943e9a5c750adcc467575f4fe81bf6b1c3a2aed7",
+          "validator_score": 9.990449950447e23
+        }
+      ]
     },
     {
       "group": "0x8eb004dad9397b8f23e1279905c584920000756d",
       "name": "ZanshinDojo.org",
       "metadataURL": "https://www.zanshindojo.org/metadata/group_metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.9043794848726536e24,
-      "votingPowerFraction": "0.0124739576067995385910689725",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.230995374805241e25,
+      "blockNumber": 1324308,
+      "votingPower": 2.801613620258642e24,
+      "votingPowerFraction": "0.0119101629817558846584175529",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.120077831820149e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": [
-        "0x474df04481f778b46fc71204c72b6a8be396f0ff",
-        "0x1b4a54049a8652c4c3e62c8c6959f06280acfc6c"
+      "groupScore": 9.989473939714e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x474df04481f778b46fc71204c72b6a8be396f0ff",
+          "validator_score": 9.989473939714e23
+        }
       ]
     },
     {
       "group": "0x067e453918f2c44d937b05a7ee9dbfb804c54add",
       "name": "",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 2.9826949447324975e24,
-      "votingPowerFraction": "0.0128103130077851413516548013",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.2388269207912253e25,
+      "blockNumber": 1324308,
+      "votingPower": 2.988780793519101e24,
+      "votingPowerFraction": "0.0127058442713695504164042193",
+      "capacityAvailable": 1.2636928423123014e25,
+      "totalCapacity": 1.5625709216642114e25,
       "multiplier": 1e24,
       "groupShare": 5e23,
-      "validatorAddresses": [
-        "0x7ad4c2fc79cbd6304b178544df219797f3dff87a",
-        "0x5f49e61f127d315ecde1702430ec991daaa9c3bf"
+      "groupScore": 6.939563809903e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x7ad4c2fc79cbd6304b178544df219797f3dff87a",
+          "validator_score": 9.982923462433e23
+        },
+        {
+          "validatorAddress": "0xfea3a9f2b28e9eea5eb14be130c7c79459b2aa5e",
+          "validator_score": 1e23
+        },
+        {
+          "validatorAddress": "0x5f49e61f127d315ecde1702430ec991daaa9c3bf",
+          "validator_score": 9.835767967276e23
+        }
       ]
     },
     {
       "group": "0x6b0f422041a233a89697a0b7187fab69469baa76",
       "name": "",
-      "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 2.7790083058183234e24,
-      "votingPowerFraction": "0.0119355035994001717357676108",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.2184582568998079e25,
+      "metadataURL": "https://gist.githubusercontent.com/huzefa38/1316e954e7a83ff4daf5ac80ebac4636/raw/777b4359fe29818933a24ec5379df2f876ae0ebb/group_metadata.json",
+      "blockNumber": 1324308,
+      "votingPower": 2.78217221024769e24,
+      "votingPowerFraction": "0.01182751405395541123455347763",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.100636421809197e24,
       "multiplier": 1e24,
       "groupShare": 5e23,
-      "validatorAddresses": [
-        "0xa06043129e96e425682e4279c87cd79100fe6e21",
-        "0x869c3612c54af3f2a41dde5da77e6797cf956e0d"
+      "groupScore": 9.99043890445e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xa06043129e96e425682e4279c87cd79100fe6e21",
+          "validator_score": 9.99043890445e23
+        }
       ]
     },
     {
       "group": "0x59428ac67d082b71d0a9eccd75ee0969ae79d929",
       "name": "",
-      "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 2.765890907435711e24,
-      "votingPowerFraction": "0.01187916596439467447015294534",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.036273749555548e24,
+      "metadataURL": "https://gist.githubusercontent.com/husseinmn/ad9293242f28ae7c1350fcebe786cfe5/raw/ac9081d906f4ac834b108073061c42b33892a2c8/group_metada_mainnet.json",
+      "blockNumber": 1324308,
+      "votingPower": 2.771609166415204e24,
+      "votingPowerFraction": "0.0117826086563236240034372377",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.090073377976711e24,
       "multiplier": 1e24,
       "groupShare": 5e23,
-      "validatorAddresses": ["0x17521f6f262b86b9f69566ab0eddbd96d38ff2d7"]
+      "groupScore": 9.424935503816e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x17521f6f262b86b9f69566ab0eddbd96d38ff2d7",
+          "validator_score": 9.424935503816e23
+        }
+      ]
     },
     {
       "group": "0x249a6b2b260000b08f50a2480e2d703baf02e8be",
       "name": "Chainflow",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 2.785904583415092e24,
-      "votingPowerFraction": "0.01196512227520850220119675664",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.056287425534929e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.791669323748888e24,
+      "votingPowerFraction": "0.0118678879901890073259928964",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.110133535310395e24,
       "multiplier": 1e24,
       "groupShare": 7e23,
-      "validatorAddresses": ["0xbcc71f31a5987f10afd29f3be7119c05a14f5bcb"]
+      "groupScore": 9.910540452619e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xbcc71f31a5987f10afd29f3be7119c05a14f5bcb",
+          "validator_score": 9.910540452619e23
+        }
+      ]
     },
     {
       "group": "0x602b65795bcc64b2fb329ac004236e194f077158",
       "name": "SlavaMo",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 2.786435450075458e24,
-      "votingPowerFraction": "0.01196740228312439489913796483",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.056818292195295e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.792201288906477e24,
+      "votingPowerFraction": "0.01187014946967414591767302263",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.110665500467983e24,
       "multiplier": 1e24,
       "groupShare": 9.99e23,
-      "validatorAddresses": ["0xb29438f402da218180bba79fbc0fadd3e9e151aa"]
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xb29438f402da218180bba79fbc0fadd3e9e151aa",
+          "validator_score": 9.990449950447e23
+        }
+      ]
     },
     {
       "group": "0xc24baeac0fd189637112b7e33d22fff2730af993",
       "name": "nga_group",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 2.779020403116309e24,
-      "votingPowerFraction": "0.0119355555558277033515609326",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.049403245236146e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.7821839095185194e24,
+      "votingPowerFraction": "0.01182756378965819894208160555",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.100648121080026e24,
       "multiplier": 1e24,
       "groupShare": 5e23,
-      "validatorAddresses": ["0x4d540ec31f9cc5b1d10a329eb4eddf52cb3dc000"]
+      "groupScore": 9.989619598126e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x4d540ec31f9cc5b1d10a329eb4eddf52cb3dc000",
+          "validator_score": 9.989619598126e23
+        }
+      ]
     },
     {
       "group": "0xb87f2354e34b26ba6406ac60ea99dcd8cd5e63bf",
       "name": "The Passive Trust",
       "metadataURL": "https://gist.githubusercontent.com/abellinii/834876e09d5ee089a3bb9754892ddfd3/raw/761b1d355633eb8d009db3c2ced80627e6da5420/gistfile1.txt",
-      "blockNumber": 1104126,
-      "votingPower": 3.532844371113489e24,
-      "votingPowerFraction": "0.01517313806484977303584108685",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.2938418634293245e25,
+      "blockNumber": 1324308,
+      "votingPower": 3.5454999611135045e24,
+      "votingPowerFraction": "0.01507255750162029523030828006",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.3023196278455766e25,
       "multiplier": 1e24,
       "groupShare": 4e23,
-      "validatorAddresses": [
-        "0x29c9ca0186650063ba6fcac3a952613b11d6bc36",
-        "0x43723f3490ed459d519dfe265be1a49a91d691ad"
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x29c9ca0186650063ba6fcac3a952613b11d6bc36",
+          "validator_score": 9.990449950447e23
+        },
+        {
+          "validatorAddress": "0x43723f3490ed459d519dfe265be1a49a91d691ad",
+          "validator_score": 9.990449950447e23
+        }
       ]
     },
     {
       "group": "0x81cef0668e15639d0b101bdc3067699309d73bed",
       "name": "Chorus One",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 2.8052848609376674e24,
-      "votingPowerFraction": "0.0120483582164771117185406122",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.075667703057504e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.810714692742697e24,
+      "votingPowerFraction": "0.0119488532764525019146972038",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.129178904304204e24,
       "multiplier": 1e24,
       "groupShare": 7.5e22,
-      "validatorAddresses": ["0x5098a28bfa2da3183e36c009c7d63093b66441a5"]
+      "groupScore": 7.576189655167e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x5098a28bfa2da3183e36c009c7d63093b66441a5",
+          "validator_score": 7.576189655167e23
+        }
+      ]
     },
     {
       "group": "0xe075ba4b1dcaf75513118d7aa08a057c658842c9",
       "name": "YYYYYYYYYYYYY",
       "metadataURL": "https://gist.githubusercontent.com/Yx11xY/7c3666f9b1dea2c096053443fd232ae9/raw/0649fa62a062914b36d549ba270acb32935469fe/metadata-group.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.8581065552915915e24,
-      "votingPowerFraction": "0.0122752209868285783515199618",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.128489397411429e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.8325153017408737e24,
+      "votingPowerFraction": "0.0120415315831227299617093892",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.15097951330238e24,
       "multiplier": 1e24,
       "groupShare": 5e23,
-      "validatorAddresses": ["0x2b66f23c2987597225d36872a52a3d3337386054"]
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x2b66f23c2987597225d36872a52a3d3337386054",
+          "validator_score": 9.990449950447e23
+        }
+      ]
     },
     {
       "group": "0x3d451dd723797b3de938c5b22412032b6452591a",
       "name": "Projecttent",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 2.779020403116309e24,
-      "votingPowerFraction": "0.0119355555558277033515609283",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.049403245236146e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.782184332578041e24,
+      "votingPowerFraction": "0.01182756558816025535877027527",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.100648544139548e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0xcdd88f80ed52afec9d670f5a6da8940eee716f45"]
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xcdd88f80ed52afec9d670f5a6da8940eee716f45",
+          "validator_score": 9.990449950447e23
+        }
+      ]
     },
     {
       "group": "0xd25c6a9fef4744e8d4f90bf6bdfaf7686909d799",
       "name": "celvaly",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 3.018584329713704e24,
-      "votingPowerFraction": "0.01296445356315038080987823173",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.242415859289346e25,
+      "blockNumber": 1324308,
+      "votingPower": 2.994648393423323e24,
+      "votingPowerFraction": "0.01273078849303726310116693216",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.2472344710765582e25,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": [
-        "0xe8302a78c4eb56ac1cd1d6aee25719dc54c63e59",
-        "0x989f3f2684f96b8cdec308b4e7538a5a062890f0"
+      "groupScore": 9.9886748726575e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xe8302a78c4eb56ac1cd1d6aee25719dc54c63e59",
+          "validator_score": 9.990449950447e23
+        },
+        {
+          "validatorAddress": "0x989f3f2684f96b8cdec308b4e7538a5a062890f0",
+          "validator_score": 9.986899794868e23
+        }
       ]
     },
     {
       "group": "0xbb59448319755708d06dacaac017308129fffdbb",
-      "name": "❄️❄️❄️",
+      "name": "❄️❄️❄️ + 🌴👦 + Danil Ushakov = ✅🚀🌟",
       "metadataURL": "",
-      "blockNumber": 1104126,
+      "blockNumber": 1324308,
       "votingPower": 1.1e23,
-      "votingPowerFraction": "0.000472436657776527526189431044",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 6.380382842119837e24,
+      "votingPowerFraction": "0.000467629768259121503987108933",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 6.428464211561507e24,
       "multiplier": 1e24,
       "groupShare": 3e23,
-      "validatorAddresses": ["0xf6741dc4f5563a67966065d330a4351b410146b7"]
+      "groupScore": 7.458134171671e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xf6741dc4f5563a67966065d330a4351b410146b7",
+          "validator_score": 7.458134171671e23
+        }
+      ]
     },
     {
       "group": "0xd19fb36b7f433fe13820767ef6d0e26fdbab68cc",
       "name": "HashQuark",
       "metadataURL": "",
-      "blockNumber": 1104126,
+      "blockNumber": 1324308,
       "votingPower": 2e22,
-      "votingPowerFraction": "8.5897574141186822943532917e-05",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 6.290382842119837e24,
+      "votingPowerFraction": "8.50235942289311825431107152e-05",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 6.338464211561507e24,
       "multiplier": 1e24,
       "groupShare": 5e23,
-      "validatorAddresses": ["0x758d1000fb3d37f88ce3ba880882898a3b0ca3ab"]
+      "groupScore": 0,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x758d1000fb3d37f88ce3ba880882898a3b0ca3ab",
+          "validator_score": 0
+        }
+      ]
     },
     {
       "group": "0xaf2b000baed202fa7de0d9dceb6f6612de348011",
       "name": "Conclave",
       "metadataURL": "https://metadata.conclave.dev/group_metadata_042720_2037.json",
-      "blockNumber": 1104126,
-      "votingPower": 3.0355999910136404e24,
-      "votingPowerFraction": "0.0130375337645540111058943228",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 9.305982833133477e24,
+      "blockNumber": 1324308,
+      "votingPower": 3.041881414221615e24,
+      "votingPowerFraction": "0.0129315845527652964716682597",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 9.360345625783121e24,
       "multiplier": 1e24,
       "groupShare": 0,
-      "validatorAddresses": ["0x80048b9a29f77c92cd4172df27cee4d7ba3a8d07"]
+      "groupScore": 9.990449950447e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x80048b9a29f77c92cd4172df27cee4d7ba3a8d07",
+          "validator_score": 9.990449950447e23
+        }
+      ]
     },
     {
       "group": "0x4d5a51039ea45063d4b665b21755db20a738dadc",
       "name": "stake.fish 🐠",
       "metadataURL": "stake.fish",
-      "blockNumber": 1104126,
+      "blockNumber": 1324308,
       "votingPower": 0,
       "votingPowerFraction": "0",
-      "capacityAvailable": 3.1351914210599184e24,
-      "totalCapacity": 3.1351914210599184e24,
+      "capacityAvailable": 3.1592321057807534e24,
+      "totalCapacity": 3.1592321057807534e24,
       "multiplier": 1e24,
       "groupShare": 1.25e23,
-      "validatorAddresses": []
+      "groupScore": 0,
+      "validatorDetails": []
     },
     {
       "group": "0xa432da0ed5a2c15cbc681227ccec3b375908fdcb",
       "name": "missionquorum-group",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 5.288540036676729e24,
-      "votingPowerFraction": "0.0227136379949537105795797946",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 1.1558922878796565e25,
+      "blockNumber": 1324308,
+      "votingPower": 5.299297120945059e24,
+      "votingPowerFraction": "0.0225282644054887954328106038",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 1.1617761332506564e25,
       "multiplier": 1e24,
       "groupShare": 1e24,
-      "validatorAddresses": ["0x39b01620ecdeb8347270ee78dc962b0ea583b57a"]
+      "groupScore": 9.989883121393e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x39b01620ecdeb8347270ee78dc962b0ea583b57a",
+          "validator_score": 9.989883121393e23
+        }
+      ]
     },
     {
       "group": "0x2c2b0f71d59b546b2cafd222696589c13c3c325c",
       "name": "Nodito Labs",
       "metadataURL": "https://nambrot.keybase.pub/nodito/nodito-group-metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 4.830721184876905e24,
-      "votingPowerFraction": "0.0207473615566682906568608749",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.423629544805666e25,
+      "blockNumber": 1324308,
+      "votingPower": 4.5894039931405324e24,
+      "votingPowerFraction": "0.0195103811432708534741665046",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.4067100310482793e25,
       "multiplier": 1e24,
       "groupShare": 2.5e23,
-      "validatorAddresses": [
-        "0xab6eee9da588d38b43b1d2ea404e824fa2bf382c",
-        "0xab2fdf3f4802a542754915e04c33a9596b164f31"
+      "groupScore": 9.709280592472e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xab6eee9da588d38b43b1d2ea404e824fa2bf382c",
+          "validator_score": 9.990449950447e23
+        },
+        {
+          "validatorAddress": "0xab2fdf3f4802a542754915e04c33a9596b164f31",
+          "validator_score": 9.428111234497e23
+        }
       ]
     },
     {
       "group": "0x35ae10f412503abcf9275133613e8df7f56e72be",
       "name": "Anchorage",
-      "metadataURL": "https://bisontrails.co/celo-metadata/anchorage/0x35ae10f412503abcf9275133613e8df7f56e72be.json",
-      "blockNumber": 1104126,
-      "votingPower": 5.128450902277184e24,
-      "votingPowerFraction": "0.0220260745803895437105480744",
-      "capacityAvailable": 1.881114852635951e25,
-      "totalCapacity": 2.3939599428636694e25,
+      "metadataURL": "https://anchorage.com/celo_metadata/0x35ae10f412503abcf9275133613e8df7f56e72be.json",
+      "blockNumber": 1324308,
+      "votingPower": 5.164090777905997e24,
+      "votingPowerFraction": "0.0219534779431022513345383179",
+      "capacityAvailable": 1.895539263468452e25,
+      "totalCapacity": 2.4119483412590517e25,
       "multiplier": 1e24,
       "groupShare": 1e24,
-      "validatorAddresses": [
-        "0x43fbd2b45ef5c042f821d24e14933c570e05ef78",
-        "0xadbe75cbd14f92ba2d233b6b81e80d4634fabb2a",
-        "0x1f15d4210e34dfeeec087c906b426509da1b01f1",
-        "0x112ff12927cd6f924d80b9aba32e531733b602ff",
-        "0x48de6c6668c24e5bd113d5c46d813c50fe2204d1"
+      "groupScore": 8.855482234987e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x43fbd2b45ef5c042f821d24e14933c570e05ef78",
+          "validator_score": 9.990449950447e23
+        },
+        {
+          "validatorAddress": "0xadbe75cbd14f92ba2d233b6b81e80d4634fabb2a",
+          "validator_score": 9.986899794868e23
+        },
+        {
+          "validatorAddress": "0x1f15d4210e34dfeeec087c906b426509da1b01f1",
+          "validator_score": 9.980033218849e23
+        },
+        {
+          "validatorAddress": "0x112ff12927cd6f924d80b9aba32e531733b602ff",
+          "validator_score": 7.458134171671e23
+        },
+        {
+          "validatorAddress": "0x48de6c6668c24e5bd113d5c46d813c50fe2204d1",
+          "validator_score": 6.8618940391e23
+        }
       ]
     },
     {
       "group": "0x47b2db6af05a55d42ed0f3731735f9479abf0673",
       "name": "Polychain Labs",
       "metadataURL": "https://storage.googleapis.com/celo-public-metadata/group-metadata-0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673.json",
-      "blockNumber": 1104126,
-      "votingPower": 1.4378874417692414e25,
-      "votingPowerFraction": "0.0617555215680274313860885534",
-      "capacityAvailable": 1.881114852635951e25,
-      "totalCapacity": 3.3190022944051926e25,
+      "blockNumber": 1324308,
+      "votingPower": 1.4408627941127394e25,
+      "votingPowerFraction": "0.0612536667731027798945594692",
+      "capacityAvailable": 1.895539263468452e25,
+      "totalCapacity": 3.3364020575811914e25,
       "multiplier": 1e24,
       "groupShare": 1e24,
-      "validatorAddresses": [
-        "0x1d511366feb1ed330925b2d51645bb5c607ea6d4",
-        "0x5282f82f82e9a74e186b8ee18cc76808b78dc383",
-        "0xab0c16bbd78d6b9f4503d81d859a3ffb64486f9a",
-        "0xacf0e11ff39ead797475a1694fcca94a0e94784f",
-        "0x1e554ac038114c0a69834be928fb95e5aaf18950"
+      "groupScore": 9.9545101423156e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x1d511366feb1ed330925b2d51645bb5c607ea6d4",
+          "validator_score": 9.960477181363e23
+        },
+        {
+          "validatorAddress": "0x5282f82f82e9a74e186b8ee18cc76808b78dc383",
+          "validator_score": 9.960889960972e23
+        },
+        {
+          "validatorAddress": "0xab0c16bbd78d6b9f4503d81d859a3ffb64486f9a",
+          "validator_score": 9.958798155061e23
+        },
+        {
+          "validatorAddress": "0xacf0e11ff39ead797475a1694fcca94a0e94784f",
+          "validator_score": 9.965340922312e23
+        },
+        {
+          "validatorAddress": "0x1e554ac038114c0a69834be928fb95e5aaf18950",
+          "validator_score": 9.92704449187e23
+        }
       ]
     },
     {
       "group": "0xbf55df76204f00acf296f76cf4aaf86a866a5eb0",
       "name": "Manta Labs",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 4.8264166480821276e24,
-      "votingPowerFraction": "0.0207288740932446467877940762",
-      "capacityAvailable": 1.5675957105299592e25,
-      "totalCapacity": 2.050237375338172e25,
+      "blockNumber": 1324308,
+      "votingPower": 4.83592299510674e24,
+      "votingPowerFraction": "0.0205583777229156485828761462",
+      "capacityAvailable": 1.5796160528903768e25,
+      "totalCapacity": 2.0632083524010507e25,
       "multiplier": 1e24,
       "groupShare": 1e24,
-      "validatorAddresses": [
-        "0xc627459bfc70cd7b6719d5b8030c3bea7825ca7e",
-        "0x6e5a2624ae582c96c5a12eb168afa532a85ae829",
-        "0xac6492d439b3b812e822d1e975338f48bdd0b1f2",
-        "0x7328b986cf7e7a1baf62e257aafa66abda4109ce"
+      "groupScore": 7.6897861092145e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xc627459bfc70cd7b6719d5b8030c3bea7825ca7e",
+          "validator_score": 9.54826671637e23
+        },
+        {
+          "validatorAddress": "0x6e5a2624ae582c96c5a12eb168afa532a85ae829",
+          "validator_score": 3.904533809659e23
+        },
+        {
+          "validatorAddress": "0xac6492d439b3b812e822d1e975338f48bdd0b1f2",
+          "validator_score": 9.980033218849e23
+        },
+        {
+          "validatorAddress": "0x7328b986cf7e7a1baf62e257aafa66abda4109ce",
+          "validator_score": 7.32631069198e23
+        }
       ]
     },
     {
       "group": "0x2fd49e97262d505fd76bb6e0e06ec10e1fd54589",
       "name": "keyko.io",
       "metadataURL": "https://gist.githubusercontent.com/jcortejoso/3de2b78a4fbacb4ed95db85802f00876/raw/d351de094bdd88ca7bb13a6251783ca87117b013/keyko-vg-metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.548095920000611e24,
-      "votingPowerFraction": "0.0109437629103554063390065237",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 8.818478762120447e24,
+      "blockNumber": 1324308,
+      "votingPower": 2.548233761580493e24,
+      "votingPowerFraction": "0.01083299966725413900177758726",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 8.866697973142e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0x233c06edc757003ca4ec078012f517f21a24c55c"]
+      "groupScore": 9.980033218849e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x233c06edc757003ca4ec078012f517f21a24c55c",
+          "validator_score": 9.980033218849e23
+        }
+      ]
     },
     {
       "group": "0x21fb4411fa5828344c2788ab07d4cc12a12571b9",
       "name": "cnstnt.xyz",
       "metadataURL": "https://cnstnt.xyz/rc1/metadata/group.json",
-      "blockNumber": 1104126,
-      "votingPower": 6.282867796293757e24,
-      "votingPowerFraction": "0.0269841551175709071325747973",
-      "capacityAvailable": 1.2540765684239674e25,
-      "totalCapacity": 1.8823633480533431e25,
+      "blockNumber": 1324308,
+      "votingPower": 6.294771933003148e24,
+      "votingPowerFraction": "0.026760206729766222308005389",
+      "capacityAvailable": 1.2636928423123014e25,
+      "totalCapacity": 1.8931700356126161e25,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": [
-        "0x8d1a5ef84252586f0f841a9fcf4e31f23c4c21e0",
-        "0xdf9121affb220e9095c875a79c3d1fa3ebee4105",
-        "0x020e468c252ff18261b1996d25f0fff4f830cf7a"
+      "groupScore": 9.970017885271e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x8d1a5ef84252586f0f841a9fcf4e31f23c4c21e0",
+          "validator_score": 9.983826907255e23
+        },
+        {
+          "validatorAddress": "0xdf9121affb220e9095c875a79c3d1fa3ebee4105",
+          "validator_score": 9.972610725466e23
+        },
+        {
+          "validatorAddress": "0x020e468c252ff18261b1996d25f0fff4f830cf7a",
+          "validator_score": 9.953616023092e23
+        }
       ]
     },
     {
       "group": "0x6f8e6ff69935f000b09d182a4739342faeaf0c77",
       "name": "CoinList",
       "metadataURL": "https://bisontrails.co/celo-metadata/coinlist/0x6f8e6ff69935f000b09d182a4739342faeaf0c77.json",
-      "blockNumber": 1104126,
-      "votingPower": 6.903390632111162e24,
-      "votingPowerFraction": "0.0296492254323671531482843781",
-      "capacityAvailable": 1.5675957105299592e25,
-      "totalCapacity": 2.2579347737410755e25,
+      "blockNumber": 1324308,
+      "votingPower": 3.612761656544972e24,
+      "votingPowerFraction": "0.0153584990565960470603227398",
+      "capacityAvailable": 1.2636928423123014e25,
+      "totalCapacity": 1.6249690079667985e25,
       "multiplier": 1e24,
       "groupShare": 0,
-      "validatorAddresses": [
-        "0x10bcb8943b7bf9b33e4d510feb212bd20b1ce9b2",
-        "0x88f243bc0f439549dffff3c8c60b82f298116c9d",
-        "0xd6dcbbc16ce0fbc95866a881f8f1728c48181507",
-        "0xe63ec388396912f52d73c6c9c6d06e629d7aea39"
+      "groupScore": 9.396735632824e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x10bcb8943b7bf9b33e4d510feb212bd20b1ce9b2",
+          "validator_score": 9.92862157339e23
+        },
+        {
+          "validatorAddress": "0x88f243bc0f439549dffff3c8c60b82f298116c9d",
+          "validator_score": 9.929303495056e23
+        },
+        {
+          "validatorAddress": "0xd6dcbbc16ce0fbc95866a881f8f1728c48181507",
+          "validator_score": 8.332281830026e23
+        }
       ]
     },
     {
       "group": "0x7dbb949346aeda9233218831455d57eb8344af82",
       "name": "",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 1.1288738071523172e25,
-      "votingPowerFraction": "0.0484837607729550021875346742",
-      "capacityAvailable": 1.881114852635951e25,
-      "totalCapacity": 3.009988659788268e25,
+      "blockNumber": 1324308,
+      "votingPower": 1.1312097322254866e25,
+      "votingPowerFraction": "0.048089758630278832877218468",
+      "capacityAvailable": 1.895539263468452e25,
+      "totalCapacity": 3.0267489956939386e25,
       "multiplier": 1e24,
       "groupShare": 1e24,
-      "validatorAddresses": [
-        "0x822d6b9bba2a3e460f3ab45faaed98993522a8f0",
-        "0x5423c03551641336b3d5886f85f882fd2bd5db7e",
-        "0x6964a0c39fa7f63c59f7dc77ac1802f24e2649aa",
-        "0xc3722118ccf6dba9fe35d8bedb09332c85174d57",
-        "0x2edfe9e0c9ea37e9459da3b846e7f1bcce062494"
+      "groupScore": 9.9359361244144e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x822d6b9bba2a3e460f3ab45faaed98993522a8f0",
+          "validator_score": 9.933630287428e23
+        },
+        {
+          "validatorAddress": "0x5423c03551641336b3d5886f85f882fd2bd5db7e",
+          "validator_score": 9.961923212929e23
+        },
+        {
+          "validatorAddress": "0x6964a0c39fa7f63c59f7dc77ac1802f24e2649aa",
+          "validator_score": 9.927988941943e23
+        },
+        {
+          "validatorAddress": "0xc3722118ccf6dba9fe35d8bedb09332c85174d57",
+          "validator_score": 9.927485301556e23
+        },
+        {
+          "validatorAddress": "0x2edfe9e0c9ea37e9459da3b846e7f1bcce062494",
+          "validator_score": 9.928652878216e23
+        }
       ]
     },
     {
       "group": "0x9eb1d96b5f0bdd3114ea1461182c688178ae6c4c",
       "name": "",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 1.0159851387497322e25,
-      "votingPowerFraction": "0.043635329391049549028872349",
-      "capacityAvailable": 1.881114852635951e25,
-      "totalCapacity": 2.8970999913856833e25,
+      "blockNumber": 1324308,
+      "votingPower": 1.0180874686510342e25,
+      "votingPowerFraction": "0.0432807279120726099142708127",
+      "capacityAvailable": 1.895539263468452e25,
+      "totalCapacity": 2.913626732119486e25,
       "multiplier": 1e24,
       "groupShare": 1e24,
-      "validatorAddresses": [
-        "0xdd431a27adce5b957fe2fe877a65f0e6304d68a0",
-        "0xda71a321c75a0fe76073384bc52f6d583eaec517",
-        "0xa65c5c32b58012d188f56e9305437fc545f99614",
-        "0x17650cbf3b536b4ad14cd3347eb830e27b9c4396",
-        "0x670e94d7a79361b8a9b5599301c0f44ae7139d34"
+      "groupScore": 9.9581088237454e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xdd431a27adce5b957fe2fe877a65f0e6304d68a0",
+          "validator_score": 9.968995123093e23
+        },
+        {
+          "validatorAddress": "0xda71a321c75a0fe76073384bc52f6d583eaec517",
+          "validator_score": 9.957642917104e23
+        },
+        {
+          "validatorAddress": "0xa65c5c32b58012d188f56e9305437fc545f99614",
+          "validator_score": 9.957428299396e23
+        },
+        {
+          "validatorAddress": "0x17650cbf3b536b4ad14cd3347eb830e27b9c4396",
+          "validator_score": 9.949243519261e23
+        },
+        {
+          "validatorAddress": "0x670e94d7a79361b8a9b5599301c0f44ae7139d34",
+          "validator_score": 9.957234259873e23
+        }
       ]
     },
     {
       "group": "0xf87a83a0fb9118102b7fe2f19b7940de3d421932",
       "name": "#ValiDAO",
       "metadataURL": "",
-      "blockNumber": 1104126,
+      "blockNumber": 1324308,
       "votingPower": 0,
       "votingPowerFraction": "0",
-      "capacityAvailable": 3.1351914210599184e24,
-      "totalCapacity": 3.1351914210599184e24,
+      "capacityAvailable": 3.1592321057807534e24,
+      "totalCapacity": 3.1592321057807534e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": []
+      "groupScore": 0,
+      "validatorDetails": []
     },
     {
       "group": "0x98c62d86634bb0e3f818efc550e2f33369eae7f3",
       "name": "Tango",
       "metadataURL": "https://gist.githubusercontent.com/mcortesi/b249d7fed05ceaee15c3a97a51268fac/raw/98f4cbefa19f59ab6a1ca2ce38e6b8d0e2080847/group-metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 3.344081766163871e24,
-      "votingPowerFraction": "0.0143624255721626052303234881",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.2749656029343627e25,
+      "blockNumber": 1324308,
+      "votingPower": 3.417454538460298e24,
+      "votingPowerFraction": "0.0145282133986933832136166712",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.2895150855802559e25,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": [
-        "0xed32008db382d078babb0eb6f91df0207d909899",
-        "0x897c683206ddb5f134f451527c2b6f5e837407de"
+      "groupScore": 9.61526986633e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xed32008db382d078babb0eb6f91df0207d909899",
+          "validator_score": 9.94843772038e23
+        },
+        {
+          "validatorAddress": "0x897c683206ddb5f134f451527c2b6f5e837407de",
+          "validator_score": 9.28210201228e23
+        }
       ]
     },
     {
       "group": "0x8954661e743c60c966e2ff6002b514126bb1cfe2",
       "name": "“Gossip”",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 1.5578860221086753e24,
-      "votingPowerFraction": "0.00669093150437992745332773258",
-      "capacityAvailable": 6.270382842119837e24,
-      "totalCapacity": 7.828268864228512e24,
+      "blockNumber": 1324308,
+      "votingPower": 1.8124047972133684e24,
+      "votingPowerFraction": "0.0077048585028418873630368719",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 8.130869008774876e24,
       "multiplier": 1e24,
       "groupShare": 1e23,
-      "validatorAddresses": ["0x2df505a1f281cd3ba10baa093fa89909c75362b5"]
+      "groupScore": 9.942735830986e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x2df505a1f281cd3ba10baa093fa89909c75362b5",
+          "validator_score": 9.942735830986e23
+        }
+      ]
     },
     {
       "group": "0x34649ada2cb44d851a2103feaa8922deddabfc1c",
       "name": "Bitcandy 🍬",
       "metadataURL": "",
-      "blockNumber": 1104126,
-      "votingPower": 3.2098370365084625e24,
-      "votingPowerFraction": "0.0137858607412306523509573404",
-      "capacityAvailable": 9.405574263179755e24,
-      "totalCapacity": 1.2615411299688219e25,
+      "blockNumber": 1324308,
+      "votingPower": 3.2445068153856413e24,
+      "votingPowerFraction": "0.0137929815472175258892302415",
+      "capacityAvailable": 9.47769631734226e24,
+      "totalCapacity": 1.2722203132727902e25,
       "multiplier": 1e24,
       "groupShare": 1e24,
-      "validatorAddresses": [
-        "0x02dc997790352e12fa90eb1a937dfef4bf8dbbc0",
-        "0xe34cd052e59ff830b286a125c52dde568ac8bd48"
+      "groupScore": 9.631629536239e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x02dc997790352e12fa90eb1a937dfef4bf8dbbc0",
+          "validator_score": 9.33501496231e23
+        },
+        {
+          "validatorAddress": "0xe34cd052e59ff830b286a125c52dde568ac8bd48",
+          "validator_score": 9.928244110168e23
+        }
       ]
     },
     {
       "group": "0x4da92da1afbf103f2b52dd29326e34c98ca1e78c",
       "name": "a16z",
       "metadataURL": "https://celometadata.s3.amazonaws.com/a16zgroup001.json",
-      "blockNumber": 1104126,
-      "votingPower": 7.583638720297146e24,
-      "votingPowerFraction": "0.0325708084618349644252031123",
-      "capacityAvailable": 1.2540765684239674e25,
-      "totalCapacity": 2.012440440453682e25,
+      "blockNumber": 1324308,
+      "votingPower": 7.599331184521546e24,
+      "votingPowerFraction": "0.032306122552201145091304793",
+      "capacityAvailable": 1.2636928423123014e25,
+      "totalCapacity": 2.023625960764456e25,
       "multiplier": 1e24,
       "groupShare": 1e24,
-      "validatorAddresses": [
-        "0xb2728edcc9c255c2d053ea6cae31cfd584b758d3",
-        "0xfce0779607246eb5121a5a4192d6ac4a758c217d",
-        "0x394b846e0ecf83ef350a2a7ccb7be0c6552e7cbc"
+      "groupScore": 8.332281830026e23,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xb2728edcc9c255c2d053ea6cae31cfd584b758d3",
+          "validator_score": 8.332281830026e23
+        },
+        {
+          "validatorAddress": "0xfce0779607246eb5121a5a4192d6ac4a758c217d",
+          "validator_score": 8.332281830026e23
+        },
+        {
+          "validatorAddress": "0x394b846e0ecf83ef350a2a7ccb7be0c6552e7cbc",
+          "validator_score": 8.332281830026e23
+        }
       ]
     },
     {
       "group": "0xfa592ae90e407da044602342625aaabbf5d50c22",
       "name": "Alpha Virtual",
       "metadataURL": "http://celo.alphavirtual.com/metadata/prod/group_metadata.json",
-      "blockNumber": 1104126,
-      "votingPower": 2.805721e23,
-      "votingPowerFraction": "0.001205023138084924170279760595",
-      "capacityAvailable": 1.881114852635951e25,
-      "totalCapacity": 1.9091720626359511e25,
+      "blockNumber": 1324308,
+      "votingPower": 4.075721e23,
+      "votingPowerFraction": "0.001732662242471668141228948736",
+      "capacityAvailable": 1.895539263468452e25,
+      "totalCapacity": 1.936296473468452e25,
       "multiplier": 1e24,
       "groupShare": 1e22,
-      "validatorAddresses": [
-        "0x9ea3f9130e7e5df7d553cc311687bde0c3d88822",
-        "0xe0945f0c413ea24a7a75b5975aca35ea386fc892",
-        "0x5e6a5e96616467afc672928c14b16c12f2373c9d",
-        "0xd9ac77973824886cb2100c404925fb788a66fe2d",
-        "0x53a3c96d7ab9b38b32038ac0a8d3a7c7ee62962f"
+      "groupScore": 0,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x9ea3f9130e7e5df7d553cc311687bde0c3d88822",
+          "validator_score": 0
+        },
+        {
+          "validatorAddress": "0xe0945f0c413ea24a7a75b5975aca35ea386fc892",
+          "validator_score": 0
+        },
+        {
+          "validatorAddress": "0x5e6a5e96616467afc672928c14b16c12f2373c9d",
+          "validator_score": 0
+        },
+        {
+          "validatorAddress": "0xd9ac77973824886cb2100c404925fb788a66fe2d",
+          "validator_score": 0
+        },
+        {
+          "validatorAddress": "0x53a3c96d7ab9b38b32038ac0a8d3a7c7ee62962f",
+          "validator_score": 0
+        }
       ]
+    },
+    {
+      "group": "0x3c86b6a27a074c1c4cc904d8808a1c33078db4e6",
+      "name": "Celo.Works",
+      "metadataURL": "",
+      "blockNumber": 1324308,
+      "votingPower": 2e22,
+      "votingPowerFraction": "8.50235942289311825431107152e-05",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 6.338464211561507e24,
+      "multiplier": 1e24,
+      "groupShare": 1e23,
+      "groupScore": 0,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0x4cb665c9dfd45a59f55c458f00cb2e4f53256163",
+          "validator_score": 0
+        }
+      ]
+    },
+    {
+      "group": "0x71dcc67baeecd9308e341359f70b782d9c3565b8",
+      "name": "Virtual Hive",
+      "metadataURL": "https://gist.githubusercontent.com/UltraViolentLight/15431f6d5b9c4cb56278e4d96b301677/raw/2cd767b668017d10b62a27f98c80baf821f4f82b/metadata.json",
+      "blockNumber": 1324308,
+      "votingPower": 0,
+      "votingPowerFraction": "0",
+      "capacityAvailable": 6.318464211561507e24,
+      "totalCapacity": 6.318464211561507e24,
+      "multiplier": 1e24,
+      "groupShare": 1e23,
+      "groupScore": 0,
+      "validatorDetails": [
+        {
+          "validatorAddress": "0xe51662a4448cc9994df7b28e4f0b38d678958b0d",
+          "validator_score": 0
+        }
+      ]
+    },
+    {
+      "group": "0xa512cbe686eddb170219aa23ce6cb243fa2873cb",
+      "name": "Academia",
+      "metadataURL": "",
+      "blockNumber": 1324308,
+      "votingPower": 0,
+      "votingPowerFraction": "0",
+      "capacityAvailable": 3.1592321057807534e24,
+      "totalCapacity": 3.1592321057807534e24,
+      "multiplier": 1e24,
+      "groupShare": 1e23,
+      "groupScore": 0,
+      "validatorDetails": []
+    },
+    {
+      "group": "0x23f4877174ff3849a14a591a928dacf98375288e",
+      "name": "StudexAnimalExchange",
+      "metadataURL": "",
+      "blockNumber": 1324308,
+      "votingPower": 0,
+      "votingPowerFraction": "0",
+      "capacityAvailable": 3.1592321057807534e24,
+      "totalCapacity": 3.1592321057807534e24,
+      "multiplier": 1e24,
+      "groupShare": 1e24,
+      "groupScore": 0,
+      "validatorDetails": []
     }
   ]
 }

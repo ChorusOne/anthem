@@ -94,8 +94,8 @@ class CosmosValidatorsListPage extends React.Component<IProps, IState> {
     } = this.state;
     const {
       i18n,
-      prices,
       network,
+      fiatPriceData,
       cosmosValidators,
       cosmosStakingPool,
       cosmosAccountBalances,
@@ -123,7 +123,7 @@ class CosmosValidatorsListPage extends React.Component<IProps, IState> {
             [cosmosValidators, "cosmosValidators"],
             [cosmosStakingPool, "cosmosStakingPool"],
             [cosmosAccountBalances, "cosmosAccountBalances"],
-            [prices, "prices"],
+            [fiatPriceData, "fiatPriceData"],
             [cosmosRewardsByValidator, "cosmosRewardsByValidator"],
           ]}
         >
@@ -137,12 +137,12 @@ class CosmosValidatorsListPage extends React.Component<IProps, IState> {
             IQuery["cosmosValidators"],
             IQuery["cosmosStakingPool"],
             ICosmosAccountBalances,
-            IQuery["prices"],
+            IQuery["fiatPriceData"],
             IQuery["cosmosRewardsByValidator"],
           ]) => {
             const balances = getAccountBalances(
               accountBalancesResponse,
-              pricesResponse,
+              fiatPriceData.fiatPriceData.price,
               network,
             );
 

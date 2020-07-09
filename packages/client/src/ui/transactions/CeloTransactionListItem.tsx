@@ -255,6 +255,18 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
           </EventContextBox>
         </EventRowItem>
         {entries.map(([key, value]) => {
+          const addressKeys = new Set([
+            "validator",
+            "group",
+            "account",
+            "proposer",
+            "from",
+            "to",
+            "owner",
+            "spender",
+          ]);
+          const keyRepresentsAddress = addressKeys.has(key);
+
           if (key === "value") {
             return (
               <EventRowItem key={key} style={{ minWidth: 215 }}>
@@ -269,7 +281,7 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
                 </EventContextBox>
               </EventRowItem>
             );
-          } else {
+          } else if (keyRepresentsAddress) {
             return (
               <ClickableEventRow
                 key={key}
@@ -289,6 +301,24 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
                   </EventText>
                   <EventText style={{ fontWeight: 100, fontSize: 13 }}>
                     {formatAddressString(value, true)}
+                  </EventText>
+                </EventContextBox>
+              </ClickableEventRow>
+            );
+          } else {
+            return (
+              <ClickableEventRow
+                key={key}
+                style={{ minWidth: 215 }}
+                onClick={() => copyTextToClipboard(value)}
+              >
+                <EventIconBox />
+                <EventContextBox>
+                  <EventText style={{ fontWeight: "bold" }}>
+                    {capitalizeString(key)}
+                  </EventText>
+                  <EventText style={{ fontWeight: 100, fontSize: 13 }}>
+                    {value}
                   </EventText>
                 </EventContextBox>
               </ClickableEventRow>

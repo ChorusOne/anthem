@@ -277,7 +277,8 @@ const getChartData = (
         accumulatedRewards = add(x.snapshotReward, accumulatedRewards);
         value = accumulatedRewards;
         break;
-      case "STAKING":
+      case "STAKING": // Staking is Voting in Celo...
+      case "VOTING":
         value = x.totalLockedGoldBalance;
         break;
       case "COMMISSIONS":

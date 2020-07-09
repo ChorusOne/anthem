@@ -179,20 +179,20 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   renderSendReceiveTransactionSetup = () => {
     const {
       i18n,
-      prices,
       ledger,
       fiatCurrency,
+      fiatPriceData,
       cosmosAccountBalances,
     } = this.props;
     const { address } = ledger;
     const { t, tString } = i18n;
-    const atomsConversionRate = prices.prices;
+    const atomsConversionRate = fiatPriceData.fiatPriceData.price;
     return (
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
         results={[
           [cosmosAccountBalances, "cosmosAccountBalances"],
-          [prices, "prices"],
+          [fiatPriceData, "fiatPriceData"],
         ]}
       >
         {([accountBalancesData]: [ICosmosAccountBalances]) => {
@@ -278,16 +278,15 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   renderRewardsTransactionSetup = () => {
     const {
       i18n,
-      prices,
       ledger,
       fiatCurrency,
+      fiatPriceData,
       cosmosValidators,
       cosmosRewardsByValidator,
       cosmosAccountBalances,
     } = this.props;
     const { t, tString } = i18n;
     const { network } = ledger;
-    const atomsConversionRate = prices.prices;
 
     return (
       <GraphQLGuardComponentMultipleQueries
@@ -296,6 +295,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           [cosmosAccountBalances, "cosmosAccountBalances"],
           [cosmosValidators, "cosmosValidators"],
           [cosmosRewardsByValidator, "cosmosRewardsByValidator"],
+          [fiatPriceData, "fiatPriceData"],
         ]}
       >
         {([accountBalancesData, validatorsList, rewardsData]: readonly [
@@ -303,6 +303,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           IQuery["cosmosValidators"],
           IQuery["cosmosRewardsByValidator"],
         ]) => {
+          const atomsConversionRate = fiatPriceData.fiatPriceData.price;
           const balances = getAccountBalances(
             accountBalancesData,
             atomsConversionRate,
@@ -449,26 +450,26 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   renderDelegationTransactionSetup = () => {
     const {
       i18n,
-      prices,
       ledger,
       cosmosValidators,
       fiatCurrency,
       transaction,
+      fiatPriceData,
       cosmosAccountBalances,
     } = this.props;
     const { t, tString } = i18n;
     const { selectedValidatorForDelegation } = transaction;
-    const atomsConversionRate = prices.prices;
     return (
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
         results={[
           [cosmosAccountBalances, "cosmosAccountBalances"],
-          [prices, "prices"],
           [cosmosValidators, "cosmosValidators"],
+          [fiatPriceData, "fiatPriceData"],
         ]}
       >
         {([accountBalancesData]: [ICosmosAccountBalances]) => {
+          const atomsConversionRate = fiatPriceData.fiatPriceData.price;
           const balances = getAccountBalances(
             accountBalancesData,
             atomsConversionRate,
@@ -835,9 +836,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   getMaximumAmount = () => {
-    const { prices, cosmosAccountBalances, ledger } = this.props;
+    const { fiatPriceData, cosmosAccountBalances, ledger } = this.props;
     const { ledgerActionType } = this.props.ledgerDialog;
-    const atomsConversionRate = prices.prices;
+    const atomsConversionRate = fiatPriceData.fiatPriceData.price;
     const IS_CLAIM = ledgerActionType === "CLAIM";
 
     const balancesData = cosmosAccountBalances.cosmosAccountBalances;

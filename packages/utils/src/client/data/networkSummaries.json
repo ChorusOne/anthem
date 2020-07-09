@@ -1,0 +1,49 @@
+{
+  "networkSummaries": [
+    {
+      "name": "COSMOS",
+      "tokenPrice": 3.441,
+      "lastDayChange": 12.304177545691898,
+      "marketCapitalization": 887035302.4659934,
+      "expectedReward": 9,
+      "inflation": 7.000000000000001,
+      "supportsLedger": true
+    },
+    {
+      "name": "TERRA",
+      "tokenPrice": 0.2159088,
+      "lastDayChange": -0.257400257400252,
+      "marketCapitalization": 215206656.39515603,
+      "expectedReward": 13,
+      "inflation": null,
+      "supportsLedger": true
+    },
+    {
+      "name": "KAVA",
+      "tokenPrice": 1.3511712,
+      "lastDayChange": 0.7617728531856004,
+      "marketCapitalization": 141452177.1006156,
+      "expectedReward": 9,
+      "inflation": 5.3402080169925945,
+      "supportsLedger": true
+    },
+    {
+      "name": "CELO",
+      "tokenPrice": 1.906,
+      "lastDayChange": -0.9355509355509365,
+      "marketCapitalization": 351557888,
+      "expectedReward": 8,
+      "inflation": null,
+      "supportsLedger": true
+    },
+    {
+      "name": "OASIS",
+      "tokenPrice": null,
+      "lastDayChange": null,
+      "marketCapitalization": null,
+      "expectedReward": null,
+      "inflation": null,
+      "supportsLedger": false
+    }
+  ]
+}

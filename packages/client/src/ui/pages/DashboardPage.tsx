@@ -40,7 +40,6 @@ import { composeWithProps } from "tools/context-utils";
 import AddressInputDashboardBar from "ui/AddressInputDashboardBar";
 import BalancesSwitchContainer from "ui/balances/BalancesSwitchContainer";
 import { IThemeProps } from "ui/containers/ThemeContainer";
-import LoginStart from "ui/LoginStart";
 import PortfolioSwitchContainer from "ui/portfolio/PortfolioSwitchContainer";
 import { View } from "ui/SharedComponents";
 import Toast from "ui/Toast";
@@ -62,25 +61,11 @@ class DashboardPage extends React.Component<IProps> {
   }
 
   render(): JSX.Element {
-    const { address, ledger, i18n, app, settings } = this.props;
+    const { ledger, i18n, app, settings } = this.props;
     const { t, tString } = i18n;
     const { network } = ledger;
     const { portfolioExpanded, transactionsExpanded } = app;
     const { isDesktop, currencySetting, fiatCurrency } = settings;
-
-    if (!address) {
-      return (
-        <DashboardDefaultView>
-          <WelcomeTitle>Welcome to Anthem!</WelcomeTitle>
-          <LoginStart />
-          <Link to="/login">
-            <Button icon="arrow-left" style={{ marginTop: 24 }}>
-              Exit to Landing Page
-            </Button>
-          </Link>
-        </DashboardDefaultView>
-      );
-    }
 
     const HIDE_TOP_PANEL = transactionsExpanded;
     const IS_PORTFOLIO_EXPANDED = portfolioExpanded;
@@ -236,6 +221,7 @@ class DashboardPage extends React.Component<IProps> {
         AVAILABLE: tString("Available"),
         REWARDS: tString("Rewards"),
         STAKING: tString("Staking"),
+        VOTING: tString("Staking"),
         COMMISSIONS: tString("Commission"),
         CUSD: "cUSD",
       };
@@ -453,17 +439,6 @@ const shouldShowCommissionsLink = (
     cosmosAccountHistory.cosmosAccountHistory.validatorCommissions.length
   );
 };
-
-const DashboardDefaultView = styled.div`
-  margin-top: -30px;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const WelcomeTitle = styled.h1``;
 
 /** ===========================================================================
  * Props

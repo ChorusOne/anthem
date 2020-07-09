@@ -103,8 +103,8 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
     } = this.state;
     const {
       i18n,
-      prices,
       network,
+      fiatPriceData,
       celoValidatorGroups,
       celoAccountBalances,
     } = this.props;
@@ -122,20 +122,20 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
 
     return (
       <PageContainer>
-        <PageAddressBar pageTitle="Staking" />
+        <PageAddressBar pageTitle="Voting" />
         <GraphQLGuardComponentMultipleQueries
           loadingComponent={<DashboardLoader style={{ marginTop: 150 }} />}
           tString={i18n.tString}
           results={[
             [celoValidatorGroups, "celoValidatorGroups"],
             [celoAccountBalances, "celoAccountBalances"],
-            [prices, "prices"],
+            [fiatPriceData, "fiatPriceData"],
           ]}
         >
           {([validatorList, accountBalancesResponse, pricesResponse]: [
             IQuery["celoValidatorGroups"],
             ICeloAccountBalances,
-            IQuery["prices"],
+            IQuery["fiatPriceData"],
           ]) => {
             const {
               delegations,
@@ -193,7 +193,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                         CELO_VALIDATORS_LIST_SORT_FILTER.VOTING_POWER,
                       )}
                     >
-                      <H5 style={{ margin: 0 }}>Voting Power</H5>
+                      <H5 style={{ margin: 0 }}>% of Total Votes</H5>
                       <SortFilterIcon
                         ascending={sortValidatorsListAscending}
                         active={
@@ -286,6 +286,26 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                               <ValidatorDetails>
                                 <ValidatorDetailRow>
                                   <RowItem width={200}>
+                                    <H6 style={{ margin: 0 }}>Group Score</H6>
+                                  </RowItem>
+                                  <RowItem width={150}>
+                                    <Text>
+                                      {(v.groupScore / 1e22).toFixed(2)}%
+                                    </Text>
+                                  </RowItem>
+                                </ValidatorDetailRow>
+                                <ValidatorDetailRow>
+                                  <RowItem width={200}>
+                                    <H6 style={{ margin: 0 }}>Group Share</H6>
+                                  </RowItem>
+                                  <RowItem width={150}>
+                                    <Text>
+                                      {(v.groupShare / 1e22).toFixed(2)}%
+                                    </Text>
+                                  </RowItem>
+                                </ValidatorDetailRow>
+                                <ValidatorDetailRow>
+                                  <RowItem width={200}>
                                     <H6 style={{ margin: 0 }}>Group Address</H6>
                                   </RowItem>
                                   <RowItem width={150}>
@@ -341,15 +361,16 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                       onClick={() => this.handleAddValidator(v)}
                                       data-cy="delegate-button"
                                     >
-                                      Lock Celo
+                                      Vote
                                     </Button>
                                   </RowItem>
                                 </ValidatorDetailRow>
-                                {v.validatorAddresses.map((address, index) => {
+                                {v.validatorDetails.map((details, index) => {
+                                  const { validatorAddress } = details;
                                   // Only render label for first row
                                   const renderTitle = index === 0;
                                   return (
-                                    <ValidatorDetailRow key={address}>
+                                    <ValidatorDetailRow key={validatorAddress}>
                                       {renderTitle ? (
                                         <RowItem width={200}>
                                           <H6 style={{ margin: 0 }}>
@@ -361,12 +382,15 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                       )}
                                       <RowItem width={150}>
                                         <Text>
-                                          {formatAddressString(address, true)}
+                                          {formatAddressString(
+                                            validatorAddress,
+                                            true,
+                                          )}
                                         </Text>
                                       </RowItem>
                                       <RowItem
                                         onClick={() =>
-                                          copyTextToClipboard(address)
+                                          copyTextToClipboard(validatorAddress)
                                         }
                                       >
                                         <CopyIcon />
@@ -403,6 +427,15 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                             network.denominationSize,
                           )}
                         </Text>
+                      </RowItem>
+                      <RowItem width={100}>
+                        <Button
+                          style={{ marginBottom: 6 }}
+                          onClick={this.handleLockGold}
+                          data-cy="lock-gold-button"
+                        >
+                          Lock Celo
+                        </Button>
                       </RowItem>
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
@@ -472,9 +505,8 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                     </ValidatorDetailRow>
                   </Card>
                   <StakingRow style={{ paddingLeft: 14 }}>
-                    <RowItem width={45} />
-                    <RowItemHeader width={150}>
-                      <H5 style={{ margin: 0 }}>Your Validators</H5>
+                    <RowItemHeader width={195}>
+                      <H5 style={{ margin: 0 }}>Your Validator Groups</H5>
                     </RowItemHeader>
                     <RowItemHeader width={100}>
                       <H5 style={{ margin: 0 }}>Amount</H5>
@@ -489,7 +521,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                         <NetworkLogoIcon network={network.name} />
                       </RowItem>
                       <RowItem width={150}>
-                        <H5 style={{ margin: 0 }}>STAKING</H5>
+                        <H5 style={{ margin: 0 }}>VOTING</H5>
                       </RowItem>
                       <RowItem width={100}>
                         <Text>
@@ -587,6 +619,12 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
       validatorsListSortFilter: sortFilter,
       sortValidatorsListAscending: sortDirection,
     });
+  };
+
+  handleLockGold = () => {
+    Toast.warn("⚠️ Ledger actions coming soon.");
+
+    // TODO: Not implemented yet.
   };
 
   handleAddValidator = (validator: ICeloValidatorGroup) => {

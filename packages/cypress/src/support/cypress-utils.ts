@@ -143,7 +143,7 @@ const loginWithAddress = (type: any, network: Network, useLedger = false) => {
    * Visit the app. Expect redirect to login and initiate the login
    * enter address flow.
    */
-  cy.visit(`${APP_URL}/${network}/total`);
+  cy.visit(`${APP_URL}/login`);
   cy.url().should("contain", "/login");
 
   /**
@@ -195,7 +195,7 @@ const logout = (type: any) => {
   cy.get(".bp3-intent-danger > .bp3-button-text").click({ force: true });
 
   // Assert the logout action has occurred successfully
-  cy.url().should("contain", "/login");
+  cy.url().should("contain", "/networks");
 };
 
 /** ===========================================================================

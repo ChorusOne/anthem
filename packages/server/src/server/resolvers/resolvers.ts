@@ -1,16 +1,23 @@
 import {
+  assertUnreachable,
   ERRORS,
   getNetworkDefinitionFromIdentifier,
   getNetworkDefinitionFromTicker,
   IDailyPercentChangeQueryVariables,
+  IFiatPriceDataQueryVariables,
   IFiatPriceHistoryQueryVariables,
+  INetworkSummariesQueryVariables,
   IPricesQueryVariables,
   IQuery,
   NetworkDefinition,
+  NETWORKS,
 } from "@anthem/utils";
 import UnionResolvers from "../resolve-types";
+import CELO from "../sources/celo";
+import COSMOS_SDK from "../sources/cosmos-sdk";
 import FIAT_CURRENCIES from "../sources/fiat-currencies";
 import EXCHANGE_DATA_API from "../sources/fiat-price-data";
+import OASIS from "../sources/oasis";
 import CeloResolvers from "./celo-resolvers";
 import CosmosResolvers from "./cosmos-resolvers";
 import OasisResolvers from "./oasis-resolvers";
@@ -41,21 +48,6 @@ const resolvers = {
     ...CosmosResolvers,
     ...CeloResolvers,
 
-    // Add fiat price resolvers:
-    prices: async (
-      _: void,
-      args: IPricesQueryVariables,
-    ): Promise<IQuery["prices"]> => {
-      const { currency, versus } = args;
-      const network = getNetworkDefinitionFromTicker(currency);
-
-      if (!network.supportsFiatPrices) {
-        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
-      }
-
-      return EXCHANGE_DATA_API.fetchExchangeRate(currency, versus);
-    },
-
     fiatPriceHistory: async (
       _: void,
       args: IFiatPriceHistoryQueryVariables,
@@ -70,6 +62,40 @@ const resolvers = {
       return EXCHANGE_DATA_API.fetchPortfolioFiatPriceHistory(fiat, network);
     },
 
+    fiatPriceData: async (
+      _: void,
+      args: IFiatPriceDataQueryVariables,
+    ): Promise<IQuery["fiatPriceData"]> => {
+      const { currency, fiat } = args;
+      const network = getNetworkDefinitionFromTicker(currency);
+
+      if (!network.supportsFiatPrices) {
+        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
+      }
+
+      return EXCHANGE_DATA_API.fetchPriceData(currency, fiat);
+    },
+
+    /**
+     * TODO: Deprecated, remove this.
+     */
+    prices: async (
+      _: void,
+      args: IPricesQueryVariables,
+    ): Promise<IQuery["prices"]> => {
+      const { currency, versus } = args;
+      const network = getNetworkDefinitionFromTicker(currency);
+
+      if (!network.supportsFiatPrices) {
+        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
+      }
+
+      return EXCHANGE_DATA_API.fetchExchangeRate(currency, versus);
+    },
+
+    /**
+     * TODO: Deprecated, remove this.
+     */
     dailyPercentChange: async (
       _: void,
       args: IDailyPercentChangeQueryVariables,
@@ -86,6 +112,55 @@ const resolvers = {
 
     fiatCurrencies: async (_: void): Promise<IQuery["fiatCurrencies"]> => {
       return FIAT_CURRENCIES;
+    },
+
+    networkSummaries: async (
+      _: void,
+      args: INetworkSummariesQueryVariables,
+    ): Promise<IQuery["networkSummaries"]> => {
+      const { fiat } = args;
+      const fiatData = await EXCHANGE_DATA_API.getPriceDataForNetwork(fiat);
+
+      const result = await Promise.all(
+        fiatData.map(async data => {
+          const network = NETWORKS[data.name];
+          const { tokenPrice } = data;
+
+          let stats: any = {};
+          switch (network.name) {
+            case "COSMOS":
+            case "KAVA":
+            case "TERRA":
+              stats = await COSMOS_SDK.fetchNetworkStats(network);
+              break;
+            case "OASIS":
+              stats = await OASIS.fetchNetworkSummaryStats();
+              break;
+            case "CELO":
+              stats = await CELO.fetchNetworkSummaryStats();
+              break;
+            default:
+              assertUnreachable(network.name);
+          }
+
+          const { inflation, totalSupply } = stats;
+
+          // Calculate market cap directly using total supply and price.
+          const marketCapitalization = tokenPrice
+            ? (totalSupply * tokenPrice) / network.denominationSize
+            : null;
+
+          return {
+            ...data,
+            inflation,
+            marketCapitalization,
+            expectedReward: network.expectedReward, // Use hard-coded value for now
+            supportsLedger: network.supportsLedger,
+          };
+        }),
+      );
+
+      return result;
     },
   },
 };

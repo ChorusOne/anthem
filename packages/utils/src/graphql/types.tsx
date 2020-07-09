@@ -180,6 +180,12 @@ export interface ICeloTransactionTags {
   parameters: Scalars["String"];
 }
 
+export interface ICeloValidatorDetail {
+   __typename?: "CeloValidatorDetail";
+  validatorAddress: Scalars["String"];
+  validator_score: Scalars["Float"];
+}
+
 export interface ICeloValidatorGroup {
    __typename?: "CeloValidatorGroup";
   group: Scalars["String"];
@@ -192,7 +198,8 @@ export interface ICeloValidatorGroup {
   totalCapacity: Scalars["Float"];
   multiplier: Scalars["Float"];
   groupShare: Scalars["Float"];
-  validatorAddresses: Array<Scalars["String"]>;
+  groupScore: Scalars["Float"];
+  validatorDetails: ICeloValidatorDetail[];
 }
 
 export interface ICommissionRates {
@@ -448,6 +455,12 @@ export interface IFiatPrice {
   timestamp: Scalars["String"];
 }
 
+export interface IFiatPriceData {
+   __typename?: "FiatPriceData";
+  price: Scalars["Float"];
+  lastDayChange: Scalars["Float"];
+}
+
 export interface ILogMessage {
    __typename?: "LogMessage";
   code: Maybe<Scalars["Int"]>;
@@ -518,6 +531,17 @@ export interface IMsgWithdrawDelegationReward {
 export interface IMsgWithdrawValidatorCommission {
    __typename?: "MsgWithdrawValidatorCommission";
   validator_address: Maybe<Scalars["String"]>;
+}
+
+export interface INetworkSummary {
+   __typename?: "NetworkSummary";
+  name: Scalars["String"];
+  tokenPrice: Maybe<Scalars["Float"]>;
+  lastDayChange: Maybe<Scalars["Float"]>;
+  marketCapitalization: Maybe<Scalars["Float"]>;
+  expectedReward: Maybe<Scalars["Float"]>;
+  inflation: Maybe<Scalars["Float"]>;
+  supportsLedger: Maybe<Scalars["Boolean"]>;
 }
 
 export interface IOasisAccountBalances {
@@ -748,6 +772,8 @@ export interface IQuery {
   fiatPriceHistory: IFiatPrice[];
   dailyPercentChange: Scalars["String"];
   prices: IPrice;
+  fiatPriceData: IFiatPriceData;
+  networkSummaries: INetworkSummary[];
 }
 
 export interface IQueryCosmosAccountBalancesArgs {
@@ -885,6 +911,15 @@ export interface IQueryDailyPercentChangeArgs {
 export interface IQueryPricesArgs {
   currency: Scalars["String"];
   versus: Scalars["String"];
+}
+
+export interface IQueryFiatPriceDataArgs {
+  currency: Scalars["String"];
+  fiat: Scalars["String"];
+}
+
+export interface IQueryNetworkSummariesArgs {
+  fiat: Scalars["String"];
 }
 
 export interface IQueuedProposal {
@@ -1160,7 +1195,11 @@ export type ICeloValidatorGroupsQuery = (
   { __typename?: "Query" }
   & { celoValidatorGroups: Array<(
     { __typename?: "CeloValidatorGroup" }
-    & Pick<ICeloValidatorGroup, "group" | "name" | "metadataURL" | "blockNumber" | "votingPower" | "votingPowerFraction" | "capacityAvailable" | "totalCapacity" | "multiplier" | "groupShare" | "validatorAddresses">
+    & Pick<ICeloValidatorGroup, "group" | "name" | "metadataURL" | "blockNumber" | "votingPower" | "votingPowerFraction" | "capacityAvailable" | "totalCapacity" | "multiplier" | "groupShare" | "groupScore">
+    & { validatorDetails: Array<(
+      { __typename?: "CeloValidatorDetail" }
+      & Pick<ICeloValidatorDetail, "validatorAddress" | "validator_score">
+    )> }
   )> }
 );
 
@@ -1633,6 +1672,19 @@ export type IFiatCurrenciesQuery = (
   )> }
 );
 
+export interface IFiatPriceDataQueryVariables {
+  currency: Scalars["String"];
+  fiat: Scalars["String"];
+}
+
+export type IFiatPriceDataQuery = (
+  { __typename?: "Query" }
+  & { fiatPriceData: (
+    { __typename?: "FiatPriceData" }
+    & Pick<IFiatPriceData, "price" | "lastDayChange">
+  ) }
+);
+
 export interface IFiatPriceHistoryQueryVariables {
   fiat: Scalars["String"];
   network: Scalars["String"];
@@ -1643,6 +1695,18 @@ export type IFiatPriceHistoryQuery = (
   & { fiatPriceHistory: Array<(
     { __typename?: "FiatPrice" }
     & Pick<IFiatPrice, "price" | "timestamp">
+  )> }
+);
+
+export interface INetworkSummariesQueryVariables {
+  fiat: Scalars["String"];
+}
+
+export type INetworkSummariesQuery = (
+  { __typename?: "Query" }
+  & { networkSummaries: Array<(
+    { __typename?: "NetworkSummary" }
+    & Pick<INetworkSummary, "name" | "tokenPrice" | "lastDayChange" | "marketCapitalization" | "expectedReward" | "inflation" | "supportsLedger">
   )> }
 );
 
@@ -2417,7 +2481,11 @@ export const CeloValidatorGroupsDocument = gql`
     totalCapacity
     multiplier
     groupShare
-    validatorAddresses
+    groupScore
+    validatorDetails {
+      validatorAddress
+      validator_score
+    }
   }
 }
     `;
@@ -3865,6 +3933,58 @@ export function useFiatCurrenciesLazyQuery(baseOptions?: ApolloReactHooks.LazyQu
 export type FiatCurrenciesQueryHookResult = ReturnType<typeof useFiatCurrenciesQuery>;
 export type FiatCurrenciesLazyQueryHookResult = ReturnType<typeof useFiatCurrenciesLazyQuery>;
 export type FiatCurrenciesQueryResult = ApolloReactCommon.QueryResult<IFiatCurrenciesQuery, IFiatCurrenciesQueryVariables>;
+export const FiatPriceDataDocument = gql`
+    query fiatPriceData($currency: String!, $fiat: String!) {
+  fiatPriceData(currency: $currency, fiat: $fiat) {
+    price
+    lastDayChange
+  }
+}
+    `;
+export type FiatPriceDataComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IFiatPriceDataQuery, IFiatPriceDataQueryVariables>, "query"> & ({ variables: IFiatPriceDataQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+export const FiatPriceDataComponent = (props: FiatPriceDataComponentProps) => (
+      <ApolloReactComponents.Query<IFiatPriceDataQuery, IFiatPriceDataQueryVariables> query={FiatPriceDataDocument} {...props} />
+    );
+
+export type IFiatPriceDataProps<TChildProps = {}> = ApolloReactHoc.DataProps<IFiatPriceDataQuery, IFiatPriceDataQueryVariables> & TChildProps;
+export function withFiatPriceData<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  IFiatPriceDataQuery,
+  IFiatPriceDataQueryVariables,
+  IFiatPriceDataProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, IFiatPriceDataQuery, IFiatPriceDataQueryVariables, IFiatPriceDataProps<TChildProps>>(FiatPriceDataDocument, {
+      alias: "fiatPriceData",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useFiatPriceDataQuery__
+ *
+ * To run a query within a React component, call `useFiatPriceDataQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFiatPriceDataQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFiatPriceDataQuery({
+ *   variables: {
+ *      currency: // value for 'currency'
+ *      fiat: // value for 'fiat'
+ *   },
+ * });
+ */
+export function useFiatPriceDataQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<IFiatPriceDataQuery, IFiatPriceDataQueryVariables>) {
+        return ApolloReactHooks.useQuery<IFiatPriceDataQuery, IFiatPriceDataQueryVariables>(FiatPriceDataDocument, baseOptions);
+      }
+export function useFiatPriceDataLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<IFiatPriceDataQuery, IFiatPriceDataQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<IFiatPriceDataQuery, IFiatPriceDataQueryVariables>(FiatPriceDataDocument, baseOptions);
+        }
+export type FiatPriceDataQueryHookResult = ReturnType<typeof useFiatPriceDataQuery>;
+export type FiatPriceDataLazyQueryHookResult = ReturnType<typeof useFiatPriceDataLazyQuery>;
+export type FiatPriceDataQueryResult = ApolloReactCommon.QueryResult<IFiatPriceDataQuery, IFiatPriceDataQueryVariables>;
 export const FiatPriceHistoryDocument = gql`
     query fiatPriceHistory($fiat: String!, $network: String!) {
   fiatPriceHistory(fiat: $fiat, network: $network) {
@@ -3917,6 +4037,62 @@ export function useFiatPriceHistoryLazyQuery(baseOptions?: ApolloReactHooks.Lazy
 export type FiatPriceHistoryQueryHookResult = ReturnType<typeof useFiatPriceHistoryQuery>;
 export type FiatPriceHistoryLazyQueryHookResult = ReturnType<typeof useFiatPriceHistoryLazyQuery>;
 export type FiatPriceHistoryQueryResult = ApolloReactCommon.QueryResult<IFiatPriceHistoryQuery, IFiatPriceHistoryQueryVariables>;
+export const NetworkSummariesDocument = gql`
+    query networkSummaries($fiat: String!) {
+  networkSummaries(fiat: $fiat) {
+    name
+    tokenPrice
+    lastDayChange
+    marketCapitalization
+    expectedReward
+    inflation
+    supportsLedger
+  }
+}
+    `;
+export type NetworkSummariesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<INetworkSummariesQuery, INetworkSummariesQueryVariables>, "query"> & ({ variables: INetworkSummariesQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+export const NetworkSummariesComponent = (props: NetworkSummariesComponentProps) => (
+      <ApolloReactComponents.Query<INetworkSummariesQuery, INetworkSummariesQueryVariables> query={NetworkSummariesDocument} {...props} />
+    );
+
+export type INetworkSummariesProps<TChildProps = {}> = ApolloReactHoc.DataProps<INetworkSummariesQuery, INetworkSummariesQueryVariables> & TChildProps;
+export function withNetworkSummaries<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  INetworkSummariesQuery,
+  INetworkSummariesQueryVariables,
+  INetworkSummariesProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, INetworkSummariesQuery, INetworkSummariesQueryVariables, INetworkSummariesProps<TChildProps>>(NetworkSummariesDocument, {
+      alias: "networkSummaries",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useNetworkSummariesQuery__
+ *
+ * To run a query within a React component, call `useNetworkSummariesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNetworkSummariesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNetworkSummariesQuery({
+ *   variables: {
+ *      fiat: // value for 'fiat'
+ *   },
+ * });
+ */
+export function useNetworkSummariesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<INetworkSummariesQuery, INetworkSummariesQueryVariables>) {
+        return ApolloReactHooks.useQuery<INetworkSummariesQuery, INetworkSummariesQueryVariables>(NetworkSummariesDocument, baseOptions);
+      }
+export function useNetworkSummariesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<INetworkSummariesQuery, INetworkSummariesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<INetworkSummariesQuery, INetworkSummariesQueryVariables>(NetworkSummariesDocument, baseOptions);
+        }
+export type NetworkSummariesQueryHookResult = ReturnType<typeof useNetworkSummariesQuery>;
+export type NetworkSummariesLazyQueryHookResult = ReturnType<typeof useNetworkSummariesLazyQuery>;
+export type NetworkSummariesQueryResult = ApolloReactCommon.QueryResult<INetworkSummariesQuery, INetworkSummariesQueryVariables>;
 export const OasisAccountBalancesDocument = gql`
     query oasisAccountBalances($address: String!) {
   oasisAccountBalances(address: $address) {

@@ -1,10 +1,7 @@
 import { IQuery } from "@anthem/utils";
 import { NetworkLogoIcon } from "assets/images";
-import { COLORS } from "constants/colors";
 import {
-  DailyPercentChangeProps,
   FiatPriceDataProps,
-  withDailyPercentChange,
   withFiatPriceData,
   withGraphQLVariables,
 } from "graphql/queries";
@@ -16,9 +13,8 @@ import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 import { formatCurrencyAmount } from "tools/currency-utils";
-import { isGreaterThan, isLessThan } from "tools/math-utils";
 import AddressInput from "ui/AddressInput";
-import { View } from "ui/SharedComponents";
+import { PercentChangeText, View } from "ui/SharedComponents";
 import { GraphQLGuardComponent } from "./GraphQLGuardComponents";
 
 /** ===========================================================================
@@ -37,70 +33,56 @@ class AddressInputDashboardBar extends React.Component<IProps, {}> {
       return null;
     }
 
-    const { i18n, network, prices, dailyPercentChange } = this.props;
+    const { i18n, address, network, fiatPriceData } = this.props;
     const { tString } = i18n;
 
     return (
       <AddressInputBar>
-        <GraphQLGuardComponent
-          tString={tString}
-          dataKey="prices"
-          errorComponent={
-            <Row style={{ width: 110 }}>
-              <NetworkLogoIcon network={network.name} />
-              <NetworkBar>
-                <b style={{ margin: 0, fontSize: 14 }}>{network.name}</b>
-                <p style={{ margin: 0 }}>Network</p>
-              </NetworkBar>
-            </Row>
-          }
-          result={prices}
-          loadingComponent={<p style={{ width: 135 }} />}
-        >
-          {(priceData: IQuery["prices"]) => {
-            const { price } = priceData;
-            const fiatPrice = formatCurrencyAmount(price, 2);
-            return (
-              <Row style={{ width: 140 }}>
+        {!!address && (
+          <GraphQLGuardComponent
+            tString={tString}
+            dataKey="fiatPriceData"
+            errorComponent={
+              <Row style={{ width: 110 }}>
                 <NetworkLogoIcon network={network.name} />
                 <NetworkBar>
-                  <p style={{ margin: 0, fontSize: 14 }}>
-                    {network.descriptor} {tString("Price")}
-                  </p>
-                  <b>
-                    {fiatPrice} {this.props.settings.fiatCurrency.symbol}
-                  </b>
+                  <b style={{ margin: 0, fontSize: 14 }}>{network.name}</b>
+                  <p style={{ margin: 0 }}>Network</p>
                 </NetworkBar>
               </Row>
-            );
-          }}
-        </GraphQLGuardComponent>
-        <GraphQLGuardComponent
-          tString={tString}
-          errorComponent={<p />}
-          loadingComponent={<p style={{ width: 115 }} />}
-          dataKey="dailyPercentChange"
-          result={dailyPercentChange}
-        >
-          {(percentageChange: IQuery["dailyPercentChange"]) => {
-            return (
-              <Row style={{ width: 115 }}>
-                <View style={{ textAlign: "center", marginRight: 20 }}>
-                  <p style={{ margin: 0, fontSize: 14 }}>
-                    {tString("Change")} (24h)
-                  </p>
-                  <b
-                    style={{
-                      color: getColorForPercentChange(percentageChange),
-                    }}
-                  >
-                    {renderPercentChange(percentageChange)}
-                  </b>
-                </View>
-              </Row>
-            );
-          }}
-        </GraphQLGuardComponent>
+            }
+            result={fiatPriceData}
+            loadingComponent={<p style={{ width: 135 }} />}
+          >
+            {(priceData: IQuery["fiatPriceData"]) => {
+              const { price, lastDayChange } = priceData;
+              return (
+                <>
+                  <Row style={{ width: 140 }}>
+                    <NetworkLogoIcon network={network.name} />
+                    <NetworkBar>
+                      <p style={{ margin: 0, fontSize: 14 }}>
+                        {network.descriptor} {tString("Price")}
+                      </p>
+                      <b>
+                        {formatCurrencyAmount(price, 2)}{" "}
+                        {this.props.settings.fiatCurrency.symbol}
+                      </b>
+                    </NetworkBar>
+                  </Row>
+                  <Row style={{ width: 115 }}>
+                    <View style={{ textAlign: "center", marginRight: 20 }}>
+                      <p style={{ margin: 0, fontSize: 14 }}>
+                        {tString("Change")} (24h)
+                      </p>
+                      <PercentChangeText value={lastDayChange} />
+                    </View>
+                  </Row>
+                </>
+              );
+            }}
+          </GraphQLGuardComponent>
+        )}
         <AddressInput
           tString={tString}
           onBlur={this.onBlurInput}
@@ -135,21 +117,6 @@ const AddressInputBar = styled.div`
   align-items: center;
 `;
 
-const getColorForPercentChange = (percentChange: string) => {
-  if (isGreaterThan(percentChange, 0)) {
-    return COLORS.BRIGHT_GREEN;
-  } else if (isLessThan(percentChange, 0)) {
-    return COLORS.ERROR;
-  } else {
-    return undefined;
-  }
-};
-
-const renderPercentChange = (percentChange: string) => {
-  const sign = isGreaterThan(percentChange, 0) ? "+" : "";
-  return `${sign}${percentChange}%`;
-};
-
 export const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -173,6 +140,7 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   settings: Modules.selectors.settings(state),
   app: Modules.selectors.app.appSelector(state),
   network: Modules.selectors.ledger.networkSelector(state),
+  address: Modules.selectors.ledger.addressSelector(state),
 });
 
 const dispatchProps = {
@@ -186,11 +154,7 @@ type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
 interface ComponentProps {}
 
-interface IProps
-  extends ComponentProps,
-    ConnectProps,
-    FiatPriceDataProps,
-    DailyPercentChangeProps {}
+interface IProps extends ComponentProps, ConnectProps, FiatPriceDataProps {}
 
 /** ===========================================================================
  * Export
@@ -202,5 +166,4 @@ export default composeWithProps<ComponentProps>(
   withGraphQLVariables,
   withRouter,
   withFiatPriceData,
-  withDailyPercentChange,
 )(AddressInputDashboardBar);

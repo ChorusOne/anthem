@@ -1,18 +1,17 @@
 {
   "oasisTransaction": {
-    "hash": "756d7f36d88002b7195a25cc0050b365e00324d3187f4ae986bc66d6bbe63d4b",
-    "fee": "0",
-    "gas": 1168,
-    "gas_price": "0",
-    "height": 64148,
-    "method": "registry.RegisterNode",
-    "date": "2020-06-23T00:52:36Z",
-    "sender": "oasis1qqhjc0phd0wg43luhly2ufsuw2h3gc5v3ukk4ku2",
+    "hash": "076625844d57e7ce4c270a79d769b2a7ab6e6d12d8d3ec2fa566eee2d0f89f03",
+    "fee": "2000",
+    "gas": 1000,
+    "gas_price": "2",
+    "height": 53308,
+    "method": "staking.ReclaimEscrow",
+    "date": "2020-06-22T06:58:04Z",
+    "sender": "oasis1qzskk72k92y4duc47lqcsxhza6fahlqtlqyesw0p",
     "data": {
-      "type": "REGISTER_NODE",
-      "id": null,
-      "entity_id": null,
-      "expiration": null
+      "type": "ESCROW_RECLAIM",
+      "from": "oasis1qzskk72k92y4duc47lqcsxhza6fahlqtlqyesw0p",
+      "shares": "100"
     }
   }
 }

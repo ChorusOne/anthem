@@ -2,6 +2,7 @@ import {
   assertUnreachable,
   deriveNetworkFromAddress,
   getNetworkDefinitionFromIdentifier,
+  NetworkSummariesDocument,
   validatorAddressToOperatorAddress,
 } from "@anthem/utils";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
@@ -241,9 +242,15 @@ const logoutEpic: EpicSignature = (action$, state$, deps) => {
       // Record analytics
       Analytics.logout();
 
-      // Redirect to welcome route
-      // NOTE: Welcome UI is not enabled yet
-      // router.push("/welcome");
+      // Redirect to network summary route
+      deps.router.push("/networks");
+
+      // Refetch the network summaries data after the cache was cleared
+      const fiat = state$.value.settings.fiatCurrency.symbol;
+      client.query({
+        query: NetworkSummariesDocument,
+        variables: { fiat },
+      });
 
       // Render toast success message
       const { tString } = i18nSelector(state$.value);

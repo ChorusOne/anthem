@@ -331,6 +331,53 @@ const fetchAvailableRewards = async (
   return response.result.rewards || [];
 };
 
+/**
+ * Fetch network summary stats for a Cosmos SDK network.
+ */
+const fetchNetworkStats = async (network: NetworkDefinition) => {
+  const host = getHostFromNetworkName(network.name);
+
+  let supply;
+  let staking;
+  let inflation;
+
+  switch (network.name) {
+    case "COSMOS":
+      supply = (await AxiosUtil.get(`${host}/supply/total/uatom`)).result;
+      staking = (await AxiosUtil.get(`${host}/staking/pool`)).result;
+      inflation = (await AxiosUtil.get(`${host}/minting/inflation`)).result;
+      break;
+    case "KAVA":
+      supply = (await AxiosUtil.get(`${host}/supply/total/ukava`)).result;
+      staking = (await AxiosUtil.get(`${host}/staking/pool`)).result;
+      inflation = (await AxiosUtil.get(`${host}/minting/inflation`)).result;
+      break;
+    case "TERRA":
+      supply = (await AxiosUtil.get(`${host}/supply/total/uluna`)).result;
+      staking = (await AxiosUtil.get(`${host}/staking/pool`)).result;
+      inflation = 0;
+      break;
+  }
+
+  const { bonded_tokens, not_bonded_tokens } = staking;
+
+  const bonded = Number(bonded_tokens);
+  const notBonded = Number(not_bonded_tokens);
+  const inflationRate = inflation ? Number(inflation) * 100 : null;
+
+  // Expected Reward = Inflation * (Bonded Tokens / (Not Bonded Token + Bonded Tokens))
+  const tokenRatio = bonded_tokens / (notBonded + bonded);
+  const expectedReward = inflationRate ? tokenRatio * inflationRate : null;
+
+  const result = {
+    totalSupply: supply,
+    expectedReward,
+    inflation: inflationRate,
+  };
+
+  return result;
+};
+
 /** ===========================================================================
  * Export
  * ============================================================================
@@ -357,6 +404,7 @@ const COSMOS_SDK = {
   fetchSlashingParameters,
   fetchDistributionCommunityPool,
   fetchDistributionParameters,
+  fetchNetworkStats,
 };
 
 export default COSMOS_SDK;

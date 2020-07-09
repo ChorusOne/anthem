@@ -82,32 +82,47 @@ class SideMenuComponent extends React.Component<IProps, IState> {
     const HAS_ADDRESS = !!address;
 
     // SideMenu route navigation links.
-    const TOP_ROUTE_LINKS: ReadonlyArray<JSX.Element> = [
+    const TOP_ROUTE_LINKS: JSX.Element[] = [
       <NavItem
         path={pathname}
         closeHandler={close}
-        key="Dashboard"
-        title={tString("Dashboard")}
-        icon={IconNames.TIMELINE_BAR_CHART}
-        route={`/${name.toLowerCase()}/${activeChartTab.toLowerCase()}`}
-      />,
-      <NavItem
-        key="Staking"
-        title="Staking"
-        path={pathname}
-        closeHandler={close}
-        icon={IconNames.BANK_ACCOUNT}
-        route={`/${name.toLowerCase()}/delegate`}
-      />,
-      <NavItem
-        key="Governance"
-        path={pathname}
-        closeHandler={close}
-        title={tString("Governance")}
-        icon={IconNames.TAKE_ACTION}
-        route={`/${name.toLowerCase()}/governance`}
+        key="Networks"
+        title="Networks"
+        icon={IconNames.GLOBE_NETWORK}
+        route={`/networks`}
       />,
     ];
+
+    const IS_CELO = network.name === "CELO";
+
+    if (HAS_ADDRESS) {
+      TOP_ROUTE_LINKS.push(
+        <NavItem
+          path={pathname}
+          closeHandler={close}
+          key="Dashboard"
+          title={tString("Dashboard")}
+          icon={IconNames.TIMELINE_BAR_CHART}
+          route={`/${name.toLowerCase()}/${activeChartTab.toLowerCase()}`}
+        />,
+        <NavItem
+          key={IS_CELO ? "Voting" : "Staking"}
+          title={IS_CELO ? "Voting" : "Staking"}
+          path={pathname}
+          closeHandler={close}
+          icon={IconNames.BANK_ACCOUNT}
+          route={`/${name.toLowerCase()}/delegate`}
+        />,
+        <NavItem
+          key="Governance"
+          path={pathname}
+          closeHandler={close}
+          title={tString("Governance")}
+          icon={IconNames.TAKE_ACTION}
+          route={`/${name.toLowerCase()}/governance`}
+        />,
+      );
+    }
 
     const BOTTOM_ROUTE_LINKS: ReadonlyArray<JSX.Element> = [
       address && (
@@ -220,6 +235,11 @@ class SideMenuComponent extends React.Component<IProps, IState> {
             </CopyToClipboard>
           )}
         </NetworkAddressContainer>
+        {!HAS_ADDRESS && (
+          <Link to="/login">
+            <ExitText>← Exit to Landing Page</ExitText>
+          </Link>
+        )}
         {validator && (
           <Tooltip
             usePortal={false}
@@ -551,6 +571,11 @@ const MobileCopyAddressBox = styled.div`
   margin-top: 75px;
   display: flex;
   flex-direction: row;
+`;
+
+const ExitText = styled.p`
+  margin-top: 12px;
+  font-size: 12px;
 `;
 
 /** ===========================================================================

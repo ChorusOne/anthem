@@ -1,0 +1,11 @@
+query networkSummaries($fiat: String!){
+    networkSummaries(fiat: $fiat){
+        name
+        tokenPrice
+        lastDayChange
+        marketCapitalization
+        expectedReward
+        inflation
+        supportsLedger
+    }
+}
