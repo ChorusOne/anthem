@@ -33,9 +33,8 @@ import {
 
 class NetworkSummaryPage extends React.Component<IProps> {
   render(): JSX.Element {
-    const { settings, networkSummaries, i18n } = this.props;
+    const { networkSummaries, i18n } = this.props;
     const { tString } = i18n;
-    const fiatSymbol = settings.fiatCurrency.symbol;
 
     return (
       <PageContainer>
