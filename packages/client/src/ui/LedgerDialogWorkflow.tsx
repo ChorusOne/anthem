@@ -342,10 +342,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
                   width: this.props.settings.isDesktop ? 450 : undefined,
                 }}
               />
-              {this.renderConfirmArrow(
-                tString("Link Address"),
-                this.handleSubmitAddress,
-              )}
+              {this.renderConfirmArrow("Sign In", this.handleSubmitAddress)}
             </form>
           </FormContainer>
           {this.state.addressFormSubmitted && addressError && (
