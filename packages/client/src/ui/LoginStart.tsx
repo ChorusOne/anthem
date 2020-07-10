@@ -1,7 +1,6 @@
 import { Card, Colors, H5 } from "@blueprintjs/core";
 import { AddressIcon, LedgerIcon } from "assets/images";
 import { COLORS } from "constants/colors";
-import { sign } from "crypto";
 import Analytics from "lib/analytics-lib";
 import { SIGNIN_TYPE } from "modules/ledger/actions";
 import Modules, { ReduxStoreState } from "modules/root";
