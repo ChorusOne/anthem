@@ -27,7 +27,7 @@ export type State = SettingsState;
 export const SETTINGS_STORE_KEY = "SETTINGS_STORE_KEY";
 
 const getInitialState = () => {
-  const onLogin = window.location.pathname.includes("login");
+  const onLandingPage = window.location.pathname.includes("landing");
   const isDesktop = window.innerWidth > 768;
   const defaultState: SettingsState = {
     locale: "en-US",
@@ -46,7 +46,7 @@ const getInitialState = () => {
         return {
           ...state,
           isDesktop,
-          isDarkTheme: onLogin ? false : state.isDarkTheme,
+          isDarkTheme: onLandingPage ? false : state.isDarkTheme,
         };
       }
     }

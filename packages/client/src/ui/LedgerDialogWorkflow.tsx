@@ -239,6 +239,12 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
     const { tString } = this.props.i18n;
     const { ledgerAppVersionValid } = this.props.ledger;
     const { signinNetworkName } = this.props.ledgerDialog;
+
+    // Must have selected a signinNetworkName
+    if (!signinNetworkName) {
+      return null;
+    }
+
     const network = getNetworkDefinitionFromIdentifier(signinNetworkName);
     return (
       <View>
@@ -342,10 +348,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
                   width: this.props.settings.isDesktop ? 450 : undefined,
                 }}
               />
-              {this.renderConfirmArrow(
-                tString("Link Address"),
-                this.handleSubmitAddress,
-              )}
+              {this.renderConfirmArrow("Sign In", this.handleSubmitAddress)}
             </form>
           </FormContainer>
           {this.state.addressFormSubmitted && addressError && (
@@ -476,10 +479,10 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
     let backMethod: () => void = () => null;
 
     /**
-     * Disable the back option on the /login page, otherwise render the back
+     * Disable the back option on the /landing page, otherwise render the back
      * button conditionally based on where the user is in the dialog flows.
      */
-    if (onPath("/login", window.location.pathname)) {
+    if (onPath("/landing", window.location.pathname)) {
       return null;
     } else if (this.props.ledgerDialog.ledgerAccessType === "PERFORM_ACTION") {
       const { signPending, transactionStage } = transaction;

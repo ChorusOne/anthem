@@ -8,7 +8,7 @@ import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
-import { onPath } from "tools/client-utils";
+import { capitalizeString, onPath } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import { View } from "./SharedComponents";
@@ -21,8 +21,9 @@ import Toast from "./Toast";
 
 class LoginStart extends React.Component<IProps, {}> {
   render(): JSX.Element {
-    const enableThemedStyles = !this.onLoginPage();
+    const enableThemedStyles = !this.onLandingPage();
     const { t } = this.props.i18n;
+    const { signinNetworkName } = this.props.ledgerDialog;
 
     return (
       <View>
@@ -44,7 +45,9 @@ class LoginStart extends React.Component<IProps, {}> {
           >
             <LedgerIcon />
             <LoginText className="login-text">
-              {this.props.ledger.connected
+              {signinNetworkName
+                ? `Sign in to ${capitalizeString(signinNetworkName)} Network`
+                : this.props.ledger.connected
                 ? "Switch Network"
                 : t("Sign in with Ledger")}
             </LoginText>
@@ -65,9 +68,7 @@ class LoginStart extends React.Component<IProps, {}> {
           </Card>
         </WrappedRow>
         <InfoTextBottom>
-          {t(
-            "Anthem currently supports staking on Cosmos. Connect your Ledger or enter a Cosmos address to start tracking your delegations.",
-          )}
+          Connect your Ledger Device or search any address to sign in to Anthem.
         </InfoTextBottom>
       </View>
     );
@@ -75,11 +76,21 @@ class LoginStart extends React.Component<IProps, {}> {
 
   handleChooseSelectNetwork = () => {
     if (this.props.settings.isDesktop) {
-      this.props.openSelectNetworkDialog({
-        signinType: "LEDGER",
-        ledgerAccessType: "SIGNIN",
-        ledgerActionType: undefined,
-      });
+      const { signinNetworkName } = this.props.ledgerDialog;
+      // If a signinNetworkName is already selected, skip to the connect step
+      // directly
+      if (signinNetworkName) {
+        this.props.openLedgerDialog({
+          signinType: "LEDGER",
+          ledgerAccessType: "SIGNIN",
+        });
+      } else {
+        this.props.openSelectNetworkDialog({
+          signinType: "LEDGER",
+          ledgerAccessType: "SIGNIN",
+          ledgerActionType: undefined,
+        });
+      }
     } else {
       Toast.warn("Ledger integration is only available on desktop.");
     }
@@ -94,15 +105,15 @@ class LoginStart extends React.Component<IProps, {}> {
   };
 
   trackLogin = (type: SIGNIN_TYPE) => {
-    if (this.onLoginPage()) {
+    if (this.onLandingPage()) {
       Analytics.loginStart(type);
     } else {
       Analytics.loginUpdate(type);
     }
   };
 
-  onLoginPage = () => {
-    return onPath(window.location.pathname, "/login");
+  onLandingPage = () => {
+    return onPath(window.location.pathname, "/landing");
   };
 }
 
@@ -175,6 +186,7 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   settings: Modules.selectors.settings(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
+  ledgerDialog: Modules.selectors.ledger.ledgerDialogSelector(state),
 });
 
 const dispatchProps = {

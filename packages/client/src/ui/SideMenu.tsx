@@ -203,9 +203,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
               />
             )}
             <Address data-cy="user-selected-address-bar">
-              {address
-                ? `${abbreviateAddress(address, 6)}`
-                : t("Link Your Address")}
+              {address ? `${abbreviateAddress(address, 6)}` : "Sign In"}
             </Address>
           </NetworkAddressBox>
           {HAS_ADDRESS && (
@@ -236,7 +234,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
           )}
         </NetworkAddressContainer>
         {!HAS_ADDRESS && (
-          <Link to="/login">
+          <Link to="/landing">
             <ExitText>← Exit to Landing Page</ExitText>
           </Link>
         )}

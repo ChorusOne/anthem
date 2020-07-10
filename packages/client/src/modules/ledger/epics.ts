@@ -118,6 +118,10 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
               state$.value,
             );
 
+            if (!signinNetworkName) {
+              throw new Error("No signin network selected");
+            }
+
             const networkDefinition = getNetworkDefinitionFromIdentifier(
               signinNetworkName,
             );
@@ -332,8 +336,8 @@ const setAddressOnNavigationEpic: EpicSignature = (action$, state$, deps) => {
       const { address } = getQueryParamsFromUrl(search);
       const ledger = state$.value.ledger;
 
-      // Make no update if the /login page is active
-      if (deps.router.location.pathname.includes("login")) {
+      // Make no update if the /landing page is active
+      if (deps.router.location.pathname.includes("landing")) {
         return Actions.empty("No action taken to update location query params");
       }
 

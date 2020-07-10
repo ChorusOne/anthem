@@ -40,7 +40,7 @@ class RoutesContainer extends React.Component<IProps> {
   render(): JSX.Element {
     const { address, network, history, settings } = this.props;
     const { search, pathname } = history.location;
-    const SHOW_LANDING_PAGE = pathname === "/login" && !address;
+    const SHOW_LANDING_PAGE = pathname === "/landing" && !address;
     const params = getQueryParamsFromUrl(search);
 
     let shouldRedirect = !address;
@@ -54,8 +54,8 @@ class RoutesContainer extends React.Component<IProps> {
           <DevelopmentBanner />
           <LedgerDialogComponents />
           <Switch>
-            <Route key={0} exact path="/login" component={LandingPage} />
-            <Route key={1} component={() => <Redirect to="/login" />} />
+            <Route key={0} exact path="/landing" component={LandingPage} />
+            <Route key={1} component={() => <Redirect to="/landing" />} />
           </Switch>
         </DefaultContainer>
       );

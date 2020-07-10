@@ -143,8 +143,8 @@ const loginWithAddress = (type: any, network: Network, useLedger = false) => {
    * Visit the app. Expect redirect to login and initiate the login
    * enter address flow.
    */
-  cy.visit(`${APP_URL}/login`);
-  cy.url().should("contain", "/login");
+  cy.visit(`${APP_URL}/landing`);
+  cy.url().should("contain", "/landing");
 
   /**
    * Proxy for randomly choosing login by ledger or address - this mixes
