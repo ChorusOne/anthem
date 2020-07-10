@@ -239,6 +239,8 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
     const { tString } = this.props.i18n;
     const { ledgerAppVersionValid } = this.props.ledger;
     const { signinNetworkName } = this.props.ledgerDialog;
+
+    // Must have selected a signinNetworkName
     if (!signinNetworkName) {
       return null;
     }

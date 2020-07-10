@@ -69,7 +69,7 @@ class LoginStart extends React.Component<IProps, {}> {
           </Card>
         </WrappedRow>
         <InfoTextBottom>
-          Connect your Ledger Device or search any address directly to sign in.
+          Connect your Ledger Device or search any address to sign in to Anthem.
         </InfoTextBottom>
       </View>
     );
