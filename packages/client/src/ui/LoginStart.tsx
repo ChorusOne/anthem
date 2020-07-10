@@ -9,7 +9,7 @@ import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
-import { onPath } from "tools/client-utils";
+import { capitalizeString, onPath } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import { View } from "./SharedComponents";
@@ -47,7 +47,7 @@ class LoginStart extends React.Component<IProps, {}> {
             <LedgerIcon />
             <LoginText className="login-text">
               {signinNetworkName
-                ? `Sign into ${signinNetworkName}`
+                ? `Sign in to ${capitalizeString(signinNetworkName)} Network`
                 : this.props.ledger.connected
                 ? "Switch Network"
                 : t("Sign in with Ledger")}

@@ -138,6 +138,7 @@ const ledgerDialog = createReducer<LedgerDialogState, ActionTypes>(
     return {
       ...state,
       dialogOpen,
+      signinNetworkName: null,
     };
   })
   .handleAction(
