@@ -94,7 +94,7 @@ interface LedgerDialogState {
   ledgerActionType: Nullable<LEDGER_ACTION_TYPE>;
   ledgerAccessType: Nullable<LEDGER_ACCESS_TYPE>;
   showSelectNetworkOption: boolean;
-  signinNetworkName: NETWORK_NAME;
+  signinNetworkName: Nullable<NETWORK_NAME>;
 }
 
 const initialLedgerDialogState = {
@@ -103,7 +103,7 @@ const initialLedgerDialogState = {
   ledgerActionType: null,
   ledgerAccessType: null,
   showSelectNetworkOption: false,
-  signinNetworkName: "COSMOS" as NETWORK_NAME,
+  signinNetworkName: null,
 };
 
 const ledgerDialog = createReducer<LedgerDialogState, ActionTypes>(

@@ -195,7 +195,7 @@ class NetworkSummaryPage extends React.Component<IProps> {
   handleConnectNetwork = (name: NETWORK_NAME) => {
     this.props.setSigninNetworkName(name);
     this.props.openLedgerDialog({
-      signinType: "LEDGER",
+      signinType: "INITIAL_SETUP",
       ledgerAccessType: "SIGNIN",
     });
   };

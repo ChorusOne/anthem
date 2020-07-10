@@ -118,6 +118,10 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
               state$.value,
             );
 
+            if (!signinNetworkName) {
+              throw new Error("No signin network selected");
+            }
+
             const networkDefinition = getNetworkDefinitionFromIdentifier(
               signinNetworkName,
             );

@@ -1,6 +1,7 @@
 import { Card, Colors, H5 } from "@blueprintjs/core";
 import { AddressIcon, LedgerIcon } from "assets/images";
 import { COLORS } from "constants/colors";
+import { sign } from "crypto";
 import Analytics from "lib/analytics-lib";
 import { SIGNIN_TYPE } from "modules/ledger/actions";
 import Modules, { ReduxStoreState } from "modules/root";
@@ -23,6 +24,7 @@ class LoginStart extends React.Component<IProps, {}> {
   render(): JSX.Element {
     const enableThemedStyles = !this.onLandingPage();
     const { t } = this.props.i18n;
+    const { signinNetworkName } = this.props.ledgerDialog;
 
     return (
       <View>
@@ -44,7 +46,9 @@ class LoginStart extends React.Component<IProps, {}> {
           >
             <LedgerIcon />
             <LoginText className="login-text">
-              {this.props.ledger.connected
+              {signinNetworkName
+                ? `Sign into ${signinNetworkName}`
+                : this.props.ledger.connected
                 ? "Switch Network"
                 : t("Sign in with Ledger")}
             </LoginText>
@@ -65,9 +69,7 @@ class LoginStart extends React.Component<IProps, {}> {
           </Card>
         </WrappedRow>
         <InfoTextBottom>
-          {t(
-            "Anthem currently supports staking on Cosmos. Connect your Ledger or enter a Cosmos address to start tracking your delegations.",
-          )}
+          Connect your Ledger Device or search any address directly to sign in.
         </InfoTextBottom>
       </View>
     );
@@ -75,11 +77,21 @@ class LoginStart extends React.Component<IProps, {}> {
 
   handleChooseSelectNetwork = () => {
     if (this.props.settings.isDesktop) {
-      this.props.openSelectNetworkDialog({
-        signinType: "LEDGER",
-        ledgerAccessType: "SIGNIN",
-        ledgerActionType: undefined,
-      });
+      const { signinNetworkName } = this.props.ledgerDialog;
+      // If a signinNetworkName is already selected, skip to the connect step
+      // directly
+      if (signinNetworkName) {
+        this.props.openLedgerDialog({
+          signinType: "LEDGER",
+          ledgerAccessType: "SIGNIN",
+        });
+      } else {
+        this.props.openSelectNetworkDialog({
+          signinType: "LEDGER",
+          ledgerAccessType: "SIGNIN",
+          ledgerActionType: undefined,
+        });
+      }
     } else {
       Toast.warn("Ledger integration is only available on desktop.");
     }
@@ -175,6 +187,7 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   settings: Modules.selectors.settings(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
+  ledgerDialog: Modules.selectors.ledger.ledgerDialogSelector(state),
 });
 
 const dispatchProps = {
