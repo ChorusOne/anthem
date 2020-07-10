@@ -12,15 +12,15 @@ SCREEN_SIZES.forEach(({ type, size }) => {
     });
 
     /**
-     * Default login page route.
+     * Default landing page route.
      */
-    it("The default app page displays the /login route", () => {
-      cy.visit(`${APP_URL}/login`);
+    it("The default app page displays the /landing route", () => {
+      cy.visit(`${APP_URL}/landing`);
       UTILS.shouldMatchText("login-page-title", "Earn Rewards on Cryptoassets");
     });
 
     /**
-     * Redirect to login.
+     * Redirect to networks page.
      */
     it("Other routes redirect to /networks if no address is set", () => {
       cy.visit(`${APP_URL}`);

@@ -21,7 +21,7 @@ import Toast from "./Toast";
 
 class LoginStart extends React.Component<IProps, {}> {
   render(): JSX.Element {
-    const enableThemedStyles = !this.onLoginPage();
+    const enableThemedStyles = !this.onLandingPage();
     const { t } = this.props.i18n;
 
     return (
@@ -94,15 +94,15 @@ class LoginStart extends React.Component<IProps, {}> {
   };
 
   trackLogin = (type: SIGNIN_TYPE) => {
-    if (this.onLoginPage()) {
+    if (this.onLandingPage()) {
       Analytics.loginStart(type);
     } else {
       Analytics.loginUpdate(type);
     }
   };
 
-  onLoginPage = () => {
-    return onPath(window.location.pathname, "/login");
+  onLandingPage = () => {
+    return onPath(window.location.pathname, "/landing");
   };
 }
 

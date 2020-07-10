@@ -20,7 +20,7 @@ import { View } from "./SharedComponents";
 
 class NetworkSelectComponent extends React.Component<IProps, {}> {
   render(): JSX.Element {
-    const enableThemedStyles = !this.onLoginPage();
+    const enableThemedStyles = !this.onLandingPage();
     const color = enableThemedStyles ? undefined : COLORS.DARK_TITLE;
     return (
       <View>
@@ -64,15 +64,15 @@ class NetworkSelectComponent extends React.Component<IProps, {}> {
   };
 
   trackLogin = (type: SIGNIN_TYPE) => {
-    if (this.onLoginPage()) {
+    if (this.onLandingPage()) {
       Analytics.loginStart(type);
     } else {
       Analytics.loginUpdate(type);
     }
   };
 
-  onLoginPage = () => {
-    return onPath("/login", window.location.pathname);
+  onLandingPage = () => {
+    return onPath("/landing", window.location.pathname);
   };
 }
 

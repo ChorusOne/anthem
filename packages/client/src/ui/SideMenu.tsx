@@ -236,7 +236,7 @@ class SideMenuComponent extends React.Component<IProps, IState> {
           )}
         </NetworkAddressContainer>
         {!HAS_ADDRESS && (
-          <Link to="/login">
+          <Link to="/landing">
             <ExitText>← Exit to Landing Page</ExitText>
           </Link>
         )}
