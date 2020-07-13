@@ -209,6 +209,7 @@ class NetworkSummaryPage extends React.Component<IProps> {
  */
 
 const Scrollable = styled.div`
+  padding: 2px;
   overflow-x: scroll;
 `;
 
