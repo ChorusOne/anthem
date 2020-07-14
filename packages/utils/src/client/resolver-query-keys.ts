@@ -31,10 +31,8 @@ export default [
   "celoSystemHistory",
   "celoValidatorGroups",
   "celoGovernanceProposals",
-  "prices",
   "fiatPriceHistory",
-  "dailyPercentChange",
-  "fiatCurrencies",
   "fiatPriceData",
+  "fiatCurrencies",
   "networkSummaries",
 ];
