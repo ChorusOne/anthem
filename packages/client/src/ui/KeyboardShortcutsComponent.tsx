@@ -118,11 +118,15 @@ class KeyboardShortcutsComponent extends React.PureComponent<IProps> {
 
     switch (keyCode) {
       case P.keyCode: {
-        togglePortfolioSize();
+        if (address) {
+          togglePortfolioSize();
+        }
         break;
       }
       case T.keyCode: {
-        toggleTransactionsSize();
+        if (address) {
+          toggleTransactionsSize();
+        }
         break;
       }
       case I.keyCode: {
@@ -146,11 +150,17 @@ class KeyboardShortcutsComponent extends React.PureComponent<IProps> {
         break;
       }
       case Q.keyCode: {
-        openLogoutMenu();
+        // Only logout if an address exists (user is logged in).
+        if (address) {
+          openLogoutMenu();
+        }
         break;
       }
       case C.keyCode: {
-        copyTextToClipboard(address);
+        // Only copy address if it exists.
+        if (address) {
+          copyTextToClipboard(address);
+        }
         break;
       }
       case BACK_TICK.keyCode: {

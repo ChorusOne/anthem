@@ -770,8 +770,6 @@ export interface IQuery {
   /** Fiat price APIs */
   fiatCurrencies: IFiatCurrency[];
   fiatPriceHistory: IFiatPrice[];
-  dailyPercentChange: Scalars["String"];
-  prices: IPrice;
   fiatPriceData: IFiatPriceData;
   networkSummaries: INetworkSummary[];
 }
@@ -901,16 +899,6 @@ export interface IQueryCeloTransactionArgs {
 export interface IQueryFiatPriceHistoryArgs {
   fiat: Scalars["String"];
   network: Scalars["String"];
-}
-
-export interface IQueryDailyPercentChangeArgs {
-  currency: Scalars["String"];
-  fiat: Scalars["String"];
-}
-
-export interface IQueryPricesArgs {
-  currency: Scalars["String"];
-  versus: Scalars["String"];
 }
 
 export interface IQueryFiatPriceDataArgs {
@@ -1652,16 +1640,6 @@ export type ICosmosValidatorsQuery = (
   )> }
 );
 
-export interface IDailyPercentChangeQueryVariables {
-  currency: Scalars["String"];
-  fiat: Scalars["String"];
-}
-
-export type IDailyPercentChangeQuery = (
-  { __typename?: "Query" }
-  & Pick<IQuery, "dailyPercentChange">
-);
-
 export interface IFiatCurrenciesQueryVariables {}
 
 export type IFiatCurrenciesQuery = (
@@ -1868,19 +1846,6 @@ export type IOasisTransactionsQuery = (
         & Pick<IOasisUnknownEvent, "type" | "method_name">
       ) }
     )> }
-  ) }
-);
-
-export interface IPricesQueryVariables {
-  currency: Scalars["String"];
-  versus: Scalars["String"];
-}
-
-export type IPricesQuery = (
-  { __typename?: "Query" }
-  & { prices: (
-    { __typename?: "Price" }
-    & Pick<IPrice, "price">
   ) }
 );
 
@@ -3834,55 +3799,6 @@ export function useCosmosValidatorsLazyQuery(baseOptions?: ApolloReactHooks.Lazy
 export type CosmosValidatorsQueryHookResult = ReturnType<typeof useCosmosValidatorsQuery>;
 export type CosmosValidatorsLazyQueryHookResult = ReturnType<typeof useCosmosValidatorsLazyQuery>;
 export type CosmosValidatorsQueryResult = ApolloReactCommon.QueryResult<ICosmosValidatorsQuery, ICosmosValidatorsQueryVariables>;
-export const DailyPercentChangeDocument = gql`
-    query dailyPercentChange($currency: String!, $fiat: String!) {
-  dailyPercentChange(currency: $currency, fiat: $fiat)
-}
-    `;
-export type DailyPercentChangeComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IDailyPercentChangeQuery, IDailyPercentChangeQueryVariables>, "query"> & ({ variables: IDailyPercentChangeQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-export const DailyPercentChangeComponent = (props: DailyPercentChangeComponentProps) => (
-      <ApolloReactComponents.Query<IDailyPercentChangeQuery, IDailyPercentChangeQueryVariables> query={DailyPercentChangeDocument} {...props} />
-    );
-
-export type IDailyPercentChangeProps<TChildProps = {}> = ApolloReactHoc.DataProps<IDailyPercentChangeQuery, IDailyPercentChangeQueryVariables> & TChildProps;
-export function withDailyPercentChange<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  IDailyPercentChangeQuery,
-  IDailyPercentChangeQueryVariables,
-  IDailyPercentChangeProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, IDailyPercentChangeQuery, IDailyPercentChangeQueryVariables, IDailyPercentChangeProps<TChildProps>>(DailyPercentChangeDocument, {
-      alias: "dailyPercentChange",
-      ...operationOptions,
-    });
-}
-
-/**
- * __useDailyPercentChangeQuery__
- *
- * To run a query within a React component, call `useDailyPercentChangeQuery` and pass it any options that fit your needs.
- * When your component renders, `useDailyPercentChangeQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useDailyPercentChangeQuery({
- *   variables: {
- *      currency: // value for 'currency'
- *      fiat: // value for 'fiat'
- *   },
- * });
- */
-export function useDailyPercentChangeQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<IDailyPercentChangeQuery, IDailyPercentChangeQueryVariables>) {
-        return ApolloReactHooks.useQuery<IDailyPercentChangeQuery, IDailyPercentChangeQueryVariables>(DailyPercentChangeDocument, baseOptions);
-      }
-export function useDailyPercentChangeLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<IDailyPercentChangeQuery, IDailyPercentChangeQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<IDailyPercentChangeQuery, IDailyPercentChangeQueryVariables>(DailyPercentChangeDocument, baseOptions);
-        }
-export type DailyPercentChangeQueryHookResult = ReturnType<typeof useDailyPercentChangeQuery>;
-export type DailyPercentChangeLazyQueryHookResult = ReturnType<typeof useDailyPercentChangeLazyQuery>;
-export type DailyPercentChangeQueryResult = ApolloReactCommon.QueryResult<IDailyPercentChangeQuery, IDailyPercentChangeQueryVariables>;
 export const FiatCurrenciesDocument = gql`
     query fiatCurrencies {
   fiatCurrencies {
@@ -4495,54 +4411,3 @@ export function useOasisTransactionsLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type OasisTransactionsQueryHookResult = ReturnType<typeof useOasisTransactionsQuery>;
 export type OasisTransactionsLazyQueryHookResult = ReturnType<typeof useOasisTransactionsLazyQuery>;
 export type OasisTransactionsQueryResult = ApolloReactCommon.QueryResult<IOasisTransactionsQuery, IOasisTransactionsQueryVariables>;
-export const PricesDocument = gql`
-    query prices($currency: String!, $versus: String!) {
-  prices(currency: $currency, versus: $versus) {
-    price
-  }
-}
-    `;
-export type PricesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IPricesQuery, IPricesQueryVariables>, "query"> & ({ variables: IPricesQueryVariables; skip?: boolean; } | { skip: boolean; });
-
-export const PricesComponent = (props: PricesComponentProps) => (
-      <ApolloReactComponents.Query<IPricesQuery, IPricesQueryVariables> query={PricesDocument} {...props} />
-    );
-
-export type IPricesProps<TChildProps = {}> = ApolloReactHoc.DataProps<IPricesQuery, IPricesQueryVariables> & TChildProps;
-export function withPrices<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
-  TProps,
-  IPricesQuery,
-  IPricesQueryVariables,
-  IPricesProps<TChildProps>>) {
-    return ApolloReactHoc.withQuery<TProps, IPricesQuery, IPricesQueryVariables, IPricesProps<TChildProps>>(PricesDocument, {
-      alias: "prices",
-      ...operationOptions,
-    });
-}
-
-/**
- * __usePricesQuery__
- *
- * To run a query within a React component, call `usePricesQuery` and pass it any options that fit your needs.
- * When your component renders, `usePricesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePricesQuery({
- *   variables: {
- *      currency: // value for 'currency'
- *      versus: // value for 'versus'
- *   },
- * });
- */
-export function usePricesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<IPricesQuery, IPricesQueryVariables>) {
-        return ApolloReactHooks.useQuery<IPricesQuery, IPricesQueryVariables>(PricesDocument, baseOptions);
-      }
-export function usePricesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<IPricesQuery, IPricesQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<IPricesQuery, IPricesQueryVariables>(PricesDocument, baseOptions);
-        }
-export type PricesQueryHookResult = ReturnType<typeof usePricesQuery>;
-export type PricesLazyQueryHookResult = ReturnType<typeof usePricesLazyQuery>;
-export type PricesQueryResult = ApolloReactCommon.QueryResult<IPricesQuery, IPricesQueryVariables>;

@@ -52,7 +52,7 @@ class NetworkSummaryPage extends React.Component<IProps> {
               <Scrollable>
                 <Card style={{ minWidth: 1050 }}>
                   <HeaderRow>
-                    <ItemHeader style={{ minWidth: 45 }}>
+                    <ItemHeader style={{ width: 45 }}>
                       <ColumnHeader />
                     </ItemHeader>
                     <ItemHeader>
@@ -94,9 +94,19 @@ class NetworkSummaryPage extends React.Component<IProps> {
                   </HeaderRow>
                   {summaries.map(summary => {
                     const name = summary.name as NETWORK_NAME;
+
+                    const {
+                      inflation,
+                      tokenPrice,
+                      lastDayChange,
+                      expectedReward,
+                      supportsLedger,
+                      marketCapitalization,
+                    } = summary;
+
                     return (
                       <Row key={name}>
-                        <Item style={{ minWidth: 45 }}>
+                        <Item style={{ width: 45 }}>
                           <NetworkLogoIcon network={name} />
                         </Item>
                         <Item>
@@ -106,9 +116,9 @@ class NetworkSummaryPage extends React.Component<IProps> {
                         </Item>
                         <Item>
                           <Text>
-                            {summary.tokenPrice ? (
+                            {tokenPrice ? (
                               <span>
-                                {formatCurrencyAmount(summary.tokenPrice, 2)}{" "}
+                                {formatCurrencyAmount(tokenPrice, 2)}{" "}
                                 {fiatSymbol}
                               </span>
                             ) : (
@@ -118,10 +128,8 @@ class NetworkSummaryPage extends React.Component<IProps> {
                         </Item>
                         <Item>
                           <Text>
-                            {summary.lastDayChange ? (
-                              <PercentChangeText
-                                value={summary.lastDayChange}
-                              />
+                            {lastDayChange ? (
+                              <PercentChangeText value={lastDayChange} />
                             ) : (
                               "n/a"
                             )}
@@ -129,12 +137,9 @@ class NetworkSummaryPage extends React.Component<IProps> {
                         </Item>
                         <Item>
                           <Text>
-                            {summary.marketCapitalization ? (
+                            {marketCapitalization ? (
                               <span>
-                                $
-                                {formatCurrencyAmount(
-                                  summary.marketCapitalization,
-                                )}
+                                ${formatCurrencyAmount(marketCapitalization)}
                               </span>
                             ) : (
                               "n/a"
@@ -143,8 +148,8 @@ class NetworkSummaryPage extends React.Component<IProps> {
                         </Item>
                         <Item>
                           <Text>
-                            {summary.expectedReward ? (
-                              <span>{summary.expectedReward.toFixed(2)}%</span>
+                            {expectedReward ? (
+                              <span>{expectedReward.toFixed(2)}%</span>
                             ) : (
                               "n/a"
                             )}
@@ -152,8 +157,8 @@ class NetworkSummaryPage extends React.Component<IProps> {
                         </Item>
                         <Item>
                           <Text>
-                            {summary.inflation ? (
-                              <span>{summary.inflation.toFixed(2)}%</span>
+                            {inflation ? (
+                              <span>{inflation.toFixed(2)}%</span>
                             ) : (
                               "n/a"
                             )}
@@ -161,12 +166,9 @@ class NetworkSummaryPage extends React.Component<IProps> {
                         </Item>
                         <Item>
                           <Text>
-                            {summary.expectedReward && summary.inflation ? (
+                            {expectedReward && inflation ? (
                               <span>
-                                {(
-                                  summary.expectedReward - summary.inflation
-                                ).toFixed(2)}
-                                %
+                                {(expectedReward - inflation).toFixed(2)}%
                               </span>
                             ) : (
                               "n/a"
@@ -174,7 +176,7 @@ class NetworkSummaryPage extends React.Component<IProps> {
                           </Text>
                         </Item>
                         <Item>
-                          {summary.supportsLedger && (
+                          {supportsLedger && (
                             <Button
                               onClick={() => this.handleConnectNetwork(name)}
                             >
@@ -244,11 +246,11 @@ const Text = styled.p`
 const ColumnHeader = styled.div``;
 
 const ItemHeader = styled.div`
-  min-width: 125px;
+  width: 125px;
 `;
 
 const Item = styled.div`
-  min-width: 125px;
+  width: 125px;
 `;
 
 /** ===========================================================================

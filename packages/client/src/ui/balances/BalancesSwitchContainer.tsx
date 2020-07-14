@@ -1,3 +1,4 @@
+import { assertUnreachable } from "@anthem/utils";
 import * as Sentry from "@sentry/browser";
 import {
   CosmosTransactionsProps,
@@ -78,6 +79,8 @@ class BalancesSwitchContainer extends React.Component<IProps, IState> {
     }
 
     switch (network.name) {
+      case "TERRA":
+      case "KAVA":
       case "COSMOS":
         return <CosmosBalances />;
       case "OASIS":
@@ -85,7 +88,7 @@ class BalancesSwitchContainer extends React.Component<IProps, IState> {
       case "CELO":
         return <CeloBalances />;
       default:
-        return null;
+        return assertUnreachable(network.name);
     }
   }
 }
