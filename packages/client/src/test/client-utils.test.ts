@@ -31,7 +31,6 @@ import { cosmosRewardsByValidator } from "../../../utils/src/client/data/cosmosR
 import { cosmosTransactions } from "../../../utils/src/client/data/cosmosTransactions.json";
 import { cosmosValidators } from "../../../utils/src/client/data/cosmosValidators.json";
 import { fiatPriceHistory } from "../../../utils/src/client/data/fiatPriceHistory.json";
-import prices from "../../../utils/src/client/data/prices.json";
 
 describe("utils", () => {
   test("abbreviateAddress", () => {
