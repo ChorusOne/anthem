@@ -95,7 +95,9 @@ class CosmosBalancesContainer extends React.Component<
             );
           }
 
-          return null;
+          return (
+            <DashboardError tString={tString} text="No balance data exists" />
+          );
         }}
       </GraphQLGuardComponentMultipleQueries>
     );
@@ -323,7 +325,9 @@ class CeloBalancesContainer extends React.Component<
             );
           }
 
-          return null;
+          return (
+            <DashboardError tString={tString} text="No balance data exists" />
+          );
         }}
       </GraphQLGuardComponentMultipleQueries>
     );
@@ -511,7 +515,9 @@ class OasisBalancesContainer extends React.Component<
             return <OasisBalancesComponent network={network} balances={data} />;
           }
 
-          return null;
+          return (
+            <DashboardError tString={tString} text="No balance data exists" />
+          );
         }}
       </GraphQLGuardComponentMultipleQueries>
     );
