@@ -127,8 +127,7 @@ const getBackFillPricesForNetwork = (
       return [];
 
     default:
-      assertUnreachable(name);
-      return [];
+      return assertUnreachable(name);
   }
 };
 
