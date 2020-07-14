@@ -52,7 +52,7 @@ class NetworkSummaryPage extends React.Component<IProps> {
               <Scrollable>
                 <Card style={{ minWidth: 1050 }}>
                   <HeaderRow>
-                    <ItemHeader style={{ minWidth: 45 }}>
+                    <ItemHeader style={{ width: 45 }}>
                       <ColumnHeader />
                     </ItemHeader>
                     <ItemHeader>
@@ -96,7 +96,7 @@ class NetworkSummaryPage extends React.Component<IProps> {
                     const name = summary.name as NETWORK_NAME;
                     return (
                       <Row key={name}>
-                        <Item style={{ minWidth: 45 }}>
+                        <Item style={{ width: 45 }}>
                           <NetworkLogoIcon network={name} />
                         </Item>
                         <Item>
@@ -244,11 +244,11 @@ const Text = styled.p`
 const ColumnHeader = styled.div``;
 
 const ItemHeader = styled.div`
-  min-width: 125px;
+  width: 125px;
 `;
 
 const Item = styled.div`
-  min-width: 125px;
+  width: 125px;
 `;
 
 /** ===========================================================================
