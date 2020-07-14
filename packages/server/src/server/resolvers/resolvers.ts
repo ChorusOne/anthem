@@ -76,40 +76,6 @@ const resolvers = {
       return EXCHANGE_DATA_API.fetchPriceData(currency, fiat);
     },
 
-    /**
-     * TODO: Deprecated, remove this.
-     */
-    prices: async (
-      _: void,
-      args: IPricesQueryVariables,
-    ): Promise<IQuery["prices"]> => {
-      const { currency, versus } = args;
-      const network = getNetworkDefinitionFromTicker(currency);
-
-      if (!network.supportsFiatPrices) {
-        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
-      }
-
-      return EXCHANGE_DATA_API.fetchExchangeRate(currency, versus);
-    },
-
-    /**
-     * TODO: Deprecated, remove this.
-     */
-    dailyPercentChange: async (
-      _: void,
-      args: IDailyPercentChangeQueryVariables,
-    ): Promise<IQuery["dailyPercentChange"]> => {
-      const { currency, fiat } = args;
-      const network = getNetworkDefinitionFromTicker(currency);
-
-      if (!network.supportsFiatPrices) {
-        throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
-      }
-
-      return EXCHANGE_DATA_API.fetchDailyPercentChangeInPrice(currency, fiat);
-    },
-
     fiatCurrencies: async (_: void): Promise<IQuery["fiatCurrencies"]> => {
       return FIAT_CURRENCIES;
     },

@@ -1,6 +1,5 @@
 import {
   assertUnreachable,
-  IQuery,
   NETWORK_NAME,
   NetworkDefinition,
   NETWORKS,
@@ -177,71 +176,14 @@ const getPriceDataForNetwork = async (
   return result;
 };
 
-/**
- * Fetch currency exchange price data for a currency pair.
- *
- * TODO: Deprecated, can remove later.
- */
-const fetchExchangeRate = async (
-  currencyId: string,
-  versusId: string,
-): Promise<IQuery["prices"]> => {
-  const versus = versusId.toUpperCase();
-  const currency = currencyId.toUpperCase();
-
-  const url = `${HOSTS.CRYPTO_COMPARE}/data/price?fsym=${currency}&tsyms=${versus}`;
-
-  // The API may fail from time to time, add a retry allowance:
-  const result = await AxiosUtil.get(url, 2);
-
-  return {
-    price: result[versus],
-  };
-};
-
-/**
- * Fetch 24hr percent price change for a currency pair.
- *
- * TODO: Deprecated, can remove later.
- */
-const fetchDailyPercentChangeInPrice = async (
-  crypto: string,
-  fiat: string,
-): Promise<string> => {
-  // Validate the input
-  const from = crypto.toUpperCase();
-  const to = fiat.toUpperCase();
-
-  const url = `${HOSTS.CRYPTO_COMPARE}/data/v2/histohour?fsym=${from}&tsym=${to}&limit=24&api_key=${ENV.CRYPTO_COMPARE_API_KEY}`;
-
-  // Fetch the price change
-  const result = await AxiosUtil.get(url);
-
-  const prices: ReadonlyArray<Price> = result.Data.Data;
-
-  // Get the average price 24 hours ago and now
-  const average = (price: Price) => (price.high + price.low) / 2;
-  const priceThen = average(prices[0]);
-  const priceNow = average(prices[prices.length - 1]);
-
-  // Determine the percent change
-  const change = (priceNow - priceThen) / priceNow;
-  const percentage = change * 100;
-
-  // Format
-  return percentage.toFixed(2);
-};
-
 /** ===========================================================================
  * Export
  * ============================================================================
  */
 
 const EXCHANGE_DATA_API = {
-  fetchDailyPercentChangeInPrice,
   fetchPortfolioFiatPriceHistory,
   fetchPriceData,
-  fetchExchangeRate,
   getPriceDataForNetwork,
 };
 
