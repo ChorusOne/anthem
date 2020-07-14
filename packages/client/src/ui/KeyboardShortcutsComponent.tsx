@@ -146,7 +146,10 @@ class KeyboardShortcutsComponent extends React.PureComponent<IProps> {
         break;
       }
       case Q.keyCode: {
-        openLogoutMenu();
+        // Only logout if an address exists (user is logged in)
+        if (address) {
+          openLogoutMenu();
+        }
         break;
       }
       case C.keyCode: {
