@@ -207,10 +207,16 @@ const formatTooltipLabel = ({
   const date = toDateKey(x);
   const yValue = formatCurrencyAmount(String(y));
   const { symbol } = fiatCurrency;
-  let currency = currencySetting === "fiat" ? `${symbol}` : network.descriptor;
+  const { name, descriptor } = network;
+  let currency = currencySetting === "fiat" ? `${symbol}` : descriptor;
+  const IS_CUSD = chartType === "CUSD";
+  const IS_CELO_COMMISSIONS = chartType === "COMMISSIONS" && name === "CELO";
 
-  // Override the currency setting if viewing the cUSD chart
-  if (chartType === "CUSD") {
+  /**
+   * Override the currency setting if viewing the commissions or cUSD chart
+   * for Celo:
+   */
+  if (IS_CUSD || IS_CELO_COMMISSIONS) {
     currency = "cUSD";
   }
 
