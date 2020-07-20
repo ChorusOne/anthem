@@ -25,6 +25,7 @@ interface CeloAccountSnapshot {
   address: string;
   height: string;
   snapshotReward: string;
+  snapshotCommission: string;
   availableGoldBalance: string;
   totalLockedGoldBalance: string;
   nonVotingLockedGoldBalance: string;

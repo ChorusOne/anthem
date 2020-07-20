@@ -96,6 +96,7 @@ export interface ICeloAccountSnapshot {
   address: Scalars["String"];
   height: Scalars["String"];
   snapshotReward: Scalars["String"];
+  snapshotCommission: Scalars["String"];
   availableGoldBalance: Scalars["String"];
   totalLockedGoldBalance: Scalars["String"];
   nonVotingLockedGoldBalance: Scalars["String"];
@@ -1061,7 +1062,7 @@ export type ICeloAccountHistoryQuery = (
   { __typename?: "Query" }
   & { celoAccountHistory: Array<(
     { __typename?: "CeloAccountSnapshot" }
-    & Pick<ICeloAccountSnapshot, "snapshotDate" | "address" | "height" | "snapshotReward" | "availableGoldBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
+    & Pick<ICeloAccountSnapshot, "snapshotDate" | "address" | "height" | "snapshotReward" | "snapshotCommission" | "availableGoldBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
     & { delegations: Array<(
       { __typename?: "CeloDelegation" }
       & Pick<ICeloDelegation, "group" | "totalVotes" | "activeVotes" | "pendingVotes">
@@ -1919,6 +1920,7 @@ export const CeloAccountHistoryDocument = gql`
     address
     height
     snapshotReward
+    snapshotCommission
     availableGoldBalance
     totalLockedGoldBalance
     nonVotingLockedGoldBalance

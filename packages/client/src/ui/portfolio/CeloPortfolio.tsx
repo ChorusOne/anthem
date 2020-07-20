@@ -259,6 +259,7 @@ const getChartData = (
   const tab = type;
 
   let accumulatedRewards = "0";
+  let accumulatedCommissions = "0";
 
   for (const x of accountHistory) {
     let value = "";
@@ -282,8 +283,12 @@ const getChartData = (
         value = x.totalLockedGoldBalance;
         break;
       case "COMMISSIONS":
-        // Commissions are not supported yet
-        return null;
+        accumulatedCommissions = add(
+          x.snapshotCommission,
+          accumulatedCommissions,
+        );
+        value = accumulatedCommissions;
+        break;
       case "CUSD":
         value = x.celoUSDValue;
         break;
@@ -296,7 +301,7 @@ const getChartData = (
     let result = denomToUnit(value, network.denominationSize, Number);
 
     // Convert to fiat price if fiat price setting is enabled
-    if (displayFiatPrices) {
+    if (displayFiatPrices && tab !== "CUSD") {
       const fiatPrice = fiatPriceHistory[key] || firstPrice;
       result = result * fiatPrice;
     }
@@ -335,6 +340,7 @@ const getCeloCSV = (
     `Pending Withdrawal Balance (${coin})`,
     `Daily Rewards (${coin})`,
     `Accumulated Rewards (${coin})`,
+    `Accumulated Commissions (${coin})`,
     `cUSD Balance`,
   ];
 
@@ -345,11 +351,13 @@ const getCeloCSV = (
   let CSV = `${ADDRESS_INFO}${CSV_HEADERS.join(",")}\n`;
 
   let accumulatedRewards = "0";
+  let accumulatedCommissions = "0";
 
   for (const snapshot of accountHistory) {
     const {
       snapshotDate,
       snapshotReward,
+      snapshotCommission,
       availableGoldBalance,
       totalLockedGoldBalance,
       nonVotingLockedGoldBalance,
@@ -367,8 +375,12 @@ const getCeloCSV = (
     const voting = denomToUnit(votingLockedGoldBalance, size, String);
     const pending = denomToUnit(pendingWithdrawalBalance, size, String);
     const reward = denomToUnit(snapshotReward, size, String);
+    // Calculate rewards
     accumulatedRewards = add(snapshotReward, accumulatedRewards);
     const totalRewards = denomToUnit(accumulatedRewards, size, String);
+    // Calculate commissions
+    accumulatedCommissions = add(snapshotCommission, accumulatedCommissions);
+    const totalCommissions = denomToUnit(accumulatedCommissions, size, String);
     const cUSD = denomToUnit(celoUSDValue, size, String);
 
     // Create the CSV row
@@ -382,6 +394,7 @@ const getCeloCSV = (
       pending,
       reward,
       totalRewards,
+      totalCommissions,
       cUSD,
     ].join(",");
 

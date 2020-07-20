@@ -4014,6 +4014,72 @@
         "height": 2608410,
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "timestamp": "2020-07-13T16:00:03.000Z"
+      },
+      {
+        "balance": "124059528",
+        "height": 2620263,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-07-14T16:00:03.000Z"
+      },
+      {
+        "balance": "124270300",
+        "height": 2622556,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-07-14T20:37:58.000Z"
+      },
+      {
+        "balance": "124938303",
+        "height": 2629815,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-07-15T11:19:30.000Z"
+      },
+      {
+        "balance": "125151341",
+        "height": 2632131,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-07-15T16:00:04.000Z"
+      },
+      {
+        "balance": "126227853",
+        "height": 2643844,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-07-16T15:35:12.000Z"
+      },
+      {
+        "balance": "126247089",
+        "height": 2644052,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-07-16T16:00:05.000Z"
+      },
+      {
+        "balance": "127354814",
+        "height": 2656050,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-07-17T16:00:02.000Z"
+      },
+      {
+        "balance": "127609329",
+        "height": 2658810,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-07-17T21:30:54.000Z"
+      },
+      {
+        "balance": "128463915",
+        "height": 2668066,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-07-18T16:00:04.000Z"
+      },
+      {
+        "balance": "128915037",
+        "height": 2672947,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-07-19T01:45:22.000Z"
+      },
+      {
+        "balance": "129574480",
+        "height": 2680079,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-07-19T16:00:05.000Z"
       }
     ],
     "validatorCommissions": [
@@ -7406,6 +7472,72 @@
         "height": 2608410,
         "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
         "timestamp": "2020-07-13T16:00:03.000Z"
+      },
+      {
+        "balance": "9756706394",
+        "height": 2620263,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-07-14T16:00:03.000Z"
+      },
+      {
+        "balance": "9775747491",
+        "height": 2622556,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-07-14T20:37:58.000Z"
+      },
+      {
+        "balance": "9836097272",
+        "height": 2629815,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-07-15T11:19:30.000Z"
+      },
+      {
+        "balance": "9855329754",
+        "height": 2632131,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-07-15T16:00:04.000Z"
+      },
+      {
+        "balance": "9952406662",
+        "height": 2643844,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-07-16T15:35:12.000Z"
+      },
+      {
+        "balance": "9954140566",
+        "height": 2644052,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-07-16T16:00:05.000Z"
+      },
+      {
+        "balance": "10053977394",
+        "height": 2656050,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-07-17T16:00:02.000Z"
+      },
+      {
+        "balance": "10076910007",
+        "height": 2658810,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-07-17T21:30:54.000Z"
+      },
+      {
+        "balance": "10153910665",
+        "height": 2668066,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-07-18T16:00:04.000Z"
+      },
+      {
+        "balance": "10194558252",
+        "height": 2672947,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-07-19T01:45:22.000Z"
+      },
+      {
+        "balance": "10253972497",
+        "height": 2680079,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-07-19T16:00:05.000Z"
       }
     ],
     "fiatPriceHistory": [
@@ -7919,7 +8051,13 @@
       { "price": 4.08, "timestamp": "2020-07-11T00:00:00.000Z" },
       { "price": 4.0055000000000005, "timestamp": "2020-07-12T00:00:00.000Z" },
       { "price": 3.999, "timestamp": "2020-07-13T00:00:00.000Z" },
-      { "price": 3.90375, "timestamp": "2020-07-14T00:00:00.000Z" }
+      { "price": 3.917, "timestamp": "2020-07-14T00:00:00.000Z" },
+      { "price": 3.9997499999999997, "timestamp": "2020-07-15T00:00:00.000Z" },
+      { "price": 4.04275, "timestamp": "2020-07-16T00:00:00.000Z" },
+      { "price": 4.1065, "timestamp": "2020-07-17T00:00:00.000Z" },
+      { "price": 4.2755, "timestamp": "2020-07-18T00:00:00.000Z" },
+      { "price": 4.256, "timestamp": "2020-07-19T00:00:00.000Z" },
+      { "price": 4.19775, "timestamp": "2020-07-20T00:00:00.000Z" }
     ]
   }
 }

@@ -207,8 +207,12 @@ const formatTooltipLabel = ({
   const date = toDateKey(x);
   const yValue = formatCurrencyAmount(String(y));
   const { symbol } = fiatCurrency;
-  const currency =
-    currencySetting === "fiat" ? `${symbol}` : network.descriptor;
+  let currency = currencySetting === "fiat" ? `${symbol}` : network.descriptor;
+
+  // Override the currency setting if viewing the cUSD chart
+  if (chartType === "CUSD") {
+    currency = "cUSD";
+  }
 
   let optionalWithdrawalMessage = "";
   if (withdrawalDateSet) {

@@ -35,7 +35,7 @@ const initialState: LedgerState = {
   addressError: "",
   connected: false,
   ledgerAppVersionValid: undefined,
-  network: NETWORKS.KAVA,
+  network: NETWORKS.COSMOS,
   recentAddresses: StorageModule.getRecentAddresses(),
 };
 

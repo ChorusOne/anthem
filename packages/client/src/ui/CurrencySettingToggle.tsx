@@ -13,7 +13,16 @@ import Toast from "./Toast";
  */
 
 const CurrencySettingsToggle = (props: IProps) => {
+  const { activeChartTab } = props;
   const { currencySetting, fiatCurrency } = props.settings;
+
+  // Proxy to see if the user is viewing the dashboard chart
+  const ON_CHART_VIEW = window.location.pathname.includes("cusd");
+
+  // Celo cUSD is only Celo cUSD
+  if (activeChartTab === "CUSD" && ON_CHART_VIEW) {
+    return null;
+  }
 
   const handleSetCurrencyOption = (
     event: React.FormEvent<HTMLInputElement>,
@@ -64,6 +73,7 @@ const CurrencySettingsToggle = (props: IProps) => {
 const mapStateToProps = (state: ReduxStoreState) => ({
   settings: Modules.selectors.settings(state),
   network: Modules.selectors.ledger.networkSelector(state),
+  activeChartTab: Modules.selectors.app.appSelector(state).activeChartTab,
 });
 
 const dispatchProps = {

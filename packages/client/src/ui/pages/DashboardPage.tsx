@@ -14,12 +14,6 @@ import {
 } from "@blueprintjs/core";
 import axios from "axios";
 import { COLORS } from "constants/colors";
-import {
-  CosmosAccountHistoryProps,
-  CosmosAccountHistoryQueryResult,
-  withCosmosAccountHistory,
-  withGraphQLVariables,
-} from "graphql/queries";
 import { History } from "history";
 import Analytics from "lib/analytics-lib";
 import ENV from "lib/client-env";
@@ -140,22 +134,11 @@ class DashboardPage extends React.Component<IProps> {
   }
 
   renderDashboardNavigationLinks = () => {
-    const {
-      address,
-      ledger,
-      history,
-      settings,
-      location,
-      cosmosAccountHistory,
-    } = this.props;
+    const { address, ledger, history, settings, location } = this.props;
     const { network } = ledger;
     const { pathname } = location;
 
-    const commissionsTabAvailable = shouldShowCommissionsLink(
-      cosmosAccountHistory,
-    );
-
-    const tabs = getChartTabsForNetwork(network, commissionsTabAvailable);
+    const tabs = getChartTabsForNetwork(network, true);
 
     if (settings.isDesktop) {
       return (
@@ -429,17 +412,6 @@ const runAnalyticsForTab = (title: string): void => {
   }
 };
 
-const shouldShowCommissionsLink = (
-  cosmosAccountHistory: CosmosAccountHistoryQueryResult,
-) => {
-  return !!(
-    cosmosAccountHistory &&
-    cosmosAccountHistory.cosmosAccountHistory &&
-    cosmosAccountHistory.cosmosAccountHistory.validatorCommissions &&
-    cosmosAccountHistory.cosmosAccountHistory.validatorCommissions.length
-  );
-};
-
 /** ===========================================================================
  * Props
  * ============================================================================
@@ -465,11 +437,7 @@ type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
 interface ComponentProps {}
 
-interface IProps
-  extends ComponentProps,
-    ConnectProps,
-    CosmosAccountHistoryProps,
-    RouteComponentProps {}
+interface IProps extends ComponentProps, ConnectProps, RouteComponentProps {}
 
 /** ===========================================================================
  * Export
@@ -478,7 +446,5 @@ interface IProps
 
 export default composeWithProps<ComponentProps>(
   withProps,
-  withGraphQLVariables,
   withRouter,
-  withCosmosAccountHistory,
 )(DashboardPage);
