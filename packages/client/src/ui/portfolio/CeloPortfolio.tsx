@@ -259,6 +259,7 @@ const getChartData = (
   const tab = type;
 
   let accumulatedRewards = "0";
+  let accumulatedCommissions = "0";
 
   for (const x of accountHistory) {
     let value = "";
@@ -282,7 +283,11 @@ const getChartData = (
         value = x.totalLockedGoldBalance;
         break;
       case "COMMISSIONS":
-        value = x.snapshotCommission;
+        accumulatedCommissions = add(
+          x.snapshotCommission,
+          accumulatedCommissions,
+        );
+        value = accumulatedCommissions;
         break;
       case "CUSD":
         value = x.celoUSDValue;
