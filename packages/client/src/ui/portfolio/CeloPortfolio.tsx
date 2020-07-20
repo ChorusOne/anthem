@@ -282,8 +282,8 @@ const getChartData = (
         value = x.totalLockedGoldBalance;
         break;
       case "COMMISSIONS":
-        // Commissions are not supported yet
-        return null;
+        value = x.snapshotCommission;
+        break;
       case "CUSD":
         value = x.celoUSDValue;
         break;
