@@ -85,11 +85,6 @@ class NetworkSummaryPage extends React.Component<IProps> {
                         <Title>INFLATION</Title>
                       </ColumnHeader>
                     </ItemHeader>
-                    <ItemHeader>
-                      <ColumnHeader>
-                        <Title>ADJUSTED REWARD</Title>
-                      </ColumnHeader>
-                    </ItemHeader>
                     <ItemHeader />
                   </HeaderRow>
                   {summaries.map(summary => {
@@ -159,17 +154,6 @@ class NetworkSummaryPage extends React.Component<IProps> {
                           <Text>
                             {inflation ? (
                               <span>{inflation.toFixed(2)}%</span>
-                            ) : (
-                              "n/a"
-                            )}
-                          </Text>
-                        </Item>
-                        <Item>
-                          <Text>
-                            {expectedReward && inflation ? (
-                              <span>
-                                {(expectedReward - inflation).toFixed(2)}%
-                              </span>
                             ) : (
                               "n/a"
                             )}
