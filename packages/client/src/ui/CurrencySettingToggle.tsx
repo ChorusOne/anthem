@@ -13,14 +13,20 @@ import Toast from "./Toast";
  */
 
 const CurrencySettingsToggle = (props: IProps) => {
-  const { activeChartTab } = props;
+  const { network, activeChartTab } = props;
   const { currencySetting, fiatCurrency } = props.settings;
 
   // Proxy to see if the user is viewing the dashboard chart
   const ON_CHART_VIEW = window.location.pathname.includes("cusd");
+  const IS_CUSD = activeChartTab === "CUSD";
+  const IS_CELO_COMMISSIONS =
+    activeChartTab === "COMMISSIONS" && network.name === "CELO";
+  const SHOULD_HIDE = IS_CUSD || IS_CELO_COMMISSIONS;
 
-  // Celo cUSD is only Celo cUSD
-  if (activeChartTab === "CUSD" && ON_CHART_VIEW) {
+  /**
+   * Hide the toggle on the chart view for certain Celo charts (cUSD only).
+   */
+  if (SHOULD_HIDE && ON_CHART_VIEW) {
     return null;
   }
 
