@@ -222,7 +222,7 @@ class CeloGovernanceComponent extends React.Component<
                           {x.proposalID}
                         </Text>
                         <Text style={{ flex: 3 }}>{x.stage}</Text>
-                        <Text style={{ flex: 4 }}>Title...</Text>
+                        <Text style={{ flex: 4 }}>(Titles coming soon)</Text>
                         <Text style={{ flex: 2, fontSize: 12 }}>
                           {convertCeloEpochToDate(x.queuedAtTimestamp)}
                         </Text>
