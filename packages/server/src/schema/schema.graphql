@@ -91,6 +91,7 @@ type CeloAccountSnapshot {
   address: String!
   height: String!
   snapshotReward: String!
+  snapshotCommission: String!
   availableGoldBalance: String!
   totalLockedGoldBalance: String!
   nonVotingLockedGoldBalance: String!
