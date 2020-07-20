@@ -296,7 +296,7 @@ const getChartData = (
     let result = denomToUnit(value, network.denominationSize, Number);
 
     // Convert to fiat price if fiat price setting is enabled
-    if (displayFiatPrices) {
+    if (displayFiatPrices && tab !== "CUSD") {
       const fiatPrice = fiatPriceHistory[key] || firstPrice;
       result = result * fiatPrice;
     }
