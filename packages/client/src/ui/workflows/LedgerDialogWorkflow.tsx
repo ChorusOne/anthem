@@ -1,4 +1,5 @@
 import {
+  assertUnreachable,
   deriveNetworkFromAddress,
   getNetworkDefinitionFromIdentifier,
 } from "@anthem/utils";
@@ -36,7 +37,8 @@ import {
 } from "ui/SharedComponents";
 import LoginSetup from "../LoginStart";
 import NetworkSelect from "../NetworkSelect";
-import CreateTransactionForm from "./CosmosTransactionWorkflows";
+import CeloTransactionWorkflows from "./CeloTransactionWorkflows";
+import CosmosTransactionWorkflows from "./CosmosTransactionWorkflows";
 
 /** ===========================================================================
  * Types & Config
@@ -528,17 +530,40 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
   };
 
   renderTransactionForm = () => {
-    return (
-      <React.Fragment>
-        <CreateTransactionForm
-          renderConfirmArrow={this.renderConfirmArrow}
-          isDarkTheme={this.props.settings.isDarkTheme}
-          fiatCurrency={this.props.settings.fiatCurrency}
-          setCanEscapeKeyCloseDialog={this.setCanEscapeKeyCloseDialog}
-        />
-        {this.renderBackArrow()}
-      </React.Fragment>
-    );
+    const { network } = this.props.ledger;
+    switch (network.name) {
+      case "COSMOS":
+      case "KAVA":
+      case "TERRA":
+        return (
+          <>
+            <CosmosTransactionWorkflows
+              renderConfirmArrow={this.renderConfirmArrow}
+              isDarkTheme={this.props.settings.isDarkTheme}
+              fiatCurrency={this.props.settings.fiatCurrency}
+              setCanEscapeKeyCloseDialog={this.setCanEscapeKeyCloseDialog}
+            />
+            {this.renderBackArrow()}
+          </>
+        );
+      case "CELO":
+        return (
+          <>
+            <CeloTransactionWorkflows
+              renderConfirmArrow={this.renderConfirmArrow}
+              isDarkTheme={this.props.settings.isDarkTheme}
+              fiatCurrency={this.props.settings.fiatCurrency}
+              setCanEscapeKeyCloseDialog={this.setCanEscapeKeyCloseDialog}
+            />
+            {this.renderBackArrow()}
+          </>
+        );
+      case "OASIS":
+        return null;
+      default:
+        assertUnreachable(network.name);
+        return null;
+    }
   };
 
   setCanEscapeKeyCloseDialog = (canClose: boolean) => {
