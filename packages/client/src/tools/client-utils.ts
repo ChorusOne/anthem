@@ -18,8 +18,8 @@ import {
 import { ApolloError } from "apollo-client";
 import BigNumber from "bignumber.js";
 import queryString from "query-string";
-import { AvailableReward } from "ui/CreateTransactionForm";
 import Toast from "ui/Toast";
+import { AvailableReward } from "ui/workflows/CosmosCreateTransactionWorkflows";
 import {
   convertCryptoToFiat,
   denomToUnit,

@@ -11,7 +11,7 @@ import {
   NetworkDefinition,
 } from "@anthem/utils";
 import { LEDGER_ACTION_TYPE } from "modules/ledger/actions";
-import { AvailableReward } from "ui/CreateTransactionForm";
+import { AvailableReward } from "ui/workflows/CosmosCreateTransactionWorkflows";
 import { unitToDenom } from "./currency-utils";
 import { multiply } from "./math-utils";
 

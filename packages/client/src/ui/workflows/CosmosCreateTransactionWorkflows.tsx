@@ -81,8 +81,8 @@ import {
   Row,
   TextInput,
   View,
-} from "./SharedComponents";
-import Toast from "./Toast";
+} from "../SharedComponents";
+import Toast from "../Toast";
 
 /** ===========================================================================
  * Types & Config

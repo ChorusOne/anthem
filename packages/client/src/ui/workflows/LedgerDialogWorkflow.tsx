@@ -34,9 +34,9 @@ import {
   TextInput,
   View,
 } from "ui/SharedComponents";
-import CreateTransactionForm from "./CreateTransactionForm";
-import LoginSetup from "./LoginStart";
-import NetworkSelect from "./NetworkSelect";
+import LoginSetup from "../LoginStart";
+import NetworkSelect from "../NetworkSelect";
+import CreateTransactionForm from "./CosmosCreateTransactionWorkflows";
 
 /** ===========================================================================
  * Types & Config
