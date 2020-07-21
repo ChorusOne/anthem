@@ -36,7 +36,7 @@ import {
 } from "ui/SharedComponents";
 import LoginSetup from "../LoginStart";
 import NetworkSelect from "../NetworkSelect";
-import CreateTransactionForm from "./CosmosCreateTransactionWorkflows";
+import CreateTransactionForm from "./CosmosTransactionWorkflows";
 
 /** ===========================================================================
  * Types & Config
