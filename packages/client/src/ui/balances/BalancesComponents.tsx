@@ -39,7 +39,6 @@ import {
   DashboardLoader,
   View,
 } from "ui/SharedComponents";
-import Toast from "ui/Toast";
 
 /** ===========================================================================
  * Cosmos SDK Networks Account Balances

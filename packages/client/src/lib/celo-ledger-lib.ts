@@ -8,6 +8,7 @@ import Eth from "@ledgerhq/hw-app-eth";
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
+import ENV from "lib/client-env";
 import Web3 from "web3";
 
 /** ===========================================================================
@@ -47,9 +48,11 @@ interface CeloTransferArguments {
   amount: number;
 }
 
-/**
- * Helper class to connect and interact with Celo Ledger App.
+/** ===========================================================================
+ * Celo Ledger Class
+ * ============================================================================
  */
+
 class CeloLedgerClass {
   private address = "";
   private kit: Nullable<ContractKit> = null;
@@ -87,15 +90,23 @@ class CeloLedgerClass {
   }
 
   async getAddress(derivationPath: "0" | "1" | "2" | "3" | "4" = "0") {
-    if (this.eth) {
-      const { address } = await this.eth.getAddress(
-        `44'/52752'/0'/0/${derivationPath}`,
-        true,
-      );
-      this.address = address;
-      return address;
-    } else {
-      throw new Error("Not initialized yet.");
+    try {
+      if (this.eth) {
+        const { address } = await this.eth.getAddress(
+          `44'/52752'/0'/0/${derivationPath}`,
+          true,
+        );
+        this.address = address;
+        return address;
+      } else {
+        throw new Error("Not initialized yet.");
+      }
+    } catch (error) {
+      if (error.statusCode === 26628) {
+        throw new Error(LEDGER_ERRORS.COSMOS_LEDGER_SCREENSAVER_ERROR);
+      } else {
+        throw error;
+      }
     }
   }
 
@@ -194,24 +205,30 @@ class CeloLedgerClass {
   }
 }
 
-// Create a Celo Ledger provider
+/** ===========================================================================
+ * Mock Celo Ledger Class
+ * ============================================================================
+ */
+
+class MockCeloLedgerModule {
+  connect() {
+    // No action
+  }
+  getCeloAppVersion() {
+    return "1.0.1";
+  }
+  getAddress() {
+    return "0xae1d640648009dbe0aa4485d3bfbb68c37710924";
+  }
+}
+
+/** ===========================================================================
+ * Export
+ * ============================================================================
+ */
+
 const celoLedgerProvider = new CeloLedgerClass(TEST_NETS.ALFAJORES);
 
-/**
- * Connect to the Celo Ledger App and retrieve the account address.
- */
-export const connectCeloAddress = async () => {
-  try {
-    await celoLedgerProvider.connect();
-    const address = await celoLedgerProvider.getAddress();
-    celoLedgerProvider.info();
-    return address;
-  } catch (error) {
-    // Escalate the error. Try to identify and handle screensaver mode errors.
-    if (error.statusCode === 26628) {
-      throw new Error(LEDGER_ERRORS.COSMOS_LEDGER_SCREENSAVER_ERROR);
-    } else {
-      throw error;
-    }
-  }
-};
+const mockCeloLedgerModule = new MockCeloLedgerModule();
+
+export default ENV.ENABLE_MOCK_APIS ? mockCeloLedgerModule : celoLedgerProvider;
