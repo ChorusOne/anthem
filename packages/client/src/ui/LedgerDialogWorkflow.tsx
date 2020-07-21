@@ -217,7 +217,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
         if (!this.props.ledger.connected) {
           return this.renderLedgerSignin();
         } else {
-          return this.renderActionDialog();
+          return this.renderTransactionForm();
         }
       default:
         console.warn("Expected ledgerActionType received: ", ledgerActionType);
@@ -527,7 +527,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
     );
   };
 
-  renderActionDialog = () => {
+  renderTransactionForm = () => {
     return (
       <React.Fragment>
         <CreateTransactionForm

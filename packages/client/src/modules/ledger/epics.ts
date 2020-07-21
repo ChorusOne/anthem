@@ -162,7 +162,8 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
                 break;
               }
               case "CELO": {
-                ledgerAddress = await connectCeloAddress();
+                ledgerAddress = "0xae1d640648009dbe0aa4485d3bfbb68c37710924";
+                // ledgerAddress = await connectCeloAddress();
                 // TODO: How to get Celo App version?
                 ledgerAppVersion = "1.0.1";
                 break;
