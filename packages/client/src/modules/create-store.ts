@@ -25,7 +25,7 @@ const history = createBrowserHistory();
 const dependencies: EpicDependencies = {
   client,
   router: history,
-  ledger: ledgerModule,
+  cosmosLedgerUtil: ledgerModule,
   celoLedgerUtil: celoLedgerModule,
   cosmos: cosmosBlockchainModule,
 };

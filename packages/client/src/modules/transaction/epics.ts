@@ -20,7 +20,7 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
     filter(isActionOf(Actions.signTransaction)),
     mergeMap(async () => {
       try {
-        const { ledger } = deps;
+        const { cosmosLedgerUtil: ledger } = deps;
         const transactionData = state$.value.transaction.transactionData;
 
         if (ledger && transactionData) {

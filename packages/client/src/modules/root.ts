@@ -78,7 +78,7 @@ const rootReducer = combineReducers({
 export interface EpicDependencies {
   router: History<any>;
   cosmos: typeof cosmosBlockchainModule;
-  ledger: typeof cosmosLedgerModule;
+  cosmosLedgerUtil: typeof cosmosLedgerModule;
   celoLedgerUtil: typeof celoLedgerModule;
   client: ApolloClient<NormalizedCacheObject>;
 }

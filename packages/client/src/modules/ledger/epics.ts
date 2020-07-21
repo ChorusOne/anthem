@@ -112,7 +112,7 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
       return from(
         new Promise<ReduxActionTypes>(async resolve => {
           try {
-            const { ledger, celoLedgerUtil } = deps;
+            const { cosmosLedgerUtil: ledger, celoLedgerUtil } = deps;
             const { signinNetworkName } = selectors.ledgerDialogSelector(
               state$.value,
             );
