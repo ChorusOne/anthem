@@ -173,7 +173,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       fiatPriceData,
       celoAccountBalances,
     } = this.props;
-    const { address } = ledger;
+    const { address, network } = ledger;
     const { t, tString } = i18n;
     return (
       <GraphQLGuardComponentMultipleQueries
@@ -183,15 +183,30 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           [fiatPriceData, "fiatPriceData"],
         ]}
       >
-        {([accountBalancesData]: [ICeloAccountBalances]) => {
+        {([accountBalancesData, fiatPrices]: [
+          ICeloAccountBalances,
+          IQuery["fiatPriceData"],
+        ]) => {
           const { availableGoldBalance } = accountBalancesData;
-          const balance = availableGoldBalance;
+          const balance = renderCurrency({
+            denomSize: network.denominationSize,
+            value: availableGoldBalance,
+            fiatPrice: fiatPrices.price,
+            convertToFiat: true,
+          });
+          const fiatBalance = renderCurrency({
+            denomSize: network.denominationSize,
+            value: availableGoldBalance,
+            fiatPrice: fiatPrices.price,
+            convertToFiat: true,
+          });
+
           return (
             <View>
               <p>
                 {t("Available balance: {{balance}} ({{balanceFiat}})", {
                   balance: bold(`${balance} ${ledger.network.descriptor}`),
-                  balanceFiat: `${balance} ${fiatCurrency.symbol}`,
+                  balanceFiat: `${fiatBalance} ${fiatCurrency.symbol}`,
                 })}
               </p>
               <H6 style={{ marginTop: 6, marginBottom: 0 }}>
@@ -971,6 +986,23 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
  * Styled Components
  * ============================================================================
  */
+
+interface RenderCurrencyArgs {
+  value: string;
+  denomSize: number;
+  fiatPrice: number;
+  convertToFiat?: boolean;
+}
+
+// Helper to render Celo currency values
+const renderCurrency = (args: RenderCurrencyArgs) => {
+  const { value, denomSize, fiatPrice, convertToFiat } = args;
+  let result = denomToUnit(value, denomSize, Number);
+  if (convertToFiat) {
+    result = fiatPrice * result;
+  }
+  return formatCurrencyAmount(result);
+};
 
 const FormContainer = styled.div`
   margin-top: 8px;

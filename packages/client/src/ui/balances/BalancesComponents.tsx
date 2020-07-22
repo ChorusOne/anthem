@@ -362,9 +362,9 @@ class CeloBalancesComponent extends React.Component<
 > {
   render(): JSX.Element {
     const {
-      balances,
-      network,
       price,
+      network,
+      balances,
       currencySetting,
       handleSendReceiveAction,
     } = this.props;

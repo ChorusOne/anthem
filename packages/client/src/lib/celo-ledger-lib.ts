@@ -122,6 +122,8 @@ class CeloLedgerClass {
       // @ts-ignore
       .send({ from });
 
+    console.log(tx);
+
     // Wait for the transaction to be processed
     const receipt = await tx.waitReceipt();
     console.log("Transaction complete, receipt: ", receipt);
