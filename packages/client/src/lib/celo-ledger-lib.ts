@@ -201,12 +201,11 @@ class CeloLedgerClass {
     }
 
     const balances = await this.kit.getTotalBalance(this.address);
-    const { gold, lockedGold, pending, total, usd } = balances;
+    const { gold, lockedGold, pending, usd } = balances;
     console.log("Account Balances:");
     console.log(`Gold: ${gold.toString()}`);
     console.log(`Locked: ${lockedGold.toString()}`);
     console.log(`Pending: ${pending.toString()}`);
-    console.log(`Total: ${total.toString()}`);
     console.log(`USD: ${usd.toString()}`);
 
     return balances;

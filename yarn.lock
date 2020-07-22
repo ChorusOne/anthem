@@ -1594,15 +1594,15 @@
     tslint-plugin-prettier "^2.0.1"
     tslint-react "^4.0.0"
 
-"@celo/contractkit@^0.4.4":
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/@celo/contractkit/-/contractkit-0.4.4.tgz#763a17a70c3683a492f1b66058fb9c9306a1ec41"
-  integrity sha512-Rs8W1Tqpa9r+BgxhB1TZe2Jn/455Ndt7LLhc53qG8tMF3ByQpgFyIA4WcUqDAKEpIYJtpk8yceA7Rv1MMNoUaw==
+"@celo/contractkit@0.4.9":
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/@celo/contractkit/-/contractkit-0.4.9.tgz#a0e384628396e2af29079dd3ed2c63ecd2396083"
+  integrity sha512-7lTKYdVFvBq9Kd2VnCnA4ySnYRKHsFGMSVBYrspdE1OBv9WcWYeCJNypfXNEj0YsqhxQ0qleb7fCEaH4P3aisA==
   dependencies:
     "@azure/identity" "^1.0.2"
     "@azure/keyvault-keys" "^4.0.2"
     "@azure/keyvault-secrets" "^4.0.2"
-    "@celo/utils" "0.1.14"
+    "@celo/utils" "0.1.16"
     "@ledgerhq/hw-app-eth" "^5.11.0"
     "@ledgerhq/hw-transport" "^5.11.0"
     bignumber.js "^9.0.0"
@@ -1623,10 +1623,10 @@
     web3-eth-contract "1.2.4"
     web3-utils "1.2.4"
 
-"@celo/utils@0.1.14":
-  version "0.1.14"
-  resolved "https://registry.yarnpkg.com/@celo/utils/-/utils-0.1.14.tgz#b567fb8ef8025d65d96b16361f3955ab77f9ef8e"
-  integrity sha512-yCVnQt8/DR6b4PqcTKuhwyra2CvME/tJptXQt3N+J+t+PIcCEbN7DGa7+kzeaW7D8ARXSfw+UH7UsCVKT1fI8Q==
+"@celo/utils@0.1.16":
+  version "0.1.16"
+  resolved "https://registry.yarnpkg.com/@celo/utils/-/utils-0.1.16.tgz#aa45b7d42bc8bbf137960e7df28bf990ede62b3e"
+  integrity sha512-gMhaV8HXWeKLK+ca5VI46okVM8/2kXxZdEGfc6ALvDaADB5hfkzUItgxx+ykelGA6AyUgHpYzQ4YOIy5nAsIog==
   dependencies:
     "@umpirsky/country-list" "git://github.com/umpirsky/country-list#05fda51"
     bigi "^1.1.0"
