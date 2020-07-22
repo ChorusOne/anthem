@@ -27,6 +27,7 @@ import {
   withFiatPriceData,
   withGraphQLVariables,
 } from "graphql/queries";
+import celoLedgerLib from "lib/celo-ledger-lib";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React, { ChangeEvent } from "react";
@@ -847,11 +848,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     this.setState({ recipientAddress: recipient }, () => {
       const { recipientAddress } = this.state;
       if (recipientAddress) {
-        if (!validateCosmosAddress(recipientAddress)) {
-          Toast.warn(
-            "Please ensure the entered address is a valid Cosmos address.",
-          );
-        }
+        // if (!validateCosmosAddress(recipientAddress)) {
+        //   Toast.warn(
+        //     "Please ensure the entered address is a valid Cosmos address.",
+        //   );
+        // }
       }
     });
   };
@@ -932,42 +933,47 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const { amount: ledgerActionAmount } = this.state;
     const maximumAmount = this.getMaximumAmount();
 
-    const amountError = validateLedgerTransactionAmount(
-      ledgerActionAmount,
-      maximumAmount,
-      this.props.i18n.tString,
-    );
+    this.getSendTransaction();
+    // const amountError = validateLedgerTransactionAmount(
+    //   ledgerActionAmount,
+    //   maximumAmount,
+    //   this.props.i18n.tString,
+    // );
 
-    this.setState(
-      {
-        sendTransactionInputError: amountError,
-        delegationTransactionInputError: amountError,
-      },
-      () => {
-        if (amountError === "") {
-          const { ledgerActionType } = this.props.ledgerDialog;
-          if (ledgerActionType === "SEND") {
-            this.getSendTransaction();
-          } else {
-            this.getDelegationTransaction();
-          }
-        }
-      },
-    );
+    // this.setState(
+    //   {
+    //     sendTransactionInputError: amountError,
+    //     delegationTransactionInputError: amountError,
+    //   },
+    //   () => {
+    //     if (amountError === "") {
+    //       const { ledgerActionType } = this.props.ledgerDialog;
+    //       if (ledgerActionType === "SEND") {
+    //         this.getSendTransaction();
+    //       } else {
+    //         this.getDelegationTransaction();
+    //       }
+    //     }
+    //   },
+    // );
   };
 
-  getSendTransaction = () => {
+  getSendTransaction = async () => {
     const { amount, gasAmount, gasPrice, recipientAddress } = this.state;
     const { network, address } = this.props.ledger;
     const { denom } = network;
 
-    if (!validateCosmosAddress(recipientAddress)) {
-      return this.setState({
-        sendTransactionInputError: "Please enter a valid recipient address",
-      });
-    }
+    // if (!validateCosmosAddress(recipientAddress)) {
+    //   return this.setState({
+    //     sendTransactionInputError: "Please enter a valid recipient address",
+    //   });
+    // }
 
-    // TODO: Implement!
+    const tx = await celoLedgerLib.transfer({
+      from: address,
+      to: recipientAddress,
+      amount: Number(amount),
+    });
   };
 
   getDelegationTransaction = () => {

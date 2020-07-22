@@ -92,11 +92,16 @@ class CeloLedgerClass {
   async getAddress(derivationPath: "0" | "1" | "2" | "3" | "4" = "0") {
     try {
       if (this.eth) {
+        const path = derivationPath;
         const { address } = await this.eth.getAddress(
-          `44'/52752'/0'/0/${derivationPath}`,
+          `44'/52752'/0'/0/${path}`,
           true,
         );
         this.address = address;
+
+        // Debug:
+        this.getTotalBalances();
+
         return address;
       } else {
         throw new Error("Not initialized yet.");
@@ -117,6 +122,7 @@ class CeloLedgerClass {
 
     const { to, from, amount } = args;
     const goldTokenContract = await this.kit.contracts.getGoldToken();
+    console.log(`Sending from ${amount} ${from} to ${to}.`);
     const tx = await goldTokenContract
       .transfer(to, amount)
       // @ts-ignore
@@ -195,8 +201,14 @@ class CeloLedgerClass {
     }
 
     const balances = await this.kit.getTotalBalance(this.address);
+    const { gold, lockedGold, pending, total, usd } = balances;
     console.log("Account Balances:");
-    console.log(balances);
+    console.log(`Gold: ${gold.toString()}`);
+    console.log(`Locked: ${lockedGold.toString()}`);
+    console.log(`Pending: ${pending.toString()}`);
+    console.log(`Total: ${total.toString()}`);
+    console.log(`USD: ${usd.toString()}`);
+
     return balances;
   }
 
@@ -221,6 +233,9 @@ class MockCeloLedgerModule {
   }
   getAddress() {
     return "0xae1d640648009dbe0aa4485d3bfbb68c37710924";
+  }
+  transfer() {
+    return "Not implemented yet.";
   }
 }
 
