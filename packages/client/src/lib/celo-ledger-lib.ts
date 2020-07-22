@@ -123,16 +123,16 @@ class CeloLedgerClass {
     const { to, from, amount } = args;
     const goldTokenContract = await this.kit.contracts.getGoldToken();
     console.log(`Sending from ${amount} ${from} to ${to}.`);
-    const tx = await goldTokenContract
-      .transfer(to, amount)
-      // @ts-ignore
-      .send({ from });
-
+    // @ts-ignore
+    const tx = await goldTokenContract.transfer(to, 100000).send({ from });
     console.log(tx);
 
     // Wait for the transaction to be processed
     const receipt = await tx.waitReceipt();
     console.log("Transaction complete, receipt: ", receipt);
+
+    await this.getTotalBalances();
+
     return receipt;
   }
 
