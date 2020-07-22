@@ -212,7 +212,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   >
                     <TextInput
                       autoFocus
-                      label={tString("Transaction Amount (ATOM)")}
+                      label="Transaction Amount (CELO)"
                       onSubmit={this.submitLedgerTransactionAmount}
                       style={{ ...InputStyles, marginBottom: 6, width: 150 }}
                       placeholder={tString("Enter an amount")}
@@ -295,11 +295,6 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     "You currently have no rewards available for withdrawal.",
                   )}
                 </b>
-                <p style={{ marginTop: 12 }}>
-                  {tString(
-                    "Please note that at least 1 µATOM worth of rewards is required before withdrawals can occur.",
-                  )}
-                </p>
               </View>
             );
           }
@@ -438,7 +433,6 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         ]}
       >
         {([accountBalancesData]: [ICeloAccountBalances]) => {
-          const atomsConversionRate = fiatPriceData.fiatPriceData.price;
           const { availableGoldBalance } = accountBalancesData;
           return (
             <View>
@@ -492,7 +486,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   >
                     <TextInput
                       autoFocus
-                      label={tString("Transaction Amount (ATOM)")}
+                      label="Transaction Amount (CELO)"
                       onSubmit={this.submitLedgerTransactionAmount}
                       style={{ ...InputStyles, width: 300 }}
                       placeholder={tString("Enter an amount")}
@@ -572,7 +566,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     return (
       <View>
         <p style={{ marginTop: 12 }}>
-          {t("Default gas price: {{price}} ", { price: <b>0.01 µATOM.</b> })}
+          {t("Default gas price: {{price}} ", { price: <b>0.01 CELO.</b> })}
           <Link
             testID="toggle-custom-gas-settings"
             onClick={this.toggleCustomGasPrice}
@@ -583,19 +577,18 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           </Link>
         </p>
         <p style={{ fontSize: 12 }}>
-          <b>{tString("Note:")}</b>{" "}
-          {tString(
-            "We are currently using a default gasPrice of 0.01 µATOM, feel free to adjust this value depending on network conditions.",
-          )}
+          <b>{tString("Note:")}</b> "We are currently using a default gasPrice
+          of 0.01 CELO, feel free to adjust this value depending on network
+          conditions."
         </p>
         {this.state.displayCustomGasSettings && (
           <Row style={{ justifyContent: "flex-start" }}>
             <TextInput
               autoFocus
-              label={tString("Gas Price (µATOM)")}
+              label="Gas Price (CELO)"
               style={InputStyles}
               data-cy="custom-gas-price-input"
-              placeholder={tString("Enter a gas price (µATOM)")}
+              placeholder="Enter a gas price (CELO)"
               value={this.state.gasPrice}
               onChange={this.handleEnterCustomGasValues("gasPrice")}
             />
