@@ -183,21 +183,21 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           [fiatPriceData, "fiatPriceData"],
         ]}
       >
-        {([accountBalancesData, fiatPrices]: [
+        {([accountBalancesData, exchangeRate]: [
           ICeloAccountBalances,
           IQuery["fiatPriceData"],
         ]) => {
           const { availableGoldBalance } = accountBalancesData;
-          const balance = renderCurrency({
+          const balance = renderCeloCurrency({
             denomSize: network.denominationSize,
             value: availableGoldBalance,
-            fiatPrice: fiatPrices.price,
+            fiatPrice: exchangeRate.price,
             convertToFiat: true,
           });
-          const fiatBalance = renderCurrency({
+          const fiatBalance = renderCeloCurrency({
             denomSize: network.denominationSize,
             value: availableGoldBalance,
-            fiatPrice: fiatPrices.price,
+            fiatPrice: exchangeRate.price,
             convertToFiat: true,
           });
 
@@ -437,6 +437,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       fiatPriceData,
       celoAccountBalances,
     } = this.props;
+    const { network } = ledger;
     const { t, tString } = i18n;
     const { selectedValidatorForDelegation } = transaction;
     return (
@@ -447,16 +448,29 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           [fiatPriceData, "fiatPriceData"],
         ]}
       >
-        {([accountBalancesData]: [ICeloAccountBalances]) => {
+        {([accountBalancesData, exchangeRate]: [
+          ICeloAccountBalances,
+          IQuery["fiatPriceData"],
+        ]) => {
           const { availableGoldBalance } = accountBalancesData;
+          const balance = renderCeloCurrency({
+            denomSize: network.denominationSize,
+            value: availableGoldBalance,
+            fiatPrice: exchangeRate.price,
+            convertToFiat: true,
+          });
+          const fiatBalance = renderCeloCurrency({
+            denomSize: network.denominationSize,
+            value: availableGoldBalance,
+            fiatPrice: exchangeRate.price,
+            convertToFiat: true,
+          });
           return (
             <View>
               <p>
                 {t("Available balance: {{balance}} ({{balanceFiat}})", {
-                  balance: bold(
-                    `${availableGoldBalance} ${ledger.network.descriptor}`,
-                  ),
-                  balanceFiat: `${availableGoldBalance} ${fiatCurrency.symbol}`,
+                  balance: bold(`${balance} ${ledger.network.descriptor}`),
+                  balanceFiat: `${fiatBalance} ${fiatCurrency.symbol}`,
                 })}
               </p>
               {/* <ValidatorSelect
@@ -995,7 +1009,7 @@ interface RenderCurrencyArgs {
 }
 
 // Helper to render Celo currency values
-const renderCurrency = (args: RenderCurrencyArgs) => {
+const renderCeloCurrency = (args: RenderCurrencyArgs) => {
   const { value, denomSize, fiatPrice, convertToFiat } = args;
   let result = denomToUnit(value, denomSize, Number);
   if (convertToFiat) {
