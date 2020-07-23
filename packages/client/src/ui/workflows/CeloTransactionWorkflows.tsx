@@ -260,7 +260,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     )}
                   </form>
                 </FormContainer>
-                {this.renderGasPriceSetup()}
+                {/* {this.renderGasPriceSetup()} */}
                 {this.state.sendTransactionInputError && (
                   <div style={{ marginTop: 6 }} className={Classes.LABEL}>
                     <ErrorText data-cy="amount-send-transaction-error">
