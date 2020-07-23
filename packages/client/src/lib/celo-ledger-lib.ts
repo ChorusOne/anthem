@@ -104,7 +104,7 @@ class CeloLedgerClass {
 
         return address;
       } else {
-        throw new Error("Not initialized yet.");
+        throw new Error("CeloLedgerClass not initialized yet.");
       }
     } catch (error) {
       if (error.statusCode === 26628) {
@@ -117,32 +117,23 @@ class CeloLedgerClass {
 
   async transfer(args: CeloTransferArguments) {
     if (!this.kit) {
-      throw new Error("Not initialized yet.");
+      throw new Error("CeloLedgerClass not initialized yet.");
     }
 
     const { to, from, amount } = args;
     const goldTokenContract = await this.kit.contracts.getGoldToken();
-    const value = 100000;
-    console.log(`Amount: ${value}`);
-    console.log(`From: ${from}`);
-    console.log(`To: ${to}`);
 
     // @ts-ignore
-    const tx = await goldTokenContract.transfer(to, value).send({ from });
-    console.log(tx);
+    const tx = await goldTokenContract.transfer(to, amount).send({ from });
 
     // Wait for the transaction to be processed
     const receipt = await tx.waitReceipt();
-    console.log("Transaction complete, receipt: ", receipt);
-
-    await this.getTotalBalances();
-
     return receipt;
   }
 
   async vote(proposalId: string, vote: keyof typeof VoteValue) {
     if (!this.kit) {
-      throw new Error("Not initialized yet.");
+      throw new Error("CeloLedgerClass not initialized yet.");
     }
 
     const governance = await this.kit.contracts.getGovernance();
@@ -153,7 +144,7 @@ class CeloLedgerClass {
 
   async upvote(proposalId: string, upvoter: string) {
     if (!this.kit) {
-      throw new Error("Not initialized yet.");
+      throw new Error("CeloLedgerClass not initialized yet.");
     }
 
     const governance = await this.kit.contracts.getGovernance();
@@ -164,7 +155,7 @@ class CeloLedgerClass {
 
   async lock(amount: string) {
     if (!this.kit) {
-      throw new Error("Not initialized yet.");
+      throw new Error("CeloLedgerClass not initialized yet.");
     }
 
     const lockedGold = await this.kit.contracts.getLockedGold();
@@ -178,7 +169,7 @@ class CeloLedgerClass {
 
   async unlock(amount: string) {
     if (!this.kit) {
-      throw new Error("Not initialized yet.");
+      throw new Error("CeloLedgerClass not initialized yet.");
     }
 
     const lockedGold = await this.kit.contracts.getLockedGold();
@@ -189,7 +180,7 @@ class CeloLedgerClass {
 
   async getAccountSummary() {
     if (!this.kit) {
-      throw new Error("Not initialized yet.");
+      throw new Error("CeloLedgerClass not initialized yet.");
     }
 
     const lockedGold = await this.kit.contracts.getLockedGold();
@@ -201,7 +192,7 @@ class CeloLedgerClass {
 
   async getTotalBalances() {
     if (!this.kit || !this.address) {
-      throw new Error("Not initialized yet.");
+      throw new Error("CeloLedgerClass not initialized yet.");
     }
 
     const balances = await this.kit.getTotalBalance(this.address);
