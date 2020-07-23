@@ -238,7 +238,48 @@ class MockCeloLedgerModule {
     return "0xae1d640648009dbe0aa4485d3bfbb68c37710924";
   }
   transfer() {
-    return "Not implemented yet.";
+    return {
+      blockHash:
+        "0x5307a5509c5655836a7d8dee55e94686c2ad0b9ed88cd6d61870b76fe662f141",
+      blockNumber: 116599,
+      contractAddress: null,
+      cumulativeGasUsed: 46086,
+      events: {
+        Transfer: {
+          address: "0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9",
+          blockHash:
+            "0x5307a5509c5655836a7d8dee55e94686c2ad0b9ed88cd6d61870b76fe662f141",
+          blockNumber: 116599,
+          event: "Transfer",
+          id: "log_3678fb7a",
+          logIndex: 0,
+          raw: {},
+          removed: false,
+          returnValues: {
+            0: "0x6CB8265dB4cf1f588B9a6576618ed9c965CC0869",
+            1: "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2",
+            2: "100000",
+            from: "0x6CB8265dB4cf1f588B9a6576618ed9c965CC0869",
+            to: "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2",
+            value: "100000",
+          },
+          signature:
+            "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+          transactionHash:
+            "0x42407259176a931a0294847ee10eedbf01be4959ac7914f9fffbb5b84faf6ee1",
+          transactionIndex: 0,
+        },
+      },
+      from: "0x6cb8265db4cf1f588b9a6576618ed9c965cc0869",
+      gasUsed: 46086,
+      logsBloom:
+        "0x00000000000000000000000000000000000000000000000000000000000000008000800000000000000000000000000000000000000000000000000000000000000000000000100000000008000000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000010000000002000000000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000020000000",
+      status: true,
+      to: "0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9",
+      transactionHash:
+        "0x42407259176a931a0294847ee10eedbf01be4959ac7914f9fffbb5b84faf6ee1",
+      transactionIndex: 0,
+    };
   }
 }
 

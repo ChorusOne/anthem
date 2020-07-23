@@ -309,11 +309,10 @@ export const getBlockExplorerUrlForTransaction = (
       return `https://kava.mintscan.io/txs/${hash}`;
     case "TERRA":
       return `https://terra.stake.id/?#/tx/${hash}`;
+    case "CELO":
+      return `https://alfajores-blockscout.celo-testnet.org/tx/${hash}`;
     case "OASIS":
       console.warn("[TODO]: Implement Block Explorer url for Oasis");
-      return "";
-    case "CELO":
-      console.warn("[TODO]: Implement Block Explorer url for Celo");
       return "";
     default:
       return assertUnreachable(network);

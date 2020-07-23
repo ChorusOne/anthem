@@ -796,56 +796,55 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   renderTransactionSuccess = () => {
     const { i18n, transaction, ledger } = this.props;
     const { t, tString } = i18n;
+    const { transactionResult } = transaction;
+    const { transactionHash, blockNumber } = transactionResult;
 
-    console.log(transaction);
-    return null;
-
-    // return (
-    //   <Centered style={{ flexDirection: "column" }}>
-    //     <H5>{tString("Transaction Confirmed!")}</H5>
-    //     <p style={{ textAlign: "center" }}>
-    //       {t(
-    //         "Your transaction is successful and was included at block height {{height}}. It may take a few moments for the updates to appear in Anthem.",
-    //         {
-    //           height: confirmedTransactionHeight,
-    //         },
-    //       )}
-    //     </p>
-    //     <TransactionHashText>{transactionHash}</TransactionHashText>
-    //     <CopyTextComponent
-    //       textToCopy={transactionHash}
-    //       onCopy={() =>
-    //         Toast.success(this.props.i18n.tString("Transaction hash copied."))
-    //       }
-    //     >
-    //       <Row>
-    //         <Link style={{ margin: 0 }}>
-    //           {tString("Copy Transaction Hash")}
-    //         </Link>
-    //         <CopyIcon style={{ marginLeft: 8 }} color={COLORS.LIGHT_GRAY} />
-    //       </Row>
-    //     </CopyTextComponent>
-    //     <Link
-    //       style={{ marginTop: 12 }}
-    //       href={getBlockExplorerUrlForTransaction(
-    //         transactionHash,
-    //         ledger.network.name,
-    //       )}
-    //     >
-    //       {tString("View on a block explorer")}
-    //     </Link>
-    //     <Button
-    //       data-cy="transaction-dialog-close-button"
-    //       style={{ marginTop: 16 }}
-    //       onClick={() => {
-    //         this.props.refetch();
-    //         this.props.closeLedgerDialog();
-    //       }}
-    //     >
-    //       {tString("Close")}
-    //     </Button>
-    //   </Centered>
-    // );
+    return (
+      <Centered style={{ flexDirection: "column" }}>
+        <H5>{tString("Transaction Confirmed!")}</H5>
+        <p style={{ textAlign: "center" }}>
+          {t(
+            "Your transaction is successful and was included at block height {{height}}. It may take a few moments for the updates to appear in Anthem.",
+            {
+              height: blockNumber,
+            },
+          )}
+        </p>
+        <TransactionHashText>{transactionHash}</TransactionHashText>
+        <CopyTextComponent
+          textToCopy={transactionHash}
+          onCopy={() =>
+            Toast.success(this.props.i18n.tString("Transaction hash copied."))
+          }
+        >
+          <Row>
+            <Link style={{ margin: 0 }}>
+              {tString("Copy Transaction Hash")}
+            </Link>
+            <CopyIcon style={{ marginLeft: 8 }} color={COLORS.LIGHT_GRAY} />
+          </Row>
+        </CopyTextComponent>
+        <Link
+          style={{ marginTop: 12 }}
+          href={getBlockExplorerUrlForTransaction(
+            transactionHash,
+            ledger.network.name,
+          )}
+        >
+          {tString("View on a block explorer")}
+        </Link>
+        <Button
+          data-cy="transaction-dialog-close-button"
+          style={{ marginTop: 16 }}
+          onClick={() => {
+            this.props.refetch();
+            this.props.closeLedgerDialog();
+          }}
+        >
+          {tString("Close")}
+        </Button>
+      </Centered>
+    );
   };
 
   toggleFullBalance = () => {

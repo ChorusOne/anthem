@@ -63,15 +63,8 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
             }
             break;
           case "CELO":
-            console.log("Signing Celo Transaction, data:");
-            console.log(transactionData);
             const result = await celoLedgerUtil.transfer(transactionData);
-            const actions = [
-              Actions.signTransactionSuccess(result),
-              Actions.setTransactionStage(TRANSACTION_STAGES.SUCCESS),
-            ];
-
-            return actions;
+            return Actions.transactionConfirmed(result);
           case "OASIS":
             const msg = "Signing Oasis transactions is not supported yet.";
             console.warn(msg);
@@ -92,7 +85,6 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
 
       return Actions.signTransactionFailure();
     }),
-    mergeMap(x => (Array.isArray(x) ? x : [x])), // Don't ask
   );
 };
 

@@ -23,6 +23,7 @@ export interface TransactionState {
   confirmedTransactionHeight: string;
   confirmTx: boolean;
   signPending: boolean;
+  transactionResult: Nullable<any>;
   broadcastingTransaction: boolean;
   selectedValidatorForDelegation: Nullable<ICosmosValidator>;
 }
@@ -35,6 +36,7 @@ const initialState: TransactionState = {
   transactionStage: TRANSACTION_STAGES.SETUP,
   confirmedTransactionHeight: "",
   transactionHash: "",
+  transactionResult: null,
   confirmTx: false,
   signPending: false,
   broadcastingTransaction: false,
@@ -102,6 +104,7 @@ const transaction = createReducer<
     ...state,
     transactionPage: 1, // Reset page to 1
     confirmedTransactionHeight: action.payload.height,
+    transactionResult: action.payload,
     liveTransactionRecord: action.payload.transaction
       ? state.liveTransactionRecord.concat(action.payload.transaction)
       : state.liveTransactionRecord,
