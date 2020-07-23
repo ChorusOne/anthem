@@ -1,21 +1,11 @@
 import { assertUnreachable } from "@anthem/utils";
-import { fromPromise } from "apollo-link";
 import logger from "lib/logger-lib";
 import { EpicSignature } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import { combineEpics } from "redux-observable";
-import { from, of } from "rxjs";
-import {
-  concatMap,
-  filter,
-  ignoreElements,
-  mergeMap,
-  pluck,
-  tap,
-} from "rxjs/operators";
+import { filter, ignoreElements, mergeMap, pluck, tap } from "rxjs/operators";
 import { adaptRawTransactionData, wait } from "tools/client-utils";
 import { createSignMessage } from "tools/cosmos-ledger-utils";
-import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { createCosmosTransactionPostBody } from "tools/cosmos-utils";
 import { isActionOf } from "typesafe-actions";
 import Toast from "ui/Toast";
