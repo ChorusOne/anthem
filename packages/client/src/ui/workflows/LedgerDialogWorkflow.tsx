@@ -143,6 +143,8 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
     } else if (ledgerActionType === "SEND") {
       if (transactionStage === TRANSACTION_STAGES.SETUP) {
         return "Setup Send Transaction";
+      } else if (transactionStage === TRANSACTION_STAGES.SIGN_ON_LEDGER) {
+        return "Sign on Ledger";
       } else if (transactionStage === TRANSACTION_STAGES.SIGN) {
         return "Sign Send Transaction";
       } else if (transactionStage === TRANSACTION_STAGES.CONFIRM) {
