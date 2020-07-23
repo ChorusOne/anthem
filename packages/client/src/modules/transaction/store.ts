@@ -17,7 +17,7 @@ export interface TransactionState {
   transactionsPage: number;
   liveTransactionRecord: ICosmosTransaction[];
   transactionPostBody: Nullable<TxPostBody>;
-  transactionData: Nullable<TransactionData>;
+  transactionData: Nullable<TransactionData | any>;
   transactionStage: TRANSACTION_STAGES;
   transactionHash: string;
   confirmedTransactionHeight: string;

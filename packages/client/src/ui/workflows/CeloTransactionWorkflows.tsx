@@ -7,6 +7,7 @@ import {
 import {
   Checkbox,
   Classes,
+  Code,
   Colors,
   H3,
   H4,
@@ -638,21 +639,51 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
   renderTransactionSigningComponent = () => {
     const { tString } = this.props.i18n;
+    const { transactionData } = this.props.transaction;
+    const { ledgerActionType } = this.props.ledgerDialog;
+    const IS_SEND = ledgerActionType === "SEND";
+
+    if (IS_SEND && transactionData) {
+      const { amount, to } = transactionData;
+      return (
+        <View>
+          <div>
+            <p>
+              <b>Please note:</b> The CELO token transfer will be conducted via
+              the Celo Golden Token Contract address:{" "}
+            </p>
+            <p style={{ marginTop: 12 }}>
+              <Code>0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9</Code>
+            </p>
+            <p style={{ marginTop: 12 }}>
+              {amount} CELO will be sent to this contract which will then
+              conduct the CELO transfer to the recipient address:
+            </p>
+            <p style={{ marginTop: 12 }}>
+              <Code>{to}</Code>
+            </p>
+            <p style={{ marginTop: 12 }}>
+              You will be asked to confirm these details on your Ledger Device.
+              Press Sign to continue.
+            </p>
+          </div>
+          {!this.props.transaction.signPending &&
+            this.props.renderConfirmArrow(tString("Sign Transaction"), () =>
+              this.props.signTransaction(),
+            )}
+        </View>
+      );
+    }
 
     const jsonStyles = {
       margin: 0,
-      height: 225,
+      height: 125,
       fontSize: 11,
       borderRadius: 2,
     };
 
     // Convert to JSON:
-    const json = JSON.stringify(
-      // @ts-ignore
-      this.props.transaction.transactionData.txMsg,
-      null,
-      2,
-    );
+    const json = JSON.stringify(transactionData, null, 2);
 
     const TX_JSON = this.props.isDarkTheme ? (
       <PrismSyntaxHighlighter
@@ -969,11 +1000,19 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     //   });
     // }
 
-    const tx = await celoLedgerLib.transfer({
+    const data = {
       from: address,
       to: recipientAddress,
       amount: Number(amount),
-    });
+    };
+
+    this.props.setTransactionData(data);
+
+    // const tx = await celoLedgerLib.transfer({
+    //   from: address,
+    //   to: recipientAddress,
+    //   amount: Number(amount),
+    // });
   };
 
   getDelegationTransaction = () => {
