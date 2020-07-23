@@ -53,6 +53,7 @@ import {
   calculateTransactionAmount,
   denomToUnit,
   formatCurrencyAmount,
+  unitToDenom,
 } from "tools/currency-utils";
 import { bold } from "tools/i18n-utils";
 import {
@@ -647,12 +648,14 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
   renderTransactionSigningComponent = () => {
     const { tString } = this.props.i18n;
+    const { denominationSize } = this.props.ledger.network;
     const { transactionData } = this.props.transaction;
     const { ledgerActionType } = this.props.ledgerDialog;
     const IS_SEND = ledgerActionType === "SEND";
 
     if (IS_SEND && transactionData) {
       const { amount, to } = transactionData;
+      const value = denomToUnit(amount, denominationSize);
       return (
         <View>
           <div>
@@ -664,8 +667,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
               <Code>0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9</Code>
             </p>
             <p style={{ marginTop: 12 }}>
-              {amount} CELO will be sent to this contract which will then
-              conduct the CELO transfer to the recipient address:
+              {value} CELO will be sent to this contract which will then conduct
+              the CELO transfer to the recipient address:
             </p>
             <p style={{ marginTop: 12 }}>
               <Code>{to}</Code>
@@ -1001,7 +1004,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   getSendTransaction = async () => {
     const { amount, gasAmount, gasPrice, recipientAddress } = this.state;
     const { network, address } = this.props.ledger;
-    const { denom } = network;
+    const { denom, denominationSize } = network;
 
     // TODO: Validation
     // if (!validateCosmosAddress(recipientAddress)) {
@@ -1013,7 +1016,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const data = {
       from: address,
       to: recipientAddress,
-      amount: Number(amount),
+      amount: unitToDenom(amount, denominationSize),
     };
 
     this.props.setTransactionData(data);
@@ -1079,7 +1082,7 @@ const InputStyles = {
   borderRadius: 1,
 };
 
-const TransactionHashText = styled.p`
+const TransactionHashText = styled(Code)`
   font-size: 12px;
   margin-top: 12px;
   margin-bottom: 16px;

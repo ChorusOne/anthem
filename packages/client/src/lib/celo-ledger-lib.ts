@@ -231,12 +231,15 @@ class MockCeloLedgerModule {
   connect() {
     // No action
   }
+
   getCeloAppVersion() {
     return "1.0.1";
   }
+
   getAddress() {
     return "0xae1d640648009dbe0aa4485d3bfbb68c37710924";
   }
+
   transfer() {
     return {
       blockHash:
