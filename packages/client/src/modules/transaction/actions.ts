@@ -52,9 +52,11 @@ const setTransactionStage = createStandardAction(
 const signTransaction = createStandardAction(
   ActionTypesEnum.SIGN_TRANSACTION,
 )();
+
 const signTransactionSuccess = createStandardAction(
   ActionTypesEnum.SIGN_TRANSACTION_SUCCESS,
-)<TxPostBody>();
+)<TxPostBody | any>();
+
 const signTransactionFailure = createStandardAction(
   ActionTypesEnum.SIGN_TRANSACTION_FAILURE,
 )();

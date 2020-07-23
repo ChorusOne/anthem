@@ -1,10 +1,21 @@
+import { assertUnreachable } from "@anthem/utils";
+import { fromPromise } from "apollo-link";
 import logger from "lib/logger-lib";
 import { EpicSignature } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import { combineEpics } from "redux-observable";
-import { filter, ignoreElements, mergeMap, pluck, tap } from "rxjs/operators";
+import { from, of } from "rxjs";
+import {
+  concatMap,
+  filter,
+  ignoreElements,
+  mergeMap,
+  pluck,
+  tap,
+} from "rxjs/operators";
 import { adaptRawTransactionData, wait } from "tools/client-utils";
 import { createSignMessage } from "tools/cosmos-ledger-utils";
+import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { createCosmosTransactionPostBody } from "tools/cosmos-utils";
 import { isActionOf } from "typesafe-actions";
 import Toast from "ui/Toast";
@@ -20,28 +31,53 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
     filter(isActionOf(Actions.signTransaction)),
     mergeMap(async () => {
       try {
-        const { cosmosLedgerUtil: ledger } = deps;
-        const transactionData = state$.value.transaction.transactionData;
+        const { cosmosLedgerUtil, celoLedgerUtil } = deps;
+        const { name } = state$.value.ledger.ledger.network;
+        const { transactionData } = state$.value.transaction;
 
-        if (ledger && transactionData) {
-          const ledgerSignature = (
-            await ledger.sign(createSignMessage(transactionData))
-          ).toString("base64");
+        switch (name) {
+          case "COSMOS":
+          case "TERRA":
+          case "KAVA":
+            if (cosmosLedgerUtil && transactionData) {
+              const ledgerSignature = (
+                await cosmosLedgerUtil.sign(createSignMessage(transactionData))
+              ).toString("base64");
 
-          const signature = ledgerSignature;
-          const publicKey = (await ledger.getPubKey()).toString("base64");
+              const signature = ledgerSignature;
+              const publicKey = (await cosmosLedgerUtil.getPubKey()).toString(
+                "base64",
+              );
 
-          const message = createCosmosTransactionPostBody({
-            transactionData,
-            signature,
-            publicKey,
-          });
+              const message = createCosmosTransactionPostBody({
+                transactionData,
+                signature,
+                publicKey,
+              });
 
-          return Actions.signTransactionSuccess(message);
-        } else {
-          throw new Error(
-            "Unable to sign transaction! Ledger or transactionData was missing.",
-          );
+              return Actions.signTransactionSuccess(message);
+            } else {
+              throw new Error(
+                "Unable to sign transaction! Ledger or transactionData was missing.",
+              );
+            }
+            break;
+          case "CELO":
+            console.log("Signing Celo Transaction, data:");
+            console.log(transactionData);
+            const result = await celoLedgerUtil.transfer(transactionData);
+            const actions = [
+              Actions.signTransactionSuccess(result),
+              Actions.setTransactionStage(TRANSACTION_STAGES.SUCCESS),
+            ];
+
+            return actions;
+          case "OASIS":
+            const msg = "Signing Oasis transactions is not supported yet.";
+            console.warn(msg);
+            throw new Error(msg);
+          default:
+            assertUnreachable(name);
         }
       } catch (err) {
         const { tString } = i18nSelector(state$.value);
@@ -53,7 +89,10 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
 
         return Actions.signTransactionFailure();
       }
+
+      return Actions.signTransactionFailure();
     }),
+    mergeMap(x => (Array.isArray(x) ? x : [x])), // Don't ask
   );
 };
 
