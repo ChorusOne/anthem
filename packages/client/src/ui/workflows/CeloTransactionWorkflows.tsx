@@ -661,7 +661,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           <div>
             <p>
               <b>Please note:</b> The CELO token transfer will be conducted via
-              the Celo Golden Token Contract address:{" "}
+              the Celo Golden Token Contract:{" "}
             </p>
             <p style={{ marginTop: 12 }}>
               <Code>0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9</Code>
@@ -675,7 +675,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             </p>
             <p style={{ marginTop: 12 }}>
               You will be asked to confirm these details on your Ledger Device.
-              Press Sign to continue.
+              Signing the transaction will then submit it to the network for
+              processing.
+            </p>
+            <p style={{ marginTop: 12 }}>
+              Press "Sign Transaction" to continue.
             </p>
           </div>
           {!this.props.transaction.signPending &&
