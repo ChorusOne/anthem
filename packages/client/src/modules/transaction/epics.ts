@@ -61,7 +61,6 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
                 "Unable to sign transaction! Ledger or transactionData was missing.",
               );
             }
-            break;
           case "CELO":
             const result = await celoLedgerUtil.transfer(transactionData);
             return Actions.transactionConfirmed(result);

@@ -58,6 +58,7 @@ import {
 import { bold } from "tools/i18n-utils";
 import {
   validateCosmosAddress,
+  validateEthereumAddress,
   validateLedgerTransactionAmount,
 } from "tools/validation-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
@@ -260,7 +261,6 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     )}
                   </form>
                 </FormContainer>
-                {/* {this.renderGasPriceSetup()} */}
                 {this.state.sendTransactionInputError && (
                   <div style={{ marginTop: 6 }} className={Classes.LABEL}>
                     <ErrorText data-cy="amount-send-transaction-error">
@@ -1006,16 +1006,19 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   getSendTransaction = async () => {
-    const { amount, gasAmount, gasPrice, recipientAddress } = this.state;
+    const { amount, recipientAddress } = this.state;
     const { network, address } = this.props.ledger;
-    const { denom, denominationSize } = network;
+    const { denominationSize } = network;
 
-    // TODO: Validation
-    // if (!validateCosmosAddress(recipientAddress)) {
-    //   return this.setState({
-    //     sendTransactionInputError: "Please enter a valid recipient address",
-    //   });
-    // }
+    if (!validateEthereumAddress(recipientAddress)) {
+      return this.setState({
+        sendTransactionInputError: "Please enter a valid recipient address",
+      });
+    } else if (amount) {
+      return this.setState({
+        sendTransactionInputError: "Please enter a transaction amount",
+      });
+    }
 
     const data = {
       from: address,
