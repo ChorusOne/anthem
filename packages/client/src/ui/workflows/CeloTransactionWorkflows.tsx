@@ -141,7 +141,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     if (stage === TRANSACTION_STAGES.SIGN) {
       return this.renderTransactionSigningComponent();
     } else if (stage === TRANSACTION_STAGES.SIGN_ON_LEDGER) {
-      return this.signOnLedger();
+      return this.renderSignOnLedgerStep();
     } else if (stage === TRANSACTION_STAGES.CONFIRM) {
       return this.renderTransactionConfirmation();
     } else if (stage === TRANSACTION_STAGES.PENDING) {
@@ -276,11 +276,12 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     );
   };
 
-  signOnLedger = () => {
+  renderSignOnLedgerStep = () => {
     return (
-      <View>
-        <p>Please confirmation the transaction details on your Ledger.</p>
-      </View>
+      <Centered style={{ flexDirection: "column" }}>
+        <H5>Sign on Ledger</H5>
+        <p>Please confirm the transaction details on your Ledger.</p>
+      </Centered>
     );
   };
 
