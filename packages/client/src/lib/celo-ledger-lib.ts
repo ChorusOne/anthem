@@ -57,6 +57,7 @@ class CeloLedgerClass {
   private address = "";
   private kit: Nullable<ContractKit> = null;
   private eth: Nullable<any> = null;
+  private web3: Nullable<Web3> = null;
   private wallet: Nullable<LedgerWallet> = null;
   private readonly provider: string;
 
@@ -72,6 +73,7 @@ class CeloLedgerClass {
     // @ts-ignore
     const kit = newKitFromWeb3(web3, wallet);
 
+    this.web3 = web3;
     this.eth = eth;
     this.kit = kit;
     this.wallet = wallet;
@@ -87,6 +89,14 @@ class CeloLedgerClass {
   async getCeloAppVersion() {
     const appConfig = await this.eth.getAppConfiguration();
     return appConfig.version;
+  }
+
+  validateAddress(address: string) {
+    if (this.web3) {
+      return this.web3.utils.isAddress(address);
+    }
+
+    throw new Error("CeloLedgerClass not initialized yet.");
   }
 
   async getAddress(derivationPath: "0" | "1" | "2" | "3" | "4" = "0") {
@@ -225,6 +235,10 @@ class MockCeloLedgerModule {
 
   getCeloAppVersion() {
     return "1.0.1";
+  }
+
+  validateAddress() {
+    return true;
   }
 
   getAddress() {

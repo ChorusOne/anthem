@@ -2,7 +2,7 @@ import { NETWORKS } from "@anthem/utils";
 import bech32 from "bech32";
 import { FiatCurrency } from "constants/fiat";
 import emailValidator from "email-validator";
-import ethereumAddress from "ethereum-address";
+import celoLedgerLib from "lib/celo-ledger-lib";
 import semver from "semver";
 import { tFnString } from "tools/i18n-utils";
 import {
@@ -129,7 +129,7 @@ export const validateCosmosAddress = (address: string): boolean => {
  * Validate a Celo address aka validate an Ethereum address.
  */
 export const validateEthereumAddress = (address: string): boolean => {
-  return ethereumAddress.isAddress(address);
+  return celoLedgerLib.validateAddress(address);
 };
 
 /**

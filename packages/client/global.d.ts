@@ -39,7 +39,6 @@ declare module "bip39";
 declare module "bech32";
 declare module "secp256k1";
 declare module "swipyjs";
-declare module "ethereum-address";
 declare module "@lunie/cosmos-ledger";
 declare module "chinese-conv";
 declare module "react-loader-spinner";

@@ -8379,7 +8379,7 @@ crypto-browserify@3.12.0, crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
-crypto-js@^3.1.6, crypto-js@^3.1.9-1:
+crypto-js@^3.1.9-1:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-3.3.0.tgz#846dd1cce2f68aacfa156c8578f926a609b7976b"
   integrity sha512-DIT51nX0dCfKltpRiXV+/TVZq+Qq2NgF4644+K7Ttnla7zEzqc+kjJyiB96BHNyUTBxyjzRcZYpUdZa+QAqi6Q==
@@ -10145,13 +10145,6 @@ eth-lib@^0.2.8:
     bn.js "^4.11.6"
     elliptic "^6.4.0"
     xhr-request-promise "^0.1.2"
-
-ethereum-address@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/ethereum-address/-/ethereum-address-0.0.4.tgz#91729b2bc8a0044bbee2c05ccf6d0417953e5f95"
-  integrity sha1-kXKbK8igBEu+4sBcz20EF5U+X5U=
-  dependencies:
-    crypto-js "^3.1.6"
 
 ethereum-bloom-filters@^1.0.6:
   version "1.0.7"
