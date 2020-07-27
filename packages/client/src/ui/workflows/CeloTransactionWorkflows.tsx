@@ -545,7 +545,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                       checked={this.state.useFullBalance}
                       style={{ marginTop: 24 }}
                       data-cy="transaction-delegate-all-toggle"
-                      label={tString("Delegate All")}
+                      label="Vote Max"
                       onChange={this.toggleFullBalance}
                     />
                     {this.props.renderConfirmArrow(
@@ -861,16 +861,17 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   toggleFullBalance = () => {
+    const { celoAccountBalances } = this.props;
+    const balancesData = celoAccountBalances.celoAccountBalances;
+    const { nonVotingLockedGoldBalance } = balancesData;
     this.setState(
       prevState => ({
         useFullBalance: !prevState.useFullBalance,
       }),
       () => {
         if (this.state.useFullBalance) {
-          const maximumAmount = this.getMaximumAmount();
-          this.setState({
-            amount: maximumAmount,
-          });
+          const maximumAmount = nonVotingLockedGoldBalance;
+          this.setState({ amount: maximumAmount });
         }
       },
     );
