@@ -470,16 +470,16 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           ICeloAccountBalances,
           IQuery["fiatPriceData"],
         ]) => {
-          const { availableGoldBalance } = accountBalancesData;
+          const { nonVotingLockedGoldBalance } = accountBalancesData;
           const balance = renderCeloCurrency({
             denomSize: network.denominationSize,
-            value: availableGoldBalance,
+            value: nonVotingLockedGoldBalance,
             fiatPrice: exchangeRate.price,
             convertToFiat: true,
           });
           const fiatBalance = renderCeloCurrency({
             denomSize: network.denominationSize,
-            value: availableGoldBalance,
+            value: nonVotingLockedGoldBalance,
             fiatPrice: exchangeRate.price,
             convertToFiat: true,
           });
