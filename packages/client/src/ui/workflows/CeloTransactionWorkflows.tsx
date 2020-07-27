@@ -486,10 +486,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           return (
             <View>
               <p>
-                {t("Available balance: {{balance}} ({{balanceFiat}})", {
-                  balance: bold(`${balance} ${ledger.network.descriptor}`),
-                  balanceFiat: `${fiatBalance} ${fiatCurrency.symbol}`,
-                })}
+                Non-voting locked gold:{" "}
+                {bold(`${balance} ${ledger.network.descriptor}`)} ({fiatBalance}{" "}
+                {fiatCurrency.symbol})
               </p>
               <H6 style={{ marginTop: 8, marginBottom: 8 }}>
                 Selected Validator Group:
