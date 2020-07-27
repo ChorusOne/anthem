@@ -3,7 +3,7 @@
     "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
     "height": "1532009",
     "availableGoldBalance": "1000000000000000016",
-    "totalLockedGoldBalance": "50495371578928562597536",
+    "totalLockedGoldBalance": "0",
     "nonVotingLockedGoldBalance": "30495371578928562597536",
     "votingLockedGoldBalance": "50495371578928562597536",
     "pendingWithdrawalBalance": "10495371578928562597536",

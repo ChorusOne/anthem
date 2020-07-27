@@ -572,7 +572,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           ICeloAccountBalances,
           IQuery["fiatPriceData"],
         ]) => {
-          const { nonVotingLockedGoldBalance } = accountBalancesData;
+          const {
+            nonVotingLockedGoldBalance,
+            totalLockedGoldBalance,
+          } = accountBalancesData;
           const balance = renderCeloCurrency({
             denomSize: network.denominationSize,
             value: nonVotingLockedGoldBalance,
@@ -585,6 +588,29 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             fiatPrice: exchangeRate.price,
             convertToFiat: true,
           });
+
+          /**
+           * Display option to lock gold first if the user has zero locked
+           * gold balance.
+           */
+          if (totalLockedGoldBalance === "0") {
+            return (
+              <View>
+                <p>
+                  You currently have 0 locked CELO. You must first lock CELO
+                  before you can vote for a Validator Group.
+                </p>
+                <Button
+                  style={{ marginTop: 12 }}
+                  onClick={this.handleLockGold}
+                  data-cy="lock-gold-button"
+                >
+                  Lock Celo
+                </Button>
+              </View>
+            );
+          }
+
           return (
             <View>
               <p>
@@ -669,6 +695,18 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         }}
       </GraphQLGuardComponentMultipleQueries>
     );
+  };
+
+  handleLockGold = () => {
+    if (!this.props.ledger.connected) {
+      this.props.setSigninNetworkName(this.props.ledger.network.name);
+    }
+    // Open the ledger dialog
+    this.props.openLedgerDialog({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "LOCK_GOLD",
+    });
   };
 
   setValidatorSelectItemPredicate = (
@@ -1304,12 +1342,14 @@ const mapStateToProps = (state: ReduxStoreState) => ({
 });
 
 const dispatchProps = {
+  openLedgerDialog: Modules.actions.ledger.openLedgerDialog,
   refetch: Modules.actions.app.refreshBalanceAndTransactions,
   closeLedgerDialog: Modules.actions.ledger.closeLedgerDialog,
   signTransaction: Modules.actions.transaction.signTransaction,
   setTransactionStage: Modules.actions.transaction.setTransactionStage,
   setTransactionData: Modules.actions.transaction.setTransactionData,
   broadcastTransaction: Modules.actions.transaction.broadcastTransaction,
+  setSigninNetworkName: Modules.actions.ledger.setSigninNetworkName,
   setDelegationValidatorSelection:
     Modules.actions.transaction.setDelegationValidatorSelection,
 };
