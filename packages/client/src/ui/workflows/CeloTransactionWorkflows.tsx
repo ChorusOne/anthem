@@ -491,6 +491,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   balanceFiat: `${fiatBalance} ${fiatCurrency.symbol}`,
                 })}
               </p>
+              <H6 style={{ marginTop: 12, marginBottom: 12 }}>
+                Selected Validator Group:
+              </H6>
               <ValidatorSelect
                 popoverProps={{
                   onClose: this.setCanEscapeKeyCloseDialog(true),
@@ -597,7 +600,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       {
         claimsTransactionSetupError: "",
       },
-      // () => this.props.setDelegationValidatorSelection(validator),
+      () => this.props.setDelegationValidatorSelection(validator),
     );
   };
 
