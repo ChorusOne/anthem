@@ -447,20 +447,26 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       fiatCurrency,
       transaction,
       fiatPriceData,
+      celoValidatorGroups,
       celoAccountBalances,
     } = this.props;
     const { network } = ledger;
     const { t, tString } = i18n;
     const { selectedValidatorForDelegation } = transaction;
+    const group = selectedValidatorForDelegation
+      ? (selectedValidatorForDelegation as ICeloValidatorGroup)
+      : null;
     return (
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
         results={[
+          [celoValidatorGroups, "celoValidatorGroups"],
           [celoAccountBalances, "celoAccountBalances"],
           [fiatPriceData, "fiatPriceData"],
         ]}
       >
-        {([accountBalancesData, exchangeRate]: [
+        {([celoValidatorGroupsData, accountBalancesData, exchangeRate]: [
+          IQuery["celoValidatorGroups"],
           ICeloAccountBalances,
           IQuery["fiatPriceData"],
         ]) => {
@@ -485,7 +491,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   balanceFiat: `${fiatBalance} ${fiatCurrency.symbol}`,
                 })}
               </p>
-              {/* <ValidatorSelect
+              <ValidatorSelect
                 popoverProps={{
                   onClose: this.setCanEscapeKeyCloseDialog(true),
                   popoverClassName: "ValidatorCompositionSelect",
@@ -493,9 +499,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                 onItemSelect={this.handleSelectValidator}
                 itemRenderer={this.renderValidatorSelectItem}
                 itemPredicate={this.setValidatorSelectItemPredicate}
-                items={sortValidatorsChorusOnTop<ICosmosValidator>(
-                  cosmosValidators.cosmosValidators,
-                  v => v.description.moniker,
+                items={sortValidatorsChorusOnTop<ICeloValidatorGroup>(
+                  celoValidatorGroupsData,
+                  v => v.group,
                 )}
               >
                 <Button
@@ -504,13 +510,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   onClick={this.setCanEscapeKeyCloseDialog(false)}
                   data-cy="validator-composition-select-menu"
                 >
-                  {selectedValidatorForDelegation
-                    ? selectedValidatorForDelegation.description.moniker
-                    : t("Choose Validator")}
+                  {group ? group.name : "Choose Validator Group"}
                 </Button>
-              </ValidatorSelect> */}
+              </ValidatorSelect>
               <H6 style={{ marginTop: 12, marginBottom: 0 }}>
-                {t("Please enter an amount to delegate")}
+                Please enter an amount to vote for this validator group
               </H6>
               <View style={{ marginTop: 12 }}>
                 <FormContainer>
@@ -548,7 +552,6 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     )}
                   </form>
                 </FormContainer>
-                {this.renderGasPriceSetup()}
                 {this.state.delegationTransactionInputError && (
                   <div style={{ marginTop: 12 }} className={Classes.LABEL}>
                     <ErrorText data-cy="amount-transaction-error">
