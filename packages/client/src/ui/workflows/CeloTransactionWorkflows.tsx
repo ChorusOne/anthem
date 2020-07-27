@@ -484,10 +484,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
               <p>
                 To vote for a Celo Validator Group you must first lock CELO.
               </p>
-              <p>
-                Available gold:{" "}
-                {bold(`${balance} ${ledger.network.descriptor}`)} ({fiatBalance}{" "}
-                {fiatCurrency.symbol})
+              <p style={{ marginTop: 8 }}>
+                Available: {bold(`${balance} ${ledger.network.descriptor}`)} (
+                {fiatBalance} {fiatCurrency.symbol})
               </p>
               <H6 style={{ marginTop: 12, marginBottom: 0 }}>
                 Please enter an amount of available gold to lock:

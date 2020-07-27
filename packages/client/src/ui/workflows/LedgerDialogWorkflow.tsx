@@ -156,17 +156,17 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
       }
     } else if (ledgerActionType === "LOCK_GOLD") {
       if (transactionStage === TRANSACTION_STAGES.SETUP) {
-        return "Setup Lock CELO Transaction";
+        return "Setup Lock Celo Transaction";
       } else if (transactionStage === TRANSACTION_STAGES.SIGN_ON_LEDGER) {
         return "Sign on Ledger";
       } else if (transactionStage === TRANSACTION_STAGES.SIGN) {
-        return "Sign Lock CELO Transaction";
+        return "Sign Lock Celo Transaction";
       } else if (transactionStage === TRANSACTION_STAGES.CONFIRM) {
-        return "Submit Lock CELO Transaction";
+        return "Submit Lock Celo Transaction";
       } else if (transactionStage === TRANSACTION_STAGES.PENDING) {
-        return "Lock CELO Transaction Submitted";
+        return "Lock Celo Transaction Submitted";
       } else if (transactionStage === TRANSACTION_STAGES.SUCCESS) {
-        return "Lock CELO Transaction Confirmed";
+        return "Lock Celo Transaction Confirmed";
       }
     }
 
