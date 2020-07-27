@@ -964,16 +964,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   toggleFullBalance = (maxAmount: string) => {
-    const { ledger } = this.props;
-    const { denominationSize } = ledger.network;
     this.setState(
       prevState => ({
         useFullBalance: !prevState.useFullBalance,
       }),
       () => {
         if (this.state.useFullBalance) {
-          const max = denomToUnit(maxAmount, denominationSize);
-          this.setState({ amount: max });
+          this.setState({ amount: maxAmount });
         }
       },
     );
@@ -1151,7 +1148,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       },
       () => {
         if (amountError === "") {
-          this.getSendTransaction();
+          this.getLockGoldTransaction();
         }
       },
     );
