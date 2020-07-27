@@ -632,18 +632,18 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
 
     // TODO: Not implemented yet.
     // Set the selected validator in the transactions workflow
-    // this.props.setDelegationValidatorSelection(validator);
+    this.props.setDelegationValidatorSelection(validator);
     // Default the signin network to the current network, if the ledger
     // is not connected
-    // if (!this.props.ledger.connected) {
-    //   this.props.setSigninNetworkName(this.props.network.name);
-    // }
+    if (!this.props.ledger.connected) {
+      this.props.setSigninNetworkName(this.props.network.name);
+    }
     // Open the ledger dialog
-    // this.props.openLedgerDialog({
-    //   signinType: "LEDGER",
-    //   ledgerAccessType: "PERFORM_ACTION",
-    //   ledgerActionType: "DELEGATE",
-    // });
+    this.props.openLedgerDialog({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "DELEGATE",
+    });
   };
 
   handleClickValidator = (address: string) => {

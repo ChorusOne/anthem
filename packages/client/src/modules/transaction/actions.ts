@@ -1,4 +1,8 @@
-import { ICosmosTransaction, ICosmosValidator } from "@anthem/utils";
+import {
+  ICeloValidatorGroup,
+  ICosmosTransaction,
+  ICosmosValidator,
+} from "@anthem/utils";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { TxPostBody } from "tools/cosmos-utils";
 import { ActionType, createStandardAction } from "typesafe-actions";
@@ -95,7 +99,7 @@ const removeLocalCopyOfTransaction = createStandardAction(
 
 const setDelegationValidatorSelection = createStandardAction(
   ActionTypesEnum.SET_DELEGATION_VALIDATOR_SELECTION,
-)<ICosmosValidator>();
+)<ICosmosValidator | ICeloValidatorGroup>();
 
 const actions = {
   setTransactionData,

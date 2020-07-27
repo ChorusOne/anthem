@@ -459,6 +459,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     } = this.props;
     const { t, tString } = i18n;
     const { selectedValidatorForDelegation } = transaction;
+    const validator = selectedValidatorForDelegation
+      ? (selectedValidatorForDelegation as ICosmosValidator)
+      : null;
     return (
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
@@ -504,8 +507,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   onClick={this.setCanEscapeKeyCloseDialog(false)}
                   data-cy="validator-composition-select-menu"
                 >
-                  {selectedValidatorForDelegation
-                    ? selectedValidatorForDelegation.description.moniker
+                  {validator
+                    ? validator.description.moniker
                     : t("Choose Validator")}
                 </Button>
               </ValidatorSelect>
@@ -1035,10 +1038,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       });
     }
 
-    if (
-      selectedValidatorForDelegation &&
-      cosmosAccountInformation.cosmosAccountInformation
-    ) {
+    const validator = selectedValidatorForDelegation as ICosmosValidator;
+
+    if (validator && cosmosAccountInformation.cosmosAccountInformation) {
       const txMsg = createDelegationTransactionMessage({
         denom,
         amount,
@@ -1046,8 +1048,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         gasAmount,
         gasPrice,
         network,
-        validatorOperatorAddress:
-          selectedValidatorForDelegation.operator_address,
+        validatorOperatorAddress: validator.operator_address,
       });
 
       const account = cosmosAccountInformation.cosmosAccountInformation as ICosmosAccountInformation;
