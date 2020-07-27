@@ -92,11 +92,12 @@ interface IState {
   gasPrice: string;
   gasAmount: string;
   amount: string;
-  delegationTransactionInputError: string;
   recipientAddress: string;
   sendTransactionInputError: string;
   displayCustomGasSettings: boolean;
   claimsTransactionSetupError: string;
+  lockGoldTransactionSetupError: string;
+  voteForValidatorGroupTransactionInputError: string;
   useFullBalance: boolean;
   selectAllRewards: boolean;
   selectedRewards: ReadonlyArray<AvailableReward>;
@@ -129,7 +130,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       recipientAddress: "",
       claimsTransactionSetupError: "",
       sendTransactionInputError: "",
-      delegationTransactionInputError: "",
+      lockGoldTransactionSetupError: "",
+      voteForValidatorGroupTransactionInputError: "",
     };
   }
 
@@ -500,13 +502,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     data-cy="ledger-action-input-form"
                     onSubmit={(event: ChangeEvent<HTMLFormElement>) => {
                       event.preventDefault();
-                      this.submitLedgerVoteForValidatorGroup();
+                      this.submitLockGoldAmount();
                     }}
                   >
                     <TextInput
                       autoFocus
                       label="Transaction Amount (CELO)"
-                      onSubmit={this.submitLedgerVoteForValidatorGroup}
+                      onSubmit={this.submitLockGoldAmount}
                       style={{ ...InputStyles, width: 300 }}
                       placeholder={tString("Enter an amount")}
                       data-cy="transaction-amount-input"
@@ -517,19 +519,19 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                       checked={this.state.useFullBalance}
                       style={{ marginTop: 24 }}
                       data-cy="transaction-delegate-all-toggle"
-                      label="Vote Max"
-                      onChange={this.toggleFullBalance}
+                      label="Lock Max"
+                      onChange={() => this.toggleFullBalance(balance)}
                     />
                     {this.props.renderConfirmArrow(
                       tString("Generate My Transaction"),
-                      this.submitLedgerVoteForValidatorGroup,
+                      this.submitLockGoldAmount,
                     )}
                   </form>
                 </FormContainer>
-                {this.state.delegationTransactionInputError && (
+                {this.state.lockGoldTransactionSetupError && (
                   <div style={{ marginTop: 12 }} className={Classes.LABEL}>
                     <ErrorText data-cy="amount-transaction-error">
-                      {this.state.delegationTransactionInputError}
+                      {this.state.lockGoldTransactionSetupError}
                     </ErrorText>
                   </div>
                 )}
@@ -647,7 +649,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                       style={{ marginTop: 24 }}
                       data-cy="transaction-delegate-all-toggle"
                       label="Vote Max"
-                      onChange={this.toggleFullBalance}
+                      onChange={() => this.toggleFullBalance(balance)}
                     />
                     {this.props.renderConfirmArrow(
                       tString("Generate My Transaction"),
@@ -655,10 +657,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     )}
                   </form>
                 </FormContainer>
-                {this.state.delegationTransactionInputError && (
+                {this.state.voteForValidatorGroupTransactionInputError && (
                   <div style={{ marginTop: 12 }} className={Classes.LABEL}>
                     <ErrorText data-cy="amount-transaction-error">
-                      {this.state.delegationTransactionInputError}
+                      {this.state.voteForValidatorGroupTransactionInputError}
                     </ErrorText>
                   </div>
                 )}
@@ -961,18 +963,16 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     );
   };
 
-  toggleFullBalance = () => {
-    const { celoAccountBalances, ledger } = this.props;
+  toggleFullBalance = (maxAmount: string) => {
+    const { ledger } = this.props;
     const { denominationSize } = ledger.network;
-    const balancesData = celoAccountBalances.celoAccountBalances;
-    const { nonVotingLockedGoldBalance } = balancesData;
     this.setState(
       prevState => ({
         useFullBalance: !prevState.useFullBalance,
       }),
       () => {
         if (this.state.useFullBalance) {
-          const max = denomToUnit(nonVotingLockedGoldBalance, denominationSize);
+          const max = denomToUnit(maxAmount, denominationSize);
           this.setState({ amount: max });
         }
       },
@@ -1082,7 +1082,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       this.props.i18n.tString,
     );
 
-    this.setState({ delegationTransactionInputError: amountError });
+    this.setState({ voteForValidatorGroupTransactionInputError: amountError });
   };
 
   submitLedgerTransferAmount = () => {
@@ -1100,7 +1100,6 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     this.setState(
       {
         sendTransactionInputError: amountError,
-        delegationTransactionInputError: amountError,
       },
       () => {
         if (amountError === "") {
@@ -1134,6 +1133,49 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     this.props.setTransactionData(data);
   };
 
+  submitLockGoldAmount = () => {
+    const { amount } = this.state;
+    const { celoAccountBalances } = this.props.celoAccountBalances;
+    const { availableGoldBalance } = celoAccountBalances;
+    const maximumAmount = availableGoldBalance;
+
+    const amountError = validateLedgerTransactionAmount(
+      amount,
+      maximumAmount,
+      this.props.i18n.tString,
+    );
+
+    this.setState(
+      {
+        lockGoldTransactionSetupError: amountError,
+      },
+      () => {
+        if (amountError === "") {
+          this.getSendTransaction();
+        }
+      },
+    );
+  };
+
+  getLockGoldTransaction = async () => {
+    const { amount } = this.state;
+    const { network, address } = this.props.ledger;
+    const { denominationSize } = network;
+
+    if (!amount) {
+      return this.setState({
+        sendTransactionInputError: "Please enter a transaction amount",
+      });
+    }
+
+    const data = {
+      from: address,
+      amount: unitToDenom(amount, denominationSize),
+    };
+
+    this.props.setTransactionData(data);
+  };
+
   submitLedgerVoteForValidatorGroup = () => {
     const { amount } = this.state;
     const { celoAccountBalances } = this.props.celoAccountBalances;
@@ -1148,8 +1190,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
     this.setState(
       {
-        sendTransactionInputError: amountError,
-        delegationTransactionInputError: amountError,
+        voteForValidatorGroupTransactionInputError: amountError,
       },
       () => {
         if (amountError === "") {
@@ -1168,7 +1209,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
     if (!selectedValidatorForDelegation) {
       return this.setState({
-        delegationTransactionInputError:
+        voteForValidatorGroupTransactionInputError:
           "Please choose a validator to delegate to.",
       });
     }

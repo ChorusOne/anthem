@@ -55,6 +55,11 @@ interface CeloVoteArguments {
   amount: number;
 }
 
+interface CeloLockGoldArguments {
+  amount: string;
+  from: string;
+}
+
 /** ===========================================================================
  * Celo Ledger Class
  * ============================================================================
@@ -170,17 +175,19 @@ class CeloLedgerClass {
     return result;
   }
 
-  async lock(amount: string) {
+  async lock(args: CeloLockGoldArguments) {
     if (!this.kit) {
       throw new Error("CeloLedgerClass not initialized yet.");
     }
+
+    const { amount, from } = args;
 
     const lockedGold = await this.kit.contracts.getLockedGold();
     console.log(`Locking ${amount} gold for address ${this.address}`);
     const receipt = await lockedGold
       .lock()
       // @ts-ignore
-      .sendAndWaitForReceipt({ from: this.address, value: amount });
+      .sendAndWaitForReceipt({ from, value: amount });
     return receipt;
   }
 
@@ -268,6 +275,15 @@ class MockCeloLedgerModule {
 
   getAddress() {
     return "0xae1d640648009dbe0aa4485d3bfbb68c37710924";
+  }
+
+  lock(args: CeloLockGoldArguments) {
+    console.log(args);
+    // TODO: Fill in correct response data:
+    return {
+      transactionHash:
+        "0x42407259176a931a0294847ee10eedbf01be4959ac7914f9fffbb5b84faf6ee2",
+    };
   }
 
   voteForValidatorGroup(args: CeloVoteArguments) {
