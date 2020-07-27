@@ -475,7 +475,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             denomSize: network.denominationSize,
             value: nonVotingLockedGoldBalance,
             fiatPrice: exchangeRate.price,
-            convertToFiat: true,
+            convertToFiat: false,
           });
           const fiatBalance = renderCeloCurrency({
             denomSize: network.denominationSize,
@@ -861,7 +861,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   toggleFullBalance = () => {
-    const { celoAccountBalances } = this.props;
+    const { celoAccountBalances, ledger } = this.props;
+    const { denominationSize } = ledger.network;
     const balancesData = celoAccountBalances.celoAccountBalances;
     const { nonVotingLockedGoldBalance } = balancesData;
     this.setState(
@@ -870,8 +871,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       }),
       () => {
         if (this.state.useFullBalance) {
-          const maximumAmount = nonVotingLockedGoldBalance;
-          this.setState({ amount: maximumAmount });
+          const max = denomToUnit(nonVotingLockedGoldBalance, denominationSize);
+          this.setState({ amount: max });
         }
       },
     );

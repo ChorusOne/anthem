@@ -272,7 +272,11 @@ class MockCeloLedgerModule {
 
   voteForValidatorGroup(args: CeloVoteArguments) {
     console.log(args);
-    return true;
+    // TODO: Fill in correct response data:
+    return {
+      transactionHash:
+        "0x42407259176a931a0294847ee10eedbf01be4959ac7914f9fffbb5b84faf6ee2",
+    };
   }
 
   transfer() {
