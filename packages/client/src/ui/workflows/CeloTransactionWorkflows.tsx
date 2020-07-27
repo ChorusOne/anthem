@@ -443,10 +443,101 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   renderLockGoldTransactionSetup = () => {
+    const {
+      i18n,
+      ledger,
+      fiatCurrency,
+      fiatPriceData,
+      celoAccountBalances,
+    } = this.props;
+    const { network } = ledger;
+    const { t, tString } = i18n;
     return (
-      <View>
-        <p>To vote for a Celo Validator Group you must first lock CELO.</p>
-      </View>
+      <GraphQLGuardComponentMultipleQueries
+        tString={tString}
+        results={[
+          [celoAccountBalances, "celoAccountBalances"],
+          [fiatPriceData, "fiatPriceData"],
+        ]}
+      >
+        {([accountBalancesData, exchangeRate]: [
+          ICeloAccountBalances,
+          IQuery["fiatPriceData"],
+        ]) => {
+          const { availableGoldBalance } = accountBalancesData;
+          const balance = renderCeloCurrency({
+            denomSize: network.denominationSize,
+            value: availableGoldBalance,
+            fiatPrice: exchangeRate.price,
+            convertToFiat: false,
+          });
+          const fiatBalance = renderCeloCurrency({
+            denomSize: network.denominationSize,
+            value: availableGoldBalance,
+            fiatPrice: exchangeRate.price,
+            convertToFiat: true,
+          });
+          return (
+            <View>
+              <p>
+                To vote for a Celo Validator Group you must first lock CELO.
+              </p>
+              <p>
+                Available gold:{" "}
+                {bold(`${balance} ${ledger.network.descriptor}`)} ({fiatBalance}{" "}
+                {fiatCurrency.symbol})
+              </p>
+              <H6 style={{ marginTop: 12, marginBottom: 0 }}>
+                Please enter an amount of available gold to lock:
+              </H6>
+              <View style={{ marginTop: 12 }}>
+                <FormContainer>
+                  <form
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                    data-cy="ledger-action-input-form"
+                    onSubmit={(event: ChangeEvent<HTMLFormElement>) => {
+                      event.preventDefault();
+                      this.submitLedgerVoteForValidatorGroup();
+                    }}
+                  >
+                    <TextInput
+                      autoFocus
+                      label="Transaction Amount (CELO)"
+                      onSubmit={this.submitLedgerVoteForValidatorGroup}
+                      style={{ ...InputStyles, width: 300 }}
+                      placeholder={tString("Enter an amount")}
+                      data-cy="transaction-amount-input"
+                      value={this.state.amount}
+                      onChange={this.handleEnterLedgerActionAmount}
+                    />
+                    <Switch
+                      checked={this.state.useFullBalance}
+                      style={{ marginTop: 24 }}
+                      data-cy="transaction-delegate-all-toggle"
+                      label="Vote Max"
+                      onChange={this.toggleFullBalance}
+                    />
+                    {this.props.renderConfirmArrow(
+                      tString("Generate My Transaction"),
+                      this.submitLedgerVoteForValidatorGroup,
+                    )}
+                  </form>
+                </FormContainer>
+                {this.state.delegationTransactionInputError && (
+                  <div style={{ marginTop: 12 }} className={Classes.LABEL}>
+                    <ErrorText data-cy="amount-transaction-error">
+                      {this.state.delegationTransactionInputError}
+                    </ErrorText>
+                  </div>
+                )}
+              </View>
+            </View>
+          );
+        }}
+      </GraphQLGuardComponentMultipleQueries>
     );
   };
 
