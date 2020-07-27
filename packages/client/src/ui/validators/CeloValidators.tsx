@@ -41,6 +41,7 @@ import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
 import {
   divide,
   GenericNumberType,
+  isGreaterThan,
   multiply,
   subtract,
 } from "tools/math-utils";
@@ -157,6 +158,12 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
               validatorsListSortFilter,
               sortValidatorsListAscending,
             );
+
+            const CHORUS_VALIDATOR = validatorOperatorAddressMap.get(
+              "0X81CEF0668E15639D0B101BDC3067699309D73BED",
+            );
+
+            const CAN_VOTE = isGreaterThan(nonVotingLockedGoldBalance, 0);
 
             return (
               <View
@@ -476,6 +483,19 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           )}
                         </Text>
                       </RowItem>
+                      {CHORUS_VALIDATOR && CAN_VOTE && (
+                        <RowItem width={100}>
+                          <Button
+                            style={{ marginBottom: 6 }}
+                            onClick={() =>
+                              this.handleAddValidator(CHORUS_VALIDATOR)
+                            }
+                            data-cy="lock-non-voting-gold-button"
+                          >
+                            Vote
+                          </Button>
+                        </RowItem>
+                      )}
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
                       <RowItem width={125}>
