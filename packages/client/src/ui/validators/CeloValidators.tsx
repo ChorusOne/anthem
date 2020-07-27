@@ -601,16 +601,21 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                 %
                               </Text>
                             </RowItem>
-                            <RowItem width={75}>
-                              <Button
-                                style={{ borderRadius: "50%" }}
-                                onClick={() =>
-                                  this.handleAddValidator(validatorGroup)
-                                }
-                              >
-                                <Icon icon="plus" color={COLORS.LIGHT_WHITE} />
-                              </Button>
-                            </RowItem>
+                            {CAN_VOTE && (
+                              <RowItem width={75}>
+                                <Button
+                                  style={{ borderRadius: "50%" }}
+                                  onClick={() =>
+                                    this.handleAddValidator(validatorGroup)
+                                  }
+                                >
+                                  <Icon
+                                    icon="plus"
+                                    color={COLORS.LIGHT_WHITE}
+                                  />
+                                </Button>
+                              </RowItem>
+                            )}
                           </StakingRow>
                         </View>
                       );
