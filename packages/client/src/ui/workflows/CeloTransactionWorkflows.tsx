@@ -1074,7 +1074,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const group = selectedValidatorForDelegation as ICeloValidatorGroup;
 
     const data = {
-      group,
+      group: group.group,
       from: address,
       amount: unitToDenom(amount, denominationSize),
     };
