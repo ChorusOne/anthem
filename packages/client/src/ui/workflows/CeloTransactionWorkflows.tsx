@@ -226,13 +226,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     data-cy="ledger-action-input-form"
                     onSubmit={(event: ChangeEvent<HTMLFormElement>) => {
                       event.preventDefault();
-                      this.submitLedgerTransactionAmount();
+                      this.submitLedgerTransferAmount();
                     }}
                   >
                     <TextInput
                       autoFocus
                       label="Transaction Amount (CELO)"
-                      onSubmit={this.submitLedgerTransactionAmount}
+                      onSubmit={this.submitLedgerTransferAmount}
                       style={{ ...InputStyles, marginBottom: 6, width: 150 }}
                       placeholder={tString("Enter an amount")}
                       data-cy="transaction-send-amount-input"
@@ -241,7 +241,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     />
                     <TextInput
                       label={`Recipient Address (${ledger.network.name})`}
-                      onSubmit={this.submitLedgerTransactionAmount}
+                      onSubmit={this.submitLedgerTransferAmount}
                       style={{ ...InputStyles, width: 400 }}
                       placeholder="Enter recipient address"
                       data-cy="transaction-send-recipient-input"
@@ -257,7 +257,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     </Button>
                     {this.props.renderConfirmArrow(
                       tString("Generate My Transaction"),
-                      this.submitLedgerTransactionAmount,
+                      this.submitLedgerTransferAmount,
                     )}
                   </form>
                 </FormContainer>
@@ -529,13 +529,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     data-cy="ledger-action-input-form"
                     onSubmit={(event: ChangeEvent<HTMLFormElement>) => {
                       event.preventDefault();
-                      this.submitLedgerTransactionAmount();
+                      this.submitLedgerVoteForValidatorGroup();
                     }}
                   >
                     <TextInput
                       autoFocus
                       label="Transaction Amount (CELO)"
-                      onSubmit={this.submitLedgerTransactionAmount}
+                      onSubmit={this.submitLedgerVoteForValidatorGroup}
                       style={{ ...InputStyles, width: 300 }}
                       placeholder={tString("Enter an amount")}
                       data-cy="transaction-amount-input"
@@ -551,7 +551,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     />
                     {this.props.renderConfirmArrow(
                       tString("Generate My Transaction"),
-                      this.submitLedgerTransactionAmount,
+                      this.submitLedgerVoteForValidatorGroup,
                     )}
                   </form>
                 </FormContainer>
@@ -983,33 +983,29 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     this.setState({ delegationTransactionInputError: amountError });
   };
 
-  submitLedgerTransactionAmount = () => {
-    const { amount: ledgerActionAmount } = this.state;
-    const maximumAmount = this.getMaximumAmount();
+  submitLedgerTransferAmount = () => {
+    const { amount } = this.state;
+    const { celoAccountBalances } = this.props.celoAccountBalances;
+    const { availableGoldBalance } = celoAccountBalances;
+    const maximumAmount = availableGoldBalance;
 
-    this.getSendTransaction();
-    // const amountError = validateLedgerTransactionAmount(
-    //   ledgerActionAmount,
-    //   maximumAmount,
-    //   this.props.i18n.tString,
-    // );
+    const amountError = validateLedgerTransactionAmount(
+      amount,
+      maximumAmount,
+      this.props.i18n.tString,
+    );
 
-    // this.setState(
-    //   {
-    //     sendTransactionInputError: amountError,
-    //     delegationTransactionInputError: amountError,
-    //   },
-    //   () => {
-    //     if (amountError === "") {
-    //       const { ledgerActionType } = this.props.ledgerDialog;
-    //       if (ledgerActionType === "SEND") {
-    //         this.getSendTransaction();
-    //       } else {
-    //         this.getDelegationTransaction();
-    //       }
-    //     }
-    //   },
-    // );
+    this.setState(
+      {
+        sendTransactionInputError: amountError,
+        delegationTransactionInputError: amountError,
+      },
+      () => {
+        if (amountError === "") {
+          this.getSendTransaction();
+        }
+      },
+    );
   };
 
   getSendTransaction = async () => {
@@ -1034,6 +1030,31 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     };
 
     this.props.setTransactionData(data);
+  };
+
+  submitLedgerVoteForValidatorGroup = () => {
+    const { amount } = this.state;
+    const { celoAccountBalances } = this.props.celoAccountBalances;
+    const { nonVotingLockedGoldBalance } = celoAccountBalances;
+    const maximumAmount = nonVotingLockedGoldBalance;
+
+    const amountError = validateLedgerTransactionAmount(
+      amount,
+      maximumAmount,
+      this.props.i18n.tString,
+    );
+
+    this.setState(
+      {
+        sendTransactionInputError: amountError,
+        delegationTransactionInputError: amountError,
+      },
+      () => {
+        if (amountError === "") {
+          this.getDelegationTransaction();
+        }
+      },
+    );
   };
 
   getDelegationTransaction = () => {
