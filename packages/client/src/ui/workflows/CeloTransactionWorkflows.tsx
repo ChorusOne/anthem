@@ -443,7 +443,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   renderLockGoldTransactionSetup = () => {
-    return <p>Lock Gold</p>;
+    return (
+      <View>
+        <p>To vote for a Celo Validator Group you must first lock CELO.</p>
+      </View>
+    );
   };
 
   renderDelegationTransactionSetup = () => {

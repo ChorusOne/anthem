@@ -622,9 +622,15 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
   };
 
   handleLockGold = () => {
-    Toast.warn("⚠️ Ledger actions coming soon.");
-
-    // TODO: Not implemented yet.
+    if (!this.props.ledger.connected) {
+      this.props.setSigninNetworkName(this.props.network.name);
+    }
+    // Open the ledger dialog
+    this.props.openLedgerDialog({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "LOCK_GOLD",
+    });
   };
 
   handleAddValidator = (validator: ICeloValidatorGroup) => {
