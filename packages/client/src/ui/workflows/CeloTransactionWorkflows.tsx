@@ -491,7 +491,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   balanceFiat: `${fiatBalance} ${fiatCurrency.symbol}`,
                 })}
               </p>
-              <H6 style={{ marginTop: 12, marginBottom: 12 }}>
+              <H6 style={{ marginTop: 8, marginBottom: 8 }}>
                 Selected Validator Group:
               </H6>
               <ValidatorSelect
@@ -1037,11 +1037,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   getDelegationTransaction = () => {
-    const { amount, gasAmount, gasPrice } = this.state;
+    const { amount } = this.state;
     const { transaction } = this.props;
     const { selectedValidatorForDelegation } = transaction;
     const { network, address } = this.props.ledger;
-    const { denom } = network;
+    const { denominationSize } = network;
 
     if (!selectedValidatorForDelegation) {
       return this.setState({
@@ -1050,7 +1050,15 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       });
     }
 
-    // TODO: Implement!
+    const group = selectedValidatorForDelegation as ICeloValidatorGroup;
+
+    const data = {
+      group,
+      from: address,
+      amount: unitToDenom(amount, denominationSize),
+    };
+
+    this.props.setTransactionData(data);
   };
 
   getRewardsClaimTransaction = () => {

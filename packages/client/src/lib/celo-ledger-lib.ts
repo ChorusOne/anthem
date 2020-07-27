@@ -7,6 +7,7 @@ import { VoteValue } from "@celo/contractkit/lib/wrappers/Governance";
 import Eth from "@ledgerhq/hw-app-eth";
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
+import BigNumber from "bignumber.js";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
 import ENV from "lib/client-env";
 import Web3 from "web3";
@@ -45,6 +46,12 @@ const getCeloLedgerTransport = () => {
 interface CeloTransferArguments {
   from: string;
   to: string;
+  amount: number;
+}
+
+interface CeloVoteArguments {
+  group: string;
+  from: string;
   amount: number;
 }
 
@@ -141,7 +148,7 @@ class CeloLedgerClass {
     return receipt;
   }
 
-  async vote(proposalId: string, vote: keyof typeof VoteValue) {
+  async voteForProposal(proposalId: string, vote: keyof typeof VoteValue) {
     if (!this.kit) {
       throw new Error("CeloLedgerClass not initialized yet.");
     }
@@ -152,7 +159,7 @@ class CeloLedgerClass {
     return result;
   }
 
-  async upvote(proposalId: string, upvoter: string) {
+  async upvoteForProposal(proposalId: string, upvoter: string) {
     if (!this.kit) {
       throw new Error("CeloLedgerClass not initialized yet.");
     }
@@ -185,6 +192,24 @@ class CeloLedgerClass {
     const lockedGold = await this.kit.contracts.getLockedGold();
     console.log(`Unlocking ${amount} gold for address ${this.address}`);
     const receipt = await lockedGold.unlock(amount).sendAndWaitForReceipt();
+    return receipt;
+  }
+
+  async voteForValidatorGroup(args: CeloVoteArguments) {
+    if (!this.kit) {
+      throw new Error("CeloLedgerClass not initialized yet.");
+    }
+
+    const { from, group, amount } = args;
+
+    const election = await this.kit.contracts.getElection();
+    console.log(
+      `Voting ${amount} locked gold for validator group ${this.address}`,
+    );
+    const receipt = await election
+      .vote(group, new BigNumber(amount))
+      // @ts-ignore
+      .sendAndWaitForReceipt({ from: this.address });
     return receipt;
   }
 
@@ -243,6 +268,11 @@ class MockCeloLedgerModule {
 
   getAddress() {
     return "0xae1d640648009dbe0aa4485d3bfbb68c37710924";
+  }
+
+  voteForValidatorGroup(args: CeloVoteArguments) {
+    console.log(args);
+    return true;
   }
 
   transfer() {

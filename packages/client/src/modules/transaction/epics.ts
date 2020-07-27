@@ -22,6 +22,7 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
     mergeMap(async () => {
       try {
         const { cosmosLedgerUtil, celoLedgerUtil } = deps;
+        const { ledgerActionType } = state$.value.ledger.ledgerDialog;
         const { name } = state$.value.ledger.ledger.network;
         const { transactionData } = state$.value.transaction;
 
@@ -52,8 +53,23 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
               );
             }
           case "CELO":
-            const result = await celoLedgerUtil.transfer(transactionData);
-            return Actions.transactionConfirmed(result);
+            switch (ledgerActionType) {
+              case "SEND":
+                const transferResult = await celoLedgerUtil.transfer(
+                  transactionData,
+                );
+                return Actions.transactionConfirmed(transferResult);
+              case "DELEGATE":
+                const voteResult = await celoLedgerUtil.voteForValidatorGroup(
+                  transactionData,
+                );
+                return Actions.transactionConfirmed(voteResult);
+              default: {
+                throw new Error(
+                  `Action ${ledgerActionType} not supported for Celo yet.`,
+                );
+              }
+            }
           case "OASIS":
             const msg = "Signing Oasis transactions is not supported yet.";
             console.warn(msg);
