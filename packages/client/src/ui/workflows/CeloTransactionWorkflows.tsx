@@ -160,6 +160,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         return this.renderRewardsTransactionSetup();
       case "SEND":
         return this.renderSendReceiveTransactionSetup();
+      case "LOCK_GOLD":
+        return this.renderLockGoldTransactionSetup();
       case null:
         break;
       default:
@@ -438,6 +440,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             ),
       };
     });
+  };
+
+  renderLockGoldTransactionSetup = () => {
+    return <p>Lock Gold</p>;
   };
 
   renderDelegationTransactionSetup = () => {

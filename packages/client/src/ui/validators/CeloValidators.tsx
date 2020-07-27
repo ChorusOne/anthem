@@ -628,9 +628,6 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
   };
 
   handleAddValidator = (validator: ICeloValidatorGroup) => {
-    Toast.warn("⚠️ Ledger actions coming soon.");
-
-    // TODO: Not implemented yet.
     // Set the selected validator in the transactions workflow
     this.props.setDelegationValidatorSelection(validator);
     // Default the signin network to the current network, if the ledger
