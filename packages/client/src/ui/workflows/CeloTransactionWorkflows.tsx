@@ -178,7 +178,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   renderGovernanceVote = () => {
     return (
       <View>
-        <p>Vote on Governance!</p>
+        <H6 style={{ marginTop: 6, marginBottom: 0 }}>Vote on Governance!</H6>
       </View>
     );
   };

@@ -168,6 +168,14 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
       } else if (transactionStage === TRANSACTION_STAGES.SUCCESS) {
         return "Lock Celo Transaction Confirmed";
       }
+    } else if (ledgerActionType === "GOVERNANCE_VOTE") {
+      if (transactionStage === TRANSACTION_STAGES.SETUP) {
+        return "Review Governance Vote";
+      } else if (transactionStage === TRANSACTION_STAGES.SIGN_ON_LEDGER) {
+        return "Sign Governance Vote";
+      } else if (transactionStage === TRANSACTION_STAGES.SUCCESS) {
+        return "Governance Vote Success";
+      }
     }
 
     return "";
@@ -229,10 +237,11 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
     const { ledgerActionType } = this.props.ledgerDialog;
 
     switch (ledgerActionType) {
+      case "SEND":
       case "CLAIM":
       case "DELEGATE":
       case "LOCK_GOLD":
-      case "SEND":
+      case "GOVERNANCE_VOTE":
         if (!this.props.ledger.connected) {
           return this.renderLedgerSignin();
         } else {
