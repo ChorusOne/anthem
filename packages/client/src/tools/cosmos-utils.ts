@@ -84,7 +84,11 @@ const getTransactionMessageTypeForNetwork = (
   network: NETWORK_NAME,
   transactionType: LEDGER_ACTION_TYPE,
 ): string => {
-  if (transactionType === "LOCK_GOLD") {
+  // Reject non-Cosmos transaction types
+  if (
+    transactionType === "LOCK_GOLD" ||
+    transactionType === "GOVERNANCE_VOTE"
+  ) {
     throw new Error("Not valid for Cosmos SDK transactions");
   }
 

@@ -120,6 +120,7 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
                 proposals={proposals}
                 address={ledger.address}
                 setAddress={setAddress}
+                handleVote={this.handleVote}
                 governanceTransactionHistory={governanceHistory}
               />
             );
@@ -128,6 +129,20 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
       </View>
     );
   }
+
+  handleVote = (proposalID: number, vote: Vote) => {
+    if (!this.props.ledger.connected) {
+      this.props.setSigninNetworkName(this.props.network.name);
+    }
+    // Open the ledger dialog
+    this.props.openLedgerDialog({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "LOCK_GOLD",
+    });
+
+    console.log(`Voting ${vote} for proposal ID ${proposalID}`);
+  };
 }
 
 /** ===========================================================================
@@ -151,6 +166,7 @@ interface CeloGovernanceComponentProps {
   proposals: GenericProposalHistory[];
   governanceTransactionHistory: ICeloTransaction[];
   setAddress: typeof Modules.actions.ledger.setAddress;
+  handleVote: (proposalID: number, vote: Vote) => void;
 }
 
 /** ===========================================================================
@@ -468,11 +484,13 @@ class CeloGovernanceComponent extends React.Component<
   };
 
   handleVote = () => {
-    const { vote } = this.state;
+    const { vote, selectedProposalID } = this.state;
     if (!vote) {
       Toast.warn("Please selected a vote.");
+    } else if (!selectedProposalID) {
+      Toast.warn("Please selected a proposal to vote.");
     } else {
-      Toast.warn("Governance voting coming soon...");
+      this.props.handleVote(selectedProposalID, vote);
     }
   };
 
@@ -729,10 +747,14 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   settings: Modules.selectors.settings(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
+  network: Modules.selectors.ledger.networkSelector(state),
 });
 
 const dispatchProps = {
   setAddress: Modules.actions.ledger.setAddress,
+  openLedgerDialog: Modules.actions.ledger.openLedgerDialog,
+  setSigninNetworkName: Modules.actions.ledger.setSigninNetworkName,
+  openSelectNetworkDialog: Modules.actions.ledger.openSelectNetworkDialog,
 };
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;

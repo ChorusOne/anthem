@@ -12,7 +12,12 @@ export type SIGNIN_TYPE =
   | "INITIAL_SETUP"
   | "LEDGER_ACTION";
 
-export type LEDGER_ACTION_TYPE = "DELEGATE" | "CLAIM" | "SEND" | "LOCK_GOLD";
+export type LEDGER_ACTION_TYPE =
+  | "DELEGATE"
+  | "CLAIM"
+  | "SEND"
+  | "LOCK_GOLD"
+  | "GOVERNANCE_VOTE";
 
 export type LEDGER_ACCESS_TYPE = "SIGNIN" | "PERFORM_ACTION";
 

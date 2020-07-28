@@ -164,6 +164,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         return this.renderSendReceiveTransactionSetup();
       case "LOCK_GOLD":
         return this.renderLockGoldTransactionSetup();
+      case "GOVERNANCE_VOTE":
+        return this.renderGovernanceVote();
       case null:
         break;
       default:
@@ -172,6 +174,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
     return null;
   }
+
+  renderGovernanceVote = () => {
+    return <p>Vote on Governance!</p>;
+  };
 
   renderSendReceiveTransactionSetup = () => {
     const {
