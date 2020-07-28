@@ -17,6 +17,8 @@ import Actions, { ActionTypes } from "./actions";
  * ============================================================================
  */
 
+export type Vote = "yes" | "no" | "abstain";
+
 export interface TransactionState {
   transactionsPage: number;
   liveTransactionRecord: ICosmosTransaction[];
@@ -28,6 +30,7 @@ export interface TransactionState {
   confirmTx: boolean;
   signPending: boolean;
   transactionResult: Nullable<any>;
+  governanceProposalData: Nullable<{ vote: Vote; proposal: any }>;
   broadcastingTransaction: boolean;
   selectedValidatorForDelegation: Nullable<
     ICosmosValidator | ICeloValidatorGroup
@@ -47,6 +50,7 @@ const initialState: TransactionState = {
   signPending: false,
   broadcastingTransaction: false,
   selectedValidatorForDelegation: null,
+  governanceProposalData: null,
 };
 
 const transaction = createReducer<

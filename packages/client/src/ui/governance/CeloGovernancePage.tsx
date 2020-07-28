@@ -30,6 +30,7 @@ import {
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import { SettingsState } from "modules/settings/store";
+import { Vote } from "modules/transaction/store";
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
@@ -150,8 +151,6 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
  * Types & Config
  * ============================================================================
  */
-
-type Vote = "yes" | "no" | "abstain";
 
 interface IState {
   vote: Nullable<Vote>;

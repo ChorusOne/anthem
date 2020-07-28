@@ -176,9 +176,29 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   }
 
   renderGovernanceVote = () => {
+    const { governanceProposalData } = this.props.transaction;
+    if (!governanceProposalData) {
+      return null;
+    }
+
+    const { vote, proposal } = governanceProposalData;
     return (
       <View>
-        <H6 style={{ marginTop: 6, marginBottom: 0 }}>Vote on Governance!</H6>
+        <p>Confirm Governance Vote Details:</p>
+        <p>
+          Voting ${vote} for Proposal ID ${proposal.proposalID}
+        </p>
+        <Button
+          style={{ marginTop: 12 }}
+          onClick={this.getGovernanceVoteTransaction}
+          data-cy="governance-vote-button"
+        >
+          Vote
+        </Button>
+        <p>
+          Selecting vote will prompt you to confirm the transaction details on
+          your Ledger Device.
+        </p>
       </View>
     );
   };
@@ -1275,6 +1295,24 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const { denom } = network;
 
     // TODO: Implement!
+  };
+
+  getGovernanceVoteTransaction = async () => {
+    const { amount } = this.state;
+    const { governanceProposalData } = this.props.transaction;
+
+    if (!governanceProposalData) {
+      return Toast.warn("Please select a proposal");
+    }
+
+    const { vote, proposal } = governanceProposalData;
+
+    const data = {
+      vote,
+      proposalId: proposal.proposalID,
+    };
+
+    this.props.setTransactionData(data);
   };
 }
 

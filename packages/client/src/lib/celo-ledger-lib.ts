@@ -60,6 +60,11 @@ interface CeloLockGoldArguments {
   from: string;
 }
 
+interface CeloGovernanceVoteArguments {
+  proposalId: string;
+  vote: keyof typeof VoteValue;
+}
+
 /** ===========================================================================
  * Celo Ledger Class
  * ============================================================================
@@ -153,10 +158,12 @@ class CeloLedgerClass {
     return receipt;
   }
 
-  async voteForProposal(proposalId: string, vote: keyof typeof VoteValue) {
+  async voteForProposal(args: CeloGovernanceVoteArguments) {
     if (!this.kit) {
       throw new Error("CeloLedgerClass not initialized yet.");
     }
+
+    const { proposalId, vote } = args;
 
     const governance = await this.kit.contracts.getGovernance();
     console.log(`Voting for proposal ID: ${proposalId}`);
@@ -275,6 +282,15 @@ class MockCeloLedgerModule {
 
   getAddress() {
     return "0xae1d640648009dbe0aa4485d3bfbb68c37710924";
+  }
+
+  voteForProposal(args: CeloGovernanceVoteArguments) {
+    console.log(args);
+    // TODO: Fill in correct response data:
+    return {
+      transactionHash:
+        "0x42407259176a931a0294847ee10eedbf01be4959ac7914f9fffbb5b84faf6ee7",
+    };
   }
 
   lock(args: CeloLockGoldArguments) {
