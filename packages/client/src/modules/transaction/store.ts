@@ -19,6 +19,11 @@ import Actions, { ActionTypes } from "./actions";
 
 export type Vote = "yes" | "no" | "abstain";
 
+export interface GovernanceVoteDetails {
+  vote: Vote;
+  proposal: any;
+}
+
 export interface TransactionState {
   transactionsPage: number;
   liveTransactionRecord: ICosmosTransaction[];
@@ -30,7 +35,7 @@ export interface TransactionState {
   confirmTx: boolean;
   signPending: boolean;
   transactionResult: Nullable<any>;
-  governanceProposalData: Nullable<{ vote: Vote; proposal: any }>;
+  governanceProposalData: Nullable<GovernanceVoteDetails>;
   broadcastingTransaction: boolean;
   selectedValidatorForDelegation: Nullable<
     ICosmosValidator | ICeloValidatorGroup

@@ -131,12 +131,12 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
     );
   }
 
-  handleVote = (proposalID: number, vote: Vote) => {
+  handleVote = (proposal: any, vote: Vote) => {
     if (!this.props.ledger.connected) {
       this.props.setSigninNetworkName(this.props.network.name);
     }
 
-    console.log(`Voting ${vote} for proposal ID ${proposalID}`);
+    this.props.setGovernanceVoteDetails({ vote, proposal });
 
     // Open the ledger dialog
     this.props.openLedgerDialog({
@@ -166,7 +166,7 @@ interface CeloGovernanceComponentProps {
   proposals: GenericProposalHistory[];
   governanceTransactionHistory: ICeloTransaction[];
   setAddress: typeof Modules.actions.ledger.setAddress;
-  handleVote: (proposalID: number, vote: Vote) => void;
+  handleVote: (proposal: any, vote: Vote) => void;
 }
 
 /** ===========================================================================
@@ -484,13 +484,13 @@ class CeloGovernanceComponent extends React.Component<
   };
 
   handleVote = () => {
-    const { vote, selectedProposalID } = this.state;
+    const { vote, selectedProposal } = this.state;
     if (!vote) {
       Toast.warn("Please select a vote.");
-    } else if (!selectedProposalID) {
+    } else if (!selectedProposal) {
       Toast.warn("Please select a proposal to vote.");
     } else {
-      this.props.handleVote(selectedProposalID, vote);
+      this.props.handleVote(selectedProposal, vote);
     }
   };
 
@@ -755,6 +755,8 @@ const dispatchProps = {
   openLedgerDialog: Modules.actions.ledger.openLedgerDialog,
   setSigninNetworkName: Modules.actions.ledger.setSigninNetworkName,
   openSelectNetworkDialog: Modules.actions.ledger.openSelectNetworkDialog,
+  setGovernanceVoteDetails:
+    Modules.actions.transaction.setGovernanceVoteDetails,
 };
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;

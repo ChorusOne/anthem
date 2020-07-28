@@ -6,6 +6,7 @@ import {
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { TxPostBody } from "tools/cosmos-utils";
 import { ActionType, createStandardAction } from "typesafe-actions";
+import { GovernanceVoteDetails } from "./store";
 
 /** ===========================================================================
  * Types & Config
@@ -38,6 +39,8 @@ enum ActionTypesEnum {
   SET_TRANSACTIONS_PAGE = "SET_TRANSACTIONS_PAGE",
 
   SET_DELEGATION_VALIDATOR_SELECTION = "SET_DELEGATION_VALIDATOR_SELECTION",
+
+  SET_GOVERNANCE_VOTE_DETAILS = "SET_GOVERNANCE_VOTE_DETAILS",
 }
 
 /** ===========================================================================
@@ -101,6 +104,10 @@ const setDelegationValidatorSelection = createStandardAction(
   ActionTypesEnum.SET_DELEGATION_VALIDATOR_SELECTION,
 )<ICosmosValidator | ICeloValidatorGroup>();
 
+const setGovernanceVoteDetails = createStandardAction(
+  ActionTypesEnum.SET_GOVERNANCE_VOTE_DETAILS,
+)<GovernanceVoteDetails>();
+
 const actions = {
   setTransactionData,
   setTransactionStage,
@@ -116,6 +123,7 @@ const actions = {
   setTransactionsPage,
   removeLocalCopyOfTransaction,
   setDelegationValidatorSelection,
+  setGovernanceVoteDetails,
 };
 
 /** ===========================================================================
