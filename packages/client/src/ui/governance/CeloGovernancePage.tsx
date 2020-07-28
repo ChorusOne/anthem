@@ -486,9 +486,9 @@ class CeloGovernanceComponent extends React.Component<
   handleVote = () => {
     const { vote, selectedProposalID } = this.state;
     if (!vote) {
-      Toast.warn("Please selected a vote.");
+      Toast.warn("Please select a vote.");
     } else if (!selectedProposalID) {
-      Toast.warn("Please selected a proposal to vote.");
+      Toast.warn("Please select a proposal to vote.");
     } else {
       this.props.handleVote(selectedProposalID, vote);
     }
