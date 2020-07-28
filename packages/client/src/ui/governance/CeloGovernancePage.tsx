@@ -647,10 +647,10 @@ interface VotingBarProps {
 const VotingBar = (votingBarProps: VotingBarProps) => {
   const { votes } = votingBarProps;
 
-  const yes = `${votes.yes}%`;
-  const no = `${votes.no}%`;
-  const abstain = `${votes.abstain}%`;
-  const remaining = `${votes.remaining}%`;
+  const yes = `${votes.yes.toFixed(2)}%`;
+  const no = `${votes.no.toFixed(2)}%`;
+  const abstain = `${votes.abstain.toFixed(2)}%`;
+  const remaining = `${votes.remaining.toFixed(2)}%`;
 
   return (
     <View>
@@ -663,19 +663,19 @@ const VotingBar = (votingBarProps: VotingBarProps) => {
       <Row style={{ marginTop: 12, justifyContent: "flex-start" }}>
         <Row style={{ marginRight: 10 }}>
           <Square style={{ background: COLORS.CHORUS }} />
-          <Bold>Yes ({votes.yes}%)</Bold>
+          <Bold>Yes ({yes}%)</Bold>
         </Row>
         <Row style={{ marginRight: 10 }}>
           <Square style={{ background: COLORS.ERROR }} />
-          <Bold>No ({votes.no}%)</Bold>
+          <Bold>No ({no}%)</Bold>
         </Row>
         <Row style={{ marginRight: 10 }}>
           <Square style={{ background: COLORS.DARK_TEXT }} />
-          <Bold>Abstain ({votes.abstain}%)</Bold>
+          <Bold>Abstain ({abstain}%)</Bold>
         </Row>
         <Row style={{ marginRight: 10 }}>
           <Square style={{ background: COLORS.DARK_GRAY }} />
-          <Bold>Remaining ({votes.remaining}%)</Bold>
+          <Bold>Remaining ({remaining}%)</Bold>
         </Row>
       </Row>
     </View>
