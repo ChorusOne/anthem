@@ -93,6 +93,10 @@ const transaction = createReducer<
     ...state,
     broadcastingTransaction: true,
   }))
+  .handleAction(Actions.setGovernanceVoteDetails, (state, action) => ({
+    ...state,
+    governanceProposalData: action.payload,
+  }))
   .handleAction(Actions.setTransactionsPage, (state, action) => ({
     ...state,
     transactionsPage: action.payload,

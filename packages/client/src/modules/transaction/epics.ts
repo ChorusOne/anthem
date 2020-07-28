@@ -67,6 +67,11 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
               case "LOCK_GOLD":
                 const lockResult = await celoLedgerUtil.lock(transactionData);
                 return Actions.transactionConfirmed(lockResult);
+              case "GOVERNANCE_VOTE":
+                const governanceResult = await celoLedgerUtil.voteForValidatorGroup(
+                  transactionData,
+                );
+                return Actions.transactionConfirmed(governanceResult);
               default: {
                 throw new Error(
                   `Action ${ledgerActionType} not supported for Celo yet.`,
