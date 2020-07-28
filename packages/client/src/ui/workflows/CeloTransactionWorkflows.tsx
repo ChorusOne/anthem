@@ -176,7 +176,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   }
 
   renderGovernanceVote = () => {
-    return <p>Vote on Governance!</p>;
+    return (
+      <View>
+        <p>Vote on Governance!</p>
+      </View>
+    );
   };
 
   renderSendReceiveTransactionSetup = () => {

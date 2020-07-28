@@ -134,14 +134,15 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
     if (!this.props.ledger.connected) {
       this.props.setSigninNetworkName(this.props.network.name);
     }
+
+    console.log(`Voting ${vote} for proposal ID ${proposalID}`);
+
     // Open the ledger dialog
     this.props.openLedgerDialog({
       signinType: "LEDGER",
       ledgerAccessType: "PERFORM_ACTION",
-      ledgerActionType: "LOCK_GOLD",
+      ledgerActionType: "GOVERNANCE_VOTE",
     });
-
-    console.log(`Voting ${vote} for proposal ID ${proposalID}`);
   };
 }
 
@@ -665,35 +666,35 @@ interface VotingBarProps {
 const VotingBar = (votingBarProps: VotingBarProps) => {
   const { votes } = votingBarProps;
 
-  const yes = `${votes.yes.toFixed(2)}%`;
-  const no = `${votes.no.toFixed(2)}%`;
-  const abstain = `${votes.abstain.toFixed(2)}%`;
-  const remaining = `${votes.remaining.toFixed(2)}%`;
+  const yes = `${votes.yes}%`;
+  const no = `${votes.no}%`;
+  const abstain = `${votes.abstain}%`;
+  const remaining = `${votes.remaining}%`;
 
   return (
     <View>
-      <Row style={{ width: "100%", marginTop: 12, height: 45 }}>
+      <Row style={{ width: "100%", marginTop: 8, height: 35 }}>
         <VoteBox style={{ width: yes, background: COLORS.CHORUS }} />
         <VoteBox style={{ width: no, background: COLORS.ERROR }} />
         <VoteBox style={{ width: abstain, background: COLORS.DARK_TEXT }} />
         <VoteBox style={{ width: remaining, background: COLORS.DARK_GRAY }} />
       </Row>
-      <Row style={{ marginTop: 12, justifyContent: "flex-start" }}>
+      <Row style={{ marginTop: 8, justifyContent: "flex-start" }}>
         <Row style={{ marginRight: 10 }}>
           <Square style={{ background: COLORS.CHORUS }} />
-          <Bold>Yes ({yes}%)</Bold>
+          <Bold>Yes ({votes.yes.toFixed(2)}%)</Bold>
         </Row>
         <Row style={{ marginRight: 10 }}>
           <Square style={{ background: COLORS.ERROR }} />
-          <Bold>No ({no}%)</Bold>
+          <Bold>No ({votes.no.toFixed(2)}%)</Bold>
         </Row>
         <Row style={{ marginRight: 10 }}>
           <Square style={{ background: COLORS.DARK_TEXT }} />
-          <Bold>Abstain ({abstain}%)</Bold>
+          <Bold>Abstain ({votes.abstain.toFixed(2)}%)</Bold>
         </Row>
         <Row style={{ marginRight: 10 }}>
           <Square style={{ background: COLORS.DARK_GRAY }} />
-          <Bold>Remaining ({remaining}%)</Bold>
+          <Bold>Remaining ({votes.remaining.toFixed(2)}%)</Bold>
         </Row>
       </Row>
     </View>
