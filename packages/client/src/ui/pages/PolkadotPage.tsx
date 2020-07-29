@@ -269,7 +269,7 @@ const SpecialTextRow = styled.div`
 
 const SpecialText = styled.p`
   font-size: 12px;
-  font-weight: 100;
+  font-weight: 200;
 `;
 
 /** ===========================================================================
