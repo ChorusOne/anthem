@@ -1,4 +1,4 @@
-import { H2 } from "@blueprintjs/core";
+import { Card, H2 } from "@blueprintjs/core";
 import {
   FiatCurrenciesProps,
   withFiatCurrencies,
@@ -60,7 +60,30 @@ class PolkadotPage extends React.Component<IProps, IState> {
               <b>ACTIVATE AGENT</b>
             </Button>
           </ContentArea>
-          <ContentArea>OK</ContentArea>
+          <ContentArea>
+            <HeaderRow>
+              <RowItem>
+                <HeaderTitle>BALANCE</HeaderTitle>
+              </RowItem>
+              <RowItem>
+                <HeaderTitle>AMOUNT</HeaderTitle>
+              </RowItem>
+            </HeaderRow>
+            <Card>
+              <DotRow>
+                <RowItem>
+                  <b>AVAILABLE DOT</b>
+                </RowItem>
+                <RowItem>20</RowItem>
+              </DotRow>
+              <DotRow>
+                <RowItem>
+                  <b>STAKED DOT</b>
+                </RowItem>
+                <RowItem>5,001.02</RowItem>
+              </DotRow>
+            </Card>
+          </ContentArea>
         </Row>
         <Disclaimer>
           <b>*</b> Activating the Staking Agent will enable Chorus One to carry
@@ -103,10 +126,33 @@ const Disclaimer = styled.p`
   padding-right: 75px;
 `;
 
-export const Row = styled.div`
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-right: 25px;
+`;
+
+const DotRow = styled.div`
+  margin-top: 12px;
+  margin-bottom: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
+`;
+
+const HeaderRow = styled(DotRow)`
+  padding-left: 20px;
+  padding-right: 20px;
+`;
+
+const HeaderTitle = styled.p`
+  font-weight: bold;
+  font-size: 12px;
+`;
+
+const RowItem = styled.div`
+  width: 250px;
 `;
 
 /** ===========================================================================
