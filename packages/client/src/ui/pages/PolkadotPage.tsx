@@ -1,10 +1,6 @@
 import { Card, H2, Icon, Switch, Tooltip } from "@blueprintjs/core";
 import { COLORS } from "constants/colors";
-import {
-  FiatCurrenciesProps,
-  withFiatCurrencies,
-  withGraphQLVariables,
-} from "graphql/queries";
+import { FiatCurrenciesProps, withGraphQLVariables } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
 import React from "react";
 import { connect } from "react-redux";
@@ -26,6 +22,8 @@ interface IState {
 
 /** ===========================================================================
  * React Component
+ * ----------------------------------------------------------------------------
+ * Polkadot Staking Agent component for the Chorus One hackathon.
  * ============================================================================
  */
 
@@ -301,5 +299,4 @@ interface IProps extends ComponentProps, ConnectProps, FiatCurrenciesProps {}
 export default composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
-  withFiatCurrencies,
 )(PolkadotPage);
