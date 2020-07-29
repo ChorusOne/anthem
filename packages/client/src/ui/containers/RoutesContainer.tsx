@@ -100,9 +100,10 @@ class RoutesContainer extends React.Component<IProps> {
               path="/:network/governance"
               component={GovernanceSwitchContainer}
             />
-            <Route key={7} path="/settings" component={SettingsPage} />
+            <Route key={7} path="/:network/polkadot" component={PolkadotPage} />
+            <Route key={8} path="/settings" component={SettingsPage} />
             <Route
-              key={8}
+              key={9}
               component={() => (
                 <Redirect to={`/${network.name.toLowerCase()}/total`} />
               )}

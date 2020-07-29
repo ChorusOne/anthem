@@ -1,4 +1,4 @@
-import { H3, Tooltip } from "@blueprintjs/core";
+import { H3 } from "@blueprintjs/core";
 import {
   FiatCurrenciesProps,
   withFiatCurrencies,
@@ -10,7 +10,6 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 import { Line, PageContainer, PageTitle } from "ui/SharedComponents";
-import Toast from "ui/Toast";
 
 /** ===========================================================================
  * Types & Config
