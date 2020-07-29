@@ -101,7 +101,7 @@ class RoutesContainer extends React.Component<IProps> {
               path="/:network/governance"
               component={GovernanceSwitchContainer}
             />
-            <Route key={7} path="/:network/polkadot" component={PolkadotPage} />
+            <Route key={7} path="/polkadot-agent" component={PolkadotPage} />
             <Route key={8} path="/settings" component={SettingsPage} />
             <Route
               key={9}

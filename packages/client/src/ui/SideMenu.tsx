@@ -122,12 +122,12 @@ class SideMenuComponent extends React.Component<IProps, IState> {
           route={`/${name.toLowerCase()}/governance`}
         />,
         <NavItem
-          key="Polkadot"
+          key="Polkadot Agent"
           path={pathname}
           closeHandler={close}
-          title="Polkadot"
-          icon={IconNames.USER}
-          route={`/${name.toLowerCase()}/Polkadot`}
+          title="Polkadot Agent"
+          icon={IconNames.OIL_FIELD}
+          route={`/polkadot-agent`}
         />,
       );
     }
