@@ -2,42 +2,51 @@
   "networkSummaries": [
     {
       "name": "COSMOS",
-      "tokenPrice": 4.191,
-      "lastDayChange": -6.721566881816169,
-      "marketCapitalization": 1082606075.7010112,
+      "tokenPrice": 3.803,
+      "lastDayChange": 3.2582134129785527,
+      "marketCapitalization": 983925952.7821531,
       "expectedReward": 9,
       "inflation": 7.000000000000001,
       "supportsLedger": true
     },
     {
       "name": "TERRA",
-      "tokenPrice": 0.3630435615,
-      "lastDayChange": 32.27318379645129,
-      "marketCapitalization": 361895686.9203845,
+      "tokenPrice": 0.3846754653,
+      "lastDayChange": -0.7984031936127656,
+      "marketCapitalization": 383556893.7299917,
       "expectedReward": 13,
       "inflation": null,
       "supportsLedger": true
     },
     {
       "name": "KAVA",
-      "tokenPrice": 3.459,
-      "lastDayChange": 15.801807833947104,
-      "marketCapitalization": 364350705.65379393,
+      "tokenPrice": 2.551,
+      "lastDayChange": -2.521971723347338,
+      "marketCapitalization": 269947300.5873925,
       "expectedReward": 9,
-      "inflation": 5.246686037170286,
+      "inflation": 5.1857056665774195,
       "supportsLedger": true
     },
     {
       "name": "CELO",
-      "tokenPrice": 1.86897141,
-      "lastDayChange": 2.6236125126135326,
-      "marketCapitalization": 344728038.63168,
+      "tokenPrice": 1.78018827,
+      "lastDayChange": -2.068126520681262,
+      "marketCapitalization": 328352166.02496,
       "expectedReward": 8,
       "inflation": null,
       "supportsLedger": true
     },
     {
       "name": "OASIS",
+      "tokenPrice": null,
+      "lastDayChange": null,
+      "marketCapitalization": null,
+      "expectedReward": null,
+      "inflation": null,
+      "supportsLedger": false
+    },
+    {
+      "name": "POLKADOT",
       "tokenPrice": null,
       "lastDayChange": null,
       "marketCapitalization": null,
