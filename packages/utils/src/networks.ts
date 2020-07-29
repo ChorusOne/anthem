@@ -83,9 +83,15 @@ const NETWORK_ADDRESS_DEFAULTS: { [key: string]: Addresses } = {
  * ============================================================================
  */
 
-export type COIN_DENOMS = "uatom" | "ukava" | "uluna" | "AMBR" | "CELO";
+export type COIN_DENOMS = "uatom" | "ukava" | "uluna" | "AMBR" | "CELO" | "DOT";
 
-export type NETWORK_NAME = "COSMOS" | "TERRA" | "KAVA" | "OASIS" | "CELO";
+export type NETWORK_NAME =
+  | "COSMOS"
+  | "TERRA"
+  | "KAVA"
+  | "OASIS"
+  | "CELO"
+  | "POLKADOT";
 
 const NETWORKS: NetworksMap = {
   COSMOS: {
@@ -189,6 +195,27 @@ const NETWORKS: NetworksMap = {
     supportsBalances: true,
     supportsPortfolio: true,
     supportsTransactionsHistory: true,
+    supportsValidatorsList: false,
+    supportsGovernance: false,
+    denominationSize: 1e9,
+    customChartTabs: new Set(),
+    expectedReward: null,
+  },
+  POLKADOT: {
+    available: false,
+    name: "POLKADOT",
+    denom: "DOT",
+    descriptor: "DOT",
+    chainId: "n/a",
+    cryptoCompareTicker: "DOT",
+    ledgerAppVersion: "n/a",
+    ledgerAppName: "n/a",
+    ledgerDocsLink: "n/a",
+    supportsLedger: false,
+    supportsFiatPrices: false,
+    supportsBalances: false,
+    supportsPortfolio: false,
+    supportsTransactionsHistory: false,
     supportsValidatorsList: false,
     supportsGovernance: false,
     denominationSize: 1e9,
