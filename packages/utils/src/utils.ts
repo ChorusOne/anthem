@@ -27,6 +27,8 @@ export const deriveNetworkFromAddress = (
     return NETWORKS.OASIS;
   } else if (address.substring(0, 2) === "0x" && address.length === 42) {
     return NETWORKS.CELO;
+  } else if (address.length === 47) {
+    return NETWORKS.POLKADOT;
   }
 
   throw new Error(

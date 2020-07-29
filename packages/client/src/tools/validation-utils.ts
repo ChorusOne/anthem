@@ -91,6 +91,13 @@ export const validateNetworkAddress = (
     return "";
   }
 
+  /**
+   * Polkadot address validation (?).
+   */
+  if (address.length === 47) {
+    return "";
+  }
+
   let prefixInAddress = false;
   for (const prefix of Object.values(NETWORKS).map(n => n.name.toLowerCase())) {
     if (address.includes(prefix)) {

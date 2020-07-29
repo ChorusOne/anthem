@@ -24,7 +24,6 @@ import DashboardPage from "ui/pages/DashboardPage";
 import HelpPage from "ui/pages/HelpPage";
 import LandingPage from "ui/pages/LandingPage";
 import NetworkSummaryPage from "ui/pages/NetworkSummaryPage";
-import PolkadotPage from "ui/pages/PolkadotPage";
 import SettingsPage from "ui/pages/SettingsPage";
 import SideMenuComponent from "ui/SideMenu";
 import TransactionDetailContainer from "ui/transactions/TransactionDetailContainer";
