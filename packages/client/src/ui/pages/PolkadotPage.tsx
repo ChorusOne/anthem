@@ -301,5 +301,4 @@ interface IProps extends ComponentProps, ConnectProps, FiatCurrenciesProps {}
 export default composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
-  withFiatCurrencies,
 )(PolkadotPage);
