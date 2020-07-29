@@ -11,13 +11,8 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 import PageAddressBar from "ui/PageAddressBar";
-import {
-  Button,
-  Link,
-  PageContainer,
-  TextInput,
-  View,
-} from "ui/SharedComponents";
+import { Button, Link, PageContainer, TextInput } from "ui/SharedComponents";
+import Toast from "ui/Toast";
 
 /** ===========================================================================
  * Types & Config
@@ -57,7 +52,7 @@ class PolkadotPage extends React.Component<IProps, IState> {
       <PageContainer>
         <PageAddressBar pageTitle="Polkadot Staking Agent" />
         <Row>
-          <ContentArea style={{ paddingTop: 24 }}>
+          <ContentArea style={{ paddingTop: 18 }}>
             <Title>
               Start earning 8.99% APR on Polkadot with our Staking Agent.
             </Title>
@@ -168,8 +163,8 @@ class PolkadotPage extends React.Component<IProps, IState> {
   }
 
   toggleAutomaticReStaking = () => {
-    this.setState(ps => ({
-      enableAutomaticStaking: !ps.enableAutomaticStaking,
+    this.setState(({ enableAutomaticStaking }) => ({
+      enableAutomaticStaking: !enableAutomaticStaking,
     }));
   };
 
@@ -179,14 +174,17 @@ class PolkadotPage extends React.Component<IProps, IState> {
 
   handleUnStakeDot = () => {
     console.log("Unstaking...");
+    Toast.warn("Unstaking DOTs...");
   };
 
   handleStakeDot = () => {
     console.log("Staking...");
+    Toast.warn("Staking DOTs...");
   };
 
   handleActivateAgent = () => {
     console.log("Activating Agent...");
+    Toast.warn("Activating Agent...");
   };
 }
 
