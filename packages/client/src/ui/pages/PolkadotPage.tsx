@@ -1,4 +1,5 @@
-import { Card, H2 } from "@blueprintjs/core";
+import { Card, H2, Icon } from "@blueprintjs/core";
+import { COLORS } from "constants/colors";
 import {
   FiatCurrenciesProps,
   withFiatCurrencies,
@@ -10,14 +11,22 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 import PageAddressBar from "ui/PageAddressBar";
-import { Button, Link, PageContainer } from "ui/SharedComponents";
+import {
+  Button,
+  Link,
+  PageContainer,
+  TextInput,
+  View,
+} from "ui/SharedComponents";
 
 /** ===========================================================================
  * Types & Config
  * ============================================================================
  */
 
-interface IState {}
+interface IState {
+  stake: string;
+}
 
 /** ===========================================================================
  * React Component
@@ -28,7 +37,9 @@ class PolkadotPage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      stake: "",
+    };
   }
 
   componentDidMount() {
@@ -82,6 +93,34 @@ class PolkadotPage extends React.Component<IProps, IState> {
                 </RowItem>
                 <RowItem>5,001.02</RowItem>
               </DotRow>
+              <StakeControlsRow style={{ marginTop: 18, paddingLeft: 145 }}>
+                <StakeButton>
+                  <Button
+                    category="DANGER"
+                    style={{ borderRadius: "50%" }}
+                    onClick={this.handleUnStakeDot}
+                  >
+                    <Icon icon="minus" color={COLORS.LIGHT_WHITE} />
+                  </Button>
+                  <ButtonText>UNSTAKE</ButtonText>
+                </StakeButton>
+                <TextInput
+                  data-cy="Stake Input"
+                  placeholder="DOTs"
+                  value={this.state.stake}
+                  onChange={this.handleInput}
+                  style={{ marginLeft: 12, marginRight: 12, width: 65 }}
+                />
+                <StakeButton>
+                  <Button
+                    style={{ borderRadius: "50%" }}
+                    onClick={this.handleStakeDot}
+                  >
+                    <Icon icon="plus" color={COLORS.LIGHT_WHITE} />
+                  </Button>
+                  <ButtonText>STAKE</ButtonText>
+                </StakeButton>
+              </StakeControlsRow>
             </Card>
           </ContentArea>
         </Row>
@@ -96,6 +135,18 @@ class PolkadotPage extends React.Component<IProps, IState> {
       </PageContainer>
     );
   }
+
+  handleInput = (stake: string) => {
+    this.setState({ stake });
+  };
+
+  handleUnStakeDot = () => {
+    console.log("Unstaking...");
+  };
+
+  handleStakeDot = () => {
+    console.log("Staking...");
+  };
 
   handleActivateAgent = () => {
     console.log("Activating Agent...");
@@ -146,9 +197,30 @@ const HeaderRow = styled(DotRow)`
   padding-right: 20px;
 `;
 
+const StakeControlsRow = styled.div`
+  margin-top: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+`;
+
 const HeaderTitle = styled.p`
   font-weight: bold;
   font-size: 12px;
+`;
+
+const StakeButton = styled.div`
+  width: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+const ButtonText = styled.p`
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: bold;
 `;
 
 const RowItem = styled.div`
