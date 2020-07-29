@@ -1,4 +1,4 @@
-import { Card, H2, Icon } from "@blueprintjs/core";
+import { Card, H2, Icon, Switch, Tooltip } from "@blueprintjs/core";
 import { COLORS } from "constants/colors";
 import {
   FiatCurrenciesProps,
@@ -26,6 +26,7 @@ import {
 
 interface IState {
   stake: string;
+  enableAutomaticStaking: boolean;
 }
 
 /** ===========================================================================
@@ -39,6 +40,7 @@ class PolkadotPage extends React.Component<IProps, IState> {
 
     this.state = {
       stake: "",
+      enableAutomaticStaking: true,
     };
   }
 
@@ -55,7 +57,7 @@ class PolkadotPage extends React.Component<IProps, IState> {
       <PageContainer>
         <PageAddressBar pageTitle="Polkadot Staking Agent" />
         <Row>
-          <ContentArea>
+          <ContentArea style={{ paddingTop: 24 }}>
             <Title>
               Start earning 8.99% APR on Polkadot with our Staking Agent.
             </Title>
@@ -121,6 +123,35 @@ class PolkadotPage extends React.Component<IProps, IState> {
                   <ButtonText>STAKE</ButtonText>
                 </StakeButton>
               </StakeControlsRow>
+              <DotRow style={{ marginTop: 24 }}>
+                <RowItem>
+                  <Tooltip
+                    position="bottom"
+                    content={
+                      <span>
+                        Rewards will be re-staked automatically by the agent.
+                      </span>
+                    }
+                  >
+                    <SpecialTextRow>
+                      <SpecialText>AUTOMATIC RE-STAKING</SpecialText>
+                      <Icon
+                        icon="help"
+                        iconSize={12}
+                        style={{ position: "absolute", top: -8, right: -12 }}
+                      />
+                    </SpecialTextRow>
+                  </Tooltip>
+                </RowItem>
+                <RowItem>
+                  <Switch
+                    data-cy="re-stake-switch"
+                    onChange={this.toggleAutomaticReStaking}
+                    checked={this.state.enableAutomaticStaking}
+                    label={this.state.enableAutomaticStaking ? "ON" : "OFF"}
+                  />
+                </RowItem>
+              </DotRow>
             </Card>
           </ContentArea>
         </Row>
@@ -135,6 +166,12 @@ class PolkadotPage extends React.Component<IProps, IState> {
       </PageContainer>
     );
   }
+
+  toggleAutomaticReStaking = () => {
+    this.setState(ps => ({
+      enableAutomaticStaking: !ps.enableAutomaticStaking,
+    }));
+  };
 
   handleInput = (stake: string) => {
     this.setState({ stake });
@@ -225,6 +262,18 @@ const ButtonText = styled.p`
 
 const RowItem = styled.div`
   width: 250px;
+`;
+
+const SpecialTextRow = styled.div`
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: row;
+`;
+
+const SpecialText = styled.p`
+  font-size: 12px;
+  font-weight: 100;
 `;
 
 /** ===========================================================================
