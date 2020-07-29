@@ -1067,6 +1067,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     this.setState({ recipientAddress: recipient }, () => {
       const { recipientAddress } = this.state;
       if (recipientAddress) {
+        // DEBUG
         // if (!validateCosmosAddress(recipientAddress)) {
         //   Toast.warn(
         //     "Please ensure the entered address is a valid Cosmos address.",
@@ -1182,9 +1183,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         sendTransactionInputError: "Please enter a valid recipient address",
       });
     } else if (!amount) {
-      return this.setState({
-        sendTransactionInputError: "Please enter a transaction amount",
-      });
+      // return this.setState({
+      //   sendTransactionInputError: "Please enter a transaction amount",
+      // });
     }
 
     const data = {

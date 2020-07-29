@@ -191,11 +191,17 @@ class CeloLedgerClass {
 
     const lockedGold = await this.kit.contracts.getLockedGold();
     console.log(`Locking ${amount} gold for address ${this.address}`);
-    const receipt = await lockedGold
-      .lock()
-      // @ts-ignore
-      .sendAndWaitForReceipt({ from, value: amount });
-    return receipt;
+    // DEBUG
+    try {
+      const receipt = await lockedGold
+        .lock()
+        // @ts-ignore
+        .sendAndWaitForReceipt({ from, value: amount });
+      return receipt;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
   }
 
   async unlock(amount: string) {
