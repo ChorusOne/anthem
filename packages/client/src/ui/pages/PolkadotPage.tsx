@@ -23,7 +23,7 @@ interface IState {
 /** ===========================================================================
  * React Component
  * ----------------------------------------------------------------------------
- * Polkadot Staking Agent component.
+ * Polkadot Staking Agent component for the Chorus One hackathon.
  * ============================================================================
  */
 
