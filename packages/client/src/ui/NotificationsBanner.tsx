@@ -24,12 +24,14 @@ interface IProps extends ComponentProps {}
 
 class NotificationsBanner extends React.Component<IProps> {
   render(): Nullable<JSX.Element> {
-    if (!this.props.address) {
+    const { network } = this.props;
+
+    // Don't render on Staking Agent page
+    if (network.name === "POLKADOT") {
       return null;
     }
 
-    // Don't render on Staking Agent page
-    if (window.location.pathname.includes("polkadot")) {
+    if (!this.props.address) {
       return null;
     }
 
