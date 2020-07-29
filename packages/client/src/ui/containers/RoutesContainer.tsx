@@ -28,7 +28,7 @@ import PolkadotPage from "ui/pages/PolkadotPage";
 import SettingsPage from "ui/pages/SettingsPage";
 import SideMenuComponent from "ui/SideMenu";
 import TransactionDetailContainer from "ui/transactions/TransactionDetailContainer";
-import ValidatorsPage from "ui/validators/ValidatorsSwitchContainer";
+import ValidatorsSwitchContainer from "ui/validators/ValidatorsSwitchContainer";
 
 /** ===========================================================================
  * React Component
@@ -94,14 +94,13 @@ class RoutesContainer extends React.Component<IProps> {
             <Route
               key={5}
               path="/:network/delegate"
-              component={ValidatorsPage}
+              component={ValidatorsSwitchContainer}
             />
             <Route
               key={6}
               path="/:network/governance"
               component={GovernanceSwitchContainer}
             />
-            <Route key={7} path="/polkadot-agent" component={PolkadotPage} />
             <Route key={8} path="/settings" component={SettingsPage} />
             <Route
               key={9}

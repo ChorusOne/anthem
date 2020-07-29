@@ -167,6 +167,7 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
                 ledgerAppVersion = "1.0.1";
                 break;
               }
+              case "POLKADOT":
               case "OASIS": {
                 return resolve(Actions.connectLedgerFailure());
               }

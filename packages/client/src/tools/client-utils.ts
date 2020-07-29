@@ -315,6 +315,9 @@ export const getBlockExplorerUrlForTransaction = (
     case "CELO":
       console.warn("[TODO]: Implement Block Explorer url for Celo");
       return "";
+    case "POLKADOT":
+      console.warn("[TODO]: Implement Block Explorer url for Polkadot");
+      return "";
     default:
       return assertUnreachable(network);
   }

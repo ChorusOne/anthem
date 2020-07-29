@@ -97,6 +97,8 @@ class NotificationsBanner extends React.Component<IProps> {
             <b>{name} Network</b> is in beta.
           </BannerText>
         );
+      case "POLKADOT":
+        return null;
       default:
         return assertUnreachable(name);
     }

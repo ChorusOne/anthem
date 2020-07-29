@@ -80,6 +80,9 @@ export const OASIS_MESSAGE_TYPES = {};
 // TODO: Implement
 export const CELO_MESSAGE_TYPES = {};
 
+// TODO: Implement
+export const POLKADOT_MESSAGE_TYPES = {};
+
 const getTransactionMessageTypeForNetwork = (
   network: NETWORK_NAME,
   transactionType: LEDGER_ACTION_TYPE,
@@ -98,6 +101,10 @@ const getTransactionMessageTypeForNetwork = (
       console.warn("[TODO]: Implement Celo transaction types!");
       // @ts-ignore
       return CELO_MESSAGE_TYPES[transactionType];
+    case "POLKADOT":
+      console.warn("[TODO]: Implement Polkadot transaction types!");
+      // @ts-ignore
+      return POLKADOT_MESSAGE_TYPES[transactionType];
     default:
       return assertUnreachable(network);
   }

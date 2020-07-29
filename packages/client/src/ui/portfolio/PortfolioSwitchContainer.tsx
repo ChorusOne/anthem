@@ -93,6 +93,7 @@ class PortfolioSwitchContainer extends React.Component<IProps, IState> {
             downloadDataToFile={this.downloadDataToFile}
           />
         );
+      case "POLKADOT":
       default:
         return null;
     }
