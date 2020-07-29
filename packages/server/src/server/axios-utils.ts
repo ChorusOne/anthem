@@ -37,6 +37,8 @@ export const getHostFromNetworkName = (network: NETWORK_NAME) => {
       return HOSTS.OASIS;
     case "CELO":
       return HOSTS.CELO;
+    case "POLKADOT":
+      return "";
     default:
       return assertUnreachable(network);
   }

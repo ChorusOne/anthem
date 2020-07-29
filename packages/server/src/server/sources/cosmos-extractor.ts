@@ -53,6 +53,7 @@ export const queryPostgresCosmosSdkPool = async (
     case "KAVA":
       response = await kavaPool.query(query);
       break;
+    case "POLKADOT":
     case "CELO":
     case "OASIS":
       // Not supported yet
