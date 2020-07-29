@@ -19,11 +19,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-
       # Run install and build steps
-      - name: Build the application and run unit tests
-        run: yarn docker:build
-
+      # - name: Build the application and run unit tests
+      #   run: yarn docker:build
       # Run Cypress e2e tests
-      - name: Run Cypress e2e tests
-        run: yarn docker:cypress
+      # - name: Run Cypress e2e tests
+      #   run: yarn docker:cypress
