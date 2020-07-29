@@ -75,7 +75,7 @@ class PolkadotPage extends React.Component<IProps, IState> {
                 <HeaderTitle>AMOUNT</HeaderTitle>
               </RowItem>
             </HeaderRow>
-            <Card>
+            <Card style={{ paddingTop: 8, paddingBottom: 8 }}>
               <DotRow>
                 <RowItem>
                   <b>AVAILABLE DOT</b>
