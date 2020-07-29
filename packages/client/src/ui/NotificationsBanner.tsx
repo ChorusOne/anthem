@@ -28,6 +28,11 @@ class NotificationsBanner extends React.Component<IProps> {
       return null;
     }
 
+    // Don't render on Staking Agent page
+    if (window.location.pathname.includes("polkadot")) {
+      return null;
+    }
+
     return (
       <Banner className="notifications-banner">
         {this.getBannerTextForNetwork()}

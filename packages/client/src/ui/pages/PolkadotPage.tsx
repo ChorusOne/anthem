@@ -1,4 +1,4 @@
-import { H3 } from "@blueprintjs/core";
+import { H2 } from "@blueprintjs/core";
 import {
   FiatCurrenciesProps,
   withFiatCurrencies,
@@ -9,7 +9,8 @@ import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
-import { Line, PageContainer, PageTitle } from "ui/SharedComponents";
+import PageAddressBar from "ui/PageAddressBar";
+import { Button, PageContainer } from "ui/SharedComponents";
 
 /** ===========================================================================
  * Types & Config
@@ -41,14 +42,27 @@ class PolkadotPage extends React.Component<IProps, IState> {
   render(): JSX.Element {
     return (
       <PageContainer>
-        <PageTitle data-cy="settings-page-title">
-          Polkadot Staking Agent
-        </PageTitle>
-        <Line />
-        <Title>Start earning now!</Title>
+        <PageAddressBar pageTitle="Polkadot Staking Agent" />
+        <ContentArea>
+          <Title>
+            Start earning 8.99% APR on Polkadot with our Staking Agent.
+          </Title>
+          <Text>
+            The Chorus One Staking Agent optimizes your DOT returns on Polkadot
+            by automatically diversifying across validators and periodically
+            withdrawing staking rewards for you.*
+          </Text>
+          <Button style={{ marginTop: 24 }} onClick={this.handleActivateAgent}>
+            <b>ACTIVATE AGENT</b>
+          </Button>
+        </ContentArea>
       </PageContainer>
     );
   }
+
+  handleActivateAgent = () => {
+    console.log("Activating Agent...");
+  };
 }
 
 /** ===========================================================================
@@ -56,7 +70,18 @@ class PolkadotPage extends React.Component<IProps, IState> {
  * ============================================================================
  */
 
-const Title = styled(H3)``;
+const Title = styled(H2)``;
+
+const ContentArea = styled.div`
+  padding: 12px;
+  width: 500px;
+`;
+
+const Text = styled.p`
+  font-size: 15px;
+  font-weight: 200;
+  margin-top: 18px;
+`;
 
 /** ===========================================================================
  * Props
