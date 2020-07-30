@@ -25,11 +25,17 @@ import Toast from "ui/Toast";
 
 const SERVER_URL = "https://ns3169927.ip-51-89-192.eu";
 
-interface DotAccount {
+export interface DotAccount {
   balance: number;
   controllerKey: string;
   stashKey: string;
 }
+
+const MOCK_DOT_ACCOUNT = {
+  balance: 13610592207537,
+  controllerKey: "5GvUXQYHU8WmjDTUmnZ686n9id5vVxSzUivf99dSPmjn1wYX",
+  stashKey: "F7BeW4g5ViG8xGJQAzguGPxiX9QNdoPNc3YqF1bV8d9XkVV",
+};
 
 interface IState {
   stake: string;
@@ -154,7 +160,7 @@ class PolkadotPage extends React.Component<IProps, IState> {
 
     return (
       <PageContainer>
-        <PolkadotDialog />
+        <PolkadotDialog account={account} />
         <PageAddressBar pageTitle="Polkadot Staking Agent" />
         <Row>
           <ContentArea style={{ paddingTop: 18 }}>

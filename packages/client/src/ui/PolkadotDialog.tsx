@@ -1,4 +1,12 @@
-import { Card, Classes, Dialog, H6, Icon, Spinner } from "@blueprintjs/core";
+import {
+  Card,
+  Classes,
+  Code,
+  Dialog,
+  H6,
+  Icon,
+  Spinner,
+} from "@blueprintjs/core";
 import { NetworkLogoIcon } from "assets/images";
 import { COLORS } from "constants/colors";
 import {
@@ -9,6 +17,7 @@ import Modules, { ReduxStoreState } from "modules/root";
 import React from "react";
 import { connect } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
+import { abbreviateAddress, copyTextToClipboard } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import {
   Button,
@@ -18,6 +27,7 @@ import {
   TextInput,
   View,
 } from "ui/SharedComponents";
+import { DotAccount } from "./pages/PolkadotPage";
 import Toast from "./Toast";
 
 /** ===========================================================================
@@ -77,7 +87,9 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
   }
 
   renderDialog = () => {
-    const { interactionType, stage } = this.props.polkadot;
+    const { account, polkadot } = this.props;
+    const { controllerKey, stashKey } = account;
+    const { interactionType, stage } = polkadot;
     if (stage === "SETUP") {
       if (interactionType === "ACTIVATE") {
         return (
@@ -216,7 +228,7 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
           <View style={{ marginTop: 24 }}>
             <BalanceRow>
               <BalanceLabel>Your Stash Account:</BalanceLabel>
-              <Balance>as9df786as06f98asf98d7asf9</Balance>
+              <DisplayAddress address={stashKey} />
             </BalanceRow>
             <BalanceRow>
               <SubText style={{ marginTop: 2 }}>
@@ -225,7 +237,7 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
             </BalanceRow>
             <BalanceRow style={{ marginTop: 8 }}>
               <BalanceLabel>Your New Controller Account:</BalanceLabel>
-              <Balance>0fa7sd80f9as0f7as07fsa0</Balance>
+              <DisplayAddress address={controllerKey} />
             </BalanceRow>
             <BalanceRow>
               <SubText style={{ marginTop: 2 }}>
@@ -249,7 +261,7 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
           <View style={{ marginTop: 24 }}>
             <BalanceRow>
               <BalanceLabel>Your Stash Account:</BalanceLabel>
-              <Balance>as9df786as06f98asf98d7asf9</Balance>
+              <DisplayAddress address={stashKey} />
             </BalanceRow>
             <BalanceRow>
               <SubText style={{ marginTop: 2 }}>
@@ -258,7 +270,7 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
             </BalanceRow>
             <BalanceRow style={{ marginTop: 8 }}>
               <BalanceLabel>Your New Controller Account:</BalanceLabel>
-              <Balance>0fa7sd80f9as0f7as07fsa0</Balance>
+              <DisplayAddress address={controllerKey} />
             </BalanceRow>
             <BalanceRow>
               <SubText style={{ marginTop: 2 }}>
@@ -428,6 +440,25 @@ const TransactionLoading = styled(Centered)`
   flex-direction: column;
 `;
 
+const DisplayAddress = ({ address }: { address: string }) => {
+  const endIndex = address.length - 12;
+  const cutAddress = `${address.slice(0, 12)}...${address.slice(endIndex)}`;
+  return (
+    <AddressText onClick={() => copyTextToClipboard(address)}>
+      {cutAddress}
+    </AddressText>
+  );
+};
+
+const AddressText = styled.p`
+  font-size: 12px;
+
+  :hover {
+    cursor: pointer;
+    color: ${COLORS.CHORUS_MINT};
+  }
+`;
+
 /** ===========================================================================
  * Props
  * ============================================================================
@@ -446,7 +477,9 @@ const dispatchProps = {
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
-interface ComponentProps {}
+interface ComponentProps {
+  account: DotAccount;
+}
 
 interface IProps extends ComponentProps, ConnectProps {}
 
