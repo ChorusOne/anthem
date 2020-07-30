@@ -72,7 +72,7 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
   };
 
   handleCloseDialog = () => {
-    console.log("Handling close dialog");
+    this.props.closePolkadotDialog();
   };
 }
 
@@ -123,7 +123,9 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   polkadot: Modules.selectors.polkadot.polkadotSelector(state),
 });
 
-const dispatchProps = {};
+const dispatchProps = {
+  closePolkadotDialog: Modules.actions.polkadot.closePolkadotDialog,
+};
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
