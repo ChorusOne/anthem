@@ -137,5 +137,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8000"
+  "proxy": "http://216.18.206.50:10059"
 }

@@ -1,4 +1,5 @@
-import { Card, H2, Icon, Switch, Tooltip } from "@blueprintjs/core";
+import { Card, H2, Icon, Spinner, Switch, Tooltip } from "@blueprintjs/core";
+import axios from "axios";
 import { COLORS } from "constants/colors";
 import { FiatCurrenciesProps, withGraphQLVariables } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
@@ -7,7 +8,13 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 import PageAddressBar from "ui/PageAddressBar";
-import { Button, Link, PageContainer, TextInput } from "ui/SharedComponents";
+import {
+  Button,
+  Centered,
+  Link,
+  PageContainer,
+  TextInput,
+} from "ui/SharedComponents";
 import Toast from "ui/Toast";
 
 /** ===========================================================================
@@ -15,9 +22,17 @@ import Toast from "ui/Toast";
  * ============================================================================
  */
 
+interface DotAccount {
+  balance: number;
+  controllerKey: string;
+  stashKey: string;
+}
+
 interface IState {
   stake: string;
   enableAutomaticStaking: boolean;
+  account: Nullable<DotAccount>;
+  loadingState: "complete" | "loading" | "error";
 }
 
 /** ===========================================================================
@@ -33,19 +48,76 @@ class PolkadotPage extends React.Component<IProps, IState> {
 
     this.state = {
       stake: "",
+      account: null,
+      loadingState: "loading",
       enableAutomaticStaking: true,
     };
   }
 
   componentDidMount() {
-    // No-op
+    this.initialize();
   }
+
+  /**
+   * Handle initializing the Polkadot Staking Agent page.
+   *
+   * This currently only fetches the account state.
+   */
+  initialize = async () => {
+    try {
+      const { address } = this.props;
+      const url = `http://216.18.206.50:10059/account/${address}`;
+      const response = await axios.get(url);
+      this.setState({
+        account: response.data,
+        loadingState: "complete",
+      });
+    } catch (err) {
+      console.error(`Error fetching account state: ${err.message}`);
+      this.setState({
+        account: null,
+        loadingState: "error",
+      });
+    }
+  };
 
   componentWillUnmount() {
     // No-op
   }
 
+  componentDidUpdate(prevProps: IProps) {
+    /**
+     * Reinitialize if the address changes.
+     */
+    if (this.props.address !== prevProps.address) {
+      this.setState({ loadingState: "loading" }, this.initialize);
+    }
+  }
+
   render(): JSX.Element {
+    const { account, loadingState } = this.state;
+    if (loadingState === "loading") {
+      return (
+        <Centered style={{ marginTop: 125 }}>
+          <Spinner />
+        </Centered>
+      );
+    } else if (loadingState === "error") {
+      return (
+        <Centered style={{ marginTop: 125 }}>
+          <p style={{ fontSize: 16 }}>Error loading Polkadot Account Data.</p>
+        </Centered>
+      );
+    } else if (!account) {
+      return (
+        <Centered style={{ marginTop: 125 }}>
+          <p style={{ fontSize: 16 }}>No account data exists...</p>
+        </Centered>
+      );
+    }
+
+    const { balance } = account;
+
     return (
       <PageContainer>
         <PageAddressBar pageTitle="Polkadot Staking Agent" />
@@ -80,7 +152,7 @@ class PolkadotPage extends React.Component<IProps, IState> {
                 <RowItem>
                   <b>AVAILABLE DOT</b>
                 </RowItem>
-                <RowItem>20</RowItem>
+                <RowItem>{balance}</RowItem>
               </DotRow>
               <DotRow>
                 <RowItem>
