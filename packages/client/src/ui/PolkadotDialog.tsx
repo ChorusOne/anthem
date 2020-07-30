@@ -1,5 +1,4 @@
 import { Classes, Dialog, H6 } from "@blueprintjs/core";
-import { NetworkLogoIcon } from "assets/images";
 import Modules, { ReduxStoreState } from "modules/root";
 import React from "react";
 import { connect } from "react-redux";
