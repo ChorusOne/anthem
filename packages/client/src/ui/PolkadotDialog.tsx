@@ -88,7 +88,7 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
 
   renderDialog = () => {
     const { account, polkadot } = this.props;
-    const { controllerKey, stashKey } = account;
+    const { balance, controllerKey, stashKey } = account;
     const { interactionType, stage } = polkadot;
     if (stage === "SETUP") {
       if (interactionType === "ACTIVATE") {
@@ -133,11 +133,11 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
                 <View>
                   <BalanceRow>
                     <BalanceLabel>Your Account:</BalanceLabel>
-                    <Balance>1000</Balance>
+                    <Balance>0</Balance>
                   </BalanceRow>
                   <BalanceRow style={{ marginTop: 8 }}>
-                    <BalanceLabel>Your Available Balance:</BalanceLabel>
-                    <Balance>1000</Balance>
+                    <BalanceLabel>Available:</BalanceLabel>
+                    <Balance>{balance}</Balance>
                   </BalanceRow>
                 </View>
               </Row>
@@ -150,11 +150,11 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
               <View style={{ marginTop: 24 }}>
                 <BalanceRow>
                   <BalanceLabel>Your Agent's Account:</BalanceLabel>
-                  <Balance>1000</Balance>
+                  <Balance>0</Balance>
                 </BalanceRow>
                 <BalanceRow style={{ marginTop: 8 }}>
                   <BalanceLabel>Your Staked Balance:</BalanceLabel>
-                  <Balance>1000</Balance>
+                  <Balance>0</Balance>
                 </BalanceRow>
               </View>
             </Row>
@@ -182,11 +182,11 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
                 <View>
                   <BalanceRow>
                     <BalanceLabel>Your Agent's Account:</BalanceLabel>
-                    <Balance>1000</Balance>
+                    <Balance>0</Balance>
                   </BalanceRow>
                   <BalanceRow style={{ marginTop: 8 }}>
                     <BalanceLabel>Your Staked Balance:</BalanceLabel>
-                    <Balance>1000</Balance>
+                    <Balance>0</Balance>
                   </BalanceRow>
                 </View>
               </Row>
@@ -199,11 +199,11 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
               <View style={{ marginTop: 24 }}>
                 <BalanceRow>
                   <BalanceLabel>Your Account:</BalanceLabel>
-                  <Balance>1000</Balance>
+                  <Balance>0</Balance>
                 </BalanceRow>
                 <BalanceRow style={{ marginTop: 8 }}>
-                  <BalanceLabel>Your Available Balance:</BalanceLabel>
-                  <Balance>1000</Balance>
+                  <BalanceLabel>Available:</BalanceLabel>
+                  <Balance>{balance}</Balance>
                 </BalanceRow>
               </View>
             </Row>
