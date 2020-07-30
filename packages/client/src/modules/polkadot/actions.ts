@@ -7,8 +7,8 @@ import { DotTransactionType } from "./store";
  */
 
 enum ActionTypesEnum {
-  OPEN_LEDGER_DIALOG = "OPEN_LEDGER_DIALOG",
-  CLOSE_LEDGER_DIALOG = "CLOSE_LEDGER_DIALOG",
+  OPEN_POLKADOT_DIALOG = "OPEN_POLKADOT_DIALOG",
+  CLOSE_POLKADOT_DIALOG = "CLOSE_POLKADOT_DIALOG",
 }
 
 /** ===========================================================================
@@ -17,11 +17,11 @@ enum ActionTypesEnum {
  */
 
 const openPolkadotDialog = createStandardAction(
-  ActionTypesEnum.OPEN_LEDGER_DIALOG,
+  ActionTypesEnum.OPEN_POLKADOT_DIALOG,
 )<DotTransactionType>();
 
 const closePolkadotDialog = createStandardAction(
-  ActionTypesEnum.CLOSE_LEDGER_DIALOG,
+  ActionTypesEnum.CLOSE_POLKADOT_DIALOG,
 )();
 
 const actions = {
