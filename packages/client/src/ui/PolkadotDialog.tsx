@@ -1,5 +1,6 @@
-import { Card, Classes, Dialog, H6 } from "@blueprintjs/core";
+import { Card, Classes, Dialog, H6, Icon } from "@blueprintjs/core";
 import { NetworkLogoIcon } from "assets/images";
+import { COLORS } from "constants/colors";
 import { DotTransactionType } from "modules/polkadot/store";
 import Modules, { ReduxStoreState } from "modules/root";
 import React from "react";
@@ -118,7 +119,10 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
               </View>
             </Row>
           </Card>
-          <Row style={{ padding: 20 }}>
+          <ArrowButton>
+            <Icon icon="arrow-down" color={COLORS.LIGHT_WHITE} />
+          </ArrowButton>
+          <Row style={{ paddingLeft: 20, paddingRight: 20 }}>
             <View />
             <View style={{ marginTop: 24 }}>
               <BalanceRow>
@@ -262,6 +266,19 @@ const BalanceRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+const ArrowButton = styled.div`
+  z-index: 50;
+  width: 38px;
+  height: 38px;
+  margin: auto;
+  margin-top: -12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: ${COLORS.PRIMARY};
 `;
 
 /** ===========================================================================
