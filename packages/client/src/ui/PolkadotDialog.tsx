@@ -27,28 +27,29 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
   }
 
   render(): JSX.Element {
-    const { settings } = this.props;
+    const { settings, polkadot } = this.props;
+    const { dialogOpen } = polkadot;
     const { isDesktop, isDarkTheme } = settings;
     const dimensions = getDialogDimensions(isDesktop);
     const dialogMobilePosition = getMobileDialogPositioning(isDesktop);
+    const style = {
+      ...dimensions,
+      ...dialogMobilePosition,
+      borderRadius: 0,
+    };
     return (
       <Dialog
         autoFocus
         usePortal
         enforceFocus
+        canEscapeKeyClose
         canOutsideClickClose
-        style={{
-          ...dimensions,
-          ...dialogMobilePosition,
-          borderRadius: 0,
-        }}
-        // icon={<NetworkLogoIcon network="POLKADOT" />}
+        style={style}
         icon="bank-account"
         title={"Polkadot Staking Agent"}
-        isOpen={true}
+        isOpen={dialogOpen}
         onClose={this.handleCloseDialog}
         className={isDarkTheme ? Classes.DARK : ""}
-        canEscapeKeyClose={true}
       >
         <View className={Classes.DIALOG_BODY} style={{ position: "relative" }}>
           {this.renderSetup()}
@@ -119,6 +120,7 @@ const Text = styled.p`
 const mapStateToProps = (state: ReduxStoreState) => ({
   settings: Modules.selectors.settings(state),
   address: Modules.selectors.ledger.ledgerSelector(state).address,
+  polkadot: Modules.selectors.polkadot.polkadotSelector(state),
 });
 
 const dispatchProps = {};

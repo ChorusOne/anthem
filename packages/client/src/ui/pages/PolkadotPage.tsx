@@ -278,18 +278,15 @@ class PolkadotPage extends React.Component<IProps, IState> {
   };
 
   handleUnStakeDot = () => {
-    console.log("Unstaking...");
-    Toast.warn("Unstaking DOTs...");
+    this.props.openPolkadotDialog();
   };
 
   handleStakeDot = () => {
-    console.log("Staking...");
-    Toast.warn("Staking DOTs...");
+    this.props.openPolkadotDialog();
   };
 
   handleActivateAgent = () => {
-    console.log("Activating Agent...");
-    Toast.warn("Activating Agent...");
+    this.props.openPolkadotDialog();
   };
 }
 
@@ -388,7 +385,9 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   address: Modules.selectors.ledger.ledgerSelector(state).address,
 });
 
-const dispatchProps = {};
+const dispatchProps = {
+  openPolkadotDialog: Modules.actions.polkadot.openPolkadotDialog,
+};
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
