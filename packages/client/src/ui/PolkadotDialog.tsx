@@ -1,11 +1,12 @@
-import { Classes, Dialog, H6 } from "@blueprintjs/core";
+import { Card, Classes, Dialog, H6 } from "@blueprintjs/core";
+import { NetworkLogoIcon } from "assets/images";
 import { DotTransactionType } from "modules/polkadot/store";
 import Modules, { ReduxStoreState } from "modules/root";
 import React from "react";
 import { connect } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
 import { composeWithProps } from "tools/context-utils";
-import { Button, Link, View } from "ui/SharedComponents";
+import { Button, Link, TextInput, View } from "ui/SharedComponents";
 import Toast from "./Toast";
 
 /** ===========================================================================
@@ -13,7 +14,9 @@ import Toast from "./Toast";
  * ============================================================================
  */
 
-interface IState {}
+interface IState {
+  amount: string;
+}
 
 /** ===========================================================================
  * React Component
@@ -24,7 +27,9 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      amount: "",
+    };
   }
 
   render(): JSX.Element {
@@ -87,6 +92,45 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
           <H6>
             How much DOT do you want to add to the Chorus One Staking Agent?
           </H6>
+          <Card>
+            <Row>
+              <Row>
+                <NetworkLogoIcon network="POLKADOT" />
+                <View style={{ marginLeft: 12 }}>
+                  <TextInput
+                    label="Enter an amount in DOT"
+                    data-cy="funding-amount-input"
+                    value={this.state.amount}
+                    onChange={this.handleInputChange}
+                    placeholder="Funding Amount"
+                  />
+                </View>
+              </Row>
+              <View>
+                <BalanceRow>
+                  <BalanceLabel>Your Account:</BalanceLabel>
+                  <Balance>1000</Balance>
+                </BalanceRow>
+                <BalanceRow style={{ marginTop: 8 }}>
+                  <BalanceLabel>Your Available Balance:</BalanceLabel>
+                  <Balance>1000</Balance>
+                </BalanceRow>
+              </View>
+            </Row>
+          </Card>
+          <Row style={{ padding: 20 }}>
+            <View />
+            <View style={{ marginTop: 24 }}>
+              <BalanceRow>
+                <BalanceLabel>Your Agent's Account:</BalanceLabel>
+                <Balance>1000</Balance>
+              </BalanceRow>
+              <BalanceRow style={{ marginTop: 8 }}>
+                <BalanceLabel>Your Staked Balance:</BalanceLabel>
+                <Balance>1000</Balance>
+              </BalanceRow>
+            </View>
+          </Row>
           {this.renderConfirmArrow("Fund Agent", this.handleStake)}
         </View>
       );
@@ -118,8 +162,8 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
     );
   };
 
-  setCanEscapeKeyCloseDialog = (canClose: boolean) => {
-    this.setState({ canEscapeKeyCloseDialog: canClose });
+  handleInputChange = (amount: string) => {
+    this.setState({ amount });
   };
 
   handleCloseDialog = () => {
@@ -191,11 +235,33 @@ const Text = styled.p`
   font-weight: 100;
 `;
 
+const BalanceLabel = styled.p`
+  margin: 0;
+  font-weight: bold;
+`;
+
+const Balance = styled.p`
+  margin: 0;
+  margin-left: 6px;
+`;
+
 const SubText = styled.p`
   margin: 0;
   padding: 0;
   font-size: 12px;
   margin-top: 24px;
+`;
+
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const BalanceRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 /** ===========================================================================
