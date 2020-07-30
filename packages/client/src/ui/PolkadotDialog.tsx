@@ -1,13 +1,23 @@
-import { Card, Classes, Dialog, H6, Icon } from "@blueprintjs/core";
+import { Card, Classes, Dialog, H6, Icon, Spinner } from "@blueprintjs/core";
 import { NetworkLogoIcon } from "assets/images";
 import { COLORS } from "constants/colors";
-import { DotTransactionType } from "modules/polkadot/store";
+import {
+  DotTransactionStage,
+  DotTransactionType,
+} from "modules/polkadot/store";
 import Modules, { ReduxStoreState } from "modules/root";
 import React from "react";
 import { connect } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
 import { composeWithProps } from "tools/context-utils";
-import { Button, Link, TextInput, View } from "ui/SharedComponents";
+import {
+  Button,
+  Centered,
+  Line,
+  Link,
+  TextInput,
+  View,
+} from "ui/SharedComponents";
 import Toast from "./Toast";
 
 /** ===========================================================================
@@ -35,7 +45,7 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
 
   render(): JSX.Element {
     const { settings, polkadot } = this.props;
-    const { dialogOpen, interactionType } = polkadot;
+    const { dialogOpen, interactionType, stage } = polkadot;
     const { isDesktop, isDarkTheme } = settings;
     const dimensions = getDialogDimensions(isDesktop);
     const dialogMobilePosition = getMobileDialogPositioning(isDesktop);
@@ -44,7 +54,7 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
       ...dialogMobilePosition,
       borderRadius: 0,
     };
-    const title = getDialogTitle(interactionType);
+    const title = getDialogTitle(interactionType, stage);
     return (
       <Dialog
         autoFocus
@@ -197,13 +207,62 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
     } else if (stage === "SIGN") {
       return (
         <View>
-          <H6>Sign Transaction</H6>
+          <H6>Please confirm the transaction with your wallet.</H6>
+          <TransactionLoading>
+            <Spinner />
+            <SubText>Waiting for signature...</SubText>
+          </TransactionLoading>
+          <Line />
+          <View style={{ marginTop: 24 }}>
+            <BalanceRow>
+              <BalanceLabel>Your Stash Account:</BalanceLabel>
+              <Balance>as9df786as06f98asf98d7asf9</Balance>
+            </BalanceRow>
+            <BalanceRow>
+              <SubText style={{ marginTop: 2 }}>
+                Where your funds are custodied
+              </SubText>
+            </BalanceRow>
+            <BalanceRow style={{ marginTop: 8 }}>
+              <BalanceLabel>Your New Controller Account:</BalanceLabel>
+              <Balance>0fa7sd80f9as0f7as07fsa0</Balance>
+            </BalanceRow>
+            <BalanceRow>
+              <SubText style={{ marginTop: 2 }}>
+                The key of your automated staking agent
+              </SubText>
+            </BalanceRow>
+          </View>
         </View>
       );
     } else if (stage === "CONFIRMED") {
       return (
         <View>
-          <H6>Transaction Confirmed</H6>
+          <H6>Transaction Confirmed!</H6>
+          <TransactionLoading>
+            <SubText>Your staking agent will update your stake now.</SubText>
+          </TransactionLoading>
+          <Line />
+          <View style={{ marginTop: 24 }}>
+            <BalanceRow>
+              <BalanceLabel>Your Stash Account:</BalanceLabel>
+              <Balance>as9df786as06f98asf98d7asf9</Balance>
+            </BalanceRow>
+            <BalanceRow>
+              <SubText style={{ marginTop: 2 }}>
+                Where your funds are custodied
+              </SubText>
+            </BalanceRow>
+            <BalanceRow style={{ marginTop: 8 }}>
+              <BalanceLabel>Your New Controller Account:</BalanceLabel>
+              <Balance>0fa7sd80f9as0f7as07fsa0</Balance>
+            </BalanceRow>
+            <BalanceRow>
+              <SubText style={{ marginTop: 2 }}>
+                The key of your automated staking agent
+              </SubText>
+            </BalanceRow>
+          </View>
         </View>
       );
     }
@@ -259,13 +318,22 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
  * ============================================================================
  */
 
-const getDialogTitle = (interactionType: DotTransactionType) => {
-  if (interactionType === "ACTIVATE") {
-    return "Activate the Polkadot Staking Agent";
-  } else if (interactionType === "ADD_FUNDS") {
-    return "Add Funds to the Staking Agent";
-  } else if (interactionType === "REMOVE_FUNDS") {
-    return "Remove Staked Funds";
+const getDialogTitle = (
+  interactionType: DotTransactionType,
+  stage: DotTransactionStage,
+) => {
+  if (stage === "SETUP") {
+    if (interactionType === "ACTIVATE") {
+      return "Activate the Polkadot Staking Agent";
+    } else if (interactionType === "ADD_FUNDS") {
+      return "Add Funds to the Staking Agent";
+    } else if (interactionType === "REMOVE_FUNDS") {
+      return "Remove Staked Funds";
+    }
+  } else if (stage === "SIGN") {
+    return "Sign Transaction";
+  } else if (stage === "CONFIRMED") {
+    return "Transaction Confirmed";
   }
 
   return "Polkadot Staking Agent";
@@ -348,6 +416,11 @@ const ArrowButton = styled.div`
 const SmallText = styled.p`
   margin-top: 24px;
   font-weight: 100;
+`;
+
+const TransactionLoading = styled(Centered)`
+  height: 85px;
+  flex-direction: column;
 `;
 
 /** ===========================================================================
