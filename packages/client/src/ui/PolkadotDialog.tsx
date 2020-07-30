@@ -78,13 +78,25 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
             resetting the Controller key in any other way. Learn more about the
             Staking Agent <Link href="http://chorus.one">here</Link>.
           </SubText>
-          {this.renderConfirmArrow("Activate Agent", this.handleActivate)}
+          {this.renderConfirmArrow("Create Agent", this.handleActivate)}
         </View>
       );
     } else if (interactionType === "ADD_FUNDS") {
-      return "Add Funds to the Staking Agent";
+      return (
+        <View>
+          <H6>
+            How much DOT do you want to add to the Chorus One Staking Agent?
+          </H6>
+          {this.renderConfirmArrow("Fund Agent", this.handleStake)}
+        </View>
+      );
     } else if (interactionType === "REMOVE_FUNDS") {
-      return "Remove Staked Funds";
+      return (
+        <View>
+          <H6>How much DOT do you want to unstake?</H6>
+          {this.renderConfirmArrow("Unstake Funds", this.handleUnstake)}
+        </View>
+      );
     }
 
     return null;
@@ -117,6 +129,16 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
   handleActivate = () => {
     console.log("Handling activate action");
     Toast.warn("Handling activate action");
+  };
+
+  handleStake = () => {
+    console.log("Handling stake action");
+    Toast.warn("Handling stake action");
+  };
+
+  handleUnstake = () => {
+    console.log("Handling unstake action");
+    Toast.warn("Handling unstake action");
   };
 }
 
@@ -164,7 +186,7 @@ const getMobileDialogPositioning = (isDesktop: boolean): CSSProperties => {
 };
 
 const Text = styled.p`
-  font-size: 16px;
+  font-size: 17px;
   margin-top: 18px;
   font-weight: 100;
 `;
