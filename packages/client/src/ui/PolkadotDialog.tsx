@@ -142,7 +142,54 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
       return (
         <View>
           <H6>How much DOT do you want to unstake?</H6>
-          {this.renderConfirmArrow("Unstake Funds", this.handleUnstake)}
+          <Card>
+            <Row>
+              <Row>
+                <NetworkLogoIcon network="POLKADOT" />
+                <View style={{ marginLeft: 12 }}>
+                  <TextInput
+                    label="Enter an amount in DOT"
+                    data-cy="funding-amount-input"
+                    value={this.state.amount}
+                    onChange={this.handleInputChange}
+                    placeholder="Funding Amount"
+                  />
+                </View>
+              </Row>
+              <View>
+                <BalanceRow>
+                  <BalanceLabel>Your Agent's Account:</BalanceLabel>
+                  <Balance>1000</Balance>
+                </BalanceRow>
+                <BalanceRow style={{ marginTop: 8 }}>
+                  <BalanceLabel>Your Staked Balance:</BalanceLabel>
+                  <Balance>1000</Balance>
+                </BalanceRow>
+              </View>
+            </Row>
+          </Card>
+          <ArrowButton>
+            <Icon icon="arrow-down" color={COLORS.LIGHT_WHITE} />
+          </ArrowButton>
+          <Row style={{ paddingLeft: 20, paddingRight: 20 }}>
+            <View />
+            <View style={{ marginTop: 24 }}>
+              <BalanceRow>
+                <BalanceLabel>Your Account:</BalanceLabel>
+                <Balance>1000</Balance>
+              </BalanceRow>
+              <BalanceRow style={{ marginTop: 8 }}>
+                <BalanceLabel>Your Available Balance:</BalanceLabel>
+                <Balance>1000</Balance>
+              </BalanceRow>
+            </View>
+          </Row>
+          <SmallText>
+            Unstaking tokens requires 28 eras (~28 days) to pass before tokens
+            become liquid. Learn more{" "}
+            <Link href="https://chorus.one">here</Link>.
+          </SmallText>
+          {this.renderConfirmArrow("Unstake Funds", this.handleStake)}
         </View>
       );
     }
@@ -279,6 +326,11 @@ const ArrowButton = styled.div`
   justify-content: center;
   border-radius: 50%;
   background: ${COLORS.PRIMARY};
+`;
+
+const SmallText = styled.p`
+  margin-top: 24px;
+  font-weight: 100;
 `;
 
 /** ===========================================================================
