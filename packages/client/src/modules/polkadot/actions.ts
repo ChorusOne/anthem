@@ -1,5 +1,5 @@
 import { ActionType, createStandardAction } from "typesafe-actions";
-import { DotTransactionType } from "./store";
+import { DotTransactionStage, DotTransactionType } from "./store";
 
 /** ===========================================================================
  * Action Types
@@ -9,6 +9,7 @@ import { DotTransactionType } from "./store";
 enum ActionTypesEnum {
   OPEN_POLKADOT_DIALOG = "OPEN_POLKADOT_DIALOG",
   CLOSE_POLKADOT_DIALOG = "CLOSE_POLKADOT_DIALOG",
+  SET_POLKADOT_TRANSACTION_STAGE = "SET_POLKADOT_TRANSACTION_STAGE",
 }
 
 /** ===========================================================================
@@ -24,9 +25,14 @@ const closePolkadotDialog = createStandardAction(
   ActionTypesEnum.CLOSE_POLKADOT_DIALOG,
 )();
 
+const setTransactionStage = createStandardAction(
+  ActionTypesEnum.SET_POLKADOT_TRANSACTION_STAGE,
+)<DotTransactionStage>();
+
 const actions = {
   openPolkadotDialog,
   closePolkadotDialog,
+  setTransactionStage,
 };
 
 /** ===========================================================================

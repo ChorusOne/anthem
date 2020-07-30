@@ -8,13 +8,17 @@ import actions, { ActionTypes } from "./actions";
 
 export type DotTransactionType = "ACTIVATE" | "ADD_FUNDS" | "REMOVE_FUNDS";
 
+export type DotTransactionStage = "SETUP" | "SIGN" | "CONFIRMED";
+
 export interface State {
   dialogOpen: boolean;
+  stage: DotTransactionStage;
   interactionType: DotTransactionType;
 }
 
 const initialState: State = {
   dialogOpen: false,
+  stage: "SETUP",
   interactionType: "ACTIVATE",
 };
 
@@ -27,6 +31,10 @@ const polkadot = createReducer<State, ActionTypes>(initialState)
   .handleAction(actions.closePolkadotDialog, (state, action) => ({
     ...state,
     dialogOpen: false,
+  }))
+  .handleAction(actions.setTransactionStage, (state, action) => ({
+    ...state,
+    stage: action.payload,
   }));
 
 /** ===========================================================================

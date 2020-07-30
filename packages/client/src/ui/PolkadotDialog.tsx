@@ -346,6 +346,7 @@ const mapStateToProps = (state: ReduxStoreState) => ({
 
 const dispatchProps = {
   closePolkadotDialog: Modules.actions.polkadot.closePolkadotDialog,
+  setTransactionStage: Modules.actions.polkadot.setTransactionStage,
 };
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;

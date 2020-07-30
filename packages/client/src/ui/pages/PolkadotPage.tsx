@@ -53,14 +53,20 @@ class PolkadotPage extends React.Component<IProps, IState> {
     this.state = {
       error: "",
       stake: "",
-      account: null,
-      loading: true,
+      // account: null,
+      // loading: true,
+      loading: false,
+      account: {
+        balance: 1000,
+        stashKey: "",
+        controllerKey: "",
+      },
       enableAutomaticStaking: true,
     };
   }
 
   componentDidMount() {
-    this.initialize();
+    // this.initialize();
   }
 
   /**
