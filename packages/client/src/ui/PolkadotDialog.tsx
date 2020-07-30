@@ -240,6 +240,9 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
         <View>
           <H6>Transaction Confirmed!</H6>
           <TransactionLoading>
+            <ArrowButton>
+              <Icon icon="tick" color={COLORS.LIGHT_WHITE} />
+            </ArrowButton>
             <SubText>Your staking agent will update your stake now.</SubText>
           </TransactionLoading>
           <Line />
@@ -419,7 +422,9 @@ const SmallText = styled.p`
 `;
 
 const TransactionLoading = styled(Centered)`
-  height: 85px;
+  height: 125px;
+  padding-top: 24px;
+  padding-bottom: 24px;
   flex-direction: column;
 `;
 

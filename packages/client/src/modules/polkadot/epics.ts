@@ -1,6 +1,13 @@
 import { EpicSignature } from "modules/root";
 import { combineEpics } from "redux-observable";
-import { filter, ignoreElements, tap } from "rxjs/operators";
+import {
+  delay,
+  filter,
+  ignoreElements,
+  mapTo,
+  pluck,
+  tap,
+} from "rxjs/operators";
 import { isActionOf } from "typesafe-actions";
 import { Actions } from "../root-actions";
 
@@ -10,8 +17,7 @@ import { Actions } from "../root-actions";
  */
 
 /**
- * Handling syncing the activeChartTab state to the url when
- * the url changes.
+ * Placeholder epic.
  */
 const placeholderEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
@@ -21,9 +27,22 @@ const placeholderEpic: EpicSignature = (action$, state$, deps) => {
   );
 };
 
+/**
+ * Delay and then set the transaction stage to CONFIRMED.
+ */
+const mockConfirmEpic: EpicSignature = (action$, state$, deps) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.setTransactionStage)),
+    pluck("payload"),
+    filter(x => x === "SIGN"),
+    delay(3000),
+    mapTo(Actions.setTransactionStage("CONFIRMED")),
+  );
+};
+
 /** ===========================================================================
  * Export
  * ============================================================================
  */
 
-export default combineEpics(placeholderEpic);
+export default combineEpics(placeholderEpic, mockConfirmEpic);
