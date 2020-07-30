@@ -67,96 +67,65 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
   }
 
   renderDialog = () => {
-    const { interactionType } = this.props.polkadot;
-    if (interactionType === "ACTIVATE") {
-      return (
-        <View>
-          <Text>
-            To activate the Polkadot staking agent we will first need to
-            generate your personal Staking Agent key and associate your account
-            with it.
-          </Text>
-          <SubText>
-            <b>Note:</b> This will grant Chorus One limited rights to carry out
-            staking-related transactions on your behalf. At no point will Chorus
-            One have custody of your funds or be able to transfer your funds.
-            You can revoke these rights at any point through Anthem or by
-            resetting the Controller key in any other way. Learn more about the
-            Staking Agent <Link href="http://chorus.one">here</Link>.
-          </SubText>
-          {this.renderConfirmArrow("Create Agent", this.handleActivate)}
-        </View>
-      );
-    } else if (interactionType === "ADD_FUNDS") {
-      return (
-        <View>
-          <H6>
-            How much DOT do you want to add to the Chorus One Staking Agent?
-          </H6>
-          <Card>
-            <Row>
+    const { interactionType, stage } = this.props.polkadot;
+    if (stage === "SETUP") {
+      if (interactionType === "ACTIVATE") {
+        return (
+          <View>
+            <Text>
+              To activate the Polkadot staking agent we will first need to
+              generate your personal Staking Agent key and associate your
+              account with it.
+            </Text>
+            <SubText>
+              <b>Note:</b> This will grant Chorus One limited rights to carry
+              out staking-related transactions on your behalf. At no point will
+              Chorus One have custody of your funds or be able to transfer your
+              funds. You can revoke these rights at any point through Anthem or
+              by resetting the Controller key in any other way. Learn more about
+              the Staking Agent <Link href="http://chorus.one">here</Link>.
+            </SubText>
+            {this.renderConfirmArrow("Create Agent", this.handleActivate)}
+          </View>
+        );
+      } else if (interactionType === "ADD_FUNDS") {
+        return (
+          <View>
+            <H6>
+              How much DOT do you want to add to the Chorus One Staking Agent?
+            </H6>
+            <Card>
               <Row>
-                <NetworkLogoIcon network="POLKADOT" />
-                <View style={{ marginLeft: 12 }}>
-                  <TextInput
-                    label="Enter an amount in DOT"
-                    data-cy="funding-amount-input"
-                    value={this.state.amount}
-                    onChange={this.handleInputChange}
-                    placeholder="Funding Amount"
-                  />
+                <Row>
+                  <NetworkLogoIcon network="POLKADOT" />
+                  <View style={{ marginLeft: 12 }}>
+                    <TextInput
+                      label="Enter an amount in DOT"
+                      data-cy="funding-amount-input"
+                      value={this.state.amount}
+                      onChange={this.handleInputChange}
+                      placeholder="Funding Amount"
+                    />
+                  </View>
+                </Row>
+                <View>
+                  <BalanceRow>
+                    <BalanceLabel>Your Account:</BalanceLabel>
+                    <Balance>1000</Balance>
+                  </BalanceRow>
+                  <BalanceRow style={{ marginTop: 8 }}>
+                    <BalanceLabel>Your Available Balance:</BalanceLabel>
+                    <Balance>1000</Balance>
+                  </BalanceRow>
                 </View>
               </Row>
-              <View>
-                <BalanceRow>
-                  <BalanceLabel>Your Account:</BalanceLabel>
-                  <Balance>1000</Balance>
-                </BalanceRow>
-                <BalanceRow style={{ marginTop: 8 }}>
-                  <BalanceLabel>Your Available Balance:</BalanceLabel>
-                  <Balance>1000</Balance>
-                </BalanceRow>
-              </View>
-            </Row>
-          </Card>
-          <ArrowButton>
-            <Icon icon="arrow-down" color={COLORS.LIGHT_WHITE} />
-          </ArrowButton>
-          <Row style={{ paddingLeft: 20, paddingRight: 20 }}>
-            <View />
-            <View style={{ marginTop: 24 }}>
-              <BalanceRow>
-                <BalanceLabel>Your Agent's Account:</BalanceLabel>
-                <Balance>1000</Balance>
-              </BalanceRow>
-              <BalanceRow style={{ marginTop: 8 }}>
-                <BalanceLabel>Your Staked Balance:</BalanceLabel>
-                <Balance>1000</Balance>
-              </BalanceRow>
-            </View>
-          </Row>
-          {this.renderConfirmArrow("Fund Agent", this.handleStake)}
-        </View>
-      );
-    } else if (interactionType === "REMOVE_FUNDS") {
-      return (
-        <View>
-          <H6>How much DOT do you want to unstake?</H6>
-          <Card>
-            <Row>
-              <Row>
-                <NetworkLogoIcon network="POLKADOT" />
-                <View style={{ marginLeft: 12 }}>
-                  <TextInput
-                    label="Enter an amount in DOT"
-                    data-cy="funding-amount-input"
-                    value={this.state.amount}
-                    onChange={this.handleInputChange}
-                    placeholder="Funding Amount"
-                  />
-                </View>
-              </Row>
-              <View>
+            </Card>
+            <ArrowButton>
+              <Icon icon="arrow-down" color={COLORS.LIGHT_WHITE} />
+            </ArrowButton>
+            <Row style={{ paddingLeft: 20, paddingRight: 20 }}>
+              <View />
+              <View style={{ marginTop: 24 }}>
                 <BalanceRow>
                   <BalanceLabel>Your Agent's Account:</BalanceLabel>
                   <Balance>1000</Balance>
@@ -167,29 +136,74 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
                 </BalanceRow>
               </View>
             </Row>
-          </Card>
-          <ArrowButton>
-            <Icon icon="arrow-down" color={COLORS.LIGHT_WHITE} />
-          </ArrowButton>
-          <Row style={{ paddingLeft: 20, paddingRight: 20 }}>
-            <View />
-            <View style={{ marginTop: 24 }}>
-              <BalanceRow>
-                <BalanceLabel>Your Account:</BalanceLabel>
-                <Balance>1000</Balance>
-              </BalanceRow>
-              <BalanceRow style={{ marginTop: 8 }}>
-                <BalanceLabel>Your Available Balance:</BalanceLabel>
-                <Balance>1000</Balance>
-              </BalanceRow>
-            </View>
-          </Row>
-          <SmallText>
-            Unstaking tokens requires 28 eras (~28 days) to pass before tokens
-            become liquid. Learn more{" "}
-            <Link href="https://chorus.one">here</Link>.
-          </SmallText>
-          {this.renderConfirmArrow("Unstake Funds", this.handleStake)}
+            {this.renderConfirmArrow("Fund Agent", this.handleStake)}
+          </View>
+        );
+      } else if (interactionType === "REMOVE_FUNDS") {
+        return (
+          <View>
+            <H6>How much DOT do you want to unstake?</H6>
+            <Card>
+              <Row>
+                <Row>
+                  <NetworkLogoIcon network="POLKADOT" />
+                  <View style={{ marginLeft: 12 }}>
+                    <TextInput
+                      label="Enter an amount in DOT"
+                      data-cy="funding-amount-input"
+                      value={this.state.amount}
+                      onChange={this.handleInputChange}
+                      placeholder="Funding Amount"
+                    />
+                  </View>
+                </Row>
+                <View>
+                  <BalanceRow>
+                    <BalanceLabel>Your Agent's Account:</BalanceLabel>
+                    <Balance>1000</Balance>
+                  </BalanceRow>
+                  <BalanceRow style={{ marginTop: 8 }}>
+                    <BalanceLabel>Your Staked Balance:</BalanceLabel>
+                    <Balance>1000</Balance>
+                  </BalanceRow>
+                </View>
+              </Row>
+            </Card>
+            <ArrowButton>
+              <Icon icon="arrow-down" color={COLORS.LIGHT_WHITE} />
+            </ArrowButton>
+            <Row style={{ paddingLeft: 20, paddingRight: 20 }}>
+              <View />
+              <View style={{ marginTop: 24 }}>
+                <BalanceRow>
+                  <BalanceLabel>Your Account:</BalanceLabel>
+                  <Balance>1000</Balance>
+                </BalanceRow>
+                <BalanceRow style={{ marginTop: 8 }}>
+                  <BalanceLabel>Your Available Balance:</BalanceLabel>
+                  <Balance>1000</Balance>
+                </BalanceRow>
+              </View>
+            </Row>
+            <SmallText>
+              Unstaking tokens requires 28 eras (~28 days) to pass before tokens
+              become liquid. Learn more{" "}
+              <Link href="https://chorus.one">here</Link>.
+            </SmallText>
+            {this.renderConfirmArrow("Unstake Funds", this.handleStake)}
+          </View>
+        );
+      }
+    } else if (stage === "SIGN") {
+      return (
+        <View>
+          <H6>Sign Transaction</H6>
+        </View>
+      );
+    } else if (stage === "CONFIRMED") {
+      return (
+        <View>
+          <H6>Transaction Confirmed</H6>
         </View>
       );
     }
@@ -224,16 +238,19 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
   handleActivate = () => {
     console.log("Handling activate action");
     Toast.warn("Handling activate action");
+    this.props.setTransactionStage("SIGN");
   };
 
   handleStake = () => {
     console.log("Handling stake action");
     Toast.warn("Handling stake action");
+    this.props.setTransactionStage("SIGN");
   };
 
   handleUnstake = () => {
     console.log("Handling unstake action");
     Toast.warn("Handling unstake action");
+    this.props.setTransactionStage("SIGN");
   };
 }
 
