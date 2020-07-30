@@ -135,7 +135,13 @@ class PolkadotPage extends React.Component<IProps, IState> {
   };
 
   render(): JSX.Element {
-    const { account, loading, error } = this.state;
+    const {
+      account,
+      loading,
+      error,
+      stake,
+      enableAutomaticStaking,
+    } = this.state;
     if (loading) {
       return (
         <Centered style={{ marginTop: 125 }}>
@@ -160,7 +166,11 @@ class PolkadotPage extends React.Component<IProps, IState> {
 
     return (
       <PageContainer>
-        <PolkadotDialog account={account} />
+        <PolkadotDialog
+          stake={stake}
+          account={account}
+          enableAutomaticStaking={enableAutomaticStaking}
+        />
         <PageAddressBar pageTitle="Polkadot Staking Agent" />
         <Row>
           <ContentArea style={{ paddingTop: 18 }}>

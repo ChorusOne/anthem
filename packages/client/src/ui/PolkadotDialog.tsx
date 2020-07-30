@@ -479,6 +479,8 @@ type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
 interface ComponentProps {
   account: DotAccount;
+  stake: string;
+  enableAutomaticStaking: boolean;
 }
 
 interface IProps extends ComponentProps, ConnectProps {}
