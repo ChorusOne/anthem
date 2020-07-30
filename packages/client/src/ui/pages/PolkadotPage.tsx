@@ -278,15 +278,15 @@ class PolkadotPage extends React.Component<IProps, IState> {
   };
 
   handleUnStakeDot = () => {
-    this.props.openPolkadotDialog();
+    this.props.openPolkadotDialog("REMOVE_FUNDS");
   };
 
   handleStakeDot = () => {
-    this.props.openPolkadotDialog();
+    this.props.openPolkadotDialog("ADD_FUNDS");
   };
 
   handleActivateAgent = () => {
-    this.props.openPolkadotDialog();
+    this.props.openPolkadotDialog("ACTIVATE");
   };
 }
 

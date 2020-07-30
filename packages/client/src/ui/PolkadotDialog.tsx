@@ -1,10 +1,12 @@
 import { Classes, Dialog, H6 } from "@blueprintjs/core";
+import { DotTransactionType } from "modules/polkadot/store";
 import Modules, { ReduxStoreState } from "modules/root";
 import React from "react";
 import { connect } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
 import { composeWithProps } from "tools/context-utils";
-import { View } from "ui/SharedComponents";
+import { Button, Link, View } from "ui/SharedComponents";
+import Toast from "./Toast";
 
 /** ===========================================================================
  * Types & Config
@@ -27,7 +29,7 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
 
   render(): JSX.Element {
     const { settings, polkadot } = this.props;
-    const { dialogOpen } = polkadot;
+    const { dialogOpen, interactionType } = polkadot;
     const { isDesktop, isDarkTheme } = settings;
     const dimensions = getDialogDimensions(isDesktop);
     const dialogMobilePosition = getMobileDialogPositioning(isDesktop);
@@ -36,6 +38,7 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
       ...dialogMobilePosition,
       borderRadius: 0,
     };
+    const title = getDialogTitle(interactionType);
     return (
       <Dialog
         autoFocus
@@ -45,24 +48,61 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
         canOutsideClickClose
         style={style}
         icon="bank-account"
-        title={"Polkadot Staking Agent"}
+        title={title}
         isOpen={dialogOpen}
         onClose={this.handleCloseDialog}
         className={isDarkTheme ? Classes.DARK : ""}
       >
         <View className={Classes.DIALOG_BODY} style={{ position: "relative" }}>
-          {this.renderSetup()}
+          {this.renderDialog()}
         </View>
       </Dialog>
     );
   }
 
-  renderSetup = () => {
+  renderDialog = () => {
+    const { interactionType } = this.props.polkadot;
+    if (interactionType === "ACTIVATE") {
+      return (
+        <View>
+          <Text>
+            To activate the Polkadot staking agent we will first need to
+            generate your personal Staking Agent key and associate your account
+            with it.
+          </Text>
+          <SubText>
+            <b>Note:</b> This will grant Chorus One limited rights to carry out
+            staking-related transactions on your behalf. At no point will Chorus
+            One have custody of your funds or be able to transfer your funds.
+            You can revoke these rights at any point through Anthem or by
+            resetting the Controller key in any other way. Learn more about the
+            Staking Agent <Link href="http://chorus.one">here</Link>.
+          </SubText>
+          {this.renderConfirmArrow("Activate Agent", this.handleActivate)}
+        </View>
+      );
+    } else if (interactionType === "ADD_FUNDS") {
+      return "Add Funds to the Staking Agent";
+    } else if (interactionType === "REMOVE_FUNDS") {
+      return "Remove Staked Funds";
+    }
+
+    return null;
+  };
+
+  renderConfirmArrow = (text: string, callback: () => void) => {
     return (
-      <View>
-        <H6 style={{ margin: 0 }}>Let's setup your Staking Agent.</H6>
-        <Text>Cool!</Text>
-      </View>
+      <Button
+        data-cy="polkadot-dialog-confirmation-button"
+        onClick={callback}
+        style={{
+          right: 0,
+          bottom: -16,
+          position: "absolute",
+        }}
+      >
+        {text}
+      </Button>
     );
   };
 
@@ -73,12 +113,29 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
   handleCloseDialog = () => {
     this.props.closePolkadotDialog();
   };
+
+  handleActivate = () => {
+    console.log("Handling activate action");
+    Toast.warn("Handling activate action");
+  };
 }
 
 /** ===========================================================================
  * Styles and Helpers
  * ============================================================================
  */
+
+const getDialogTitle = (interactionType: DotTransactionType) => {
+  if (interactionType === "ACTIVATE") {
+    return "Activate the Polkadot Staking Agent";
+  } else if (interactionType === "ADD_FUNDS") {
+    return "Add Funds to the Staking Agent";
+  } else if (interactionType === "REMOVE_FUNDS") {
+    return "Remove Staked Funds";
+  }
+
+  return "Polkadot Staking Agent";
+};
 
 const getDialogDimensions = (isDesktop: boolean) => {
   return isDesktop
@@ -107,8 +164,16 @@ const getMobileDialogPositioning = (isDesktop: boolean): CSSProperties => {
 };
 
 const Text = styled.p`
+  font-size: 16px;
+  margin-top: 18px;
+  font-weight: 100;
+`;
+
+const SubText = styled.p`
   margin: 0;
   padding: 0;
+  font-size: 12px;
+  margin-top: 24px;
 `;
 
 /** ===========================================================================
@@ -118,8 +183,8 @@ const Text = styled.p`
 
 const mapStateToProps = (state: ReduxStoreState) => ({
   settings: Modules.selectors.settings(state),
-  address: Modules.selectors.ledger.ledgerSelector(state).address,
   polkadot: Modules.selectors.polkadot.polkadotSelector(state),
+  address: Modules.selectors.ledger.ledgerSelector(state).address,
 });
 
 const dispatchProps = {

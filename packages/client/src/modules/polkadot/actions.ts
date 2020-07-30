@@ -1,4 +1,5 @@
 import { ActionType, createStandardAction } from "typesafe-actions";
+import { DotTransactionType } from "./store";
 
 /** ===========================================================================
  * Action Types
@@ -17,7 +18,7 @@ enum ActionTypesEnum {
 
 const openPolkadotDialog = createStandardAction(
   ActionTypesEnum.OPEN_LEDGER_DIALOG,
-)();
+)<DotTransactionType>();
 
 const closePolkadotDialog = createStandardAction(
   ActionTypesEnum.CLOSE_LEDGER_DIALOG,
