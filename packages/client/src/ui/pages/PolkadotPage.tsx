@@ -23,7 +23,7 @@ import Toast from "ui/Toast";
  * ============================================================================
  */
 
-const SERVER_URL = "http://216.18.206.50:10059";
+const SERVER_URL = "https://ns3169927.ip-51-89-192.eu";
 
 interface DotAccount {
   balance: number;
@@ -53,20 +53,14 @@ class PolkadotPage extends React.Component<IProps, IState> {
     this.state = {
       error: "",
       stake: "",
-      // account: null,
-      // loading: true,
-      loading: false,
-      account: {
-        balance: 1000,
-        stashKey: "",
-        controllerKey: "",
-      },
+      account: null,
+      loading: true,
       enableAutomaticStaking: true,
     };
   }
 
   componentDidMount() {
-    // this.initialize();
+    this.initialize();
   }
 
   /**
