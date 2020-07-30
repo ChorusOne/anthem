@@ -1,12 +1,4 @@
-import {
-  Card,
-  Classes,
-  Code,
-  Dialog,
-  H6,
-  Icon,
-  Spinner,
-} from "@blueprintjs/core";
+import { Card, Classes, Dialog, H6, Icon, Spinner } from "@blueprintjs/core";
 import { NetworkLogoIcon } from "assets/images";
 import { COLORS } from "constants/colors";
 import {
@@ -17,7 +9,7 @@ import Modules, { ReduxStoreState } from "modules/root";
 import React from "react";
 import { connect } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
-import { abbreviateAddress, copyTextToClipboard } from "tools/client-utils";
+import { copyTextToClipboard } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import {
   Button,

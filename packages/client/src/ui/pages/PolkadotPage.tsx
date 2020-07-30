@@ -31,11 +31,11 @@ export interface DotAccount {
   stashKey: string;
 }
 
-const MOCK_DOT_ACCOUNT = {
-  balance: 13610592207537,
-  controllerKey: "5GvUXQYHU8WmjDTUmnZ686n9id5vVxSzUivf99dSPmjn1wYX",
-  stashKey: "F7BeW4g5ViG8xGJQAzguGPxiX9QNdoPNc3YqF1bV8d9XkVV",
-};
+// const MOCK_DOT_ACCOUNT = {
+//   balance: 13610592207537,
+//   controllerKey: "5GvUXQYHU8WmjDTUmnZ686n9id5vVxSzUivf99dSPmjn1wYX",
+//   stashKey: "F7BeW4g5ViG8xGJQAzguGPxiX9QNdoPNc3YqF1bV8d9XkVV",
+// };
 
 interface IState {
   stake: string;
