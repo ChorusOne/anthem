@@ -22,6 +22,8 @@ import Toast from "ui/Toast";
  * ============================================================================
  */
 
+const SERVER_URL = "http://216.18.206.50:10059";
+
 interface DotAccount {
   balance: number;
   controllerKey: string;
@@ -32,7 +34,8 @@ interface IState {
   stake: string;
   enableAutomaticStaking: boolean;
   account: Nullable<DotAccount>;
-  loadingState: "complete" | "loading" | "error";
+  error: string;
+  loading: boolean;
 }
 
 /** ===========================================================================
@@ -47,9 +50,10 @@ class PolkadotPage extends React.Component<IProps, IState> {
     super(props);
 
     this.state = {
+      error: "",
       stake: "",
       account: null,
-      loadingState: "loading",
+      loading: true,
       enableAutomaticStaking: true,
     };
   }
@@ -66,17 +70,18 @@ class PolkadotPage extends React.Component<IProps, IState> {
   initialize = async () => {
     try {
       const { address } = this.props;
-      const url = `http://216.18.206.50:10059/account/${address}`;
+      const url = `${SERVER_URL}/account/${address}`;
       const response = await axios.get(url);
       this.setState({
+        loading: false,
         account: response.data,
-        loadingState: "complete",
       });
     } catch (err) {
       console.error(`Error fetching account state: ${err.message}`);
       this.setState({
+        loading: true,
         account: null,
-        loadingState: "error",
+        error: "",
       });
     }
   };
@@ -90,22 +95,50 @@ class PolkadotPage extends React.Component<IProps, IState> {
      * Reinitialize if the address changes.
      */
     if (this.props.address !== prevProps.address) {
-      this.setState({ loadingState: "loading" }, this.initialize);
+      this.setState({ loading: true }, this.initialize);
     }
   }
 
+  handlePostStake = async () => {
+    this.setState({ loading: true }, this.submitStakeRequest);
+  };
+
+  submitStakeRequest = async () => {
+    try {
+      const { stake, enableAutomaticStaking } = this.state;
+      const { address } = this.props;
+      const url = `${SERVER_URL}/account/${address}/state`;
+      const body = {
+        stakedDots: stake,
+        active: enableAutomaticStaking,
+      };
+      const response = await axios.post(url, body);
+      this.setState({
+        loading: false,
+        account: response.data,
+      });
+    } catch (err) {
+      console.error(`Error submitting stake request: ${err.message}`);
+      Toast.danger("Failed to submit staking request.");
+      this.setState({
+        account: null,
+        loading: false,
+      });
+    }
+  };
+
   render(): JSX.Element {
-    const { account, loadingState } = this.state;
-    if (loadingState === "loading") {
+    const { account, loading, error } = this.state;
+    if (loading) {
       return (
         <Centered style={{ marginTop: 125 }}>
           <Spinner />
         </Centered>
       );
-    } else if (loadingState === "error") {
+    } else if (error) {
       return (
         <Centered style={{ marginTop: 125 }}>
-          <p style={{ fontSize: 16 }}>Error loading Polkadot Account Data.</p>
+          <p style={{ fontSize: 16 }}>{error}</p>
         </Centered>
       );
     } else if (!account) {
