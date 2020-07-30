@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 import PageAddressBar from "ui/PageAddressBar";
+import PolkadotDialog from "ui/PolkadotDialog";
 import {
   Button,
   Centered,
@@ -153,6 +154,7 @@ class PolkadotPage extends React.Component<IProps, IState> {
 
     return (
       <PageContainer>
+        <PolkadotDialog />
         <PageAddressBar pageTitle="Polkadot Staking Agent" />
         <Row>
           <ContentArea style={{ paddingTop: 18 }}>
