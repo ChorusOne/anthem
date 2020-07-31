@@ -56,8 +56,9 @@ const setControllerEpic: EpicSignature = (action$, state$, deps) => {
           throw new Error("No account found!");
         }
       } catch (err) {
+        console.log(err);
         Toast.warn("Failed to activate agent...");
-        return Actions.fetchAccountFailure();
+        return Actions.setControllerFailure(err);
       }
     }),
   );
@@ -71,6 +72,7 @@ const mockConfirmEpic: EpicSignature = (action$, state$, deps) => {
     filter(isActionOf(Actions.setTransactionStage)),
     pluck("payload"),
     filter(x => x === "SIGN"),
+    filter(() => state$.value.polkadot.interactionType !== "ACTIVATE"),
     delay(3000),
     mapTo(Actions.setTransactionStage("CONFIRMED")),
   );
@@ -112,6 +114,7 @@ export const createPolkadotAccountFromSeed = async (
 };
 
 const setController = async (account: DotAccount) => {
+  console.log("Setting controller for account: ", account);
   const { stashKey, controllerKey } = account;
   const WS_PROVIDER_URL: string = "wss://kusama-rpc.polkadot.io/";
   const wsProvider = new WsProvider(WS_PROVIDER_URL);
@@ -119,6 +122,7 @@ const setController = async (account: DotAccount) => {
   const hash = await api.tx.staking
     .setController(controllerKey)
     .signAndSend(stashKey);
+
   return hash;
 };
 

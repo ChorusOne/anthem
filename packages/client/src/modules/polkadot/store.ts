@@ -25,6 +25,7 @@ export interface State {
   seed: string;
   loading: boolean;
   error: string;
+  newUser: boolean;
 }
 
 const initialState: State = {
@@ -35,12 +36,14 @@ const initialState: State = {
   interactionType: "ACTIVATE",
   loading: true,
   error: "",
+  newUser: false,
 };
 
 const polkadot = createReducer<State, ActionTypes>(initialState)
   .handleAction(actions.setControllerSuccess, (state, action) => ({
     ...state,
     stage: "CONFIRMED",
+    newUser: false,
   }))
   .handleAction(actions.fetchAccount, (state, action) => ({
     ...state,
@@ -62,6 +65,7 @@ const polkadot = createReducer<State, ActionTypes>(initialState)
     ...state,
     seed: action.payload.seed,
     account: action.payload.account,
+    newUser: action.payload.account.newUser,
   }))
   .handleAction(actions.openPolkadotDialog, (state, action) => ({
     ...state,

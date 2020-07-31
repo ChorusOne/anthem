@@ -46,7 +46,7 @@ const setControllerSuccess = createStandardAction(
 
 const setControllerFailure = createStandardAction(
   ActionTypesEnum.SET_CONTROLLER__FAILURE,
-)();
+)<any>();
 
 const polkadotSignin = createStandardAction(ActionTypesEnum.POLKADOT_SIGNIN)<{
   account: DotAccount;

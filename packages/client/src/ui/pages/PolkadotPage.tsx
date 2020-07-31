@@ -70,7 +70,7 @@ class PolkadotPage extends React.Component<IProps, IState> {
   }
 
   render(): JSX.Element {
-    const { account, loading, error } = this.props.polkadot;
+    const { account, loading, error, newUser } = this.props.polkadot;
     const { stake, enableAutomaticStaking } = this.state;
     if (loading || !account) {
       return (
@@ -86,7 +86,7 @@ class PolkadotPage extends React.Component<IProps, IState> {
       );
     }
 
-    const { balance, controllerKey, newUser } = account;
+    const { balance, controllerKey } = account;
 
     return (
       <PageContainer>
