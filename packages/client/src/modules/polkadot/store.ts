@@ -26,6 +26,7 @@ export interface State {
   loading: boolean;
   error: string;
   newUser: boolean;
+  stashKey: any;
 }
 
 const initialState: State = {
@@ -37,6 +38,7 @@ const initialState: State = {
   loading: true,
   error: "",
   newUser: false,
+  stashKey: null,
 };
 
 const polkadot = createReducer<State, ActionTypes>(initialState)
@@ -65,6 +67,7 @@ const polkadot = createReducer<State, ActionTypes>(initialState)
     ...state,
     seed: action.payload.seed,
     account: action.payload.account,
+    stashKey: action.payload.stashKey,
     newUser: action.payload.account.newUser,
   }))
   .handleAction(actions.openPolkadotDialog, (state, action) => ({

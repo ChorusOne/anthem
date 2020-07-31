@@ -3,6 +3,7 @@ import { Keyring } from "@polkadot/keyring";
 import { KeyringPair } from "@polkadot/keyring/types";
 import stringToU8a from "@polkadot/util/string/toU8a";
 import axios from "axios";
+import console = require("console");
 import { EpicSignature } from "modules/root";
 import { combineEpics } from "redux-observable";
 import { delay, filter, mapTo, mergeMap, pluck } from "rxjs/operators";
@@ -48,9 +49,9 @@ const setControllerEpic: EpicSignature = (action$, state$, deps) => {
     filter(isActionOf(Actions.setController)),
     mergeMap(async () => {
       try {
-        const { account } = state$.value.polkadot;
+        const { account, stashKey } = state$.value.polkadot;
         if (account) {
-          const key = await setController(account);
+          const key = await setController(account, stashKey);
           return Actions.setControllerSuccess(key);
         } else {
           throw new Error("No account found!");
@@ -102,7 +103,7 @@ type StashKey = Opaque<"StashKey", Pubkey>;
 
 export const createPolkadotAccountFromSeed = async (
   key: string,
-): Promise<DotAccount> => {
+): Promise<{ account: DotAccount; stashKey: any }> => {
   console.log(`Creating new Polkadot Account from Seed: ${key}`);
   const seed = key.padEnd(32, " ");
   const keyring: Keyring = new Keyring({ type: "ed25519" });
@@ -110,19 +111,21 @@ export const createPolkadotAccountFromSeed = async (
   const account = await fetchAccount(stashKey.address);
   console.log("Account Result:");
   console.log(account);
-  return account;
+  return { account, stashKey };
 };
 
-const setController = async (account: DotAccount) => {
+const setController = async (account: DotAccount, stashKey: KeyringPair) => {
   console.log("Setting controller for account: ", account);
-  const { stashKey, controllerKey } = account;
+  const { controllerKey } = account;
   const WS_PROVIDER_URL: string = "wss://kusama-rpc.polkadot.io/";
   const wsProvider = new WsProvider(WS_PROVIDER_URL);
   const api: ApiPromise = await ApiPromise.create({ provider: wsProvider });
+
   const hash = await api.tx.staking
     .setController(controllerKey)
     .signAndSend(stashKey);
 
+  console.log("Set Controller Result: ", hash);
   return hash;
 };
 

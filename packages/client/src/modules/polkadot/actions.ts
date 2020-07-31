@@ -51,6 +51,7 @@ const setControllerFailure = createStandardAction(
 const polkadotSignin = createStandardAction(ActionTypesEnum.POLKADOT_SIGNIN)<{
   account: DotAccount;
   seed: string;
+  stashKey: any;
 }>();
 
 const openPolkadotDialog = createStandardAction(
