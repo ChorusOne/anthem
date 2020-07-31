@@ -11,6 +11,10 @@ enum ActionTypesEnum {
   FETCH_POLKADOT_ACCOUNT_SUCCESS = "FETCH_POLKADOT_ACCOUNT_SUCCESS",
   FETCH_POLKADOT_ACCOUNT_FAILURE = "FETCH_POLKADOT_ACCOUNT_FAILURE",
 
+  SET_CONTROLLER = "SET_CONTROLLER",
+  SET_CONTROLLER__SUCCESS = "SET_CONTROLLER__SUCCESS",
+  SET_CONTROLLER__FAILURE = "SET_CONTROLLER__FAILURE",
+
   POLKADOT_SIGNIN = "POLKADOT_SIGNIN",
   OPEN_POLKADOT_DIALOG = "OPEN_POLKADOT_DIALOG",
   CLOSE_POLKADOT_DIALOG = "CLOSE_POLKADOT_DIALOG",
@@ -34,6 +38,16 @@ const fetchAccountFailure = createStandardAction(
   ActionTypesEnum.FETCH_POLKADOT_ACCOUNT_FAILURE,
 )();
 
+const setController = createStandardAction(ActionTypesEnum.SET_CONTROLLER)();
+
+const setControllerSuccess = createStandardAction(
+  ActionTypesEnum.SET_CONTROLLER__SUCCESS,
+)<any>();
+
+const setControllerFailure = createStandardAction(
+  ActionTypesEnum.SET_CONTROLLER__FAILURE,
+)();
+
 const polkadotSignin = createStandardAction(ActionTypesEnum.POLKADOT_SIGNIN)<{
   account: DotAccount;
   seed: string;
@@ -55,6 +69,9 @@ const actions = {
   fetchAccount,
   fetchAccountSuccess,
   fetchAccountFailure,
+  setController,
+  setControllerSuccess,
+  setControllerFailure,
   polkadotSignin,
   openPolkadotDialog,
   closePolkadotDialog,

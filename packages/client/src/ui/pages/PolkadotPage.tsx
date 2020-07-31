@@ -7,7 +7,6 @@ import {
   Switch,
   Tooltip,
 } from "@blueprintjs/core";
-import axios from "axios";
 import { COLORS } from "constants/colors";
 import { FiatCurrenciesProps, withGraphQLVariables } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
@@ -88,6 +87,8 @@ class PolkadotPage extends React.Component<IProps, IState> {
     }
 
     const { balance, controllerKey } = account;
+
+    console.log(account);
 
     return (
       <PageContainer>

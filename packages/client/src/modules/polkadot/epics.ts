@@ -22,7 +22,7 @@ import { DotAccount } from "./store";
 // };
 
 /**
- * Placeholder epic.
+ * Fetch Polkadot account.
  */
 const fetchAccountEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
@@ -32,6 +32,28 @@ const fetchAccountEpic: EpicSignature = (action$, state$, deps) => {
         const { address } = state$.value.ledger.ledger;
         const account = await fetchAccount(address);
         return Actions.fetchAccountSuccess(account);
+      } catch (err) {
+        return Actions.fetchAccountFailure();
+      }
+    }),
+  );
+};
+
+/**
+ * Set Polkadot account controller key.
+ */
+const setControllerEpic: EpicSignature = (action$, state$, deps) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.setController)),
+    mergeMap(async () => {
+      try {
+        const { account } = state$.value.polkadot;
+        if (account) {
+          const key = await setController(account);
+          return Actions.setControllerSuccess(key);
+        } else {
+          throw new Error("No account found!");
+        }
       } catch (err) {
         return Actions.fetchAccountFailure();
       }
@@ -112,4 +134,8 @@ const fetchAccount = async (stashKey: string): Promise<DotAccount> => {
  * ============================================================================
  */
 
-export default combineEpics(fetchAccountEpic, mockConfirmEpic);
+export default combineEpics(
+  fetchAccountEpic,
+  setControllerEpic,
+  mockConfirmEpic,
+);
