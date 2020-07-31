@@ -29,7 +29,7 @@ const createAccountEpic: EpicSignature = (action$, state$, deps) => {
     filter(isActionOf(Actions.openPolkadotDialog)),
     tap(async () => {
       try {
-        const key = "Fred";
+        const key = "Fred Bread Island";
         const seed = key.padEnd(32, " ");
         console.log(`Creating new Polkadot Account from Seed: ${key}`);
         const account = await createAccountFromSeed(seed);
