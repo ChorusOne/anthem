@@ -280,6 +280,7 @@ const DotRow = styled.div`
   align-items: center;
 `;
 
+// @ts-ignore
 const HeaderRow = styled(DotRow)`
   padding-left: 20px;
   padding-right: 20px;
