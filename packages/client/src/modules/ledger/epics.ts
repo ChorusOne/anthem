@@ -83,7 +83,7 @@ const setAddressEpic: EpicSignature = (action$, state$, deps) => {
 
       const network = deriveNetworkFromAddress(setAddress);
 
-      if (network.name === "POLKADOT") {
+      if (network.name === "POLKADOT" && setAddress.includes(" ")) {
         const account = await createPolkadotAccountFromSeed(setAddress);
         setAddress = account.stashKey;
       }

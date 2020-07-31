@@ -94,7 +94,7 @@ export const validateNetworkAddress = (
   /**
    * Polkadot address validation (?).
    */
-  if (address.length === 47) {
+  if (address.includes(" ") || address.length >= 47) {
     return "";
   }
 

@@ -61,6 +61,7 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
       }
 
       const addressError = validateNetworkAddress(address, "", tString);
+      console.log(addressError);
 
       if (addressError && address !== "") {
         address = "";
