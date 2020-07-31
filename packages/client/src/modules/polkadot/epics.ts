@@ -1,4 +1,4 @@
-import { ApiPromise, WsProvider } from "@polkadot/api";
+// import { ApiPromise, WsProvider } from "@polkadot/api";
 import { Keyring } from "@polkadot/keyring";
 import { KeyringPair } from "@polkadot/keyring/types";
 import stringToU8a from "@polkadot/util/string/toU8a";
@@ -46,11 +46,13 @@ const fetchAccountEpic: EpicSignature = (action$, state$, deps) => {
 const setControllerEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.setController)),
+    delay(3500),
     mergeMap(async () => {
       try {
-        const { account, stashKey } = state$.value.polkadot;
+        const { account } = state$.value.polkadot;
         if (account) {
-          const key = await setController(account, stashKey);
+          // const key = await setController(account, stashKey);
+          const key = "boom!";
           return Actions.setControllerSuccess(key);
         } else {
           throw new Error("No account found!");
@@ -113,20 +115,20 @@ export const createPolkadotAccountFromSeed = async (
   return { account, stashKey };
 };
 
-const setController = async (account: DotAccount, stashKey: KeyringPair) => {
-  console.log("Setting controller for account: ", account);
-  const { controllerKey } = account;
-  const WS_PROVIDER_URL: string = "wss://kusama-rpc.polkadot.io/";
-  const wsProvider = new WsProvider(WS_PROVIDER_URL);
-  const api: ApiPromise = await ApiPromise.create({ provider: wsProvider });
+// const setController = async (account: DotAccount, stashKey: KeyringPair) => {
+//   console.log("Setting controller for account: ", account);
+//   const { controllerKey } = account;
+//   const WS_PROVIDER_URL: string = "wss://kusama-rpc.polkadot.io/";
+//   const wsProvider = new WsProvider(WS_PROVIDER_URL);
+//   const api: ApiPromise = await ApiPromise.create({ provider: wsProvider });
 
-  const hash = await api.tx.staking
-    .setController(controllerKey)
-    .signAndSend(stashKey);
+//   const hash = await api.tx.staking
+//     .setController(controllerKey)
+//     .signAndSend(stashKey);
 
-  console.log("Set Controller Result: ", hash);
-  return hash;
-};
+//   console.log("Set Controller Result: ", hash);
+//   return hash;
+// };
 
 const fetchAccount = async (stashKey: string): Promise<DotAccount> => {
   try {
