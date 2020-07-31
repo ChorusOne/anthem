@@ -127,13 +127,13 @@ class PolkadotPage extends React.Component<IProps, IState> {
                 <RowItem>
                   <b>AVAILABLE DOT</b>
                 </RowItem>
-                <RowItem>{balance}</RowItem>
+                <RowItem>0</RowItem>
               </DotRow>
               <DotRow>
                 <RowItem>
                   <b>STAKED DOT</b>
                 </RowItem>
-                <RowItem>5,001.02</RowItem>
+                <RowItem>{balance}</RowItem>
               </DotRow>
               <StakeControlsRow style={{ marginTop: 18, paddingLeft: 145 }}>
                 <StakeButton>
