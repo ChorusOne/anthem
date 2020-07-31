@@ -124,11 +124,11 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
                 <View>
                   <BalanceRow>
                     <BalanceLabel>Your Account:</BalanceLabel>
-                    <Balance>0</Balance>
+                    <Balance>{balance}</Balance>
                   </BalanceRow>
                   <BalanceRow style={{ marginTop: 8 }}>
                     <BalanceLabel>Available:</BalanceLabel>
-                    <Balance>{balance}</Balance>
+                    <Balance>0</Balance>
                   </BalanceRow>
                 </View>
               </Row>
