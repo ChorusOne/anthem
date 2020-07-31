@@ -422,6 +422,7 @@ const SmallText = styled.p`
   font-weight: 100;
 `;
 
+// @ts-ignore
 const TransactionLoading = styled(Centered)`
   height: 125px;
   padding-top: 24px;
