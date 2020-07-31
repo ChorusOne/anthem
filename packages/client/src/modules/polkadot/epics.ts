@@ -32,9 +32,7 @@ const createAccountEpic: EpicSignature = (action$, state$, deps) => {
         const key = "Fred Bread Island";
         const seed = key.padEnd(32, " ");
         console.log(`Creating new Polkadot Account from Seed: ${key}`);
-        const account = await createAccountFromSeed(seed);
-        console.log("Account Result:");
-        console.log(account);
+        const account = await createPolkadotAccountFromSeed(seed);
       } catch (err) {
         console.error(err);
       }
@@ -78,7 +76,7 @@ interface Keypair {
 type ControllerKey = Opaque<"ControllerKey", Keypair>;
 type StashKey = Opaque<"StashKey", Pubkey>;
 
-const createAccountFromSeed = async (seed: string) => {
+export const createPolkadotAccountFromSeed = async (seed: string) => {
   // const WS_PROVIDER_URL: string = "wss://kusama-rpc.polkadot.io/";
   // const wsProvider = new WsProvider(WS_PROVIDER_URL);
   // const api: ApiPromise = await ApiPromise.create({ provider: wsProvider });
@@ -86,6 +84,8 @@ const createAccountFromSeed = async (seed: string) => {
   const keyring: Keyring = new Keyring({ type: "ed25519" });
   const stashKey = keyring.addFromSeed(stringToU8a(seed));
   const account = await fetchAccount(stashKey.address);
+  console.log("Account Result:");
+  console.log(account);
   return account;
 
   // api.tx.staking.setController(controllerKey).signAndSend(stashKey);

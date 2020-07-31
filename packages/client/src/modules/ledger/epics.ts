@@ -8,6 +8,7 @@ import {
 import { LEDGER_ERRORS } from "constants/ledger-errors";
 import Analytics from "lib/analytics-lib";
 import StorageModule from "lib/storage-lib";
+import { createPolkadotAccountFromSeed } from "modules/polkadot/epics";
 import { EpicSignature, ReduxActionTypes } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import { combineEpics } from "redux-observable";
@@ -48,7 +49,7 @@ import selectors, { addressSelector } from "./selectors";
 const setAddressEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.setAddress)),
-    map(({ payload, meta }) => {
+    mergeMap(async ({ payload, meta }) => {
       let setAddress = payload;
       const { tString } = i18nSelector(state$.value);
       const address = addressSelector(state$.value);
@@ -81,6 +82,11 @@ const setAddressEpic: EpicSignature = (action$, state$, deps) => {
       Analytics.setAddress(setAddress);
 
       const network = deriveNetworkFromAddress(setAddress);
+
+      if (network.name === "POLKADOT") {
+        const account = await createPolkadotAccountFromSeed(setAddress);
+        setAddress = account.stashKey;
+      }
 
       return Actions.setAddressSuccess({
         network,
