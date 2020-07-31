@@ -162,7 +162,7 @@ class PolkadotPage extends React.Component<IProps, IState> {
       );
     }
 
-    const { balance } = account;
+    const { balance, controllerKey } = account;
 
     return (
       <PageContainer>
@@ -278,6 +278,9 @@ class PolkadotPage extends React.Component<IProps, IState> {
           ensure you are optimally staking by maintaining an updated list of
           Chorus One validators. To learn more, check out the introduction
           article <Link href="https://chorus.one">here</Link>.
+          <br />
+          <br />
+          <b>Controller key:</b> {controllerKey}
         </Disclaimer>
       </PageContainer>
     );
