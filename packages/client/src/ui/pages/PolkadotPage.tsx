@@ -1,4 +1,12 @@
-import { Card, H2, Icon, Spinner, Switch, Tooltip } from "@blueprintjs/core";
+import {
+  Card,
+  Code,
+  H2,
+  Icon,
+  Spinner,
+  Switch,
+  Tooltip,
+} from "@blueprintjs/core";
 import axios from "axios";
 import { COLORS } from "constants/colors";
 import { FiatCurrenciesProps, withGraphQLVariables } from "graphql/queries";
@@ -6,6 +14,7 @@ import Modules, { ReduxStoreState } from "modules/root";
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import { copyTextToClipboard } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import PageAddressBar from "ui/PageAddressBar";
 import PolkadotDialog from "ui/PolkadotDialog";
@@ -280,7 +289,15 @@ class PolkadotPage extends React.Component<IProps, IState> {
           article <Link href="https://chorus.one">here</Link>.
           <br />
           <br />
-          <b>Controller key:</b> {controllerKey}
+          <b>Controller key:</b>{" "}
+          <ClickSpan>
+            <Code
+              style={{ fontSize: 14 }}
+              onClick={() => copyTextToClipboard(controllerKey)}
+            >
+              {controllerKey}
+            </Code>
+          </ClickSpan>
         </Disclaimer>
       </PageContainer>
     );
@@ -393,6 +410,12 @@ const SpecialTextRow = styled.div`
 const SpecialText = styled.p`
   font-size: 12px;
   font-weight: 200;
+`;
+
+const ClickSpan = styled.span`
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 /** ===========================================================================
