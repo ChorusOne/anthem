@@ -20,7 +20,6 @@ import {
   View,
 } from "ui/SharedComponents";
 import { DotAccount } from "./pages/PolkadotPage";
-import Toast from "./Toast";
 
 /** ===========================================================================
  * Types & Config
