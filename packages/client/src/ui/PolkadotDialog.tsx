@@ -303,19 +303,16 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
 
   handleActivate = () => {
     console.log("Handling activate action");
-    Toast.warn("Handling activate action");
     this.props.setTransactionStage("SIGN");
   };
 
   handleStake = () => {
     console.log("Handling stake action");
-    Toast.warn("Handling stake action");
     this.props.setTransactionStage("SIGN");
   };
 
   handleUnstake = () => {
     console.log("Handling unstake action");
-    Toast.warn("Handling unstake action");
     this.props.setTransactionStage("SIGN");
   };
 }
