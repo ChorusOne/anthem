@@ -1,5 +1,5 @@
 import { ActionType, createStandardAction } from "typesafe-actions";
-import { DotTransactionStage, DotTransactionType } from "./store";
+import { DotAccount, DotTransactionStage, DotTransactionType } from "./store";
 
 /** ===========================================================================
  * Action Types
@@ -7,6 +7,11 @@ import { DotTransactionStage, DotTransactionType } from "./store";
  */
 
 enum ActionTypesEnum {
+  FETCH_POLKADOT_ACCOUNT = "FETCH_POLKADOT_ACCOUNT",
+  FETCH_POLKADOT_ACCOUNT_SUCCESS = "FETCH_POLKADOT_ACCOUNT_SUCCESS",
+  FETCH_POLKADOT_ACCOUNT_FAILURE = "FETCH_POLKADOT_ACCOUNT_FAILURE",
+
+  POLKADOT_SIGNIN = "POLKADOT_SIGNIN",
   OPEN_POLKADOT_DIALOG = "OPEN_POLKADOT_DIALOG",
   CLOSE_POLKADOT_DIALOG = "CLOSE_POLKADOT_DIALOG",
   SET_POLKADOT_TRANSACTION_STAGE = "SET_POLKADOT_TRANSACTION_STAGE",
@@ -16,6 +21,23 @@ enum ActionTypesEnum {
  * Actions
  * ============================================================================
  */
+
+const fetchAccount = createStandardAction(
+  ActionTypesEnum.FETCH_POLKADOT_ACCOUNT,
+)();
+
+const fetchAccountSuccess = createStandardAction(
+  ActionTypesEnum.FETCH_POLKADOT_ACCOUNT_SUCCESS,
+)<DotAccount>();
+
+const fetchAccountFailure = createStandardAction(
+  ActionTypesEnum.FETCH_POLKADOT_ACCOUNT_FAILURE,
+)();
+
+const polkadotSignin = createStandardAction(ActionTypesEnum.POLKADOT_SIGNIN)<{
+  account: DotAccount;
+  seed: string;
+}>();
 
 const openPolkadotDialog = createStandardAction(
   ActionTypesEnum.OPEN_POLKADOT_DIALOG,
@@ -30,6 +52,10 @@ const setTransactionStage = createStandardAction(
 )<DotTransactionStage>();
 
 const actions = {
+  fetchAccount,
+  fetchAccountSuccess,
+  fetchAccountFailure,
+  polkadotSignin,
   openPolkadotDialog,
   closePolkadotDialog,
   setTransactionStage,

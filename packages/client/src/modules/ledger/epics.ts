@@ -12,7 +12,7 @@ import { createPolkadotAccountFromSeed } from "modules/polkadot/epics";
 import { EpicSignature, ReduxActionTypes } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import { combineEpics } from "redux-observable";
-import { from } from "rxjs";
+import { from, of } from "rxjs";
 import {
   filter,
   ignoreElements,
@@ -55,7 +55,7 @@ const setAddressEpic: EpicSignature = (action$, state$, deps) => {
       const address = addressSelector(state$.value);
 
       if (payload.length > 52) {
-        return Actions.searchTransactionByHash(payload);
+        return of(Actions.searchTransactionByHash(payload));
       }
 
       // Convert validator address to operator addresses
@@ -74,7 +74,7 @@ const setAddressEpic: EpicSignature = (action$, state$, deps) => {
           Toast.warn(maybeErrorMessage);
         }
 
-        return Actions.setAddressFailure(maybeErrorMessage);
+        return of(Actions.setAddressFailure(maybeErrorMessage));
       }
 
       StorageModule.setAddress(setAddress);
@@ -83,16 +83,24 @@ const setAddressEpic: EpicSignature = (action$, state$, deps) => {
 
       const network = deriveNetworkFromAddress(setAddress);
 
+      const actions = [];
+
       if (network.name === "POLKADOT" && setAddress.includes(" ")) {
         const account = await createPolkadotAccountFromSeed(setAddress);
+        actions.push(Actions.polkadotSignin({ account, seed: setAddress }));
         setAddress = account.stashKey;
       }
 
-      return Actions.setAddressSuccess({
-        network,
-        address: setAddress,
-      });
+      actions.push(
+        Actions.setAddressSuccess({
+          network,
+          address: setAddress,
+        }),
+      );
+
+      return of(...actions);
     }),
+    mergeMap(x => (Array.isArray(x) ? [x] : x)),
   );
 };
 

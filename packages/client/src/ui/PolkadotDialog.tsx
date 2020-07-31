@@ -2,6 +2,7 @@ import { Card, Classes, Dialog, H6, Icon, Spinner } from "@blueprintjs/core";
 import { NetworkLogoIcon } from "assets/images";
 import { COLORS } from "constants/colors";
 import {
+  DotAccount,
   DotTransactionStage,
   DotTransactionType,
 } from "modules/polkadot/store";
@@ -19,7 +20,6 @@ import {
   TextInput,
   View,
 } from "ui/SharedComponents";
-import { DotAccount } from "./pages/PolkadotPage";
 
 /** ===========================================================================
  * Types & Config

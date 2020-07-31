@@ -25,33 +25,15 @@ import {
   PageContainer,
   TextInput,
 } from "ui/SharedComponents";
-import Toast from "ui/Toast";
 
 /** ===========================================================================
  * Types & Config
  * ============================================================================
  */
 
-const SERVER_URL = "https://ns3169927.ip-51-89-192.eu";
-
-export interface DotAccount {
-  balance: number;
-  controllerKey: string;
-  stashKey: string;
-}
-
-// const MOCK_DOT_ACCOUNT = {
-//   balance: 13610592207537,
-//   controllerKey: "5GvUXQYHU8WmjDTUmnZ686n9id5vVxSzUivf99dSPmjn1wYX",
-//   stashKey: "F7BeW4g5ViG8xGJQAzguGPxiX9QNdoPNc3YqF1bV8d9XkVV",
-// };
-
 interface IState {
   stake: string;
   enableAutomaticStaking: boolean;
-  account: Nullable<DotAccount>;
-  error: string;
-  loading: boolean;
 }
 
 /** ===========================================================================
@@ -66,41 +48,14 @@ class PolkadotPage extends React.Component<IProps, IState> {
     super(props);
 
     this.state = {
-      error: "",
       stake: "",
-      account: null,
-      loading: true,
       enableAutomaticStaking: true,
     };
   }
 
   componentDidMount() {
-    this.initialize();
+    // No-op
   }
-
-  /**
-   * Handle initializing the Polkadot Staking Agent page.
-   *
-   * This currently only fetches the account state.
-   */
-  initialize = async () => {
-    try {
-      const { address } = this.props;
-      const url = `${SERVER_URL}/account/${address}`;
-      const response = await axios.get(url);
-      this.setState({
-        loading: false,
-        account: response.data,
-      });
-    } catch (err) {
-      console.error(`Error fetching account state: ${err.message}`);
-      this.setState({
-        loading: true,
-        account: null,
-        error: "",
-      });
-    }
-  };
 
   componentWillUnmount() {
     // No-op
@@ -111,47 +66,14 @@ class PolkadotPage extends React.Component<IProps, IState> {
      * Reinitialize if the address changes.
      */
     if (this.props.address !== prevProps.address) {
-      this.setState({ loading: true }, this.initialize);
+      this.props.fetchAccount();
     }
   }
 
-  handlePostStake = async () => {
-    this.setState({ loading: true }, this.submitStakeRequest);
-  };
-
-  submitStakeRequest = async () => {
-    try {
-      const { stake, enableAutomaticStaking } = this.state;
-      const { address } = this.props;
-      const url = `${SERVER_URL}/account/${address}/state`;
-      const body = {
-        stakedDots: stake,
-        active: enableAutomaticStaking,
-      };
-      const response = await axios.post(url, body);
-      this.setState({
-        loading: false,
-        account: response.data,
-      });
-    } catch (err) {
-      console.error(`Error submitting stake request: ${err.message}`);
-      Toast.danger("Failed to submit staking request.");
-      this.setState({
-        account: null,
-        loading: false,
-      });
-    }
-  };
-
   render(): JSX.Element {
-    const {
-      account,
-      loading,
-      error,
-      stake,
-      enableAutomaticStaking,
-    } = this.state;
-    if (loading) {
+    const { account, loading, error } = this.props.polkadot;
+    const { stake, enableAutomaticStaking } = this.state;
+    if (loading || !account) {
       return (
         <Centered style={{ marginTop: 125 }}>
           <Spinner />
@@ -161,12 +83,6 @@ class PolkadotPage extends React.Component<IProps, IState> {
       return (
         <Centered style={{ marginTop: 125 }}>
           <p style={{ fontSize: 16 }}>{error}</p>
-        </Centered>
-      );
-    } else if (!account) {
-      return (
-        <Centered style={{ marginTop: 125 }}>
-          <p style={{ fontSize: 16 }}>No account data exists...</p>
         </Centered>
       );
     }
@@ -424,10 +340,12 @@ const ClickSpan = styled.span`
  */
 
 const mapStateToProps = (state: ReduxStoreState) => ({
+  polkadot: Modules.selectors.polkadot.polkadotSelector(state),
   address: Modules.selectors.ledger.ledgerSelector(state).address,
 });
 
 const dispatchProps = {
+  fetchAccount: Modules.actions.polkadot.fetchAccount,
   openPolkadotDialog: Modules.actions.polkadot.openPolkadotDialog,
 };
 

@@ -1,41 +1,41 @@
-// import { ApiPromise, WsProvider } from "@polkadot/api";
+import { ApiPromise, WsProvider } from "@polkadot/api";
 import { Keyring } from "@polkadot/keyring";
 import { KeyringPair } from "@polkadot/keyring/types";
 import stringToU8a from "@polkadot/util/string/toU8a";
 import axios from "axios";
 import { EpicSignature } from "modules/root";
 import { combineEpics } from "redux-observable";
-import {
-  delay,
-  filter,
-  ignoreElements,
-  mapTo,
-  pluck,
-  tap,
-} from "rxjs/operators";
+import { delay, filter, mapTo, mergeMap, pluck } from "rxjs/operators";
 import { isActionOf } from "typesafe-actions";
 import { Actions } from "../root-actions";
+import { DotAccount } from "./store";
 
 /** ===========================================================================
  * Epics
  * ============================================================================
  */
 
+// const MOCK_DOT_ACCOUNT = {
+//   balance: 13610592207537,
+//   controllerKey: "5GvUXQYHU8WmjDTUmnZ686n9id5vVxSzUivf99dSPmjn1wYX",
+//   stashKey: "F7BeW4g5ViG8xGJQAzguGPxiX9QNdoPNc3YqF1bV8d9XkVV",
+// };
+
 /**
  * Placeholder epic.
  */
-const createAccountEpic: EpicSignature = (action$, state$, deps) => {
+const fetchAccountEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
-    filter(isActionOf(Actions.openPolkadotDialog)),
-    tap(async () => {
+    filter(isActionOf([Actions.fetchAccount, Actions.initializeApp])),
+    mergeMap(async () => {
       try {
-        const key = "Fred Bread Island";
-        await createPolkadotAccountFromSeed(key);
+        const { address } = state$.value.ledger.ledger;
+        const account = await fetchAccount(address);
+        return Actions.fetchAccountSuccess(account);
       } catch (err) {
-        console.error(err);
+        return Actions.fetchAccountFailure();
       }
     }),
-    ignoreElements(),
   );
 };
 
@@ -74,11 +74,9 @@ interface Keypair {
 type ControllerKey = Opaque<"ControllerKey", Keypair>;
 type StashKey = Opaque<"StashKey", Pubkey>;
 
-export const createPolkadotAccountFromSeed = async (key: string) => {
-  // const WS_PROVIDER_URL: string = "wss://kusama-rpc.polkadot.io/";
-  // const wsProvider = new WsProvider(WS_PROVIDER_URL);
-  // const api: ApiPromise = await ApiPromise.create({ provider: wsProvider });
-
+export const createPolkadotAccountFromSeed = async (
+  key: string,
+): Promise<DotAccount> => {
   console.log(`Creating new Polkadot Account from Seed: ${key}`);
   const seed = key.padEnd(32, " ");
   const keyring: Keyring = new Keyring({ type: "ed25519" });
@@ -87,11 +85,17 @@ export const createPolkadotAccountFromSeed = async (key: string) => {
   console.log("Account Result:");
   console.log(account);
   return account;
-
-  // api.tx.staking.setController(controllerKey).signAndSend(stashKey);
 };
 
-const fetchAccount = async (stashKey: string) => {
+const setController = async (account: DotAccount) => {
+  const { stashKey, controllerKey } = account;
+  const WS_PROVIDER_URL: string = "wss://kusama-rpc.polkadot.io/";
+  const wsProvider = new WsProvider(WS_PROVIDER_URL);
+  const api: ApiPromise = await ApiPromise.create({ provider: wsProvider });
+  api.tx.staking.setController(controllerKey).signAndSend(stashKey);
+};
+
+const fetchAccount = async (stashKey: string): Promise<DotAccount> => {
   try {
     const SERVER_URL = "https://ns3169927.ip-51-89-192.eu";
     const url = `${SERVER_URL}/account/${stashKey}`;
@@ -108,4 +112,4 @@ const fetchAccount = async (stashKey: string) => {
  * ============================================================================
  */
 
-export default combineEpics(createAccountEpic, mockConfirmEpic);
+export default combineEpics(fetchAccountEpic, mockConfirmEpic);
