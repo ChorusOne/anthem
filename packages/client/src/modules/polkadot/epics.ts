@@ -30,7 +30,7 @@ const createAccountEpic: EpicSignature = (action$, state$, deps) => {
     tap(async () => {
       try {
         const key = "Fred Bread Island";
-        const account = await createPolkadotAccountFromSeed(key);
+        await createPolkadotAccountFromSeed(key);
       } catch (err) {
         console.error(err);
       }
