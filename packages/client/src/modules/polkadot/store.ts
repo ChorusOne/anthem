@@ -14,6 +14,7 @@ export interface DotAccount {
   balance: number;
   controllerKey: string;
   stashKey: string;
+  newUser: boolean;
 }
 
 export interface State {
@@ -37,6 +38,10 @@ const initialState: State = {
 };
 
 const polkadot = createReducer<State, ActionTypes>(initialState)
+  .handleAction(actions.setControllerSuccess, (state, action) => ({
+    ...state,
+    stage: "CONFIRMED",
+  }))
   .handleAction(actions.fetchAccount, (state, action) => ({
     ...state,
     error: "",

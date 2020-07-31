@@ -86,9 +86,7 @@ class PolkadotPage extends React.Component<IProps, IState> {
       );
     }
 
-    const { balance, controllerKey } = account;
-
-    console.log(account);
+    const { balance, controllerKey, newUser } = account;
 
     return (
       <PageContainer>
@@ -112,7 +110,7 @@ class PolkadotPage extends React.Component<IProps, IState> {
               style={{ marginTop: 24 }}
               onClick={this.handleActivateAgent}
             >
-              <b>ACTIVATE AGENT</b>
+              {newUser ? <b>ACTIVATE AGENT</b> : <b>AGENT ACTIVATED</b>}
             </Button>
           </ContentArea>
           <ContentArea>

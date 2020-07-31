@@ -7,6 +7,7 @@ import { EpicSignature } from "modules/root";
 import { combineEpics } from "redux-observable";
 import { delay, filter, mapTo, mergeMap, pluck } from "rxjs/operators";
 import { isActionOf } from "typesafe-actions";
+import Toast from "ui/Toast";
 import { Actions } from "../root-actions";
 import { DotAccount } from "./store";
 
@@ -55,6 +56,7 @@ const setControllerEpic: EpicSignature = (action$, state$, deps) => {
           throw new Error("No account found!");
         }
       } catch (err) {
+        Toast.warn("Failed to activate agent...");
         return Actions.fetchAccountFailure();
       }
     }),
@@ -114,7 +116,10 @@ const setController = async (account: DotAccount) => {
   const WS_PROVIDER_URL: string = "wss://kusama-rpc.polkadot.io/";
   const wsProvider = new WsProvider(WS_PROVIDER_URL);
   const api: ApiPromise = await ApiPromise.create({ provider: wsProvider });
-  api.tx.staking.setController(controllerKey).signAndSend(stashKey);
+  const hash = await api.tx.staking
+    .setController(controllerKey)
+    .signAndSend(stashKey);
+  return hash;
 };
 
 const fetchAccount = async (stashKey: string): Promise<DotAccount> => {

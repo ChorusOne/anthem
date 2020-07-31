@@ -46,6 +46,7 @@ import selectors, { addressSelector } from "./selectors";
  * ============================================================================
  */
 
+// @ts-ignore
 const setAddressEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.setAddress)),

@@ -303,6 +303,7 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
   handleActivate = () => {
     console.log("Handling activate action");
     this.props.setTransactionStage("SIGN");
+    this.props.setController();
   };
 
   handleStake = () => {
@@ -461,6 +462,7 @@ const mapStateToProps = (state: ReduxStoreState) => ({
 const dispatchProps = {
   closePolkadotDialog: Modules.actions.polkadot.closePolkadotDialog,
   setTransactionStage: Modules.actions.polkadot.setTransactionStage,
+  setController: Modules.actions.polkadot.setController,
 };
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
