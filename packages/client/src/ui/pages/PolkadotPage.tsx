@@ -108,7 +108,8 @@ class PolkadotPage extends React.Component<IProps, IState> {
             </Text>
             <Button
               style={{ marginTop: 24 }}
-              onClick={() => (newUser ? this.handleActivateAgent() : null)}
+              onClick={this.handleActivateAgent}
+              // onClick={() => (newUser ? this.handleActivateAgent() : null)}
             >
               {newUser ? <b>ACTIVATE AGENT</b> : <b>AGENT ACTIVATED</b>}
             </Button>

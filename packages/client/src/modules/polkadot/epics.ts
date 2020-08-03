@@ -1,4 +1,4 @@
-// import { ApiPromise, WsProvider } from "@polkadot/api";
+import { ApiPromise, WsProvider } from "@polkadot/api";
 import { Keyring } from "@polkadot/keyring";
 import { KeyringPair } from "@polkadot/keyring/types";
 import stringToU8a from "@polkadot/util/string/toU8a";
@@ -49,13 +49,19 @@ const setControllerEpic: EpicSignature = (action$, state$, deps) => {
     delay(3500),
     mergeMap(async () => {
       try {
-        const { account } = state$.value.polkadot;
-        if (account) {
-          // const key = await setController(account, stashKey);
-          const key = "boom!";
+        const { seed } = state$.value.polkadot;
+        /**
+         * Just use the stored seed to get a new account/stashKey from the
+         * seed.
+         */
+        if (seed) {
+          const { account, stashKey } = await createPolkadotAccountFromSeed(
+            seed,
+          );
+          const key = await setController(account, stashKey);
           return Actions.setControllerSuccess(key);
         } else {
-          throw new Error("No account found!");
+          throw new Error("No seed found!");
         }
       } catch (err) {
         console.log(err);
@@ -115,20 +121,24 @@ export const createPolkadotAccountFromSeed = async (
   return { account, stashKey };
 };
 
-// const setController = async (account: DotAccount, stashKey: KeyringPair) => {
-//   console.log("Setting controller for account: ", account);
-//   const { controllerKey } = account;
-//   const WS_PROVIDER_URL: string = "wss://kusama-rpc.polkadot.io/";
-//   const wsProvider = new WsProvider(WS_PROVIDER_URL);
-//   const api: ApiPromise = await ApiPromise.create({ provider: wsProvider });
+const setController = async (account: DotAccount, stashKey: KeyringPair) => {
+  console.log("Setting controller for account and stashKey:");
+  console.log(account);
+  console.log(stashKey);
 
-//   const hash = await api.tx.staking
-//     .setController(controllerKey)
-//     .signAndSend(stashKey);
+  const { controllerKey } = account;
+  const WS_PROVIDER_URL: string = "wss://kusama-rpc.polkadot.io/";
+  const wsProvider = new WsProvider(WS_PROVIDER_URL);
+  const api: ApiPromise = await ApiPromise.create({ provider: wsProvider });
 
-//   console.log("Set Controller Result: ", hash);
-//   return hash;
-// };
+  const hash = await api.tx.staking
+    .setController(controllerKey)
+    .signAndSend(stashKey);
+
+  console.log("Set Controller Result:");
+  console.log(hash);
+  return hash;
+};
 
 const fetchAccount = async (stashKey: string): Promise<DotAccount> => {
   try {
