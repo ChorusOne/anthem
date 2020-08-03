@@ -26,9 +26,7 @@ import {
  * ============================================================================
  */
 
-interface IState {
-  amount: string;
-}
+interface IState {}
 
 /** ===========================================================================
  * React Component
@@ -36,14 +34,6 @@ interface IState {
  */
 
 class PolkadotDialog extends React.PureComponent<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-
-    this.state = {
-      amount: "",
-    };
-  }
-
   render(): JSX.Element {
     const { settings, polkadot } = this.props;
     const { dialogOpen, interactionType, stage } = polkadot;
@@ -115,7 +105,7 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
                     <TextInput
                       label="Enter an amount in DOT"
                       data-cy="funding-amount-input"
-                      value={this.state.amount}
+                      value={this.props.polkadot.stakeAmount}
                       onChange={this.handleInputChange}
                       placeholder="Funding Amount"
                     />
@@ -164,7 +154,7 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
                     <TextInput
                       label="Enter an amount in DOT"
                       data-cy="funding-amount-input"
-                      value={this.state.amount}
+                      value={this.props.polkadot.stakeAmount}
                       onChange={this.handleInputChange}
                       placeholder="Funding Amount"
                     />
@@ -293,7 +283,7 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
   };
 
   handleInputChange = (amount: string) => {
-    this.setState({ amount });
+    this.props.setStakeAmount(amount);
   };
 
   handleCloseDialog = () => {
@@ -306,15 +296,13 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
   };
 
   handleStake = () => {
-    const { amount } = this.state;
     this.props.setTransactionStage("SIGN");
-    this.props.setPolkadotStake({ type: "UNSTAKE", amount });
+    this.props.setPolkadotStake();
   };
 
   handleUnstake = () => {
-    const { amount } = this.state;
     this.props.setTransactionStage("SIGN");
-    this.props.setPolkadotStake({ type: "STAKE", amount });
+    this.props.setPolkadotStake();
   };
 }
 
@@ -465,6 +453,7 @@ const dispatchProps = {
   closePolkadotDialog: Modules.actions.polkadot.closePolkadotDialog,
   setTransactionStage: Modules.actions.polkadot.setTransactionStage,
   setController: Modules.actions.polkadot.setController,
+  setStakeAmount: Modules.actions.polkadot.setStakeAmount,
   setPolkadotStake: Modules.actions.polkadot.setPolkadotStake,
 };
 

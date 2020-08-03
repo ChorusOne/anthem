@@ -31,7 +31,6 @@ import {
  */
 
 interface IState {
-  stake: string;
   enableAutomaticStaking: boolean;
 }
 
@@ -47,17 +46,8 @@ class PolkadotPage extends React.Component<IProps, IState> {
     super(props);
 
     this.state = {
-      stake: "",
       enableAutomaticStaking: true,
     };
-  }
-
-  componentDidMount() {
-    // No-op
-  }
-
-  componentWillUnmount() {
-    // No-op
   }
 
   componentDidUpdate(prevProps: IProps) {
@@ -70,8 +60,14 @@ class PolkadotPage extends React.Component<IProps, IState> {
   }
 
   render(): JSX.Element {
-    const { account, loading, error, newUser } = this.props.polkadot;
-    const { stake, enableAutomaticStaking } = this.state;
+    const {
+      account,
+      loading,
+      error,
+      newUser,
+      stakeAmount,
+    } = this.props.polkadot;
+    const { enableAutomaticStaking } = this.state;
     if (loading || !account) {
       return (
         <Centered style={{ marginTop: 125 }}>
@@ -91,8 +87,8 @@ class PolkadotPage extends React.Component<IProps, IState> {
     return (
       <PageContainer>
         <PolkadotDialog
-          stake={stake}
           account={account}
+          stake={stakeAmount}
           enableAutomaticStaking={enableAutomaticStaking}
         />
         <PageAddressBar pageTitle="Polkadot Staking Agent" />
@@ -150,7 +146,7 @@ class PolkadotPage extends React.Component<IProps, IState> {
                 <TextInput
                   data-cy="Stake Input"
                   placeholder="DOTs"
-                  value={this.state.stake}
+                  value={this.props.polkadot.stakeAmount}
                   onChange={this.handleInput}
                   style={{ marginLeft: 12, marginRight: 12, width: 65 }}
                 />
@@ -226,7 +222,11 @@ class PolkadotPage extends React.Component<IProps, IState> {
   };
 
   handleInput = (stake: string) => {
-    this.setState({ stake });
+    this.props.setStakeAmount(stake);
+  };
+
+  handleActivateAgent = () => {
+    this.props.openPolkadotDialog("ACTIVATE");
   };
 
   handleUnStakeDot = () => {
@@ -235,10 +235,6 @@ class PolkadotPage extends React.Component<IProps, IState> {
 
   handleStakeDot = () => {
     this.props.openPolkadotDialog("ADD_FUNDS");
-  };
-
-  handleActivateAgent = () => {
-    this.props.openPolkadotDialog("ACTIVATE");
   };
 }
 
@@ -347,6 +343,7 @@ const mapStateToProps = (state: ReduxStoreState) => ({
 
 const dispatchProps = {
   fetchAccount: Modules.actions.polkadot.fetchAccount,
+  setStakeAmount: Modules.actions.polkadot.setStakeAmount,
   openPolkadotDialog: Modules.actions.polkadot.openPolkadotDialog,
 };
 

@@ -23,6 +23,8 @@ enum ActionTypesEnum {
   SET_STAKE = "SET_STAKE",
   SET_STAKE_SUCCESS = "SET_STAKE_SUCCESS",
   SET_STAKE_FAILURE = "SET_STAKE_FAILURE",
+
+  SET_STAKE_AMOUNT = "SET_STAKE_AMOUNT",
 }
 
 /** ===========================================================================
@@ -70,10 +72,7 @@ const setTransactionStage = createStandardAction(
   ActionTypesEnum.SET_POLKADOT_TRANSACTION_STAGE,
 )<DotTransactionStage>();
 
-const setPolkadotStake = createStandardAction(ActionTypesEnum.SET_STAKE)<{
-  type: "STAKE" | "UNSTAKE";
-  amount: string;
-}>();
+const setPolkadotStake = createStandardAction(ActionTypesEnum.SET_STAKE)();
 
 const setPolkadotStakeSuccess = createStandardAction(
   ActionTypesEnum.SET_STAKE_SUCCESS,
@@ -82,6 +81,10 @@ const setPolkadotStakeSuccess = createStandardAction(
 const setPolkadotStakeFailure = createStandardAction(
   ActionTypesEnum.SET_STAKE_FAILURE,
 )();
+
+const setStakeAmount = createStandardAction(ActionTypesEnum.SET_STAKE_AMOUNT)<
+  string
+>();
 
 const actions = {
   fetchAccount,
@@ -97,6 +100,7 @@ const actions = {
   setPolkadotStake,
   setPolkadotStakeSuccess,
   setPolkadotStakeFailure,
+  setStakeAmount,
 };
 
 /** ===========================================================================
