@@ -113,7 +113,7 @@ export const createPolkadotAccountFromSeed = async (
 ): Promise<{ account: DotAccount; stashKey: any }> => {
   console.log(`Creating new Polkadot Account from Seed: ${key}`);
   const seed = key.padEnd(32, " ");
-  const keyring: Keyring = new Keyring({ type: "ed25519" });
+  const keyring: Keyring = new Keyring({ type: "ed25519", ss58Format: 2 });
   const stashKey = keyring.addFromSeed(stringToU8a(seed));
   const account = await fetchAccount(stashKey.address);
   console.log("Account Result:");
