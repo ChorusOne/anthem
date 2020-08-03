@@ -72,7 +72,7 @@ const setTransactionStage = createStandardAction(
 
 const setPolkadotStake = createStandardAction(ActionTypesEnum.SET_STAKE)<{
   type: "STAKE" | "UNSTAKE";
-  amount: number;
+  amount: string;
 }>();
 
 const setPolkadotStakeSuccess = createStandardAction(
