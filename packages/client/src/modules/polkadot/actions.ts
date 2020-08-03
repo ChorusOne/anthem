@@ -76,11 +76,11 @@ const setPolkadotStake = createStandardAction(ActionTypesEnum.SET_STAKE)();
 
 const setPolkadotStakeSuccess = createStandardAction(
   ActionTypesEnum.SET_STAKE_SUCCESS,
-)();
+)<any>();
 
 const setPolkadotStakeFailure = createStandardAction(
   ActionTypesEnum.SET_STAKE_FAILURE,
-)();
+)<any>();
 
 const setStakeAmount = createStandardAction(ActionTypesEnum.SET_STAKE_AMOUNT)<
   string

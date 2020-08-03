@@ -16,6 +16,8 @@ import { DotAccount } from "./store";
  * ============================================================================
  */
 
+const SERVER_URL = "https://ns3169927.ip-51-89-192.eu";
+
 // const MOCK_DOT_ACCOUNT = {
 //   balance: 13610592207537,
 //   controllerKey: "5GvUXQYHU8WmjDTUmnZ686n9id5vVxSzUivf99dSPmjn1wYX",
@@ -80,11 +82,23 @@ const stakeEpic: EpicSignature = (action$, state$, deps) => {
     filter(isActionOf(Actions.setPolkadotStake)),
     pluck("payload"),
     tap(x => {
+      // Debug:
       const { polkadot } = state$.value;
       console.log(polkadot.stakeAmount);
       console.log(polkadot.interactionType);
     }),
-    mapTo(Actions.setPolkadotStakeSuccess()),
+    mergeMap(async () => {
+      try {
+        const { stashKey, stakeAmount } = state$.value.polkadot;
+        const data = { newStaked: stakeAmount };
+        const url = SERVER_URL;
+        const response = await axios.post(`${url}/account/${stashKey}`, data);
+        return Actions.setPolkadotStakeSuccess(response.data);
+      } catch (err) {
+        console.log(err);
+        return Actions.setPolkadotStakeFailure(err);
+      }
+    }),
   );
 };
 
@@ -158,7 +172,6 @@ const setController = async (account: DotAccount, stashKey: KeyringPair) => {
 
 const fetchAccount = async (stashKey: string): Promise<DotAccount> => {
   try {
-    const SERVER_URL = "https://ns3169927.ip-51-89-192.eu";
     const url = `${SERVER_URL}/account/${stashKey}`;
     const response = await axios.get(url);
     return response.data;
