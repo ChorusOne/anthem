@@ -84,6 +84,9 @@ const polkadot = createReducer<State, ActionTypes>(initialState)
   .handleAction(actions.closePolkadotDialog, (state, action) => ({
     ...state,
     dialogOpen: false,
+    stakeAmount: "",
+    stage: "SETUP",
+    interactionType: "ACTIVATE",
   }))
   .handleAction(actions.setTransactionStage, (state, action) => ({
     ...state,

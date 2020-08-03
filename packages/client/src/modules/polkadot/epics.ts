@@ -79,7 +79,11 @@ const stakeEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.setPolkadotStake)),
     pluck("payload"),
-    tap(x => console.log(x)),
+    tap(x => {
+      const { polkadot } = state$.value;
+      console.log(polkadot.stakeAmount);
+      console.log(polkadot.interactionType);
+    }),
     mapTo(Actions.setPolkadotStakeSuccess()),
   );
 };
