@@ -5,7 +5,7 @@ import stringToU8a from "@polkadot/util/string/toU8a";
 import axios from "axios";
 import { EpicSignature } from "modules/root";
 import { combineEpics } from "redux-observable";
-import { delay, filter, mapTo, mergeMap, pluck } from "rxjs/operators";
+import { delay, filter, mapTo, mergeMap, pluck, tap } from "rxjs/operators";
 import { isActionOf } from "typesafe-actions";
 import Toast from "ui/Toast";
 import { Actions } from "../root-actions";
@@ -69,6 +69,18 @@ const setControllerEpic: EpicSignature = (action$, state$, deps) => {
         return Actions.setControllerFailure(err);
       }
     }),
+  );
+};
+
+/**
+ * Stake/Unstake epic.
+ */
+const stakeEpic: EpicSignature = (action$, state$, deps) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.setPolkadotStake)),
+    pluck("payload"),
+    tap(x => console.log(x)),
+    mapTo(Actions.setPolkadotStakeSuccess()),
   );
 };
 
@@ -160,5 +172,6 @@ const fetchAccount = async (stashKey: string): Promise<DotAccount> => {
 export default combineEpics(
   fetchAccountEpic,
   setControllerEpic,
+  stakeEpic,
   mockConfirmEpic,
 );
