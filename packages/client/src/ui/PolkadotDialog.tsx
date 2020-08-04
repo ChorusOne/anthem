@@ -70,27 +70,73 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
   renderDialog = () => {
     const { account, polkadot } = this.props;
     const { balance, controllerKey, stashKey } = account;
-    const { interactionType, stage } = polkadot;
+    const { interactionType, stage, bondedState } = polkadot;
     if (stage === "SETUP") {
       if (interactionType === "ACTIVATE") {
-        return (
-          <View>
-            <Text>
-              To activate the Polkadot staking agent we will first need to
-              generate your personal Staking Agent key and associate your
-              account with it.
-            </Text>
-            <SubText>
-              <b>Note:</b> This will grant Chorus One limited rights to carry
-              out staking-related transactions on your behalf. At no point will
-              Chorus One have custody of your funds or be able to transfer your
-              funds. You can revoke these rights at any point through Anthem or
-              by resetting the Controller key in any other way. Learn more about
-              the Staking Agent <Link href="http://chorus.one">here</Link>.
-            </SubText>
-            {this.renderConfirmArrow("Create Agent", this.handleActivate)}
-          </View>
-        );
+        if (bondedState === "bonded") {
+          return (
+            <View>
+              <Text>
+                To activate the Polkadot staking agent we will first need to
+                generate your personal Staking Agent key and associate your
+                account with it.
+              </Text>
+              <SubText>
+                <b>Note:</b> This will grant Chorus One limited rights to carry
+                out staking-related transactions on your behalf. At no point
+                will Chorus One have custody of your funds or be able to
+                transfer your funds. You can revoke these rights at any point
+                through Anthem or by resetting the Controller key in any other
+                way. Learn more about the Staking Agent{" "}
+                <Link href="http://chorus.one">here</Link>.
+              </SubText>
+              {this.renderConfirmArrow("Create Agent", this.handleActivate)}
+            </View>
+          );
+        } else {
+          return (
+            <View>
+              <Text>
+                To activate the Polkadot staking agent we will first need to
+                bond some DOTs.
+              </Text>
+              <H6>Choose an amount to bond.</H6>
+              {bondedState === "loading" ? (
+                <View>
+                  <Spinner />
+                </View>
+              ) : (
+                <Card>
+                  <Row>
+                    <Row>
+                      <NetworkLogoIcon network="POLKADOT" />
+                      <View style={{ marginLeft: 12 }}>
+                        <TextInput
+                          placeholder="Bond Amount"
+                          label="Enter an amount in DOT"
+                          data-cy="bond-amount-input"
+                          onChange={this.handleInputChange}
+                          value={this.props.polkadot.stakeAmount}
+                        />
+                      </View>
+                    </Row>
+                    <View>
+                      <BalanceRow>
+                        <BalanceLabel>Your Account:</BalanceLabel>
+                        <Balance>{balance}</Balance>
+                      </BalanceRow>
+                      <BalanceRow style={{ marginTop: 8 }}>
+                        <BalanceLabel>Available:</BalanceLabel>
+                        <Balance>0</Balance>
+                      </BalanceRow>
+                    </View>
+                  </Row>
+                </Card>
+              )}
+              {this.renderConfirmArrow("Bond", this.handleBond)}
+            </View>
+          );
+        }
       } else if (interactionType === "ADD_FUNDS") {
         return (
           <View>
@@ -290,6 +336,10 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
     this.props.closePolkadotDialog();
   };
 
+  handleBond = () => {
+    this.props.setBond();
+  };
+
   handleActivate = () => {
     this.props.setTransactionStage("SIGN");
     this.props.setController();
@@ -452,6 +502,7 @@ const mapStateToProps = (state: ReduxStoreState) => ({
 const dispatchProps = {
   closePolkadotDialog: Modules.actions.polkadot.closePolkadotDialog,
   setTransactionStage: Modules.actions.polkadot.setTransactionStage,
+  setBond: Modules.actions.polkadot.setBond,
   setController: Modules.actions.polkadot.setController,
   setStakeAmount: Modules.actions.polkadot.setStakeAmount,
   setPolkadotStake: Modules.actions.polkadot.setPolkadotStake,

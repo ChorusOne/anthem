@@ -28,6 +28,7 @@ export interface State {
   newUser: boolean;
   stashKey: any;
   stakeAmount: string;
+  bondedState: "none" | "loading" | "bonded";
 }
 
 const initialState: State = {
@@ -41,9 +42,23 @@ const initialState: State = {
   newUser: false,
   stashKey: null,
   stakeAmount: "",
+  bondedState: "none",
 };
 
 const polkadot = createReducer<State, ActionTypes>(initialState)
+  .handleAction(actions.setBond, (state, action) => ({
+    ...state,
+    bondedState: "loading",
+  }))
+  .handleAction(actions.setBondSuccess, (state, action) => ({
+    ...state,
+    stakeAmount: "",
+    bondedState: "bonded",
+  }))
+  .handleAction(actions.setBondFailure, (state, action) => ({
+    ...state,
+    bondedState: "none",
+  }))
   .handleAction(actions.setControllerSuccess, (state, action) => ({
     ...state,
     stage: "CONFIRMED",

@@ -43,12 +43,44 @@ const fetchAccountEpic: EpicSignature = (action$, state$, deps) => {
 };
 
 /**
+ * Set Polkadot account bond.
+ */
+const setBondEpic: EpicSignature = (action$, state$, deps) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.setBond)),
+    delay(2500),
+    mergeMap(async () => {
+      try {
+        const { seed, stakeAmount } = state$.value.polkadot;
+        return Actions.setBondSuccess("hi");
+        /**
+         * Just use the stored seed to get a new account/stashKey from the
+         * seed.
+         */
+        // if (seed) {
+        //   const { account, stashKey } = await createPolkadotAccountFromSeed(
+        //     seed,
+        //   );
+        //   const bond = await setBond(account, stashKey, stakeAmount);
+        //   return Actions.setBondSuccess(bond);
+        // } else {
+        //   throw new Error("No seed found!");
+        // }
+      } catch (err) {
+        console.log(err);
+        Toast.warn("Failed to set bond for account...");
+        return Actions.setBondFailure(err);
+      }
+    }),
+  );
+};
+
+/**
  * Set Polkadot account controller key.
  */
 const setControllerEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.setController)),
-    delay(3500),
     mergeMap(async () => {
       try {
         const { seed } = state$.value.polkadot;
@@ -151,6 +183,28 @@ export const createPolkadotAccountFromSeed = async (
   return { account, stashKey };
 };
 
+const setBond = async (
+  account: DotAccount,
+  stashKey: KeyringPair,
+  bond: string,
+) => {
+  console.log("Setting bond for account and stashKey:");
+  console.log(account);
+  console.log(stashKey);
+
+  const { controllerKey } = account;
+  const WS_PROVIDER_URL: string = "wss://kusama-rpc.polkadot.io/";
+  const wsProvider = new WsProvider(WS_PROVIDER_URL);
+  const api: ApiPromise = await ApiPromise.create({ provider: wsProvider });
+  const result = await api.tx.staking
+    .bond(controllerKey, bond, "Stash")
+    .signAndSend(stashKey);
+
+  console.log("Set Bond Result:");
+  console.log(result);
+  return result;
+};
+
 const setController = async (account: DotAccount, stashKey: KeyringPair) => {
   console.log("Setting controller for account and stashKey:");
   console.log(account);
@@ -188,6 +242,7 @@ const fetchAccount = async (stashKey: string): Promise<DotAccount> => {
 
 export default combineEpics(
   fetchAccountEpic,
+  setBondEpic,
   setControllerEpic,
   stakeEpic,
   mockConfirmEpic,
