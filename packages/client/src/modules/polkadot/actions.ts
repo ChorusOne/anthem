@@ -11,10 +11,6 @@ enum ActionTypesEnum {
   FETCH_POLKADOT_ACCOUNT_SUCCESS = "FETCH_POLKADOT_ACCOUNT_SUCCESS",
   FETCH_POLKADOT_ACCOUNT_FAILURE = "FETCH_POLKADOT_ACCOUNT_FAILURE",
 
-  SET_BOND = "SET_BOND",
-  SET_BOND__SUCCESS = "SET_BOND__SUCCESS",
-  SET_BOND__FAILURE = "SET_BOND__FAILURE",
-
   SET_CONTROLLER = "SET_CONTROLLER",
   SET_CONTROLLER__SUCCESS = "SET_CONTROLLER__SUCCESS",
   SET_CONTROLLER__FAILURE = "SET_CONTROLLER__FAILURE",
@@ -47,16 +43,6 @@ const fetchAccountSuccess = createStandardAction(
 const fetchAccountFailure = createStandardAction(
   ActionTypesEnum.FETCH_POLKADOT_ACCOUNT_FAILURE,
 )();
-
-const setBond = createStandardAction(ActionTypesEnum.SET_BOND)();
-
-const setBondSuccess = createStandardAction(ActionTypesEnum.SET_BOND__SUCCESS)<
-  any
->();
-
-const setBondFailure = createStandardAction(ActionTypesEnum.SET_BOND__FAILURE)<
-  any
->();
 
 const setController = createStandardAction(ActionTypesEnum.SET_CONTROLLER)();
 
@@ -104,9 +90,6 @@ const actions = {
   fetchAccount,
   fetchAccountSuccess,
   fetchAccountFailure,
-  setBond,
-  setBondSuccess,
-  setBondFailure,
   setController,
   setControllerSuccess,
   setControllerFailure,

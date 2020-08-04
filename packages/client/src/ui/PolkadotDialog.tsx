@@ -70,72 +70,53 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
   renderDialog = () => {
     const { account, polkadot } = this.props;
     const { balance, controllerKey, stashKey } = account;
-    const { interactionType, stage, bondedState } = polkadot;
+    const { interactionType, stage } = polkadot;
     if (stage === "SETUP") {
       if (interactionType === "ACTIVATE") {
-        if (bondedState === "bonded") {
-          return (
-            <View>
-              <Text>
-                To activate the Polkadot staking agent we will first need to
-                generate your personal Staking Agent key and associate your
-                account with it.
-              </Text>
-              <SubText>
-                <b>Note:</b> This will grant Chorus One limited rights to carry
-                out staking-related transactions on your behalf. At no point
-                will Chorus One have custody of your funds or be able to
-                transfer your funds. You can revoke these rights at any point
-                through Anthem or by resetting the Controller key in any other
-                way. Learn more about the Staking Agent{" "}
-                <Link href="http://chorus.one">here</Link>.
-              </SubText>
-              {this.renderConfirmArrow("Create Agent", this.handleActivate)}
-            </View>
-          );
-        } else {
-          return (
-            <View>
-              <Text>
-                To activate the Polkadot staking agent we will first need to
-                bond some DOTs.
-              </Text>
-              {bondedState === "loading" ? (
-                <View style={{ marginTop: 28 }}>
-                  <Spinner />
+        return (
+          <View>
+            <Text>
+              To activate the Polkadot staking agent we will first need to
+              generate your personal Staking Agent key and associate your
+              account with it.
+            </Text>
+            <SubText>
+              <b>Note:</b> This will grant Chorus One limited rights to carry
+              out staking-related transactions on your behalf. At no point will
+              Chorus One have custody of your funds or be able to transfer your
+              funds. You can revoke these rights at any point through Anthem or
+              by resetting the Controller key in any other way. Learn more about
+              the Staking Agent <Link href="http://chorus.one">here</Link>.
+            </SubText>
+            <Card style={{ marginTop: 24 }}>
+              <Row>
+                <Row>
+                  <NetworkLogoIcon network="POLKADOT" />
+                  <View style={{ marginLeft: 12 }}>
+                    <TextInput
+                      placeholder="Bond Amount"
+                      label="Enter an amount in DOT"
+                      data-cy="bond-amount-input"
+                      onChange={this.handleInputChange}
+                      value={this.props.polkadot.stakeAmount}
+                    />
+                  </View>
+                </Row>
+                <View>
+                  <BalanceRow>
+                    <BalanceLabel>Your Account:</BalanceLabel>
+                    <Balance>{balance}</Balance>
+                  </BalanceRow>
+                  <BalanceRow style={{ marginTop: 8 }}>
+                    <BalanceLabel>Available:</BalanceLabel>
+                    <Balance>0</Balance>
+                  </BalanceRow>
                 </View>
-              ) : (
-                <Card style={{ marginTop: 24 }}>
-                  <Row>
-                    <Row>
-                      <NetworkLogoIcon network="POLKADOT" />
-                      <View style={{ marginLeft: 12 }}>
-                        <TextInput
-                          placeholder="Bond Amount"
-                          label="Enter an amount in DOT"
-                          data-cy="bond-amount-input"
-                          onChange={this.handleInputChange}
-                          value={this.props.polkadot.stakeAmount}
-                        />
-                      </View>
-                    </Row>
-                    <View>
-                      <BalanceRow>
-                        <BalanceLabel>Your Account:</BalanceLabel>
-                        <Balance>{balance}</Balance>
-                      </BalanceRow>
-                      <BalanceRow style={{ marginTop: 8 }}>
-                        <BalanceLabel>Available:</BalanceLabel>
-                        <Balance>0</Balance>
-                      </BalanceRow>
-                    </View>
-                  </Row>
-                </Card>
-              )}
-              {this.renderConfirmArrow("Bond", this.handleBond)}
-            </View>
-          );
-        }
+              </Row>
+            </Card>
+            {this.renderConfirmArrow("Activate Agent", this.handleBond)}
+          </View>
+        );
       } else if (interactionType === "ADD_FUNDS") {
         return (
           <View>

@@ -43,12 +43,11 @@ const fetchAccountEpic: EpicSignature = (action$, state$, deps) => {
 };
 
 /**
- * Set Polkadot account bond.
+ * Set Polkadot account controller key.
  */
-const setBondEpic: EpicSignature = (action$, state$, deps) => {
+const setControllerEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
-    filter(isActionOf(Actions.setBond)),
-    delay(2500),
+    filter(isActionOf(Actions.setController)),
     mergeMap(async () => {
       try {
         const { seed, stakeAmount } = state$.value.polkadot;
@@ -61,38 +60,6 @@ const setBondEpic: EpicSignature = (action$, state$, deps) => {
             seed,
           );
           const bond = await setBond(account, stashKey, stakeAmount);
-          Toast.success("Bond transaction confirmed!");
-          return Actions.setBondSuccess(bond);
-        } else {
-          throw new Error("No seed found!");
-        }
-      } catch (err) {
-        console.log(err);
-        Toast.warn("Failed to set bond for account...");
-        return Actions.setBondFailure(err);
-      }
-    }),
-  );
-};
-
-/**
- * Set Polkadot account controller key.
- */
-const setControllerEpic: EpicSignature = (action$, state$, deps) => {
-  return action$.pipe(
-    filter(isActionOf(Actions.setController)),
-    mergeMap(async () => {
-      try {
-        const { seed } = state$.value.polkadot;
-        /**
-         * Just use the stored seed to get a new account/stashKey from the
-         * seed.
-         */
-        if (seed) {
-          const { account, stashKey } = await createPolkadotAccountFromSeed(
-            seed,
-          );
-          const key = await setController(account, stashKey);
           return Actions.setControllerSuccess(key);
         } else {
           throw new Error("No seed found!");
@@ -205,24 +172,24 @@ const setBond = async (
   return result;
 };
 
-const setController = async (account: DotAccount, stashKey: KeyringPair) => {
-  console.log("Setting controller for account and stashKey:");
-  console.log(account);
-  console.log(stashKey);
+// const setController = async (account: DotAccount, stashKey: KeyringPair) => {
+//   console.log("Setting controller for account and stashKey:");
+//   console.log(account);
+//   console.log(stashKey);
 
-  const { controllerKey } = account;
-  const WS_PROVIDER_URL: string = "wss://kusama-rpc.polkadot.io/";
-  const wsProvider = new WsProvider(WS_PROVIDER_URL);
-  const api: ApiPromise = await ApiPromise.create({ provider: wsProvider });
+//   const { controllerKey } = account;
+//   const WS_PROVIDER_URL: string = "wss://kusama-rpc.polkadot.io/";
+//   const wsProvider = new WsProvider(WS_PROVIDER_URL);
+//   const api: ApiPromise = await ApiPromise.create({ provider: wsProvider });
 
-  const hash = await api.tx.staking
-    .setController(controllerKey)
-    .signAndSend(stashKey);
+//   const hash = await api.tx.staking
+//     .setController(controllerKey)
+//     .signAndSend(stashKey);
 
-  console.log("Set Controller Result:");
-  console.log(hash);
-  return hash;
-};
+//   console.log("Set Controller Result:");
+//   console.log(hash);
+//   return hash;
+// };
 
 const fetchAccount = async (stashKey: string): Promise<DotAccount> => {
   try {
@@ -242,7 +209,6 @@ const fetchAccount = async (stashKey: string): Promise<DotAccount> => {
 
 export default combineEpics(
   fetchAccountEpic,
-  setBondEpic,
   setControllerEpic,
   stakeEpic,
   mockConfirmEpic,
