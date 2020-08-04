@@ -52,20 +52,20 @@ const setBondEpic: EpicSignature = (action$, state$, deps) => {
     mergeMap(async () => {
       try {
         const { seed, stakeAmount } = state$.value.polkadot;
-        return Actions.setBondSuccess("hi");
         /**
          * Just use the stored seed to get a new account/stashKey from the
          * seed.
          */
-        // if (seed) {
-        //   const { account, stashKey } = await createPolkadotAccountFromSeed(
-        //     seed,
-        //   );
-        //   const bond = await setBond(account, stashKey, stakeAmount);
-        //   return Actions.setBondSuccess(bond);
-        // } else {
-        //   throw new Error("No seed found!");
-        // }
+        if (seed) {
+          const { account, stashKey } = await createPolkadotAccountFromSeed(
+            seed,
+          );
+          const bond = await setBond(account, stashKey, stakeAmount);
+          Toast.success("Bond transaction confirmed!");
+          return Actions.setBondSuccess(bond);
+        } else {
+          throw new Error("No seed found!");
+        }
       } catch (err) {
         console.log(err);
         Toast.warn("Failed to set bond for account...");

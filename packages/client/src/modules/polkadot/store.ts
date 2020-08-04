@@ -25,10 +25,10 @@ export interface State {
   seed: string;
   loading: boolean;
   error: string;
-  newUser: boolean;
   stashKey: any;
   stakeAmount: string;
   bondedState: "none" | "loading" | "bonded";
+  activated: boolean;
 }
 
 const initialState: State = {
@@ -39,10 +39,10 @@ const initialState: State = {
   interactionType: "ACTIVATE",
   loading: true,
   error: "",
-  newUser: false,
   stashKey: null,
   stakeAmount: "",
   bondedState: "none",
+  activated: false,
 };
 
 const polkadot = createReducer<State, ActionTypes>(initialState)
@@ -62,7 +62,7 @@ const polkadot = createReducer<State, ActionTypes>(initialState)
   .handleAction(actions.setControllerSuccess, (state, action) => ({
     ...state,
     stage: "CONFIRMED",
-    newUser: false,
+    activated: true,
   }))
   .handleAction(actions.fetchAccount, (state, action) => ({
     ...state,

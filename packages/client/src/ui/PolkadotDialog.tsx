@@ -100,13 +100,12 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
                 To activate the Polkadot staking agent we will first need to
                 bond some DOTs.
               </Text>
-              <H6>Choose an amount to bond.</H6>
               {bondedState === "loading" ? (
-                <View>
+                <View style={{ marginTop: 28 }}>
                   <Spinner />
                 </View>
               ) : (
-                <Card>
+                <Card style={{ marginTop: 24 }}>
                   <Row>
                     <Row>
                       <NetworkLogoIcon network="POLKADOT" />

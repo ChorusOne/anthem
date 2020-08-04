@@ -64,7 +64,7 @@ class PolkadotPage extends React.Component<IProps, IState> {
       account,
       loading,
       error,
-      newUser,
+      activated,
       stakeAmount,
     } = this.props.polkadot;
     const { enableAutomaticStaking } = this.state;
@@ -104,10 +104,9 @@ class PolkadotPage extends React.Component<IProps, IState> {
             </Text>
             <Button
               style={{ marginTop: 24 }}
-              onClick={this.handleActivateAgent}
-              // onClick={() => (newUser ? this.handleActivateAgent() : null)}
+              onClick={() => (!activated ? this.handleActivateAgent() : null)}
             >
-              {newUser ? <b>ACTIVATE AGENT</b> : <b>AGENT ACTIVATED</b>}
+              {!activated ? <b>ACTIVATE AGENT</b> : <b>AGENT ACTIVATED</b>}
             </Button>
           </ContentArea>
           <ContentArea>
