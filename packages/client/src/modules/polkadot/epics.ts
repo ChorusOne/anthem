@@ -60,7 +60,7 @@ const setControllerEpic: EpicSignature = (action$, state$, deps) => {
             seed,
           );
           const bond = await setBond(account, stashKey, stakeAmount);
-          return Actions.setControllerSuccess(key);
+          return Actions.setControllerSuccess(bond);
         } else {
           throw new Error("No seed found!");
         }

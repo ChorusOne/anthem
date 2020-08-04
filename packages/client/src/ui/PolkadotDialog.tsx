@@ -76,9 +76,8 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
         return (
           <View>
             <Text>
-              To activate the Polkadot staking agent we will first need to
-              generate your personal Staking Agent key and associate your
-              account with it.
+              To activate the Polkadot staking agent you will need to choose an
+              amount of DOTs to bond.
             </Text>
             <SubText>
               <b>Note:</b> This will grant Chorus One limited rights to carry
@@ -114,7 +113,7 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
                 </View>
               </Row>
             </Card>
-            {this.renderConfirmArrow("Activate Agent", this.handleBond)}
+            {this.renderConfirmArrow("Activate Agent", this.handleActivate)}
           </View>
         );
       } else if (interactionType === "ADD_FUNDS") {
@@ -316,10 +315,6 @@ class PolkadotDialog extends React.PureComponent<IProps, IState> {
     this.props.closePolkadotDialog();
   };
 
-  handleBond = () => {
-    this.props.setBond();
-  };
-
   handleActivate = () => {
     this.props.setTransactionStage("SIGN");
     this.props.setController();
@@ -482,7 +477,6 @@ const mapStateToProps = (state: ReduxStoreState) => ({
 const dispatchProps = {
   closePolkadotDialog: Modules.actions.polkadot.closePolkadotDialog,
   setTransactionStage: Modules.actions.polkadot.setTransactionStage,
-  setBond: Modules.actions.polkadot.setBond,
   setController: Modules.actions.polkadot.setController,
   setStakeAmount: Modules.actions.polkadot.setStakeAmount,
   setPolkadotStake: Modules.actions.polkadot.setPolkadotStake,

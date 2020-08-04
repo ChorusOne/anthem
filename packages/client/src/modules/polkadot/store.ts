@@ -49,6 +49,11 @@ const polkadot = createReducer<State, ActionTypes>(initialState)
     stage: "CONFIRMED",
     activated: true,
   }))
+  .handleAction(actions.setControllerFailure, (state, action) => ({
+    ...state,
+    stage: "SETUP",
+    activated: false,
+  }))
   .handleAction(actions.fetchAccount, (state, action) => ({
     ...state,
     error: "",
