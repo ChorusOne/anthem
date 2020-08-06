@@ -208,7 +208,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           <p style={{ marginTop: 6 }}>
             Check your Ledger to sign the transaction.
           </p>
-          <Centered style={{ marginTop: 24 }}>
+          <Centered style={{ marginTop: 32 }}>
             <Spinner />
           </Centered>
         </View>
