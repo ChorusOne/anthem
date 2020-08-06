@@ -8,7 +8,6 @@ import {
   ICosmosBalance,
   ICosmosTransaction,
   ICosmosValidator,
-  IDelegation,
   IQuery,
   IUnbondingDelegationEntry,
   NETWORK_NAME,
