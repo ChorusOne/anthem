@@ -169,7 +169,7 @@ const NETWORKS: NetworksMap = {
     supportsPortfolio: true,
     supportsTransactionsHistory: true,
     supportsValidatorsList: true,
-    supportsGovernance: true,
+    supportsGovernance: false,
     denominationSize: 1e18, // 1 cGLD = 1000000000000000000 wei
     customChartTabs: new Set(["VOTING", "CUSD"]),
     expectedReward: 8,
