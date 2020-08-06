@@ -160,7 +160,7 @@ class CosmosValidatorsListPage extends React.Component<IProps, IState> {
             );
 
             const { total, delegations } = deriveCurrentDelegationsInformation(
-              rewardsByValidatorResponse,
+              accountBalancesResponse.delegations,
               validatorList,
               network,
             );

@@ -1058,27 +1058,33 @@ interface StakingInformation {
  * to get additional validator metadata.
  */
 export const deriveCurrentDelegationsInformation = (
-  validatorRewards: IQuery["cosmosRewardsByValidator"],
+  staking: IQuery["cosmosAccountBalances"]["delegations"],
   validators: ICosmosValidator[],
   network: NetworkDefinition,
 ): StakingInformation => {
+  if (!staking) {
+    return {
+      total: "0",
+      delegations: [],
+    };
+  }
+
   const delegationsData = [];
   let total = 0;
 
   // Iterate through the rewards and combine with the validator list data
-  for (const data of validatorRewards) {
+  for (const data of staking) {
     const validator = validators.find(
       x => x.operator_address === data.validator_address,
     );
-    const { reward } = data;
-    if (!validator || !reward) {
+    const { shares } = data;
+    if (!validator || !shares) {
       continue;
     } else {
-      const { amount } = reward[0];
-      total = add(total, amount, Number);
+      total = add(total, shares, Number);
       delegationsData.push({
         validator,
-        rewards: amount,
+        rewards: shares,
       });
     }
   }

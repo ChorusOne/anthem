@@ -104,7 +104,7 @@ export const PageContainer = styled.div`
  * PageContainer with scrolling
  * ============================================================================
  */
-// @ts-ignore
+
 export const PageContainerScrollable = styled(PageContainer)`
   overflow-y: scroll;
   padding-bottom: 50px;
