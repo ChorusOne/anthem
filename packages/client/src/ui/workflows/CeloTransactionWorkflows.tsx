@@ -138,6 +138,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   render(): Nullable<JSX.Element> {
     const { transactionStage } = this.props.transaction;
     const { ledgerActionType } = this.props.ledgerDialog;
+    const { celoAddressHasAccount } = this.props.ledger;
+
+    if (celoAddressHasAccount) {
+      return this.renderAccountSetupStep();
+    }
 
     const stage = transactionStage;
     if (stage === TRANSACTION_STAGES.SIGN) {
@@ -174,6 +179,28 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
     return null;
   }
+
+  renderAccountSetupStep = () => {
+    return (
+      <View>
+        <H6 style={{ marginTop: 6, marginBottom: 0 }}>Create Celo Account</H6>
+        <p style={{ marginTop: 6 }}>
+          To have voting and validation rights your address must first be
+          registered as an account.
+        </p>
+        <p style={{ marginTop: 6 }}>
+          This involves signing a transaction with
+          your Ledger device to create an account for your address on the Celo
+          blockchain. This step is required to allow you to complete subsequent
+          steps like locking gold and voting.
+        </p>
+        {this.props.renderConfirmArrow(
+          "Create Account",
+          this.submitLedgerTransferAmount,
+        )}
+      </View>
+    );
+  };
 
   renderGovernanceVote = () => {
     const { governanceProposalData } = this.props.transaction;

@@ -133,6 +133,7 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
               return resolve(Actions.connectLedgerFailure());
             }
 
+            let celoAddressHasAccount = false; // Only applies to Celo Network
             let ledgerAddress;
             let ledgerAppVersion = "0.0.0";
 
@@ -164,6 +165,9 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
                 await celoLedgerUtil.connect();
                 ledgerAddress = await celoLedgerUtil.getAddress();
                 ledgerAppVersion = await celoLedgerUtil.getCeloAppVersion();
+                celoAddressHasAccount = await deps.celoLedgerUtil.isAccount(
+                  ledgerAddress,
+                );
                 break;
               }
               case "OASIS": {
@@ -198,6 +202,7 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
                 network,
                 ledgerAppVersion,
                 ledgerAddress,
+                celoAddressHasAccount,
               }),
             );
           } catch (error) {
@@ -227,25 +232,6 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
         }),
         // Discard stream when the Ledger dialog is dismissed
       ).pipe(takeUntil(action$.ofType(Actions.closeLedgerDialog().type)));
-    }),
-  );
-};
-
-/**
- * Check Celo addresses after Ledger signin to see if they have an account
- * setup or not.
- */
-const celoAddressAccountSetupEpic: EpicSignature = (action$, state$, deps) => {
-  return action$.pipe(
-    filter(isActionOf(Actions.connectLedgerSuccess)),
-    filter(action => {
-      return action.payload.network.name === "CELO";
-    }),
-    mergeMap(async action => {
-      const isAccount = await deps.celoLedgerUtil.isAccount(
-        action.payload.ledgerAddress,
-      );
-      return Actions.checkCeloAccountStatus(isAccount);
     }),
   );
 };
@@ -493,7 +479,6 @@ export default combineEpics(
   logoutEpic,
   saveAddressEpic,
   syncAddressToUrlEpic,
-  celoAddressAccountSetupEpic,
   redirectFromNetworkPageEpic,
   syncAddressToUrlOnNavigationEpic,
   syncAddressToUrlOnInitializationEpic,

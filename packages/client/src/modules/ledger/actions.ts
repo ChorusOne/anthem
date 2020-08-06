@@ -57,8 +57,6 @@ enum ActionTypesEnum {
   LOGOUT_FAILURE = "LOGOUT_FAILURE",
 
   CLEAR_ALL_RECENT_ADDRESSES = "CLEAR_ALL_RECENT_ADDRESSES",
-
-  CHECK_CELO_ACCOUNT_STATUS = "CHECK_CELO_ACCOUNT_STATUS",
 }
 
 /** ===========================================================================
@@ -103,6 +101,7 @@ const connectLedgerSuccess = createStandardAction(
   ledgerAddress: string;
   ledgerAppVersion: string;
   network: NetworkDefinition;
+  celoAddressHasAccount: boolean;
 }>();
 
 const connectLedgerFailure = createStandardAction(
@@ -124,10 +123,6 @@ const confirmLogout = createStandardAction(ActionTypesEnum.CONFIRM_LOGOUT)();
 const logoutSuccess = createStandardAction(ActionTypesEnum.LOGOUT_SUCCESS)();
 const logoutFailure = createStandardAction(ActionTypesEnum.LOGOUT_FAILURE)();
 
-const checkCeloAccountStatus = createStandardAction(
-  ActionTypesEnum.CHECK_CELO_ACCOUNT_STATUS,
-)<boolean>();
-
 const actions = {
   setAddress,
   setAddressSuccess,
@@ -146,7 +141,6 @@ const actions = {
   confirmLogout,
   logoutSuccess,
   logoutFailure,
-  checkCeloAccountStatus,
 };
 
 /** ===========================================================================

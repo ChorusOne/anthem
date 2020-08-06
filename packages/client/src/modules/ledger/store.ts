@@ -53,10 +53,6 @@ const ledger = createReducer<LedgerState, ActionTypes | LoadingActionTypes>(
     ...initialState,
     ledgerAppVersionValid: true,
   }))
-  .handleAction(actions.checkCeloAccountStatus, (state, action) => ({
-    ...state,
-    celoAddressHasAccount: action.payload,
-  }))
   .handleAction(actions.connectLedgerSuccess, (state, action) => ({
     ...state,
     addressError: "",
@@ -131,6 +127,7 @@ const ledgerDialog = createReducer<LedgerDialogState, ActionTypes>(
     showSelectNetworkOption: true,
   }))
   .handleAction(actions.connectLedgerSuccess, (state, action) => {
+    const { celoAddressHasAccount } = action.payload;
     let dialogOpen = false;
     if (state.ledgerAccessType === "SIGNIN") {
       dialogOpen = false;
@@ -143,6 +140,7 @@ const ledgerDialog = createReducer<LedgerDialogState, ActionTypes>(
     return {
       ...state,
       dialogOpen,
+      celoAddressHasAccount,
       signinNetworkName: null,
     };
   })

@@ -115,6 +115,11 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
     const { tString } = this.props.i18n;
     const { transactionStage } = this.props.transaction;
     const { ledgerActionType } = this.props.ledgerDialog;
+    const { celoAddressHasAccount } = this.props.ledger;
+
+    if (!celoAddressHasAccount) {
+      return "Create Celo Address Account";
+    }
 
     if (ledgerActionType === "DELEGATE") {
       if (transactionStage === TRANSACTION_STAGES.SETUP) {
@@ -234,10 +239,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
   };
 
   renderAction = () => {
-    const { celoAddressHasAccount } = this.props.ledger;
     const { ledgerActionType } = this.props.ledgerDialog;
-
-    console.log("HAS ACCOUNT: ", celoAddressHasAccount);
 
     switch (ledgerActionType) {
       case "SEND":
