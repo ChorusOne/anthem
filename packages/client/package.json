@@ -79,7 +79,7 @@
     "swipyjs": "^0.0.5",
     "throttle-debounce": "^2.1.0",
     "typesafe-actions": "^4.4.2",
-    "typescript": "^3.9.7",
+    "typescript": "3.5.2",
     "web3": "^1.2.7"
   },
   "devDependencies": {
