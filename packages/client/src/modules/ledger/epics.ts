@@ -232,6 +232,26 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
 };
 
 /**
+ * Check Celo addresses after Ledger signin to see if they have an account
+ * setup or not.
+ */
+const celoAddressAccountSetupEpic: EpicSignature = (action$, state$, deps) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.connectLedgerSuccess)),
+    filter(action => {
+      return action.payload.network.name === "CELO";
+    }),
+    tap(async action => {
+      const isAccount = await deps.celoLedgerUtil.isAccount(
+        action.payload.ledgerAddress,
+      );
+      console.log(`isAccount: ${isAccount}`);
+    }),
+    ignoreElements(),
+  );
+};
+
+/**
  * Redirect to the dashboard if logging in on the /networks page.
  */
 const redirectFromNetworkPageEpic: EpicSignature = (action$, state$, deps) => {
@@ -474,6 +494,7 @@ export default combineEpics(
   logoutEpic,
   saveAddressEpic,
   syncAddressToUrlEpic,
+  celoAddressAccountSetupEpic,
   redirectFromNetworkPageEpic,
   syncAddressToUrlOnNavigationEpic,
   syncAddressToUrlOnInitializationEpic,

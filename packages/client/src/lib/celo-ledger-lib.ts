@@ -197,7 +197,7 @@ class CeloLedgerClass {
     console.log(result);
   }
 
-  async checkAccount(address: string) {
+  async isAccount(address: string) {
     if (!this.kit) {
       throw new Error("CeloLedgerClass not initialized yet.");
     }
@@ -324,6 +324,14 @@ class MockCeloLedgerModule {
     };
   }
 
+  isAccount(address: string) {
+    return true;
+  }
+
+  createAccount(address: string) {
+    return true;
+  }
+
   lock(args: CeloLockGoldArguments) {
     console.log(args);
     // TODO: Fill in correct response data:
@@ -397,4 +405,6 @@ const celoLedgerProvider = new CeloLedgerClass(TEST_NETS.ALFAJORES);
 
 const mockCeloLedgerModule = new MockCeloLedgerModule();
 
-export default ENV.ENABLE_MOCK_APIS ? mockCeloLedgerModule : celoLedgerProvider;
+export default !ENV.ENABLE_MOCK_APIS
+  ? mockCeloLedgerModule
+  : celoLedgerProvider;
