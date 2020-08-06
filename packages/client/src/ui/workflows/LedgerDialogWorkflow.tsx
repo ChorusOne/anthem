@@ -234,7 +234,10 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
   };
 
   renderAction = () => {
+    const { celoAddressHasAccount } = this.props.ledger;
     const { ledgerActionType } = this.props.ledgerDialog;
+
+    console.log("HAS ACCOUNT: ", celoAddressHasAccount);
 
     switch (ledgerActionType) {
       case "SEND":

@@ -241,13 +241,12 @@ const celoAddressAccountSetupEpic: EpicSignature = (action$, state$, deps) => {
     filter(action => {
       return action.payload.network.name === "CELO";
     }),
-    tap(async action => {
+    mergeMap(async action => {
       const isAccount = await deps.celoLedgerUtil.isAccount(
         action.payload.ledgerAddress,
       );
-      console.log(`isAccount: ${isAccount}`);
+      return Actions.checkCeloAccountStatus(isAccount);
     }),
-    ignoreElements(),
   );
 };
 

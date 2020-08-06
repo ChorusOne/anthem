@@ -24,6 +24,7 @@ export interface LedgerState {
   connected: boolean;
   ledgerAppVersionValid: boolean | undefined;
   recentAddresses: ReadonlyArray<string>;
+  celoAddressHasAccount: boolean;
 }
 
 export interface AddressReducerState {
@@ -37,6 +38,7 @@ const initialState: LedgerState = {
   ledgerAppVersionValid: undefined,
   network: NETWORKS.COSMOS,
   recentAddresses: StorageModule.getRecentAddresses(),
+  celoAddressHasAccount: false,
 };
 
 const ledger = createReducer<LedgerState, ActionTypes | LoadingActionTypes>(
@@ -49,8 +51,11 @@ const ledger = createReducer<LedgerState, ActionTypes | LoadingActionTypes>(
   }))
   .handleAction(actions.connectLedgerFailure, () => ({
     ...initialState,
-    // Currently the only cause for failure
     ledgerAppVersionValid: true,
+  }))
+  .handleAction(actions.checkCeloAccountStatus, (state, action) => ({
+    ...state,
+    celoAddressHasAccount: action.payload,
   }))
   .handleAction(actions.connectLedgerSuccess, (state, action) => ({
     ...state,
