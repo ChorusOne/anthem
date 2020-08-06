@@ -208,7 +208,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           <p style={{ marginTop: 6 }}>
             Check your Ledger to sign the transaction.
           </p>
-          <Centered>
+          <Centered style={{ marginTop: 24 }}>
             <Spinner />
           </Centered>
         </View>
@@ -218,7 +218,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         <View>
           <H6 style={{ marginTop: 6, marginBottom: 0 }}>Account Created</H6>
           <p style={{ marginTop: 6 }}>
-            Your account has been created successfully.
+            Your account has been created successfully!
           </p>
           {this.props.renderConfirmArrow("Proceed", () => {
             this.props.setCeloAccountStage(null);

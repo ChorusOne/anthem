@@ -13,6 +13,7 @@ import { i18nSelector } from "modules/settings/selectors";
 import { combineEpics } from "redux-observable";
 import { from } from "rxjs";
 import {
+  delay,
   filter,
   ignoreElements,
   map,
@@ -254,6 +255,29 @@ const redirectFromNetworkPageEpic: EpicSignature = (action$, state$, deps) => {
   );
 };
 
+/**
+ * Handling creating an account for a Celo Ledger address. This is a one
+ * time action.
+ */
+const celoCreateAccountEpic: EpicSignature = (action$, state$, deps) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.setCeloAccountStage)),
+    pluck("payload"),
+    delay(4000),
+    filter(stage => stage === "SIGN"),
+    mergeMap(async () => {
+      try {
+        const { address } = state$.value.ledger.ledger;
+        await deps.celoLedgerUtil.createAccount(address);
+        return Actions.setCeloAccountStage("CONFIRMED");
+      } catch (err) {
+        Toast.warn("Create account failed...");
+        return Actions.setCeloAccountStage("SETUP");
+      }
+    }),
+  );
+};
+
 const logoutEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.confirmLogout)),
@@ -479,6 +503,7 @@ export default combineEpics(
   logoutEpic,
   saveAddressEpic,
   syncAddressToUrlEpic,
+  celoCreateAccountEpic,
   redirectFromNetworkPageEpic,
   syncAddressToUrlOnNavigationEpic,
   syncAddressToUrlOnInitializationEpic,

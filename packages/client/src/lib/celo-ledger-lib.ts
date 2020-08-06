@@ -325,7 +325,7 @@ class MockCeloLedgerModule {
   }
 
   isAccount(address: string) {
-    return true;
+    return false;
   }
 
   createAccount(address: string) {
@@ -405,6 +405,4 @@ const celoLedgerProvider = new CeloLedgerClass(TEST_NETS.ALFAJORES);
 
 const mockCeloLedgerModule = new MockCeloLedgerModule();
 
-export default !ENV.ENABLE_MOCK_APIS
-  ? mockCeloLedgerModule
-  : celoLedgerProvider;
+export default ENV.ENABLE_MOCK_APIS ? mockCeloLedgerModule : celoLedgerProvider;
