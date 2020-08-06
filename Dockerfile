@@ -1,4 +1,4 @@
-FROM cypress/base:12.16.1 AS cypress
+FROM cypress/base:12.18.0 AS cypress
 
 ENV CI=true
 
