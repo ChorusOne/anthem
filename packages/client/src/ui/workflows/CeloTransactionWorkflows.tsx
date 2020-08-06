@@ -14,6 +14,7 @@ import {
   H5,
   H6,
   MenuItem,
+  Spinner,
   Switch,
 } from "@blueprintjs/core";
 import { IItemRendererProps, Select } from "@blueprintjs/select";
@@ -138,9 +139,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   render(): Nullable<JSX.Element> {
     const { transactionStage } = this.props.transaction;
     const { ledgerActionType } = this.props.ledgerDialog;
-    const { celoAddressHasAccount } = this.props.ledger;
+    const { celoCreateAccountStatus } = this.props.ledger;
 
-    if (celoAddressHasAccount) {
+    if (celoCreateAccountStatus) {
       return this.renderAccountSetupStep();
     }
 
@@ -181,25 +182,52 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   }
 
   renderAccountSetupStep = () => {
-    return (
-      <View>
-        <H6 style={{ marginTop: 6, marginBottom: 0 }}>Create Celo Account</H6>
-        <p style={{ marginTop: 6 }}>
-          To have voting and validation rights your address must first be
-          registered as an account.
-        </p>
-        <p style={{ marginTop: 6 }}>
-          This involves signing a transaction with
-          your Ledger device to create an account for your address on the Celo
-          blockchain. This step is required to allow you to complete subsequent
-          steps like locking gold and voting.
-        </p>
-        {this.props.renderConfirmArrow(
-          "Create Account",
-          this.submitLedgerTransferAmount,
-        )}
-      </View>
-    );
+    const { celoCreateAccountStatus } = this.props.ledger;
+    if (celoCreateAccountStatus === "SETUP") {
+      return (
+        <View>
+          <H6 style={{ marginTop: 6, marginBottom: 0 }}>Create Celo Account</H6>
+          <p style={{ marginTop: 6 }}>
+            To have voting and validation rights your address must first be
+            registered as an account.
+          </p>
+          <p style={{ marginTop: 6 }}>
+            This involves signing a transaction with your Ledger device to
+            create an account for your address on the Celo blockchain. This step
+            is required to allow you to complete subsequent steps like locking
+            gold and voting.
+          </p>
+          {this.props.renderConfirmArrow("Create Account", () => {
+            this.props.setCeloAccountStage("SIGN");
+          })}
+        </View>
+      );
+    } else if (celoCreateAccountStatus === "SIGN") {
+      return (
+        <View>
+          <p style={{ marginTop: 6 }}>
+            Check your Ledger to sign the transaction.
+          </p>
+          <Centered>
+            <Spinner />
+          </Centered>
+        </View>
+      );
+    } else if (celoCreateAccountStatus === "CONFIRMED") {
+      return (
+        <View>
+          <H6 style={{ marginTop: 6, marginBottom: 0 }}>Account Created</H6>
+          <p style={{ marginTop: 6 }}>
+            Your account has been created successfully.
+          </p>
+          {this.props.renderConfirmArrow("Proceed", () => {
+            this.props.setCeloAccountStage(null);
+          })}
+        </View>
+      );
+    }
+
+    return null;
   };
 
   renderGovernanceVote = () => {
@@ -1423,6 +1451,7 @@ const dispatchProps = {
   signTransaction: Modules.actions.transaction.signTransaction,
   setTransactionStage: Modules.actions.transaction.setTransactionStage,
   setTransactionData: Modules.actions.transaction.setTransactionData,
+  setCeloAccountStage: Modules.actions.ledger.setCeloAccountStage,
   broadcastTransaction: Modules.actions.transaction.broadcastTransaction,
   setSigninNetworkName: Modules.actions.ledger.setSigninNetworkName,
   setDelegationValidatorSelection:

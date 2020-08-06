@@ -1,5 +1,6 @@
 import { NETWORK_NAME, NetworkDefinition } from "@anthem/utils";
 import { ActionType, createStandardAction } from "typesafe-actions";
+import { CeloCreateAccountStatus } from "./store";
 
 /** ===========================================================================
  * Types & Config
@@ -57,6 +58,8 @@ enum ActionTypesEnum {
   LOGOUT_FAILURE = "LOGOUT_FAILURE",
 
   CLEAR_ALL_RECENT_ADDRESSES = "CLEAR_ALL_RECENT_ADDRESSES",
+
+  SET_CELO_ACCOUNT_STAGE = "SET_CELO_ACCOUNT_STAGE",
 }
 
 /** ===========================================================================
@@ -123,6 +126,10 @@ const confirmLogout = createStandardAction(ActionTypesEnum.CONFIRM_LOGOUT)();
 const logoutSuccess = createStandardAction(ActionTypesEnum.LOGOUT_SUCCESS)();
 const logoutFailure = createStandardAction(ActionTypesEnum.LOGOUT_FAILURE)();
 
+const setCeloAccountStage = createStandardAction(
+  ActionTypesEnum.SET_CELO_ACCOUNT_STAGE,
+)<CeloCreateAccountStatus>();
+
 const actions = {
   setAddress,
   setAddressSuccess,
@@ -141,6 +148,7 @@ const actions = {
   confirmLogout,
   logoutSuccess,
   logoutFailure,
+  setCeloAccountStage,
 };
 
 /** ===========================================================================

@@ -17,6 +17,8 @@ import actions, {
  * ============================================================================
  */
 
+export type CeloCreateAccountStatus = "SETUP" | "SIGN" | "CONFIRMED" | null;
+
 export interface LedgerState {
   address: string;
   addressError: string;
@@ -24,7 +26,7 @@ export interface LedgerState {
   connected: boolean;
   ledgerAppVersionValid: boolean | undefined;
   recentAddresses: ReadonlyArray<string>;
-  celoAddressHasAccount: boolean;
+  celoCreateAccountStatus: CeloCreateAccountStatus;
 }
 
 export interface AddressReducerState {
@@ -38,7 +40,7 @@ const initialState: LedgerState = {
   ledgerAppVersionValid: undefined,
   network: NETWORKS.COSMOS,
   recentAddresses: StorageModule.getRecentAddresses(),
-  celoAddressHasAccount: false,
+  celoCreateAccountStatus: null,
 };
 
 const ledger = createReducer<LedgerState, ActionTypes | LoadingActionTypes>(
@@ -53,14 +55,22 @@ const ledger = createReducer<LedgerState, ActionTypes | LoadingActionTypes>(
     ...initialState,
     ledgerAppVersionValid: true,
   }))
-  .handleAction(actions.connectLedgerSuccess, (state, action) => ({
-    ...state,
-    addressError: "",
-    connected: true,
-    network: action.payload.network,
-    address: action.payload.ledgerAddress,
-    recentAddresses: StorageModule.getRecentAddresses(),
+  .handleAction(actions.setCeloAccountStage, (state, action) => ({
+    ...initialState,
+    celoCreateAccountStatus: action.payload,
   }))
+  .handleAction(actions.connectLedgerSuccess, (state, action) => {
+    const { network, ledgerAddress, celoAddressHasAccount } = action.payload;
+    return {
+      ...state,
+      addressError: "",
+      connected: true,
+      network,
+      address: ledgerAddress,
+      recentAddresses: StorageModule.getRecentAddresses(),
+      celoCreateAccountStatus: !celoAddressHasAccount ? "SETUP" : null,
+    };
+  })
   .handleAction(actions.setAddressSuccess, (state, { payload }) => ({
     ...state,
     connected: false,
@@ -127,7 +137,6 @@ const ledgerDialog = createReducer<LedgerDialogState, ActionTypes>(
     showSelectNetworkOption: true,
   }))
   .handleAction(actions.connectLedgerSuccess, (state, action) => {
-    const { celoAddressHasAccount } = action.payload;
     let dialogOpen = false;
     if (state.ledgerAccessType === "SIGNIN") {
       dialogOpen = false;
@@ -140,7 +149,6 @@ const ledgerDialog = createReducer<LedgerDialogState, ActionTypes>(
     return {
       ...state,
       dialogOpen,
-      celoAddressHasAccount,
       signinNetworkName: null,
     };
   })
