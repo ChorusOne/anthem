@@ -140,8 +140,6 @@ export const validateLedgerTransactionAmount = (
   maxAmount: GenericNumberType,
   tString: tFnString,
 ): string => {
-  // DEBUG
-  return "";
   if (amount === "" || !amount) {
     return tString("Please input an amount.");
   }

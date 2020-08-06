@@ -248,13 +248,11 @@ class CeloLedgerClass {
     const { from, group, amount } = args;
 
     const election = await this.kit.contracts.getElection();
-    console.log(
-      `Voting ${amount} locked gold for validator group ${this.address}`,
-    );
+    console.log(`Voting ${amount} locked gold for validator group ${from}`);
     const receipt = await election
       .vote(group, new BigNumber(amount))
       // @ts-ignore
-      .sendAndWaitForReceipt({ from: this.address });
+      .sendAndWaitForReceipt({ from });
     return receipt;
   }
 

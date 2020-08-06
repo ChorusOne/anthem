@@ -5,10 +5,8 @@ import {
   IQuery,
 } from "@anthem/utils";
 import {
-  Checkbox,
   Classes,
   Code,
-  Colors,
   H3,
   H4,
   H5,
@@ -29,7 +27,6 @@ import {
   withFiatPriceData,
   withGraphQLVariables,
 } from "graphql/queries";
-import celoLedgerLib from "lib/celo-ledger-lib";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React, { ChangeEvent } from "react";
@@ -43,9 +40,7 @@ import styled from "styled-components";
 import {
   capitalizeString,
   copyTextToClipboard,
-  getAccountBalances,
   getBlockExplorerUrlForTransaction,
-  mapRewardsToAvailableRewards,
   sortValidatorsChorusOnTop,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
@@ -58,11 +53,9 @@ import {
 } from "tools/currency-utils";
 import { bold } from "tools/i18n-utils";
 import {
-  validateCosmosAddress,
   validateEthereumAddress,
   validateLedgerTransactionAmount,
 } from "tools/validation-utils";
-import { IThemeProps } from "ui/containers/ThemeContainer";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import {
   Button,
@@ -165,7 +158,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       case "DELEGATE":
         return this.renderDelegationTransactionSetup();
       case "CLAIM":
-        return this.renderRewardsTransactionSetup();
+        return null;
       case "SEND":
         return this.renderSendReceiveTransactionSetup();
       case "LOCK_GOLD":
@@ -373,140 +366,6 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     );
   };
 
-  renderRewardsTransactionSetup = () => {
-    const {
-      i18n,
-      ledger,
-      fiatCurrency,
-      fiatPriceData,
-      celoValidatorGroups,
-      celoAccountBalances,
-    } = this.props;
-    const { t, tString } = i18n;
-    const { network } = ledger;
-
-    return (
-      <GraphQLGuardComponentMultipleQueries
-        tString={tString}
-        results={[
-          [celoAccountBalances, "celoAccountBalances"],
-          [celoValidatorGroups, "celoValidatorGroups"],
-          [fiatPriceData, "fiatPriceData"],
-        ]}
-      >
-        {([accountBalancesData, validatorsList, fiatPrices]: readonly [
-          ICeloAccountBalances,
-          IQuery["cosmosValidators"],
-          IQuery["fiatPriceData"],
-        ]) => {
-          const { pendingWithdrawalBalance } = accountBalancesData;
-
-          // Proxy for no rewards available.
-          if (pendingWithdrawalBalance === "0") {
-            return (
-              <View>
-                <b>
-                  {tString(
-                    "You currently have no rewards available for withdrawal.",
-                  )}
-                </b>
-              </View>
-            );
-          }
-
-          return (
-            <View>
-              <p>
-                {t(
-                  "You have a total of {{rewards}} ({{rewardsUSD}}) rewards available to withdraw.",
-                  {
-                    rewards: bold(
-                      `${pendingWithdrawalBalance} ${ledger.network.descriptor}`,
-                    ),
-                    rewardsUSD: `${pendingWithdrawalBalance} ${fiatCurrency.symbol}`,
-                  },
-                )}
-              </p>
-              <p>
-                {tString(
-                  "Select the rewards you wish to withdraw from the list:",
-                )}
-              </p>
-              {/* {availableRewards.map((result, index) => {
-                const checked = Boolean(
-                  this.state.selectedRewards.find(
-                    reward =>
-                      reward.validator_address === result.validator_address,
-                  ),
-                );
-
-                // If the validator is out of the elected set it will not be
-                // in the validatorList!
-                const validator = validatorsList.find(
-                  v => v.operator_address === result.validator_address,
-                );
-
-                if (!validator) {
-                  return null;
-                }
-
-                return (
-                  <RewardsSelectBlock key={result.validator_address}>
-                    <Checkbox
-                      readOnly
-                      checked={checked}
-                      style={{ margin: 0 }}
-                      data-cy={`validator-check-option-${index}`}
-                      onClick={(e: React.FormEvent<HTMLInputElement>) => {
-                        this.toggleRewardsClaimOption(result, !checked);
-                      }}
-                    />
-                    <b>{validator.description.moniker}</b>
-                    <p style={{ margin: 0, marginLeft: 4 }}>
-                      {formatCurrencyAmount(
-                        denomToUnit(
-                          result.amount,
-                          network.denominationSize,
-                          String,
-                        ),
-                        4,
-                      )}{" "}
-                      {ledger.network.descriptor}
-                    </p>
-                  </RewardsSelectBlock>
-                );
-              })}
-              {availableRewards.length > 1 && (
-                <Button
-                  category="PRIMARY"
-                  style={{ marginTop: 14, width: 155 }}
-                  data-cy="rewards-claim-all-button"
-                  onClick={() => this.handleSelectAllRewards(availableRewards)}
-                >
-                  {this.state.selectAllRewards ? "Unselect" : "Select"} All
-                  Rewards
-                </Button>
-              )} */}
-              <DividerLine />
-              {this.renderGasPriceSetup()}
-              {this.state.claimsTransactionSetupError && (
-                <div style={{ marginTop: 12 }} className={Classes.LABEL}>
-                  <ErrorText data-cy="claims-transaction-error">
-                    {this.state.claimsTransactionSetupError}
-                  </ErrorText>
-                </div>
-              )}
-              {this.props.renderConfirmArrow(
-                tString("Generate My Transaction"),
-                this.getRewardsClaimTransaction,
-              )}
-            </View>
-          );
-        }}
-      </GraphQLGuardComponentMultipleQueries>
-    );
-  };
-
   handleSelectAllRewards = (availableRewards: AvailableReward[]) => {
     this.setState(ps => ({
       selectAllRewards: !ps.selectAllRewards,
@@ -537,7 +396,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       celoAccountBalances,
     } = this.props;
     const { network } = ledger;
-    const { t, tString } = i18n;
+    const { tString } = i18n;
     return (
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
@@ -637,7 +496,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       celoAccountBalances,
     } = this.props;
     const { network } = ledger;
-    const { t, tString } = i18n;
+    const { tString } = i18n;
     const { selectedValidatorForDelegation } = transaction;
     const group = selectedValidatorForDelegation
       ? (selectedValidatorForDelegation as ICeloValidatorGroup)
@@ -1098,7 +957,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   getMaximumAmount = () => {
-    const { fiatPriceData, celoAccountBalances, ledger } = this.props;
+    const { celoAccountBalances, ledger } = this.props;
     const { ledgerActionType } = this.props.ledgerDialog;
     const IS_CLAIM = ledgerActionType === "CLAIM";
 
@@ -1345,15 +1204,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   getRewardsClaimTransaction = () => {
-    const { gasAmount, gasPrice, selectedRewards } = this.state;
-    const { network, address } = this.props.ledger;
-    const { denom } = network;
-
     // TODO: Implement!
+    // const { gasAmount, gasPrice, selectedRewards } = this.state;
+    // const { network, address } = this.props.ledger;
+    // const { denom } = network;
   };
 
   getGovernanceVoteTransaction = async () => {
-    const { amount } = this.state;
     const { governanceProposalData } = this.props.transaction;
 
     if (!governanceProposalData) {
@@ -1410,26 +1267,6 @@ const TransactionHashText = styled(Code)`
   margin-top: 12px;
   margin-bottom: 16px;
   word-wrap: break-word;
-`;
-
-const RewardsSelectBlock = styled.div`
-  margin-top: 16px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-`;
-
-const DividerLine = styled.div`
-  height: 1px;
-  margin-top: 16px;
-  margin-bottom: 8px;
-  width: 100%;
-  border-top-width: 1px;
-  border-top-style: solid;
-  background: transparent;
-  border-top-color: ${(props: { theme: IThemeProps }) =>
-    props.theme.isDarkTheme ? Colors.DARK_GRAY5 : Colors.LIGHT_GRAY1};
 `;
 
 /** ===========================================================================
