@@ -39,7 +39,7 @@
     "docker:cypress": "docker-compose -f packages/cypress/docker-compose.yml up --abort-on-container-exit"
   },
   "devDependencies": {
-    "lerna": "^3.19.0"
+    "lerna": "3.22.1"
   },
   "workspaces": [
     "packages/*"
