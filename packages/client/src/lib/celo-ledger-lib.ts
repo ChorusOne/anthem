@@ -182,19 +182,37 @@ class CeloLedgerClass {
     return result;
   }
 
+  async createAccount(address: string) {
+    if (!this.kit) {
+      throw new Error("CeloLedgerClass not initialized yet.");
+    }
+
+    const accounts = await this.kit.contracts.getAccounts();
+
+    const result = await accounts
+      .createAccount()
+      // @ts-ignore
+      .sendAndWaitForReceipt({ from: address });
+    console.log("Account Result:");
+    console.log(result);
+  }
+
+  async checkAccount(address: string) {
+    if (!this.kit) {
+      throw new Error("CeloLedgerClass not initialized yet.");
+    }
+
+    const accounts = await this.kit.contracts.getAccounts();
+    const isAccount = await accounts.isAccount(address);
+    return isAccount;
+  }
+
   async lock(args: CeloLockGoldArguments) {
     if (!this.kit) {
       throw new Error("CeloLedgerClass not initialized yet.");
     }
 
     const { amount, from } = args;
-
-    // const accounts = await this.kit.contracts.getAccounts();
-    // const account = await accounts.signerToAccount(from);
-
-    // @ts-ignore
-    // const x = await accounts.createAccount().sendAndWaitForReceipt({ from });
-    // console.log("Created account: ", x);
 
     const lockedGold = await this.kit.contracts.getLockedGold();
     console.log(`Locking ${amount} gold for address ${this.address}`);
