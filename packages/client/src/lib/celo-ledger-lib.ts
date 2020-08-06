@@ -189,9 +189,16 @@ class CeloLedgerClass {
 
     const { amount, from } = args;
 
+    // const accounts = await this.kit.contracts.getAccounts();
+    // const account = await accounts.signerToAccount(from);
+
+    // @ts-ignore
+    // const x = await accounts.createAccount().sendAndWaitForReceipt({ from });
+    // console.log("Created account: ", x);
+
     const lockedGold = await this.kit.contracts.getLockedGold();
     console.log(`Locking ${amount} gold for address ${this.address}`);
-    // DEBUG
+
     try {
       const receipt = await lockedGold
         .lock()
