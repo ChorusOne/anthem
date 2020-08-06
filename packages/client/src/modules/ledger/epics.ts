@@ -231,6 +231,24 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
   );
 };
 
+/**
+ * Redirect to the dashboard if logging in on the /networks page.
+ */
+const redirectFromNetworkPageEpic: EpicSignature = (action$, state$, deps) => {
+  return action$.pipe(
+    filter(
+      isActionOf([Actions.connectLedgerSuccess, Actions.setAddressSuccess]),
+    ),
+    filter(() => {
+      return window.location.pathname.includes("/networks");
+    }),
+    tap(() => {
+      // Will redirect to the dashboard route for this address
+      deps.router.push("/");
+    }),
+  );
+};
+
 const logoutEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.confirmLogout)),
@@ -456,6 +474,7 @@ export default combineEpics(
   logoutEpic,
   saveAddressEpic,
   syncAddressToUrlEpic,
+  redirectFromNetworkPageEpic,
   syncAddressToUrlOnNavigationEpic,
   syncAddressToUrlOnInitializationEpic,
   setAddressOnNavigationEpic,
