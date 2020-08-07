@@ -27,7 +27,7 @@ import Web3 from "web3";
  */
 
 const TEST_NETS = {
-  MAINNET: "what is mainnet?",
+  MAINNET: "https://rc1-forno.celo-testnet.org/",
   BAKLAVA: "https://baklava-forno.celo-testnet.org",
   ALFAJORES: "https://alfajores-forno.celo-testnet.org",
 };
@@ -484,7 +484,7 @@ class MockCeloLedgerModule implements ICeloLedger {
  * ============================================================================
  */
 
-const celoLedgerProvider = new CeloLedgerClass(TEST_NETS.ALFAJORES);
+const celoLedgerProvider = new CeloLedgerClass(TEST_NETS.MAINNET);
 
 const mockCeloLedgerModule = new MockCeloLedgerModule();
 
