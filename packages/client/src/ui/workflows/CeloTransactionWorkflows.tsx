@@ -58,6 +58,7 @@ import {
 } from "tools/validation-utils";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import {
+  AddressQR,
   Button,
   Centered,
   CopyIcon,
@@ -94,6 +95,7 @@ interface IState {
   voteForValidatorGroupTransactionInputError: string;
   useFullBalance: boolean;
   selectAllRewards: boolean;
+  displayReceiveQR: boolean;
   selectedRewards: ReadonlyArray<AvailableReward>;
 }
 
@@ -122,6 +124,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       gasPrice: DEFAULT_GAS_PRICE,
       gasAmount: DEFAULT_GAS_AMOUNT,
       recipientAddress: "",
+      displayReceiveQR: false,
       claimsTransactionSetupError: "",
       sendTransactionInputError: "",
       lockGoldTransactionSetupError: "",
@@ -259,8 +262,25 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       fiatPriceData,
       celoAccountBalances,
     } = this.props;
+    const { displayReceiveQR } = this.state;
     const { address, network } = ledger;
     const { t, tString } = i18n;
+
+    if (displayReceiveQR) {
+      return (
+        <View>
+          <AddressQR address={address} />
+          <Button
+            icon="arrow-left"
+            style={{ bottom: -16, position: "absolute" }}
+            onClick={() => this.setState({ displayReceiveQR: false })}
+          >
+            Back
+          </Button>
+        </View>
+      );
+    }
+
     return (
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
@@ -332,8 +352,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     />
                     <Button
                       icon="duplicate"
-                      onClick={() => copyTextToClipboard(address)}
                       style={{ bottom: -16, position: "absolute" }}
+                      onClick={() => this.setState({ displayReceiveQR: true })}
                     >
                       Receive
                     </Button>
