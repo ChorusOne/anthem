@@ -62,6 +62,7 @@ interface CeloLockGoldArguments {
 }
 
 interface CeloGovernanceVoteArguments {
+  from: string;
   proposalId: string;
   vote: keyof typeof VoteValue;
 }
@@ -186,12 +187,14 @@ class CeloLedgerClass implements ICeloLedger {
       throw new Error("CeloLedgerClass not initialized yet.");
     }
 
-    const { proposalId, vote } = args;
+    const { proposalId, vote, from } = args;
 
     const governance = await this.kit.contracts.getGovernance();
     console.log(`Voting for proposal ID: ${proposalId}`);
-    const result = await governance.vote(proposalId, vote);
-    return result;
+    const tx = await governance.vote(proposalId, vote);
+    // @ts-ignore
+    const receipt = await tx.sendAndWaitForReceipt({ from });
+    return receipt;
   }
 
   async upvoteForProposal(proposalId: string, upvoter: string) {
@@ -240,16 +243,11 @@ class CeloLedgerClass implements ICeloLedger {
     const lockedGold = await this.kit.contracts.getLockedGold();
     console.log(`Locking ${amount} gold for address ${this.address}`);
 
-    try {
-      const receipt = await lockedGold
-        .lock()
-        // @ts-ignore
-        .sendAndWaitForReceipt({ from, value: amount });
-      return receipt;
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
+    const receipt = await lockedGold
+      .lock()
+      // @ts-ignore
+      .sendAndWaitForReceipt({ from, value: amount });
+    return receipt;
   }
 
   async unlock(amount: string) {
@@ -272,21 +270,13 @@ class CeloLedgerClass implements ICeloLedger {
 
     const x = "0x5edfCe0bad47e24E30625c275457F5b4Bb619241";
 
-    try {
-      this.kit.defaultAccount = from;
-      const election = await this.kit.contracts.getElection();
-      console.log(`Voting ${amount} locked gold for validator group ${x}`);
-      const tx = await election.vote(x, new BigNumber(amount));
-      // @ts-ignore
-      const receipt = await tx.sendAndWaitForReceipt({ from });
-      return receipt;
-    } catch (err) {
-      console.log("ERROR --->");
-      console.log(err);
-      throw err;
-    }
-
-    return;
+    this.kit.defaultAccount = from;
+    const election = await this.kit.contracts.getElection();
+    console.log(`Voting ${amount} locked gold for validator group ${group}`);
+    const tx = await election.vote(x, new BigNumber(amount));
+    // @ts-ignore
+    const receipt = await tx.sendAndWaitForReceipt({ from });
+    return receipt;
   }
 
   async getAccountSummary() {
@@ -353,8 +343,9 @@ class MockCeloLedgerModule implements ICeloLedger {
     console.log(args);
     // TODO: Fill in correct response data:
     return {
-      transactionHash:
-        "0x42407259176a931a0294847ee10eedbf01be4959ac7914f9fffbb5b84faf6ee7",
+      blockHash:
+        "0x9c07e995eea75054d2e87bd25d5ba23db7f128efe8ff139d49c7be799e04cd58",
+      blockNumber: 374947,
     };
   }
 
@@ -374,8 +365,9 @@ class MockCeloLedgerModule implements ICeloLedger {
     console.log(args);
     // TODO: Fill in correct response data:
     return {
-      transactionHash:
-        "0x42407259176a931a0294847ee10eedbf01be4959ac7914f9fffbb5b84faf6ee2",
+      blockHash:
+        "0x9c07e995eea75054d1e87bd25d5ba23db5f128efe8ff139d49c7be799e04cd58",
+      blockNumber: 374241,
     };
   }
 

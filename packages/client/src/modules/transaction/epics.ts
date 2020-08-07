@@ -2,7 +2,6 @@ import { assertUnreachable } from "@anthem/utils";
 import logger from "lib/logger-lib";
 import { EpicSignature } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
-import { ocean } from "react-syntax-highlighter/dist/styles/hljs";
 import { combineEpics } from "redux-observable";
 import { filter, ignoreElements, mergeMap, pluck, tap } from "rxjs/operators";
 import { adaptRawTransactionData, wait } from "tools/client-utils";
@@ -64,10 +63,7 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
                 const voteResult = await celoLedgerUtil.voteForValidatorGroup(
                   transactionData,
                 );
-                console.log("VOTE RESULT!");
-                console.log(voteResult);
-                // return Actions.transactionConfirmed(voteResult);
-                return Actions.signTransactionFailure();
+                return Actions.transactionConfirmed(voteResult);
               case "LOCK_GOLD":
                 const lockResult = await celoLedgerUtil.lock(transactionData);
                 return Actions.transactionConfirmed(lockResult);
@@ -75,8 +71,7 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
                 const governanceResult = await celoLedgerUtil.voteForProposal(
                   transactionData,
                 );
-                // return Actions.transactionConfirmed(governanceResult);
-                return Actions.signTransactionFailure();
+                return Actions.transactionConfirmed(governanceResult);
               default: {
                 throw new Error(
                   `Action ${ledgerActionType} not supported for Celo yet.`,
@@ -91,14 +86,10 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
             assertUnreachable(name);
         }
       } catch (err) {
-        const { tString } = i18nSelector(state$.value);
+        console.error(err);
         Toast.warn(
-          tString(
-            "Could not access Ledger. Is your device still connected and unlocked?",
-          ),
+          "Could not access Ledger, or failed to send transaction. Is your device still connected and unlocked?",
         );
-
-        console.log("GOT ERROR!");
 
         return Actions.signTransactionFailure();
       }
