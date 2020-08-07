@@ -1012,12 +1012,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     this.setState({ recipientAddress: recipient }, () => {
       const { recipientAddress } = this.state;
       if (recipientAddress) {
-        // DEBUG
-        // if (!validateCosmosAddress(recipientAddress)) {
-        //   Toast.warn(
-        //     "Please ensure the entered address is a valid Cosmos address.",
-        //   );
-        // }
+        if (!validateEthereumAddress(recipientAddress)) {
+          Toast.warn(
+            "Please ensure the entered address is a valid Celo address.",
+          );
+        }
       }
     });
   };
