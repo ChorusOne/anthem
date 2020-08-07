@@ -155,7 +155,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
      * Setup Stage:
      */
     switch (ledgerActionType) {
-      case "DELEGATE":
+      case "VOTE_GOLD":
         return this.renderDelegationTransactionSetup();
       case "CLAIM":
         return null;
@@ -165,6 +165,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         return this.renderLockGoldTransactionSetup();
       case "GOVERNANCE_VOTE":
         return this.renderGovernanceVote();
+      case "DELEGATE":
       case null:
         break;
       default:

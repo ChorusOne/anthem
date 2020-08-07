@@ -168,6 +168,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       case "SEND":
         return this.renderSendReceiveTransactionSetup();
       case "LOCK_GOLD":
+      case "VOTE_GOLD":
       case "GOVERNANCE_VOTE":
       case null:
         break;

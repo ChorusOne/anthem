@@ -17,6 +17,7 @@ export type LEDGER_ACTION_TYPE =
   | "DELEGATE"
   | "CLAIM"
   | "SEND"
+  | "VOTE_GOLD"
   | "LOCK_GOLD"
   | "GOVERNANCE_VOTE";
 

@@ -297,6 +297,8 @@ class CeloLedgerClass {
  */
 
 class MockCeloLedgerModule {
+  createdAccount = false;
+
   connect() {
     // No action
   }
@@ -323,10 +325,11 @@ class MockCeloLedgerModule {
   }
 
   isAccount(address: string) {
-    return false;
+    return this.createdAccount;
   }
 
   createAccount(address: string) {
+    this.createdAccount = true;
     return true;
   }
 

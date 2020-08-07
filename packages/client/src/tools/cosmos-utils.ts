@@ -86,6 +86,7 @@ const getTransactionMessageTypeForNetwork = (
 ): string => {
   // Reject non-Cosmos transaction types
   if (
+    transactionType === "VOTE_GOLD" ||
     transactionType === "LOCK_GOLD" ||
     transactionType === "GOVERNANCE_VOTE"
   ) {
