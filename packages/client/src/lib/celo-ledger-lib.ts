@@ -66,12 +66,28 @@ interface CeloGovernanceVoteArguments {
   vote: keyof typeof VoteValue;
 }
 
+interface ICeloLedger {
+  validateAddress(address: string): boolean;
+  getCeloAppVersion(): Promise<string>;
+  getAddress(derivationPath: "0" | "1" | "2" | "3" | "4"): Promise<string>;
+  transfer(args: CeloTransferArguments): Promise<any>;
+  voteForProposal(args: CeloGovernanceVoteArguments): Promise<any>;
+  upvoteForProposal(proposalId: string, upvoter: string): Promise<any>;
+  createAccount(address: string): Promise<any>;
+  isAccount(address: string): Promise<boolean>;
+  lock(args: CeloLockGoldArguments): Promise<any>;
+  unlock(amount: string): Promise<any>;
+  voteForValidatorGroup(args: CeloVoteArguments): Promise<any>;
+  getAccountSummary(): Promise<any>;
+  getTotalBalances(): Promise<any>;
+}
+
 /** ===========================================================================
  * Celo Ledger Class
  * ============================================================================
  */
 
-class CeloLedgerClass {
+class CeloLedgerClass implements ICeloLedger {
   private address = "";
   private kit: Nullable<ContractKit> = null;
   private eth: Nullable<any> = null;
@@ -298,14 +314,14 @@ class CeloLedgerClass {
  * ============================================================================
  */
 
-class MockCeloLedgerModule {
+class MockCeloLedgerModule implements ICeloLedger {
   createdAccount = false;
 
   connect() {
     // No action
   }
 
-  getCeloAppVersion() {
+  async getCeloAppVersion() {
     return "1.0.1";
   }
 
@@ -318,7 +334,7 @@ class MockCeloLedgerModule {
     return "0xae1d640648009dbe0aa4485d3bfbb68c37710924";
   }
 
-  voteForProposal(args: CeloGovernanceVoteArguments) {
+  async voteForProposal(args: CeloGovernanceVoteArguments) {
     console.log(args);
     // TODO: Fill in correct response data:
     return {
@@ -327,7 +343,7 @@ class MockCeloLedgerModule {
     };
   }
 
-  isAccount(address: string) {
+  async isAccount(address: string) {
     return this.createdAccount;
   }
 
@@ -358,7 +374,7 @@ class MockCeloLedgerModule {
     };
   }
 
-  transfer() {
+  async transfer() {
     return {
       blockHash:
         "0x5307a5509c5655836a7d8dee55e94686c2ad0b9ed88cd6d61870b76fe662f141",
@@ -401,6 +417,22 @@ class MockCeloLedgerModule {
         "0x42407259176a931a0294847ee10eedbf01be4959ac7914f9fffbb5b84faf6ee1",
       transactionIndex: 0,
     };
+  }
+
+  async upvoteForProposal() {
+    return;
+  }
+
+  async unlock() {
+    return;
+  }
+
+  async getAccountSummary() {
+    return;
+  }
+
+  async getTotalBalances() {
+    return;
   }
 }
 
