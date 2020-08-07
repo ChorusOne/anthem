@@ -53,6 +53,7 @@
     "highcharts-react-official": "^2.2.2",
     "identicon.js": "^2.3.3",
     "js-md5": "^0.7.3",
+    "ledger-oasis-js": "^0.0.5",
     "moment-timezone": "^0.5.28",
     "node-sass": "^4.12.0",
     "qrcode.react": "^1.0.0",
