@@ -39,7 +39,6 @@ import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import styled from "styled-components";
 import {
   capitalizeString,
-  copyTextToClipboard,
   getBlockExplorerUrlForTransaction,
   sortValidatorsChorusOnTop,
 } from "tools/client-utils";
