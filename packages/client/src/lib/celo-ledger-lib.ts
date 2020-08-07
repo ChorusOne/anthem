@@ -313,7 +313,8 @@ class MockCeloLedgerModule {
     return true;
   }
 
-  getAddress() {
+  async getAddress() {
+    await wait(2500);
     return "0xae1d640648009dbe0aa4485d3bfbb68c37710924";
   }
 

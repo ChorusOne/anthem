@@ -13,7 +13,6 @@ import { i18nSelector } from "modules/settings/selectors";
 import { combineEpics } from "redux-observable";
 import { from } from "rxjs";
 import {
-  delay,
   filter,
   ignoreElements,
   map,

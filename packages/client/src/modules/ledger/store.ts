@@ -86,6 +86,11 @@ const ledger = createReducer<LedgerState, ActionTypes | LoadingActionTypes>(
     ...state,
     recentAddresses: [],
   }))
+  .handleAction(actions.closeLedgerDialog, (state, action) => ({
+    ...state,
+    celoCreateAccountStatus:
+      state.celoCreateAccountStatus === "SETUP" ? "SETUP" : null,
+  }))
   .handleAction(actions.logoutSuccess, () => ({
     ...initialState,
   }));
