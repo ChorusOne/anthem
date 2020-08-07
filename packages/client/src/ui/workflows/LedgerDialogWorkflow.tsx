@@ -186,6 +186,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
       case "SEND":
       case "CLAIM":
       case "DELEGATE":
+      case "VOTE_GOLD":
       case "LOCK_GOLD":
       case "GOVERNANCE_VOTE":
         if (!this.props.ledger.connected) {
@@ -630,7 +631,7 @@ const RecentAddress = styled.p`
 `;
 
 const getDialogTitle = (
-  ledgerActionType: LEDGER_ACTION_TYPE,
+  ledgerActionType: Nullable<LEDGER_ACTION_TYPE>,
   transactionStage: TRANSACTION_STAGES,
   tString: tFnString,
 ) => {

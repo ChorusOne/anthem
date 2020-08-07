@@ -263,7 +263,6 @@ const celoCreateAccountEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.setCeloAccountStage)),
     pluck("payload"),
-    delay(4000),
     filter(stage => stage === "SIGN"),
     mergeMap(async () => {
       try {

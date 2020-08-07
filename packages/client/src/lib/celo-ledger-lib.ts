@@ -10,6 +10,7 @@ import TransportUSB from "@ledgerhq/hw-transport-webusb";
 import BigNumber from "bignumber.js";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
 import ENV from "lib/client-env";
+import { wait } from "tools/client-utils";
 import Web3 from "web3";
 
 /** ===========================================================================
@@ -328,7 +329,9 @@ class MockCeloLedgerModule {
     return this.createdAccount;
   }
 
-  createAccount(address: string) {
+  async createAccount(address: string) {
+    // Add a delay for effect...
+    await wait(2500);
     this.createdAccount = true;
     return true;
   }

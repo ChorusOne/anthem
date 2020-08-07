@@ -59,7 +59,7 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
                   transactionData,
                 );
                 return Actions.transactionConfirmed(transferResult);
-              case "DELEGATE":
+              case "VOTE_GOLD":
                 const voteResult = await celoLedgerUtil.voteForValidatorGroup(
                   transactionData,
                 );
