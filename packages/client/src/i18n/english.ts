@@ -307,7 +307,7 @@ export type ENGLISH =
   | readonly [
       "Your transaction is successful and was included at block height {{height}}. It may take a few moments for the updates to appear in Anthem.",
       {
-        height: string;
+        height: string | number;
       },
     ]
   | readonly ["Transaction Confirmed!"]

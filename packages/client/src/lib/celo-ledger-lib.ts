@@ -66,6 +66,12 @@ interface CeloGovernanceVoteArguments {
   vote: keyof typeof VoteValue;
 }
 
+// Other data is included but we only care about these for now.
+export interface ICeloTransactionResult {
+  blockHash: string;
+  blockNumber: number;
+}
+
 interface ICeloLedger {
   validateAddress(address: string): boolean;
   getCeloAppVersion(): Promise<string>;
@@ -258,20 +264,29 @@ class CeloLedgerClass implements ICeloLedger {
   }
 
   async voteForValidatorGroup(args: CeloVoteArguments) {
-    await wait(2500);
     if (!this.kit) {
       throw new Error("CeloLedgerClass not initialized yet.");
     }
 
     const { from, group, amount } = args;
 
-    const election = await this.kit.contracts.getElection();
-    console.log(`Voting ${amount} locked gold for validator group ${from}`);
-    const receipt = await election
-      .vote(group, new BigNumber(amount))
+    const x = "0x5edfCe0bad47e24E30625c275457F5b4Bb619241";
+
+    try {
+      this.kit.defaultAccount = from;
+      const election = await this.kit.contracts.getElection();
+      console.log(`Voting ${amount} locked gold for validator group ${x}`);
+      const tx = await election.vote(x, new BigNumber(amount));
       // @ts-ignore
-      .sendAndWaitForReceipt({ from });
-    return receipt;
+      const receipt = await tx.sendAndWaitForReceipt({ from });
+      return receipt;
+    } catch (err) {
+      console.log("ERROR --->");
+      console.log(err);
+      throw err;
+    }
+
+    return;
   }
 
   async getAccountSummary() {
@@ -369,8 +384,43 @@ class MockCeloLedgerModule implements ICeloLedger {
     console.log(args);
     // TODO: Fill in correct response data:
     return {
+      blockHash:
+        "0x9c07e995eea75054d2e87bd25d5ba23db5f128efe8ff139d49c7be799e04cd58",
+      blockNumber: 374941,
+      contractAddress: null,
+      cumulativeGasUsed: 248191,
+      events: {
+        ValidatorGroupVoteCast: {
+          address: "0x1c3eDf937CFc2F6F51784D20DEB1af1F9a8655fA",
+          blockHash:
+            "0x9c07e995eea75054d2e87bd25d5ba23db5f128efe8ff139d49c7be799e04cd58",
+          blockNumber: 374941,
+          event: "ValidatorGroupVoteCast",
+          id: "log_3e6285e9",
+          logIndex: 0,
+          raw: {
+            data:
+              "0x00000000000000000000000000000000000000000000000000005af3107a4000",
+            topics: Array(3),
+          },
+          removed: false,
+          returnValues: {},
+          signature:
+            "0xd3532f70444893db82221041edb4dc26c94593aeb364b0b14dfc77d5ee905152",
+          transactionHash:
+            "0x3f375cbf06a622493fc178590a9208e86ce711c92f424a8d926df8473974d022",
+          transactionIndex: 0,
+        },
+      },
+      from: "0x6cb8265db4cf1f588b9a6576618ed9c965cc0869",
+      gasUsed: 248191,
+      logsBloom:
+        "0x00000000000000000001000400000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000100000000800000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000280000000000000000000000000000000020000000000000000000",
+      status: true,
+      to: "0x1c3edf937cfc2f6f51784d20deb1af1f9a8655fa",
       transactionHash:
-        "0x42407259176a931a0294847ee10eedbf01be4959ac7914f9fffbb5b84faf6ee2",
+        "0x3f375cbf06a622493fc178590a9208e86ce711c92f424a8d926df8473974d022",
+      transactionIndex: 0,
     };
   }
 
@@ -445,4 +495,6 @@ const celoLedgerProvider = new CeloLedgerClass(TEST_NETS.ALFAJORES);
 
 const mockCeloLedgerModule = new MockCeloLedgerModule();
 
-export default ENV.ENABLE_MOCK_APIS ? mockCeloLedgerModule : celoLedgerProvider;
+export default !ENV.ENABLE_MOCK_APIS
+  ? mockCeloLedgerModule
+  : celoLedgerProvider;

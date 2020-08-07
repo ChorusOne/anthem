@@ -3,15 +3,11 @@ import {
   ICosmosTransaction,
   ICosmosValidator,
 } from "@anthem/utils";
+import { ICeloTransactionResult } from "lib/celo-ledger-lib";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { TxPostBody } from "tools/cosmos-utils";
 import { ActionType, createStandardAction } from "typesafe-actions";
 import { GovernanceVoteDetails } from "./store";
-
-/** ===========================================================================
- * Types & Config
- * ============================================================================
- */
 
 /** ===========================================================================
  * Action Types
@@ -86,7 +82,7 @@ const pollForTransaction = createStandardAction(
 
 const transactionConfirmed = createStandardAction(
   ActionTypesEnum.TRANSACTION_CONFIRMED,
-)<{ height: string; transaction: Nullable<ICosmosTransaction> }>();
+)<Nullable<ICosmosTransaction | ICeloTransactionResult>>();
 
 const transactionFailed = createStandardAction(
   ActionTypesEnum.TRANSACTION_FAILED,

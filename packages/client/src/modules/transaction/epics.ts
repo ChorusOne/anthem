@@ -2,6 +2,7 @@ import { assertUnreachable } from "@anthem/utils";
 import logger from "lib/logger-lib";
 import { EpicSignature } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
+import { ocean } from "react-syntax-highlighter/dist/styles/hljs";
 import { combineEpics } from "redux-observable";
 import { filter, ignoreElements, mergeMap, pluck, tap } from "rxjs/operators";
 import { adaptRawTransactionData, wait } from "tools/client-utils";
@@ -63,15 +64,19 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
                 const voteResult = await celoLedgerUtil.voteForValidatorGroup(
                   transactionData,
                 );
-                return Actions.transactionConfirmed(voteResult);
+                console.log("VOTE RESULT!");
+                console.log(voteResult);
+                // return Actions.transactionConfirmed(voteResult);
+                return Actions.signTransactionFailure();
               case "LOCK_GOLD":
                 const lockResult = await celoLedgerUtil.lock(transactionData);
                 return Actions.transactionConfirmed(lockResult);
               case "GOVERNANCE_VOTE":
-                const governanceResult = await celoLedgerUtil.voteForValidatorGroup(
+                const governanceResult = await celoLedgerUtil.voteForProposal(
                   transactionData,
                 );
-                return Actions.transactionConfirmed(governanceResult);
+                // return Actions.transactionConfirmed(governanceResult);
+                return Actions.signTransactionFailure();
               default: {
                 throw new Error(
                   `Action ${ledgerActionType} not supported for Celo yet.`,
@@ -92,6 +97,8 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
             "Could not access Ledger. Is your device still connected and unlocked?",
           ),
         );
+
+        console.log("GOT ERROR!");
 
         return Actions.signTransactionFailure();
       }
@@ -167,10 +174,7 @@ const pollTransactionEpic: EpicSignature = (action$, state$, deps) => {
           await wait(1500);
           return Actions.pollForTransaction();
         } else if (result.logs && result.logs[0].success) {
-          return Actions.transactionConfirmed({
-            height: result.height,
-            transaction: adaptedTransactionResult,
-          });
+          return Actions.transactionConfirmed(adaptedTransactionResult);
         } else {
           const rawLog = result.raw_log;
           if (typeof rawLog === "string" && rawLog.includes("out of gas")) {

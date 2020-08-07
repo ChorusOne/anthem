@@ -27,6 +27,7 @@ import {
   withFiatPriceData,
   withGraphQLVariables,
 } from "graphql/queries";
+import { ICeloTransactionResult } from "lib/celo-ledger-lib";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React, { ChangeEvent } from "react";
@@ -913,7 +914,17 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const { i18n, transaction, ledger } = this.props;
     const { t, tString } = i18n;
     const { transactionResult } = transaction;
-    const { transactionHash, blockNumber } = transactionResult;
+
+    if (!transactionResult) {
+      return (
+        <Centered>
+          <p>No transaction data found...</p>
+        </Centered>
+      );
+    }
+
+    const tx = transactionResult as ICeloTransactionResult;
+    const { blockHash, blockNumber } = tx;
 
     return (
       <Centered style={{ flexDirection: "column" }}>
@@ -926,9 +937,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             },
           )}
         </p>
-        <TransactionHashText>{transactionHash}</TransactionHashText>
+        <TransactionHashText>{blockHash}</TransactionHashText>
         <CopyTextComponent
-          textToCopy={transactionHash}
+          textToCopy={blockHash}
           onCopy={() =>
             Toast.success(this.props.i18n.tString("Transaction hash copied."))
           }
@@ -943,7 +954,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         <Link
           style={{ marginTop: 12 }}
           href={getBlockExplorerUrlForTransaction(
-            transactionHash,
+            blockHash,
             ledger.network.name,
           )}
         >

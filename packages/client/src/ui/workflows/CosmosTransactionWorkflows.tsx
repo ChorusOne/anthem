@@ -2,6 +2,7 @@ import {
   assertUnreachable,
   ICosmosAccountBalances,
   ICosmosAccountInformation,
+  ICosmosTransaction,
   ICosmosValidator,
   IQuery,
 } from "@anthem/utils";
@@ -794,7 +795,18 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const { i18n, transaction, ledger } = this.props;
     const { t, tString } = i18n;
 
-    const { transactionHash, confirmedTransactionHeight } = transaction;
+    if (!transaction.transactionResult) {
+      return (
+        <Centered>
+          <p>No transaction data found...</p>
+        </Centered>
+      );
+    }
+
+    const {
+      hash,
+      height,
+    } = transaction.transactionResult as ICosmosTransaction;
 
     return (
       <Centered style={{ flexDirection: "column" }}>
@@ -803,13 +815,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           {t(
             "Your transaction is successful and was included at block height {{height}}. It may take a few moments for the updates to appear in Anthem.",
             {
-              height: confirmedTransactionHeight,
+              height,
             },
           )}
         </p>
-        <TransactionHashText>{transactionHash}</TransactionHashText>
+        <TransactionHashText>{hash}</TransactionHashText>
         <CopyTextComponent
-          textToCopy={transactionHash}
+          textToCopy={hash}
           onCopy={() =>
             Toast.success(this.props.i18n.tString("Transaction hash copied."))
           }
@@ -823,10 +835,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         </CopyTextComponent>
         <Link
           style={{ marginTop: 12 }}
-          href={getBlockExplorerUrlForTransaction(
-            transactionHash,
-            ledger.network.name,
-          )}
+          href={getBlockExplorerUrlForTransaction(hash, ledger.network.name)}
         >
           {tString("View on a block explorer")}
         </Link>
