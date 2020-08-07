@@ -192,7 +192,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             This involves signing a transaction with your Ledger device to
             create an account for your address on the Celo blockchain. This step
             is required to allow you to complete subsequent steps like locking
-            gold and voting.
+            CELO and voting.
           </p>
           {this.props.renderConfirmArrow("Create Account", () => {
             this.props.setCeloAccountStage("SIGN");

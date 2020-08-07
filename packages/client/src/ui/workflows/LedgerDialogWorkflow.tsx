@@ -689,17 +689,17 @@ const getDialogTitle = (
     }
   } else if (ledgerActionType === "LOCK_GOLD") {
     if (transactionStage === TRANSACTION_STAGES.SETUP) {
-      return "Setup Lock Celo Transaction";
+      return "Setup Lock CELO Transaction";
     } else if (transactionStage === TRANSACTION_STAGES.SIGN_ON_LEDGER) {
       return "Sign on Ledger";
     } else if (transactionStage === TRANSACTION_STAGES.SIGN) {
-      return "Sign Lock Celo Transaction";
+      return "Sign Lock CELO Transaction";
     } else if (transactionStage === TRANSACTION_STAGES.CONFIRM) {
-      return "Submit Lock Celo Transaction";
+      return "Submit Lock CELO Transaction";
     } else if (transactionStage === TRANSACTION_STAGES.PENDING) {
-      return "Lock Celo Transaction Submitted";
+      return "Lock CELO Transaction Submitted";
     } else if (transactionStage === TRANSACTION_STAGES.SUCCESS) {
-      return "Lock Celo Transaction Confirmed";
+      return "Lock CELO Transaction Confirmed";
     }
   } else if (ledgerActionType === "GOVERNANCE_VOTE") {
     if (transactionStage === TRANSACTION_STAGES.SETUP) {
