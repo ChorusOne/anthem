@@ -1127,9 +1127,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         sendTransactionInputError: "Please enter a valid recipient address",
       });
     } else if (!amount) {
-      // return this.setState({
-      //   sendTransactionInputError: "Please enter a transaction amount",
-      // });
+      return this.setState({
+        sendTransactionInputError: "Please enter a transaction amount",
+      });
     }
 
     const data = {

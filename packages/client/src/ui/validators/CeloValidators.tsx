@@ -647,35 +647,35 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
   };
 
   handleLockGold = () => {
-    return Toast.warn("Celo Ledger Transactions are coming soon.");
+    // return Toast.warn("Celo Ledger Transactions are coming soon.");
 
-    // if (!this.props.ledger.connected) {
-    //   this.props.setSigninNetworkName(this.props.network.name);
-    // }
-    // // Open the ledger dialog
-    // this.props.openLedgerDialog({
-    //   signinType: "LEDGER",
-    //   ledgerAccessType: "PERFORM_ACTION",
-    //   ledgerActionType: "LOCK_GOLD",
-    // });
+    if (!this.props.ledger.connected) {
+      this.props.setSigninNetworkName(this.props.network.name);
+    }
+    // Open the ledger dialog
+    this.props.openLedgerDialog({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "LOCK_GOLD",
+    });
   };
 
   handleAddValidator = (validator: ICeloValidatorGroup) => {
-    return Toast.warn("Celo Ledger Transactions are coming soon.");
+    // return Toast.warn("Celo Ledger Transactions are coming soon.");
 
-    // // Set the selected validator in the transactions workflow
-    // this.props.setDelegationValidatorSelection(validator);
-    // // Default the signin network to the current network, if the ledger
-    // // is not connected
-    // if (!this.props.ledger.connected) {
-    //   this.props.setSigninNetworkName(this.props.network.name);
-    // }
-    // // Open the ledger dialog
-    // this.props.openLedgerDialog({
-    //   signinType: "LEDGER",
-    //   ledgerAccessType: "PERFORM_ACTION",
-    //   ledgerActionType: "VOTE_GOLD",
-    // });
+    // Set the selected validator in the transactions workflow
+    this.props.setDelegationValidatorSelection(validator);
+    // Default the signin network to the current network, if the ledger
+    // is not connected
+    if (!this.props.ledger.connected) {
+      this.props.setSigninNetworkName(this.props.network.name);
+    }
+    // Open the ledger dialog
+    this.props.openLedgerDialog({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "VOTE_GOLD",
+    });
   };
 
   handleClickValidator = (address: string) => {
