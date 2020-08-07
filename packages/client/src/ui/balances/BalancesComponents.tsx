@@ -39,6 +39,7 @@ import {
   DashboardLoader,
   View,
 } from "ui/SharedComponents";
+import Toast from "ui/Toast";
 
 /** ===========================================================================
  * Cosmos SDK Networks Account Balances
@@ -531,18 +532,20 @@ class OasisBalancesContainer extends React.Component<
   }
 
   handleSendReceiveAction = () => {
-    let actionFunction;
-    if (this.props.ledger.connected) {
-      actionFunction = this.props.openLedgerDialog;
-    } else {
-      actionFunction = this.props.openSelectNetworkDialog;
-    }
+    return Toast.warn("Celo Ledger Transactions are coming soon.");
 
-    actionFunction({
-      signinType: "LEDGER",
-      ledgerAccessType: "PERFORM_ACTION",
-      ledgerActionType: "SEND",
-    });
+    // let actionFunction;
+    // if (this.props.ledger.connected) {
+    //   actionFunction = this.props.openLedgerDialog;
+    // } else {
+    //   actionFunction = this.props.openSelectNetworkDialog;
+    // }
+
+    // actionFunction({
+    //   signinType: "LEDGER",
+    //   ledgerAccessType: "PERFORM_ACTION",
+    //   ledgerActionType: "SEND",
+    // });
   };
 }
 
