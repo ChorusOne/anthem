@@ -184,7 +184,7 @@ const NETWORKS: NetworksMap = {
     ledgerAppVersion: "n/a",
     ledgerAppName: "n/a",
     ledgerDocsLink: "n/a",
-    supportsLedger: false,
+    supportsLedger: true,
     supportsFiatPrices: false,
     supportsBalances: true,
     supportsPortfolio: true,

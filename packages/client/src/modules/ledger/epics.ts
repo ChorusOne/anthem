@@ -112,7 +112,7 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
       return from(
         new Promise<ReduxActionTypes>(async resolve => {
           try {
-            const { cosmosLedgerUtil: ledger, celoLedgerUtil } = deps;
+            const { cosmosLedgerUtil, celoLedgerUtil, oasisLedgerUtil } = deps;
             const { signinNetworkName } = selectors.ledgerDialogSelector(
               state$.value,
             );
@@ -140,15 +140,15 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
             // TODO: Refactor this to a separate function, e.g. getAddressFromLedger
             switch (signinNetworkName) {
               case "COSMOS": {
-                await ledger.connectDevice();
-                ledgerAddress = await ledger.getCosmosAddress();
-                ledgerAppVersion = await ledger.getCosmosAppVersion();
+                await cosmosLedgerUtil.connectDevice();
+                ledgerAddress = await cosmosLedgerUtil.getCosmosAddress();
+                ledgerAppVersion = await cosmosLedgerUtil.getCosmosAppVersion();
                 break;
               }
               case "KAVA":
               case "TERRA": {
-                await ledger.connectDevice();
-                const pk = await ledger.getPubKey();
+                await cosmosLedgerUtil.connectDevice();
+                const pk = await cosmosLedgerUtil.getPubKey();
                 if (typeof pk === "string") {
                   ledgerAddress = getAccAddress(
                     Buffer.from(pk),
@@ -158,7 +158,7 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
                   ledgerAddress = getAccAddress(pk, signinNetworkName);
                 }
 
-                ledgerAppVersion = await ledger.getCosmosAppVersion();
+                ledgerAppVersion = await cosmosLedgerUtil.getCosmosAppVersion();
                 break;
               }
               case "CELO": {
@@ -171,7 +171,10 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
                 break;
               }
               case "OASIS": {
-                return resolve(Actions.connectLedgerFailure());
+                await oasisLedgerUtil.connect();
+                ledgerAddress = await oasisLedgerUtil.getAddress();
+                ledgerAppVersion = await oasisLedgerUtil.getVersion();
+                break;
               }
               default: {
                 return assertUnreachable(signinNetworkName);
