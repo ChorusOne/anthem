@@ -183,11 +183,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       return (
         <View>
           <H6 style={{ marginTop: 6, marginBottom: 0 }}>Create Celo Account</H6>
-          <p style={{ marginTop: 6 }}>
+          <p style={{ marginTop: 12 }}>
             To have voting and validation rights your address must first be
-            registered as an account.
+            register an on-chain account.
           </p>
-          <p style={{ marginTop: 6 }}>
+          <p style={{ marginTop: 12 }}>
             This involves signing a transaction with your Ledger device to
             create an account for your address on the Celo blockchain. This step
             is required to allow you to complete subsequent steps like locking

@@ -661,7 +661,7 @@ const getDialogTitle = (
     }
   } else if (ledgerActionType === "SEND") {
     if (transactionStage === TRANSACTION_STAGES.SETUP) {
-      return "Setup Send Transaction";
+      return "Setup Send/Receive Transaction";
     } else if (transactionStage === TRANSACTION_STAGES.SIGN_ON_LEDGER) {
       return "Sign on Ledger";
     } else if (transactionStage === TRANSACTION_STAGES.SIGN) {
