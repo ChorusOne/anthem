@@ -121,10 +121,8 @@ class MockOasisLedgerModule implements IOasisLedger {
  * ============================================================================
  */
 
-const oasisLedgerProvider = new OasisLedgerClass();
+const oasisLedger = new OasisLedgerClass();
 
-const mockOasisLedgerModule = new MockOasisLedgerModule();
+const mockOasisLedger = new MockOasisLedgerModule();
 
-export default ENV.ENABLE_MOCK_APIS
-  ? mockOasisLedgerModule
-  : oasisLedgerProvider;
+export default ENV.ENABLE_MOCK_APIS ? mockOasisLedger : oasisLedger;
