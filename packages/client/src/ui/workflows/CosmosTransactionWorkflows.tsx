@@ -71,6 +71,7 @@ import {
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import {
+  AddressQR,
   Button,
   Centered,
   CopyIcon,
@@ -105,6 +106,7 @@ interface IState {
   displayCustomGasSettings: boolean;
   claimsTransactionSetupError: string;
   useFullBalance: boolean;
+  displayReceiveQR: boolean;
   selectAllRewards: boolean;
   selectedRewards: ReadonlyArray<AvailableReward>;
 }
@@ -130,6 +132,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       selectedRewards: [],
       useFullBalance: false,
       selectAllRewards: false,
+      displayReceiveQR: false,
       displayCustomGasSettings: false,
       gasPrice: DEFAULT_GAS_PRICE,
       gasAmount: DEFAULT_GAS_AMOUNT,
@@ -187,9 +190,25 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       fiatPriceData,
       cosmosAccountBalances,
     } = this.props;
+    const { displayReceiveQR } = this.state;
     const { address } = ledger;
     const { t, tString } = i18n;
-    const atomsConversionRate = fiatPriceData.fiatPriceData.price;
+
+    if (displayReceiveQR) {
+      return (
+        <View>
+          <AddressQR address={address} />
+          <Button
+            icon="arrow-left"
+            style={{ bottom: -16, position: "absolute" }}
+            onClick={() => this.setState({ displayReceiveQR: false })}
+          >
+            Back
+          </Button>
+        </View>
+      );
+    }
+
     return (
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
@@ -199,6 +218,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         ]}
       >
         {([accountBalancesData]: [ICosmosAccountBalances]) => {
+          const atomsConversionRate = fiatPriceData.fiatPriceData.price;
           const balances = getAccountBalances(
             accountBalancesData,
             atomsConversionRate,
@@ -251,8 +271,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     />
                     <Button
                       icon="duplicate"
-                      onClick={() => copyTextToClipboard(address)}
                       style={{ bottom: -16, position: "absolute" }}
+                      onClick={() => this.setState({ displayReceiveQR: true })}
                     >
                       Receive
                     </Button>
