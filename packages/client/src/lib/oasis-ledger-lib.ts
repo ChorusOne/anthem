@@ -38,6 +38,7 @@ interface IOasisLedger {
 
 class OasisLedgerClass implements IOasisLedger {
   private app: Nullable<any> = null;
+  private readonly path = [44, 118, 5, 0, 3];
 
   constructor() {
     // No op
@@ -56,15 +57,35 @@ class OasisLedgerClass implements IOasisLedger {
   }
 
   async getAddress() {
-    return "oasis1qrllkgqgqheus3qvq69wzsmh7799agg8lgsyecfq";
+    if (!this.app) {
+      throw new Error("Not initialized yet!");
+    }
+
+    const result = await this.app.getAddressAndPubKey(this.path);
+    console.log("ADDRESS:");
+    console.log(result);
+    return result;
   }
 
   async getVersion() {
-    return "1.0.0";
+    if (!this.app) {
+      throw new Error("Not initialized yet!");
+    }
+
+    const result = await this.app.getVersion();
+    const version = `${result.major}-${result.minor}-${result.patch}`;
+    return version;
   }
 
   async getPublicKey() {
-    return "";
+    if (!this.app) {
+      throw new Error("Not initialized yet!");
+    }
+
+    const result = await this.app.publicKey(this.path);
+    console.log("PUBLIC KEY:");
+    console.log(result);
+    return result;
   }
 }
 
