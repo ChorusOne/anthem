@@ -242,6 +242,7 @@ class CeloLedgerClass {
   }
 
   async voteForValidatorGroup(args: CeloVoteArguments) {
+    await wait(2500);
     if (!this.kit) {
       throw new Error("CeloLedgerClass not initialized yet.");
     }
@@ -336,7 +337,8 @@ class MockCeloLedgerModule {
     return true;
   }
 
-  lock(args: CeloLockGoldArguments) {
+  async lock(args: CeloLockGoldArguments) {
+    await wait(2500);
     console.log(args);
     // TODO: Fill in correct response data:
     return {
@@ -345,7 +347,8 @@ class MockCeloLedgerModule {
     };
   }
 
-  voteForValidatorGroup(args: CeloVoteArguments) {
+  async voteForValidatorGroup(args: CeloVoteArguments) {
+    await wait(2500);
     console.log(args);
     // TODO: Fill in correct response data:
     return {
