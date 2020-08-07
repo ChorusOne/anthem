@@ -27,8 +27,9 @@ import Web3 from "web3";
  */
 
 const TEST_NETS = {
-  ALFAJORES: "https://alfajores-forno.celo-testnet.org",
+  MAINNET: "what is mainnet?",
   BAKLAVA: "https://baklava-forno.celo-testnet.org",
+  ALFAJORES: "https://alfajores-forno.celo-testnet.org",
 };
 
 /**
@@ -487,6 +488,4 @@ const celoLedgerProvider = new CeloLedgerClass(TEST_NETS.ALFAJORES);
 
 const mockCeloLedgerModule = new MockCeloLedgerModule();
 
-export default !ENV.ENABLE_MOCK_APIS
-  ? mockCeloLedgerModule
-  : celoLedgerProvider;
+export default ENV.ENABLE_MOCK_APIS ? mockCeloLedgerModule : celoLedgerProvider;
