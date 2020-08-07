@@ -175,7 +175,7 @@ const NETWORKS: NetworksMap = {
     expectedReward: 8,
   },
   OASIS: {
-    available: false,
+    available: true,
     name: "OASIS",
     denom: "AMBR", // For Amber testnet
     descriptor: "AMBR",

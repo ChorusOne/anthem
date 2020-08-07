@@ -40,10 +40,6 @@ class OasisLedgerClass implements IOasisLedger {
   private app: Nullable<any> = null;
   private readonly path = [44, 118, 5, 0, 3];
 
-  constructor() {
-    // No op
-  }
-
   async connect() {
     // Given a transport (U2F/HIF/WebUSB) it is possible instantiate the app
     const transport = getOasisLedgerTransport();
