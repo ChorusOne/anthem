@@ -5,7 +5,6 @@ import {
   NetworkDefinition,
 } from "@anthem/utils";
 import { Card, Elevation, Position, Tooltip } from "@blueprintjs/core";
-import { CosmosLogo } from "assets/icons";
 import {
   LinkIcon,
   NetworkLogoIcon,
@@ -50,7 +49,6 @@ import {
   ClickableEventRow,
   EventContextBox,
   EventDescriptionText,
-  EventIcon,
   EventIconBox,
   EventRow,
   EventRowBottom,
