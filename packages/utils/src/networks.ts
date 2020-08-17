@@ -83,7 +83,7 @@ const NETWORK_ADDRESS_DEFAULTS: { [key: string]: Addresses } = {
  * ============================================================================
  */
 
-export type COIN_DENOMS = "uatom" | "ukava" | "uluna" | "AMBR" | "CELO";
+export type COIN_DENOMS = "uatom" | "ukava" | "ukrw" | "AMBR" | "CELO";
 
 export type NETWORK_NAME = "COSMOS" | "TERRA" | "KAVA" | "OASIS" | "CELO";
 
@@ -113,7 +113,7 @@ const NETWORKS: NetworksMap = {
   TERRA: {
     available: true,
     name: "TERRA",
-    denom: "uluna",
+    denom: "ukrw",
     descriptor: "LUNA",
     chainId: "columbus-3",
     cryptoCompareTicker: "LUNA",

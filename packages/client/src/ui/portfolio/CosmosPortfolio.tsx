@@ -101,9 +101,6 @@ class PortfolioLoadingContainer extends React.PureComponent<
     const { i18n, cosmosAccountHistory } = this.props;
     const { tString } = i18n;
 
-    console.log(cosmosAccountHistory);
-    return null;
-
     return (
       <View style={{ position: "relative", height: "100%" }}>
         <GraphQLGuardComponent
