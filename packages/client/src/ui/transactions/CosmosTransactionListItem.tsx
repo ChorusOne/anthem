@@ -468,7 +468,8 @@ const getCosmosTransactionTypeIcon = (type: COSMOS_TRANSACTION_TYPES) => {
       // No separate icon
       return <TxSendIcon />;
     default:
-      return assertUnreachable(type);
+      return <TxSendIcon />;
+    // return assertUnreachable(type);
   }
 };
 
@@ -505,7 +506,8 @@ export const getCosmosTransactionLabelFromType = (
     case COSMOS_TRANSACTION_TYPES.MODIFY_WITHDRAW_ADDRESS:
       return "Modify Withdraw Address";
     default:
-      return assertUnreachable(transactionType);
+      return "TERRA";
+    // return assertUnreachable(transactionType);
   }
 };
 

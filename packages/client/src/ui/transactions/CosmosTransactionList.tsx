@@ -64,7 +64,6 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
     } = this.props;
 
     console.log(transactions);
-    return null;
 
     /**
      * NOTE: Disabling the live transaction update workaround for now.

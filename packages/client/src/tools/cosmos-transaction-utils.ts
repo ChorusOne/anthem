@@ -36,6 +36,28 @@ export enum COSMOS_TRANSACTION_TYPES {
   MODIFY_WITHDRAW_ADDRESS = "cosmos-sdk/MsgModifyWithdrawAddress",
 }
 
+// WIP: Work in progress.
+export enum TERRA_TRANSACTION_TYPES {
+  SEND = "bank/MsgSend",
+  MULTI_SEND = "bank/MsgMultiSend",
+  RECEIVE = "custom-receive-transaction-type",
+  // VOTE = "cosmos-sdk/MsgVote",
+  // DELEGATE = "cosmos-sdk/MsgDelegate",
+  // UNDELEGATE = "cosmos-sdk/MsgUndelegate",
+  // SUBMIT_PROPOSAL = "cosmos-sdk/MsgSubmitProposal",
+  // BEGIN_REDELEGATE = "cosmos-sdk/MsgBeginRedelegate",
+  // CLAIM_REWARDS = "cosmos-sdk/MsgWithdrawDelegationReward",
+  // CLAIM_COMMISSION = "cosmos-sdk/MsgWithdrawValidatorCommission",
+  // CREATE_VALIDATOR = "cosmos-sdk/MsgCreateValidator",
+  // EDIT_VALIDATOR = "cosmos-sdk/MsgEditValidator",
+  // MODIFY_WITHDRAW_ADDRESS = "cosmos-sdk/MsgModifyWithdrawAddress",
+
+  GOVERNANCE_DEPOSIT = "gov/MsgDeposit",
+  DELEGATE_FEED_CONSENT = "oracle/MsgDelegateFeedConsent",
+  EXCHANGE_RATE_VOTE = "oracle/MsgExchangeRateVote",
+  EXCHANGE_RATE_PRE_VOTE = "oracle/MsgExchangeRatePrevote",
+}
+
 export enum TRANSACTION_STAGES {
   "SETUP" = "SETUP",
   "SIGN" = "SIGN",
@@ -472,57 +494,87 @@ export const transformCosmosTransactionToRenderElements = ({
   msgIndex: number;
   denom: COIN_DENOMS;
   transaction: ICosmosTransaction;
-}): CosmosTransactionItemData => {
-  const TX_TYPE = transaction.msgs[msgIndex].type as COSMOS_TRANSACTION_TYPES;
+}): CosmosTransactionItemData | null => {
+  const IS_COSMOS = transaction.chain.includes("cosmos");
 
-  switch (TX_TYPE) {
-    // NOTE: Receive is not a real type
-    case COSMOS_TRANSACTION_TYPES.RECEIVE:
-    case COSMOS_TRANSACTION_TYPES.SEND: {
-      return getTransactionSendMessage(transaction, address, msgIndex);
+  if (IS_COSMOS) {
+    const TX_TYPE = transaction.msgs[msgIndex].type as COSMOS_TRANSACTION_TYPES;
+
+    switch (TX_TYPE) {
+      // NOTE: Receive is not a real type
+      case COSMOS_TRANSACTION_TYPES.RECEIVE:
+      case COSMOS_TRANSACTION_TYPES.SEND: {
+        return getTransactionSendMessage(transaction, address, msgIndex);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.DELEGATE: {
+        return getDelegationTransactionMessage(transaction, msgIndex);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.VOTE: {
+        return getGovernanceVoteMessage(transaction, msgIndex);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.UNDELEGATE: {
+        return getUndelegateMessage(transaction, msgIndex);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.SUBMIT_PROPOSAL: {
+        return getGovernanceSubmitProposalMessage(transaction, msgIndex);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.BEGIN_REDELEGATE: {
+        return getRedelegateMessageData(transaction, msgIndex);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.CLAIM_REWARDS: {
+        return getClaimRewardsMessageData(transaction, msgIndex, denom);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.CLAIM_COMMISSION: {
+        return getValidatorClaimRewardsMessageData(
+          transaction,
+          msgIndex,
+          denom,
+        );
+      }
+
+      case COSMOS_TRANSACTION_TYPES.CREATE_VALIDATOR: {
+        return getValidatorCreateOrEditMessage(transaction, msgIndex);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.EDIT_VALIDATOR: {
+        return getValidatorCreateOrEditMessage(transaction, msgIndex);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.MODIFY_WITHDRAW_ADDRESS: {
+        return getChangeWithdrawAddressMessage(transaction, msgIndex);
+      }
+
+      default:
+        return assertUnreachable(TX_TYPE);
     }
+  } else {
+    const TX_TYPE = transaction.msgs[msgIndex].type as TERRA_TRANSACTION_TYPES;
 
-    case COSMOS_TRANSACTION_TYPES.DELEGATE: {
-      return getDelegationTransactionMessage(transaction, msgIndex);
+    switch (TX_TYPE) {
+      // NOTE: Receive is not a real type
+      case TERRA_TRANSACTION_TYPES.SEND:
+      case TERRA_TRANSACTION_TYPES.MULTI_SEND:
+      case TERRA_TRANSACTION_TYPES.RECEIVE: {
+        return getTransactionSendMessage(transaction, address, msgIndex);
+      }
+
+      case TERRA_TRANSACTION_TYPES.GOVERNANCE_DEPOSIT:
+      case TERRA_TRANSACTION_TYPES.DELEGATE_FEED_CONSENT:
+      case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_VOTE:
+      case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_PRE_VOTE: {
+        console.warn("Unhandled Terra Transaction: ", transaction);
+        return null;
+      }
+
+      default:
+        return assertUnreachable(TX_TYPE);
     }
-
-    case COSMOS_TRANSACTION_TYPES.VOTE: {
-      return getGovernanceVoteMessage(transaction, msgIndex);
-    }
-
-    case COSMOS_TRANSACTION_TYPES.UNDELEGATE: {
-      return getUndelegateMessage(transaction, msgIndex);
-    }
-
-    case COSMOS_TRANSACTION_TYPES.SUBMIT_PROPOSAL: {
-      return getGovernanceSubmitProposalMessage(transaction, msgIndex);
-    }
-
-    case COSMOS_TRANSACTION_TYPES.BEGIN_REDELEGATE: {
-      return getRedelegateMessageData(transaction, msgIndex);
-    }
-
-    case COSMOS_TRANSACTION_TYPES.CLAIM_REWARDS: {
-      return getClaimRewardsMessageData(transaction, msgIndex, denom);
-    }
-
-    case COSMOS_TRANSACTION_TYPES.CLAIM_COMMISSION: {
-      return getValidatorClaimRewardsMessageData(transaction, msgIndex, denom);
-    }
-
-    case COSMOS_TRANSACTION_TYPES.CREATE_VALIDATOR: {
-      return getValidatorCreateOrEditMessage(transaction, msgIndex);
-    }
-
-    case COSMOS_TRANSACTION_TYPES.EDIT_VALIDATOR: {
-      return getValidatorCreateOrEditMessage(transaction, msgIndex);
-    }
-
-    case COSMOS_TRANSACTION_TYPES.MODIFY_WITHDRAW_ADDRESS: {
-      return getChangeWithdrawAddressMessage(transaction, msgIndex);
-    }
-
-    default:
-      return assertUnreachable(TX_TYPE);
   }
 };
