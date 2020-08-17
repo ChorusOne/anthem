@@ -102,7 +102,7 @@ const getBalanceQueryForAddress = () => (variables: SQLVariables): string => {
 
 const getRewardsQueryForDelegator = () => (variables: SQLVariables): string => {
   const sql = `
-    SELECT address, height, timestamp, sum(rewards) FROM rewards
+    SELECT address, height, timestamp, denom, sum(rewards) FROM rewards
     WHERE address = @address
     GROUP BY address, height, timestamp, chain, denom
     ORDER BY timestamp
@@ -113,7 +113,7 @@ const getRewardsQueryForDelegator = () => (variables: SQLVariables): string => {
 
 const getRewardsQueryForValidator = () => (variables: SQLVariables): string => {
   const sql = `
-    SELECT validator, height, timestamp, sum(rewards) FROM val_rewards
+    SELECT validator, height, timestamp, denom, sum(rewards) FROM val_rewards
     WHERE validator = @validatorAddress
     GROUP BY validator, height, timestamp, chain, denom
     ORDER BY timestamp
@@ -126,7 +126,7 @@ const getDelegationsQuery = () => (variables: SQLVariables): string => {
   const sql = `
     SELECT address, timestamp, sum(shares) FROM delegations
     WHERE address = @address
-    GROUP BY address, timestamp, chain, denom
+    GROUP BY address, timestamp, chain
     ORDER BY timestamp
   `;
 
@@ -137,7 +137,7 @@ const getUnbondingsQuery = () => (variables: SQLVariables): string => {
   const sql = `
     SELECT address, timestamp, sum(tokens) FROM unbondings
     WHERE address = @address
-    GROUP BY address, timestamp, chain, denom
+    GROUP BY address, timestamp, chain
     ORDER BY timestamp
   `;
 
