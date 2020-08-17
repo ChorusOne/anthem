@@ -11,6 +11,7 @@ import {
 import { Pool } from "pg";
 import ENV from "../../tools/server-env";
 import {
+  filterRewardsByDenom,
   filterSanityCheckHeights,
   formatTransactionResponse,
   gatherEndOfDayBalanceValues,
@@ -170,8 +171,11 @@ const getPortfolioDelegatorRewards = async (request: {
   const rewardsQuery = getRewardsQueryForDelegator();
   const query = rewardsQuery(variables);
   const result = await queryPostgresCosmosSdkPool(network.name, query);
-  console.log(result);
-  return result.filter(filterSanityCheckHeights).map(mapSumToBalance);
+  const rewardsFilter = filterRewardsByDenom(network);
+  return result
+    .filter(filterSanityCheckHeights)
+    .filter(rewardsFilter)
+    .map(mapSumToBalance);
 };
 
 const getPortfolioDelegations = async (request: {
@@ -213,7 +217,11 @@ const getPortfolioValidatorRewards = async (request: {
     const rewardsQuery = getRewardsQueryForValidator();
     const query = rewardsQuery(variables);
     const result = await queryPostgresCosmosSdkPool(network.name, query);
-    return result.filter(filterSanityCheckHeights).map(mapSumToBalance);
+    const rewardsFilter = filterRewardsByDenom(network);
+    return result
+      .filter(filterSanityCheckHeights)
+      .filter(rewardsFilter)
+      .map(mapSumToBalance);
   } else {
     return [];
   }

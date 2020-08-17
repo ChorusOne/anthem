@@ -127,6 +127,15 @@ export const filterSanityCheckHeights = (response: { height: number }) => {
 };
 
 /**
+ * Filter rewards by the default network denom.
+ */
+export const filterRewardsByDenom = (network: NetworkDefinition) => (
+  reward: any,
+) => {
+  return reward.denom === network.denom;
+};
+
+/**
  * Convert response values with a sum field to a balance field
  * for consistency in response data.
  */
