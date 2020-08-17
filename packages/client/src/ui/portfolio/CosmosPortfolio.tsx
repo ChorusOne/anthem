@@ -96,10 +96,13 @@ class PortfolioLoadingContainer extends React.PureComponent<
     }
   }
 
-  render(): JSX.Element {
+  render(): Nullable<JSX.Element> {
     const { displayLoadingMessage } = this.state;
     const { i18n, cosmosAccountHistory } = this.props;
     const { tString } = i18n;
+
+    console.log(cosmosAccountHistory);
+    return null;
 
     return (
       <View style={{ position: "relative", height: "100%" }}>

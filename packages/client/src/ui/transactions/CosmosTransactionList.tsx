@@ -54,7 +54,7 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
     }
   }
 
-  render(): JSX.Element {
+  render(): Nullable<JSX.Element> {
     const {
       isDetailView,
       transactions,
@@ -62,6 +62,9 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
       moreResultsExist,
       // extraLiveTransactions,
     } = this.props;
+
+    console.log(transactions);
+    return null;
 
     /**
      * NOTE: Disabling the live transaction update workaround for now.

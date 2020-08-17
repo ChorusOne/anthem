@@ -104,7 +104,7 @@ const getRewardsQueryForDelegator = () => (variables: SQLVariables): string => {
   const sql = `
     SELECT address, height, timestamp, sum(rewards) FROM rewards
     WHERE address = @address
-    GROUP BY address, height, timestamp, chain
+    GROUP BY address, height, timestamp, chain, denom
     ORDER BY timestamp
   `;
 
@@ -115,7 +115,7 @@ const getRewardsQueryForValidator = () => (variables: SQLVariables): string => {
   const sql = `
     SELECT validator, height, timestamp, sum(rewards) FROM val_rewards
     WHERE validator = @validatorAddress
-    GROUP BY validator, height, timestamp, chain
+    GROUP BY validator, height, timestamp, chain, denom
     ORDER BY timestamp
   `;
 
@@ -126,7 +126,7 @@ const getDelegationsQuery = () => (variables: SQLVariables): string => {
   const sql = `
     SELECT address, timestamp, sum(shares) FROM delegations
     WHERE address = @address
-    GROUP BY address, timestamp, chain
+    GROUP BY address, timestamp, chain, denom
     ORDER BY timestamp
   `;
 
@@ -137,7 +137,7 @@ const getUnbondingsQuery = () => (variables: SQLVariables): string => {
   const sql = `
     SELECT address, timestamp, sum(tokens) FROM unbondings
     WHERE address = @address
-    GROUP BY address, timestamp, chain
+    GROUP BY address, timestamp, chain, denom
     ORDER BY timestamp
   `;
 
@@ -170,6 +170,7 @@ const getPortfolioDelegatorRewards = async (request: {
   const rewardsQuery = getRewardsQueryForDelegator();
   const query = rewardsQuery(variables);
   const result = await queryPostgresCosmosSdkPool(network.name, query);
+  console.log(result);
   return result.filter(filterSanityCheckHeights).map(mapSumToBalance);
 };
 
