@@ -1,7 +1,6 @@
 import {
   assertUnreachable,
   COIN_DENOMS,
-  ICosmosBalance,
   ICosmosTransaction,
   ILogMessage,
   IMsgBeginRedelegate,
@@ -14,7 +13,6 @@ import {
   IMsgWithdrawValidatorCommission,
 } from "@anthem/utils";
 import { formatAddressString } from "./client-utils";
-import { addValuesInList } from "./math-utils";
 
 /** ===========================================================================
  * Types & Config
