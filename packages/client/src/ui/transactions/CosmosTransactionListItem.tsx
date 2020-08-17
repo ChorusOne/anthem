@@ -28,6 +28,7 @@ import {
 } from "tools/client-utils";
 import {
   COSMOS_TRANSACTION_TYPES,
+  CosmosBalance,
   CosmosTransactionFee,
   CosmosTransactionItemData,
   getTransactionFailedLogMessage,
@@ -291,7 +292,10 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderTransactionAmount = (amount: Nullable<string>, timestamp: string) => {
+  renderTransactionAmount = (
+    amount: Nullable<CosmosBalance>,
+    timestamp: string,
+  ) => {
     const { network, isDesktop } = this.props;
     if (!amount) {
       if (isDesktop) {
@@ -310,13 +314,16 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>
             {formatCurrencyAmount(
-              denomToUnit(amount, network.denominationSize),
+              denomToUnit(amount.amount, network.denominationSize),
             )}{" "}
-            {network.denom}
+            {amount.denom}
           </EventText>
-          <EventText>
-            {this.getFiatAmount(amount, timestamp)} {fiatCurrency.symbol}
-          </EventText>
+          {amount.denom === network.denom && (
+            <EventText>
+              {this.getFiatAmount(amount.amount, timestamp)}{" "}
+              {fiatCurrency.symbol}
+            </EventText>
+          )}
         </EventContextBox>
       </EventRowItem>
     );

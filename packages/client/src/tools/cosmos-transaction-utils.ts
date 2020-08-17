@@ -66,17 +66,17 @@ export enum TRANSACTION_STAGES {
   "SUCCESS" = "SUCCESS",
 }
 
-interface Balance {
+export interface CosmosBalance {
   amount: string;
   denom: string;
 }
 
-export type CosmosTransactionFee = Nullable<Balance>;
+export type CosmosTransactionFee = Nullable<CosmosBalance>;
 
 export interface TransactionItemData {
   type: COSMOS_TRANSACTION_TYPES;
   timestamp: string;
-  amount: Nullable<string>;
+  amount: Nullable<CosmosBalance>;
   fee: CosmosTransactionFee;
   toAddress: string;
   fromAddress: string;
@@ -93,7 +93,7 @@ export interface GovernanceVoteMessageData {
 export interface GovernanceSubmitProposalMessageData {
   fee: CosmosTransactionFee;
   title: string;
-  deposit: string;
+  deposit: Nullable<CosmosBalance>;
   proposer: string;
   timestamp: string;
   description: string;
@@ -171,20 +171,17 @@ const sumAmounts = (amounts: Maybe<ReadonlyArray<ICosmosBalance>>): string => {
 const getTxAmount = (
   transaction: ICosmosTransaction,
   msgIndex: number,
-): Nullable<string> => {
+): Nullable<CosmosBalance> => {
   const txMsg = transaction.msgs[msgIndex].value as IMsgSend;
 
   if (txMsg && txMsg.amounts) {
-    /* Sum all the amounts */
-    const total = sumAmounts(txMsg.amounts);
-
-    /* Format and return the result */
-    return total;
+    return txMsg.amounts[0];
     // @ts-ignore
   } else if (txMsg && txMsg.amount) {
     // @ts-ignore
-    const amount = txMsg.amount.amount;
-    return amount.replace(",", "");
+    txMsg.amount.amount.replace(",", "");
+    // @ts-ignore
+    return txMsg.amount;
   } else {
     return null;
   }
@@ -240,7 +237,7 @@ const getDelegationTransactionMessage = (
   const vote = msg.value as IMsgDelegate;
   const { amount, delegator_address, validator_address } = vote;
 
-  const delegationAmount = amount ? amount.amount : null;
+  const delegationAmount = amount ? amount : null;
   const toAddress = validator_address || "";
   const fromAddress = delegator_address || "";
 
@@ -291,7 +288,7 @@ const getClaimRewardsMessageData = (
 
   return {
     fee,
-    amount: rewards,
+    amount: { amount: rewards || "0", denom },
     toAddress: delegatorAddress,
     fromAddress: validatorAddress,
     timestamp: transaction.timestamp,
@@ -330,7 +327,7 @@ const getValidatorClaimRewardsMessageData = (
   return {
     fee,
     toAddress: "",
-    amount: commissions,
+    amount: { amount: commissions || "0", denom },
     fromAddress: validatorAddress,
     timestamp: transaction.timestamp,
     type: type as COSMOS_TRANSACTION_TYPES,
@@ -351,7 +348,7 @@ const getUndelegateMessage = (
   if (msg) {
     const value = msg.value as IMsgDelegate;
     const { amount } = value as IMsgDelegate;
-    undelegateAmount = amount.amount;
+    undelegateAmount = amount;
 
     delegatorAddress = value.delegator_address || "";
     validatorAddress = value.validator_address || "";
@@ -387,7 +384,7 @@ const getRedelegateMessageData = (
   let redelegateAmount = null;
 
   if (amount) {
-    redelegateAmount = amount.amount;
+    redelegateAmount = amount;
   }
 
   return {
@@ -432,7 +429,7 @@ const getGovernanceSubmitProposalMessage = (
   const fee = getTxFee(transaction);
   const proposal = msg.value as IMsgSubmitProposal;
   const { title, description, proposer, initial_deposit } = proposal;
-  const deposit = sumAmounts(initial_deposit);
+  const deposit = initial_deposit ? initial_deposit[0] : null;
 
   return {
     fee,
