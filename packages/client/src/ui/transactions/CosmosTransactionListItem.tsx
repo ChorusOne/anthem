@@ -8,6 +8,7 @@ import { Card, Elevation, Position, Tooltip } from "@blueprintjs/core";
 import { CosmosLogo } from "assets/icons";
 import {
   LinkIcon,
+  NetworkLogoIcon,
   TxReceiveIcon,
   TxRewardWithdrawalIcon,
   TxSendIcon,
@@ -28,11 +29,13 @@ import {
 } from "tools/client-utils";
 import {
   COSMOS_TRANSACTION_TYPES,
+  CosmosTransactionFee,
   CosmosTransactionItemData,
   getTransactionFailedLogMessage,
   getTxFee,
   GovernanceSubmitProposalMessageData,
   GovernanceVoteMessageData,
+  TERRA_TRANSACTION_TYPES,
   TransactionItemData,
   transformCosmosTransactionToRenderElements,
   ValidatorCreateOrEditMessageData,
@@ -113,7 +116,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     transaction: ICosmosTransaction,
     messages: ReadonlyArray<CosmosTransactionItemData>,
   ) => {
-    const fees = getTxFee(transaction);
+    const fee = getTxFee(transaction);
     const transactionFailedLog = getTransactionFailedLogMessage(transaction);
     return (
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
@@ -136,7 +139,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
             </View>
           );
         })}
-        {this.renderTransactionFeesRow(fees, transaction)}
+        {this.renderTransactionFeesRow(fee, transaction)}
       </Card>
     );
   };
@@ -304,14 +307,14 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     return (
       <EventRowItem style={{ minWidth: 275 }}>
         <EventIconBox>
-          <EventIcon src={CosmosLogo} />
+          <NetworkLogoIcon network={network.name} />
         </EventIconBox>
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>
             {formatCurrencyAmount(
               denomToUnit(amount, network.denominationSize),
             )}{" "}
-            ATOM
+            {network.denom}
           </EventText>
           <EventText>
             {this.getFiatAmount(amount, timestamp)} {fiatCurrency.symbol}
@@ -390,13 +393,17 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderTransactionFeesRow = (
-    fees: string,
+    fee: CosmosTransactionFee,
     transaction: ICosmosTransaction,
   ) => {
+    if (!fee) {
+      return null;
+    }
+
     const { hash, height, timestamp, chain } = transaction;
     const { t, network, fiatCurrency } = this.props;
-    const atomFees = denomToUnit(fees, network.denominationSize);
-    const fiatFees = this.props.getFiatPriceForTransaction(timestamp, atomFees);
+    const txFee = denomToUnit(fee.amount, network.denominationSize);
+    const fiatFees = this.props.getFiatPriceForTransaction(timestamp, txFee);
 
     return (
       <EventRowBottom>
@@ -412,8 +419,12 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
           <EventContextBox>
             <EventText style={{ fontWeight: "bold" }}>{t("Fees")}</EventText>
             <EventText>
-              {formatCurrencyAmount(atomFees, 6)} ATOM (
-              {formatCurrencyAmount(fiatFees, 2)} {fiatCurrency.symbol})
+              {formatCurrencyAmount(txFee, 6)} {fee.denom}
+              {fee.denom === network.denom && (
+                <>
+                  {formatCurrencyAmount(fiatFees, 2)} {fiatCurrency.symbol}
+                </>
+              )}
             </EventText>
           </EventContextBox>
         </EventRowItem>
@@ -477,10 +488,17 @@ const getCosmosTransactionTypeIcon = (type: COSMOS_TRANSACTION_TYPES) => {
  * Convert a transaction type to its internationalized string label.
  */
 export const getCosmosTransactionLabelFromType = (
-  transactionType: COSMOS_TRANSACTION_TYPES,
+  transactionType: COSMOS_TRANSACTION_TYPES | TERRA_TRANSACTION_TYPES,
   tString: tFnString,
 ): string => {
   switch (transactionType) {
+    case TERRA_TRANSACTION_TYPES.SEND:
+    case TERRA_TRANSACTION_TYPES.MULTI_SEND:
+    case TERRA_TRANSACTION_TYPES.RECEIVE:
+    case TERRA_TRANSACTION_TYPES.GOVERNANCE_DEPOSIT:
+    case TERRA_TRANSACTION_TYPES.DELEGATE_FEED_CONSENT:
+    case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_VOTE:
+    case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_PRE_VOTE:
     case COSMOS_TRANSACTION_TYPES.SEND:
       return tString("Send");
     case COSMOS_TRANSACTION_TYPES.RECEIVE:
@@ -506,8 +524,7 @@ export const getCosmosTransactionLabelFromType = (
     case COSMOS_TRANSACTION_TYPES.MODIFY_WITHDRAW_ADDRESS:
       return "Modify Withdraw Address";
     default:
-      return "TERRA";
-    // return assertUnreachable(transactionType);
+      return assertUnreachable(transactionType);
   }
 };
 

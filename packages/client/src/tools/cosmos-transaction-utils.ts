@@ -66,17 +66,24 @@ export enum TRANSACTION_STAGES {
   "SUCCESS" = "SUCCESS",
 }
 
+interface Balance {
+  amount: string;
+  denom: string;
+}
+
+export type CosmosTransactionFee = Nullable<Balance>;
+
 export interface TransactionItemData {
   type: COSMOS_TRANSACTION_TYPES;
   timestamp: string;
   amount: Nullable<string>;
-  fees: string;
+  fee: CosmosTransactionFee;
   toAddress: string;
   fromAddress: string;
 }
 
 export interface GovernanceVoteMessageData {
-  fees: string;
+  fee: CosmosTransactionFee;
   option: string;
   proposal_id: string;
   timestamp: string;
@@ -84,7 +91,7 @@ export interface GovernanceVoteMessageData {
 }
 
 export interface GovernanceSubmitProposalMessageData {
-  fees: string;
+  fee: CosmosTransactionFee;
   title: string;
   deposit: string;
   proposer: string;
@@ -94,17 +101,17 @@ export interface GovernanceSubmitProposalMessageData {
 }
 
 export interface ValidatorCreateOrEditMessageData {
+  fee: CosmosTransactionFee;
   type: COSMOS_TRANSACTION_TYPES;
   timestamp: string;
-  fees: string;
   delegatorAddress: string;
   validatorAddress: string;
 }
 
 export interface ValidatorModifyWithdrawAddressMessageData {
+  fee: CosmosTransactionFee;
   type: COSMOS_TRANSACTION_TYPES;
   timestamp: string;
-  fees: string;
   withdrawAddress: string;
   validatorAddress: string | null;
 }
@@ -183,14 +190,16 @@ const getTxAmount = (
   }
 };
 
-export const getTxFee = (transaction: ICosmosTransaction): string => {
+export const getTxFee = (
+  transaction: ICosmosTransaction,
+): CosmosTransactionFee => {
   const { fees } = transaction;
   const { amount } = fees;
 
   if (amount) {
-    return sumAmounts(amount);
+    return amount[0];
   } else {
-    return "0";
+    return null;
   }
 };
 
@@ -202,7 +211,7 @@ const getTransactionSendMessage = (
 ): TransactionItemData => {
   const { from_address, to_address } = transaction.msgs[msgIndex]
     .value as IMsgSend;
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const amount = getTxAmount(transaction, msgIndex);
   const toAddress = to_address || "";
   const fromAddress = from_address || "";
@@ -210,7 +219,7 @@ const getTransactionSendMessage = (
   const IS_SEND = fromAddress === address;
 
   return {
-    fees,
+    fee,
     amount,
     toAddress,
     fromAddress,
@@ -227,7 +236,7 @@ const getDelegationTransactionMessage = (
   msgIndex: number,
 ): TransactionItemData => {
   const msg = transaction.msgs[msgIndex];
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const vote = msg.value as IMsgDelegate;
   const { amount, delegator_address, validator_address } = vote;
 
@@ -236,7 +245,7 @@ const getDelegationTransactionMessage = (
   const fromAddress = delegator_address || "";
 
   return {
-    fees,
+    fee,
     toAddress,
     fromAddress,
     amount: delegationAmount,
@@ -276,12 +285,12 @@ const getClaimRewardsMessageData = (
     }
   }
 
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const validatorAddress = validator_address || "";
   const delegatorAddress = delegator_address || "";
 
   return {
-    fees,
+    fee,
     amount: rewards,
     toAddress: delegatorAddress,
     fromAddress: validatorAddress,
@@ -315,11 +324,11 @@ const getValidatorClaimRewardsMessageData = (
     }
   }
 
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const validatorAddress = validator_address || "";
 
   return {
-    fees,
+    fee,
     toAddress: "",
     amount: commissions,
     fromAddress: validatorAddress,
@@ -348,10 +357,10 @@ const getUndelegateMessage = (
     validatorAddress = value.validator_address || "";
   }
 
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
 
   return {
-    fees,
+    fee,
     amount: undelegateAmount,
     toAddress: formatAddressString(delegatorAddress, true),
     fromAddress: formatAddressString(validatorAddress, true),
@@ -367,7 +376,7 @@ const getRedelegateMessageData = (
 ): TransactionItemData => {
   const msg = transaction.msgs[msgIndex];
 
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const { value } = msg;
   const {
     amount,
@@ -382,7 +391,7 @@ const getRedelegateMessageData = (
   }
 
   return {
-    fees,
+    fee,
     amount: redelegateAmount,
     timestamp: transaction.timestamp,
     fromAddress: validator_src_address,
@@ -399,13 +408,13 @@ const getGovernanceVoteMessage = (
   const { timestamp } = transaction;
   const msg = transaction.msgs[msgIndex];
 
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const vote = msg.value as IMsgVote;
   const { option, proposal_id } = vote;
 
   return {
     option,
-    fees,
+    fee,
     timestamp,
     proposal_id,
     type: COSMOS_TRANSACTION_TYPES.VOTE,
@@ -420,13 +429,13 @@ const getGovernanceSubmitProposalMessage = (
   const { timestamp } = transaction;
   const msg = transaction.msgs[msgIndex];
 
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const proposal = msg.value as IMsgSubmitProposal;
   const { title, description, proposer, initial_deposit } = proposal;
   const deposit = sumAmounts(initial_deposit);
 
   return {
-    fees,
+    fee,
     title,
     deposit,
     proposer,
@@ -442,7 +451,7 @@ const getValidatorCreateOrEditMessage = (
   msgIndex: number,
 ): ValidatorCreateOrEditMessageData => {
   const msg = transaction.msgs[msgIndex];
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const value = msg.value as IMsgWithdrawDelegationReward;
   const { delegator_address, validator_address } = value;
 
@@ -450,7 +459,7 @@ const getValidatorCreateOrEditMessage = (
   const validatorAddress = validator_address || "";
 
   return {
-    fees,
+    fee,
     delegatorAddress,
     validatorAddress,
     timestamp: transaction.timestamp,
@@ -464,7 +473,7 @@ const getChangeWithdrawAddressMessage = (
   msgIndex: number,
 ): ValidatorModifyWithdrawAddressMessageData => {
   const msg = transaction.msgs[msgIndex];
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const value = msg.value as IMsgModifyWithdrawAddress;
   const { withdraw_address, validator_address } = value;
 
@@ -472,7 +481,7 @@ const getChangeWithdrawAddressMessage = (
   const validatorAddress = validator_address;
 
   return {
-    fees,
+    fee,
     withdrawAddress,
     validatorAddress,
     timestamp: transaction.timestamp,
