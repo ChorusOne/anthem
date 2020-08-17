@@ -456,10 +456,15 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
 /**
  * Return the icon for a given transaction type.
  */
-const getCosmosTransactionTypeIcon = (type: COSMOS_TRANSACTION_TYPES) => {
+const getCosmosTransactionTypeIcon = (
+  type: COSMOS_TRANSACTION_TYPES | TERRA_TRANSACTION_TYPES,
+) => {
   switch (type) {
+    case TERRA_TRANSACTION_TYPES.SEND:
+    case TERRA_TRANSACTION_TYPES.MULTI_SEND:
     case COSMOS_TRANSACTION_TYPES.SEND:
       return <TxSendIcon />;
+    case TERRA_TRANSACTION_TYPES.RECEIVE:
     case COSMOS_TRANSACTION_TYPES.RECEIVE:
       return <TxReceiveIcon />;
     case COSMOS_TRANSACTION_TYPES.VOTE:
@@ -472,6 +477,10 @@ const getCosmosTransactionTypeIcon = (type: COSMOS_TRANSACTION_TYPES) => {
     case COSMOS_TRANSACTION_TYPES.CLAIM_REWARDS:
     case COSMOS_TRANSACTION_TYPES.CLAIM_COMMISSION:
       return <TxRewardWithdrawalIcon />;
+    case TERRA_TRANSACTION_TYPES.GOVERNANCE_DEPOSIT:
+    case TERRA_TRANSACTION_TYPES.DELEGATE_FEED_CONSENT:
+    case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_VOTE:
+    case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_PRE_VOTE:
     case COSMOS_TRANSACTION_TYPES.SUBMIT_PROPOSAL:
     case COSMOS_TRANSACTION_TYPES.CREATE_VALIDATOR:
     case COSMOS_TRANSACTION_TYPES.EDIT_VALIDATOR:
@@ -479,8 +488,7 @@ const getCosmosTransactionTypeIcon = (type: COSMOS_TRANSACTION_TYPES) => {
       // No separate icon
       return <TxSendIcon />;
     default:
-      return <TxSendIcon />;
-    // return assertUnreachable(type);
+      return assertUnreachable(type);
   }
 };
 
@@ -492,15 +500,19 @@ export const getCosmosTransactionLabelFromType = (
   tString: tFnString,
 ): string => {
   switch (transactionType) {
+    case TERRA_TRANSACTION_TYPES.GOVERNANCE_DEPOSIT:
+      return "Governance Deposit";
+    case TERRA_TRANSACTION_TYPES.DELEGATE_FEED_CONSENT:
+      return "Delegate Feed Consent";
+    case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_VOTE:
+      return "Exchange Rate Vote";
+    case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_PRE_VOTE:
+      return "Exchange Rate Pre Vote";
     case TERRA_TRANSACTION_TYPES.SEND:
     case TERRA_TRANSACTION_TYPES.MULTI_SEND:
-    case TERRA_TRANSACTION_TYPES.RECEIVE:
-    case TERRA_TRANSACTION_TYPES.GOVERNANCE_DEPOSIT:
-    case TERRA_TRANSACTION_TYPES.DELEGATE_FEED_CONSENT:
-    case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_VOTE:
-    case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_PRE_VOTE:
     case COSMOS_TRANSACTION_TYPES.SEND:
       return tString("Send");
+    case TERRA_TRANSACTION_TYPES.RECEIVE:
     case COSMOS_TRANSACTION_TYPES.RECEIVE:
       return tString("Receive");
     case COSMOS_TRANSACTION_TYPES.VOTE:
