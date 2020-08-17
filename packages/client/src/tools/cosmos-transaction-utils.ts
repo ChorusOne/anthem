@@ -157,17 +157,6 @@ export const getTransactionFailedLogMessage = (
   return null;
 };
 
-/**
- * Sum amount `ICosmosBalance` values in an array.
- */
-const sumAmounts = (amounts: Maybe<ReadonlyArray<ICosmosBalance>>): string => {
-  if (!amounts) {
-    return "0";
-  }
-
-  return addValuesInList(amounts.map(a => a.amount));
-};
-
 const getTxAmount = (
   transaction: ICosmosTransaction,
   msgIndex: number,
