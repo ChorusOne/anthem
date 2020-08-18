@@ -162,8 +162,8 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     );
 
     this.state = {
-      selectedDenom: "",
       portfolioChartData: null,
+      selectedDenom: props.network.denom,
     };
   }
 
@@ -204,6 +204,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
   }
 
   renderChart = () => {
+    const { selectedDenom } = this.state;
     const { i18n, settings, app, fullSize, network } = this.props;
     const { t, tString } = i18n;
     const { fiatCurrency, currencySetting, isDarkTheme } = settings;
@@ -213,36 +214,25 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     if (chartData) {
       const noData = Object.keys(chartData.data).length === 0;
 
-      if (noData) {
-        // Get a relevant message to display for an empty portfolio graph.
-        const portfolioType = app.activeChartTab;
-        const getEmptyGraphMessage = (type: BASE_CHART_TABS): string => {
-          switch (type) {
-            case "TOTAL":
-            case "AVAILABLE":
-              return tString("No ATOM balance exists yet.");
-            case "REWARDS":
-              return tString(
-                "Please note that rewards data will not start accumulating until rewards balances are 1µatom or greater.",
-              );
-            case "STAKING":
-              return tString("No staking balance exists yet.");
-            case "COMMISSIONS":
-              return tString("No commissions data exists yet.");
-            default:
-              return assertUnreachable(type);
-          }
-        };
-
-        return (
-          <Centered style={{ flexDirection: "column" }}>
-            <H5>{t("No data exists yet.")}</H5>
-            <p style={{ textAlign: "center" }}>
-              {getEmptyGraphMessage(portfolioType as BASE_CHART_TABS)}
-            </p>
-          </Centered>
-        );
-      }
+      // Get a relevant message to display for an empty portfolio graph.
+      const portfolioType = app.activeChartTab;
+      const getEmptyGraphMessage = (type: BASE_CHART_TABS): string => {
+        switch (type) {
+          case "TOTAL":
+          case "AVAILABLE":
+            return tString("No ATOM balance exists yet.");
+          case "REWARDS":
+            return tString(
+              "Please note that rewards data will not start accumulating until rewards balances are 1µatom or greater.",
+            );
+          case "STAKING":
+            return tString("No staking balance exists yet.");
+          case "COMMISSIONS":
+            return tString("No commissions data exists yet.");
+          default:
+            return assertUnreachable(type);
+        }
+      };
 
       const options = getHighchartsChartOptions({
         tString,
@@ -268,16 +258,32 @@ class Portfolio extends React.PureComponent<IProps, IState> {
             )}
             <Row>
               <View style={{ paddingTop: 12 }}>
-                <CurrencySettingsToggle />
+                <CurrencySettingsToggle selectedDenom={selectedDenom} />
               </View>
               {this.renderDenomSelect()}
             </Row>
           </Row>
-          <HighchartsReact
-            options={options}
-            highcharts={Highcharts}
-            ref={this.assignChartRef}
-          />
+          {noData ? (
+            <View
+              style={{
+                marginTop: 48,
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <H5>{t("No data exists yet.")}</H5>
+              <p style={{ textAlign: "center" }}>
+                {getEmptyGraphMessage(portfolioType as BASE_CHART_TABS)}
+              </p>
+            </View>
+          ) : (
+            <HighchartsReact
+              options={options}
+              highcharts={Highcharts}
+              ref={this.assignChartRef}
+            />
+          )}
         </View>
       );
     } else {
@@ -286,6 +292,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
   };
 
   renderDenomSelect = () => {
+    const { selectedDenom } = this.state;
     const { network } = this.props;
     if (network.name === "TERRA") {
       return (
@@ -300,7 +307,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
             rightIcon="caret-down"
             data-cy="denom-select-menu"
           >
-            Select Denom
+            {selectedDenom}
           </Button>
         </DenomSelect>
       );
@@ -310,7 +317,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
   };
 
   handleSelectDenom = (denom: string) => {
-    this.setState({ selectedDenom: denom });
+    this.setState({ selectedDenom: denom }, this.calculatePortfolioData);
   };
 
   renderDenomSelectItem = (
@@ -358,6 +365,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
   };
 
   calculatePortfolioData = () => {
+    const { selectedDenom } = this.state;
     const { settings, network, cosmosAccountHistory } = this.props;
 
     if (cosmosAccountHistory && cosmosAccountHistory.cosmosAccountHistory) {
@@ -386,6 +394,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
         this.props.cosmosAccountHistory,
         displayFiat,
         network,
+        selectedDenom,
       );
 
       this.setState({ portfolioChartData: result });
@@ -416,6 +425,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
 
   handleDownloadCSV = () => {
     try {
+      const { selectedDenom } = this.state;
       const { address, network, settings, cosmosAccountHistory } = this.props;
       const fiatCurrencySymbol = settings.fiatCurrency.symbol;
 
@@ -425,6 +435,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
         cosmosAccountHistory,
         false,
         network,
+        selectedDenom,
       );
 
       if (
