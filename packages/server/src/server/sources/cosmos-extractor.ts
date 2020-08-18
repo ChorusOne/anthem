@@ -11,7 +11,6 @@ import {
 import { Pool } from "pg";
 import ENV from "../../tools/server-env";
 import {
-  filterRewardsByDenom,
   filterSanityCheckHeights,
   formatTransactionResponse,
   gatherEndOfDayBalanceValues,
