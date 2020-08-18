@@ -83,9 +83,19 @@ const NETWORK_ADDRESS_DEFAULTS: { [key: string]: Addresses } = {
  * ============================================================================
  */
 
-export type COIN_DENOMS = "uatom" | "ukava" | "ukrw" | "AMBR" | "CELO";
+export type TERRA_DENOMS = "ukrw" | "uluna" | "uusd" | "usdr" | "umnt";
+
+export type COIN_DENOMS = "uatom" | "ukava" | TERRA_DENOMS | "AMBR" | "CELO";
 
 export type NETWORK_NAME = "COSMOS" | "TERRA" | "KAVA" | "OASIS" | "CELO";
+
+export const TERRA_DENOM_LIST: TERRA_DENOMS[] = [
+  "ukrw",
+  "uluna",
+  "uusd",
+  "usdr",
+  "umnt",
+];
 
 const NETWORKS: NetworksMap = {
   COSMOS: {

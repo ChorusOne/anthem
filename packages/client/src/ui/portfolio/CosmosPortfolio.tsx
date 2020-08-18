@@ -1,4 +1,4 @@
-import { assertUnreachable } from "@anthem/utils";
+import { assertUnreachable, TERRA_DENOM_LIST } from "@anthem/utils";
 import { H5, MenuItem } from "@blueprintjs/core";
 import { IItemRendererProps, Select } from "@blueprintjs/select";
 import * as Sentry from "@sentry/browser";
@@ -266,26 +266,12 @@ class Portfolio extends React.PureComponent<IProps, IState> {
                 {t("Download CSV")}
               </Button>
             )}
-            <View>
-              <CurrencySettingsToggle />
-              <DenomSelect
-                filterable={false}
-                onItemSelect={(denom: string) =>
-                  this.setState({ selectedDenom: denom })
-                }
-                itemRenderer={this.renderDenomSelectItem}
-                items={["ukrw", "umnt", "uluna"]}
-              >
-                <Button
-                  category="SECONDARY"
-                  rightIcon="caret-down"
-                  onClick={() => console.log("hi")}
-                  data-cy="validator-composition-select-menu"
-                >
-                  Select Denom
-                </Button>
-              </DenomSelect>
-            </View>
+            <Row>
+              <View style={{ paddingTop: 12 }}>
+                <CurrencySettingsToggle />
+              </View>
+              {this.renderDenomSelect()}
+            </Row>
           </Row>
           <HighchartsReact
             options={options}
@@ -297,6 +283,34 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     } else {
       return null;
     }
+  };
+
+  renderDenomSelect = () => {
+    const { network } = this.props;
+    if (network.name === "TERRA") {
+      return (
+        <DenomSelect
+          filterable={false}
+          items={TERRA_DENOM_LIST}
+          onItemSelect={this.handleSelectDenom}
+          itemRenderer={this.renderDenomSelectItem}
+        >
+          <Button
+            category="SECONDARY"
+            rightIcon="caret-down"
+            data-cy="denom-select-menu"
+          >
+            Select Denom
+          </Button>
+        </DenomSelect>
+      );
+    }
+
+    return null;
+  };
+
+  handleSelectDenom = (denom: string) => {
+    this.setState({ selectedDenom: denom });
   };
 
   renderDenomSelectItem = (
