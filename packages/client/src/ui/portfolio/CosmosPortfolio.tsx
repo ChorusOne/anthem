@@ -1,5 +1,6 @@
 import { assertUnreachable } from "@anthem/utils";
-import { H5 } from "@blueprintjs/core";
+import { H5, MenuItem } from "@blueprintjs/core";
+import { IItemRendererProps, Select } from "@blueprintjs/select";
 import * as Sentry from "@sentry/browser";
 import {
   CosmosAccountHistoryProps,
@@ -54,8 +55,13 @@ export interface PortfolioChartData {
 }
 
 interface IState {
+  selectedDenom: string;
   portfolioChartData: Nullable<PortfolioChartData>;
 }
+
+type Denom = string;
+
+const DenomSelect = Select.ofType<Denom>();
 
 /** ===========================================================================
  * React Component
@@ -100,8 +106,6 @@ class PortfolioLoadingContainer extends React.PureComponent<
     const { displayLoadingMessage } = this.state;
     const { i18n, cosmosAccountHistory } = this.props;
     const { tString } = i18n;
-
-    console.log(cosmosAccountHistory);
 
     return (
       <View style={{ position: "relative", height: "100%" }}>
@@ -158,6 +162,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     );
 
     this.state = {
+      selectedDenom: "",
       portfolioChartData: null,
     };
   }
@@ -263,6 +268,23 @@ class Portfolio extends React.PureComponent<IProps, IState> {
             )}
             <View>
               <CurrencySettingsToggle />
+              <DenomSelect
+                filterable={false}
+                onItemSelect={(denom: string) =>
+                  this.setState({ selectedDenom: denom })
+                }
+                itemRenderer={this.renderDenomSelectItem}
+                items={["ukrw", "umnt", "uluna"]}
+              >
+                <Button
+                  category="SECONDARY"
+                  rightIcon="caret-down"
+                  onClick={() => console.log("hi")}
+                  data-cy="validator-composition-select-menu"
+                >
+                  Select Denom
+                </Button>
+              </DenomSelect>
             </View>
           </Row>
           <HighchartsReact
@@ -275,6 +297,20 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     } else {
       return null;
     }
+  };
+
+  renderDenomSelectItem = (
+    denom: string,
+    { handleClick, modifiers }: IItemRendererProps,
+  ) => {
+    return (
+      <MenuItem
+        key={denom}
+        text={denom}
+        onClick={handleClick}
+        active={modifiers.active}
+      />
+    );
   };
 
   ridiculouslyForcePortfolioToRedraw = (fullSizeChanged = false) => {
