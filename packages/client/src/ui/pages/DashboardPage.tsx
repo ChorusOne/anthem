@@ -299,6 +299,7 @@ const getPortfolioCardStyles = () => ({
   flex: 2,
   margin: 6,
   borderRadius: 0,
+  height: 335,
   minHeight: 325,
 });
 
@@ -306,6 +307,7 @@ const getBalanceCardStyles = () => ({
   flex: 1,
   margin: 6,
   borderRadius: 0,
+  height: 335,
   minHeight: 325,
 });
 

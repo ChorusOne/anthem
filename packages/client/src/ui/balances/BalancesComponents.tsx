@@ -166,7 +166,7 @@ class CosmosMultiDenominationBalances extends React.Component<
   }
 
   render(): JSX.Element {
-    const { network, balances, price } = this.props;
+    const { network, balances, price, tString, currencySetting } = this.props;
     return (
       <SummaryContainer
         style={{ marginTop: 12, overflowY: "scroll", height: "100%" }}
@@ -196,6 +196,18 @@ class CosmosMultiDenominationBalances extends React.Component<
             percentages,
           } = balancesResult;
 
+          const renderBalanceItem = (crypto: string, fiat: string) => {
+            if (denom.denom !== network.denom) {
+              return crypto;
+            }
+
+            if (currencySetting === "crypto") {
+              return crypto;
+            } else {
+              return fiat;
+            }
+          };
+
           return (
             <MultiDenomBalance key={denom.denom}>
               <MultiDenomTitle
@@ -216,7 +228,72 @@ class CosmosMultiDenominationBalances extends React.Component<
               </MultiDenomTitle>
               <Collapse isOpen={denom.denom === this.state.activeDenom}>
                 <MultiDenomBalanceDetail>
-                  <p>{denom.name}</p>
+                  <BalanceContainer>
+                    <View>
+                      <BalanceLine>
+                        <Icon
+                          icon={IconNames.DOT}
+                          style={{ marginRight: 2 }}
+                          color={COLORS.BALANCE_SHADE_ONE}
+                        />
+                        <BalanceTitle>{tString("Available")}:</BalanceTitle>
+                        <BalanceText data-cy="balance-available">
+                          {renderBalanceItem(balance, balanceFiat)}
+                        </BalanceText>
+                      </BalanceLine>
+                      <BalanceLine>
+                        <Icon
+                          color={COLORS.BALANCE_SHADE_TWO}
+                          style={{ marginRight: 2 }}
+                          icon={IconNames.DOT}
+                        />
+                        <BalanceTitle>{tString("Staking")}:</BalanceTitle>
+                        <BalanceText data-cy="balance-delegations">
+                          {renderBalanceItem(delegations, delegationsFiat)}
+                        </BalanceText>
+                      </BalanceLine>
+                      <BalanceLine>
+                        <Icon
+                          color={COLORS.BALANCE_SHADE_THREE}
+                          style={{ marginRight: 2 }}
+                          icon={IconNames.DOT}
+                        />
+                        <BalanceTitle>{tString("Rewards")}:</BalanceTitle>
+                        <BalanceText data-cy="balance-rewards">
+                          {renderBalanceItem(rewards, rewardsFiat)}
+                        </BalanceText>
+                      </BalanceLine>
+                      <BalanceLine>
+                        <Icon
+                          color={COLORS.BALANCE_SHADE_FIVE}
+                          style={{ marginRight: 2 }}
+                          icon={IconNames.DOT}
+                        />
+                        <BalanceTitle>{tString("Unbonding")}:</BalanceTitle>
+                        <BalanceText data-cy="balance-unbonding">
+                          {renderBalanceItem(unbonding, unbondingFiat)}
+                        </BalanceText>
+                      </BalanceLine>
+                      {commissions !== "0" && (
+                        <BalanceLine>
+                          <Icon
+                            color={COLORS.BALANCE_SHADE_FIVE}
+                            style={{ marginRight: 2 }}
+                            icon={IconNames.DOT}
+                          />
+                          <BalanceTitle>{tString("Commission")}:</BalanceTitle>
+                          <BalanceText data-cy="balance-commissions">
+                            {renderBalanceItem(commissions, commissionsFiat)}
+                          </BalanceText>
+                        </BalanceLine>
+                      )}
+                    </View>
+                    <BalancePieChart
+                      small
+                      percentages={percentages}
+                      total={renderBalanceItem(total, totalFiat)}
+                    />
+                  </BalanceContainer>
                 </MultiDenomBalanceDetail>
               </Collapse>
             </MultiDenomBalance>
@@ -855,26 +932,26 @@ const BalanceTotalContainer = styled.div`
     props.theme.isDesktop ? 0 : 24};
 `;
 
-const BalanceCircle = styled.div`
-  width: 150px;
-  height: 150px;
+const BalanceCircle = styled.div<{ small: boolean }>`
+  width: ${props => (props.small ? 105 : 125)}px;
+  height: ${props => (props.small ? 105 : 125)}px;
   z-index: 15;
   position: absolute;
-  top: -10px;
-  left: -10px;
+  top: -2px;
+  left: -2px;
   transform: rotate(45deg);
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-const BalanceTotalBox = styled.div`
+const BalanceTotalBox = styled.div<{ small: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
   transform: rotate(-45deg);
-  width: 105px;
-  height: 105px;
+  width: ${props => (props.small ? 85 : 105)}px;
+  height: ${props => (props.small ? 85 : 105)}px;
   border-width: 5px;
   border-radius: 50%;
   border-style: solid;
@@ -916,7 +993,13 @@ const pieColors: ReadonlyArray<COLORS> = [
   COLORS.BALANCE_SHADE_FIVE,
 ];
 
-const Pie = ({ percentages }: { percentages: ReadonlyArray<number> }) => {
+const Pie = ({
+  small,
+  percentages,
+}: {
+  small: boolean;
+  percentages: ReadonlyArray<number>;
+}) => {
   const data = percentages.map((percentage: number, index: number) => ({
     value: percentage,
     color: pieColors[index],
@@ -925,8 +1008,8 @@ const Pie = ({ percentages }: { percentages: ReadonlyArray<number> }) => {
   return (
     <PieChart
       style={{
-        width: 130,
         marginBottom: 10,
+        width: small ? 100 : 130,
       }}
       data={data}
     />
@@ -934,18 +1017,20 @@ const Pie = ({ percentages }: { percentages: ReadonlyArray<number> }) => {
 };
 
 const BalancePieChart = ({
+  small,
   percentages,
   total,
 }: {
+  small?: boolean;
   percentages: number[];
   total: string;
 }) => {
   return (
     <BalanceTotalWrapper>
       <BalanceTotalContainer>
-        <Pie percentages={percentages} />
-        <BalanceCircle>
-          <BalanceTotalBox>
+        <Pie small={!!small} percentages={percentages} />
+        <BalanceCircle small={!!small}>
+          <BalanceTotalBox small={!!small}>
             <BalanceTotalText data-cy="balance-total">{total}</BalanceTotalText>
           </BalanceTotalBox>
         </BalanceCircle>
