@@ -3,8 +3,9 @@ import {
   ICosmosAccountBalances,
   IOasisAccountBalances,
   NetworkDefinition,
+  TERRA_DENOM_LIST,
 } from "@anthem/utils";
-import { Colors, H5, Icon } from "@blueprintjs/core";
+import { Collapse, Colors, H5, Icon } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import { COLORS } from "constants/colors";
 import { CURRENCY_SETTING } from "constants/fiat";
@@ -122,15 +123,70 @@ class CosmosBalancesContainer extends React.Component<
   };
 }
 
-class CosmosMultiDenominationBalances extends React.Component {
+interface CosmosMultiDenominationBalancesProps {}
+
+interface CosmosMultiDenominationBalancesState {
+  activeDenom: string;
+}
+
+class CosmosMultiDenominationBalances extends React.Component<
+  CosmosMultiDenominationBalancesProps,
+  CosmosMultiDenominationBalancesState
+> {
+  constructor(props: IProps) {
+    super(props);
+
+    this.state = {
+      activeDenom: TERRA_DENOM_LIST[0].denom,
+    };
+  }
+
   render(): JSX.Element {
     return (
-      <SummaryContainer>
-        <p>hello</p>
+      <SummaryContainer style={{ marginTop: 12 }}>
+        {TERRA_DENOM_LIST.map(denom => {
+          return (
+            <MultiDenomBalance key={denom.denom}>
+              <MultiDenomTitle
+                onClick={() => this.setState({ activeDenom: denom.denom })}
+              >
+                <H5 style={{ margin: 0 }}>{denom.name}</H5>
+              </MultiDenomTitle>
+              <Collapse isOpen={denom.denom === this.state.activeDenom}>
+                <MultiDenomBalanceDetail>
+                  <p>{denom.name}</p>
+                </MultiDenomBalanceDetail>
+              </Collapse>
+            </MultiDenomBalance>
+          );
+        })}
       </SummaryContainer>
     );
   }
 }
+
+const MultiDenomTitle = styled.div`
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+`;
+
+const MultiDenomBalance = styled.div`
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? Colors.DARK_GRAY5 : Colors.LIGHT_GRAY3};
+`;
+
+const MultiDenomBalanceDetail = styled.div`
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? Colors.DARK_GRAY5 : Colors.LIGHT_GRAY3};
+`;
 
 interface CosmosComponentBalancesProps {
   network: NetworkDefinition;

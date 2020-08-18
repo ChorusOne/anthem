@@ -90,9 +90,14 @@ class DashboardPage extends React.Component<IProps> {
         : fiatCurrency.symbol;
 
     const BalancesPanel = (
-      <Card elevation={Elevation.TWO} style={getBalanceCardStyles()}>
+      <Card
+        elevation={Elevation.TWO}
+        style={{ ...getBalanceCardStyles(), paddingLeft: 0, paddingRight: 0 }}
+      >
         <Row>
-          <H5 style={{ margin: 0 }}>Balances {balanceSuffix}</H5>
+          <H5 style={{ margin: 0, marginLeft: 20 }}>
+            Balances {balanceSuffix}
+          </H5>
         </Row>
         <BalancesSwitchContainer />
       </Card>
