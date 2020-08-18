@@ -222,7 +222,11 @@ class CosmosMultiDenominationBalances extends React.Component<
                   </View>
                   <Row>
                     <b>{total}</b>
-                    <Icon icon="caret-down" />
+                    <Icon
+                      icon="caret-down"
+                      style={{ marginLeft: 4 }}
+                      color={Colors.LIGHT_GRAY1}
+                    />
                   </Row>
                 </Row>
               </MultiDenomTitle>

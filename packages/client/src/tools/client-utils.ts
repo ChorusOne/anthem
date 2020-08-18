@@ -1,6 +1,5 @@
 import {
   assertUnreachable,
-  COIN_DENOMS,
   deriveNetworkFromAddress,
   getValidatorAddressFromDelegatorAddress,
   ICeloValidatorGroup,
