@@ -10,6 +10,7 @@ describe("chart-and-csv-utils", () => {
       cosmosAccountHistory as any,
       false,
       NETWORKS.COSMOS,
+      "uatom",
     );
 
     const result = chartExportBuilder({
