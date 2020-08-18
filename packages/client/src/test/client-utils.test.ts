@@ -217,6 +217,7 @@ describe("utils", () => {
       cosmosAccountBalances.cosmosAccountBalances,
       100.52,
       NETWORKS.COSMOS,
+      NETWORKS.COSMOS.denom,
     );
     expect(result).toMatchInlineSnapshot(`
       Object {

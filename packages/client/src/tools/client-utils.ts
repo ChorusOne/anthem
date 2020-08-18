@@ -324,7 +324,7 @@ export const getBlockExplorerUrlForTransaction = (
  * Find a denom `ICosmosBalance` in a list of balances. The denom may not exist.
  */
 const findDenomsInList = (
-  denom: COIN_DENOMS,
+  denom: string,
   list: Maybe<ICosmosBalance[]>,
 ): Nullable<ICosmosBalance[]> => {
   if (!list) {
@@ -399,9 +399,10 @@ export const getAccountBalances = (
   accountBalancesData: ICosmosAccountBalances | undefined,
   rate: number,
   network: NetworkDefinition,
+  denom: string,
   maximumFractionDigits?: number,
 ): AccountBalancesResult => {
-  const { denom, denominationSize } = network;
+  const { denominationSize } = network;
   const defaultResult = {
     balance: "",
     rewards: "",

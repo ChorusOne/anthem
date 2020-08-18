@@ -5,7 +5,7 @@ import {
   NetworkDefinition,
   TERRA_DENOM_LIST,
 } from "@anthem/utils";
-import { Collapse, Colors, H5, Icon } from "@blueprintjs/core";
+import { Code, Collapse, Colors, H5, Icon } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import { COLORS } from "constants/colors";
 import { CURRENCY_SETTING } from "constants/fiat";
@@ -38,6 +38,7 @@ import {
   Button,
   DashboardError,
   DashboardLoader,
+  Row,
   View,
 } from "ui/SharedComponents";
 import Toast from "ui/Toast";
@@ -83,7 +84,17 @@ class CosmosBalancesContainer extends React.Component<
           const data = cosmosAccountBalances.cosmosAccountBalances;
           if (data) {
             if (network.name === "TERRA") {
-              return <CosmosMultiDenominationBalances />;
+              return (
+                <CosmosMultiDenominationBalances
+                  balances={data}
+                  network={network}
+                  tString={tString}
+                  isDesktop={isDesktop}
+                  currencySetting={currencySetting}
+                  price={fiatPriceData.fiatPriceData.price}
+                  handleSendReceive={this.handleSendReceiveAction}
+                />
+              );
             }
 
             return (
@@ -123,17 +134,30 @@ class CosmosBalancesContainer extends React.Component<
   };
 }
 
-interface CosmosMultiDenominationBalancesProps {}
+interface CosmosComponentBalancesProps {
+  network: NetworkDefinition;
+  balances: ICosmosAccountBalances;
+  price: number;
+  currencySetting: CURRENCY_SETTING;
+  isDesktop: boolean;
+  tString: tFnString;
+  handleSendReceive: () => void;
+}
+
+/** ===========================================================================
+ * Cosmos Multi-Balance Component
+ * ============================================================================
+ */
 
 interface CosmosMultiDenominationBalancesState {
   activeDenom: string;
 }
 
 class CosmosMultiDenominationBalances extends React.Component<
-  CosmosMultiDenominationBalancesProps,
+  CosmosComponentBalancesProps,
   CosmosMultiDenominationBalancesState
 > {
-  constructor(props: IProps) {
+  constructor(props: CosmosComponentBalancesProps) {
     super(props);
 
     this.state = {
@@ -142,15 +166,53 @@ class CosmosMultiDenominationBalances extends React.Component<
   }
 
   render(): JSX.Element {
+    const { network, balances, price } = this.props;
     return (
-      <SummaryContainer style={{ marginTop: 12 }}>
+      <SummaryContainer
+        style={{ marginTop: 12, overflowY: "scroll", height: "100%" }}
+      >
         {TERRA_DENOM_LIST.map(denom => {
+          const balancesResult = getAccountBalances(
+            balances,
+            price,
+            network,
+            denom.denom,
+            2,
+          );
+
+          const {
+            balance,
+            rewards,
+            delegations,
+            unbonding,
+            commissions,
+            total,
+            balanceFiat,
+            delegationsFiat,
+            rewardsFiat,
+            unbondingFiat,
+            commissionsFiat,
+            totalFiat,
+            percentages,
+          } = balancesResult;
+
           return (
             <MultiDenomBalance key={denom.denom}>
               <MultiDenomTitle
                 onClick={() => this.setState({ activeDenom: denom.denom })}
               >
-                <H5 style={{ margin: 0 }}>{denom.name}</H5>
+                <Row style={{ justifyContent: "space-between" }}>
+                  <View>
+                    <b style={{ margin: 0 }}>{denom.name}</b>
+                    <Code style={{ margin: 0, marginLeft: 4 }}>
+                      {denom.denom}
+                    </Code>
+                  </View>
+                  <Row>
+                    <b>{total}</b>
+                    <Icon icon="caret-down" />
+                  </Row>
+                </Row>
               </MultiDenomTitle>
               <Collapse isOpen={denom.denom === this.state.activeDenom}>
                 <MultiDenomBalanceDetail>
@@ -170,6 +232,10 @@ const MultiDenomTitle = styled.div`
   padding-right: 20px;
   padding-top: 4px;
   padding-bottom: 4px;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const MultiDenomBalance = styled.div`
@@ -188,15 +254,10 @@ const MultiDenomBalanceDetail = styled.div`
     props.theme.isDarkTheme ? Colors.DARK_GRAY5 : Colors.LIGHT_GRAY3};
 `;
 
-interface CosmosComponentBalancesProps {
-  network: NetworkDefinition;
-  balances: ICosmosAccountBalances;
-  price: number;
-  currencySetting: CURRENCY_SETTING;
-  isDesktop: boolean;
-  tString: tFnString;
-  handleSendReceive: () => void;
-}
+/** ===========================================================================
+ * Cosmos Single-Balance Component
+ * ============================================================================
+ */
 
 class CosmosBalancesComponent extends React.Component<
   CosmosComponentBalancesProps
@@ -217,6 +278,7 @@ class CosmosBalancesComponent extends React.Component<
       balances,
       fiatConversionRate,
       network,
+      network.denom,
       2,
     );
 
