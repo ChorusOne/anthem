@@ -1,4 +1,8 @@
-import { assertUnreachable, TERRA_DENOM_LIST } from "@anthem/utils";
+import {
+  assertUnreachable,
+  TERRA_DENOM_LIST,
+  TerraDenomDetail,
+} from "@anthem/utils";
 import { H5, MenuItem } from "@blueprintjs/core";
 import { IItemRendererProps, Select } from "@blueprintjs/select";
 import * as Sentry from "@sentry/browser";
@@ -53,14 +57,17 @@ export interface PortfolioChartData {
   validatorDailySummary: ChartData;
 }
 
+interface CoinDenom {
+  denom: string;
+  name: string;
+}
+
 interface IState {
-  selectedDenom: string;
+  selectedDenom: CoinDenom;
   portfolioChartData: Nullable<PortfolioChartData>;
 }
 
-type Denom = string;
-
-const DenomSelect = Select.ofType<Denom>();
+const DenomSelect = Select.ofType<TerraDenomDetail>();
 
 /** ===========================================================================
  * React Component
@@ -160,9 +167,19 @@ class Portfolio extends React.PureComponent<IProps, IState> {
       this.calculatePortfolioData,
     );
 
+    const networkDenom = TERRA_DENOM_LIST.find(
+      x => x.denom === props.network.denom,
+    );
+    const selectedDenom = networkDenom
+      ? networkDenom
+      : {
+          denom: props.network.denom,
+          name: props.network.descriptor,
+        };
+
     this.state = {
+      selectedDenom,
       portfolioChartData: null,
-      selectedDenom: props.network.denom,
     };
   }
 
@@ -257,7 +274,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
             )}
             <Row>
               <View style={{ paddingTop: 12 }}>
-                <CurrencySettingsToggle selectedDenom={selectedDenom} />
+                <CurrencySettingsToggle selectedDenom={selectedDenom.denom} />
               </View>
               {this.renderDenomSelect()}
             </Row>
@@ -306,7 +323,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
             rightIcon="caret-down"
             data-cy="denom-select-menu"
           >
-            {selectedDenom}
+            {selectedDenom.name}
           </Button>
         </DenomSelect>
       );
@@ -315,18 +332,18 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     return null;
   };
 
-  handleSelectDenom = (denom: string) => {
+  handleSelectDenom = (denom: TerraDenomDetail) => {
     this.setState({ selectedDenom: denom }, this.calculatePortfolioData);
   };
 
   renderDenomSelectItem = (
-    denom: string,
+    denomDetail: TerraDenomDetail,
     { handleClick, modifiers }: IItemRendererProps,
   ) => {
     return (
       <MenuItem
-        key={denom}
-        text={denom}
+        key={denomDetail.denom}
+        text={denomDetail.name}
         onClick={handleClick}
         active={modifiers.active}
       />
@@ -393,7 +410,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
         this.props.cosmosAccountHistory,
         displayFiat,
         network,
-        selectedDenom,
+        selectedDenom.denom,
       );
 
       this.setState({ portfolioChartData: result });
@@ -434,7 +451,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
         cosmosAccountHistory,
         false,
         network,
-        selectedDenom,
+        selectedDenom.denom,
       );
 
       if (

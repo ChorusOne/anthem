@@ -89,12 +89,17 @@ export type COIN_DENOMS = "uatom" | "ukava" | TERRA_DENOMS | "AMBR" | "CELO";
 
 export type NETWORK_NAME = "COSMOS" | "TERRA" | "KAVA" | "OASIS" | "CELO";
 
-export const TERRA_DENOM_LIST: TERRA_DENOMS[] = [
-  "ukrw",
-  "uluna",
-  "uusd",
-  "usdr",
-  "umnt",
+export interface TerraDenomDetail {
+  denom: TERRA_DENOMS;
+  name: string;
+}
+
+export const TERRA_DENOM_LIST: TerraDenomDetail[] = [
+  { denom: "uluna", name: "LUNA" },
+  { denom: "ukrw", name: "TerraKRW" },
+  { denom: "uusd", name: "TerraUSD" },
+  { denom: "usdr", name: "TerraSDR" },
+  { denom: "umnt", name: "Terra Mongolian Tughrik" },
 ];
 
 const NETWORKS: NetworksMap = {
