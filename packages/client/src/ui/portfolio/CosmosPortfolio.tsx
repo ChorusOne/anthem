@@ -238,9 +238,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
           case "AVAILABLE":
             return tString("No ATOM balance exists yet.");
           case "REWARDS":
-            return tString(
-              "Please note that rewards data will not start accumulating until rewards balances are 1µatom or greater.",
-            );
+            return `Please note that rewards data will not start accumulating until rewards balances are 1${selectedDenom.denom} or greater.`;
           case "STAKING":
             return tString("No staking balance exists yet.");
           case "COMMISSIONS":
@@ -282,7 +280,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
           {noData ? (
             <View
               style={{
-                marginTop: 48,
+                marginTop: 75,
                 display: "flex",
                 alignItems: "center",
                 flexDirection: "column",

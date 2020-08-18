@@ -128,7 +128,7 @@ const NETWORKS: NetworksMap = {
   TERRA: {
     available: true,
     name: "TERRA",
-    denom: "ukrw",
+    denom: "uluna",
     descriptor: "LUNA",
     chainId: "columbus-3",
     cryptoCompareTicker: "LUNA",
