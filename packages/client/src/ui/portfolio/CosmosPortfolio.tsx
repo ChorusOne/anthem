@@ -31,7 +31,6 @@ import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import CurrencySettingsToggle from "../CurrencySettingToggle";
 import {
   Button,
-  Centered,
   DashboardError,
   DashboardLoader,
   Row,
