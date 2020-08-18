@@ -80,8 +80,11 @@ class CosmosBalancesContainer extends React.Component<
           }
 
           const data = cosmosAccountBalances.cosmosAccountBalances;
-
           if (data) {
+            if (network.name === "TERRA") {
+              return <CosmosMultiDenominationBalances />;
+            }
+
             return (
               <CosmosBalancesComponent
                 balances={data}
@@ -117,6 +120,16 @@ class CosmosBalancesContainer extends React.Component<
       ledgerActionType: "SEND",
     });
   };
+}
+
+class CosmosMultiDenominationBalances extends React.Component {
+  render(): JSX.Element {
+    return (
+      <SummaryContainer>
+        <p>hello</p>
+      </SummaryContainer>
+    );
+  }
 }
 
 interface CosmosComponentBalancesProps {
