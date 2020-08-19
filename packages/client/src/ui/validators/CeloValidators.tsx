@@ -147,6 +147,8 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
               celoUSDValue,
             } = accountBalancesResponse;
 
+            console.log(accountBalancesResponse);
+
             const validatorOperatorAddressMap = getValidatorOperatorAddressMap<
               ICeloValidatorGroup
             >(validatorList, v => v.group.toUpperCase());

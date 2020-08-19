@@ -310,6 +310,7 @@ export const getBlockExplorerUrlForTransaction = (
     case "TERRA":
       return `https://terra.stake.id/?#/tx/${hash}`;
     case "CELO":
+      // mainnet: https://rc1-blockscout.celo-testnet.org/
       return `https://alfajores-blockscout.celo-testnet.org/tx/${hash}`;
     case "OASIS":
       console.warn("[TODO]: Implement Block Explorer url for Oasis");
