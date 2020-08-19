@@ -269,12 +269,10 @@ class CeloLedgerClass implements ICeloLedger {
 
     const { from, group, amount } = args;
 
-    const x = "0x5edfCe0bad47e24E30625c275457F5b4Bb619241";
-
     this.kit.defaultAccount = from;
     const election = await this.kit.contracts.getElection();
     console.log(`Voting ${amount} locked gold for validator group ${group}`);
-    const tx = await election.vote(x, new BigNumber(amount));
+    const tx = await election.vote(group, new BigNumber(amount));
     // @ts-ignore
     const receipt = await tx.sendAndWaitForReceipt({ from });
     return receipt;
