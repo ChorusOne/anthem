@@ -240,6 +240,14 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
             {network.ledgerAppName} app installed.
           </H6>
         </Row>
+        {signinNetworkName === "CELO" && (
+          <Row style={{ justifyContent: "left" }}>
+            <Circle />
+            <H6 style={{ margin: 0 }}>
+              Follow the steps to verify the address on the Ledger.
+            </H6>
+          </Row>
+        )}
         {ledgerAppVersionValid === false ? (
           <Centered style={{ flexDirection: "column", marginTop: 52 }}>
             <ErrorText>
