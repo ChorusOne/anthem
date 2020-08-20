@@ -52,8 +52,10 @@ export enum TERRA_TRANSACTION_TYPES {
 
   DELEGATE = "staking/MsgDelegate",
   UNDELEGATE = "staking/MsgUndelegate",
+  REDELEGATE = "staking/MsgBeginRedelegate",
   GOVERNANCE_DEPOSIT = "gov/MsgDeposit",
   DELEGATE_FEED_CONSENT = "oracle/MsgDelegateFeedConsent",
+  WITHDRAW_REWARD = "distribution/MsgWithdrawDelegationReward",
   EXCHANGE_RATE_VOTE = "oracle/MsgExchangeRateVote",
   EXCHANGE_RATE_PRE_VOTE = "oracle/MsgExchangeRatePrevote",
 }
@@ -565,6 +567,14 @@ export const transformCosmosTransactionToRenderElements = ({
       }
       case TERRA_TRANSACTION_TYPES.UNDELEGATE: {
         return getUndelegateMessage(transaction, msgIndex);
+      }
+
+      case TERRA_TRANSACTION_TYPES.REDELEGATE: {
+        return getRedelegateMessageData(transaction, msgIndex);
+      }
+
+      case TERRA_TRANSACTION_TYPES.WITHDRAW_REWARD: {
+        return getClaimRewardsMessageData(transaction, msgIndex, denom);
       }
 
       case TERRA_TRANSACTION_TYPES.GOVERNANCE_DEPOSIT:
