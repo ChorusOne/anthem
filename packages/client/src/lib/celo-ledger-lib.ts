@@ -86,6 +86,7 @@ interface ICeloLedger {
   lock(args: CeloLockGoldArguments): Promise<any>;
   unlock(amount: string): Promise<any>;
   voteForValidatorGroup(args: CeloVoteArguments): Promise<any>;
+  activateVotes(address: string): Promise<any>;
   getAccountSummary(): Promise<any>;
   getTotalBalances(): Promise<any>;
 }
@@ -278,6 +279,20 @@ class CeloLedgerClass implements ICeloLedger {
     return receipt;
   }
 
+  async activateVotes(address: string) {
+    if (!this.kit) {
+      throw new Error("CeloLedgerClass not initialized yet.");
+    }
+
+    this.kit.defaultAccount = address;
+    const election = await this.kit.contracts.getElection();
+    console.log(`Activating votes for address: ${address}`);
+    const tx = await election.activate(address);
+    // @ts-ignore
+    const receipt = await tx.sendAndWaitForReceipt({ from: address });
+    return receipt;
+  }
+
   async getAccountSummary() {
     if (!this.kit) {
       throw new Error("CeloLedgerClass not initialized yet.");
@@ -413,6 +428,10 @@ class MockCeloLedgerModule implements ICeloLedger {
         "0x3f375cbf06a622493fc178590a9208e86ce711c92f424a8d926df8473974d022",
       transactionIndex: 0,
     };
+  }
+
+  async activateVotes() {
+    return {};
   }
 
   async transfer() {

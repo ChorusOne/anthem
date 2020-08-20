@@ -24,6 +24,7 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
         const { cosmosLedgerUtil, celoLedgerUtil } = deps;
         const { ledgerActionType } = state$.value.ledger.ledgerDialog;
         const { name } = state$.value.ledger.ledger.network;
+        const { address } = state$.value.ledger.ledger;
         const { transactionData } = state$.value.transaction;
 
         switch (name) {
@@ -67,6 +68,11 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
               case "LOCK_GOLD":
                 const lockResult = await celoLedgerUtil.lock(transactionData);
                 return Actions.transactionConfirmed(lockResult);
+              case "ACTIVATE_VOTES":
+                const activateResult = await celoLedgerUtil.activateVotes(
+                  address,
+                );
+                return Actions.transactionConfirmed(activateResult);
               case "GOVERNANCE_VOTE":
                 const governanceResult = await celoLedgerUtil.voteForProposal(
                   transactionData,
