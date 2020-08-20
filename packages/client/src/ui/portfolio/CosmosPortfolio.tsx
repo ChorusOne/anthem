@@ -1,5 +1,7 @@
 import {
   assertUnreachable,
+  CoinDenom,
+  getDefaultDenomFromNetwork,
   TERRA_DENOM_LIST,
   TerraDenomDetail,
 } from "@anthem/utils";
@@ -55,11 +57,6 @@ export interface PortfolioChartData {
   unbondingChartData: ChartData;
   validatorRewardsChartData: ChartData;
   validatorDailySummary: ChartData;
-}
-
-interface CoinDenom {
-  denom: string;
-  name: string;
 }
 
 interface IState {
@@ -172,10 +169,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     );
     const selectedDenom = networkDenom
       ? networkDenom
-      : {
-          denom: props.network.denom,
-          name: props.network.descriptor,
-        };
+      : getDefaultDenomFromNetwork(props.network);
 
     this.state = {
       selectedDenom,
@@ -248,9 +242,11 @@ class Portfolio extends React.PureComponent<IProps, IState> {
         }
       };
 
+      const denom = this.getAppropriateDenom();
       const options = getHighchartsChartOptions({
         tString,
         network,
+        denom,
         fullSize,
         chartData,
         isDarkTheme,
@@ -307,16 +303,19 @@ class Portfolio extends React.PureComponent<IProps, IState> {
 
   renderDenomSelect = () => {
     const { selectedDenom } = this.state;
-    const { network } = this.props;
+    const { app, network } = this.props;
     if (network.name === "TERRA") {
+      const DISABLED = !this.tabSupportsMultipleDenom();
       return (
         <DenomSelect
+          disabled={DISABLED}
           filterable={false}
           items={TERRA_DENOM_LIST}
           onItemSelect={this.handleSelectDenom}
           itemRenderer={this.renderDenomSelectItem}
         >
           <Button
+            disabled={DISABLED}
             category="SECONDARY"
             rightIcon="caret-down"
             data-cy="denom-select-menu"
@@ -380,7 +379,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
 
   calculatePortfolioData = () => {
     const { selectedDenom } = this.state;
-    const { settings, network, cosmosAccountHistory } = this.props;
+    const { app, settings, network, cosmosAccountHistory } = this.props;
 
     if (cosmosAccountHistory && cosmosAccountHistory.cosmosAccountHistory) {
       const {
@@ -403,16 +402,33 @@ class Portfolio extends React.PureComponent<IProps, IState> {
         this.props.history.push("/dashboard/rewards");
       }
 
+      const { denom } = this.getAppropriateDenom();
+
       const displayFiat = settings.currencySetting === "fiat";
       const result = processPortfolioHistoryData(
         this.props.cosmosAccountHistory,
         displayFiat,
         network,
-        selectedDenom.denom,
+        denom,
       );
 
       this.setState({ portfolioChartData: result });
     }
+  };
+
+  getAppropriateDenom = () => {
+    const { network } = this.props;
+    if (this.tabSupportsMultipleDenom()) {
+      return this.state.selectedDenom;
+    } else {
+      return getDefaultDenomFromNetwork(network);
+    }
+  };
+
+  tabSupportsMultipleDenom = () => {
+    const tab = this.props.app.activeChartTab;
+    const notSupported = tab === "STAKING" || tab === "TOTAL";
+    return !notSupported;
   };
 
   getChartValues = (): Nullable<ChartData> => {

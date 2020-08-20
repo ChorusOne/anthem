@@ -89,7 +89,12 @@ export type COIN_DENOMS = "uatom" | "ukava" | TERRA_DENOMS | "AMBR" | "CELO";
 
 export type NETWORK_NAME = "COSMOS" | "TERRA" | "KAVA" | "OASIS" | "CELO";
 
-export interface TerraDenomDetail {
+export interface CoinDenom {
+  denom: string;
+  name: string;
+}
+
+export interface TerraDenomDetail extends CoinDenom {
   denom: TERRA_DENOMS;
   name: string;
 }
@@ -101,6 +106,15 @@ export const TERRA_DENOM_LIST: TerraDenomDetail[] = [
   { denom: "usdr", name: "TerraSDR" },
   { denom: "umnt", name: "Terra Mongolian Tughrik" },
 ];
+
+export const getDefaultDenomFromNetwork = (
+  network: NetworkDefinition,
+): CoinDenom => {
+  return {
+    denom: network.denom,
+    name: network.descriptor,
+  };
+};
 
 const NETWORKS: NetworksMap = {
   COSMOS: {
