@@ -230,7 +230,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
         switch (type) {
           case "TOTAL":
           case "AVAILABLE":
-            return tString("No ATOM balance exists yet.");
+            return "No balance data exists yet.";
           case "REWARDS":
             return `Please note that rewards data will not start accumulating until rewards balances are 1${selectedDenom.denom} or greater.`;
           case "STAKING":
@@ -268,7 +268,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
             )}
             <Row>
               <View style={{ paddingTop: 12 }}>
-                <CurrencySettingsToggle selectedDenom={selectedDenom.denom} />
+                <CurrencySettingsToggle selectedDenom={denom.denom} />
               </View>
               {this.renderDenomSelect()}
             </Row>
