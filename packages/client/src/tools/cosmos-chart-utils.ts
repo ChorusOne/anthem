@@ -57,6 +57,7 @@ export const processPortfolioHistoryData = (
   accountHistory: CosmosAccountHistoryQueryResult,
   displayFiat: boolean,
   network: NetworkDefinition,
+  selectedDenom: string,
 ): PortfolioHistoryChartData | null => {
   if (!accountHistory || !accountHistory.cosmosAccountHistory) {
     return null;
@@ -81,10 +82,13 @@ export const processPortfolioHistoryData = (
   const firstBalance = balanceHistory[0];
   const startingDate = firstBalance && firstBalance.timestamp;
 
+  const filterByDenom = (item: { denom: string }) =>
+    item.denom === selectedDenom;
+
   // Process balanceHistory
   const adjustedBalances = populateMissingDatesInDataSeries(
     startingDate,
-    balanceHistory,
+    balanceHistory.filter(filterByDenom),
     fiatPriceMap,
   );
   const availableChartData = mapBalancesToChartData(
@@ -119,10 +123,12 @@ export const processPortfolioHistoryData = (
   );
 
   // Process rewards
-  const rewardsWithFiatPrices = delegatorRewards.map(rewards => ({
-    ...rewards,
-    fiatPrice: fiatPriceMap[toDateKey(rewards.timestamp)],
-  }));
+  const rewardsWithFiatPrices = delegatorRewards
+    .filter(filterByDenom)
+    .map(rewards => ({
+      ...rewards,
+      fiatPrice: fiatPriceMap[toDateKey(rewards.timestamp)],
+    }));
   const rewardsChartData = mapRewardsToChartData(
     rewardsWithFiatPrices,
     displayFiat,
@@ -136,10 +142,12 @@ export const processPortfolioHistoryData = (
   );
 
   // Process commissions
-  const commissionsWithFiatPrices = validatorCommissions.map(commissions => ({
-    ...commissions,
-    fiatPrice: fiatPriceMap[toDateKey(commissions.timestamp)],
-  }));
+  const commissionsWithFiatPrices = validatorCommissions
+    .filter(filterByDenom)
+    .map(commissions => ({
+      ...commissions,
+      fiatPrice: fiatPriceMap[toDateKey(commissions.timestamp)],
+    }));
   const validatorRewardsChartData = mapRewardsToChartData(
     commissionsWithFiatPrices,
     displayFiat,

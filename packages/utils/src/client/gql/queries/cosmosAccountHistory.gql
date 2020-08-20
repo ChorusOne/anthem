@@ -23,12 +23,14 @@ query cosmosAccountHistory($address: String!, $fiat: String!){
             height
             address
             timestamp
+            denom
         }
         validatorCommissions{
             balance
             height
             validator
             timestamp
+            denom
         }
         fiatPriceHistory{
             price

@@ -81,6 +81,7 @@ const shouldContainText = (id: string, text: string) => {
 const searchInAddressInput = (search: string) => {
   const id = "dashboard-address-input";
   typeText(id, `${search}{enter}`);
+  cy.wait(500);
 };
 
 /**

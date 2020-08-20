@@ -223,6 +223,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             accountBalancesData,
             atomsConversionRate,
             ledger.network,
+            ledger.network.denom,
             6,
           );
           const { balance, balanceFiat } = balances;
@@ -331,6 +332,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             accountBalancesData,
             atomsConversionRate,
             ledger.network,
+            ledger.network.denom,
             6,
           );
           const { rewards, rewardsFiat } = balances;
@@ -500,6 +502,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             accountBalancesData,
             atomsConversionRate,
             ledger.network,
+            ledger.network.denom,
             6,
           );
           const { balance, balanceFiat } = balances;
@@ -881,6 +884,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       balancesData,
       atomsConversionRate,
       ledger.network,
+      ledger.network.denom,
       6,
     );
 

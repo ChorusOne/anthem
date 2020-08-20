@@ -13,7 +13,7 @@ import Toast from "./Toast";
  */
 
 const CurrencySettingsToggle = (props: IProps) => {
-  const { network, activeChartTab } = props;
+  const { network, activeChartTab, selectedDenom } = props;
   const { currencySetting, fiatCurrency } = props.settings;
   const { pathname } = window.location;
 
@@ -29,6 +29,10 @@ const CurrencySettingsToggle = (props: IProps) => {
    * Hide the toggle on the chart view for certain Celo charts (cUSD only).
    */
   if (SHOULD_HIDE && ON_CHART_VIEW) {
+    return null;
+  }
+
+  if (ON_CHART_VIEW && selectedDenom !== network.denom) {
     return null;
   }
 
@@ -90,7 +94,9 @@ const dispatchProps = {
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
-interface ComponentProps {}
+interface ComponentProps {
+  selectedDenom?: string;
+}
 
 interface IProps extends ConnectProps, ComponentProps {}
 

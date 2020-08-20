@@ -24,19 +24,14 @@ SCREEN_SIZES.forEach(({ size, type }) => {
         return;
       }
 
-      cy.contains("Balance (ATOM)");
       UTILS.checkForNetwork("cosmos");
 
       // Enter an Oasis address
       UTILS.typeText("dashboard-address-input", `${OASIS.account}{enter}`);
-
-      cy.contains("Balance (AMBR)");
       UTILS.checkForNetwork("oasis");
     });
 
     it("After logging in with an address balance details are visible for that address", () => {
-      cy.contains("Balance (ATOM)");
-
       if (type.isDesktop()) {
         UTILS.checkForNetwork("cosmos");
       }
@@ -73,19 +68,14 @@ SCREEN_SIZES.forEach(({ size, type }) => {
         return;
       }
 
-      cy.contains("Balance (CELO)");
       UTILS.checkForNetwork("celo");
 
       // Enter an Oasis address
       UTILS.typeText("dashboard-address-input", `${COSMOS.account}{enter}`);
-
-      cy.contains("Balance (ATOM)");
       UTILS.checkForNetwork("cosmos");
     });
 
     it("After logging in with an address balance details are visible for that address", () => {
-      cy.contains("Balance (CELO)");
-
       if (type.isDesktop()) {
         UTILS.checkForNetwork("celo");
       }
@@ -118,8 +108,6 @@ SCREEN_SIZES.forEach(({ size, type }) => {
     });
 
     it("After logging in with an address balance details are visible for that address", () => {
-      cy.contains("Balance (AMBR)");
-
       if (type.isDesktop()) {
         UTILS.checkForNetwork("oasis");
       }

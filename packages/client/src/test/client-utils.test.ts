@@ -17,7 +17,6 @@ import {
   getValidatorOperatorAddressMap,
   identity,
   isGraphQLResponseDataEmpty,
-  justFormatChainString,
   mapRewardsToAvailableRewards,
   onActiveRoute,
   onPath,
@@ -102,19 +101,19 @@ describe("utils", () => {
       cosmosTransactions.data[0].timestamp,
       priceMap,
     );
-    expect(result).toMatchInlineSnapshot(`"2.17075"`);
+    expect(result).toMatchInlineSnapshot(`"3.955"`);
 
     result = getPriceFromTransactionTimestamp(
       cosmosTransactions.data[1].timestamp,
       priceMap,
     );
-    expect(result).toMatchInlineSnapshot(`"2.17075"`);
+    expect(result).toMatchInlineSnapshot(`"3.765"`);
 
     result = getPriceFromTransactionTimestamp(
       cosmosTransactions.data[2].timestamp,
       priceMap,
     );
-    expect(result).toMatchInlineSnapshot(`"3.5997500000000002"`);
+    expect(result).toMatchInlineSnapshot(`"3.765"`);
   });
 
   test("getValidatorOperatorAddressMap", () => {
@@ -147,12 +146,6 @@ describe("utils", () => {
     expect(isGraphQLResponseDataEmpty(undefined)).toBeTruthy();
     expect(isGraphQLResponseDataEmpty({})).toBeTruthy();
     expect(isGraphQLResponseDataEmpty({ data: {} })).toBeFalsy();
-  });
-
-  test("justFormatChainString", () => {
-    expect(justFormatChainString("cosmoshub-1")).toBe("Cosmos Hub 1");
-    expect(justFormatChainString("cosmoshub-2")).toBe("Cosmos Hub 2");
-    expect(justFormatChainString("cosmoshub-3")).toBe("Cosmos Hub 3");
   });
 
   test("mapRewardsToAvailableRewards", () => {
@@ -217,26 +210,27 @@ describe("utils", () => {
       cosmosAccountBalances.cosmosAccountBalances,
       100.52,
       NETWORKS.COSMOS,
+      NETWORKS.COSMOS.denom,
     );
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "balance": "348.59",
-        "balanceFiat": "35,039.77",
-        "commissions": "10,289.74",
-        "commissionsFiat": "1,034,324.84",
+        "balance": "12,437.49",
+        "balanceFiat": "1,250,216.82",
+        "commissions": "1,946.80",
+        "commissionsFiat": "195,691.95",
         "delegations": "5,000.00",
         "delegationsFiat": "502,600.00",
         "percentages": Array [
-          2.2106698787205548,
-          31.70919218327886,
-          0.8242582438786414,
+          64.09126542237438,
+          25.765346862955223,
+          0.11141220745817973,
           0,
-          65.25587969412194,
+          10.031975507212222,
         ],
-        "rewards": "129.97",
-        "rewardsFiat": "13,064.74",
-        "total": "15,768.30",
-        "totalFiat": "1,585,029.34",
+        "rewards": "21.62",
+        "rewardsFiat": "2,173.30",
+        "total": "19,405.91",
+        "totalFiat": "1,950,682.06",
         "unbonding": "0",
         "unbondingFiat": "0",
       }
