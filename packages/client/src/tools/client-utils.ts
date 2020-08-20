@@ -955,15 +955,11 @@ export const copyTextToClipboard = (text: string) => {
 };
 
 /**
- * Format a chain id, e.g. cosmoshub-2 -> Cosmos Hub 2.
- * NOTE: This is hard-coded to format cosmos network chain
- * ids and will need to be updated to support other networks.
+ * Format a chain id. Nothing happens now but we could add formatting
+ * in the future.
  */
 export const justFormatChainString = (chain: string) => {
   return chain;
-  // const chain = chain.slice(0, chain.length - 2);
-  // const id = chain.slice(-1);
-  // return `${chain} ${id}`;
 };
 
 /**

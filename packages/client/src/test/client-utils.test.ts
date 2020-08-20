@@ -17,7 +17,6 @@ import {
   getValidatorOperatorAddressMap,
   identity,
   isGraphQLResponseDataEmpty,
-  justFormatChainString,
   mapRewardsToAvailableRewards,
   onActiveRoute,
   onPath,
@@ -147,12 +146,6 @@ describe("utils", () => {
     expect(isGraphQLResponseDataEmpty(undefined)).toBeTruthy();
     expect(isGraphQLResponseDataEmpty({})).toBeTruthy();
     expect(isGraphQLResponseDataEmpty({ data: {} })).toBeFalsy();
-  });
-
-  test("justFormatChainString", () => {
-    expect(justFormatChainString("cosmoshub-1")).toBe("Cosmos Hub 1");
-    expect(justFormatChainString("cosmoshub-2")).toBe("Cosmos Hub 2");
-    expect(justFormatChainString("cosmoshub-3")).toBe("Cosmos Hub 3");
   });
 
   test("mapRewardsToAvailableRewards", () => {
