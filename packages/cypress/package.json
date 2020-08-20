@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@cypress/webpack-preprocessor": "^4.1.1",
-    "cypress": "4.9.0",
+    "cypress": "5.0.0",
     "prettier": "^1.19.1",
     "ts-loader": "^6.2.1",
     "tslint": "^5.20.1",
