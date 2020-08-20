@@ -36,7 +36,6 @@ import { IThemeProps } from "ui/containers/ThemeContainer";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import {
   Button,
-  Centered,
   DashboardError,
   DashboardLoader,
   Row,

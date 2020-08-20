@@ -303,7 +303,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
 
   renderDenomSelect = () => {
     const { selectedDenom } = this.state;
-    const { app, network } = this.props;
+    const { network } = this.props;
     if (network.name === "TERRA") {
       const DISABLED = !this.tabSupportsMultipleDenom();
       return (
@@ -378,8 +378,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
   };
 
   calculatePortfolioData = () => {
-    const { selectedDenom } = this.state;
-    const { app, settings, network, cosmosAccountHistory } = this.props;
+    const { settings, network, cosmosAccountHistory } = this.props;
 
     if (cosmosAccountHistory && cosmosAccountHistory.cosmosAccountHistory) {
       const {
