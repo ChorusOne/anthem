@@ -67,6 +67,12 @@ interface CeloLockGoldArguments {
   from: string;
 }
 
+export interface RevokeVotesArguments {
+  amount: string;
+  address: string;
+  group: string;
+}
+
 interface CeloGovernanceVoteArguments {
   from: string;
   proposalId: string;
@@ -84,15 +90,23 @@ interface ICeloLedger {
   validateAddress(address: string): boolean;
   getCeloAppVersion(): Promise<string>;
   getAddress(derivationPath: "0" | "1" | "2" | "3" | "4"): Promise<string>;
-  transfer(args: CeloTransferArguments): Promise<any>;
-  voteForProposal(args: CeloGovernanceVoteArguments): Promise<any>;
-  upvoteForProposal(proposalId: string, upvoter: string): Promise<any>;
-  createAccount(address: string): Promise<any>;
+  transfer(args: CeloTransferArguments): Promise<ICeloTransactionResult>;
+  voteForProposal(
+    args: CeloGovernanceVoteArguments,
+  ): Promise<ICeloTransactionResult>;
+  upvoteForProposal(
+    proposalId: string,
+    upvoter: string,
+  ): Promise<ICeloTransactionResult>;
+  createAccount(address: string): Promise<ICeloTransactionResult>;
   isAccount(address: string): Promise<boolean>;
-  lock(args: CeloLockGoldArguments): Promise<any>;
-  unlock(amount: string): Promise<any>;
-  voteForValidatorGroup(args: CeloVoteArguments): Promise<any>;
-  activateVotes(address: string): Promise<any>;
+  lock(args: CeloLockGoldArguments): Promise<ICeloTransactionResult>;
+  unlock(amount: string): Promise<ICeloTransactionResult>;
+  voteForValidatorGroup(
+    args: CeloVoteArguments,
+  ): Promise<ICeloTransactionResult>;
+  activateVotes(address: string): Promise<ICeloTransactionResult>;
+  revokeVotes(args: RevokeVotesArguments): Promise<ICeloTransactionResult>;
   getAccountSummary(): Promise<any>;
   getTotalBalances(): Promise<any>;
 }
@@ -213,7 +227,8 @@ class CeloLedgerClass implements ICeloLedger {
     const governance = await this.kit.contracts.getGovernance();
     console.log(`Upvoting proposal ID: ${proposalId}`);
     const result = await governance.upvote(proposalId, upvoter);
-    return result;
+    const receipt = await result.sendAndWaitForReceipt();
+    return receipt;
   }
 
   async createAccount(address: string) {
@@ -229,6 +244,7 @@ class CeloLedgerClass implements ICeloLedger {
       .sendAndWaitForReceipt({ from: address });
     console.log("Account Result:");
     console.log(result);
+    return result;
   }
 
   async isAccount(address: string) {
@@ -296,6 +312,22 @@ class CeloLedgerClass implements ICeloLedger {
     console.log(`Activating votes for address: ${address}`);
     const tx = await election.activate(address);
     const receipt = await tx[0].sendAndWaitForReceipt();
+    return receipt;
+  }
+
+  async revokeVotes(args: RevokeVotesArguments) {
+    if (!this.kit) {
+      throw new Error("CeloLedgerClass not initialized yet.");
+    }
+
+    const { group, address, amount } = args;
+    const value = new BigNumber(amount);
+
+    this.kit.defaultAccount = address;
+    const election = await this.kit.contracts.getElection();
+    console.log(`Revoking votes for address: ${address}`);
+    const tx = await election.revokeActive(group, address, value);
+    const receipt = await tx.sendAndWaitForReceipt();
     console.log(receipt);
     return receipt;
   }
@@ -390,16 +422,20 @@ class MockCeloLedgerModule implements ICeloLedger {
     return ACTIVATE_VOTES_RECEIPT;
   }
 
+  async revokeVotes() {
+    return PLACEHOLDER_TX_RECEIPT;
+  }
+
   async transfer() {
     return TRANSFER_RECEIPT;
   }
 
   async upvoteForProposal() {
-    return;
+    return PLACEHOLDER_TX_RECEIPT;
   }
 
   async unlock() {
-    return;
+    return PLACEHOLDER_TX_RECEIPT;
   }
 
   async getAccountSummary() {

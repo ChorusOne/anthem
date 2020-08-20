@@ -69,10 +69,15 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
                 const lockResult = await celoLedgerUtil.lock(transactionData);
                 return Actions.transactionConfirmed(lockResult);
               case "ACTIVATE_VOTES":
-                const activateResult: any = await celoLedgerUtil.activateVotes(
+                const activateResult = await celoLedgerUtil.activateVotes(
                   address,
                 );
                 return Actions.transactionConfirmed(activateResult);
+              case "REVOKE_VOTES":
+                const revokeResult = await celoLedgerUtil.revokeVotes(
+                  transactionData,
+                );
+                return Actions.transactionConfirmed(revokeResult);
               case "GOVERNANCE_VOTE":
                 const governanceResult = await celoLedgerUtil.voteForProposal(
                   transactionData,

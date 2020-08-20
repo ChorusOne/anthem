@@ -12,6 +12,8 @@ import {
   H5,
   H6,
   MenuItem,
+  Radio,
+  RadioGroup,
   Spinner,
   Switch,
 } from "@blueprintjs/core";
@@ -27,7 +29,10 @@ import {
   withFiatPriceData,
   withGraphQLVariables,
 } from "graphql/queries";
-import { ICeloTransactionResult } from "lib/celo-ledger-lib";
+import {
+  ICeloTransactionResult,
+  RevokeVotesArguments,
+} from "lib/celo-ledger-lib";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React, { ChangeEvent } from "react";
@@ -41,6 +46,7 @@ import styled from "styled-components";
 import {
   capitalizeString,
   getBlockExplorerUrlForTransaction,
+  getValidatorOperatorAddressMap,
   sortValidatorsChorusOnTop,
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
@@ -96,6 +102,8 @@ interface IState {
   useFullBalance: boolean;
   selectAllRewards: boolean;
   displayReceiveQR: boolean;
+  revokeVotesGroup: string;
+  revokeVotesError: string;
   selectedRewards: ReadonlyArray<AvailableReward>;
 }
 
@@ -103,6 +111,7 @@ const DEFAULT_GAS_PRICE = "0.01";
 const DEFAULT_GAS_AMOUNT = "250000";
 
 const ValidatorSelect = Select.ofType<ICeloValidatorGroup>();
+const RevokeVoteSelect = Select.ofType<ICeloValidatorGroup>();
 
 /** ===========================================================================
  * React Component
@@ -125,6 +134,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       gasAmount: DEFAULT_GAS_AMOUNT,
       recipientAddress: "",
       displayReceiveQR: false,
+      revokeVotesGroup: "",
+      revokeVotesError: "",
       claimsTransactionSetupError: "",
       sendTransactionInputError: "",
       lockGoldTransactionSetupError: "",
@@ -278,18 +289,77 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   renderRevokeVotesStep = () => {
+    const { revokeVotesGroup } = this.state;
+    const { celoAccountBalances, celoValidatorGroups } = this.props;
+    const { delegations } = celoAccountBalances.celoAccountBalances;
+    const { network } = this.props.ledger;
+
+    const validatorOperatorAddressMap = getValidatorOperatorAddressMap<
+      ICeloValidatorGroup
+    >(celoValidatorGroups.celoValidatorGroups, v => v.group.toUpperCase());
+
+    const delegationGroups = delegations
+      .map(x => {
+        const group = validatorOperatorAddressMap.get(x.group.toUpperCase());
+        return {
+          ...group,
+          activeVotes: x.activeVotes,
+        };
+      })
+      .filter(Boolean) as Array<ICeloValidatorGroup & { activeVotes: string }>;
+
+    const renderCurrencyValue = (value: string) => {
+      return formatCurrencyAmount(denomToUnit(value, network.denominationSize));
+    };
+
     return (
       <View>
         <H6 style={{ marginTop: 8, marginBottom: 8 }}>
           Revoke your votes to unlock your CELO tokens.
         </H6>
-        <p>
-          Selecting Revoke Votes will prompt you to confirm the transaction
-          details on your Ledger Device.
-        </p>
+        <p>Choose from your current active votes:</p>
+        <View style={{ marginTop: 12 }}>
+          <RadioGroup
+            inline
+            selectedValue={revokeVotesGroup}
+            onChange={e =>
+              this.setState({ revokeVotesGroup: e.currentTarget.value })
+            }
+          >
+            {delegationGroups.map(group => {
+              const votes = renderCurrencyValue(group.activeVotes);
+              return (
+                <Radio
+                  onClick={() => this.setState({ amount: votes })}
+                  label={`${group.name} (${votes} CELO)`}
+                  value={group.group}
+                  color={COLORS.CHORUS}
+                  style={{ marginLeft: 8 }}
+                  data-cy="revoke-votes-setting-radio"
+                />
+              );
+            })}
+          </RadioGroup>
+          <TextInput
+            autoFocus
+            label="Amount to Revoke"
+            style={{ ...InputStyles, marginBottom: 6, width: 215 }}
+            placeholder="Enter an amount to revoke"
+            data-cy="transaction-revoke-amount-input"
+            value={this.state.amount}
+            onChange={this.handleEnterLedgerActionAmount}
+          />
+        </View>
         {this.props.renderConfirmArrow(
           "Revoke Votes",
           this.getRevokeVoteTransaction,
+        )}
+        {this.state.revokeVotesError && (
+          <div style={{ marginTop: 6 }} className={Classes.LABEL}>
+            <ErrorText data-cy="revoke-votes-transaction-error">
+              {this.state.revokeVotesError}
+            </ErrorText>
+          </div>
         )}
       </View>
     );
@@ -1275,13 +1345,6 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     this.props.setTransactionData(data);
   };
 
-  getRewardsClaimTransaction = () => {
-    // TODO: Implement!
-    // const { gasAmount, gasPrice, selectedRewards } = this.state;
-    // const { network, address } = this.props.ledger;
-    // const { denom } = network;
-  };
-
   getGovernanceVoteTransaction = async () => {
     const { governanceProposalData } = this.props.transaction;
 
@@ -1305,7 +1368,23 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   getRevokeVoteTransaction = async () => {
-    const data = {};
+    const { amount, revokeVotesGroup } = this.state;
+    const { address } = this.props.ledger;
+    const { denominationSize } = this.props.ledger.network;
+
+    if (!revokeVotesGroup) {
+      this.setState({ revokeVotesError: "Please select a group." });
+    } else if (!amount) {
+      this.setState({
+        revokeVotesError: "Please set an amount of votes to revoke.",
+      });
+    }
+
+    const data: RevokeVotesArguments = {
+      address,
+      group: revokeVotesGroup,
+      amount: unitToDenom(amount, denominationSize),
+    };
     this.props.setTransactionData(data);
   };
 }
