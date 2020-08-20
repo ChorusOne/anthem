@@ -69,7 +69,7 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
                 const lockResult = await celoLedgerUtil.lock(transactionData);
                 return Actions.transactionConfirmed(lockResult);
               case "ACTIVATE_VOTES":
-                const activateResult = await celoLedgerUtil.activateVotes(
+                const activateResult: any = await celoLedgerUtil.activateVotes(
                   address,
                 );
                 return Actions.transactionConfirmed(activateResult);
@@ -93,9 +93,14 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
         }
       } catch (err) {
         console.error(err);
-        Toast.warn(
-          "Could not access Ledger, or failed to send transaction. Is your device still connected and unlocked?",
-        );
+        const { statusText } = err;
+        if (statusText && statusText === "CONDITIONS_OF_USE_NOT_SATISFIED") {
+          Toast.warn("Transaction rejected.");
+        } else {
+          Toast.warn(
+            "Could not access Ledger, or failed to send transaction. Is your device still connected and unlocked?",
+          );
+        }
 
         return Actions.signTransactionFailure();
       }

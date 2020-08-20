@@ -266,15 +266,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         </H6>
         <p>
           Selecting Activate Votes will prompt you to confirm the transaction
-          details on your Ledger Device.
+          details on your Ledger Device. This will activate any pending votes on
+          your account.
         </p>
-        <Button
-          style={{ marginTop: 12 }}
-          onClick={this.getActivateVoteTransaction}
-          data-cy="activate-vote-button"
-        >
-          Activate Votes
-        </Button>
+        {this.props.renderConfirmArrow(
+          "Activate Votes",
+          this.getActivateVoteTransaction,
+        )}
       </View>
     );
   };
@@ -289,13 +287,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           Selecting Revoke Votes will prompt you to confirm the transaction
           details on your Ledger Device.
         </p>
-        <Button
-          style={{ marginTop: 12 }}
-          onClick={this.getRevokeVoteTransaction}
-          data-cy="revoke-vote-button"
-        >
-          Revoke Votes
-        </Button>
+        {this.props.renderConfirmArrow(
+          "Revoke Votes",
+          this.getRevokeVoteTransaction,
+        )}
       </View>
     );
   };
@@ -808,6 +803,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const { transactionData } = this.props.transaction;
     const { ledgerActionType } = this.props.ledgerDialog;
     const IS_SEND = ledgerActionType === "SEND";
+    const DISPLAY_JSON = ledgerActionType !== "ACTIVATE_VOTES";
 
     if (IS_SEND && transactionData) {
       const { amount, to } = transactionData;
@@ -877,7 +873,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
     return (
       <View>
-        {TX_JSON}
+        {DISPLAY_JSON && TX_JSON}
         <p style={{ marginTop: 12, marginBottom: 0 }}>
           {this.props.transaction.signPending
             ? tString(
