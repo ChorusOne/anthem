@@ -259,8 +259,9 @@ const getClaimRewardsMessageData = (
     const rewardTag = rewardTags[msgIndex];
 
     if (rewardTag && rewardTag.value) {
+      // Replace denom and other non numbers:
       rewards = rewardTag.value.replace(denom, "");
-      rewards = rewards.replace(",", "");
+      rewards = rewards.replace(/[^\d]/g, "");
     }
   }
 
@@ -298,8 +299,9 @@ const getValidatorClaimRewardsMessageData = (
     );
 
     if (commissionsTag.length && commissionsTag[0].value) {
+      // Replace denom and other non numbers:
       commissions = commissionsTag[0].value.replace(denom, "");
-      commissions = commissions.replace(",", "");
+      commissions = commissions.replace(/[^\d]/g, "");
     }
   }
 
