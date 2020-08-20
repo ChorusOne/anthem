@@ -325,7 +325,12 @@ class CeloLedgerClass implements ICeloLedger {
 
     this.kit.defaultAccount = address;
     const election = await this.kit.contracts.getElection();
-    console.log(`Revoking votes for address: ${address}`);
+    const x = await election.getVoter(address);
+    const { pending, active } = x.votes[0];
+    console.warn("[DEBUG]");
+    console.log(`pending: ${pending.toString()}`);
+    console.log(`active: ${active.toString()}`);
+    console.log(`Revoking ${value.toString()} votes for address: ${address}`);
     const tx = await election.revokeActive(group, address, value);
     const receipt = await tx.sendAndWaitForReceipt();
     console.log(receipt);

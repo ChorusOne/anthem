@@ -1379,9 +1379,6 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     );
     const value = unitToDenom(amount || 0, denominationSize);
 
-    console.log(delegations);
-    console.log(revokeVotesGroup);
-
     let error = "";
     if (!revokeVotesGroup || !delegation) {
       error = "Please select a group.";
