@@ -966,7 +966,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     }
 
     const tx = transactionResult as ICeloTransactionResult;
-    const { blockHash, blockNumber } = tx;
+    const { transactionHash, blockNumber } = tx;
 
     return (
       <Centered style={{ flexDirection: "column" }}>
@@ -979,9 +979,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             },
           )}
         </p>
-        <TransactionHashText>{blockHash}</TransactionHashText>
+        <TransactionHashText>{transactionHash}</TransactionHashText>
         <CopyTextComponent
-          textToCopy={blockHash}
+          textToCopy={transactionHash}
           onCopy={() =>
             Toast.success(this.props.i18n.tString("Transaction hash copied."))
           }
@@ -996,7 +996,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         <Link
           style={{ marginTop: 12 }}
           href={getBlockExplorerUrlForTransaction(
-            blockHash,
+            transactionHash,
             ledger.network.name,
           )}
         >

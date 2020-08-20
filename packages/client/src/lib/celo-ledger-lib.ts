@@ -12,6 +12,11 @@ import { LEDGER_ERRORS } from "constants/ledger-errors";
 import ENV from "lib/client-env";
 import { wait } from "tools/client-utils";
 import Web3 from "web3";
+import {
+  ACTIVATE_VOTES_RECEIPT,
+  PLACEHOLDER_TX_RECEIPT,
+  TRANSFER_RECEIPT,
+} from "./celo-mock-data";
 
 /** ===========================================================================
  * Celo Ledger Utils
@@ -70,8 +75,9 @@ interface CeloGovernanceVoteArguments {
 
 // Other data is included but we only care about these for now.
 export interface ICeloTransactionResult {
-  blockHash: string;
   blockNumber: number;
+  blockHash: string;
+  transactionHash: string;
 }
 
 interface ICeloLedger {
@@ -276,6 +282,7 @@ class CeloLedgerClass implements ICeloLedger {
     const tx = await election.vote(group, new BigNumber(amount));
     // @ts-ignore
     const receipt = await tx.sendAndWaitForReceipt({ from });
+    console.log(receipt);
     return receipt;
   }
 
@@ -289,6 +296,7 @@ class CeloLedgerClass implements ICeloLedger {
     console.log(`Activating votes for address: ${address}`);
     const tx = await election.activate(address);
     const receipt = await tx[0].sendAndWaitForReceipt();
+    console.log(receipt);
     return receipt;
   }
 
@@ -354,12 +362,7 @@ class MockCeloLedgerModule implements ICeloLedger {
 
   async voteForProposal(args: CeloGovernanceVoteArguments) {
     console.log(args);
-    // TODO: Fill in correct response data:
-    return {
-      blockHash:
-        "0x9c07e995eea75054d2e87bd25d5ba23db7f128efe8ff139d49c7be799e04cd58",
-      blockNumber: 374947,
-    };
+    return PLACEHOLDER_TX_RECEIPT;
   }
 
   async isAccount(address: string) {
@@ -370,112 +373,25 @@ class MockCeloLedgerModule implements ICeloLedger {
     // Add a delay for effect...
     await wait(2500);
     this.createdAccount = true;
-    return true;
+    return PLACEHOLDER_TX_RECEIPT;
   }
 
   async lock(args: CeloLockGoldArguments) {
     await wait(2500);
-    console.log(args);
-    // TODO: Fill in correct response data:
-    return {
-      blockHash:
-        "0x9c07e995eea75054d1e87bd25d5ba23db5f128efe8ff139d49c7be799e04cd58",
-      blockNumber: 374241,
-    };
+    return PLACEHOLDER_TX_RECEIPT;
   }
 
   async voteForValidatorGroup(args: CeloVoteArguments) {
     await wait(2500);
-    console.log(args);
-    // TODO: Fill in correct response data:
-    return {
-      blockHash:
-        "0x9c07e995eea75054d2e87bd25d5ba23db5f128efe8ff139d49c7be799e04cd58",
-      blockNumber: 374941,
-      contractAddress: null,
-      cumulativeGasUsed: 248191,
-      events: {
-        ValidatorGroupVoteCast: {
-          address: "0x1c3eDf937CFc2F6F51784D20DEB1af1F9a8655fA",
-          blockHash:
-            "0x9c07e995eea75054d2e87bd25d5ba23db5f128efe8ff139d49c7be799e04cd58",
-          blockNumber: 374941,
-          event: "ValidatorGroupVoteCast",
-          id: "log_3e6285e9",
-          logIndex: 0,
-          raw: {
-            data:
-              "0x00000000000000000000000000000000000000000000000000005af3107a4000",
-            topics: Array(3),
-          },
-          removed: false,
-          returnValues: {},
-          signature:
-            "0xd3532f70444893db82221041edb4dc26c94593aeb364b0b14dfc77d5ee905152",
-          transactionHash:
-            "0x3f375cbf06a622493fc178590a9208e86ce711c92f424a8d926df8473974d022",
-          transactionIndex: 0,
-        },
-      },
-      from: "0x6cb8265db4cf1f588b9a6576618ed9c965cc0869",
-      gasUsed: 248191,
-      logsBloom:
-        "0x00000000000000000001000400000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000100000000800000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000280000000000000000000000000000000020000000000000000000",
-      status: true,
-      to: "0x1c3edf937cfc2f6f51784d20deb1af1f9a8655fa",
-      transactionHash:
-        "0x3f375cbf06a622493fc178590a9208e86ce711c92f424a8d926df8473974d022",
-      transactionIndex: 0,
-    };
+    return PLACEHOLDER_TX_RECEIPT;
   }
 
   async activateVotes() {
-    return {};
+    return ACTIVATE_VOTES_RECEIPT;
   }
 
   async transfer() {
-    return {
-      blockHash:
-        "0x5307a5509c5655836a7d8dee55e94686c2ad0b9ed88cd6d61870b76fe662f141",
-      blockNumber: 116599,
-      contractAddress: null,
-      cumulativeGasUsed: 46086,
-      events: {
-        Transfer: {
-          address: "0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9",
-          blockHash:
-            "0x5307a5509c5655836a7d8dee55e94686c2ad0b9ed88cd6d61870b76fe662f141",
-          blockNumber: 116599,
-          event: "Transfer",
-          id: "log_3678fb7a",
-          logIndex: 0,
-          raw: {},
-          removed: false,
-          returnValues: {
-            0: "0x6CB8265dB4cf1f588B9a6576618ed9c965CC0869",
-            1: "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2",
-            2: "100000",
-            from: "0x6CB8265dB4cf1f588B9a6576618ed9c965CC0869",
-            to: "0x91E317a5437c0AFD7c99BfC9c120927131Cda2D2",
-            value: "100000",
-          },
-          signature:
-            "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
-          transactionHash:
-            "0x42407259176a931a0294847ee10eedbf01be4959ac7914f9fffbb5b84faf6ee1",
-          transactionIndex: 0,
-        },
-      },
-      from: "0x6cb8265db4cf1f588b9a6576618ed9c965cc0869",
-      gasUsed: 46086,
-      logsBloom:
-        "0x00000000000000000000000000000000000000000000000000000000000000008000800000000000000000000000000000000000000000000000000000000000000000000000100000000008000000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000010000000002000000000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000020000000",
-      status: true,
-      to: "0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9",
-      transactionHash:
-        "0x42407259176a931a0294847ee10eedbf01be4959ac7914f9fffbb5b84faf6ee1",
-      transactionIndex: 0,
-    };
+    return TRANSFER_RECEIPT;
   }
 
   async upvoteForProposal() {
