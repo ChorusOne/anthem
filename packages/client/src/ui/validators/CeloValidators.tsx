@@ -66,6 +66,7 @@ import {
   ValidatorDetailRow,
   ValidatorDetails,
   ValidatorListCard,
+  ValidatorRowBase,
   ValidatorRowExpandable,
 } from "./ValidatorsListComponents";
 
@@ -557,7 +558,12 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                       </RowItem>
                     </StakingRowSummary>
                     {delegations.map(delegation => {
-                      const { group, totalVotes } = delegation;
+                      const {
+                        group,
+                        totalVotes,
+                        activeVotes,
+                        pendingVotes,
+                      } = delegation;
 
                       // Find the associated validator group
                       const validatorGroup = validatorOperatorAddressMap.get(
@@ -570,7 +576,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
 
                       return (
                         <View key={group}>
-                          <StakingRow>
+                          <StakingRow style={{ height: 60 }}>
                             <RowItem width={45}>
                               <AddressIconComponent
                                 networkName={network.name}
@@ -618,6 +624,52 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                               </RowItem>
                             )}
                           </StakingRow>
+                          <ValidatorRowBase
+                            style={{ paddingTop: 2, paddingBottom: 2 }}
+                          >
+                            <RowItem width={45} />
+                            <RowItem width={150}>
+                              <b>Pending Votes</b>
+                            </RowItem>
+                            <RowItem width={100}>
+                              {renderCurrencyValue(
+                                pendingVotes,
+                                network.denominationSize,
+                              )}
+                            </RowItem>
+                            <RowItem width={150}>
+                              <Button
+                                style={{ marginBottom: 6 }}
+                                onClick={this.handleLockGold}
+                                data-cy="activate-votes-button"
+                              >
+                                Activate Votes
+                              </Button>
+                            </RowItem>
+                          </ValidatorRowBase>
+                          <ValidatorRowBase
+                            style={{ paddingTop: 2, paddingBottom: 2 }}
+                          >
+                            <RowItem width={45} />
+                            <RowItem width={150}>
+                              <b>Active Votes</b>
+                            </RowItem>
+                            <RowItem width={100}>
+                              {renderCurrencyValue(
+                                activeVotes,
+                                network.denominationSize,
+                              )}
+                            </RowItem>
+                            <RowItem width={150}>
+                              <Button
+                                style={{ marginBottom: 6 }}
+                                onClick={this.handleLockGold}
+                                data-cy="revoke-gold-button"
+                              >
+                                Revoke Votes
+                              </Button>
+                            </RowItem>
+                          </ValidatorRowBase>
                         </View>
                       );
                     })}
