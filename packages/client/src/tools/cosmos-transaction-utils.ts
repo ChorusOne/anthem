@@ -50,6 +50,8 @@ export enum TERRA_TRANSACTION_TYPES {
   // EDIT_VALIDATOR = "cosmos-sdk/MsgEditValidator",
   // MODIFY_WITHDRAW_ADDRESS = "cosmos-sdk/MsgModifyWithdrawAddress",
 
+  DELEGATE = "staking/MsgDelegate",
+  UNDELEGATE = "staking/MsgUndelegate",
   GOVERNANCE_DEPOSIT = "gov/MsgDeposit",
   DELEGATE_FEED_CONSENT = "oracle/MsgDelegateFeedConsent",
   EXCHANGE_RATE_VOTE = "oracle/MsgExchangeRateVote",
@@ -556,6 +558,13 @@ export const transformCosmosTransactionToRenderElements = ({
       case TERRA_TRANSACTION_TYPES.MULTI_SEND:
       case TERRA_TRANSACTION_TYPES.RECEIVE: {
         return getTransactionSendMessage(transaction, address, msgIndex);
+      }
+
+      case TERRA_TRANSACTION_TYPES.DELEGATE: {
+        return getDelegationTransactionMessage(transaction, msgIndex);
+      }
+      case TERRA_TRANSACTION_TYPES.UNDELEGATE: {
+        return getUndelegateMessage(transaction, msgIndex);
       }
 
       case TERRA_TRANSACTION_TYPES.GOVERNANCE_DEPOSIT:

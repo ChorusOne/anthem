@@ -482,6 +482,8 @@ const getCosmosTransactionTypeIcon = (
     case COSMOS_TRANSACTION_TYPES.CLAIM_REWARDS:
     case COSMOS_TRANSACTION_TYPES.CLAIM_COMMISSION:
       return <TxRewardWithdrawalIcon />;
+    case TERRA_TRANSACTION_TYPES.DELEGATE:
+    case TERRA_TRANSACTION_TYPES.UNDELEGATE:
     case TERRA_TRANSACTION_TYPES.GOVERNANCE_DEPOSIT:
     case TERRA_TRANSACTION_TYPES.DELEGATE_FEED_CONSENT:
     case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_VOTE:
@@ -522,8 +524,10 @@ export const getCosmosTransactionLabelFromType = (
       return tString("Receive");
     case COSMOS_TRANSACTION_TYPES.VOTE:
       return tString("Vote");
+    case TERRA_TRANSACTION_TYPES.DELEGATE:
     case COSMOS_TRANSACTION_TYPES.DELEGATE:
       return tString("Delegate");
+    case TERRA_TRANSACTION_TYPES.UNDELEGATE:
     case COSMOS_TRANSACTION_TYPES.UNDELEGATE:
       return tString("Undelegate");
     case COSMOS_TRANSACTION_TYPES.BEGIN_REDELEGATE:
