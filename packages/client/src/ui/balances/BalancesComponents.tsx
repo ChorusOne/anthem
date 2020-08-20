@@ -36,6 +36,7 @@ import { IThemeProps } from "ui/containers/ThemeContainer";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import {
   Button,
+  Centered,
   DashboardError,
   DashboardLoader,
   Row,
@@ -166,144 +167,184 @@ class CosmosMultiDenominationBalances extends React.Component<
   }
 
   render(): JSX.Element {
-    const { network, balances, price, tString, currencySetting } = this.props;
+    const {
+      network,
+      isDesktop,
+      balances,
+      price,
+      tString,
+      handleSendReceive,
+      currencySetting,
+    } = this.props;
+    const SHOULD_SHOW_LEDGER_ACTIONS = isDesktop && network.supportsLedger;
     return (
-      <SummaryContainer
-        style={{ marginTop: 12, overflowY: "scroll", height: "100%" }}
-      >
-        {TERRA_DENOM_LIST.map(denom => {
-          const balancesResult = getAccountBalances(
-            balances,
-            price,
-            network,
-            denom.denom,
-            2,
-          );
+      <>
+        <SummaryContainer
+          style={{
+            padding: 0,
+            height: 230,
+            marginTop: 12,
+            overflowY: "scroll",
+          }}
+        >
+          {TERRA_DENOM_LIST.map(denom => {
+            const balancesResult = getAccountBalances(
+              balances,
+              price,
+              network,
+              denom.denom,
+              2,
+            );
 
-          const {
-            balance,
-            rewards,
-            delegations,
-            unbonding,
-            commissions,
-            total,
-            balanceFiat,
-            delegationsFiat,
-            rewardsFiat,
-            unbondingFiat,
-            commissionsFiat,
-            totalFiat,
-            percentages,
-          } = balancesResult;
+            const {
+              balance,
+              rewards,
+              delegations,
+              unbonding,
+              commissions,
+              total,
+              balanceFiat,
+              delegationsFiat,
+              rewardsFiat,
+              unbondingFiat,
+              commissionsFiat,
+              totalFiat,
+              percentages,
+            } = balancesResult;
 
-          const renderBalanceItem = (crypto: string, fiat: string) => {
-            if (denom.denom !== network.denom) {
-              return crypto;
-            }
+            const renderBalanceItem = (crypto: string, fiat: string) => {
+              if (denom.denom !== network.denom) {
+                return crypto;
+              }
 
-            if (currencySetting === "crypto") {
-              return crypto;
-            } else {
-              return fiat;
-            }
-          };
+              if (currencySetting === "crypto") {
+                return crypto;
+              } else {
+                return fiat;
+              }
+            };
 
-          return (
-            <MultiDenomBalance key={denom.denom}>
-              <MultiDenomTitle
-                onClick={() => this.setState({ activeDenom: denom.denom })}
-              >
-                <Row style={{ justifyContent: "space-between" }}>
-                  <View>
-                    <b style={{ margin: 0 }}>{denom.name}</b>
-                    <Code style={{ margin: 0, marginLeft: 4 }}>
-                      {denom.denom}
-                    </Code>
-                  </View>
-                  <Row>
-                    <b>{total}</b>
-                    <Icon
-                      icon="caret-down"
-                      style={{ marginLeft: 4 }}
-                      color={Colors.LIGHT_GRAY1}
-                    />
-                  </Row>
-                </Row>
-              </MultiDenomTitle>
-              <Collapse isOpen={denom.denom === this.state.activeDenom}>
-                <MultiDenomBalanceDetail>
-                  <BalanceContainer>
+            return (
+              <MultiDenomBalance key={denom.denom}>
+                <MultiDenomTitle
+                  onClick={() => this.setState({ activeDenom: denom.denom })}
+                >
+                  <Row style={{ justifyContent: "space-between" }}>
                     <View>
-                      <BalanceLine>
-                        <Icon
-                          icon={IconNames.DOT}
-                          style={{ marginRight: 2 }}
-                          color={COLORS.BALANCE_SHADE_ONE}
-                        />
-                        <BalanceTitle>{tString("Available")}:</BalanceTitle>
-                        <BalanceText data-cy="balance-available">
-                          {renderBalanceItem(balance, balanceFiat)}
-                        </BalanceText>
-                      </BalanceLine>
-                      <BalanceLine>
-                        <Icon
-                          color={COLORS.BALANCE_SHADE_TWO}
-                          style={{ marginRight: 2 }}
-                          icon={IconNames.DOT}
-                        />
-                        <BalanceTitle>{tString("Staking")}:</BalanceTitle>
-                        <BalanceText data-cy="balance-delegations">
-                          {renderBalanceItem(delegations, delegationsFiat)}
-                        </BalanceText>
-                      </BalanceLine>
-                      <BalanceLine>
-                        <Icon
-                          color={COLORS.BALANCE_SHADE_THREE}
-                          style={{ marginRight: 2 }}
-                          icon={IconNames.DOT}
-                        />
-                        <BalanceTitle>{tString("Rewards")}:</BalanceTitle>
-                        <BalanceText data-cy="balance-rewards">
-                          {renderBalanceItem(rewards, rewardsFiat)}
-                        </BalanceText>
-                      </BalanceLine>
-                      <BalanceLine>
-                        <Icon
-                          color={COLORS.BALANCE_SHADE_FIVE}
-                          style={{ marginRight: 2 }}
-                          icon={IconNames.DOT}
-                        />
-                        <BalanceTitle>{tString("Unbonding")}:</BalanceTitle>
-                        <BalanceText data-cy="balance-unbonding">
-                          {renderBalanceItem(unbonding, unbondingFiat)}
-                        </BalanceText>
-                      </BalanceLine>
-                      {commissions !== "0" && (
+                      <b style={{ margin: 0 }}>{denom.name}</b>
+                      <Code style={{ margin: 0, marginLeft: 4 }}>
+                        {denom.denom}
+                      </Code>
+                    </View>
+                    <Row>
+                      <b>{total}</b>
+                      <Icon
+                        icon="caret-down"
+                        style={{ marginLeft: 4 }}
+                        color={Colors.LIGHT_GRAY1}
+                      />
+                    </Row>
+                  </Row>
+                </MultiDenomTitle>
+                <Collapse isOpen={denom.denom === this.state.activeDenom}>
+                  <MultiDenomBalanceDetail>
+                    <BalanceContainer>
+                      <View>
+                        <BalanceLine>
+                          <Icon
+                            icon={IconNames.DOT}
+                            style={{ marginRight: 2 }}
+                            color={COLORS.BALANCE_SHADE_ONE}
+                          />
+                          <BalanceTitle>{tString("Available")}:</BalanceTitle>
+                          <BalanceText data-cy="balance-available">
+                            {renderBalanceItem(balance, balanceFiat)}
+                          </BalanceText>
+                        </BalanceLine>
+                        <BalanceLine>
+                          <Icon
+                            color={COLORS.BALANCE_SHADE_TWO}
+                            style={{ marginRight: 2 }}
+                            icon={IconNames.DOT}
+                          />
+                          <BalanceTitle>{tString("Staking")}:</BalanceTitle>
+                          <BalanceText data-cy="balance-delegations">
+                            {renderBalanceItem(delegations, delegationsFiat)}
+                          </BalanceText>
+                        </BalanceLine>
+                        <BalanceLine>
+                          <Icon
+                            color={COLORS.BALANCE_SHADE_THREE}
+                            style={{ marginRight: 2 }}
+                            icon={IconNames.DOT}
+                          />
+                          <BalanceTitle>{tString("Rewards")}:</BalanceTitle>
+                          <BalanceText data-cy="balance-rewards">
+                            {renderBalanceItem(rewards, rewardsFiat)}
+                          </BalanceText>
+                        </BalanceLine>
                         <BalanceLine>
                           <Icon
                             color={COLORS.BALANCE_SHADE_FIVE}
                             style={{ marginRight: 2 }}
                             icon={IconNames.DOT}
                           />
-                          <BalanceTitle>{tString("Commission")}:</BalanceTitle>
-                          <BalanceText data-cy="balance-commissions">
-                            {renderBalanceItem(commissions, commissionsFiat)}
+                          <BalanceTitle>{tString("Unbonding")}:</BalanceTitle>
+                          <BalanceText data-cy="balance-unbonding">
+                            {renderBalanceItem(unbonding, unbondingFiat)}
                           </BalanceText>
                         </BalanceLine>
-                      )}
-                    </View>
-                    <BalancePieChart
-                      small
-                      percentages={percentages}
-                      total={renderBalanceItem(total, totalFiat)}
-                    />
-                  </BalanceContainer>
-                </MultiDenomBalanceDetail>
-              </Collapse>
-            </MultiDenomBalance>
-          );
-        })}
-      </SummaryContainer>
+                        {commissions !== "0" && (
+                          <BalanceLine>
+                            <Icon
+                              color={COLORS.BALANCE_SHADE_FIVE}
+                              style={{ marginRight: 2 }}
+                              icon={IconNames.DOT}
+                            />
+                            <BalanceTitle>
+                              {tString("Commission")}:
+                            </BalanceTitle>
+                            <BalanceText data-cy="balance-commissions">
+                              {renderBalanceItem(commissions, commissionsFiat)}
+                            </BalanceText>
+                          </BalanceLine>
+                        )}
+                      </View>
+                      <View style={{ paddingTop: 8 }}>
+                        <BalancePieChart
+                          small
+                          percentages={percentages}
+                          total={renderBalanceItem(total, totalFiat)}
+                        />
+                      </View>
+                    </BalanceContainer>
+                  </MultiDenomBalanceDetail>
+                </Collapse>
+              </MultiDenomBalance>
+            );
+          })}
+        </SummaryContainer>
+        {SHOULD_SHOW_LEDGER_ACTIONS && (
+          <SmallActionContainer>
+            <Link to="/cosmos/delegate">
+              <Button
+                style={{ width: 125, marginRight: 12 }}
+                onClick={() => null}
+                data-cy="stake-button"
+              >
+                Stake
+              </Button>
+            </Link>
+            <Button
+              style={{ width: 125 }}
+              onClick={handleSendReceive}
+              data-cy="send-receive-button"
+            >
+              Send/Receive
+            </Button>
+          </SmallActionContainer>
+        )}
+      </>
     );
   }
 }
@@ -333,6 +374,17 @@ const MultiDenomBalanceDetail = styled.div`
   padding-right: 20px;
   background: ${(props: { theme: IThemeProps }) =>
     props.theme.isDarkTheme ? Colors.DARK_GRAY5 : Colors.LIGHT_GRAY3};
+`;
+
+const SmallActionContainer = styled.div`
+  height: 55px;
+  display: flex;
+  align-items: center;
+  padding-right: 12px;
+  flex-direction: row;
+  justify-content: flex-end;
+  background: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? Colors.DARK_GRAY3 : Colors.LIGHT_GRAY3};
 `;
 
 /** ===========================================================================
