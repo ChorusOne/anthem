@@ -960,8 +960,10 @@ export const copyTextToClipboard = (text: string) => {
  * ids and will need to be updated to support other networks.
  */
 export const justFormatChainString = (chain: string) => {
-  const id = chain.slice(-1);
-  return `Cosmos Hub ${id}`;
+  return chain;
+  // const chain = chain.slice(0, chain.length - 2);
+  // const id = chain.slice(-1);
+  // return `${chain} ${id}`;
 };
 
 /**

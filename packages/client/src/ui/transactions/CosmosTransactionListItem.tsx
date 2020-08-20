@@ -424,10 +424,10 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
           <EventContextBox>
             <EventText style={{ fontWeight: "bold" }}>{t("Fees")}</EventText>
             <EventText>
-              {formatCurrencyAmount(txFee, 6)} {fee.denom}
+              {formatCurrencyAmount(txFee, 6)} {fee.denom}{" "}
               {fee.denom === network.denom && (
                 <>
-                  {formatCurrencyAmount(fiatFees, 2)} {fiatCurrency.symbol}
+                  ({formatCurrencyAmount(fiatFees, 2)} {fiatCurrency.symbol})
                 </>
               )}
             </EventText>
