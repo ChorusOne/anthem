@@ -12,6 +12,7 @@ import {
   IMsgWithdrawDelegationReward,
   IMsgWithdrawValidatorCommission,
 } from "@anthem/utils";
+import * as Sentry from "@sentry/browser";
 import { formatAddressString } from "./client-utils";
 
 /** ===========================================================================
@@ -39,23 +40,13 @@ export enum TERRA_TRANSACTION_TYPES {
   SEND = "bank/MsgSend",
   MULTI_SEND = "bank/MsgMultiSend",
   RECEIVE = "custom-receive-transaction-type",
-  // VOTE = "cosmos-sdk/MsgVote",
-  // DELEGATE = "cosmos-sdk/MsgDelegate",
-  // UNDELEGATE = "cosmos-sdk/MsgUndelegate",
-  // SUBMIT_PROPOSAL = "cosmos-sdk/MsgSubmitProposal",
-  // BEGIN_REDELEGATE = "cosmos-sdk/MsgBeginRedelegate",
-  // CLAIM_REWARDS = "cosmos-sdk/MsgWithdrawDelegationReward",
-  // CLAIM_COMMISSION = "cosmos-sdk/MsgWithdrawValidatorCommission",
-  // CREATE_VALIDATOR = "cosmos-sdk/MsgCreateValidator",
-  // EDIT_VALIDATOR = "cosmos-sdk/MsgEditValidator",
-  // MODIFY_WITHDRAW_ADDRESS = "cosmos-sdk/MsgModifyWithdrawAddress",
-
   DELEGATE = "staking/MsgDelegate",
   UNDELEGATE = "staking/MsgUndelegate",
   REDELEGATE = "staking/MsgBeginRedelegate",
   GOVERNANCE_DEPOSIT = "gov/MsgDeposit",
   DELEGATE_FEED_CONSENT = "oracle/MsgDelegateFeedConsent",
   WITHDRAW_REWARD = "distribution/MsgWithdrawDelegationReward",
+  WITHDRAW_COMMISSION = "distribution/MsgWithdrawValidatorCommission",
   EXCHANGE_RATE_VOTE = "oracle/MsgExchangeRateVote",
   EXCHANGE_RATE_PRE_VOTE = "oracle/MsgExchangeRatePrevote",
 }
@@ -577,16 +568,23 @@ export const transformCosmosTransactionToRenderElements = ({
         return getClaimRewardsMessageData(transaction, msgIndex, denom);
       }
 
+      case TERRA_TRANSACTION_TYPES.WITHDRAW_COMMISSION: {
+        return getValidatorClaimRewardsMessageData(
+          transaction,
+          msgIndex,
+          denom,
+        );
+      }
+
       case TERRA_TRANSACTION_TYPES.GOVERNANCE_DEPOSIT:
       case TERRA_TRANSACTION_TYPES.DELEGATE_FEED_CONSENT:
       case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_VOTE:
-      case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_PRE_VOTE: {
-        console.warn("Unhandled Terra Transaction: ", transaction);
-        return null;
-      }
-
+      case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_PRE_VOTE:
       default:
-        return assertUnreachable(TX_TYPE);
+        Sentry.captureException(
+          `Unhandled Terra transaction type ${TX_TYPE} for address: ${address}`,
+        );
+        return null;
     }
   }
 };

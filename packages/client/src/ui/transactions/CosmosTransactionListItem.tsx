@@ -484,6 +484,7 @@ const getCosmosTransactionTypeIcon = (
       return <TxWithdrawalStakeIcon />;
     case TERRA_TRANSACTION_TYPES.WITHDRAW_REWARD:
     case COSMOS_TRANSACTION_TYPES.CLAIM_REWARDS:
+    case TERRA_TRANSACTION_TYPES.WITHDRAW_COMMISSION:
     case COSMOS_TRANSACTION_TYPES.CLAIM_COMMISSION:
       return <TxRewardWithdrawalIcon />;
     case TERRA_TRANSACTION_TYPES.GOVERNANCE_DEPOSIT:
@@ -540,6 +541,7 @@ export const getCosmosTransactionLabelFromType = (
       return tString("Claim Rewards");
     case COSMOS_TRANSACTION_TYPES.SUBMIT_PROPOSAL:
       return tString("Submit Proposal");
+    case TERRA_TRANSACTION_TYPES.WITHDRAW_COMMISSION:
     case COSMOS_TRANSACTION_TYPES.CLAIM_COMMISSION:
       return tString("Claim Commission");
     case COSMOS_TRANSACTION_TYPES.CREATE_VALIDATOR:

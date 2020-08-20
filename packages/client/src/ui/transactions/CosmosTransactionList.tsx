@@ -76,8 +76,6 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
     const txs = transactions;
     const TXS_EXIST = txs && txs.length > 0;
 
-    console.log(transactions);
-
     return (
       <React.Fragment>
         {TXS_EXIST ? (
