@@ -188,6 +188,8 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
       case "DELEGATE":
       case "VOTE_GOLD":
       case "LOCK_GOLD":
+      case "REVOKE_VOTES":
+      case "ACTIVATE_VOTES":
       case "GOVERNANCE_VOTE":
         if (!this.props.ledger.connected) {
           return this.renderLedgerSignin();
@@ -643,80 +645,37 @@ const getDialogTitle = (
   transactionStage: TRANSACTION_STAGES,
   tString: tFnString,
 ) => {
+  let transactionTitle = "";
   if (ledgerActionType === "DELEGATE") {
-    if (transactionStage === TRANSACTION_STAGES.SETUP) {
-      return tString("Setup Delegation Transaction");
-    } else if (transactionStage === TRANSACTION_STAGES.SIGN) {
-      return tString("Sign Delegation Transaction");
-    } else if (transactionStage === TRANSACTION_STAGES.CONFIRM) {
-      return tString("Submit Delegation Transaction");
-    } else if (transactionStage === TRANSACTION_STAGES.PENDING) {
-      return tString("Delegation Transaction Submitted");
-    } else if (transactionStage === TRANSACTION_STAGES.SUCCESS) {
-      return tString("Delegation Transaction Confirmed");
-    }
+    transactionTitle = "Delegation";
   } else if (ledgerActionType === "CLAIM") {
-    if (transactionStage === TRANSACTION_STAGES.SETUP) {
-      return tString("Setup Rewards Claim Transaction");
-    } else if (transactionStage === TRANSACTION_STAGES.SIGN) {
-      return tString("Sign Rewards Claim Transaction");
-    } else if (transactionStage === TRANSACTION_STAGES.CONFIRM) {
-      return tString("Submit Rewards Claim Transaction");
-    } else if (transactionStage === TRANSACTION_STAGES.PENDING) {
-      return tString("Rewards Claim Transaction Submitted");
-    } else if (transactionStage === TRANSACTION_STAGES.SUCCESS) {
-      return tString("Rewards Claim Transaction Confirmed");
-    }
+    transactionTitle = "Rewards Claim";
   } else if (ledgerActionType === "SEND") {
-    if (transactionStage === TRANSACTION_STAGES.SETUP) {
-      return "Setup Send/Receive Transaction";
-    } else if (transactionStage === TRANSACTION_STAGES.SIGN_ON_LEDGER) {
-      return "Sign on Ledger";
-    } else if (transactionStage === TRANSACTION_STAGES.SIGN) {
-      return "Sign Send Transaction";
-    } else if (transactionStage === TRANSACTION_STAGES.CONFIRM) {
-      return "Submit Send Transaction";
-    } else if (transactionStage === TRANSACTION_STAGES.PENDING) {
-      return "Send Transaction Submitted";
-    } else if (transactionStage === TRANSACTION_STAGES.SUCCESS) {
-      return "Send Transaction Confirmed";
-    }
+    transactionTitle = "Send/Receive";
   } else if (ledgerActionType === "VOTE_GOLD") {
-    if (transactionStage === TRANSACTION_STAGES.SETUP) {
-      return "Setup Celo Vote Transaction";
-    } else if (transactionStage === TRANSACTION_STAGES.SIGN_ON_LEDGER) {
-      return "Sign on Ledger";
-    } else if (transactionStage === TRANSACTION_STAGES.SIGN) {
-      return "Sign Celo Vote Transaction";
-    } else if (transactionStage === TRANSACTION_STAGES.CONFIRM) {
-      return "Submit Celo Vote Transaction";
-    } else if (transactionStage === TRANSACTION_STAGES.PENDING) {
-      return "Celo Vote Transaction Submitted";
-    } else if (transactionStage === TRANSACTION_STAGES.SUCCESS) {
-      return "Celo Vote Transaction Confirmed";
-    }
+    transactionTitle = "CELO Vote";
   } else if (ledgerActionType === "LOCK_GOLD") {
-    if (transactionStage === TRANSACTION_STAGES.SETUP) {
-      return "Setup Lock CELO Transaction";
-    } else if (transactionStage === TRANSACTION_STAGES.SIGN_ON_LEDGER) {
-      return "Sign on Ledger";
-    } else if (transactionStage === TRANSACTION_STAGES.SIGN) {
-      return "Sign Lock CELO Transaction";
-    } else if (transactionStage === TRANSACTION_STAGES.CONFIRM) {
-      return "Submit Lock CELO Transaction";
-    } else if (transactionStage === TRANSACTION_STAGES.PENDING) {
-      return "Lock CELO Transaction Submitted";
-    } else if (transactionStage === TRANSACTION_STAGES.SUCCESS) {
-      return "Lock CELO Transaction Confirmed";
-    }
+    transactionTitle = "Lock CELO";
+  } else if (ledgerActionType === "ACTIVATE_VOTES") {
+    transactionTitle = "Activate Votes";
+  } else if (ledgerActionType === "REVOKE_VOTES") {
+    transactionTitle = "Revoke Votes";
   } else if (ledgerActionType === "GOVERNANCE_VOTE") {
-    if (transactionStage === TRANSACTION_STAGES.SETUP) {
-      return "Review Governance Vote";
-    } else if (transactionStage === TRANSACTION_STAGES.SIGN_ON_LEDGER) {
-      return "Sign Governance Vote";
-    } else if (transactionStage === TRANSACTION_STAGES.SUCCESS) {
-      return "Governance Vote Success";
-    }
+    transactionTitle = "Governance Vote";
+  }
+
+  if (transactionStage === TRANSACTION_STAGES.SETUP) {
+    return `Setup ${transactionTitle} Transaction`;
+  } else if (transactionStage === TRANSACTION_STAGES.SIGN_ON_LEDGER) {
+    return `Sign on Ledger`;
+  } else if (transactionStage === TRANSACTION_STAGES.SIGN) {
+    return `Sign ${transactionTitle} Transaction`;
+  } else if (transactionStage === TRANSACTION_STAGES.CONFIRM) {
+    return `Submit ${transactionTitle} Transaction`;
+  } else if (transactionStage === TRANSACTION_STAGES.PENDING) {
+    return `${transactionTitle} Transaction Submitted`;
+  } else if (transactionStage === TRANSACTION_STAGES.SUCCESS) {
+    return `${transactionTitle} Transaction Confirmed`;
   }
 
   return "";

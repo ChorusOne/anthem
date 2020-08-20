@@ -166,6 +166,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         return this.renderSendReceiveTransactionSetup();
       case "LOCK_GOLD":
         return this.renderLockGoldTransactionSetup();
+      case "ACTIVATE_VOTES":
+        return this.renderActivateVotesStep();
+      case "REVOKE_VOTES":
+        return this.renderRevokeVotesStep();
       case "GOVERNANCE_VOTE":
         return this.renderGovernanceVote();
       case "DELEGATE":
@@ -249,6 +253,48 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           data-cy="governance-vote-button"
         >
           Vote
+        </Button>
+      </View>
+    );
+  };
+
+  renderActivateVotesStep = () => {
+    return (
+      <View>
+        <H6 style={{ marginTop: 8, marginBottom: 8 }}>
+          To enable your pending votes, you must activate them.
+        </H6>
+        <p>
+          Selecting Activate Votes will prompt you to confirm the transaction
+          details on your Ledger Device.
+        </p>
+        <Button
+          style={{ marginTop: 12 }}
+          onClick={this.getActivateVoteTransaction}
+          data-cy="activate-vote-button"
+        >
+          Activate Votes
+        </Button>
+      </View>
+    );
+  };
+
+  renderRevokeVotesStep = () => {
+    return (
+      <View>
+        <H6 style={{ marginTop: 8, marginBottom: 8 }}>
+          Revoke your votes to unlock your CELO tokens.
+        </H6>
+        <p>
+          Selecting Revoke Votes will prompt you to confirm the transaction
+          details on your Ledger Device.
+        </p>
+        <Button
+          style={{ marginTop: 12 }}
+          onClick={this.getRevokeVoteTransaction}
+          data-cy="revoke-vote-button"
+        >
+          Revoke Votes
         </Button>
       </View>
     );
@@ -1254,6 +1300,16 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       proposalId: proposal.proposalID,
     };
 
+    this.props.setTransactionData(data);
+  };
+
+  getActivateVoteTransaction = async () => {
+    const data = {};
+    this.props.setTransactionData(data);
+  };
+
+  getRevokeVoteTransaction = async () => {
+    const data = {};
     this.props.setTransactionData(data);
   };
 }
