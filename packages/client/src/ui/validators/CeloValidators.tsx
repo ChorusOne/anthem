@@ -639,7 +639,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                               <RowItem width={150}>
                                 <Button
                                   style={{ width: 115 }}
-                                  onClick={this.handleLockGold}
+                                  onClick={this.handleActivateVotes}
                                   data-cy="activate-votes-button"
                                 >
                                   Activate Votes
@@ -660,7 +660,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                               <RowItem width={150}>
                                 <Button
                                   style={{ width: 115 }}
-                                  onClick={this.handleLockGold}
+                                  onClick={this.handleRevokeVotes}
                                   data-cy="revoke-gold-button"
                                 >
                                   Revoke Votes
@@ -711,9 +711,31 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
     });
   };
 
-  handleAddValidator = (validator: ICeloValidatorGroup) => {
-    // return Toast.warn("Celo Ledger Transactions are coming soon.");
+  handleActivateVotes = () => {
+    if (!this.props.ledger.connected) {
+      this.props.setSigninNetworkName(this.props.network.name);
+    }
+    // Open the ledger dialog
+    this.props.openLedgerDialog({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "ACTIVATE_VOTES",
+    });
+  };
 
+  handleRevokeVotes = () => {
+    if (!this.props.ledger.connected) {
+      this.props.setSigninNetworkName(this.props.network.name);
+    }
+    // Open the ledger dialog
+    this.props.openLedgerDialog({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "REVOKE_VOTES",
+    });
+  };
+
+  handleAddValidator = (validator: ICeloValidatorGroup) => {
     // Set the selected validator in the transactions workflow
     this.props.setDelegationValidatorSelection(validator);
     // Default the signin network to the current network, if the ledger
