@@ -537,7 +537,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                       <H5 style={{ margin: 0 }}>Ratio</H5>
                     </RowItemHeader>
                   </StakingRow>
-                  <Card style={{ padding: 8, width: 475 }}>
+                  <Card style={{ padding: 8, width: 475, height: 255 }}>
                     <StakingRowSummary>
                       <RowItem width={45}>
                         <NetworkLogoIcon network={network.name} />
@@ -557,122 +557,120 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                         <Text>100.00%</Text>
                       </RowItem>
                     </StakingRowSummary>
-                    {delegations.map(delegation => {
-                      const {
-                        group,
-                        totalVotes,
-                        activeVotes,
-                        pendingVotes,
-                      } = delegation;
+                    <View style={{ overflowY: "scroll" }}>
+                      {delegations.map(delegation => {
+                        const {
+                          group,
+                          totalVotes,
+                          activeVotes,
+                          pendingVotes,
+                        } = delegation;
 
-                      // Find the associated validator group
-                      const validatorGroup = validatorOperatorAddressMap.get(
-                        group.toUpperCase(),
-                      );
+                        // Find the associated validator group
+                        const validatorGroup = validatorOperatorAddressMap.get(
+                          group.toUpperCase(),
+                        );
 
-                      if (!validatorGroup) {
-                        return null;
-                      }
+                        if (!validatorGroup) {
+                          return null;
+                        }
 
-                      return (
-                        <View key={group}>
-                          <StakingRow style={{ height: 60 }}>
-                            <RowItem width={45}>
-                              <AddressIconComponent
-                                networkName={network.name}
-                                address={group}
-                                validatorOperatorAddressMap={
-                                  validatorOperatorAddressMap
-                                }
-                              />
-                            </RowItem>
-                            <RowItem width={150}>
-                              <H5 style={{ margin: 0 }}>
-                                {validatorGroup.name}
-                              </H5>
-                            </RowItem>
-                            <RowItem width={100}>
-                              <Text>
+                        return (
+                          <View key={group}>
+                            <StakingRow style={{ height: 60 }}>
+                              <RowItem width={45}>
+                                <AddressIconComponent
+                                  networkName={network.name}
+                                  address={group}
+                                  validatorOperatorAddressMap={
+                                    validatorOperatorAddressMap
+                                  }
+                                />
+                              </RowItem>
+                              <RowItem width={150}>
+                                <H5 style={{ margin: 0 }}>
+                                  {validatorGroup.name}
+                                </H5>
+                              </RowItem>
+                              <RowItem width={100}>
+                                <Text>
+                                  {renderCurrencyValue(
+                                    totalVotes,
+                                    network.denominationSize,
+                                  )}
+                                </Text>
+                              </RowItem>
+                              <RowItem width={75}>
+                                <Text>
+                                  {getPercentageFromTotal(
+                                    totalVotes,
+                                    totalLockedGoldBalance,
+                                  )}
+                                  %
+                                </Text>
+                              </RowItem>
+                              {CAN_VOTE && (
+                                <RowItem width={75}>
+                                  <Button
+                                    style={{ borderRadius: "50%" }}
+                                    onClick={() =>
+                                      this.handleAddValidator(validatorGroup)
+                                    }
+                                  >
+                                    <Icon
+                                      icon="plus"
+                                      color={COLORS.LIGHT_WHITE}
+                                    />
+                                  </Button>
+                                </RowItem>
+                              )}
+                            </StakingRow>
+                            <ValidatorRowBase style={{ paddingBottom: 2 }}>
+                              <RowItem width={45} />
+                              <RowItem width={150}>
+                                <b>Pending Votes</b>
+                              </RowItem>
+                              <RowItem width={100}>
                                 {renderCurrencyValue(
-                                  totalVotes,
+                                  pendingVotes,
                                   network.denominationSize,
                                 )}
-                              </Text>
-                            </RowItem>
-                            <RowItem width={75}>
-                              <Text>
-                                {getPercentageFromTotal(
-                                  totalVotes,
-                                  totalLockedGoldBalance,
-                                )}
-                                %
-                              </Text>
-                            </RowItem>
-                            {CAN_VOTE && (
-                              <RowItem width={75}>
+                              </RowItem>
+                              <RowItem width={150}>
                                 <Button
-                                  style={{ borderRadius: "50%" }}
-                                  onClick={() =>
-                                    this.handleAddValidator(validatorGroup)
-                                  }
+                                  style={{ width: 115 }}
+                                  onClick={this.handleLockGold}
+                                  data-cy="activate-votes-button"
                                 >
-                                  <Icon
-                                    icon="plus"
-                                    color={COLORS.LIGHT_WHITE}
-                                  />
+                                  Activate Votes
                                 </Button>
                               </RowItem>
-                            )}
-                          </StakingRow>
-                          <ValidatorRowBase
-                            style={{ paddingTop: 2, paddingBottom: 2 }}
-                          >
-                            <RowItem width={45} />
-                            <RowItem width={150}>
-                              <b>Pending Votes</b>
-                            </RowItem>
-                            <RowItem width={100}>
-                              {renderCurrencyValue(
-                                pendingVotes,
-                                network.denominationSize,
-                              )}
-                            </RowItem>
-                            <RowItem width={150}>
-                              <Button
-                                style={{ marginBottom: 6 }}
-                                onClick={this.handleLockGold}
-                                data-cy="activate-votes-button"
-                              >
-                                Activate Votes
-                              </Button>
-                            </RowItem>
-                          </ValidatorRowBase>
-                          <ValidatorRowBase
-                            style={{ paddingTop: 2, paddingBottom: 2 }}
-                          >
-                            <RowItem width={45} />
-                            <RowItem width={150}>
-                              <b>Active Votes</b>
-                            </RowItem>
-                            <RowItem width={100}>
-                              {renderCurrencyValue(
-                                activeVotes,
-                                network.denominationSize,
-                              )}
-                            </RowItem>
-                            <RowItem width={150}>
-                              <Button
-                                style={{ marginBottom: 6 }}
-                                onClick={this.handleLockGold}
-                                data-cy="revoke-gold-button"
-                              >
-                                Revoke Votes
-                              </Button>
-                            </RowItem>
-                          </ValidatorRowBase>
-                        </View>
-                      );
-                    })}
+                            </ValidatorRowBase>
+                            <ValidatorRowBase style={{ paddingBottom: 2 }}>
+                              <RowItem width={45} />
+                              <RowItem width={150}>
+                                <b>Active Votes</b>
+                              </RowItem>
+                              <RowItem width={100}>
+                                {renderCurrencyValue(
+                                  activeVotes,
+                                  network.denominationSize,
+                                )}
+                              </RowItem>
+                              <RowItem width={150}>
+                                <Button
+                                  style={{ width: 115 }}
+                                  onClick={this.handleLockGold}
+                                  data-cy="revoke-gold-button"
+                                >
+                                  Revoke Votes
+                                </Button>
+                              </RowItem>
+                            </ValidatorRowBase>
+                          </View>
+                        );
+                      })}
+                    </View>
                   </Card>
                 </View>
               </View>
