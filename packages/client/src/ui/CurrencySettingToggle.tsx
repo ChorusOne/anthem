@@ -30,7 +30,7 @@ const CurrencySettingsToggle = (props: IProps) => {
     return null;
   }
 
-  if (selectedDenom !== network.denom) {
+  if (ON_CHART_VIEW && selectedDenom !== network.denom) {
     return null;
   }
 
