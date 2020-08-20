@@ -52,9 +52,9 @@ const NETWORK_ADDRESS_DEFAULTS: { [key: string]: Addresses } = {
     tx_hash: "E0BC81E3B76F70466D8F235F02EDD3F3E23E8C52A40D27A650BC14A9E6F8239C",
   },
   TERRA: {
-    account: "",
-    validator: "",
-    tx_hash: "",
+    account: "terra15urq2dtp9qce4fyc85m6upwm9xul30496lytpd",
+    validator: "terravaloper15urq2dtp9qce4fyc85m6upwm9xul30496sgk37",
+    tx_hash: "9D8F4938F842A84DF39D793F9FFE6491C919230828507BCC4E58B187BE88064D",
   },
   KAVA: {
     account: "",
