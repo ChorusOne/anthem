@@ -41,6 +41,7 @@ class TransactionDetailLoadingContainer extends React.PureComponent<IProps> {
     }
 
     switch (network.name) {
+      case "TERRA":
       case "COSMOS":
         return <CosmosTransactionDetail />;
       case "CELO":

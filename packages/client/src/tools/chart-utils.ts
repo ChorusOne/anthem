@@ -1,4 +1,4 @@
-import { NetworkDefinition } from "@anthem/utils";
+import { CoinDenom, NetworkDefinition } from "@anthem/utils";
 import { Colors } from "@blueprintjs/core";
 import { COLORS } from "constants/colors";
 import { CURRENCY_SETTING, FiatCurrency } from "constants/fiat";
@@ -38,6 +38,7 @@ export interface FiatPriceMap {
 
 interface ChartOptionsArgs {
   network: NetworkDefinition;
+  denom: CoinDenom;
   fiatCurrency: FiatCurrency;
   currencySetting: CURRENCY_SETTING;
   isDarkTheme: boolean;
@@ -51,6 +52,7 @@ export const getHighchartsChartOptions = (
   optionsArgs: ChartOptionsArgs,
 ): Highcharts.Options => {
   const {
+    denom,
     tString,
     network,
     fullSize,
@@ -107,6 +109,7 @@ export const getHighchartsChartOptions = (
       formatter() {
         return formatTooltipLabel({
           tString,
+          denom,
           network,
           x: this.x,
           y: this.y,
@@ -144,8 +147,7 @@ export const getHighchartsChartOptions = (
         style: {
           color: themedColor,
         },
-        text:
-          currencySetting === "fiat" ? fiatCurrency.symbol : network.descriptor,
+        text: currencySetting === "fiat" ? fiatCurrency.symbol : denom.name,
       },
     },
     xAxis: {
@@ -183,6 +185,7 @@ export const getHighchartsChartOptions = (
 interface TooltipArguments {
   x: number;
   y: number;
+  denom: CoinDenom;
   network: NetworkDefinition;
   xIndexPosition: number;
   currencySetting: CURRENCY_SETTING;
@@ -196,6 +199,7 @@ interface TooltipArguments {
 const formatTooltipLabel = ({
   x,
   y,
+  denom,
   tString,
   network,
   chartType,
@@ -207,8 +211,8 @@ const formatTooltipLabel = ({
   const date = toDateKey(x);
   const yValue = formatCurrencyAmount(String(y));
   const { symbol } = fiatCurrency;
-  const { name, descriptor } = network;
-  let currency = currencySetting === "fiat" ? `${symbol}` : descriptor;
+  const { name } = network;
+  let currency = currencySetting === "fiat" ? `${symbol}` : denom.name;
   const IS_CUSD = chartType === "CUSD";
   const IS_CELO_COMMISSIONS = chartType === "COMMISSIONS" && name === "CELO";
 

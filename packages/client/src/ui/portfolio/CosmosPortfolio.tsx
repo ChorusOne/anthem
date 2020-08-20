@@ -1,5 +1,12 @@
-import { assertUnreachable } from "@anthem/utils";
-import { H5 } from "@blueprintjs/core";
+import {
+  assertUnreachable,
+  CoinDenom,
+  getDefaultDenomFromNetwork,
+  TERRA_DENOM_LIST,
+  TerraDenomDetail,
+} from "@anthem/utils";
+import { H5, MenuItem } from "@blueprintjs/core";
+import { IItemRendererProps, Select } from "@blueprintjs/select";
 import * as Sentry from "@sentry/browser";
 import {
   CosmosAccountHistoryProps,
@@ -30,7 +37,6 @@ import { GraphQLGuardComponent } from "ui/GraphQLGuardComponents";
 import CurrencySettingsToggle from "../CurrencySettingToggle";
 import {
   Button,
-  Centered,
   DashboardError,
   DashboardLoader,
   Row,
@@ -54,8 +60,11 @@ export interface PortfolioChartData {
 }
 
 interface IState {
+  selectedDenom: CoinDenom;
   portfolioChartData: Nullable<PortfolioChartData>;
 }
+
+const DenomSelect = Select.ofType<TerraDenomDetail>();
 
 /** ===========================================================================
  * React Component
@@ -96,7 +105,7 @@ class PortfolioLoadingContainer extends React.PureComponent<
     }
   }
 
-  render(): JSX.Element {
+  render(): Nullable<JSX.Element> {
     const { displayLoadingMessage } = this.state;
     const { i18n, cosmosAccountHistory } = this.props;
     const { tString } = i18n;
@@ -155,7 +164,15 @@ class Portfolio extends React.PureComponent<IProps, IState> {
       this.calculatePortfolioData,
     );
 
+    const networkDenom = TERRA_DENOM_LIST.find(
+      x => x.denom === props.network.denom,
+    );
+    const selectedDenom = networkDenom
+      ? networkDenom
+      : getDefaultDenomFromNetwork(props.network);
+
     this.state = {
+      selectedDenom,
       portfolioChartData: null,
     };
   }
@@ -197,6 +214,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
   }
 
   renderChart = () => {
+    const { selectedDenom } = this.state;
     const { i18n, settings, app, fullSize, network } = this.props;
     const { t, tString } = i18n;
     const { fiatCurrency, currencySetting, isDarkTheme } = settings;
@@ -206,40 +224,29 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     if (chartData) {
       const noData = Object.keys(chartData.data).length === 0;
 
-      if (noData) {
-        // Get a relevant message to display for an empty portfolio graph.
-        const portfolioType = app.activeChartTab;
-        const getEmptyGraphMessage = (type: BASE_CHART_TABS): string => {
-          switch (type) {
-            case "TOTAL":
-            case "AVAILABLE":
-              return tString("No ATOM balance exists yet.");
-            case "REWARDS":
-              return tString(
-                "Please note that rewards data will not start accumulating until rewards balances are 1µatom or greater.",
-              );
-            case "STAKING":
-              return tString("No staking balance exists yet.");
-            case "COMMISSIONS":
-              return tString("No commissions data exists yet.");
-            default:
-              return assertUnreachable(type);
-          }
-        };
+      // Get a relevant message to display for an empty portfolio graph.
+      const portfolioType = app.activeChartTab;
+      const getEmptyGraphMessage = (type: BASE_CHART_TABS): string => {
+        switch (type) {
+          case "TOTAL":
+          case "AVAILABLE":
+            return "No balance data exists yet.";
+          case "REWARDS":
+            return `Please note that rewards data will not start accumulating until rewards balances are 1${selectedDenom.denom} or greater.`;
+          case "STAKING":
+            return tString("No staking balance exists yet.");
+          case "COMMISSIONS":
+            return tString("No commissions data exists yet.");
+          default:
+            return assertUnreachable(type);
+        }
+      };
 
-        return (
-          <Centered style={{ flexDirection: "column" }}>
-            <H5>{t("No data exists yet.")}</H5>
-            <p style={{ textAlign: "center" }}>
-              {getEmptyGraphMessage(portfolioType as BASE_CHART_TABS)}
-            </p>
-          </Centered>
-        );
-      }
-
+      const denom = this.getAppropriateDenom();
       const options = getHighchartsChartOptions({
         tString,
         network,
+        denom,
         fullSize,
         chartData,
         isDarkTheme,
@@ -259,20 +266,85 @@ class Portfolio extends React.PureComponent<IProps, IState> {
                 {t("Download CSV")}
               </Button>
             )}
-            <View>
-              <CurrencySettingsToggle />
-            </View>
+            <Row>
+              <View style={{ paddingTop: 12 }}>
+                <CurrencySettingsToggle selectedDenom={denom.denom} />
+              </View>
+              {this.renderDenomSelect()}
+            </Row>
           </Row>
-          <HighchartsReact
-            options={options}
-            highcharts={Highcharts}
-            ref={this.assignChartRef}
-          />
+          {noData ? (
+            <View
+              style={{
+                marginTop: 75,
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <H5>{t("No data exists yet.")}</H5>
+              <p style={{ textAlign: "center" }}>
+                {getEmptyGraphMessage(portfolioType as BASE_CHART_TABS)}
+              </p>
+            </View>
+          ) : (
+            <HighchartsReact
+              options={options}
+              highcharts={Highcharts}
+              ref={this.assignChartRef}
+            />
+          )}
         </View>
       );
     } else {
       return null;
     }
+  };
+
+  renderDenomSelect = () => {
+    const { selectedDenom } = this.state;
+    const { network } = this.props;
+    if (network.name === "TERRA") {
+      const DISABLED = !this.tabSupportsMultipleDenom();
+      return (
+        <DenomSelect
+          disabled={DISABLED}
+          filterable={false}
+          items={TERRA_DENOM_LIST}
+          onItemSelect={this.handleSelectDenom}
+          itemRenderer={this.renderDenomSelectItem}
+        >
+          <Button
+            disabled={DISABLED}
+            category="SECONDARY"
+            rightIcon="caret-down"
+            data-cy="denom-select-menu"
+          >
+            {selectedDenom.name}
+          </Button>
+        </DenomSelect>
+      );
+    }
+
+    return null;
+  };
+
+  handleSelectDenom = (denom: TerraDenomDetail) => {
+    this.setState({ selectedDenom: denom }, this.calculatePortfolioData);
+  };
+
+  renderDenomSelectItem = (
+    denomDetail: TerraDenomDetail,
+    { handleClick, modifiers }: IItemRendererProps,
+  ) => {
+    return (
+      <MenuItem
+        key={denomDetail.denom}
+        text={denomDetail.name}
+        onClick={handleClick}
+        active={modifiers.active}
+      />
+    );
   };
 
   ridiculouslyForcePortfolioToRedraw = (fullSizeChanged = false) => {
@@ -329,15 +401,33 @@ class Portfolio extends React.PureComponent<IProps, IState> {
         this.props.history.push("/dashboard/rewards");
       }
 
+      const { denom } = this.getAppropriateDenom();
+
       const displayFiat = settings.currencySetting === "fiat";
       const result = processPortfolioHistoryData(
         this.props.cosmosAccountHistory,
         displayFiat,
         network,
+        denom,
       );
 
       this.setState({ portfolioChartData: result });
     }
+  };
+
+  getAppropriateDenom = () => {
+    const { network } = this.props;
+    if (this.tabSupportsMultipleDenom()) {
+      return this.state.selectedDenom;
+    } else {
+      return getDefaultDenomFromNetwork(network);
+    }
+  };
+
+  tabSupportsMultipleDenom = () => {
+    const tab = this.props.app.activeChartTab;
+    const notSupported = tab === "STAKING" || tab === "TOTAL";
+    return !notSupported;
   };
 
   getChartValues = (): Nullable<ChartData> => {
@@ -364,6 +454,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
 
   handleDownloadCSV = () => {
     try {
+      const { selectedDenom } = this.state;
       const { address, network, settings, cosmosAccountHistory } = this.props;
       const fiatCurrencySymbol = settings.fiatCurrency.symbol;
 
@@ -373,6 +464,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
         cosmosAccountHistory,
         false,
         network,
+        selectedDenom.denom,
       );
 
       if (

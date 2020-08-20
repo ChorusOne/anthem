@@ -46,11 +46,6 @@ const CosmosResolvers = {
 
     blockUnsupportedNetworks(network, "portfolio");
 
-    let sanitizedAddress = address;
-    if (network.name === "TERRA") {
-      sanitizedAddress = `${address}\0`;
-    }
-
     // Fetch fiat price history data
     const fiatPriceHistory = await EXCHANGE_DATA_API.fetchPortfolioFiatPriceHistory(
       fiat,
@@ -60,7 +55,7 @@ const CosmosResolvers = {
     // Assemble request arguments
     const requestArgs = {
       network,
-      address: sanitizedAddress,
+      address,
     };
 
     const [

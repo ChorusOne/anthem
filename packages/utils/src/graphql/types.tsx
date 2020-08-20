@@ -262,6 +262,7 @@ export interface ICosmosCommissionHistory {
   height: Scalars["Int"];
   validator: Scalars["String"];
   timestamp: Scalars["String"];
+  denom: Scalars["String"];
 }
 
 export interface ICosmosDelegationHistory {
@@ -315,6 +316,7 @@ export interface ICosmosRewardHistory {
   height: Scalars["Int"];
   address: Scalars["String"];
   timestamp: Scalars["String"];
+  denom: Scalars["String"];
 }
 
 export interface ICosmosSlashingParameters {
@@ -1243,10 +1245,10 @@ export type ICosmosAccountHistoryQuery = (
       & Pick<ICosmosDelegationHistory, "balance" | "address" | "timestamp">
     )>, delegatorRewards: Array<(
       { __typename?: "CosmosRewardHistory" }
-      & Pick<ICosmosRewardHistory, "balance" | "height" | "address" | "timestamp">
+      & Pick<ICosmosRewardHistory, "balance" | "height" | "address" | "timestamp" | "denom">
     )>, validatorCommissions: Array<(
       { __typename?: "CosmosCommissionHistory" }
-      & Pick<ICosmosCommissionHistory, "balance" | "height" | "validator" | "timestamp">
+      & Pick<ICosmosCommissionHistory, "balance" | "height" | "validator" | "timestamp" | "denom">
     )>, fiatPriceHistory: Array<(
       { __typename?: "FiatPrice" }
       & Pick<IFiatPrice, "price" | "timestamp">
@@ -2600,12 +2602,14 @@ export const CosmosAccountHistoryDocument = gql`
       height
       address
       timestamp
+      denom
     }
     validatorCommissions {
       balance
       height
       validator
       timestamp
+      denom
     }
     fiatPriceHistory {
       price

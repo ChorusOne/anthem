@@ -54,7 +54,7 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
     }
   }
 
-  render(): JSX.Element {
+  render(): Nullable<JSX.Element> {
     const {
       isDetailView,
       transactions,

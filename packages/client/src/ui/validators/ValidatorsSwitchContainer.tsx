@@ -70,6 +70,7 @@ class PortfolioSwitchContainer extends React.Component<IProps, IState> {
     }
 
     switch (network.name) {
+      case "TERRA":
       case "COSMOS":
         return <CosmosValidators />;
       case "OASIS":

@@ -144,6 +144,7 @@ class CosmosValidatorsListPage extends React.Component<IProps, IState> {
               accountBalancesResponse,
               fiatPriceData.fiatPriceData.price,
               network,
+              network.denom,
             );
 
             const stake = stakingPoolResponse.bonded_tokens || "";

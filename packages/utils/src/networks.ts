@@ -52,9 +52,9 @@ const NETWORK_ADDRESS_DEFAULTS: { [key: string]: Addresses } = {
     tx_hash: "E0BC81E3B76F70466D8F235F02EDD3F3E23E8C52A40D27A650BC14A9E6F8239C",
   },
   TERRA: {
-    account: "",
-    validator: "",
-    tx_hash: "",
+    account: "terra15urq2dtp9qce4fyc85m6upwm9xul30496lytpd",
+    validator: "terravaloper15urq2dtp9qce4fyc85m6upwm9xul30496sgk37",
+    tx_hash: "9D8F4938F842A84DF39D793F9FFE6491C919230828507BCC4E58B187BE88064D",
   },
   KAVA: {
     account: "",
@@ -83,9 +83,38 @@ const NETWORK_ADDRESS_DEFAULTS: { [key: string]: Addresses } = {
  * ============================================================================
  */
 
-export type COIN_DENOMS = "uatom" | "ukava" | "uluna" | "AMBR" | "CELO";
+export type TERRA_DENOMS = "ukrw" | "uluna" | "uusd" | "usdr" | "umnt";
+
+export type COIN_DENOMS = "uatom" | "ukava" | TERRA_DENOMS | "AMBR" | "CELO";
 
 export type NETWORK_NAME = "COSMOS" | "TERRA" | "KAVA" | "OASIS" | "CELO";
+
+export interface CoinDenom {
+  denom: string;
+  name: string;
+}
+
+export interface TerraDenomDetail extends CoinDenom {
+  denom: TERRA_DENOMS;
+  name: string;
+}
+
+export const TERRA_DENOM_LIST: TerraDenomDetail[] = [
+  { denom: "uluna", name: "LUNA" },
+  { denom: "ukrw", name: "TerraKRW" },
+  { denom: "uusd", name: "TerraUSD" },
+  { denom: "usdr", name: "TerraSDR" },
+  { denom: "umnt", name: "Terra Mongolian Tughrik" },
+];
+
+export const getDefaultDenomFromNetwork = (
+  network: NetworkDefinition,
+): CoinDenom => {
+  return {
+    denom: network.denom,
+    name: network.descriptor,
+  };
+};
 
 const NETWORKS: NetworksMap = {
   COSMOS: {
@@ -123,8 +152,8 @@ const NETWORKS: NetworksMap = {
     supportsLedger: true,
     supportsFiatPrices: true,
     supportsBalances: true,
-    supportsPortfolio: false,
-    supportsTransactionsHistory: false,
+    supportsPortfolio: true,
+    supportsTransactionsHistory: true,
     supportsValidatorsList: true,
     supportsGovernance: false,
     denominationSize: 1e6,

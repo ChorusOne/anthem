@@ -1,7 +1,6 @@
 import {
   assertUnreachable,
   COIN_DENOMS,
-  ICosmosBalance,
   ICosmosTransaction,
   ILogMessage,
   IMsgBeginRedelegate,
@@ -13,8 +12,8 @@ import {
   IMsgWithdrawDelegationReward,
   IMsgWithdrawValidatorCommission,
 } from "@anthem/utils";
+import * as Sentry from "@sentry/browser";
 import { formatAddressString } from "./client-utils";
-import { addValuesInList } from "./math-utils";
 
 /** ===========================================================================
  * Types & Config
@@ -36,6 +35,22 @@ export enum COSMOS_TRANSACTION_TYPES {
   MODIFY_WITHDRAW_ADDRESS = "cosmos-sdk/MsgModifyWithdrawAddress",
 }
 
+// WIP: Work in progress.
+export enum TERRA_TRANSACTION_TYPES {
+  SEND = "bank/MsgSend",
+  MULTI_SEND = "bank/MsgMultiSend",
+  RECEIVE = "custom-receive-transaction-type",
+  DELEGATE = "staking/MsgDelegate",
+  UNDELEGATE = "staking/MsgUndelegate",
+  REDELEGATE = "staking/MsgBeginRedelegate",
+  GOVERNANCE_DEPOSIT = "gov/MsgDeposit",
+  DELEGATE_FEED_CONSENT = "oracle/MsgDelegateFeedConsent",
+  WITHDRAW_REWARD = "distribution/MsgWithdrawDelegationReward",
+  WITHDRAW_COMMISSION = "distribution/MsgWithdrawValidatorCommission",
+  EXCHANGE_RATE_VOTE = "oracle/MsgExchangeRateVote",
+  EXCHANGE_RATE_PRE_VOTE = "oracle/MsgExchangeRatePrevote",
+}
+
 export enum TRANSACTION_STAGES {
   "SETUP" = "SETUP",
   "SIGN" = "SIGN",
@@ -44,17 +59,24 @@ export enum TRANSACTION_STAGES {
   "SUCCESS" = "SUCCESS",
 }
 
+export interface CosmosBalance {
+  amount: string;
+  denom: string;
+}
+
+export type CosmosTransactionFee = Nullable<CosmosBalance>;
+
 export interface TransactionItemData {
   type: COSMOS_TRANSACTION_TYPES;
   timestamp: string;
-  amount: Nullable<string>;
-  fees: string;
+  amount: Nullable<CosmosBalance>;
+  fee: CosmosTransactionFee;
   toAddress: string;
   fromAddress: string;
 }
 
 export interface GovernanceVoteMessageData {
-  fees: string;
+  fee: CosmosTransactionFee;
   option: string;
   proposal_id: string;
   timestamp: string;
@@ -62,9 +84,9 @@ export interface GovernanceVoteMessageData {
 }
 
 export interface GovernanceSubmitProposalMessageData {
-  fees: string;
+  fee: CosmosTransactionFee;
   title: string;
-  deposit: string;
+  deposit: Nullable<CosmosBalance>;
   proposer: string;
   timestamp: string;
   description: string;
@@ -72,17 +94,17 @@ export interface GovernanceSubmitProposalMessageData {
 }
 
 export interface ValidatorCreateOrEditMessageData {
+  fee: CosmosTransactionFee;
   type: COSMOS_TRANSACTION_TYPES;
   timestamp: string;
-  fees: string;
   delegatorAddress: string;
   validatorAddress: string;
 }
 
 export interface ValidatorModifyWithdrawAddressMessageData {
+  fee: CosmosTransactionFee;
   type: COSMOS_TRANSACTION_TYPES;
   timestamp: string;
-  fees: string;
   withdrawAddress: string;
   validatorAddress: string | null;
 }
@@ -128,47 +150,35 @@ export const getTransactionFailedLogMessage = (
   return null;
 };
 
-/**
- * Sum amount `ICosmosBalance` values in an array.
- */
-const sumAmounts = (amounts: Maybe<ReadonlyArray<ICosmosBalance>>): string => {
-  if (!amounts) {
-    return "0";
-  }
-
-  return addValuesInList(amounts.map(a => a.amount));
-};
-
 const getTxAmount = (
   transaction: ICosmosTransaction,
   msgIndex: number,
-): Nullable<string> => {
+): Nullable<CosmosBalance> => {
   const txMsg = transaction.msgs[msgIndex].value as IMsgSend;
 
   if (txMsg && txMsg.amounts) {
-    /* Sum all the amounts */
-    const total = sumAmounts(txMsg.amounts);
-
-    /* Format and return the result */
-    return total;
+    return txMsg.amounts[0];
     // @ts-ignore
   } else if (txMsg && txMsg.amount) {
     // @ts-ignore
-    const amount = txMsg.amount.amount;
-    return amount.replace(",", "");
+    txMsg.amount.amount.replace(",", "");
+    // @ts-ignore
+    return txMsg.amount;
   } else {
     return null;
   }
 };
 
-export const getTxFee = (transaction: ICosmosTransaction): string => {
+export const getTxFee = (
+  transaction: ICosmosTransaction,
+): CosmosTransactionFee => {
   const { fees } = transaction;
   const { amount } = fees;
 
   if (amount) {
-    return sumAmounts(amount);
+    return amount[0];
   } else {
-    return "0";
+    return null;
   }
 };
 
@@ -180,7 +190,7 @@ const getTransactionSendMessage = (
 ): TransactionItemData => {
   const { from_address, to_address } = transaction.msgs[msgIndex]
     .value as IMsgSend;
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const amount = getTxAmount(transaction, msgIndex);
   const toAddress = to_address || "";
   const fromAddress = from_address || "";
@@ -188,7 +198,7 @@ const getTransactionSendMessage = (
   const IS_SEND = fromAddress === address;
 
   return {
-    fees,
+    fee,
     amount,
     toAddress,
     fromAddress,
@@ -205,16 +215,16 @@ const getDelegationTransactionMessage = (
   msgIndex: number,
 ): TransactionItemData => {
   const msg = transaction.msgs[msgIndex];
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const vote = msg.value as IMsgDelegate;
   const { amount, delegator_address, validator_address } = vote;
 
-  const delegationAmount = amount ? amount.amount : null;
+  const delegationAmount = amount ? amount : null;
   const toAddress = validator_address || "";
   const fromAddress = delegator_address || "";
 
   return {
-    fees,
+    fee,
     toAddress,
     fromAddress,
     amount: delegationAmount,
@@ -249,18 +259,19 @@ const getClaimRewardsMessageData = (
     const rewardTag = rewardTags[msgIndex];
 
     if (rewardTag && rewardTag.value) {
+      // Replace denom and other non numbers:
       rewards = rewardTag.value.replace(denom, "");
-      rewards = rewards.replace(",", "");
+      rewards = rewards.replace(/[^\d]/g, "");
     }
   }
 
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const validatorAddress = validator_address || "";
   const delegatorAddress = delegator_address || "";
 
   return {
-    fees,
-    amount: rewards,
+    fee,
+    amount: { amount: rewards || "0", denom },
     toAddress: delegatorAddress,
     fromAddress: validatorAddress,
     timestamp: transaction.timestamp,
@@ -288,18 +299,19 @@ const getValidatorClaimRewardsMessageData = (
     );
 
     if (commissionsTag.length && commissionsTag[0].value) {
+      // Replace denom and other non numbers:
       commissions = commissionsTag[0].value.replace(denom, "");
-      commissions = commissions.replace(",", "");
+      commissions = commissions.replace(/[^\d]/g, "");
     }
   }
 
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const validatorAddress = validator_address || "";
 
   return {
-    fees,
+    fee,
     toAddress: "",
-    amount: commissions,
+    amount: { amount: commissions || "0", denom },
     fromAddress: validatorAddress,
     timestamp: transaction.timestamp,
     type: type as COSMOS_TRANSACTION_TYPES,
@@ -320,16 +332,16 @@ const getUndelegateMessage = (
   if (msg) {
     const value = msg.value as IMsgDelegate;
     const { amount } = value as IMsgDelegate;
-    undelegateAmount = amount.amount;
+    undelegateAmount = amount;
 
     delegatorAddress = value.delegator_address || "";
     validatorAddress = value.validator_address || "";
   }
 
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
 
   return {
-    fees,
+    fee,
     amount: undelegateAmount,
     toAddress: formatAddressString(delegatorAddress, true),
     fromAddress: formatAddressString(validatorAddress, true),
@@ -345,7 +357,7 @@ const getRedelegateMessageData = (
 ): TransactionItemData => {
   const msg = transaction.msgs[msgIndex];
 
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const { value } = msg;
   const {
     amount,
@@ -356,11 +368,11 @@ const getRedelegateMessageData = (
   let redelegateAmount = null;
 
   if (amount) {
-    redelegateAmount = amount.amount;
+    redelegateAmount = amount;
   }
 
   return {
-    fees,
+    fee,
     amount: redelegateAmount,
     timestamp: transaction.timestamp,
     fromAddress: validator_src_address,
@@ -377,13 +389,13 @@ const getGovernanceVoteMessage = (
   const { timestamp } = transaction;
   const msg = transaction.msgs[msgIndex];
 
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const vote = msg.value as IMsgVote;
   const { option, proposal_id } = vote;
 
   return {
     option,
-    fees,
+    fee,
     timestamp,
     proposal_id,
     type: COSMOS_TRANSACTION_TYPES.VOTE,
@@ -398,13 +410,13 @@ const getGovernanceSubmitProposalMessage = (
   const { timestamp } = transaction;
   const msg = transaction.msgs[msgIndex];
 
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const proposal = msg.value as IMsgSubmitProposal;
   const { title, description, proposer, initial_deposit } = proposal;
-  const deposit = sumAmounts(initial_deposit);
+  const deposit = initial_deposit ? initial_deposit[0] : null;
 
   return {
-    fees,
+    fee,
     title,
     deposit,
     proposer,
@@ -420,7 +432,7 @@ const getValidatorCreateOrEditMessage = (
   msgIndex: number,
 ): ValidatorCreateOrEditMessageData => {
   const msg = transaction.msgs[msgIndex];
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const value = msg.value as IMsgWithdrawDelegationReward;
   const { delegator_address, validator_address } = value;
 
@@ -428,7 +440,7 @@ const getValidatorCreateOrEditMessage = (
   const validatorAddress = validator_address || "";
 
   return {
-    fees,
+    fee,
     delegatorAddress,
     validatorAddress,
     timestamp: transaction.timestamp,
@@ -442,7 +454,7 @@ const getChangeWithdrawAddressMessage = (
   msgIndex: number,
 ): ValidatorModifyWithdrawAddressMessageData => {
   const msg = transaction.msgs[msgIndex];
-  const fees = getTxFee(transaction);
+  const fee = getTxFee(transaction);
   const value = msg.value as IMsgModifyWithdrawAddress;
   const { withdraw_address, validator_address } = value;
 
@@ -450,7 +462,7 @@ const getChangeWithdrawAddressMessage = (
   const validatorAddress = validator_address;
 
   return {
-    fees,
+    fee,
     withdrawAddress,
     validatorAddress,
     timestamp: transaction.timestamp,
@@ -472,57 +484,109 @@ export const transformCosmosTransactionToRenderElements = ({
   msgIndex: number;
   denom: COIN_DENOMS;
   transaction: ICosmosTransaction;
-}): CosmosTransactionItemData => {
-  const TX_TYPE = transaction.msgs[msgIndex].type as COSMOS_TRANSACTION_TYPES;
+}): CosmosTransactionItemData | null => {
+  const IS_COSMOS = transaction.chain.includes("cosmos");
 
-  switch (TX_TYPE) {
-    // NOTE: Receive is not a real type
-    case COSMOS_TRANSACTION_TYPES.RECEIVE:
-    case COSMOS_TRANSACTION_TYPES.SEND: {
-      return getTransactionSendMessage(transaction, address, msgIndex);
+  if (IS_COSMOS) {
+    const TX_TYPE = transaction.msgs[msgIndex].type as COSMOS_TRANSACTION_TYPES;
+
+    switch (TX_TYPE) {
+      // NOTE: Receive is not a real type
+      case COSMOS_TRANSACTION_TYPES.RECEIVE:
+      case COSMOS_TRANSACTION_TYPES.SEND: {
+        return getTransactionSendMessage(transaction, address, msgIndex);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.DELEGATE: {
+        return getDelegationTransactionMessage(transaction, msgIndex);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.VOTE: {
+        return getGovernanceVoteMessage(transaction, msgIndex);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.UNDELEGATE: {
+        return getUndelegateMessage(transaction, msgIndex);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.SUBMIT_PROPOSAL: {
+        return getGovernanceSubmitProposalMessage(transaction, msgIndex);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.BEGIN_REDELEGATE: {
+        return getRedelegateMessageData(transaction, msgIndex);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.CLAIM_REWARDS: {
+        return getClaimRewardsMessageData(transaction, msgIndex, denom);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.CLAIM_COMMISSION: {
+        return getValidatorClaimRewardsMessageData(
+          transaction,
+          msgIndex,
+          denom,
+        );
+      }
+
+      case COSMOS_TRANSACTION_TYPES.CREATE_VALIDATOR: {
+        return getValidatorCreateOrEditMessage(transaction, msgIndex);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.EDIT_VALIDATOR: {
+        return getValidatorCreateOrEditMessage(transaction, msgIndex);
+      }
+
+      case COSMOS_TRANSACTION_TYPES.MODIFY_WITHDRAW_ADDRESS: {
+        return getChangeWithdrawAddressMessage(transaction, msgIndex);
+      }
+
+      default:
+        return assertUnreachable(TX_TYPE);
     }
+  } else {
+    const TX_TYPE = transaction.msgs[msgIndex].type as TERRA_TRANSACTION_TYPES;
 
-    case COSMOS_TRANSACTION_TYPES.DELEGATE: {
-      return getDelegationTransactionMessage(transaction, msgIndex);
+    switch (TX_TYPE) {
+      // NOTE: Receive is not a real type
+      case TERRA_TRANSACTION_TYPES.SEND:
+      case TERRA_TRANSACTION_TYPES.MULTI_SEND:
+      case TERRA_TRANSACTION_TYPES.RECEIVE: {
+        return getTransactionSendMessage(transaction, address, msgIndex);
+      }
+
+      case TERRA_TRANSACTION_TYPES.DELEGATE: {
+        return getDelegationTransactionMessage(transaction, msgIndex);
+      }
+      case TERRA_TRANSACTION_TYPES.UNDELEGATE: {
+        return getUndelegateMessage(transaction, msgIndex);
+      }
+
+      case TERRA_TRANSACTION_TYPES.REDELEGATE: {
+        return getRedelegateMessageData(transaction, msgIndex);
+      }
+
+      case TERRA_TRANSACTION_TYPES.WITHDRAW_REWARD: {
+        return getClaimRewardsMessageData(transaction, msgIndex, denom);
+      }
+
+      case TERRA_TRANSACTION_TYPES.WITHDRAW_COMMISSION: {
+        return getValidatorClaimRewardsMessageData(
+          transaction,
+          msgIndex,
+          denom,
+        );
+      }
+
+      case TERRA_TRANSACTION_TYPES.GOVERNANCE_DEPOSIT:
+      case TERRA_TRANSACTION_TYPES.DELEGATE_FEED_CONSENT:
+      case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_VOTE:
+      case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_PRE_VOTE:
+      default:
+        Sentry.captureException(
+          `Unhandled Terra transaction type ${TX_TYPE} for address: ${address}`,
+        );
+        return null;
     }
-
-    case COSMOS_TRANSACTION_TYPES.VOTE: {
-      return getGovernanceVoteMessage(transaction, msgIndex);
-    }
-
-    case COSMOS_TRANSACTION_TYPES.UNDELEGATE: {
-      return getUndelegateMessage(transaction, msgIndex);
-    }
-
-    case COSMOS_TRANSACTION_TYPES.SUBMIT_PROPOSAL: {
-      return getGovernanceSubmitProposalMessage(transaction, msgIndex);
-    }
-
-    case COSMOS_TRANSACTION_TYPES.BEGIN_REDELEGATE: {
-      return getRedelegateMessageData(transaction, msgIndex);
-    }
-
-    case COSMOS_TRANSACTION_TYPES.CLAIM_REWARDS: {
-      return getClaimRewardsMessageData(transaction, msgIndex, denom);
-    }
-
-    case COSMOS_TRANSACTION_TYPES.CLAIM_COMMISSION: {
-      return getValidatorClaimRewardsMessageData(transaction, msgIndex, denom);
-    }
-
-    case COSMOS_TRANSACTION_TYPES.CREATE_VALIDATOR: {
-      return getValidatorCreateOrEditMessage(transaction, msgIndex);
-    }
-
-    case COSMOS_TRANSACTION_TYPES.EDIT_VALIDATOR: {
-      return getValidatorCreateOrEditMessage(transaction, msgIndex);
-    }
-
-    case COSMOS_TRANSACTION_TYPES.MODIFY_WITHDRAW_ADDRESS: {
-      return getChangeWithdrawAddressMessage(transaction, msgIndex);
-    }
-
-    default:
-      return assertUnreachable(TX_TYPE);
   }
 };

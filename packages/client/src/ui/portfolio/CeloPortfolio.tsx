@@ -1,5 +1,6 @@
 import {
   assertUnreachable,
+  getDefaultDenomFromNetwork,
   ICeloAccountSnapshot,
   IQuery,
   NetworkDefinition,
@@ -130,7 +131,9 @@ class CeloPortfolio extends React.PureComponent<
                 currencySetting === "fiat",
               );
               if (chartData) {
+                const denom = getDefaultDenomFromNetwork(network);
                 return getHighchartsChartOptions({
+                  denom,
                   tString,
                   network,
                   fullSize,

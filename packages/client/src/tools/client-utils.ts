@@ -1,6 +1,5 @@
 import {
   assertUnreachable,
-  COIN_DENOMS,
   deriveNetworkFromAddress,
   getValidatorAddressFromDelegatorAddress,
   ICeloValidatorGroup,
@@ -324,7 +323,7 @@ export const getBlockExplorerUrlForTransaction = (
  * Find a denom `ICosmosBalance` in a list of balances. The denom may not exist.
  */
 const findDenomsInList = (
-  denom: COIN_DENOMS,
+  denom: string,
   list: Maybe<ICosmosBalance[]>,
 ): Nullable<ICosmosBalance[]> => {
   if (!list) {
@@ -399,9 +398,10 @@ export const getAccountBalances = (
   accountBalancesData: ICosmosAccountBalances | undefined,
   rate: number,
   network: NetworkDefinition,
+  denom: string,
   maximumFractionDigits?: number,
 ): AccountBalancesResult => {
-  const { denom, denominationSize } = network;
+  const { denominationSize } = network;
   const defaultResult = {
     balance: "",
     rewards: "",
@@ -955,13 +955,11 @@ export const copyTextToClipboard = (text: string) => {
 };
 
 /**
- * Format a chain id, e.g. cosmoshub-2 -> Cosmos Hub 2.
- * NOTE: This is hard-coded to format cosmos network chain
- * ids and will need to be updated to support other networks.
+ * Format a chain id. Nothing happens now but we could add formatting
+ * in the future.
  */
 export const justFormatChainString = (chain: string) => {
-  const id = chain.slice(-1);
-  return `Cosmos Hub ${id}`;
+  return chain;
 };
 
 /**

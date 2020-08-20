@@ -277,12 +277,12 @@
       "title": null,
       "description": null,
       "proposal_type": null,
-      "proposal_status": "VotingPeriod",
+      "proposal_status": "Passed",
       "final_tally_result": {
-        "yes": "0",
-        "abstain": "0",
-        "no": "0",
-        "no_with_veto": "0"
+        "yes": "101845973043268",
+        "abstain": "559408864",
+        "no": "21185026706",
+        "no_with_veto": "106144492"
       },
       "submit_time": "2020-07-12T06:23:02.440964897Z",
       "total_deposit": [{ "denom": "uatom", "amount": "512000000" }],

@@ -78,15 +78,25 @@ class DashboardPage extends React.Component<IProps> {
       </Card>
     );
 
+    /**
+     * Suffix for balances, show nothing for Terra because Terra supports
+     * multi-denomination balance view.
+     */
+    const balanceSuffix =
+      network.name === "TERRA"
+        ? ""
+        : currencySetting === "crypto"
+        ? ledger.network.descriptor
+        : fiatCurrency.symbol;
+
     const BalancesPanel = (
-      <Card elevation={Elevation.TWO} style={getBalanceCardStyles()}>
+      <Card
+        elevation={Elevation.TWO}
+        style={{ ...getBalanceCardStyles(), paddingLeft: 0, paddingRight: 0 }}
+      >
         <Row>
-          <H5 style={{ margin: 0 }}>
-            {tString("Balance")} (
-            {currencySetting === "crypto"
-              ? ledger.network.descriptor
-              : fiatCurrency.symbol}
-            )
+          <H5 style={{ margin: 0, marginLeft: 20 }}>
+            Balances {balanceSuffix}
           </H5>
         </Row>
         <BalancesSwitchContainer />
@@ -289,6 +299,7 @@ const getPortfolioCardStyles = () => ({
   flex: 2,
   margin: 6,
   borderRadius: 0,
+  height: 335,
   minHeight: 325,
 });
 
@@ -296,6 +307,7 @@ const getBalanceCardStyles = () => ({
   flex: 1,
   margin: 6,
   borderRadius: 0,
+  height: 335,
   minHeight: 325,
 });
 

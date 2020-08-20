@@ -449,6 +449,7 @@ type CosmosRewardHistory {
   height: Int!
   address: String!
   timestamp: String!
+  denom: String!
 }
 
 type CosmosCommissionHistory {
@@ -456,6 +457,7 @@ type CosmosCommissionHistory {
   height: Int!
   validator: String!
   timestamp: String!
+  denom: String!
 }
 
 type CosmosDelegationHistory {

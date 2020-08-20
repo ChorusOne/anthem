@@ -1,5 +1,6 @@
 import {
   assertUnreachable,
+  getDefaultDenomFromNetwork,
   IOasisAccountHistory,
   NetworkDefinition,
 } from "@anthem/utils";
@@ -118,7 +119,9 @@ class OasisPortfolio extends React.PureComponent<
               return null;
             }
 
+            const denom = getDefaultDenomFromNetwork(network);
             const options = getHighchartsChartOptions({
+              denom,
               tString,
               network,
               fullSize,
