@@ -111,7 +111,6 @@ const DEFAULT_GAS_PRICE = "0.01";
 const DEFAULT_GAS_AMOUNT = "250000";
 
 const ValidatorSelect = Select.ofType<ICeloValidatorGroup>();
-const RevokeVoteSelect = Select.ofType<ICeloValidatorGroup>();
 
 /** ===========================================================================
  * React Component
@@ -309,7 +308,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       .filter(Boolean) as Array<ICeloValidatorGroup & { activeVotes: string }>;
 
     const renderCurrencyValue = (value: string) => {
-      return formatCurrencyAmount(denomToUnit(value, network.denominationSize));
+      return denomToUnit(value, network.denominationSize);
     };
 
     return (
@@ -330,6 +329,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
               const votes = renderCurrencyValue(group.activeVotes);
               return (
                 <Radio
+                  key={group.group}
                   onClick={() => this.setState({ amount: votes })}
                   label={`${group.name} (${votes} CELO)`}
                   value={group.group}
@@ -1362,28 +1362,43 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     this.props.setTransactionData(data);
   };
 
-  getActivateVoteTransaction = async () => {
+  getActivateVoteTransaction = () => {
     const data = {};
     this.props.setTransactionData(data);
   };
 
-  getRevokeVoteTransaction = async () => {
+  getRevokeVoteTransaction = () => {
     const { amount, revokeVotesGroup } = this.state;
     const { address } = this.props.ledger;
     const { denominationSize } = this.props.ledger.network;
+    const { celoAccountBalances } = this.props;
+    const { delegations } = celoAccountBalances.celoAccountBalances;
 
-    if (!revokeVotesGroup) {
-      this.setState({ revokeVotesError: "Please select a group." });
+    const delegation = delegations.find(
+      x => x.group.toUpperCase() === revokeVotesGroup.toUpperCase(),
+    );
+    const value = unitToDenom(amount || 0, denominationSize);
+
+    console.log(delegations);
+    console.log(revokeVotesGroup);
+
+    let error = "";
+    if (!revokeVotesGroup || !delegation) {
+      error = "Please select a group.";
     } else if (!amount) {
-      this.setState({
-        revokeVotesError: "Please set an amount of votes to revoke.",
-      });
+      error = "Please set an amount of votes to revoke.";
+    } else if (value > delegation.activeVotes) {
+      error = "Selected revoke amount is too large.";
+    }
+
+    if (error) {
+      return this.setState({ revokeVotesError: error });
     }
 
     const data: RevokeVotesArguments = {
       address,
+      amount: value,
       group: revokeVotesGroup,
-      amount: unitToDenom(amount, denominationSize),
     };
     this.props.setTransactionData(data);
   };
