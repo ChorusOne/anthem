@@ -982,6 +982,7 @@ const BalanceTotalWrapper = styled.div`
 const BalanceTotalContainer = styled.div`
   margin: 0;
   padding: 0;
+  padding-right: 8px;
   position: relative;
   background: ${(props: { theme: IThemeProps }) =>
     props.theme.isDesktop ? 0 : 24};
@@ -1064,7 +1065,7 @@ const Pie = ({
     <PieChart
       style={{
         marginBottom: 10,
-        width: small ? 100 : 130,
+        width: small ? 100 : 121,
       }}
       data={data}
     />
