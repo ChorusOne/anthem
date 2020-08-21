@@ -1027,7 +1027,7 @@ const BalanceTotalText = styled.p`
 
 const ActionContainer = styled.div`
   margin-top: 4px;
-  height: 125px;
+  height: 157px;
   padding: 12px;
   padding-top: 20px;
   padding-bottom: 0;
