@@ -317,7 +317,8 @@ const syncAddressToUrlEpic: EpicSignature = (action$, state$, deps) => {
     tap(({ address, network }) => {
       const { transactionsPage } = state$.value.transaction;
       const { location } = deps.router;
-      const tab = location.pathname.split("/")[2];
+      const { pathname } = location;
+      const tab = pathname.split("/")[2];
       const onChartView = onChartTab(tab);
       const onValidChartTab = isChartTabValidForNetwork(tab, network);
 
@@ -330,10 +331,13 @@ const syncAddressToUrlEpic: EpicSignature = (action$, state$, deps) => {
         deps.router.replace({ search });
       }
 
-      if (!onValidChartTab && onChartView) {
+      const name = network.name.toLowerCase();
+      const onDifferentNetwork = !pathname.includes(name);
+
+      if ((!onValidChartTab && onChartView) || onDifferentNetwork) {
         deps.router.replace({
           search,
-          pathname: `/${network.name.toLowerCase()}/total`,
+          pathname: `/${name}/total`,
         });
       }
     }),
