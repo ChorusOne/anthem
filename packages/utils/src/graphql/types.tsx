@@ -645,8 +645,8 @@ export interface IOasisRegisterEntityEvent {
    __typename?: "OasisRegisterEntityEvent";
   type: IOasisTransactionType;
   id: Maybe<Scalars["String"]>;
-  nodes: Array<Scalars["String"]>;
-  allow_entity_signed_nodes: Scalars["Boolean"];
+  nodes: Maybe<Array<Scalars["String"]>>;
+  allow_entity_signed_nodes: Maybe<Scalars["Boolean"]>;
 }
 
 export interface IOasisRegisterNodeEvent {
