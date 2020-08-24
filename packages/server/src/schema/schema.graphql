@@ -369,7 +369,7 @@ type OasisTransferEvent {
 
 type OasisBurnEvent {
   type: OasisTransactionType!
-  owner: String!
+  owner: String
   tokens: String!
 }
 

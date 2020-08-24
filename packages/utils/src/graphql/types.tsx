@@ -601,7 +601,7 @@ export interface IOasisBoundEvent {
 export interface IOasisBurnEvent {
    __typename?: "OasisBurnEvent";
   type: IOasisTransactionType;
-  owner: Scalars["String"];
+  owner: Maybe<Scalars["String"]>;
   tokens: Scalars["String"];
 }
 
