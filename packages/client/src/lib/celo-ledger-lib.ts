@@ -32,7 +32,7 @@ import {
  */
 
 const TEST_NETS = {
-  MAINNET: "https://rc1-forno.celo-testnet.org/",
+  MAINNET: "https://rc1-forno.celo-testnet.org",
   BAKLAVA: "https://baklava-forno.celo-testnet.org",
   ALFAJORES: "https://alfajores-forno.celo-testnet.org",
 };
@@ -327,12 +327,23 @@ class CeloLedgerClass implements ICeloLedger {
     const election = await this.kit.contracts.getElection();
     const x = await election.getVoter(address);
     const { pending, active } = x.votes[0];
-    console.warn("[DEBUG]");
+    console.log(
+      `Revoking ${value.toString()} votes for address: ${address} from group: ${group}`,
+    );
+    console.warn("[DEBUG]:");
+    console.log("[VOTER] (from election.getVoter):");
     console.log(`pending: ${pending.toString()}`);
     console.log(`active: ${active.toString()}`);
-    console.log(`Revoking ${value.toString()} votes for address: ${address}`);
-    const tx = await election.revokeActive(group, address, value);
-    const receipt = await tx.sendAndWaitForReceipt();
+    const share = await election.getVoterShare(address);
+    console.log("[VOTER] (from election.getVoterShare):");
+    const y = share["81cef0668e15639d0b101bdc3067699309d73bed"];
+    console.log(y.toString());
+    const votes = await election.getVotesForGroupByAccount(address, group);
+    console.log("[GROUP VOTES] (from getVotesForGroupByAccount):");
+    console.log(`pending: ${votes.pending.toString()}`);
+    console.log(`active: ${votes.active.toString()}`);
+    const tx = await election.revoke(group, address, value);
+    const receipt = await tx[0].sendAndWaitForReceipt();
     console.log(receipt);
     return receipt;
   }
