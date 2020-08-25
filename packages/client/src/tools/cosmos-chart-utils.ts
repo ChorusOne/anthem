@@ -381,7 +381,6 @@ export const mapRewardsToDailySummary = (
 export const getChartTotalGraph = (
   portfolioChartData: PortfolioChartData,
 ): ChartData => {
-  console.log(portfolioChartData);
   const {
     availableChartData,
     delegationsChartData,

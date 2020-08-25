@@ -270,7 +270,9 @@ class Portfolio extends React.PureComponent<IProps, IState> {
             )}
             <Row>
               <View style={{ paddingTop: 12 }}>
-                <CurrencySettingsToggle selectedDenom={denom.denom} />
+                <CurrencySettingsToggle
+                  disabled={!this.tabSupportsFiatPrices()}
+                />
               </View>
               {this.renderDenomSelect()}
             </Row>
@@ -278,7 +280,8 @@ class Portfolio extends React.PureComponent<IProps, IState> {
           {!supportsMultiDenom ? (
             <EmptyChartContainer>
               <p style={{ textAlign: "center" }}>
-                Not applicable for the selected denomination.
+                Not applicable for the selected denomination:{" "}
+                {selectedDenom.name}.
               </p>
             </EmptyChartContainer>
           ) : noData ? (
@@ -454,13 +457,19 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     return null;
   };
 
+  tabSupportsFiatPrices = () => {
+    const isNetworkDenom =
+      this.state.selectedDenom.denom === this.props.network.denom;
+    const supportsFiatPrices = isNetworkDenom;
+    return supportsFiatPrices;
+  };
+
   handleDownloadCSV = () => {
     try {
       const { selectedDenom } = this.state;
       const { address, network, settings, cosmosAccountHistory } = this.props;
       const fiatCurrencySymbol = settings.fiatCurrency.symbol;
-      const isNetworkDenom = selectedDenom.denom === network.denom;
-      const supportsFiatPrices = isNetworkDenom;
+      const supportsFiatPrices = this.tabSupportsFiatPrices();
 
       // Calculate the portfolio data again, but force displayFiat to
       // false to get the crypto balances.
