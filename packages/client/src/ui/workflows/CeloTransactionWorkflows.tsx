@@ -30,6 +30,7 @@ import {
   withGraphQLVariables,
 } from "graphql/queries";
 import {
+  CeloUnlockGoldArguments,
   ICeloTransactionResult,
   RevokeVotesArguments,
 } from "lib/celo-ledger-lib";
@@ -98,6 +99,8 @@ interface IState {
   displayCustomGasSettings: boolean;
   claimsTransactionSetupError: string;
   lockGoldTransactionSetupError: string;
+  unlockGoldTransactionSetupError: string;
+  transactionSetupError: string;
   voteForValidatorGroupTransactionInputError: string;
   useFullBalance: boolean;
   selectAllRewards: boolean;
@@ -564,7 +567,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                 {fiatBalance} {fiatCurrency.symbol})
               </p>
               <H6 style={{ marginTop: 12, marginBottom: 0 }}>
-                Please enter an amount of available gold to lock:
+                Please enter an amount of available CELO to lock:
               </H6>
               <View style={{ marginTop: 12 }}>
                 <FormContainer>
@@ -599,6 +602,106 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     {this.props.renderConfirmArrow(
                       tString("Generate My Transaction"),
                       this.submitLockGoldAmount,
+                    )}
+                  </form>
+                </FormContainer>
+                {this.state.lockGoldTransactionSetupError && (
+                  <div style={{ marginTop: 12 }} className={Classes.LABEL}>
+                    <ErrorText data-cy="amount-transaction-error">
+                      {this.state.lockGoldTransactionSetupError}
+                    </ErrorText>
+                  </div>
+                )}
+              </View>
+            </View>
+          );
+        }}
+      </GraphQLGuardComponentMultipleQueries>
+    );
+  };
+
+  renderUnlockGoldTransactionSetup = () => {
+    const {
+      i18n,
+      ledger,
+      fiatCurrency,
+      fiatPriceData,
+      celoAccountBalances,
+    } = this.props;
+    const { network } = ledger;
+    const { tString } = i18n;
+    return (
+      <GraphQLGuardComponentMultipleQueries
+        tString={tString}
+        results={[
+          [celoAccountBalances, "celoAccountBalances"],
+          [fiatPriceData, "fiatPriceData"],
+        ]}
+      >
+        {([accountBalancesData, exchangeRate]: [
+          ICeloAccountBalances,
+          IQuery["fiatPriceData"],
+        ]) => {
+          const { totalLockedGoldBalance } = accountBalancesData;
+          const balance = renderCeloCurrency({
+            denomSize: network.denominationSize,
+            value: totalLockedGoldBalance,
+            fiatPrice: exchangeRate.price,
+            convertToFiat: false,
+          });
+          const fiatBalance = renderCeloCurrency({
+            denomSize: network.denominationSize,
+            value: totalLockedGoldBalance,
+            fiatPrice: exchangeRate.price,
+            convertToFiat: true,
+          });
+          return (
+            <View>
+              <p>
+                Locked CELO tokens must be unlocked if you want to move them to
+                your available balance.
+              </p>
+              <p style={{ marginTop: 8 }}>
+                Locked CELO amount:{" "}
+                {bold(`${balance} ${ledger.network.descriptor}`)} ({fiatBalance}{" "}
+                {fiatCurrency.symbol})
+              </p>
+              <H6 style={{ marginTop: 12, marginBottom: 0 }}>
+                Please enter an amount of available CELO to unlock:
+              </H6>
+              <View style={{ marginTop: 12 }}>
+                <FormContainer>
+                  <form
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                    data-cy="ledger-action-input-form"
+                    onSubmit={(event: ChangeEvent<HTMLFormElement>) => {
+                      event.preventDefault();
+                      this.submitLockGoldAmount();
+                    }}
+                  >
+                    <TextInput
+                      autoFocus
+                      label="Unlock Amount (CELO)"
+                      onSubmit={this.submitLockGoldAmount}
+                      style={{ ...InputStyles, width: 300 }}
+                      placeholder={tString("Enter an amount")}
+                      data-cy="transaction-amount-input"
+                      value={this.state.amount}
+                      onChange={this.handleEnterLedgerActionAmount}
+                    />
+                    <Switch
+                      checked={this.state.useFullBalance}
+                      style={{ marginTop: 24 }}
+                      data-cy="transaction-delegate-all-toggle"
+                      label="Lock Max"
+                      onChange={() => this.toggleFullBalance(balance)}
+                    />
+                    {this.props.renderConfirmArrow(
+                      tString("Generate My Transaction"),
+                      this.submitUnlockGoldAmount,
                     )}
                   </form>
                 </FormContainer>
@@ -1282,14 +1385,45 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const { network, address } = this.props.ledger;
     const { denominationSize } = network;
 
-    if (!amount) {
-      return this.setState({
-        sendTransactionInputError: "Please enter a transaction amount",
-      });
-    }
-
     const data = {
       from: address,
+      amount: unitToDenom(amount, denominationSize),
+    };
+
+    this.props.setTransactionData(data);
+  };
+
+  submitUnlockGoldAmount = () => {
+    const { amount } = this.state;
+    const { celoAccountBalances } = this.props.celoAccountBalances;
+    const { totalLockedGoldBalance } = celoAccountBalances;
+    const maximumAmount = totalLockedGoldBalance;
+
+    const amountError = validateLedgerTransactionAmount(
+      amount,
+      maximumAmount,
+      this.props.i18n.tString,
+    );
+
+    this.setState(
+      {
+        transactionSetupError: amountError,
+      },
+      () => {
+        if (amountError === "") {
+          this.getLockGoldTransaction();
+        }
+      },
+    );
+  };
+
+  getUnlockGoldTransaction = async () => {
+    const { amount } = this.state;
+    const { network, address } = this.props.ledger;
+    const { denominationSize } = network;
+
+    const data: CeloUnlockGoldArguments = {
+      address,
       amount: unitToDenom(amount, denominationSize),
     };
 
