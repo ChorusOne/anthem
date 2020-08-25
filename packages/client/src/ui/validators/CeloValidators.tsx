@@ -436,15 +436,17 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           )}
                         </Text>
                       </RowItem>
-                      <RowItem width={125}>
-                        <Button
-                          data-cy="lock-gold-button"
-                          onClick={this.handleLockGold}
-                          style={{ marginBottom: 6, width: 115 }}
-                        >
-                          Lock Celo
-                        </Button>
-                      </RowItem>
+                      {isGreaterThan(availableGoldBalance, zero) && (
+                        <RowItem width={125}>
+                          <Button
+                            data-cy="lock-gold-button"
+                            onClick={this.handleLockGold}
+                            style={{ marginBottom: 6, width: 115 }}
+                          >
+                            Lock Celo
+                          </Button>
+                        </RowItem>
+                      )}
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
                       <RowItem width={125}>
@@ -458,15 +460,17 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           )}
                         </Text>
                       </RowItem>
-                      <RowItem width={125}>
-                        <Button
-                          data-cy="unlock-gold-button"
-                          onClick={this.handleUnlockGold}
-                          style={{ marginBottom: 6, width: 115 }}
-                        >
-                          Unlock Celo
-                        </Button>
-                      </RowItem>
+                      {isGreaterThan(totalLockedGoldBalance, zero) && (
+                        <RowItem width={125}>
+                          <Button
+                            data-cy="unlock-gold-button"
+                            onClick={this.handleUnlockGold}
+                            style={{ marginBottom: 6, width: 115 }}
+                          >
+                            Unlock Celo
+                          </Button>
+                        </RowItem>
+                      )}
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
                       <RowItem width={125}>
@@ -644,15 +648,17 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                   network.denominationSize,
                                 )}
                               </RowItem>
-                              <RowItem width={150}>
-                                <Button
-                                  style={{ width: 115 }}
-                                  data-cy="activate-votes-button"
-                                  onClick={this.handleActivateVotes}
-                                >
-                                  Activate Votes
-                                </Button>
-                              </RowItem>
+                              {isGreaterThan(pendingVotes, 0) && (
+                                <RowItem width={150}>
+                                  <Button
+                                    style={{ width: 115 }}
+                                    data-cy="activate-votes-button"
+                                    onClick={this.handleActivateVotes}
+                                  >
+                                    Activate Votes
+                                  </Button>
+                                </RowItem>
+                              )}
                             </ValidatorRowBase>
                             <ValidatorRowBase style={{ paddingBottom: 2 }}>
                               <RowItem width={45} />
@@ -665,15 +671,17 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                   network.denominationSize,
                                 )}
                               </RowItem>
-                              <RowItem width={150}>
-                                <Button
-                                  style={{ width: 115 }}
-                                  data-cy="revoke-gold-button"
-                                  onClick={this.handleRevokeVotes}
-                                >
-                                  Revoke Votes
-                                </Button>
-                              </RowItem>
+                              {isGreaterThan(activeVotes, zero) && (
+                                <RowItem width={150}>
+                                  <Button
+                                    style={{ width: 115 }}
+                                    data-cy="revoke-gold-button"
+                                    onClick={this.handleRevokeVotes}
+                                  >
+                                    Revoke Votes
+                                  </Button>
+                                </RowItem>
+                              )}
                             </ValidatorRowBase>
                           </View>
                         );
