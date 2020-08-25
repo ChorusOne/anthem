@@ -55,6 +55,7 @@ import {
   PageScrollableContent,
   View,
 } from "ui/SharedComponents";
+import Toast from "ui/Toast";
 import {
   RowItem,
   RowItemHeader,
@@ -435,9 +436,9 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           )}
                         </Text>
                       </RowItem>
-                      <RowItem width={100}>
+                      <RowItem width={125}>
                         <Button
-                          style={{ marginBottom: 6 }}
+                          style={{ marginBottom: 6, width: 115 }}
                           onClick={this.handleLockGold}
                           data-cy="lock-gold-button"
                         >
@@ -456,6 +457,15 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                             network.denominationSize,
                           )}
                         </Text>
+                      </RowItem>
+                      <RowItem width={125}>
+                        <Button
+                          style={{ marginBottom: 6, width: 115 }}
+                          onClick={this.handleUnlockGold}
+                          data-cy="lock-gold-button"
+                        >
+                          Unlock Celo
+                        </Button>
                       </RowItem>
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
@@ -696,7 +706,19 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
   };
 
   handleLockGold = () => {
-    // return Toast.warn("Celo Ledger Transactions are coming soon.");
+    if (!this.props.ledger.connected) {
+      this.props.setSigninNetworkName(this.props.network.name);
+    }
+    // Open the ledger dialog
+    this.props.openLedgerDialog({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "LOCK_GOLD",
+    });
+  };
+
+  handleUnlockGold = () => {
+    return Toast.warn("Unlock action is coming soon.");
 
     if (!this.props.ledger.connected) {
       this.props.setSigninNetworkName(this.props.network.name);
@@ -722,6 +744,8 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
   };
 
   handleRevokeVotes = () => {
+    return Toast.warn("Revoke action is coming soon.");
+
     if (!this.props.ledger.connected) {
       this.props.setSigninNetworkName(this.props.network.name);
     }
