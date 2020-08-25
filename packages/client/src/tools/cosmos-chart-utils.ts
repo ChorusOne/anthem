@@ -392,7 +392,15 @@ export const getChartTotalGraph = (
 
   const combined: ChartSeries = {};
 
-  for (const [timestamp, value] of Object.entries(availableChartData.data)) {
+  /**
+   * Choose the chart data to use for collecting the summary.
+   */
+  const chartData =
+    Object.keys(availableChartData.data).length > 0
+      ? availableChartData
+      : rewardsDailySummary;
+
+  for (const [timestamp, value] of Object.entries(chartData.data)) {
     const availableValue = value;
     const rewardsValue = rewardsDailySummary.data[timestamp];
     const delegationsValue = delegationsChartData.data[timestamp];
