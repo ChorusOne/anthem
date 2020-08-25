@@ -855,7 +855,7 @@ class OasisBalancesComponent extends React.Component<
     return (
       <>
         <SummaryContainer style={{ paddingTop: 50 }}>
-          <BalanceContainer>
+          <BalanceContainer style={{ paddingLeft: 12, paddingRight: 12 }}>
             <View>
               <BalanceLine style={{ marginTop: 6 }}>
                 <Icon

@@ -425,9 +425,10 @@ class Portfolio extends React.PureComponent<IProps, IState> {
   };
 
   tabSupportsMultipleDenom = () => {
-    const tab = this.props.app.activeChartTab;
-    const notSupported = tab === "STAKING" || tab === "TOTAL";
-    return !notSupported;
+    return true;
+    // const tab = this.props.app.activeChartTab;
+    // const notSupported = tab === "STAKING" || tab === "TOTAL";
+    // return !notSupported;
   };
 
   getChartValues = (): Nullable<ChartData> => {
