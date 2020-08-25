@@ -68,6 +68,11 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
               case "LOCK_GOLD":
                 const lockResult = await celoLedgerUtil.lock(transactionData);
                 return Actions.transactionConfirmed(lockResult);
+              case "UNLOCK_GOLD":
+                const unlockResult = await celoLedgerUtil.unlock(
+                  transactionData,
+                );
+                return Actions.transactionConfirmed(unlockResult);
               case "ACTIVATE_VOTES":
                 const activateResult = await celoLedgerUtil.activateVotes(
                   address,

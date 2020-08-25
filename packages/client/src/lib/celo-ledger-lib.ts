@@ -67,6 +67,11 @@ interface CeloLockGoldArguments {
   from: string;
 }
 
+export interface CeloUnlockGoldArguments {
+  amount: string;
+  address: string;
+}
+
 export interface RevokeVotesArguments {
   amount: string;
   address: string;
@@ -101,7 +106,7 @@ interface ICeloLedger {
   createAccount(address: string): Promise<ICeloTransactionResult>;
   isAccount(address: string): Promise<boolean>;
   lock(args: CeloLockGoldArguments): Promise<ICeloTransactionResult>;
-  unlock(amount: string): Promise<ICeloTransactionResult>;
+  unlock(args: CeloUnlockGoldArguments): Promise<ICeloTransactionResult>;
   voteForValidatorGroup(
     args: CeloVoteArguments,
   ): Promise<ICeloTransactionResult>;
@@ -274,13 +279,16 @@ class CeloLedgerClass implements ICeloLedger {
     return receipt;
   }
 
-  async unlock(amount: string) {
+  async unlock(args: CeloUnlockGoldArguments) {
     if (!this.kit) {
       throw new Error("CeloLedgerClass not initialized yet.");
     }
 
+    const { address, amount } = args;
+
+    console.log(`Unlocking ${amount} gold for address ${address}`);
+    this.kit.defaultAccount = address;
     const lockedGold = await this.kit.contracts.getLockedGold();
-    console.log(`Unlocking ${amount} gold for address ${this.address}`);
     const receipt = await lockedGold.unlock(amount).sendAndWaitForReceipt();
     return receipt;
   }

@@ -19,6 +19,7 @@ export type LEDGER_ACTION_TYPE =
   | "SEND"
   | "VOTE_GOLD"
   | "LOCK_GOLD"
+  | "UNLOCK_GOLD"
   | "ACTIVATE_VOTES"
   | "REVOKE_VOTES"
   | "GOVERNANCE_VOTE";

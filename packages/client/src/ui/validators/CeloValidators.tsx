@@ -438,9 +438,9 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                       </RowItem>
                       <RowItem width={125}>
                         <Button
-                          style={{ marginBottom: 6, width: 115 }}
-                          onClick={this.handleLockGold}
                           data-cy="lock-gold-button"
+                          onClick={this.handleLockGold}
+                          style={{ marginBottom: 6, width: 115 }}
                         >
                           Lock Celo
                         </Button>
@@ -460,9 +460,9 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                       </RowItem>
                       <RowItem width={125}>
                         <Button
-                          style={{ marginBottom: 6, width: 115 }}
+                          data-cy="unlock-gold-button"
                           onClick={this.handleUnlockGold}
-                          data-cy="lock-gold-button"
+                          style={{ marginBottom: 6, width: 115 }}
                         >
                           Unlock Celo
                         </Button>
@@ -647,8 +647,8 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                               <RowItem width={150}>
                                 <Button
                                   style={{ width: 115 }}
-                                  onClick={this.handleActivateVotes}
                                   data-cy="activate-votes-button"
+                                  onClick={this.handleActivateVotes}
                                 >
                                   Activate Votes
                                 </Button>
@@ -668,8 +668,8 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                               <RowItem width={150}>
                                 <Button
                                   style={{ width: 115 }}
-                                  onClick={this.handleRevokeVotes}
                                   data-cy="revoke-gold-button"
+                                  onClick={this.handleRevokeVotes}
                                 >
                                   Revoke Votes
                                 </Button>
@@ -727,7 +727,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
     this.props.openLedgerDialog({
       signinType: "LEDGER",
       ledgerAccessType: "PERFORM_ACTION",
-      ledgerActionType: "LOCK_GOLD",
+      ledgerActionType: "UNLOCK_GOLD",
     });
   };
 
