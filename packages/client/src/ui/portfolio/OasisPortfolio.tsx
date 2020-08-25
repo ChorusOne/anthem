@@ -115,8 +115,14 @@ class OasisPortfolio extends React.PureComponent<
               app.activeChartTab,
             );
 
-            if (!chartData) {
-              return null;
+            if (!chartData || Object.keys(chartData.data).length === 0) {
+              return (
+                <View style={{ paddingTop: 110 }}>
+                  <p style={{ margin: 0, textAlign: "center" }}>
+                    No account history data exists yet.
+                  </p>
+                </View>
+              );
             }
 
             const denom = getDefaultDenomFromNetwork(network);
@@ -130,17 +136,6 @@ class OasisPortfolio extends React.PureComponent<
               fiatCurrency,
               currencySetting,
             });
-
-            const noData = Object.keys(chartData.data).length === 0;
-            if (noData) {
-              return (
-                <View style={{ paddingTop: 110 }}>
-                  <p style={{ margin: 0, textAlign: "center" }}>
-                    No account history data exists yet.
-                  </p>
-                </View>
-              );
-            }
 
             const { activeChartTab } = app;
             switch (activeChartTab) {

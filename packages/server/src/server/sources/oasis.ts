@@ -62,7 +62,7 @@ enum OasisTransactionMethod {
   ADD_ESCROW = "staking.AddEscrow",
   RECLAIM_ESCROW = "staking.ReclaimEscrow",
   TAKE_ESCROW = "staking.TakeEscrow",
-  REGISTER_ENTITY = "staking.RegisterEntity",
+  REGISTER_ENTITY = "registry.RegisterEntity",
   REGISTER_NODE = "registry.RegisterNode",
   DE_REGISTER_ENTITY = "staking.DeregisterEntity",
   UN_FREEZE_NODE = "staking.UnfreezeNode",
