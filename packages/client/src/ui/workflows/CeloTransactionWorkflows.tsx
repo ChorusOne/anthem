@@ -138,9 +138,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       displayReceiveQR: false,
       revokeVotesGroup: "",
       revokeVotesError: "",
+      transactionSetupError: "",
       claimsTransactionSetupError: "",
       sendTransactionInputError: "",
       lockGoldTransactionSetupError: "",
+      unlockGoldTransactionSetupError: "",
       voteForValidatorGroupTransactionInputError: "",
     };
   }
@@ -179,6 +181,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         return this.renderSendReceiveTransactionSetup();
       case "LOCK_GOLD":
         return this.renderLockGoldTransactionSetup();
+      case "UNLOCK_GOLD":
+        return this.renderUnlockGoldTransactionSetup();
       case "ACTIVATE_VOTES":
         return this.renderActivateVotesStep();
       case "REVOKE_VOTES":
@@ -1411,7 +1415,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       },
       () => {
         if (amountError === "") {
-          this.getLockGoldTransaction();
+          this.getUnlockGoldTransaction();
         }
       },
     );

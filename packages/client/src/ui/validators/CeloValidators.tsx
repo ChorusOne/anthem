@@ -718,17 +718,17 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
   };
 
   handleUnlockGold = () => {
-    return Toast.warn("Unlock action is coming soon.");
+    Toast.warn("Unlock action is coming soon.");
 
-    if (!this.props.ledger.connected) {
-      this.props.setSigninNetworkName(this.props.network.name);
-    }
-    // Open the ledger dialog
-    this.props.openLedgerDialog({
-      signinType: "LEDGER",
-      ledgerAccessType: "PERFORM_ACTION",
-      ledgerActionType: "UNLOCK_GOLD",
-    });
+    // if (!this.props.ledger.connected) {
+    //   this.props.setSigninNetworkName(this.props.network.name);
+    // }
+    // // Open the ledger dialog
+    // this.props.openLedgerDialog({
+    //   signinType: "LEDGER",
+    //   ledgerAccessType: "PERFORM_ACTION",
+    //   ledgerActionType: "UNLOCK_GOLD",
+    // });
   };
 
   handleActivateVotes = () => {
@@ -744,17 +744,17 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
   };
 
   handleRevokeVotes = () => {
-    return Toast.warn("Revoke action is coming soon.");
+    Toast.warn("Revoke action is coming soon.");
 
-    if (!this.props.ledger.connected) {
-      this.props.setSigninNetworkName(this.props.network.name);
-    }
-    // Open the ledger dialog
-    this.props.openLedgerDialog({
-      signinType: "LEDGER",
-      ledgerAccessType: "PERFORM_ACTION",
-      ledgerActionType: "REVOKE_VOTES",
-    });
+    // if (!this.props.ledger.connected) {
+    //   this.props.setSigninNetworkName(this.props.network.name);
+    // }
+    // // Open the ledger dialog
+    // this.props.openLedgerDialog({
+    //   signinType: "LEDGER",
+    //   ledgerAccessType: "PERFORM_ACTION",
+    //   ledgerActionType: "REVOKE_VOTES",
+    // });
   };
 
   handleAddValidator = (validator: ICeloValidatorGroup) => {

@@ -88,6 +88,7 @@ const getTransactionMessageTypeForNetwork = (
   if (
     transactionType === "VOTE_GOLD" ||
     transactionType === "LOCK_GOLD" ||
+    transactionType === "UNLOCK_GOLD" ||
     transactionType === "REVOKE_VOTES" ||
     transactionType === "ACTIVATE_VOTES" ||
     transactionType === "GOVERNANCE_VOTE"
