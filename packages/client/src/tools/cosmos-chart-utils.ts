@@ -63,6 +63,9 @@ export const processPortfolioHistoryData = (
     return null;
   }
 
+  console.log(selectedDenom);
+  console.log(accountHistory);
+
   const {
     balanceHistory,
     delegations,
