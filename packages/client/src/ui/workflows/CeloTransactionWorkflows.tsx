@@ -1235,12 +1235,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
   submitLockGoldAmount = () => {
     const { amount } = this.state;
+    const { network } = this.props.ledger;
     const { celoAccountBalances } = this.props.celoAccountBalances;
     const { availableGoldBalance } = celoAccountBalances;
     const maximumAmount = availableGoldBalance;
 
     const amountError = validateLedgerTransactionAmount(
-      amount,
+      unitToDenom(amount, network.denominationSize),
       maximumAmount,
       this.props.i18n.tString,
     );
