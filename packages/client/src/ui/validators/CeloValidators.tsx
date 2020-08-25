@@ -436,7 +436,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           )}
                         </Text>
                       </RowItem>
-                      {isGreaterThan(availableGoldBalance, zero) && (
+                      {isGreaterThan(availableGoldBalance, 0) && (
                         <RowItem width={125}>
                           <Button
                             data-cy="lock-gold-button"
@@ -460,7 +460,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           )}
                         </Text>
                       </RowItem>
-                      {isGreaterThan(totalLockedGoldBalance, zero) && (
+                      {isGreaterThan(totalLockedGoldBalance, 0) && (
                         <RowItem width={125}>
                           <Button
                             data-cy="unlock-gold-button"
@@ -671,7 +671,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                                   network.denominationSize,
                                 )}
                               </RowItem>
-                              {isGreaterThan(activeVotes, zero) && (
+                              {isGreaterThan(activeVotes, 0) && (
                                 <RowItem width={150}>
                                   <Button
                                     style={{ width: 115 }}

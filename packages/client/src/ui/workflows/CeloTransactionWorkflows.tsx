@@ -53,7 +53,6 @@ import {
 import { composeWithProps } from "tools/context-utils";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import {
-  calculateTransactionAmount,
   denomToUnit,
   formatCurrencyAmount,
   unitToDenom,
@@ -1141,7 +1140,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   getMaximumAmount = () => {
-    const { celoAccountBalances, ledger } = this.props;
+    const { celoAccountBalances } = this.props;
     const { ledgerActionType } = this.props.ledgerDialog;
     const IS_CLAIM = ledgerActionType === "CLAIM";
 
