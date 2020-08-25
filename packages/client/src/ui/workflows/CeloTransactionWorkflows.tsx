@@ -91,27 +91,15 @@ export interface AvailableReward {
 }
 
 interface IState {
-  gasPrice: string;
-  gasAmount: string;
   amount: string;
   recipientAddress: string;
-  sendTransactionInputError: string;
-  displayCustomGasSettings: boolean;
-  claimsTransactionSetupError: string;
-  lockGoldTransactionSetupError: string;
-  unlockGoldTransactionSetupError: string;
-  transactionSetupError: string;
-  voteForValidatorGroupTransactionInputError: string;
   useFullBalance: boolean;
   selectAllRewards: boolean;
   displayReceiveQR: boolean;
   revokeVotesGroup: string;
-  revokeVotesError: string;
+  transactionSetupError: string;
   selectedRewards: ReadonlyArray<AvailableReward>;
 }
-
-const DEFAULT_GAS_PRICE = "0.01";
-const DEFAULT_GAS_AMOUNT = "250000";
 
 const ValidatorSelect = Select.ofType<ICeloValidatorGroup>();
 
@@ -131,19 +119,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       selectedRewards: [],
       useFullBalance: false,
       selectAllRewards: false,
-      displayCustomGasSettings: false,
-      gasPrice: DEFAULT_GAS_PRICE,
-      gasAmount: DEFAULT_GAS_AMOUNT,
       recipientAddress: "",
       displayReceiveQR: false,
       revokeVotesGroup: "",
-      revokeVotesError: "",
       transactionSetupError: "",
-      claimsTransactionSetupError: "",
-      sendTransactionInputError: "",
-      lockGoldTransactionSetupError: "",
-      unlockGoldTransactionSetupError: "",
-      voteForValidatorGroupTransactionInputError: "",
     };
   }
 
@@ -361,10 +340,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           "Revoke Votes",
           this.getRevokeVoteTransaction,
         )}
-        {this.state.revokeVotesError && (
+        {this.state.transactionSetupError && (
           <div style={{ marginTop: 6 }} className={Classes.LABEL}>
             <ErrorText data-cy="revoke-votes-transaction-error">
-              {this.state.revokeVotesError}
+              {this.state.transactionSetupError}
             </ErrorText>
           </div>
         )}
@@ -481,10 +460,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     )}
                   </form>
                 </FormContainer>
-                {this.state.sendTransactionInputError && (
+                {this.state.transactionSetupError && (
                   <div style={{ marginTop: 6 }} className={Classes.LABEL}>
                     <ErrorText data-cy="amount-send-transaction-error">
-                      {this.state.sendTransactionInputError}
+                      {this.state.transactionSetupError}
                     </ErrorText>
                   </div>
                 )}
@@ -609,10 +588,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     )}
                   </form>
                 </FormContainer>
-                {this.state.lockGoldTransactionSetupError && (
+                {this.state.transactionSetupError && (
                   <div style={{ marginTop: 12 }} className={Classes.LABEL}>
                     <ErrorText data-cy="amount-transaction-error">
-                      {this.state.lockGoldTransactionSetupError}
+                      {this.state.transactionSetupError}
                     </ErrorText>
                   </div>
                 )}
@@ -709,10 +688,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     )}
                   </form>
                 </FormContainer>
-                {this.state.lockGoldTransactionSetupError && (
+                {this.state.transactionSetupError && (
                   <div style={{ marginTop: 12 }} className={Classes.LABEL}>
                     <ErrorText data-cy="amount-transaction-error">
-                      {this.state.lockGoldTransactionSetupError}
+                      {this.state.transactionSetupError}
                     </ErrorText>
                   </div>
                 )}
@@ -864,10 +843,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     )}
                   </form>
                 </FormContainer>
-                {this.state.voteForValidatorGroupTransactionInputError && (
+                {this.state.transactionSetupError && (
                   <div style={{ marginTop: 12 }} className={Classes.LABEL}>
                     <ErrorText data-cy="amount-transaction-error">
-                      {this.state.voteForValidatorGroupTransactionInputError}
+                      {this.state.transactionSetupError}
                     </ErrorText>
                   </div>
                 )}
@@ -919,7 +898,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   handleSelectValidator = (validator: ICeloValidatorGroup) => {
     this.setState(
       {
-        claimsTransactionSetupError: "",
+        transactionSetupError: "",
       },
       () => this.props.setDelegationValidatorSelection(validator),
     );
@@ -927,51 +906,6 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
   setCanEscapeKeyCloseDialog = (canClose: boolean) => () => {
     this.props.setCanEscapeKeyCloseDialog(canClose);
-  };
-
-  renderGasPriceSetup = () => {
-    const { t, tString } = this.props.i18n;
-    return (
-      <View>
-        <p style={{ marginTop: 12 }}>
-          {t("Default gas price: {{price}} ", { price: <b>0.01 CELO.</b> })}
-          <Link
-            testID="toggle-custom-gas-settings"
-            onClick={this.toggleCustomGasPrice}
-          >
-            {!this.state.displayCustomGasSettings
-              ? tString("Enter a custom gas price.")
-              : tString("Use the default gas price.")}
-          </Link>
-        </p>
-        <p style={{ fontSize: 12 }}>
-          <b>{tString("Note:")}</b> "We are currently using a default gasPrice
-          of 0.01 CELO, feel free to adjust this value depending on network
-          conditions."
-        </p>
-        {this.state.displayCustomGasSettings && (
-          <Row style={{ justifyContent: "flex-start" }}>
-            <TextInput
-              autoFocus
-              label="Gas Price (CELO)"
-              style={InputStyles}
-              data-cy="custom-gas-price-input"
-              placeholder="Enter a gas price (CELO)"
-              value={this.state.gasPrice}
-              onChange={this.handleEnterCustomGasValues("gasPrice")}
-            />
-            <TextInput
-              style={InputStyles}
-              label={tString("Gas Amount")}
-              data-cy="custom-gas-amount-input"
-              placeholder={tString("Enter a custom gas amount")}
-              value={this.state.gasAmount}
-              onChange={this.handleEnterCustomGasValues("gasAmount")}
-            />
-          </Row>
-        )}
-      </View>
-    );
   };
 
   renderTransactionSigningComponent = () => {
@@ -1217,14 +1151,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const balance = availableGoldBalance;
     const rewards = pendingWithdrawalBalance;
     const targetValue = (IS_CLAIM ? rewards : balance).replace(",", "");
-    const maximumAmountAfterFees = calculateTransactionAmount(
-      targetValue,
-      this.state.gasPrice,
-      this.state.gasAmount,
-      ledger.network,
-    );
-
-    return maximumAmountAfterFees;
+    return targetValue;
   };
 
   handleEnterRecipientAddress = (recipient: string) => {
@@ -1248,60 +1175,6 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     }
   };
 
-  handleEnterCustomGasValues = (field: keyof IState) => (value: string) => {
-    if (!isNaN(Number(value)) || value === "") {
-      this.setState(
-        prev => ({
-          ...prev,
-          [field]: value,
-        }),
-        this.updateValues,
-      );
-    }
-  };
-
-  updateValues = () => {
-    const { network } = this.props.ledger;
-    const { amount, gasPrice, gasAmount, useFullBalance } = this.state;
-    const doNotUpdate = gasPrice === "" || gasAmount === "";
-
-    if (!doNotUpdate && this.state.amount !== "") {
-      const maximumAmount = this.getMaximumAmount();
-      const updatedAmountValue = calculateTransactionAmount(
-        useFullBalance ? maximumAmount : amount,
-        gasPrice,
-        gasAmount,
-        network,
-      );
-
-      this.setState(
-        {
-          amount: updatedAmountValue,
-        },
-        this.updateAmountError,
-      );
-    }
-  };
-
-  toggleCustomGasPrice = () => {
-    this.setState(
-      prev => ({
-        displayCustomGasSettings: !prev.displayCustomGasSettings,
-      }),
-      () => {
-        if (!this.state.displayCustomGasSettings) {
-          this.setState(
-            {
-              gasPrice: DEFAULT_GAS_PRICE,
-              gasAmount: DEFAULT_GAS_AMOUNT,
-            },
-            this.updateValues,
-          );
-        }
-      },
-    );
-  };
-
   updateAmountError = () => {
     const amountError = validateLedgerTransactionAmount(
       this.state.amount,
@@ -1309,7 +1182,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       this.props.i18n.tString,
     );
 
-    this.setState({ voteForValidatorGroupTransactionInputError: amountError });
+    this.setState({ transactionSetupError: amountError });
   };
 
   submitLedgerTransferAmount = () => {
@@ -1326,7 +1199,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
     this.setState(
       {
-        sendTransactionInputError: amountError,
+        transactionSetupError: amountError,
       },
       () => {
         if (amountError === "") {
@@ -1343,11 +1216,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
     if (!validateEthereumAddress(recipientAddress)) {
       return this.setState({
-        sendTransactionInputError: "Please enter a valid recipient address",
+        transactionSetupError: "Please enter a valid recipient address",
       });
     } else if (!amount) {
       return this.setState({
-        sendTransactionInputError: "Please enter a transaction amount",
+        transactionSetupError: "Please enter a transaction amount",
       });
     }
 
@@ -1374,7 +1247,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
     this.setState(
       {
-        lockGoldTransactionSetupError: amountError,
+        transactionSetupError: amountError,
       },
       () => {
         if (amountError === "") {
@@ -1448,7 +1321,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
     this.setState(
       {
-        voteForValidatorGroupTransactionInputError: amountError,
+        transactionSetupError: amountError,
       },
       () => {
         if (amountError === "") {
@@ -1467,8 +1340,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
     if (!selectedValidatorForDelegation) {
       return this.setState({
-        voteForValidatorGroupTransactionInputError:
-          "Please choose a validator to delegate to.",
+        transactionSetupError: "Please choose a validator to delegate to.",
       });
     }
 
@@ -1527,7 +1399,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     }
 
     if (error) {
-      return this.setState({ revokeVotesError: error });
+      return this.setState({ transactionSetupError: error });
     }
 
     const data: RevokeVotesArguments = {
