@@ -15,9 +15,11 @@ import Toast from "./Toast";
 const CurrencySettingsToggle = (props: IProps) => {
   const { network, activeChartTab, selectedDenom } = props;
   const { currencySetting, fiatCurrency } = props.settings;
+  const { pathname } = window.location;
 
   // Proxy to see if the user is viewing the dashboard chart
-  const ON_CHART_VIEW = window.location.pathname.includes("cusd");
+  const ON_CHART_VIEW =
+    pathname.includes("cusd") || pathname.includes("commissions");
   const IS_CUSD = activeChartTab === "CUSD";
   const IS_CELO_COMMISSIONS =
     activeChartTab === "COMMISSIONS" && network.name === "CELO";

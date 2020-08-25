@@ -1,4 +1,7 @@
 import {
+  assertUnreachable,
+  CeloAccountBalancesDocument,
+  CeloTransactionsDocument,
   CosmosAccountBalancesDocument,
   CosmosTransactionsDocument,
   validatorAddressToOperatorAddress,
@@ -268,7 +271,12 @@ const refreshBalanceAndTransactionsEpic: EpicSignature = (
   deps,
 ) => {
   return action$.pipe(
-    filter(isActionOf(Actions.refreshBalanceAndTransactions)),
+    filter(
+      isActionOf([
+        Actions.transactionConfirmed,
+        Actions.refreshBalanceAndTransactions,
+      ]),
+    ),
     mergeMap(() => {
       return from([1, 2, 3]).pipe(
         delay(500),
@@ -277,20 +285,41 @@ const refreshBalanceAndTransactionsEpic: EpicSignature = (
 
           const { client } = deps;
           const { address } = graphqlSelector(state$.value);
+          const { network } = state$.value.ledger.ledger;
 
-          client.query({
-            query: CosmosAccountBalancesDocument,
-            variables: {
-              address,
-            },
-          });
+          const variables = { address };
 
-          client.query({
-            query: CosmosTransactionsDocument,
-            variables: {
-              address,
-            },
-          });
+          switch (network.name) {
+            case "COSMOS":
+              client.query({
+                query: CosmosAccountBalancesDocument,
+                variables,
+              });
+
+              client.query({
+                query: CosmosTransactionsDocument,
+                variables,
+              });
+              break;
+            case "CELO":
+              client.query({
+                query: CeloAccountBalancesDocument,
+                variables,
+              });
+
+              client.query({
+                query: CeloTransactionsDocument,
+                variables,
+              });
+              break;
+            // No need for now, can be added later
+            case "OASIS":
+            case "TERRA":
+            case "KAVA":
+              break;
+            default:
+              assertUnreachable(network.name);
+          }
 
           return Actions.refreshBalanceAndTransactionsSuccess();
         }),

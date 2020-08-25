@@ -41,7 +41,6 @@ import {
   Row,
   View,
 } from "ui/SharedComponents";
-import Toast from "ui/Toast";
 
 /** ===========================================================================
  * Cosmos SDK Networks Account Balances
@@ -584,6 +583,7 @@ class CeloBalancesContainer extends React.Component<
                 network={network}
                 currencySetting={currencySetting}
                 price={fiatPriceData.fiatPriceData.price}
+                handleSendReceiveAction={this.handleSendReceiveAction}
               />
             );
           }
@@ -597,6 +597,8 @@ class CeloBalancesContainer extends React.Component<
   }
 
   handleSendReceiveAction = () => {
+    // return Toast.warn("Celo Ledger Transactions are coming soon.");
+
     let actionFunction;
     if (this.props.ledger.connected) {
       actionFunction = this.props.openLedgerDialog;
@@ -617,13 +619,20 @@ interface CeloComponentBalancesProps {
   network: NetworkDefinition;
   balances: ICeloAccountBalances;
   currencySetting: CURRENCY_SETTING;
+  handleSendReceiveAction: () => void;
 }
 
 class CeloBalancesComponent extends React.Component<
   CeloComponentBalancesProps
 > {
   render(): JSX.Element {
-    const { balances, network, price, currencySetting } = this.props;
+    const {
+      price,
+      network,
+      balances,
+      currencySetting,
+      handleSendReceiveAction,
+    } = this.props;
     const fiatPrice = price;
     const displayFiat = currencySetting === "fiat";
 
@@ -720,17 +729,17 @@ class CeloBalancesComponent extends React.Component<
           <DelegationControlsContainer>
             <Link to="/celo/delegate">
               <Button
-                style={{ width: 125, marginRight: 12 }}
                 onClick={() => null}
                 data-cy="stake-button"
+                style={{ width: 125, marginRight: 12 }}
               >
                 Vote
               </Button>
             </Link>
             <Button
               style={{ width: 125 }}
-              onClick={() => Toast.warn("⚠️ Ledger actions coming soon.")}
               data-cy="send-receive-button"
+              onClick={handleSendReceiveAction}
             >
               Send/Receive
             </Button>

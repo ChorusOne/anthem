@@ -57,6 +57,9 @@ export enum TRANSACTION_STAGES {
   "CONFIRM" = "CONFIRM",
   "PENDING" = "PENDING",
   "SUCCESS" = "SUCCESS",
+
+  // Specific to Celo:
+  "SIGN_ON_LEDGER" = "SIGN_ON_LEDGER",
 }
 
 export interface CosmosBalance {

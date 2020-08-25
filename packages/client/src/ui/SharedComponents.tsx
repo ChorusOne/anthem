@@ -1,6 +1,7 @@
 import {
   Button as BlueprintButton,
   Classes,
+  Code,
   H3,
   Icon,
   IconName,
@@ -8,10 +9,12 @@ import {
   Spinner,
 } from "@blueprintjs/core";
 import { COLORS } from "constants/colors";
+import QRCode from "qrcode.react";
 import React, { ChangeEvent } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import Loader from "react-loader-spinner";
 import styled, { CSSProperties } from "styled-components";
+import { copyTextToClipboard } from "tools/client-utils";
 import { tFnString } from "tools/i18n-utils";
 import { isGreaterThan, isLessThan } from "tools/math-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
@@ -434,3 +437,31 @@ const renderPercentChange = (percentChange: number) => {
   const sign = isGreaterThan(percentChange, 0) ? "+" : "";
   return `${sign}${percentChange.toFixed(2)}%`;
 };
+
+/** ===========================================================================
+ * Address QR Code
+ * ============================================================================
+ */
+
+export const AddressQR = ({ address }: { address: string }) => (
+  <View style={{ marginTop: 24 }}>
+    <Centered style={{ flexDirection: "column" }}>
+      <QRCode size={164} value={address} />
+      <ClickableRow onClick={() => copyTextToClipboard(address)}>
+        <Code>{address}</Code>
+        <CopyIcon style={{ marginLeft: 6 }} color="white" />
+      </ClickableRow>
+      <p style={{ marginTop: 12 }}>
+        Confirm that the copied address matches exactly.
+      </p>
+    </Centered>
+  </View>
+);
+
+const ClickableRow = styled(Row)`
+  margin-top: 24px;
+
+  :hover {
+    cursor: pointer;
+  }
+`;

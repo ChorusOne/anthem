@@ -17,6 +17,8 @@ import actions, {
  * ============================================================================
  */
 
+export type CeloCreateAccountStatus = "SETUP" | "SIGN" | "CONFIRMED" | null;
+
 export interface LedgerState {
   address: string;
   addressError: string;
@@ -24,6 +26,7 @@ export interface LedgerState {
   connected: boolean;
   ledgerAppVersionValid: boolean | undefined;
   recentAddresses: ReadonlyArray<string>;
+  celoCreateAccountStatus: CeloCreateAccountStatus;
 }
 
 export interface AddressReducerState {
@@ -37,6 +40,7 @@ const initialState: LedgerState = {
   ledgerAppVersionValid: undefined,
   network: NETWORKS.COSMOS,
   recentAddresses: StorageModule.getRecentAddresses(),
+  celoCreateAccountStatus: null,
 };
 
 const ledger = createReducer<LedgerState, ActionTypes | LoadingActionTypes>(
@@ -49,17 +53,24 @@ const ledger = createReducer<LedgerState, ActionTypes | LoadingActionTypes>(
   }))
   .handleAction(actions.connectLedgerFailure, () => ({
     ...initialState,
-    // Currently the only cause for failure
     ledgerAppVersionValid: true,
   }))
-  .handleAction(actions.connectLedgerSuccess, (state, action) => ({
+  .handleAction(actions.setCeloAccountStage, (state, action) => ({
     ...state,
-    addressError: "",
-    connected: true,
-    network: action.payload.network,
-    address: action.payload.ledgerAddress,
-    recentAddresses: StorageModule.getRecentAddresses(),
+    celoCreateAccountStatus: action.payload,
   }))
+  .handleAction(actions.connectLedgerSuccess, (state, action) => {
+    const { network, ledgerAddress, celoAddressHasAccount } = action.payload;
+    return {
+      ...state,
+      addressError: "",
+      connected: true,
+      network,
+      address: ledgerAddress,
+      recentAddresses: StorageModule.getRecentAddresses(),
+      celoCreateAccountStatus: !celoAddressHasAccount ? "SETUP" : null,
+    };
+  })
   .handleAction(actions.setAddressSuccess, (state, { payload }) => ({
     ...state,
     connected: false,
@@ -74,6 +85,11 @@ const ledger = createReducer<LedgerState, ActionTypes | LoadingActionTypes>(
   .handleAction(actions.clearAllRecentAddresses, (state, action) => ({
     ...state,
     recentAddresses: [],
+  }))
+  .handleAction(actions.closeLedgerDialog, (state, action) => ({
+    ...state,
+    celoCreateAccountStatus:
+      state.celoCreateAccountStatus === "SETUP" ? "SETUP" : null,
   }))
   .handleAction(actions.logoutSuccess, () => ({
     ...initialState,

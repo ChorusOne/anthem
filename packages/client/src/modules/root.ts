@@ -2,7 +2,9 @@ import { NormalizedCacheObject } from "apollo-cache-inmemory";
 import ApolloClient from "apollo-client";
 import { History } from "history";
 import cosmosBlockchainModule from "lib/blockchain-lib";
-import ledgerModule from "lib/cosmos-ledger-lib";
+import celoLedgerModule from "lib/celo-ledger-lib";
+import cosmosLedgerModule from "lib/cosmos-ledger-lib";
+import oasisLedgerModule from "lib/oasis-ledger-lib";
 import { combineReducers } from "redux";
 import { combineEpics, Epic } from "redux-observable";
 
@@ -75,9 +77,11 @@ const rootReducer = combineReducers({
  */
 
 export interface EpicDependencies {
-  ledger: typeof ledgerModule;
   router: History<any>;
   cosmos: typeof cosmosBlockchainModule;
+  cosmosLedgerUtil: typeof cosmosLedgerModule;
+  celoLedgerUtil: typeof celoLedgerModule;
+  oasisLedgerUtil: typeof oasisLedgerModule;
   client: ApolloClient<NormalizedCacheObject>;
 }
 

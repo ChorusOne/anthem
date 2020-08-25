@@ -2,6 +2,7 @@ import {
   assertUnreachable,
   ICosmosAccountBalances,
   ICosmosAccountInformation,
+  ICosmosTransaction,
   ICosmosValidator,
   IQuery,
 } from "@anthem/utils";
@@ -44,7 +45,6 @@ import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import styled from "styled-components";
 import {
   capitalizeString,
-  copyTextToClipboard,
   getAccountBalances,
   getBlockExplorerUrlForTransaction,
   mapRewardsToAvailableRewards,
@@ -71,6 +71,7 @@ import {
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import {
+  AddressQR,
   Button,
   Centered,
   CopyIcon,
@@ -81,8 +82,8 @@ import {
   Row,
   TextInput,
   View,
-} from "./SharedComponents";
-import Toast from "./Toast";
+} from "../SharedComponents";
+import Toast from "../Toast";
 
 /** ===========================================================================
  * Types & Config
@@ -105,6 +106,7 @@ interface IState {
   displayCustomGasSettings: boolean;
   claimsTransactionSetupError: string;
   useFullBalance: boolean;
+  displayReceiveQR: boolean;
   selectAllRewards: boolean;
   selectedRewards: ReadonlyArray<AvailableReward>;
 }
@@ -130,6 +132,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       selectedRewards: [],
       useFullBalance: false,
       selectAllRewards: false,
+      displayReceiveQR: false,
       displayCustomGasSettings: false,
       gasPrice: DEFAULT_GAS_PRICE,
       gasAmount: DEFAULT_GAS_AMOUNT,
@@ -167,6 +170,12 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         return this.renderRewardsTransactionSetup();
       case "SEND":
         return this.renderSendReceiveTransactionSetup();
+      case "LOCK_GOLD":
+      case "UNLOCK_GOLD":
+      case "VOTE_GOLD":
+      case "REVOKE_VOTES":
+      case "ACTIVATE_VOTES":
+      case "GOVERNANCE_VOTE":
       case null:
         break;
       default:
@@ -184,9 +193,25 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       fiatPriceData,
       cosmosAccountBalances,
     } = this.props;
+    const { displayReceiveQR } = this.state;
     const { address } = ledger;
     const { t, tString } = i18n;
-    const atomsConversionRate = fiatPriceData.fiatPriceData.price;
+
+    if (displayReceiveQR) {
+      return (
+        <View>
+          <AddressQR address={address} />
+          <Button
+            icon="arrow-left"
+            style={{ bottom: -16, position: "absolute" }}
+            onClick={() => this.setState({ displayReceiveQR: false })}
+          >
+            Back
+          </Button>
+        </View>
+      );
+    }
+
     return (
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
@@ -196,6 +221,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         ]}
       >
         {([accountBalancesData]: [ICosmosAccountBalances]) => {
+          const atomsConversionRate = fiatPriceData.fiatPriceData.price;
           const balances = getAccountBalances(
             accountBalancesData,
             atomsConversionRate,
@@ -249,8 +275,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     />
                     <Button
                       icon="duplicate"
-                      onClick={() => copyTextToClipboard(address)}
                       style={{ bottom: -16, position: "absolute" }}
+                      onClick={() => this.setState({ displayReceiveQR: true })}
                     >
                       Receive
                     </Button>
@@ -461,6 +487,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     } = this.props;
     const { t, tString } = i18n;
     const { selectedValidatorForDelegation } = transaction;
+    const validator = selectedValidatorForDelegation
+      ? (selectedValidatorForDelegation as ICosmosValidator)
+      : null;
     return (
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
@@ -507,8 +536,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   onClick={this.setCanEscapeKeyCloseDialog(false)}
                   data-cy="validator-composition-select-menu"
                 >
-                  {selectedValidatorForDelegation
-                    ? selectedValidatorForDelegation.description.moniker
+                  {validator
+                    ? validator.description.moniker
                     : t("Choose Validator")}
                 </Button>
               </ValidatorSelect>
@@ -772,7 +801,18 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const { i18n, transaction, ledger } = this.props;
     const { t, tString } = i18n;
 
-    const { transactionHash, confirmedTransactionHeight } = transaction;
+    if (!transaction.transactionResult) {
+      return (
+        <Centered>
+          <p>No transaction data found...</p>
+        </Centered>
+      );
+    }
+
+    const {
+      hash,
+      height,
+    } = transaction.transactionResult as ICosmosTransaction;
 
     return (
       <Centered style={{ flexDirection: "column" }}>
@@ -781,13 +821,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           {t(
             "Your transaction is successful and was included at block height {{height}}. It may take a few moments for the updates to appear in Anthem.",
             {
-              height: confirmedTransactionHeight,
+              height,
             },
           )}
         </p>
-        <TransactionHashText>{transactionHash}</TransactionHashText>
+        <TransactionHashText>{hash}</TransactionHashText>
         <CopyTextComponent
-          textToCopy={transactionHash}
+          textToCopy={hash}
           onCopy={() =>
             Toast.success(this.props.i18n.tString("Transaction hash copied."))
           }
@@ -801,10 +841,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         </CopyTextComponent>
         <Link
           style={{ marginTop: 12 }}
-          href={getBlockExplorerUrlForTransaction(
-            transactionHash,
-            ledger.network.name,
-          )}
+          href={getBlockExplorerUrlForTransaction(hash, ledger.network.name)}
         >
           {tString("View on a block explorer")}
         </Link>
@@ -1039,10 +1076,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       });
     }
 
-    if (
-      selectedValidatorForDelegation &&
-      cosmosAccountInformation.cosmosAccountInformation
-    ) {
+    const validator = selectedValidatorForDelegation as ICosmosValidator;
+
+    if (validator && cosmosAccountInformation.cosmosAccountInformation) {
       const txMsg = createDelegationTransactionMessage({
         denom,
         amount,
@@ -1050,8 +1086,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         gasAmount,
         gasPrice,
         network,
-        validatorOperatorAddress:
-          selectedValidatorForDelegation.operator_address,
+        validatorOperatorAddress: validator.operator_address,
       });
 
       const account = cosmosAccountInformation.cosmosAccountInformation as ICosmosAccountInformation;
