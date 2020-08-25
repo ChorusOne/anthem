@@ -459,6 +459,8 @@ class Portfolio extends React.PureComponent<IProps, IState> {
       const { selectedDenom } = this.state;
       const { address, network, settings, cosmosAccountHistory } = this.props;
       const fiatCurrencySymbol = settings.fiatCurrency.symbol;
+      const isNetworkDenom = selectedDenom.denom === network.denom;
+      const supportsFiatPrices = isNetworkDenom;
 
       // Calculate the portfolio data again, but force displayFiat to
       // false to get the crypto balances.
@@ -481,6 +483,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
           fiatPriceHistory,
           fiatCurrencySymbol,
           portfolioChartHistory: portfolioData,
+          supportsFiatPrices,
         });
 
         // Download the CSV data

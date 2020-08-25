@@ -22,12 +22,14 @@ export const chartExportBuilder = ({
   fiatPriceHistory,
   fiatCurrencySymbol,
   portfolioChartHistory,
+  supportsFiatPrices,
 }: {
   address: string;
   network: NetworkDefinition;
   fiatCurrencySymbol: string;
   fiatPriceHistory: IFiatPrice[];
   portfolioChartHistory: PortfolioHistoryChartData;
+  supportsFiatPrices: boolean;
 }): string => {
   const {
     availableChartData,
@@ -44,6 +46,14 @@ export const chartExportBuilder = ({
   );
 
   const fiatPriceMap = getFiatPriceHistoryMap(fiatPriceHistory, "MMM DD, YYYY");
+
+  const setFiatValue = (value: string | number) => {
+    if (supportsFiatPrices) {
+      return value;
+    } else {
+      return "n/a";
+    }
+  };
 
   // Map balances by day timestamp to help join balances and rewards data.
   const balanceMapByTime = availableChartData.data;
@@ -156,13 +166,13 @@ export const chartExportBuilder = ({
     // Add regular CSV fields.
     let CSV_DATA: ReadonlyArray<string> = [
       timestamp.replace(",", ""),
-      fiatPrice,
+      setFiatValue(fiatPrice),
       totalValue,
       balanceValue,
       delegationsValue,
       unbondingsValue,
       currentRewards,
-      fiatRewards,
+      setFiatValue(fiatRewards),
       accumulatedRewards,
       withdrawals,
       rewardsPool,
@@ -178,7 +188,7 @@ export const chartExportBuilder = ({
 
       CSV_DATA = CSV_DATA.concat([
         String(validatorCommissions),
-        validatorCommissionsFiat,
+        setFiatValue(validatorCommissionsFiat),
         validatorFields.accumulatedRewards,
         validatorFields.withdrawals,
         validatorFields.commissionsPool,
