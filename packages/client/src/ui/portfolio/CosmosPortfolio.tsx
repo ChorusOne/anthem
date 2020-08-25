@@ -484,6 +484,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
           fiatCurrencySymbol,
           portfolioChartHistory: portfolioData,
           supportsFiatPrices,
+          selectedDenom,
         });
 
         // Download the CSV data

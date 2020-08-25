@@ -63,9 +63,6 @@ export const processPortfolioHistoryData = (
     return null;
   }
 
-  console.log(selectedDenom);
-  console.log(accountHistory);
-
   const {
     balanceHistory,
     delegations,
@@ -384,6 +381,7 @@ export const mapRewardsToDailySummary = (
 export const getChartTotalGraph = (
   portfolioChartData: PortfolioChartData,
 ): ChartData => {
+  console.log(portfolioChartData);
   const {
     availableChartData,
     delegationsChartData,
