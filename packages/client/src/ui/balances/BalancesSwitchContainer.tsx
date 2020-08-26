@@ -10,6 +10,7 @@ import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
+import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { PanelMessageText } from "ui/SharedComponents";
 import {
@@ -60,15 +61,16 @@ class BalancesSwitchContainer extends React.Component<IProps, IState> {
   }
 
   render(): Nullable<JSX.Element> {
+    const { network } = this.props.ledger;
     if (this.state.hasError) {
+      const name = capitalizeString(network.name);
       return (
         <PanelMessageText>
-          {this.props.i18n.tString("Error fetching data...")}
+          Oops! We are having trouble fetching {name} data at the moment. Our
+          engineers have been notified and this will be fixed shortly.
         </PanelMessageText>
       );
     }
-
-    const { network } = this.props.ledger;
 
     if (!network.supportsBalances) {
       return (

@@ -24,6 +24,7 @@ import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
+import styled from "styled-components";
 import { throttle } from "throttle-debounce";
 import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
 import { BASE_CHART_TABS, getPortfolioTypeFromUrl } from "tools/client-utils";
@@ -242,6 +243,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
         }
       };
 
+      const supportsMultiDenom = this.tabSupportsMultipleDenom();
       const denom = this.getAppropriateDenom();
       const options = getHighchartsChartOptions({
         tString,
@@ -268,25 +270,27 @@ class Portfolio extends React.PureComponent<IProps, IState> {
             )}
             <Row>
               <View style={{ paddingTop: 12 }}>
-                <CurrencySettingsToggle selectedDenom={denom.denom} />
+                <CurrencySettingsToggle
+                  disabled={!this.tabSupportsFiatPrices()}
+                />
               </View>
               {this.renderDenomSelect()}
             </Row>
           </Row>
-          {noData ? (
-            <View
-              style={{
-                marginTop: 75,
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
+          {!supportsMultiDenom ? (
+            <EmptyChartContainer>
+              <p style={{ textAlign: "center" }}>
+                Not applicable for the selected denomination:{" "}
+                {selectedDenom.name}.
+              </p>
+            </EmptyChartContainer>
+          ) : noData ? (
+            <EmptyChartContainer>
               <H5>{t("No data exists yet.")}</H5>
               <p style={{ textAlign: "center" }}>
                 {getEmptyGraphMessage(portfolioType as BASE_CHART_TABS)}
               </p>
-            </View>
+            </EmptyChartContainer>
           ) : (
             <HighchartsReact
               options={options}
@@ -305,17 +309,14 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     const { selectedDenom } = this.state;
     const { network } = this.props;
     if (network.name === "TERRA") {
-      const DISABLED = !this.tabSupportsMultipleDenom();
       return (
         <DenomSelect
-          disabled={DISABLED}
           filterable={false}
           items={TERRA_DENOM_LIST}
           onItemSelect={this.handleSelectDenom}
           itemRenderer={this.renderDenomSelectItem}
         >
           <Button
-            disabled={DISABLED}
             category="SECONDARY"
             rightIcon="caret-down"
             data-cy="denom-select-menu"
@@ -401,7 +402,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
         this.props.history.push("/dashboard/rewards");
       }
 
-      const { denom } = this.getAppropriateDenom();
+      const { denom } = this.state.selectedDenom;
 
       const displayFiat = settings.currencySetting === "fiat";
       const result = processPortfolioHistoryData(
@@ -425,10 +426,13 @@ class Portfolio extends React.PureComponent<IProps, IState> {
   };
 
   tabSupportsMultipleDenom = () => {
+    const tab = this.props.app.activeChartTab;
+    const notSupported = tab === "STAKING";
+    if (notSupported) {
+      return this.state.selectedDenom.denom === this.props.network.denom;
+    }
+
     return true;
-    // const tab = this.props.app.activeChartTab;
-    // const notSupported = tab === "STAKING" || tab === "TOTAL";
-    // return !notSupported;
   };
 
   getChartValues = (): Nullable<ChartData> => {
@@ -453,11 +457,19 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     return null;
   };
 
+  tabSupportsFiatPrices = () => {
+    const isNetworkDenom =
+      this.state.selectedDenom.denom === this.props.network.denom;
+    const supportsFiatPrices = isNetworkDenom;
+    return supportsFiatPrices;
+  };
+
   handleDownloadCSV = () => {
     try {
       const { selectedDenom } = this.state;
       const { address, network, settings, cosmosAccountHistory } = this.props;
       const fiatCurrencySymbol = settings.fiatCurrency.symbol;
+      const supportsFiatPrices = this.tabSupportsFiatPrices();
 
       // Calculate the portfolio data again, but force displayFiat to
       // false to get the crypto balances.
@@ -480,6 +492,8 @@ class Portfolio extends React.PureComponent<IProps, IState> {
           fiatPriceHistory,
           fiatCurrencySymbol,
           portfolioChartHistory: portfolioData,
+          supportsFiatPrices,
+          selectedDenom,
         });
 
         // Download the CSV data
@@ -496,6 +510,18 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     }
   };
 }
+
+/** ===========================================================================
+ * Styles
+ * ============================================================================
+ */
+
+const EmptyChartContainer = styled.div`
+  margin-top: 75px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
 
 /** ===========================================================================
  * Props

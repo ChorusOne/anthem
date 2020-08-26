@@ -1,5 +1,5 @@
 import { ICosmosTransaction, ICosmosValidator } from "@anthem/utils";
-import { H5 } from "@blueprintjs/core";
+import { H6 } from "@blueprintjs/core";
 import React from "react";
 import {
   formatAddressString,
@@ -82,7 +82,7 @@ class CosmosTransactionList extends React.PureComponent<IProps> {
           txs.map(this.renderTransactionItem)
         ) : (
           <Centered>
-            <H5>No transactions exist</H5>
+            <H6>No transaction history exists yet.</H6>
           </Centered>
         )}
         {!isDetailView && TXS_EXIST && (

@@ -563,6 +563,17 @@ type CosmosTransaction {
   msgs: [TxMsg!]!
   timestamp: String!
   chain: String!
+  events: [CosmosTransactionEvent!]!
+}
+
+type CosmosTransactionEvent {
+  type: String!
+  attributes: [EventAttributes!]!
+}
+
+type EventAttributes {
+  key: String!
+  value: String!
 }
 
 type LogMessage {

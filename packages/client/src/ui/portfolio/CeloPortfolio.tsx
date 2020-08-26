@@ -147,7 +147,7 @@ class CeloPortfolio extends React.PureComponent<
               return null;
             };
 
-            const noData = accountHistory.length === 0;
+            const noData = !accountHistory || accountHistory.length === 0;
 
             if (noData) {
               return (

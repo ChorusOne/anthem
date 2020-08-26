@@ -1,5 +1,5 @@
 import { ICeloTransaction } from "@anthem/utils";
-import { H5 } from "@blueprintjs/core";
+import { H6 } from "@blueprintjs/core";
 import React from "react";
 import { Centered } from "ui/SharedComponents";
 import Toast from "ui/Toast";
@@ -23,16 +23,13 @@ class CeloTransactionList extends React.PureComponent<IProps> {
 
     const TXS_EXIST = transactions.length > 0;
 
-    // console.log("CELO transactions:");
-    // console.log(transactions);
-
     return (
       <React.Fragment>
         {TXS_EXIST ? (
           transactions.map(this.renderTransactionItem)
         ) : (
           <Centered>
-            <H5>No transactions exist</H5>
+            <H6>No transaction history exists yet.</H6>
           </Centered>
         )}
         {!isDetailView && TXS_EXIST && (

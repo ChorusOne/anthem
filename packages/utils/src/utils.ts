@@ -86,7 +86,8 @@ const getCosmosSdkAddressEnumsForNetwork = (name: NETWORK_NAME) => {
  */
 export const validatorAddressToOperatorAddress = (validatorAddress: string) => {
   const decodedAddress = bech32.decode(validatorAddress);
-  const operatorAddress = bech32.encode("cosmos", decodedAddress.words);
+  const prefix = validatorAddress.slice(0, validatorAddress.indexOf("valoper"));
+  const operatorAddress = bech32.encode(prefix, decodedAddress.words);
   return operatorAddress;
 };
 
