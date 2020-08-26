@@ -1,6 +1,7 @@
 import { NetworkDefinition } from "@anthem/utils";
 import { CosmosAccountHistoryQueryResult } from "graphql/queries";
 import moment from "moment-timezone";
+import { valid } from "semver";
 import { PortfolioChartData } from "ui/portfolio/CosmosPortfolio";
 import {
   ChartData,
@@ -398,7 +399,9 @@ export const getChartTotalGraph = (
   const chartData =
     Object.keys(availableChartData.data).length > 0
       ? availableChartData
-      : rewardsDailySummary;
+      : Object.keys(rewardsDailySummary.data).length > 0
+      ? rewardsDailySummary
+      : validatorDailySummary;
 
   for (const [timestamp, value] of Object.entries(chartData.data)) {
     const availableValue = value;
