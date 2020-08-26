@@ -187,11 +187,9 @@ export type ALL_POSSIBLE_CHART_TABS =
 /**
  * Get the list of chart tabs which are available for a network.
  */
-export const getChartTabsForNetwork = (
-  network: NetworkDefinition,
-  commissionsAvailable: boolean,
-) => {
+export const getChartTabsForNetwork = (network: NetworkDefinition) => {
   const result: { [key: string]: string } = {};
+  const commissionsAvailable = network.name !== "OASIS";
 
   for (const [key, value] of Object.entries(ALL_POSSIBLE_CHART_TAB_MAP)) {
     if (key in BASE_CHART_TAB_MAP || network.customChartTabs.has(key)) {

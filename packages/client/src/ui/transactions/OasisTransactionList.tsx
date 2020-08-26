@@ -1,5 +1,5 @@
 import { IOasisTransaction } from "@anthem/utils";
-import { H5 } from "@blueprintjs/core";
+import { H6 } from "@blueprintjs/core";
 import React from "react";
 import { Centered } from "ui/SharedComponents";
 import Toast from "ui/Toast";
@@ -29,7 +29,7 @@ class OasisTransactionList extends React.PureComponent<IProps> {
           transactions.map(this.renderTransactionItem)
         ) : (
           <Centered>
-            <H5>No transactions exist</H5>
+            <H6>No transaction history exists yet.</H6>
           </Centered>
         )}
         {!isDetailView && TXS_EXIST && (

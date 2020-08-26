@@ -148,7 +148,7 @@ class DashboardPage extends React.Component<IProps> {
     const { network } = ledger;
     const { pathname } = location;
 
-    const tabs = getChartTabsForNetwork(network, true);
+    const tabs = getChartTabsForNetwork(network);
 
     if (settings.isDesktop) {
       return (

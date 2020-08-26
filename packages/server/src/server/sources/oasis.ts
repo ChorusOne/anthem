@@ -265,6 +265,7 @@ const fetchAccountHistory = async (
 ): Promise<IQuery["oasisAccountHistory"]> => {
   const host = getHostFromNetworkName(network.name);
   const url = `${host}/account/${address}/history`;
+  console.log(url);
   const response = await AxiosUtil.get<OasisAccountHistory[]>(url);
   return response;
 };
