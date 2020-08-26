@@ -1,7 +1,6 @@
 import { NetworkDefinition } from "@anthem/utils";
 import { CosmosAccountHistoryQueryResult } from "graphql/queries";
 import moment from "moment-timezone";
-import { valid } from "semver";
 import { PortfolioChartData } from "ui/portfolio/CosmosPortfolio";
 import {
   ChartData,
