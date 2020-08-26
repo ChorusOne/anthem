@@ -79,7 +79,8 @@ export const processPortfolioHistoryData = (
     };
   }, {});
 
-  const firstBalance = balanceHistory[0];
+  const firstBalance =
+    balanceHistory[0] || delegatorRewards[0] || validatorCommissions[0];
   const startingDate = firstBalance && firstBalance.timestamp;
 
   const filterByDenom = (item: { denom: string }) =>
