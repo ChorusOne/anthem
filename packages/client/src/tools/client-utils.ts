@@ -1008,6 +1008,7 @@ export const adaptRawTransactionData = (
       memo: "",
       msgs: [],
       tags: [],
+      events: [],
       timestamp: String(new Date(rawTransaction.timestamp).getTime()),
     };
 

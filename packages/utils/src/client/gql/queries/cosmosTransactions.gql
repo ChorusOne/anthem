@@ -90,6 +90,13 @@ query cosmosTransactions($address: String!, $startingPage: Float, $pageSize: Flo
             }
             timestamp
             chain
+            events{
+                type
+                attributes{
+                    key
+                    value
+                }
+            }
         }
         moreResultsExist
     }
