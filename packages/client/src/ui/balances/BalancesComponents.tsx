@@ -5,7 +5,7 @@ import {
   IOasisAccountBalances,
   NetworkDefinition,
 } from "@anthem/utils";
-import { Code, Collapse, Colors, H5, Icon } from "@blueprintjs/core";
+import { Collapse, Colors, H5, Icon } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import { COLORS } from "constants/colors";
 import { CURRENCY_SETTING } from "constants/fiat";
