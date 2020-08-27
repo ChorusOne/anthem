@@ -350,8 +350,8 @@ class CeloLedgerClass implements ICeloLedger {
     console.log("[GROUP VOTES] (from getVotesForGroupByAccount):");
     console.log(`pending: ${votes.pending.toString()}`);
     console.log(`active: ${votes.active.toString()}`);
-    const tx = await election.revoke(group, address, value);
-    const receipt = await tx[0].sendAndWaitForReceipt();
+    const tx = await election.revokeActive(address, group, value);
+    const receipt = await tx.sendAndWaitForReceipt();
     console.log(receipt);
     return receipt;
   }
