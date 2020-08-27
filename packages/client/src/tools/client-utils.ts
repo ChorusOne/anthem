@@ -449,7 +449,13 @@ export const getAccountBalances = (
     );
   }
 
-  if (data.delegations) {
+  /**
+   * Staking is only supported for the main network denomination
+   * for Cosmos SDK networks.
+   */
+  const hasStakingBalance = denom === network.denom;
+
+  if (data.delegations && hasStakingBalance) {
     delegationResult = aggregateCurrencyValuesFromList(
       data.delegations,
       "shares",
