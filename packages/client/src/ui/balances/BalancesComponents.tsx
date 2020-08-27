@@ -1,9 +1,9 @@
 import {
+  coinDenomToName,
   ICeloAccountBalances,
   ICosmosAccountBalances,
   IOasisAccountBalances,
   NetworkDefinition,
-  TERRA_DENOM_LIST,
 } from "@anthem/utils";
 import { Code, Collapse, Colors, H5, Icon } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
@@ -160,7 +160,7 @@ class CosmosMultiDenominationBalances extends React.Component<
     super(props);
 
     this.state = {
-      activeDenom: TERRA_DENOM_LIST[0].denom,
+      activeDenom: props.network.denom,
     };
   }
 
@@ -186,12 +186,12 @@ class CosmosMultiDenominationBalances extends React.Component<
             overflowY: "scroll",
           }}
         >
-          {TERRA_DENOM_LIST.map(denom => {
+          {network.denomsList.map(denom => {
             const balancesResult = getAccountBalances(
               balances,
               price,
               network,
-              denom.denom,
+              denom,
               2,
             );
 
@@ -212,7 +212,7 @@ class CosmosMultiDenominationBalances extends React.Component<
             } = balancesResult;
 
             const renderBalanceItem = (crypto: string, fiat: string) => {
-              if (denom.denom !== network.denom) {
+              if (denom !== network.denom) {
                 return crypto;
               }
 
@@ -223,17 +223,17 @@ class CosmosMultiDenominationBalances extends React.Component<
               }
             };
 
+            const denomName = coinDenomToName(denom);
+
             return (
-              <MultiDenomBalance key={denom.denom}>
+              <MultiDenomBalance key={denom}>
                 <MultiDenomTitle
-                  onClick={() => this.setState({ activeDenom: denom.denom })}
+                  onClick={() => this.setState({ activeDenom: denom })}
                 >
                   <Row style={{ justifyContent: "space-between" }}>
                     <View>
-                      <b style={{ margin: 0 }}>{denom.name}</b>
-                      <Code style={{ margin: 0, marginLeft: 4 }}>
-                        {denom.denom}
-                      </Code>
+                      <b style={{ margin: 0 }}>{denomName}</b>
+                      <Code style={{ margin: 0, marginLeft: 4 }}>{denom}</Code>
                     </View>
                     <Row>
                       <b>{total}</b>
@@ -245,7 +245,7 @@ class CosmosMultiDenominationBalances extends React.Component<
                     </Row>
                   </Row>
                 </MultiDenomTitle>
-                <Collapse isOpen={denom.denom === this.state.activeDenom}>
+                <Collapse isOpen={denom === this.state.activeDenom}>
                   <MultiDenomBalanceDetail>
                     <BalanceContainer>
                       <View>

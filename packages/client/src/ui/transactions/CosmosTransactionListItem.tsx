@@ -1,10 +1,9 @@
 import {
   assertUnreachable,
+  coinDenomToName,
   ICosmosTransaction,
   ICosmosValidator,
   NetworkDefinition,
-  TERRA_DENOM_LIST,
-  TERRA_DENOMS,
 } from "@anthem/utils";
 import { Card, Elevation, Position, Tooltip } from "@blueprintjs/core";
 import {
@@ -318,7 +317,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
             {formatCurrencyAmount(
               denomToUnit(amount.amount, network.denominationSize),
             )}{" "}
-            {denomToName(amount.denom)}
+            {coinDenomToName(amount.denom)}
           </EventText>
           {amount.denom === network.denom && (
             <EventText>
@@ -426,7 +425,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
           <EventContextBox>
             <EventText style={{ fontWeight: "bold" }}>{t("Fees")}</EventText>
             <EventText>
-              {formatCurrencyAmount(txFee, 6)} {denomToName(fee.denom)}{" "}
+              {formatCurrencyAmount(txFee, 6)} {coinDenomToName(fee.denom)}{" "}
               {fee.denom === network.denom && (
                 <>
                   ({formatCurrencyAmount(fiatFees, 2)} {fiatCurrency.symbol})
@@ -555,11 +554,6 @@ export const getCosmosTransactionLabelFromType = (
     default:
       return assertUnreachable(transactionType);
   }
-};
-
-const denomToName = (denom: string) => {
-  const coin = TERRA_DENOM_LIST.find(d => d.denom === denom);
-  return coin ? coin.name : denom;
 };
 
 /** ===========================================================================

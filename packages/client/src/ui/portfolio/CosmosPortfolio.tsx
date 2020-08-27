@@ -1,9 +1,10 @@
 import {
   assertUnreachable,
   CoinDenom,
+  coinDenomToName,
+  denomToCoinDenom,
   getDefaultDenomFromNetwork,
-  TERRA_DENOM_LIST,
-  TerraDenomDetail,
+  TERRA_DENOMS_LIST,
 } from "@anthem/utils";
 import { H5, MenuItem } from "@blueprintjs/core";
 import { IItemRendererProps, Select } from "@blueprintjs/select";
@@ -65,7 +66,7 @@ interface IState {
   portfolioChartData: Nullable<PortfolioChartData>;
 }
 
-const DenomSelect = Select.ofType<TerraDenomDetail>();
+const DenomSelect = Select.ofType<CoinDenom>();
 
 /** ===========================================================================
  * React Component
@@ -165,12 +166,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
       this.calculatePortfolioData,
     );
 
-    const networkDenom = TERRA_DENOM_LIST.find(
-      x => x.denom === props.network.denom,
-    );
-    const selectedDenom = networkDenom
-      ? networkDenom
-      : getDefaultDenomFromNetwork(props.network);
+    const selectedDenom = getDefaultDenomFromNetwork(props.network);
 
     this.state = {
       selectedDenom,
@@ -312,7 +308,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
       return (
         <DenomSelect
           filterable={false}
-          items={TERRA_DENOM_LIST}
+          items={TERRA_DENOMS_LIST.map(denomToCoinDenom)}
           onItemSelect={this.handleSelectDenom}
           itemRenderer={this.renderDenomSelectItem}
         >
@@ -330,12 +326,12 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     return null;
   };
 
-  handleSelectDenom = (denom: TerraDenomDetail) => {
+  handleSelectDenom = (denom: CoinDenom) => {
     this.setState({ selectedDenom: denom }, this.calculatePortfolioData);
   };
 
   renderDenomSelectItem = (
-    denomDetail: TerraDenomDetail,
+    denomDetail: CoinDenom,
     { handleClick, modifiers }: IItemRendererProps,
   ) => {
     return (
