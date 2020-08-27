@@ -269,11 +269,11 @@ class Portfolio extends React.PureComponent<IProps, IState> {
               </Button>
             )}
             <Row>
-              <View style={{ paddingTop: 12 }}>
-                <CurrencySettingsToggle
-                  disabled={!this.tabSupportsFiatPrices()}
-                />
-              </View>
+              {this.tabSupportsFiatPrices() && (
+                <View style={{ paddingTop: 12 }}>
+                  <CurrencySettingsToggle />
+                </View>
+              )}
               {this.renderDenomSelect()}
             </Row>
           </Row>
@@ -435,6 +435,13 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     return true;
   };
 
+  tabSupportsFiatPrices = () => {
+    const isNetworkDenom =
+      this.state.selectedDenom.denom === this.props.network.denom;
+    const supportsFiatPrices = isNetworkDenom;
+    return supportsFiatPrices;
+  };
+
   getChartValues = (): Nullable<ChartData> => {
     const { app } = this.props;
     const { portfolioChartData } = this.state;
@@ -455,13 +462,6 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     }
 
     return null;
-  };
-
-  tabSupportsFiatPrices = () => {
-    const isNetworkDenom =
-      this.state.selectedDenom.denom === this.props.network.denom;
-    const supportsFiatPrices = isNetworkDenom;
-    return supportsFiatPrices;
   };
 
   handleDownloadCSV = () => {
