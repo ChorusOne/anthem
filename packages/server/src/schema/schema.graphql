@@ -563,7 +563,7 @@ type CosmosTransaction {
   msgs: [TxMsg!]!
   timestamp: String!
   chain: String!
-  events: [CosmosTransactionEvent!]!
+  events: [CosmosTransactionEvent!]
 }
 
 type CosmosTransactionEvent {
