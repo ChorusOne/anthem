@@ -115,12 +115,12 @@ export const COIN_DENOM_MAP = {
   CELO: "CELO",
 };
 
-export const coinDenomToName = (denom: string) => {
+export const coinDenomToName = (denom: string): string => {
   const name = COIN_DENOM_MAP[denom];
   return name ? name : denom;
 };
 
-export const denomToCoinDenom = (denom: string) => {
+export const denomToCoinDenom = (denom: string): CoinDenom => {
   const name = COIN_DENOM_MAP[denom];
   return { denom, name };
 };

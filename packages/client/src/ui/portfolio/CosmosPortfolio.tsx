@@ -1,7 +1,6 @@
 import {
   assertUnreachable,
   CoinDenom,
-  coinDenomToName,
   denomToCoinDenom,
   getDefaultDenomFromNetwork,
   TERRA_DENOMS_LIST,
