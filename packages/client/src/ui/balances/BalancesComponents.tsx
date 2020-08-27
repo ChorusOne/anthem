@@ -233,7 +233,6 @@ class CosmosMultiDenominationBalances extends React.Component<
                   <Row style={{ justifyContent: "space-between" }}>
                     <View>
                       <b style={{ margin: 0 }}>{denomName}</b>
-                      <Code style={{ margin: 0, marginLeft: 4 }}>{denom}</Code>
                     </View>
                     <Row>
                       <b>{total}</b>
