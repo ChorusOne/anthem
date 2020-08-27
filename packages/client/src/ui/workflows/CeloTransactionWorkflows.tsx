@@ -54,11 +54,10 @@ import { composeWithProps } from "tools/context-utils";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import {
   denomToUnit,
-  formatCurrencyAmount,
+  renderCeloCurrency,
   unitToDenom,
 } from "tools/currency-utils";
 import { bold } from "tools/i18n-utils";
-import { multiply, toBigNumber } from "tools/math-utils";
 import {
   validateEthereumAddress,
   validateLedgerTransactionAmount,
@@ -1426,24 +1425,6 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
  * Styled Components
  * ============================================================================
  */
-
-interface RenderCurrencyArgs {
-  value: string;
-  denomSize: number;
-  fiatPrice: number;
-  convertToFiat?: boolean;
-}
-
-// Helper to render Celo currency values
-const renderCeloCurrency = (args: RenderCurrencyArgs) => {
-  const { value, denomSize, fiatPrice, convertToFiat } = args;
-  let result = denomToUnit(value, denomSize, toBigNumber);
-  if (convertToFiat) {
-    result = multiply(fiatPrice, result, toBigNumber);
-  }
-
-  return result.toFixed();
-};
 
 const FormContainer = styled.div`
   margin-top: 8px;

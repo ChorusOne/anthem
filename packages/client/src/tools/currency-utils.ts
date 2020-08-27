@@ -138,3 +138,21 @@ export const calculateTransactionAmount = (
 
   return availableAmount;
 };
+
+interface RenderCurrencyArgs {
+  value: string;
+  denomSize: number;
+  fiatPrice: number;
+  convertToFiat?: boolean;
+}
+
+// Helper to render Celo currency values
+export const renderCeloCurrency = (args: RenderCurrencyArgs) => {
+  const { value, denomSize, fiatPrice, convertToFiat } = args;
+  let result = denomToUnit(value, denomSize, toBigNumber);
+  if (convertToFiat) {
+    result = multiply(fiatPrice, result, toBigNumber);
+  }
+
+  return result.toFixed();
+};
