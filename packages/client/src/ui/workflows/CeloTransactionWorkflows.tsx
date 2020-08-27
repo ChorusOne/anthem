@@ -58,6 +58,7 @@ import {
   unitToDenom,
 } from "tools/currency-utils";
 import { bold } from "tools/i18n-utils";
+import { multiply, toBigNumber } from "tools/math-utils";
 import {
   validateEthereumAddress,
   validateLedgerTransactionAmount,
@@ -637,11 +638,21 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             fiatPrice: exchangeRate.price,
             convertToFiat: true,
           });
+          console.log(totalLockedGoldBalance, balance);
           return (
             <View>
               <p>
                 Locked CELO tokens must be unlocked if you want to move them to
                 your available balance.
+              </p>
+              <p style={{ marginTop: 8 }}>
+                Note that Celo implements an unlocking period, a delay of 3 days
+                after making a request to unlock Locked Gold before it can be
+                recovered from the escrow. See more details{" "}
+                <Link href="https://docs.celo.org/celo-codebase/protocol/proof-of-stake/locked-gold">
+                  here
+                </Link>
+                .
               </p>
               <p style={{ marginTop: 8 }}>
                 Locked CELO amount:{" "}
@@ -678,7 +689,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                       checked={this.state.useFullBalance}
                       style={{ marginTop: 24 }}
                       data-cy="transaction-delegate-all-toggle"
-                      label="Lock Max"
+                      label="Unlock Max"
                       onChange={() => this.toggleFullBalance(balance)}
                     />
                     {this.props.renderConfirmArrow(
@@ -1426,11 +1437,12 @@ interface RenderCurrencyArgs {
 // Helper to render Celo currency values
 const renderCeloCurrency = (args: RenderCurrencyArgs) => {
   const { value, denomSize, fiatPrice, convertToFiat } = args;
-  let result = denomToUnit(value, denomSize, Number);
+  let result = denomToUnit(value, denomSize, toBigNumber);
   if (convertToFiat) {
-    result = fiatPrice * result;
+    result = multiply(fiatPrice, result, toBigNumber);
   }
-  return formatCurrencyAmount(result);
+
+  return result.toFixed();
 };
 
 const FormContainer = styled.div`

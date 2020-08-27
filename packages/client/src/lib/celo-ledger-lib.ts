@@ -17,6 +17,7 @@ import {
   PLACEHOLDER_TX_RECEIPT,
   REVOKE_VOTES_RECEIPT,
   TRANSFER_RECEIPT,
+  UNLOCK_RECEIPT,
 } from "./celo-mock-data";
 
 /** ===========================================================================
@@ -423,28 +424,33 @@ class MockCeloLedgerModule implements ICeloLedger {
     return PLACEHOLDER_TX_RECEIPT;
   }
 
+  async unlock() {
+    await wait(2500);
+    return UNLOCK_RECEIPT;
+  }
+
   async voteForValidatorGroup(args: CeloVoteArguments) {
     await wait(2500);
     return PLACEHOLDER_TX_RECEIPT;
   }
 
   async activateVotes() {
+    await wait(2500);
     return ACTIVATE_VOTES_RECEIPT;
   }
 
   async revokeVotes() {
+    await wait(2500);
     return REVOKE_VOTES_RECEIPT;
   }
 
   async transfer() {
+    await wait(2500);
     return TRANSFER_RECEIPT;
   }
 
   async upvoteForProposal() {
-    return PLACEHOLDER_TX_RECEIPT;
-  }
-
-  async unlock() {
+    await wait(2500);
     return PLACEHOLDER_TX_RECEIPT;
   }
 
