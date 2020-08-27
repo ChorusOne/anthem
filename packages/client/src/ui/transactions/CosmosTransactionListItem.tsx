@@ -1,5 +1,6 @@
 import {
   assertUnreachable,
+  coinDenomToName,
   ICosmosTransaction,
   ICosmosValidator,
   NetworkDefinition,
@@ -316,7 +317,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
             {formatCurrencyAmount(
               denomToUnit(amount.amount, network.denominationSize),
             )}{" "}
-            {amount.denom}
+            {coinDenomToName(amount.denom)}
           </EventText>
           {amount.denom === network.denom && (
             <EventText>
@@ -424,7 +425,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
           <EventContextBox>
             <EventText style={{ fontWeight: "bold" }}>{t("Fees")}</EventText>
             <EventText>
-              {formatCurrencyAmount(txFee, 6)} {fee.denom}{" "}
+              {formatCurrencyAmount(txFee, 6)} {coinDenomToName(fee.denom)}{" "}
               {fee.denom === network.denom && (
                 <>
                   ({formatCurrencyAmount(fiatFees, 2)} {fiatCurrency.symbol})

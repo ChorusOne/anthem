@@ -1,9 +1,9 @@
 import {
   assertUnreachable,
   CoinDenom,
+  denomToCoinDenom,
   getDefaultDenomFromNetwork,
-  TERRA_DENOM_LIST,
-  TerraDenomDetail,
+  TERRA_DENOMS_LIST,
 } from "@anthem/utils";
 import { H5, MenuItem } from "@blueprintjs/core";
 import { IItemRendererProps, Select } from "@blueprintjs/select";
@@ -65,7 +65,7 @@ interface IState {
   portfolioChartData: Nullable<PortfolioChartData>;
 }
 
-const DenomSelect = Select.ofType<TerraDenomDetail>();
+const DenomSelect = Select.ofType<CoinDenom>();
 
 /** ===========================================================================
  * React Component
@@ -165,12 +165,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
       this.calculatePortfolioData,
     );
 
-    const networkDenom = TERRA_DENOM_LIST.find(
-      x => x.denom === props.network.denom,
-    );
-    const selectedDenom = networkDenom
-      ? networkDenom
-      : getDefaultDenomFromNetwork(props.network);
+    const selectedDenom = getDefaultDenomFromNetwork(props.network);
 
     this.state = {
       selectedDenom,
@@ -269,11 +264,11 @@ class Portfolio extends React.PureComponent<IProps, IState> {
               </Button>
             )}
             <Row>
-              <View style={{ paddingTop: 12 }}>
-                <CurrencySettingsToggle
-                  disabled={!this.tabSupportsFiatPrices()}
-                />
-              </View>
+              {this.tabSupportsFiatPrices() && (
+                <View style={{ paddingTop: 12 }}>
+                  <CurrencySettingsToggle />
+                </View>
+              )}
               {this.renderDenomSelect()}
             </Row>
           </Row>
@@ -312,7 +307,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
       return (
         <DenomSelect
           filterable={false}
-          items={TERRA_DENOM_LIST}
+          items={TERRA_DENOMS_LIST.map(denomToCoinDenom)}
           onItemSelect={this.handleSelectDenom}
           itemRenderer={this.renderDenomSelectItem}
         >
@@ -330,12 +325,12 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     return null;
   };
 
-  handleSelectDenom = (denom: TerraDenomDetail) => {
+  handleSelectDenom = (denom: CoinDenom) => {
     this.setState({ selectedDenom: denom }, this.calculatePortfolioData);
   };
 
   renderDenomSelectItem = (
-    denomDetail: TerraDenomDetail,
+    denomDetail: CoinDenom,
     { handleClick, modifiers }: IItemRendererProps,
   ) => {
     return (
@@ -435,6 +430,13 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     return true;
   };
 
+  tabSupportsFiatPrices = () => {
+    const isNetworkDenom =
+      this.state.selectedDenom.denom === this.props.network.denom;
+    const supportsFiatPrices = isNetworkDenom;
+    return supportsFiatPrices;
+  };
+
   getChartValues = (): Nullable<ChartData> => {
     const { app } = this.props;
     const { portfolioChartData } = this.state;
@@ -455,13 +457,6 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     }
 
     return null;
-  };
-
-  tabSupportsFiatPrices = () => {
-    const isNetworkDenom =
-      this.state.selectedDenom.denom === this.props.network.denom;
-    const supportsFiatPrices = isNetworkDenom;
-    return supportsFiatPrices;
   };
 
   handleDownloadCSV = () => {

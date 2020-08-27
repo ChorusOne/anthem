@@ -15,6 +15,7 @@ export interface NetworkDefinition extends NetworkFeatureMeta {
   available: boolean; // Flag to officially show/hide the network in Anthem
   name: NETWORK_NAME;
   denom: COIN_DENOMS;
+  denomsList: Array<Partial<COIN_DENOMS>>;
   descriptor: string;
   chainId: string;
   cryptoCompareTicker: string;
@@ -94,18 +95,35 @@ export interface CoinDenom {
   name: string;
 }
 
-export interface TerraDenomDetail extends CoinDenom {
-  denom: TERRA_DENOMS;
-  name: string;
-}
-
-export const TERRA_DENOM_LIST: TerraDenomDetail[] = [
-  { denom: "uluna", name: "LUNA" },
-  { denom: "ukrw", name: "TerraKRW" },
-  { denom: "uusd", name: "TerraUSD" },
-  { denom: "usdr", name: "TerraSDR" },
-  { denom: "umnt", name: "Terra Mongolian Tughrik" },
+export const TERRA_DENOMS_LIST: TERRA_DENOMS[] = [
+  "ukrw",
+  "uluna",
+  "uusd",
+  "usdr",
+  "umnt",
 ];
+
+export const COIN_DENOM_MAP = {
+  uluna: "LUNA",
+  ukrw: "TerraKRW",
+  uusd: "TerraUSD",
+  usdr: "TerraSDR",
+  umnt: "Terra Mongolian Tughrik",
+  uatom: "ATOM",
+  ukava: "KAVA",
+  AMBR: "AMBR",
+  CELO: "CELO",
+};
+
+export const coinDenomToName = (denom: string): string => {
+  const name = COIN_DENOM_MAP[denom];
+  return name ? name : denom;
+};
+
+export const denomToCoinDenom = (denom: string): CoinDenom => {
+  const name = COIN_DENOM_MAP[denom];
+  return { denom, name };
+};
 
 export const getDefaultDenomFromNetwork = (
   network: NetworkDefinition,
@@ -121,6 +139,7 @@ const NETWORKS: NetworksMap = {
     available: true,
     name: "COSMOS",
     denom: "uatom",
+    denomsList: ["uatom"],
     descriptor: "ATOM",
     chainId: "cosmoshub-3",
     cryptoCompareTicker: "ATOM",
@@ -143,6 +162,7 @@ const NETWORKS: NetworksMap = {
     available: true,
     name: "TERRA",
     denom: "uluna",
+    denomsList: TERRA_DENOMS_LIST,
     descriptor: "LUNA",
     chainId: "columbus-3",
     cryptoCompareTicker: "LUNA",
@@ -164,6 +184,7 @@ const NETWORKS: NetworksMap = {
     available: true,
     name: "KAVA",
     denom: "ukava",
+    denomsList: ["ukava"],
     descriptor: "KAVA",
     chainId: "kava-3",
     cryptoCompareTicker: "KAVA",
@@ -186,6 +207,7 @@ const NETWORKS: NetworksMap = {
     available: true,
     name: "CELO",
     denom: "CELO",
+    denomsList: ["CELO"],
     descriptor: "CELO",
     chainId: "celo",
     cryptoCompareTicker: "CELO",
@@ -207,6 +229,7 @@ const NETWORKS: NetworksMap = {
     available: true,
     name: "OASIS",
     denom: "AMBR", // For Amber testnet
+    denomsList: ["AMBR"],
     descriptor: "AMBR",
     chainId: "oasis",
     cryptoCompareTicker: "OASIS",

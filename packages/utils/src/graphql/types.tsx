@@ -366,7 +366,7 @@ export interface ICosmosTransaction {
   msgs: ITxMsg[];
   timestamp: Scalars["String"];
   chain: Scalars["String"];
-  events: ICosmosTransactionEvent[];
+  events: Maybe<ICosmosTransactionEvent[]>;
 }
 
 export interface ICosmosTransactionEvent {
@@ -1515,14 +1515,14 @@ export type ICosmosTransactionQuery = (
         { __typename?: "MsgWithdrawValidatorCommission" }
         & Pick<IMsgWithdrawValidatorCommission, "validator_address">
       )> }
-    )>, events: Array<(
+    )>, events: Maybe<Array<(
       { __typename?: "CosmosTransactionEvent" }
       & Pick<ICosmosTransactionEvent, "type">
       & { attributes: Array<(
         { __typename?: "EventAttributes" }
         & Pick<IEventAttributes, "key" | "value">
       )> }
-    )> }
+    )>> }
   ) }
 );
 
@@ -1600,14 +1600,14 @@ export type ICosmosTransactionsQuery = (
           { __typename?: "MsgWithdrawValidatorCommission" }
           & Pick<IMsgWithdrawValidatorCommission, "validator_address">
         )> }
-      )>, events: Array<(
+      )>, events: Maybe<Array<(
         { __typename?: "CosmosTransactionEvent" }
         & Pick<ICosmosTransactionEvent, "type">
         & { attributes: Array<(
           { __typename?: "EventAttributes" }
           & Pick<IEventAttributes, "key" | "value">
         )> }
-      )> }
+      )>> }
     )> }
   ) }
 );
