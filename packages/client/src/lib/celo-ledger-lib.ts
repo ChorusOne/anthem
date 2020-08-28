@@ -15,7 +15,9 @@ import Web3 from "web3";
 import {
   ACTIVATE_VOTES_RECEIPT,
   PLACEHOLDER_TX_RECEIPT,
+  REVOKE_VOTES_RECEIPT,
   TRANSFER_RECEIPT,
+  UNLOCK_RECEIPT,
 } from "./celo-mock-data";
 
 /** ===========================================================================
@@ -331,27 +333,12 @@ class CeloLedgerClass implements ICeloLedger {
     const { group, address, amount } = args;
     const value = new BigNumber(amount);
 
-    this.kit.defaultAccount = address;
     const election = await this.kit.contracts.getElection();
-    const x = await election.getVoter(address);
-    const { pending, active } = x.votes[0];
     console.log(
       `Revoking ${value.toString()} votes for address: ${address} from group: ${group}`,
     );
-    console.warn("[DEBUG]:");
-    console.log("[VOTER] (from election.getVoter):");
-    console.log(`pending: ${pending.toString()}`);
-    console.log(`active: ${active.toString()}`);
-    const share = await election.getVoterShare(address);
-    console.log("[VOTER] (from election.getVoterShare):");
-    const y = share["81cef0668e15639d0b101bdc3067699309d73bed"];
-    console.log(y.toString());
-    const votes = await election.getVotesForGroupByAccount(address, group);
-    console.log("[GROUP VOTES] (from getVotesForGroupByAccount):");
-    console.log(`pending: ${votes.pending.toString()}`);
-    console.log(`active: ${votes.active.toString()}`);
-    const tx = await election.revoke(group, address, value);
-    const receipt = await tx[0].sendAndWaitForReceipt();
+    const tx = await election.revokeActive(address, group, value);
+    const receipt = await tx.sendAndWaitForReceipt();
     console.log(receipt);
     return receipt;
   }
@@ -437,28 +424,33 @@ class MockCeloLedgerModule implements ICeloLedger {
     return PLACEHOLDER_TX_RECEIPT;
   }
 
+  async unlock() {
+    await wait(2500);
+    return UNLOCK_RECEIPT;
+  }
+
   async voteForValidatorGroup(args: CeloVoteArguments) {
     await wait(2500);
     return PLACEHOLDER_TX_RECEIPT;
   }
 
   async activateVotes() {
+    await wait(2500);
     return ACTIVATE_VOTES_RECEIPT;
   }
 
   async revokeVotes() {
-    return PLACEHOLDER_TX_RECEIPT;
+    await wait(2500);
+    return REVOKE_VOTES_RECEIPT;
   }
 
   async transfer() {
+    await wait(2500);
     return TRANSFER_RECEIPT;
   }
 
   async upvoteForProposal() {
-    return PLACEHOLDER_TX_RECEIPT;
-  }
-
-  async unlock() {
+    await wait(2500);
     return PLACEHOLDER_TX_RECEIPT;
   }
 
