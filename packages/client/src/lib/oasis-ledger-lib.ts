@@ -7,13 +7,15 @@ import { wait } from "tools/client-utils";
 
 /** ===========================================================================
  * Oasis Ledger Utils
+ * ---------------------------------------------------------------------------
+ * Docs: https://github.com/Zondax/ledger-oasis-js
  * ============================================================================
  */
 
 /**
  * Handle getting the Celo Ledger transport.
  */
-const getOasisLedgerTransport = () => {
+const getOasisLedgerTransport = async () => {
   if (window.USB) {
     return TransportUSB.create();
   } else if (window.u2f) {
@@ -42,7 +44,7 @@ class OasisLedgerClass implements IOasisLedger {
 
   async connect() {
     // Given a transport (U2F/HIF/WebUSB) it is possible instantiate the app
-    const transport = getOasisLedgerTransport();
+    const transport = await getOasisLedgerTransport();
     const app = new OasisApp(transport);
 
     this.app = app;
@@ -50,6 +52,14 @@ class OasisLedgerClass implements IOasisLedger {
 
   disconnect() {
     this.app = null;
+  }
+
+  async showAddress() {
+    if (!this.app) {
+      throw new Error("Not initialized yet!");
+    }
+
+    await this.app.showAddressAndPubKey(this.path);
   }
 
   async getAddress() {
