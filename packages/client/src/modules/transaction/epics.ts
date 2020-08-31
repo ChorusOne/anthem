@@ -94,6 +94,8 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
                 );
               }
             }
+          case "POLKADOT":
+            return Actions.signTransactionFailure();
           case "OASIS":
             const msg = "Signing Oasis transactions is not supported yet.";
             console.warn(msg);

@@ -34,8 +34,8 @@
     "@lunie/cosmos-ledger": "0.1.7",
     "@polkadot/api": "^1.26.1",
     "@polkadot/keyring": "^3.0.1",
-    "@zondax/ledger-polkadot": "^0.11.0",
     "@types/qrcode.react": "^1.0.1",
+    "@zondax/ledger-polkadot": "^0.11.0",
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-client": "^2.6.3",
     "apollo-link-http": "^1.5.15",
@@ -82,7 +82,7 @@
     "swipyjs": "^0.0.5",
     "throttle-debounce": "^2.1.0",
     "typesafe-actions": "^4.4.2",
-    "typescript": "3.5.2",
+    "typescript": "3.9.7",
     "web3": "^1.2.7"
   },
   "devDependencies": {
