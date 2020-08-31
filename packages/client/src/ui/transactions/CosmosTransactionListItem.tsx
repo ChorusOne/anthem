@@ -90,6 +90,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   render(): Nullable<JSX.Element> {
     const { transaction } = this.props;
     const messages = this.getTransactionMessages(transaction);
+    console.log(transaction);
     return this.renderTransaction(transaction, messages);
   }
 
@@ -145,9 +146,6 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderMessage = (data: CosmosTransactionItemData) => {
-    console.log(this.props.transaction);
-    console.log(data);
-
     if (data.type === COSMOS_TRANSACTION_TYPES.SUBMIT_PROPOSAL) {
       return this.renderGovernanceSubmitProposalTransaction(
         data as GovernanceSubmitProposalMessageData,

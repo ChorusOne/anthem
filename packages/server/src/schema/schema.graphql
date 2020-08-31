@@ -573,7 +573,7 @@ type CosmosTransactionEvent {
 
 type EventAttributes {
   key: String!
-  value: String!
+  value: String
 }
 
 type LogMessage {
