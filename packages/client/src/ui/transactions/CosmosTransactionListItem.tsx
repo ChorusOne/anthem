@@ -145,6 +145,9 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderMessage = (data: CosmosTransactionItemData) => {
+    console.log(this.props.transaction);
+    console.log(data);
+
     if (data.type === COSMOS_TRANSACTION_TYPES.SUBMIT_PROPOSAL) {
       return this.renderGovernanceSubmitProposalTransaction(
         data as GovernanceSubmitProposalMessageData,
@@ -331,6 +334,10 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderAddressBox = (address: string, titleText: string) => {
+    if (!address) {
+      return null;
+    }
+
     return (
       <ClickableEventRow onClick={this.handleLinkToAddress(address)}>
         <EventIconBox>
