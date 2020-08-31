@@ -9,7 +9,7 @@
     "setup": "cp sample.env .env",
     "dev": "REACT_APP_DEV=true yarn start",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts --max_old_space_size=4096 build",
     "prod": "serve build -s -p 3000",
     "jest": "react-scripts test --env=jsdom --transformIgnorePatterns 'node_modules/(?!(react-syntax-highlighter)/)'",
     "eject": "react-scripts eject",
