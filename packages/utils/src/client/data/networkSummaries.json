@@ -2,62 +2,36 @@
   "networkSummaries": [
     {
       "name": "COSMOS",
-<<<<<<< HEAD
-      "tokenPrice": 3.803,
-      "lastDayChange": 3.2582134129785527,
-      "marketCapitalization": 983925952.7821531,
-=======
       "tokenPrice": 5.715,
       "lastDayChange": 5.384473538631751,
       "marketCapitalization": 1484183069.7952738,
->>>>>>> master
       "expectedReward": 9,
       "inflation": 7.000000000000001,
       "supportsLedger": true
     },
     {
       "name": "TERRA",
-<<<<<<< HEAD
-      "tokenPrice": 0.3846754653,
-      "lastDayChange": -0.7984031936127656,
-      "marketCapitalization": 383556893.7299917,
-=======
       "tokenPrice": 0.5191638368,
       "lastDayChange": -14.957757296466987,
       "marketCapitalization": 517670038.5664219,
->>>>>>> master
       "expectedReward": 13,
       "inflation": null,
       "supportsLedger": true
     },
     {
       "name": "KAVA",
-<<<<<<< HEAD
-      "tokenPrice": 2.551,
-      "lastDayChange": -2.521971723347338,
-      "marketCapitalization": 269947300.5873925,
-      "expectedReward": 9,
-      "inflation": 5.1857056665774195,
-=======
       "tokenPrice": 4.243,
       "lastDayChange": 3.4878048780487974,
       "marketCapitalization": 453918166.856427,
       "expectedReward": 9,
       "inflation": 5.074265486737847,
->>>>>>> master
       "supportsLedger": true
     },
     {
       "name": "CELO",
-<<<<<<< HEAD
-      "tokenPrice": 1.78018827,
-      "lastDayChange": -2.068126520681262,
-      "marketCapitalization": 328352166.02496,
-=======
       "tokenPrice": 2.569444864,
       "lastDayChange": -1.7040358744394646,
       "marketCapitalization": 473928966.275072,
->>>>>>> master
       "expectedReward": 8,
       "inflation": null,
       "supportsLedger": true
