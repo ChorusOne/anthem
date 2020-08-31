@@ -17,7 +17,6 @@ import { composeWithProps } from "tools/context-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import GovernanceSwitchContainer from "ui/governance/GovernanceSwitchContainer";
 import KeyboardShortcutsComponent from "ui/KeyboardShortcutsComponent";
-import LedgerDialogComponents from "ui/LedgerDialogWorkflow";
 import LogoutAlertComponent from "ui/LogoutAlert";
 import NotificationsBanner from "ui/NotificationsBanner";
 import DashboardPage from "ui/pages/DashboardPage";
@@ -28,6 +27,7 @@ import SettingsPage from "ui/pages/SettingsPage";
 import SideMenuComponent from "ui/SideMenu";
 import TransactionDetailContainer from "ui/transactions/TransactionDetailContainer";
 import ValidatorsSwitchContainer from "ui/validators/ValidatorsSwitchContainer";
+import LedgerDialogComponents from "ui/workflows/LedgerDialogWorkflow";
 
 /** ===========================================================================
  * React Component

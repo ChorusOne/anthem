@@ -1,5 +1,6 @@
 import {
   assertUnreachable,
+  getDefaultDenomFromNetwork,
   IOasisAccountHistory,
   NetworkDefinition,
 } from "@anthem/utils";
@@ -114,22 +115,7 @@ class OasisPortfolio extends React.PureComponent<
               app.activeChartTab,
             );
 
-            if (!chartData) {
-              return null;
-            }
-
-            const options = getHighchartsChartOptions({
-              tString,
-              network,
-              fullSize,
-              chartData,
-              isDarkTheme,
-              fiatCurrency,
-              currencySetting,
-            });
-
-            const noData = Object.keys(chartData.data).length === 0;
-            if (noData) {
+            if (!chartData || Object.keys(chartData.data).length === 0) {
               return (
                 <View style={{ paddingTop: 110 }}>
                   <p style={{ margin: 0, textAlign: "center" }}>
@@ -138,6 +124,18 @@ class OasisPortfolio extends React.PureComponent<
                 </View>
               );
             }
+
+            const denom = getDefaultDenomFromNetwork(network);
+            const options = getHighchartsChartOptions({
+              denom,
+              tString,
+              network,
+              fullSize,
+              chartData,
+              isDarkTheme,
+              fiatCurrency,
+              currencySetting,
+            });
 
             const { activeChartTab } = app;
             switch (activeChartTab) {

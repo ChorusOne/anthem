@@ -1,6 +1,5 @@
 import {
   assertUnreachable,
-  COIN_DENOMS,
   deriveNetworkFromAddress,
   getValidatorAddressFromDelegatorAddress,
   ICeloValidatorGroup,
@@ -18,8 +17,8 @@ import {
 import { ApolloError } from "apollo-client";
 import BigNumber from "bignumber.js";
 import queryString from "query-string";
-import { AvailableReward } from "ui/CreateTransactionForm";
 import Toast from "ui/Toast";
+import { AvailableReward } from "ui/workflows/CosmosTransactionWorkflows";
 import {
   convertCryptoToFiat,
   denomToUnit,
@@ -188,11 +187,9 @@ export type ALL_POSSIBLE_CHART_TABS =
 /**
  * Get the list of chart tabs which are available for a network.
  */
-export const getChartTabsForNetwork = (
-  network: NetworkDefinition,
-  commissionsAvailable: boolean,
-) => {
+export const getChartTabsForNetwork = (network: NetworkDefinition) => {
   const result: { [key: string]: string } = {};
+  const commissionsAvailable = network.name !== "OASIS";
 
   for (const [key, value] of Object.entries(ALL_POSSIBLE_CHART_TAB_MAP)) {
     if (key in BASE_CHART_TAB_MAP || network.customChartTabs.has(key)) {
@@ -309,11 +306,10 @@ export const getBlockExplorerUrlForTransaction = (
       return `https://kava.mintscan.io/txs/${hash}`;
     case "TERRA":
       return `https://terra.stake.id/?#/tx/${hash}`;
+    case "CELO":
+      return `https://rc1-blockscout.celo-testnet.org/tx/${hash}`;
     case "OASIS":
       console.warn("[TODO]: Implement Block Explorer url for Oasis");
-      return "";
-    case "CELO":
-      console.warn("[TODO]: Implement Block Explorer url for Celo");
       return "";
     case "POLKADOT":
       console.warn("[TODO]: Implement Block Explorer url for Polkadot");
@@ -327,7 +323,7 @@ export const getBlockExplorerUrlForTransaction = (
  * Find a denom `ICosmosBalance` in a list of balances. The denom may not exist.
  */
 const findDenomsInList = (
-  denom: COIN_DENOMS,
+  denom: string,
   list: Maybe<ICosmosBalance[]>,
 ): Nullable<ICosmosBalance[]> => {
   if (!list) {
@@ -402,9 +398,10 @@ export const getAccountBalances = (
   accountBalancesData: ICosmosAccountBalances | undefined,
   rate: number,
   network: NetworkDefinition,
+  denom: string,
   maximumFractionDigits?: number,
 ): AccountBalancesResult => {
-  const { denom, denominationSize } = network;
+  const { denominationSize } = network;
   const defaultResult = {
     balance: "",
     rewards: "",
@@ -455,7 +452,13 @@ export const getAccountBalances = (
     );
   }
 
-  if (data.delegations) {
+  /**
+   * Staking is only supported for the main network denomination
+   * for Cosmos SDK networks.
+   */
+  const hasStakingBalance = denom === network.denom;
+
+  if (data.delegations && hasStakingBalance) {
     delegationResult = aggregateCurrencyValuesFromList(
       data.delegations,
       "shares",
@@ -958,13 +961,11 @@ export const copyTextToClipboard = (text: string) => {
 };
 
 /**
- * Format a chain id, e.g. cosmoshub-2 -> Cosmos Hub 2.
- * NOTE: This is hard-coded to format cosmos network chain
- * ids and will need to be updated to support other networks.
+ * Format a chain id. Nothing happens now but we could add formatting
+ * in the future.
  */
 export const justFormatChainString = (chain: string) => {
-  const id = chain.slice(-1);
-  return `Cosmos Hub ${id}`;
+  return chain;
 };
 
 /**
@@ -1016,6 +1017,7 @@ export const adaptRawTransactionData = (
       memo: "",
       msgs: [],
       tags: [],
+      events: [],
       timestamp: String(new Date(rawTransaction.timestamp).getTime()),
     };
 

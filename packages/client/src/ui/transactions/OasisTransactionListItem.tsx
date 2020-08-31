@@ -95,7 +95,11 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
       case IOasisTransactionType.EscrowTake:
       case IOasisTransactionType.Burn: {
         const event = transaction.data as IOasisBurnEvent;
-        return this.renderAddressBox(event.owner, "Owner");
+        if (event.owner) {
+          return this.renderAddressBox(event.owner, "Owner");
+        } else {
+          return null;
+        }
       }
       case IOasisTransactionType.Transfer: {
         const event = transaction.data as IOasisTransferEvent;

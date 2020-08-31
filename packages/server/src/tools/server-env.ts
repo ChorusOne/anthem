@@ -38,7 +38,7 @@ const OASIS_EXTRACTOR_API = getenv.string("OASIS_EXTRACTOR_API");
 
 // Database names
 const COSMOS_DB = getenv.string("COSMOS_DB", "cosmos4");
-const TERRA_DB = getenv.string("TERRA_DB", "terra");
+const TERRA_DB = getenv.string("TERRA_DB", "columbus3dev");
 const KAVA_DB = getenv.string("KAVA_DB", "kava");
 
 const ENABLE_GRAPHIQL = !DISABLE_GRAPHIQL;
@@ -56,7 +56,7 @@ const ENV = {
   RECORD_CLIENT_DATA,
   CRYPTO_COMPARE_API_KEY,
   COSMOS_DB,
-  TERRA_DB,
+  TERRA_DB: "columbus3dev",
   KAVA_DB,
   KAVA_LCD_NODE,
   TERRA_LCD_NODE,

@@ -30,6 +30,7 @@ import {
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import { SettingsState } from "modules/settings/store";
+import { Vote } from "modules/transaction/store";
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
@@ -120,6 +121,7 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
                 proposals={proposals}
                 address={ledger.address}
                 setAddress={setAddress}
+                handleVote={this.handleVote}
                 governanceTransactionHistory={governanceHistory}
               />
             );
@@ -128,14 +130,27 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
       </View>
     );
   }
+
+  handleVote = (proposal: any, vote: Vote) => {
+    if (!this.props.ledger.connected) {
+      this.props.setSigninNetworkName(this.props.network.name);
+    }
+
+    this.props.setGovernanceVoteDetails({ vote, proposal });
+
+    // Open the ledger dialog
+    this.props.openLedgerDialog({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "GOVERNANCE_VOTE",
+    });
+  };
 }
 
 /** ===========================================================================
  * Types & Config
  * ============================================================================
  */
-
-type Vote = "yes" | "no" | "abstain";
 
 interface IState {
   vote: Nullable<Vote>;
@@ -151,6 +166,7 @@ interface CeloGovernanceComponentProps {
   proposals: GenericProposalHistory[];
   governanceTransactionHistory: ICeloTransaction[];
   setAddress: typeof Modules.actions.ledger.setAddress;
+  handleVote: (proposal: any, vote: Vote) => void;
 }
 
 /** ===========================================================================
@@ -468,11 +484,13 @@ class CeloGovernanceComponent extends React.Component<
   };
 
   handleVote = () => {
-    const { vote } = this.state;
+    const { vote, selectedProposal } = this.state;
     if (!vote) {
-      Toast.warn("Please selected a vote.");
+      Toast.warn("Please select a vote.");
+    } else if (!selectedProposal) {
+      Toast.warn("Please select a proposal to vote.");
     } else {
-      Toast.warn("Governance voting coming soon...");
+      this.props.handleVote(selectedProposal, vote);
     }
   };
 
@@ -654,28 +672,28 @@ const VotingBar = (votingBarProps: VotingBarProps) => {
 
   return (
     <View>
-      <Row style={{ width: "100%", marginTop: 12, height: 45 }}>
+      <Row style={{ width: "100%", marginTop: 8, height: 35 }}>
         <VoteBox style={{ width: yes, background: COLORS.CHORUS }} />
         <VoteBox style={{ width: no, background: COLORS.ERROR }} />
         <VoteBox style={{ width: abstain, background: COLORS.DARK_TEXT }} />
         <VoteBox style={{ width: remaining, background: COLORS.DARK_GRAY }} />
       </Row>
-      <Row style={{ marginTop: 12, justifyContent: "flex-start" }}>
+      <Row style={{ marginTop: 8, justifyContent: "flex-start" }}>
         <Row style={{ marginRight: 10 }}>
           <Square style={{ background: COLORS.CHORUS }} />
-          <Bold>Yes ({votes.yes}%)</Bold>
+          <Bold>Yes ({votes.yes.toFixed(2)}%)</Bold>
         </Row>
         <Row style={{ marginRight: 10 }}>
           <Square style={{ background: COLORS.ERROR }} />
-          <Bold>No ({votes.no}%)</Bold>
+          <Bold>No ({votes.no.toFixed(2)}%)</Bold>
         </Row>
         <Row style={{ marginRight: 10 }}>
           <Square style={{ background: COLORS.DARK_TEXT }} />
-          <Bold>Abstain ({votes.abstain}%)</Bold>
+          <Bold>Abstain ({votes.abstain.toFixed(2)}%)</Bold>
         </Row>
         <Row style={{ marginRight: 10 }}>
           <Square style={{ background: COLORS.DARK_GRAY }} />
-          <Bold>Remaining ({votes.remaining}%)</Bold>
+          <Bold>Remaining ({votes.remaining.toFixed(2)}%)</Bold>
         </Row>
       </Row>
     </View>
@@ -729,10 +747,16 @@ const mapStateToProps = (state: ReduxStoreState) => ({
   i18n: i18nSelector(state),
   settings: Modules.selectors.settings(state),
   ledger: Modules.selectors.ledger.ledgerSelector(state),
+  network: Modules.selectors.ledger.networkSelector(state),
 });
 
 const dispatchProps = {
   setAddress: Modules.actions.ledger.setAddress,
+  openLedgerDialog: Modules.actions.ledger.openLedgerDialog,
+  setSigninNetworkName: Modules.actions.ledger.setSigninNetworkName,
+  openSelectNetworkDialog: Modules.actions.ledger.openSelectNetworkDialog,
+  setGovernanceVoteDetails:
+    Modules.actions.transaction.setGovernanceVoteDetails,
 };
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;

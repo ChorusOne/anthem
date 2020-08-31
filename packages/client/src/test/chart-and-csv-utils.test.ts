@@ -10,6 +10,7 @@ describe("chart-and-csv-utils", () => {
       cosmosAccountHistory as any,
       false,
       NETWORKS.COSMOS,
+      "uatom",
     );
 
     const result = chartExportBuilder({
@@ -18,7 +19,11 @@ describe("chart-and-csv-utils", () => {
       fiatPriceHistory,
       fiatCurrencySymbol: "USD",
       portfolioChartHistory,
+      supportsFiatPrices: true,
+      selectedDenom: { denom: "uatom", name: "ATOM" },
     });
+
+    // console.log(result);
 
     // Perform assertions on a row of CSV data
     const checkRow = (row: string[]) => {
@@ -82,7 +87,7 @@ describe("chart-and-csv-utils", () => {
     // Get all the rows of data
     const dataRows = result
       .split("\n")
-      .slice(5)
+      .slice(7)
       .filter(Boolean);
 
     // Check that each row sums correctly

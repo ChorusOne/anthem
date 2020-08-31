@@ -15,6 +15,7 @@ export interface NetworkDefinition extends NetworkFeatureMeta {
   available: boolean; // Flag to officially show/hide the network in Anthem
   name: NETWORK_NAME;
   denom: COIN_DENOMS;
+  denomsList: Array<Partial<COIN_DENOMS>>;
   descriptor: string;
   chainId: string;
   cryptoCompareTicker: string;
@@ -52,9 +53,9 @@ const NETWORK_ADDRESS_DEFAULTS: { [key: string]: Addresses } = {
     tx_hash: "E0BC81E3B76F70466D8F235F02EDD3F3E23E8C52A40D27A650BC14A9E6F8239C",
   },
   TERRA: {
-    account: "",
-    validator: "",
-    tx_hash: "",
+    account: "terra15urq2dtp9qce4fyc85m6upwm9xul30496lytpd",
+    validator: "terravaloper15urq2dtp9qce4fyc85m6upwm9xul30496sgk37",
+    tx_hash: "9D8F4938F842A84DF39D793F9FFE6491C919230828507BCC4E58B187BE88064D",
   },
   KAVA: {
     account: "",
@@ -83,7 +84,15 @@ const NETWORK_ADDRESS_DEFAULTS: { [key: string]: Addresses } = {
  * ============================================================================
  */
 
-export type COIN_DENOMS = "uatom" | "ukava" | "uluna" | "AMBR" | "CELO" | "DOT";
+export type TERRA_DENOMS = "ukrw" | "uluna" | "uusd" | "usdr" | "umnt";
+
+export type COIN_DENOMS =
+  | "uatom"
+  | "ukava"
+  | TERRA_DENOMS
+  | "AMBR"
+  | "CELO"
+  | "DOT";
 
 export type NETWORK_NAME =
   | "COSMOS"
@@ -93,11 +102,56 @@ export type NETWORK_NAME =
   | "CELO"
   | "POLKADOT";
 
+export interface CoinDenom {
+  denom: string;
+  name: string;
+}
+
+export const TERRA_DENOMS_LIST: TERRA_DENOMS[] = [
+  "ukrw",
+  "uluna",
+  "uusd",
+  "usdr",
+  "umnt",
+];
+
+export const COIN_DENOM_MAP = {
+  uluna: "LUNA",
+  ukrw: "TerraKRW",
+  uusd: "TerraUSD",
+  usdr: "TerraSDR",
+  umnt: "Terra Mongolian Tughrik",
+  uatom: "ATOM",
+  ukava: "KAVA",
+  AMBR: "AMBR",
+  CELO: "CELO",
+};
+
+export const coinDenomToName = (denom: string): string => {
+  const name = COIN_DENOM_MAP[denom];
+  return name ? name : denom;
+};
+
+export const denomToCoinDenom = (denom: string): CoinDenom => {
+  const name = COIN_DENOM_MAP[denom];
+  return { denom, name };
+};
+
+export const getDefaultDenomFromNetwork = (
+  network: NetworkDefinition,
+): CoinDenom => {
+  return {
+    denom: network.denom,
+    name: network.descriptor,
+  };
+};
+
 const NETWORKS: NetworksMap = {
   COSMOS: {
     available: true,
     name: "COSMOS",
     denom: "uatom",
+    denomsList: ["uatom"],
     descriptor: "ATOM",
     chainId: "cosmoshub-3",
     cryptoCompareTicker: "ATOM",
@@ -120,6 +174,7 @@ const NETWORKS: NetworksMap = {
     available: true,
     name: "TERRA",
     denom: "uluna",
+    denomsList: TERRA_DENOMS_LIST,
     descriptor: "LUNA",
     chainId: "columbus-3",
     cryptoCompareTicker: "LUNA",
@@ -129,8 +184,8 @@ const NETWORKS: NetworksMap = {
     supportsLedger: true,
     supportsFiatPrices: true,
     supportsBalances: true,
-    supportsPortfolio: false,
-    supportsTransactionsHistory: false,
+    supportsPortfolio: true,
+    supportsTransactionsHistory: true,
     supportsValidatorsList: true,
     supportsGovernance: false,
     denominationSize: 1e6,
@@ -141,6 +196,7 @@ const NETWORKS: NetworksMap = {
     available: true,
     name: "KAVA",
     denom: "ukava",
+    denomsList: ["ukava"],
     descriptor: "KAVA",
     chainId: "kava-3",
     cryptoCompareTicker: "KAVA",
@@ -163,6 +219,7 @@ const NETWORKS: NetworksMap = {
     available: true,
     name: "CELO",
     denom: "CELO",
+    denomsList: ["CELO"],
     descriptor: "CELO",
     chainId: "celo",
     cryptoCompareTicker: "CELO",
@@ -175,22 +232,23 @@ const NETWORKS: NetworksMap = {
     supportsPortfolio: true,
     supportsTransactionsHistory: true,
     supportsValidatorsList: true,
-    supportsGovernance: true,
+    supportsGovernance: false,
     denominationSize: 1e18, // 1 cGLD = 1000000000000000000 wei
     customChartTabs: new Set(["VOTING", "CUSD"]),
     expectedReward: 8,
   },
   OASIS: {
-    available: false,
+    available: true,
     name: "OASIS",
     denom: "AMBR", // For Amber testnet
+    denomsList: ["AMBR"],
     descriptor: "AMBR",
     chainId: "oasis",
     cryptoCompareTicker: "OASIS",
-    ledgerAppVersion: "n/a",
+    ledgerAppVersion: "1.0.0",
     ledgerAppName: "n/a",
     ledgerDocsLink: "n/a",
-    supportsLedger: false,
+    supportsLedger: true,
     supportsFiatPrices: false,
     supportsBalances: true,
     supportsPortfolio: true,
@@ -205,6 +263,7 @@ const NETWORKS: NetworksMap = {
     available: false,
     name: "POLKADOT",
     denom: "DOT",
+    denomsList: ["DOT"],
     descriptor: "DOT",
     chainId: "n/a",
     cryptoCompareTicker: "DOT",

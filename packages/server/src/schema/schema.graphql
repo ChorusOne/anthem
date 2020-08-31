@@ -369,7 +369,7 @@ type OasisTransferEvent {
 
 type OasisBurnEvent {
   type: OasisTransactionType!
-  owner: String!
+  owner: String
   tokens: String!
 }
 
@@ -395,8 +395,8 @@ type OasisEscrowReclaimEvent {
 type OasisRegisterEntityEvent {
   type: OasisTransactionType!
   id: String
-  nodes: [String!]!
-  allow_entity_signed_nodes: Boolean!
+  nodes: [String!]
+  allow_entity_signed_nodes: Boolean
 }
 
 type OasisRegisterNodeEvent {
@@ -449,6 +449,7 @@ type CosmosRewardHistory {
   height: Int!
   address: String!
   timestamp: String!
+  denom: String!
 }
 
 type CosmosCommissionHistory {
@@ -456,6 +457,7 @@ type CosmosCommissionHistory {
   height: Int!
   validator: String!
   timestamp: String!
+  denom: String!
 }
 
 type CosmosDelegationHistory {
@@ -561,6 +563,17 @@ type CosmosTransaction {
   msgs: [TxMsg!]!
   timestamp: String!
   chain: String!
+  events: [CosmosTransactionEvent!]
+}
+
+type CosmosTransactionEvent {
+  type: String!
+  attributes: [EventAttributes!]!
+}
+
+type EventAttributes {
+  key: String!
+  value: String!
 }
 
 type LogMessage {

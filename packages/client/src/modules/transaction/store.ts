@@ -1,4 +1,9 @@
-import { ICosmosTransaction, ICosmosValidator } from "@anthem/utils";
+import {
+  ICeloValidatorGroup,
+  ICosmosTransaction,
+  ICosmosValidator,
+} from "@anthem/utils";
+import { ICeloTransactionResult } from "lib/celo-ledger-lib";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { TransactionData, TxPostBody } from "tools/cosmos-utils";
 import { createReducer } from "typesafe-actions";
@@ -13,18 +18,28 @@ import Actions, { ActionTypes } from "./actions";
  * ============================================================================
  */
 
+export type Vote = "yes" | "no" | "abstain";
+
+export interface GovernanceVoteDetails {
+  vote: Vote;
+  proposal: any;
+}
+
 export interface TransactionState {
   transactionsPage: number;
   liveTransactionRecord: ICosmosTransaction[];
   transactionPostBody: Nullable<TxPostBody>;
-  transactionData: Nullable<TransactionData>;
+  transactionData: Nullable<TransactionData | any>;
   transactionStage: TRANSACTION_STAGES;
   transactionHash: string;
-  confirmedTransactionHeight: string;
   confirmTx: boolean;
   signPending: boolean;
+  transactionResult: Nullable<ICosmosTransaction | ICeloTransactionResult>;
+  governanceProposalData: Nullable<GovernanceVoteDetails>;
   broadcastingTransaction: boolean;
-  selectedValidatorForDelegation: Nullable<ICosmosValidator>;
+  selectedValidatorForDelegation: Nullable<
+    ICosmosValidator | ICeloValidatorGroup
+  >;
 }
 
 const initialState: TransactionState = {
@@ -33,12 +48,13 @@ const initialState: TransactionState = {
   transactionPostBody: null,
   transactionData: null,
   transactionStage: TRANSACTION_STAGES.SETUP,
-  confirmedTransactionHeight: "",
   transactionHash: "",
+  transactionResult: null,
   confirmTx: false,
   signPending: false,
   broadcastingTransaction: false,
   selectedValidatorForDelegation: null,
+  governanceProposalData: null,
 };
 
 const transaction = createReducer<
@@ -76,6 +92,10 @@ const transaction = createReducer<
     ...state,
     broadcastingTransaction: true,
   }))
+  .handleAction(Actions.setGovernanceVoteDetails, (state, action) => ({
+    ...state,
+    governanceProposalData: action.payload,
+  }))
   .handleAction(Actions.setTransactionsPage, (state, action) => ({
     ...state,
     transactionsPage: action.payload,
@@ -101,10 +121,11 @@ const transaction = createReducer<
   .handleAction(Actions.transactionConfirmed, (state, action) => ({
     ...state,
     transactionPage: 1, // Reset page to 1
-    confirmedTransactionHeight: action.payload.height,
-    liveTransactionRecord: action.payload.transaction
-      ? state.liveTransactionRecord.concat(action.payload.transaction)
-      : state.liveTransactionRecord,
+    transactionResult: action.payload,
+    // TODO: Refactor to ignore action.payload for non-Cosmos blockchains
+    // liveTransactionRecord: action.payload.transaction
+    //   ? state.liveTransactionRecord.concat(action.payload.transaction)
+    //   : state.liveTransactionRecord,
     transactionStage: TRANSACTION_STAGES.SUCCESS,
   }))
   .handleAction(Actions.removeLocalCopyOfTransaction, (state, action) => ({

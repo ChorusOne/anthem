@@ -1,5 +1,6 @@
 import { NETWORK_NAME, NetworkDefinition } from "@anthem/utils";
 import { ActionType, createStandardAction } from "typesafe-actions";
+import { CeloCreateAccountStatus } from "./store";
 
 /** ===========================================================================
  * Types & Config
@@ -12,7 +13,16 @@ export type SIGNIN_TYPE =
   | "INITIAL_SETUP"
   | "LEDGER_ACTION";
 
-export type LEDGER_ACTION_TYPE = "DELEGATE" | "CLAIM" | "SEND";
+export type LEDGER_ACTION_TYPE =
+  | "DELEGATE"
+  | "CLAIM"
+  | "SEND"
+  | "VOTE_GOLD"
+  | "LOCK_GOLD"
+  | "UNLOCK_GOLD"
+  | "ACTIVATE_VOTES"
+  | "REVOKE_VOTES"
+  | "GOVERNANCE_VOTE";
 
 export type LEDGER_ACCESS_TYPE = "SIGNIN" | "PERFORM_ACTION";
 
@@ -52,6 +62,8 @@ enum ActionTypesEnum {
   LOGOUT_FAILURE = "LOGOUT_FAILURE",
 
   CLEAR_ALL_RECENT_ADDRESSES = "CLEAR_ALL_RECENT_ADDRESSES",
+
+  SET_CELO_ACCOUNT_STAGE = "SET_CELO_ACCOUNT_STAGE",
 }
 
 /** ===========================================================================
@@ -96,6 +108,7 @@ const connectLedgerSuccess = createStandardAction(
   ledgerAddress: string;
   ledgerAppVersion: string;
   network: NetworkDefinition;
+  celoAddressHasAccount: boolean;
 }>();
 
 const connectLedgerFailure = createStandardAction(
@@ -117,6 +130,10 @@ const confirmLogout = createStandardAction(ActionTypesEnum.CONFIRM_LOGOUT)();
 const logoutSuccess = createStandardAction(ActionTypesEnum.LOGOUT_SUCCESS)();
 const logoutFailure = createStandardAction(ActionTypesEnum.LOGOUT_FAILURE)();
 
+const setCeloAccountStage = createStandardAction(
+  ActionTypesEnum.SET_CELO_ACCOUNT_STAGE,
+)<CeloCreateAccountStatus>();
+
 const actions = {
   setAddress,
   setAddressSuccess,
@@ -135,6 +152,7 @@ const actions = {
   confirmLogout,
   logoutSuccess,
   logoutFailure,
+  setCeloAccountStage,
 };
 
 /** ===========================================================================

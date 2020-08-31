@@ -103,9 +103,9 @@ const getBalanceQueryForAddress = () => (variables: SQLVariables): string => {
 
 const getRewardsQueryForDelegator = () => (variables: SQLVariables): string => {
   const sql = `
-    SELECT address, height, timestamp, sum(rewards) FROM rewards
+    SELECT address, height, timestamp, denom, sum(rewards) FROM rewards
     WHERE address = @address
-    GROUP BY address, height, timestamp, chain
+    GROUP BY address, height, timestamp, chain, denom
     ORDER BY timestamp
   `;
 
@@ -114,9 +114,9 @@ const getRewardsQueryForDelegator = () => (variables: SQLVariables): string => {
 
 const getRewardsQueryForValidator = () => (variables: SQLVariables): string => {
   const sql = `
-    SELECT validator, height, timestamp, sum(rewards) FROM val_rewards
+    SELECT validator, height, timestamp, denom, sum(rewards) FROM val_rewards
     WHERE validator = @validatorAddress
-    GROUP BY validator, height, timestamp, chain
+    GROUP BY validator, height, timestamp, chain, denom
     ORDER BY timestamp
   `;
 

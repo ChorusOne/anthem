@@ -11,7 +11,7 @@ import {
   NetworkDefinition,
 } from "@anthem/utils";
 import { LEDGER_ACTION_TYPE } from "modules/ledger/actions";
-import { AvailableReward } from "ui/CreateTransactionForm";
+import { AvailableReward } from "ui/workflows/CosmosTransactionWorkflows";
 import { unitToDenom } from "./currency-utils";
 import { multiply } from "./math-utils";
 
@@ -87,6 +87,18 @@ const getTransactionMessageTypeForNetwork = (
   network: NETWORK_NAME,
   transactionType: LEDGER_ACTION_TYPE,
 ): string => {
+  // Reject non-Cosmos transaction types
+  if (
+    transactionType === "VOTE_GOLD" ||
+    transactionType === "LOCK_GOLD" ||
+    transactionType === "UNLOCK_GOLD" ||
+    transactionType === "REVOKE_VOTES" ||
+    transactionType === "ACTIVATE_VOTES" ||
+    transactionType === "GOVERNANCE_VOTE"
+  ) {
+    throw new Error("Not valid for Cosmos SDK transactions");
+  }
+
   switch (network) {
     case "COSMOS":
     case "KAVA":

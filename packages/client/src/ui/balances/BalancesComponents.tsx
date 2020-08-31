@@ -1,10 +1,11 @@
 import {
+  coinDenomToName,
   ICeloAccountBalances,
   ICosmosAccountBalances,
   IOasisAccountBalances,
   NetworkDefinition,
 } from "@anthem/utils";
-import { Colors, H5, Icon } from "@blueprintjs/core";
+import { Collapse, Colors, H5, Icon } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import { COLORS } from "constants/colors";
 import { CURRENCY_SETTING } from "constants/fiat";
@@ -37,9 +38,9 @@ import {
   Button,
   DashboardError,
   DashboardLoader,
+  Row,
   View,
 } from "ui/SharedComponents";
-import Toast from "ui/Toast";
 
 /** ===========================================================================
  * Cosmos SDK Networks Account Balances
@@ -80,8 +81,21 @@ class CosmosBalancesContainer extends React.Component<
           }
 
           const data = cosmosAccountBalances.cosmosAccountBalances;
-
           if (data) {
+            if (network.name === "TERRA") {
+              return (
+                <CosmosMultiDenominationBalances
+                  balances={data}
+                  network={network}
+                  tString={tString}
+                  isDesktop={isDesktop}
+                  currencySetting={currencySetting}
+                  price={fiatPriceData.fiatPriceData.price}
+                  handleSendReceive={this.handleSendReceiveAction}
+                />
+              );
+            }
+
             return (
               <CosmosBalancesComponent
                 balances={data}
@@ -129,6 +143,253 @@ interface CosmosComponentBalancesProps {
   handleSendReceive: () => void;
 }
 
+/** ===========================================================================
+ * Cosmos Multi-Balance Component
+ * ============================================================================
+ */
+
+interface CosmosMultiDenominationBalancesState {
+  activeDenom: string;
+}
+
+class CosmosMultiDenominationBalances extends React.Component<
+  CosmosComponentBalancesProps,
+  CosmosMultiDenominationBalancesState
+> {
+  constructor(props: CosmosComponentBalancesProps) {
+    super(props);
+
+    this.state = {
+      activeDenom: props.network.denom,
+    };
+  }
+
+  render(): JSX.Element {
+    const {
+      network,
+      isDesktop,
+      balances,
+      price,
+      tString,
+      handleSendReceive,
+      currencySetting,
+    } = this.props;
+    const SHOULD_SHOW_LEDGER_ACTIONS = isDesktop && network.supportsLedger;
+    console.log(balances);
+    return (
+      <>
+        <SummaryContainer
+          style={{
+            padding: 0,
+            height: 230,
+            marginTop: 12,
+            overflowY: "scroll",
+          }}
+        >
+          {network.denomsList.map(denom => {
+            const balancesResult = getAccountBalances(
+              balances,
+              price,
+              network,
+              denom,
+              2,
+            );
+
+            const {
+              balance,
+              rewards,
+              delegations,
+              unbonding,
+              commissions,
+              total,
+              balanceFiat,
+              delegationsFiat,
+              rewardsFiat,
+              unbondingFiat,
+              commissionsFiat,
+              totalFiat,
+              percentages,
+            } = balancesResult;
+
+            const renderBalanceItem = (crypto: string, fiat: string) => {
+              if (denom !== network.denom) {
+                return crypto;
+              }
+
+              if (currencySetting === "crypto") {
+                return crypto;
+              } else {
+                return fiat;
+              }
+            };
+
+            const denomName = coinDenomToName(denom);
+
+            return (
+              <MultiDenomBalance key={denom}>
+                <MultiDenomTitle
+                  onClick={() => this.setState({ activeDenom: denom })}
+                >
+                  <Row style={{ justifyContent: "space-between" }}>
+                    <View>
+                      <b style={{ margin: 0 }}>{denomName}</b>
+                    </View>
+                    <Row>
+                      <b>{total}</b>
+                      <Icon
+                        icon="caret-down"
+                        style={{ marginLeft: 4 }}
+                        color={Colors.LIGHT_GRAY1}
+                      />
+                    </Row>
+                  </Row>
+                </MultiDenomTitle>
+                <Collapse isOpen={denom === this.state.activeDenom}>
+                  <MultiDenomBalanceDetail>
+                    <BalanceContainer>
+                      <View>
+                        <BalanceLine>
+                          <Icon
+                            icon={IconNames.DOT}
+                            style={{ marginRight: 2 }}
+                            color={COLORS.BALANCE_SHADE_ONE}
+                          />
+                          <BalanceTitle>{tString("Available")}:</BalanceTitle>
+                          <BalanceText data-cy="balance-available">
+                            {renderBalanceItem(balance, balanceFiat)}
+                          </BalanceText>
+                        </BalanceLine>
+                        <BalanceLine>
+                          <Icon
+                            color={COLORS.BALANCE_SHADE_TWO}
+                            style={{ marginRight: 2 }}
+                            icon={IconNames.DOT}
+                          />
+                          <BalanceTitle>{tString("Staking")}:</BalanceTitle>
+                          <BalanceText data-cy="balance-delegations">
+                            {renderBalanceItem(delegations, delegationsFiat)}
+                          </BalanceText>
+                        </BalanceLine>
+                        <BalanceLine>
+                          <Icon
+                            color={COLORS.BALANCE_SHADE_THREE}
+                            style={{ marginRight: 2 }}
+                            icon={IconNames.DOT}
+                          />
+                          <BalanceTitle>{tString("Rewards")}:</BalanceTitle>
+                          <BalanceText data-cy="balance-rewards">
+                            {renderBalanceItem(rewards, rewardsFiat)}
+                          </BalanceText>
+                        </BalanceLine>
+                        <BalanceLine>
+                          <Icon
+                            color={COLORS.BALANCE_SHADE_FIVE}
+                            style={{ marginRight: 2 }}
+                            icon={IconNames.DOT}
+                          />
+                          <BalanceTitle>{tString("Unbonding")}:</BalanceTitle>
+                          <BalanceText data-cy="balance-unbonding">
+                            {renderBalanceItem(unbonding, unbondingFiat)}
+                          </BalanceText>
+                        </BalanceLine>
+                        {commissions !== "0" && (
+                          <BalanceLine>
+                            <Icon
+                              color={COLORS.BALANCE_SHADE_FIVE}
+                              style={{ marginRight: 2 }}
+                              icon={IconNames.DOT}
+                            />
+                            <BalanceTitle>
+                              {tString("Commission")}:
+                            </BalanceTitle>
+                            <BalanceText data-cy="balance-commissions">
+                              {renderBalanceItem(commissions, commissionsFiat)}
+                            </BalanceText>
+                          </BalanceLine>
+                        )}
+                      </View>
+                      <View style={{ paddingTop: 8 }}>
+                        <BalancePieChart
+                          small
+                          percentages={percentages}
+                          total={renderBalanceItem(total, totalFiat)}
+                        />
+                      </View>
+                    </BalanceContainer>
+                  </MultiDenomBalanceDetail>
+                </Collapse>
+              </MultiDenomBalance>
+            );
+          })}
+        </SummaryContainer>
+        {SHOULD_SHOW_LEDGER_ACTIONS && (
+          <SmallActionContainer>
+            <Link to="/cosmos/delegate">
+              <Button
+                style={{ width: 125, marginRight: 12 }}
+                onClick={() => null}
+                data-cy="stake-button"
+              >
+                Stake
+              </Button>
+            </Link>
+            <Button
+              style={{ width: 125 }}
+              onClick={handleSendReceive}
+              data-cy="send-receive-button"
+            >
+              Send/Receive
+            </Button>
+          </SmallActionContainer>
+        )}
+      </>
+    );
+  }
+}
+
+const MultiDenomTitle = styled.div`
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const MultiDenomBalance = styled.div`
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? Colors.DARK_GRAY5 : Colors.LIGHT_GRAY3};
+`;
+
+const MultiDenomBalanceDetail = styled.div`
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? Colors.DARK_GRAY5 : Colors.LIGHT_GRAY3};
+`;
+
+const SmallActionContainer = styled.div`
+  height: 55px;
+  display: flex;
+  align-items: center;
+  padding-right: 12px;
+  flex-direction: row;
+  justify-content: flex-end;
+  background: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDarkTheme ? Colors.DARK_GRAY3 : Colors.LIGHT_GRAY3};
+`;
+
+/** ===========================================================================
+ * Cosmos Single-Balance Component
+ * ============================================================================
+ */
+
 class CosmosBalancesComponent extends React.Component<
   CosmosComponentBalancesProps
 > {
@@ -148,6 +409,7 @@ class CosmosBalancesComponent extends React.Component<
       balances,
       fiatConversionRate,
       network,
+      network.denom,
       2,
     );
 
@@ -321,6 +583,7 @@ class CeloBalancesContainer extends React.Component<
                 network={network}
                 currencySetting={currencySetting}
                 price={fiatPriceData.fiatPriceData.price}
+                handleSendReceiveAction={this.handleSendReceiveAction}
               />
             );
           }
@@ -334,6 +597,8 @@ class CeloBalancesContainer extends React.Component<
   }
 
   handleSendReceiveAction = () => {
+    // return Toast.warn("Celo Ledger Transactions are coming soon.");
+
     let actionFunction;
     if (this.props.ledger.connected) {
       actionFunction = this.props.openLedgerDialog;
@@ -354,13 +619,20 @@ interface CeloComponentBalancesProps {
   network: NetworkDefinition;
   balances: ICeloAccountBalances;
   currencySetting: CURRENCY_SETTING;
+  handleSendReceiveAction: () => void;
 }
 
 class CeloBalancesComponent extends React.Component<
   CeloComponentBalancesProps
 > {
   render(): JSX.Element {
-    const { balances, network, price, currencySetting } = this.props;
+    const {
+      price,
+      network,
+      balances,
+      currencySetting,
+      handleSendReceiveAction,
+    } = this.props;
     const fiatPrice = price;
     const displayFiat = currencySetting === "fiat";
 
@@ -457,17 +729,17 @@ class CeloBalancesComponent extends React.Component<
           <DelegationControlsContainer>
             <Link to="/celo/delegate">
               <Button
-                style={{ width: 125, marginRight: 12 }}
                 onClick={() => null}
                 data-cy="stake-button"
+                style={{ width: 125, marginRight: 12 }}
               >
                 Vote
               </Button>
             </Link>
             <Button
               style={{ width: 125 }}
-              onClick={() => Toast.warn("⚠️ Ledger actions coming soon.")}
               data-cy="send-receive-button"
+              onClick={handleSendReceiveAction}
             >
               Send/Receive
             </Button>
@@ -583,7 +855,7 @@ class OasisBalancesComponent extends React.Component<
     return (
       <>
         <SummaryContainer style={{ paddingTop: 50 }}>
-          <BalanceContainer>
+          <BalanceContainer style={{ paddingLeft: 12, paddingRight: 12 }}>
             <View>
               <BalanceLine style={{ marginTop: 6 }}>
                 <Icon
@@ -719,31 +991,32 @@ const BalanceTotalWrapper = styled.div`
 const BalanceTotalContainer = styled.div`
   margin: 0;
   padding: 0;
+  padding-right: 8px;
   position: relative;
   background: ${(props: { theme: IThemeProps }) =>
     props.theme.isDesktop ? 0 : 24};
 `;
 
-const BalanceCircle = styled.div`
-  width: 150px;
-  height: 150px;
+const BalanceCircle = styled.div<{ small: boolean }>`
+  width: ${props => (props.small ? 105 : 125)}px;
+  height: ${props => (props.small ? 105 : 125)}px;
   z-index: 15;
   position: absolute;
-  top: -10px;
-  left: -10px;
+  top: -2px;
+  left: -2px;
   transform: rotate(45deg);
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-const BalanceTotalBox = styled.div`
+const BalanceTotalBox = styled.div<{ small: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
   transform: rotate(-45deg);
-  width: 105px;
-  height: 105px;
+  width: ${props => (props.small ? 85 : 105)}px;
+  height: ${props => (props.small ? 85 : 105)}px;
   border-width: 5px;
   border-radius: 50%;
   border-style: solid;
@@ -763,7 +1036,7 @@ const BalanceTotalText = styled.p`
 
 const ActionContainer = styled.div`
   margin-top: 4px;
-  height: 125px;
+  height: 157px;
   padding: 12px;
   padding-top: 20px;
   padding-bottom: 0;
@@ -785,7 +1058,13 @@ const pieColors: ReadonlyArray<COLORS> = [
   COLORS.BALANCE_SHADE_FIVE,
 ];
 
-const Pie = ({ percentages }: { percentages: ReadonlyArray<number> }) => {
+const Pie = ({
+  small,
+  percentages,
+}: {
+  small: boolean;
+  percentages: ReadonlyArray<number>;
+}) => {
   const data = percentages.map((percentage: number, index: number) => ({
     value: percentage,
     color: pieColors[index],
@@ -794,8 +1073,8 @@ const Pie = ({ percentages }: { percentages: ReadonlyArray<number> }) => {
   return (
     <PieChart
       style={{
-        width: 130,
         marginBottom: 10,
+        width: small ? 100 : 121,
       }}
       data={data}
     />
@@ -803,18 +1082,20 @@ const Pie = ({ percentages }: { percentages: ReadonlyArray<number> }) => {
 };
 
 const BalancePieChart = ({
+  small,
   percentages,
   total,
 }: {
+  small?: boolean;
   percentages: number[];
   total: string;
 }) => {
   return (
     <BalanceTotalWrapper>
       <BalanceTotalContainer>
-        <Pie percentages={percentages} />
-        <BalanceCircle>
-          <BalanceTotalBox>
+        <Pie small={!!small} percentages={percentages} />
+        <BalanceCircle small={!!small}>
+          <BalanceTotalBox small={!!small}>
             <BalanceTotalText data-cy="balance-total">{total}</BalanceTotalText>
           </BalanceTotalBox>
         </BalanceCircle>

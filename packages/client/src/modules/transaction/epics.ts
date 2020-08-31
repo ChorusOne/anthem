@@ -1,3 +1,4 @@
+import { assertUnreachable } from "@anthem/utils";
 import logger from "lib/logger-lib";
 import { EpicSignature } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
@@ -20,39 +21,101 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
     filter(isActionOf(Actions.signTransaction)),
     mergeMap(async () => {
       try {
-        const { ledger } = deps;
-        const transactionData = state$.value.transaction.transactionData;
+        const { cosmosLedgerUtil, celoLedgerUtil } = deps;
+        const { ledgerActionType } = state$.value.ledger.ledgerDialog;
+        const { name } = state$.value.ledger.ledger.network;
+        const { address } = state$.value.ledger.ledger;
+        const { transactionData } = state$.value.transaction;
 
-        if (ledger && transactionData) {
-          const ledgerSignature = (
-            await ledger.sign(createSignMessage(transactionData))
-          ).toString("base64");
+        switch (name) {
+          case "COSMOS":
+          case "TERRA":
+          case "KAVA":
+            if (cosmosLedgerUtil && transactionData) {
+              const ledgerSignature = (
+                await cosmosLedgerUtil.sign(createSignMessage(transactionData))
+              ).toString("base64");
 
-          const signature = ledgerSignature;
-          const publicKey = (await ledger.getPubKey()).toString("base64");
+              const signature = ledgerSignature;
+              const publicKey = (await cosmosLedgerUtil.getPubKey()).toString(
+                "base64",
+              );
 
-          const message = createCosmosTransactionPostBody({
-            transactionData,
-            signature,
-            publicKey,
-          });
+              const message = createCosmosTransactionPostBody({
+                transactionData,
+                signature,
+                publicKey,
+              });
 
-          return Actions.signTransactionSuccess(message);
-        } else {
-          throw new Error(
-            "Unable to sign transaction! Ledger or transactionData was missing.",
-          );
+              return Actions.signTransactionSuccess(message);
+            } else {
+              throw new Error(
+                "Unable to sign transaction! Ledger or transactionData was missing.",
+              );
+            }
+          case "CELO":
+            switch (ledgerActionType) {
+              case "SEND":
+                const transferResult = await celoLedgerUtil.transfer(
+                  transactionData,
+                );
+                return Actions.transactionConfirmed(transferResult);
+              case "VOTE_GOLD":
+                const voteResult = await celoLedgerUtil.voteForValidatorGroup(
+                  transactionData,
+                );
+                return Actions.transactionConfirmed(voteResult);
+              case "LOCK_GOLD":
+                const lockResult = await celoLedgerUtil.lock(transactionData);
+                return Actions.transactionConfirmed(lockResult);
+              case "UNLOCK_GOLD":
+                const unlockResult = await celoLedgerUtil.unlock(
+                  transactionData,
+                );
+                return Actions.transactionConfirmed(unlockResult);
+              case "ACTIVATE_VOTES":
+                const activateResult = await celoLedgerUtil.activateVotes(
+                  address,
+                );
+                return Actions.transactionConfirmed(activateResult);
+              case "REVOKE_VOTES":
+                const revokeResult = await celoLedgerUtil.revokeVotes(
+                  transactionData,
+                );
+                return Actions.transactionConfirmed(revokeResult);
+              case "GOVERNANCE_VOTE":
+                const governanceResult = await celoLedgerUtil.voteForProposal(
+                  transactionData,
+                );
+                return Actions.transactionConfirmed(governanceResult);
+              default: {
+                throw new Error(
+                  `Action ${ledgerActionType} not supported for Celo yet.`,
+                );
+              }
+            }
+          case "OASIS":
+            const msg = "Signing Oasis transactions is not supported yet.";
+            console.warn(msg);
+            throw new Error(msg);
+          default:
+            assertUnreachable(name);
         }
       } catch (err) {
-        const { tString } = i18nSelector(state$.value);
-        Toast.warn(
-          tString(
-            "Could not access Ledger. Is your device still connected and unlocked?",
-          ),
-        );
+        console.error(err);
+        const { statusText } = err;
+        if (statusText && statusText === "CONDITIONS_OF_USE_NOT_SATISFIED") {
+          Toast.warn("Transaction rejected.");
+        } else {
+          Toast.warn(
+            "Could not access Ledger, or failed to send transaction. Is your device still connected and unlocked?",
+          );
+        }
 
         return Actions.signTransactionFailure();
       }
+
+      return Actions.signTransactionFailure();
     }),
   );
 };
@@ -123,10 +186,7 @@ const pollTransactionEpic: EpicSignature = (action$, state$, deps) => {
           await wait(1500);
           return Actions.pollForTransaction();
         } else if (result.logs && result.logs[0].success) {
-          return Actions.transactionConfirmed({
-            height: result.height,
-            transaction: adaptedTransactionResult,
-          });
+          return Actions.transactionConfirmed(adaptedTransactionResult);
         } else {
           const rawLog = result.raw_log;
           if (typeof rawLog === "string" && rawLog.includes("out of gas")) {

@@ -13,11 +13,13 @@ import Toast from "./Toast";
  */
 
 const CurrencySettingsToggle = (props: IProps) => {
-  const { network, activeChartTab } = props;
+  const { network, disabled, activeChartTab } = props;
   const { currencySetting, fiatCurrency } = props.settings;
+  const { pathname } = window.location;
 
   // Proxy to see if the user is viewing the dashboard chart
-  const ON_CHART_VIEW = window.location.pathname.includes("cusd");
+  const ON_CHART_VIEW =
+    pathname.includes("cusd") || pathname.includes("commissions");
   const IS_CUSD = activeChartTab === "CUSD";
   const IS_CELO_COMMISSIONS =
     activeChartTab === "COMMISSIONS" && network.name === "CELO";
@@ -50,6 +52,7 @@ const CurrencySettingsToggle = (props: IProps) => {
   return (
     <RadioGroup
       inline
+      disabled={disabled}
       selectedValue={currencySetting}
       onChange={handleSetCurrencyOption}
     >
@@ -88,7 +91,9 @@ const dispatchProps = {
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
-interface ComponentProps {}
+interface ComponentProps {
+  disabled?: boolean;
+}
 
 interface IProps extends ConnectProps, ComponentProps {}
 

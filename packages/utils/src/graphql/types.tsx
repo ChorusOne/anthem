@@ -262,6 +262,7 @@ export interface ICosmosCommissionHistory {
   height: Scalars["Int"];
   validator: Scalars["String"];
   timestamp: Scalars["String"];
+  denom: Scalars["String"];
 }
 
 export interface ICosmosDelegationHistory {
@@ -315,6 +316,7 @@ export interface ICosmosRewardHistory {
   height: Scalars["Int"];
   address: Scalars["String"];
   timestamp: Scalars["String"];
+  denom: Scalars["String"];
 }
 
 export interface ICosmosSlashingParameters {
@@ -364,6 +366,13 @@ export interface ICosmosTransaction {
   msgs: ITxMsg[];
   timestamp: Scalars["String"];
   chain: Scalars["String"];
+  events: Maybe<ICosmosTransactionEvent[]>;
+}
+
+export interface ICosmosTransactionEvent {
+   __typename?: "CosmosTransactionEvent";
+  type: Scalars["String"];
+  attributes: IEventAttributes[];
 }
 
 export interface ICosmosTransactionResult {
@@ -407,6 +416,12 @@ export interface IDelegation {
   delegator_address: Scalars["String"];
   validator_address: Scalars["String"];
   shares: Scalars["String"];
+}
+
+export interface IEventAttributes {
+   __typename?: "EventAttributes";
+  key: Scalars["String"];
+  value: Scalars["String"];
 }
 
 export interface IExecutionProposal {
@@ -599,7 +614,7 @@ export interface IOasisBoundEvent {
 export interface IOasisBurnEvent {
    __typename?: "OasisBurnEvent";
   type: IOasisTransactionType;
-  owner: Scalars["String"];
+  owner: Maybe<Scalars["String"]>;
   tokens: Scalars["String"];
 }
 
@@ -643,8 +658,8 @@ export interface IOasisRegisterEntityEvent {
    __typename?: "OasisRegisterEntityEvent";
   type: IOasisTransactionType;
   id: Maybe<Scalars["String"]>;
-  nodes: Array<Scalars["String"]>;
-  allow_entity_signed_nodes: Scalars["Boolean"];
+  nodes: Maybe<Array<Scalars["String"]>>;
+  allow_entity_signed_nodes: Maybe<Scalars["Boolean"]>;
 }
 
 export interface IOasisRegisterNodeEvent {
@@ -1243,10 +1258,10 @@ export type ICosmosAccountHistoryQuery = (
       & Pick<ICosmosDelegationHistory, "balance" | "address" | "timestamp">
     )>, delegatorRewards: Array<(
       { __typename?: "CosmosRewardHistory" }
-      & Pick<ICosmosRewardHistory, "balance" | "height" | "address" | "timestamp">
+      & Pick<ICosmosRewardHistory, "balance" | "height" | "address" | "timestamp" | "denom">
     )>, validatorCommissions: Array<(
       { __typename?: "CosmosCommissionHistory" }
-      & Pick<ICosmosCommissionHistory, "balance" | "height" | "validator" | "timestamp">
+      & Pick<ICosmosCommissionHistory, "balance" | "height" | "validator" | "timestamp" | "denom">
     )>, fiatPriceHistory: Array<(
       { __typename?: "FiatPrice" }
       & Pick<IFiatPrice, "price" | "timestamp">
@@ -1500,7 +1515,14 @@ export type ICosmosTransactionQuery = (
         { __typename?: "MsgWithdrawValidatorCommission" }
         & Pick<IMsgWithdrawValidatorCommission, "validator_address">
       )> }
-    )> }
+    )>, events: Maybe<Array<(
+      { __typename?: "CosmosTransactionEvent" }
+      & Pick<ICosmosTransactionEvent, "type">
+      & { attributes: Array<(
+        { __typename?: "EventAttributes" }
+        & Pick<IEventAttributes, "key" | "value">
+      )> }
+    )>> }
   ) }
 );
 
@@ -1578,7 +1600,14 @@ export type ICosmosTransactionsQuery = (
           { __typename?: "MsgWithdrawValidatorCommission" }
           & Pick<IMsgWithdrawValidatorCommission, "validator_address">
         )> }
-      )> }
+      )>, events: Maybe<Array<(
+        { __typename?: "CosmosTransactionEvent" }
+        & Pick<ICosmosTransactionEvent, "type">
+        & { attributes: Array<(
+          { __typename?: "EventAttributes" }
+          & Pick<IEventAttributes, "key" | "value">
+        )> }
+      )>> }
     )> }
   ) }
 );
@@ -2600,12 +2629,14 @@ export const CosmosAccountHistoryDocument = gql`
       height
       address
       timestamp
+      denom
     }
     validatorCommissions {
       balance
       height
       validator
       timestamp
+      denom
     }
     fiatPriceHistory {
       price
@@ -3425,6 +3456,13 @@ export const CosmosTransactionDocument = gql`
     }
     timestamp
     chain
+    events {
+      type
+      attributes {
+        key
+        value
+      }
+    }
   }
 }
     `;
@@ -3565,6 +3603,13 @@ export const CosmosTransactionsDocument = gql`
       }
       timestamp
       chain
+      events {
+        type
+        attributes {
+          key
+          value
+        }
+      }
     }
     moreResultsExist
   }

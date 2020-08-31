@@ -1,4 +1,5 @@
 import {
+  assertUnreachable,
   deriveNetworkFromAddress,
   getNetworkDefinitionFromIdentifier,
 } from "@anthem/utils";
@@ -9,6 +10,7 @@ import {
   NetworkLogoIcon,
 } from "assets/images";
 import { COLORS } from "constants/colors";
+import { LEDGER_ACTION_TYPE } from "modules/ledger/actions";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React, { ChangeEvent } from "react";
@@ -22,6 +24,7 @@ import {
 } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
+import { tFnString } from "tools/i18n-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import {
   Button,
@@ -34,9 +37,10 @@ import {
   TextInput,
   View,
 } from "ui/SharedComponents";
-import CreateTransactionForm from "./CreateTransactionForm";
-import LoginSetup from "./LoginStart";
-import NetworkSelect from "./NetworkSelect";
+import LoginSetup from "../LoginStart";
+import NetworkSelect from "../NetworkSelect";
+import CeloTransactionWorkflows from "./CeloTransactionWorkflows";
+import CosmosTransactionWorkflows from "./CosmosTransactionWorkflows";
 
 /** ===========================================================================
  * Types & Config
@@ -113,46 +117,14 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
     const { tString } = this.props.i18n;
     const { transactionStage } = this.props.transaction;
     const { ledgerActionType } = this.props.ledgerDialog;
+    const { celoCreateAccountStatus } = this.props.ledger;
 
-    if (ledgerActionType === "DELEGATE") {
-      if (transactionStage === TRANSACTION_STAGES.SETUP) {
-        return tString("Setup Delegation Transaction");
-      } else if (transactionStage === TRANSACTION_STAGES.SIGN) {
-        return tString("Sign Delegation Transaction");
-      } else if (transactionStage === TRANSACTION_STAGES.CONFIRM) {
-        return tString("Submit Delegation Transaction");
-      } else if (transactionStage === TRANSACTION_STAGES.PENDING) {
-        return tString("Delegation Transaction Submitted");
-      } else if (transactionStage === TRANSACTION_STAGES.SUCCESS) {
-        return tString("Delegation Transaction Confirmed");
-      }
-    } else if (ledgerActionType === "CLAIM") {
-      if (transactionStage === TRANSACTION_STAGES.SETUP) {
-        return tString("Setup Rewards Claim Transaction");
-      } else if (transactionStage === TRANSACTION_STAGES.SIGN) {
-        return tString("Sign Rewards Claim Transaction");
-      } else if (transactionStage === TRANSACTION_STAGES.CONFIRM) {
-        return tString("Submit Rewards Claim Transaction");
-      } else if (transactionStage === TRANSACTION_STAGES.PENDING) {
-        return tString("Rewards Claim Transaction Submitted");
-      } else if (transactionStage === TRANSACTION_STAGES.SUCCESS) {
-        return tString("Rewards Claim Transaction Confirmed");
-      }
-    } else if (ledgerActionType === "SEND") {
-      if (transactionStage === TRANSACTION_STAGES.SETUP) {
-        return "Setup Send Transaction";
-      } else if (transactionStage === TRANSACTION_STAGES.SIGN) {
-        return "Sign Send Transaction";
-      } else if (transactionStage === TRANSACTION_STAGES.CONFIRM) {
-        return "Submit Send Transaction";
-      } else if (transactionStage === TRANSACTION_STAGES.PENDING) {
-        return "Send Transaction Submitted";
-      } else if (transactionStage === TRANSACTION_STAGES.SUCCESS) {
-        return "Send Transaction Confirmed";
-      }
+    // If not null then account setup is active
+    if (celoCreateAccountStatus) {
+      return "Create Celo Address Account";
     }
 
-    return "";
+    return getDialogTitle(ledgerActionType, transactionStage, tString);
   };
 
   handleCloseDialog = () => {
@@ -211,13 +183,19 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
     const { ledgerActionType } = this.props.ledgerDialog;
 
     switch (ledgerActionType) {
+      case "SEND":
       case "CLAIM":
       case "DELEGATE":
-      case "SEND":
+      case "VOTE_GOLD":
+      case "LOCK_GOLD":
+      case "UNLOCK_GOLD":
+      case "REVOKE_VOTES":
+      case "ACTIVATE_VOTES":
+      case "GOVERNANCE_VOTE":
         if (!this.props.ledger.connected) {
           return this.renderLedgerSignin();
         } else {
-          return this.renderActionDialog();
+          return this.renderTransactionForm();
         }
       default:
         console.warn("Expected ledgerActionType received: ", ledgerActionType);
@@ -265,6 +243,14 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
             {network.ledgerAppName} app installed.
           </H6>
         </Row>
+        {signinNetworkName === "CELO" && (
+          <Row style={{ justifyContent: "left" }}>
+            <Circle />
+            <H6 style={{ margin: 0 }}>
+              Follow the steps to verify the address on the Ledger.
+            </H6>
+          </Row>
+        )}
         {ledgerAppVersionValid === false ? (
           <Centered style={{ flexDirection: "column", marginTop: 52 }}>
             <ErrorText>
@@ -527,18 +513,41 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
     );
   };
 
-  renderActionDialog = () => {
-    return (
-      <React.Fragment>
-        <CreateTransactionForm
-          renderConfirmArrow={this.renderConfirmArrow}
-          isDarkTheme={this.props.settings.isDarkTheme}
-          fiatCurrency={this.props.settings.fiatCurrency}
-          setCanEscapeKeyCloseDialog={this.setCanEscapeKeyCloseDialog}
-        />
-        {this.renderBackArrow()}
-      </React.Fragment>
-    );
+  renderTransactionForm = () => {
+    const { network } = this.props.ledger;
+    switch (network.name) {
+      case "COSMOS":
+      case "KAVA":
+      case "TERRA":
+        return (
+          <>
+            <CosmosTransactionWorkflows
+              renderConfirmArrow={this.renderConfirmArrow}
+              isDarkTheme={this.props.settings.isDarkTheme}
+              fiatCurrency={this.props.settings.fiatCurrency}
+              setCanEscapeKeyCloseDialog={this.setCanEscapeKeyCloseDialog}
+            />
+            {this.renderBackArrow()}
+          </>
+        );
+      case "CELO":
+        return (
+          <>
+            <CeloTransactionWorkflows
+              renderConfirmArrow={this.renderConfirmArrow}
+              isDarkTheme={this.props.settings.isDarkTheme}
+              fiatCurrency={this.props.settings.fiatCurrency}
+              setCanEscapeKeyCloseDialog={this.setCanEscapeKeyCloseDialog}
+            />
+            {this.renderBackArrow()}
+          </>
+        );
+      case "OASIS":
+        return null;
+      default:
+        assertUnreachable(network.name);
+        return null;
+    }
   };
 
   setCanEscapeKeyCloseDialog = (canClose: boolean) => {
@@ -631,6 +640,49 @@ const RecentAddress = styled.p`
   margin: 0;
   padding: 0;
 `;
+
+const getDialogTitle = (
+  ledgerActionType: Nullable<LEDGER_ACTION_TYPE>,
+  transactionStage: TRANSACTION_STAGES,
+  tString: tFnString,
+) => {
+  let transactionTitle = "";
+  if (ledgerActionType === "DELEGATE") {
+    transactionTitle = "Delegation";
+  } else if (ledgerActionType === "CLAIM") {
+    transactionTitle = "Rewards Claim";
+  } else if (ledgerActionType === "SEND") {
+    transactionTitle = "Send/Receive";
+  } else if (ledgerActionType === "VOTE_GOLD") {
+    transactionTitle = "CELO Vote";
+  } else if (ledgerActionType === "LOCK_GOLD") {
+    transactionTitle = "Lock CELO";
+  } else if (ledgerActionType === "UNLOCK_GOLD") {
+    transactionTitle = "Unlock CELO";
+  } else if (ledgerActionType === "ACTIVATE_VOTES") {
+    transactionTitle = "Activate Votes";
+  } else if (ledgerActionType === "REVOKE_VOTES") {
+    transactionTitle = "Revoke Votes";
+  } else if (ledgerActionType === "GOVERNANCE_VOTE") {
+    transactionTitle = "Governance Vote";
+  }
+
+  if (transactionStage === TRANSACTION_STAGES.SETUP) {
+    return `Setup ${transactionTitle} Transaction`;
+  } else if (transactionStage === TRANSACTION_STAGES.SIGN_ON_LEDGER) {
+    return `Sign on Ledger`;
+  } else if (transactionStage === TRANSACTION_STAGES.SIGN) {
+    return `Sign ${transactionTitle} Transaction`;
+  } else if (transactionStage === TRANSACTION_STAGES.CONFIRM) {
+    return `Submit ${transactionTitle} Transaction`;
+  } else if (transactionStage === TRANSACTION_STAGES.PENDING) {
+    return `${transactionTitle} Transaction Submitted`;
+  } else if (transactionStage === TRANSACTION_STAGES.SUCCESS) {
+    return `${transactionTitle} Transaction Confirmed`;
+  }
+
+  return "";
+};
 
 /** ===========================================================================
  * Props

@@ -22,7 +22,6 @@ import {
   takeUntil,
   tap,
 } from "rxjs/operators";
-import { connectCeloAddress } from "tools/celo-ledger-utils";
 import {
   capitalizeString,
   getQueryParamsFromUrl,
@@ -132,7 +131,7 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
       return from(
         new Promise<ReduxActionTypes>(async resolve => {
           try {
-            const { ledger } = deps;
+            const { cosmosLedgerUtil, celoLedgerUtil, oasisLedgerUtil } = deps;
             const { signinNetworkName } = selectors.ledgerDialogSelector(
               state$.value,
             );
@@ -153,21 +152,22 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
               return resolve(Actions.connectLedgerFailure());
             }
 
+            let celoAddressHasAccount = false; // Only applies to Celo Network
             let ledgerAddress;
             let ledgerAppVersion = "0.0.0";
 
             // TODO: Refactor this to a separate function, e.g. getAddressFromLedger
             switch (signinNetworkName) {
               case "COSMOS": {
-                await ledger.connectDevice();
-                ledgerAddress = await ledger.getCosmosAddress();
-                ledgerAppVersion = await ledger.getCosmosAppVersion();
+                await cosmosLedgerUtil.connectDevice();
+                ledgerAddress = await cosmosLedgerUtil.getCosmosAddress();
+                ledgerAppVersion = await cosmosLedgerUtil.getCosmosAppVersion();
                 break;
               }
               case "KAVA":
               case "TERRA": {
-                await ledger.connectDevice();
-                const pk = await ledger.getPubKey();
+                await cosmosLedgerUtil.connectDevice();
+                const pk = await cosmosLedgerUtil.getPubKey();
                 if (typeof pk === "string") {
                   ledgerAddress = getAccAddress(
                     Buffer.from(pk),
@@ -177,18 +177,24 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
                   ledgerAddress = getAccAddress(pk, signinNetworkName);
                 }
 
-                ledgerAppVersion = await ledger.getCosmosAppVersion();
+                ledgerAppVersion = await cosmosLedgerUtil.getCosmosAppVersion();
                 break;
               }
               case "CELO": {
-                ledgerAddress = await connectCeloAddress();
-                // TODO: How to get Celo App version?
-                ledgerAppVersion = "1.0.1";
+                await celoLedgerUtil.connect();
+                ledgerAddress = await celoLedgerUtil.getAddress();
+                ledgerAppVersion = await celoLedgerUtil.getCeloAppVersion();
+                celoAddressHasAccount = await deps.celoLedgerUtil.isAccount(
+                  ledgerAddress,
+                );
                 break;
               }
               case "POLKADOT":
               case "OASIS": {
-                return resolve(Actions.connectLedgerFailure());
+                await oasisLedgerUtil.connect();
+                ledgerAddress = await oasisLedgerUtil.getAddress();
+                ledgerAppVersion = await oasisLedgerUtil.getVersion();
+                break;
               }
               default: {
                 return assertUnreachable(signinNetworkName);
@@ -219,6 +225,7 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
                 network,
                 ledgerAppVersion,
                 ledgerAddress,
+                celoAddressHasAccount,
               }),
             );
           } catch (error) {
@@ -266,6 +273,28 @@ const redirectFromNetworkPageEpic: EpicSignature = (action$, state$, deps) => {
     tap(() => {
       // Will redirect to the dashboard route for this address
       deps.router.push("/");
+    }),
+  );
+};
+
+/**
+ * Handling creating an account for a Celo Ledger address. This is a one
+ * time action.
+ */
+const celoCreateAccountEpic: EpicSignature = (action$, state$, deps) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.setCeloAccountStage)),
+    pluck("payload"),
+    filter(stage => stage === "SIGN"),
+    mergeMap(async () => {
+      try {
+        const { address } = state$.value.ledger.ledger;
+        await deps.celoLedgerUtil.createAccount(address);
+        return Actions.setCeloAccountStage("CONFIRMED");
+      } catch (err) {
+        Toast.warn("Create account failed...");
+        return Actions.setCeloAccountStage("SETUP");
+      }
     }),
   );
 };
@@ -337,7 +366,8 @@ const syncAddressToUrlEpic: EpicSignature = (action$, state$, deps) => {
     tap(({ address, network }) => {
       const { transactionsPage } = state$.value.transaction;
       const { location } = deps.router;
-      const tab = location.pathname.split("/")[2];
+      const { pathname } = location;
+      const tab = pathname.split("/")[2];
       const onChartView = onChartTab(tab);
       const onValidChartTab = isChartTabValidForNetwork(tab, network);
 
@@ -350,10 +380,13 @@ const syncAddressToUrlEpic: EpicSignature = (action$, state$, deps) => {
         deps.router.replace({ search });
       }
 
-      if (!onValidChartTab && onChartView) {
+      const name = network.name.toLowerCase();
+      const onDifferentNetwork = !pathname.includes(name);
+
+      if ((!onValidChartTab && onChartView) || onDifferentNetwork) {
         deps.router.replace({
           search,
-          pathname: `/${network.name.toLowerCase()}/total`,
+          pathname: `/${name}/total`,
         });
       }
     }),
@@ -495,6 +528,7 @@ export default combineEpics(
   logoutEpic,
   saveAddressEpic,
   syncAddressToUrlEpic,
+  celoCreateAccountEpic,
   redirectFromNetworkPageEpic,
   syncAddressToUrlOnNavigationEpic,
   syncAddressToUrlOnInitializationEpic,

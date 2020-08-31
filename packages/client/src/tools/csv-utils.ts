@@ -1,4 +1,4 @@
-import { IFiatPrice, NetworkDefinition } from "@anthem/utils";
+import { CoinDenom, IFiatPrice, NetworkDefinition } from "@anthem/utils";
 import { ChartData } from "./chart-utils";
 import {
   getFiatPriceHistoryMap,
@@ -22,12 +22,16 @@ export const chartExportBuilder = ({
   fiatPriceHistory,
   fiatCurrencySymbol,
   portfolioChartHistory,
+  supportsFiatPrices,
+  selectedDenom,
 }: {
   address: string;
   network: NetworkDefinition;
   fiatCurrencySymbol: string;
   fiatPriceHistory: IFiatPrice[];
   portfolioChartHistory: PortfolioHistoryChartData;
+  supportsFiatPrices: boolean;
+  selectedDenom: CoinDenom;
 }): string => {
   const {
     availableChartData,
@@ -44,6 +48,14 @@ export const chartExportBuilder = ({
   );
 
   const fiatPriceMap = getFiatPriceHistoryMap(fiatPriceHistory, "MMM DD, YYYY");
+
+  const setFiatValue = (value: string | number) => {
+    if (supportsFiatPrices) {
+      return String(value);
+    } else {
+      return "n/a";
+    }
+  };
 
   // Map balances by day timestamp to help join balances and rewards data.
   const balanceMapByTime = availableChartData.data;
@@ -77,13 +89,18 @@ export const chartExportBuilder = ({
   }
 
   // Add info text about the address and network
-  const ADDRESS_INFO = `Account history data for ${network.name} address ${address}.\n\n`;
+  const ADDRESS_INFO = `Account history data for ${network.name} address ${address}.\n`;
+  const DENOM_INFO = `Displaying account history for ${selectedDenom.denom} denomination.\n`;
+  const FIAT_PRICE_INFO = !supportsFiatPrices
+    ? "Fiat exchange rate history is not supported for this denomination.\n"
+    : "";
+  const INFO = `${ADDRESS_INFO}${DENOM_INFO}${FIAT_PRICE_INFO}\n`;
 
   // Add disclaimer at the top of the CSV:
   const DISCLAIMER = `[DISCLAIMER]: This CSV account history is a best approximation of the account balances and rewards data over time. It is not a perfect history and uses a 3rd party price feed for exchange price data.\n\n`;
 
   // Assemble CSV file string with headers
-  let CSV = `${ADDRESS_INFO}${DISCLAIMER}${CSV_HEADERS.join(",")}\n`;
+  let CSV = `${INFO}${DISCLAIMER}${CSV_HEADERS.join(",")}\n`;
 
   // const currentRewards = 0;
   let accumulatedWithdrawals = 0;
@@ -156,13 +173,13 @@ export const chartExportBuilder = ({
     // Add regular CSV fields.
     let CSV_DATA: ReadonlyArray<string> = [
       timestamp.replace(",", ""),
-      fiatPrice,
+      setFiatValue(fiatPrice),
       totalValue,
       balanceValue,
       delegationsValue,
       unbondingsValue,
       currentRewards,
-      fiatRewards,
+      setFiatValue(fiatRewards),
       accumulatedRewards,
       withdrawals,
       rewardsPool,
@@ -178,7 +195,7 @@ export const chartExportBuilder = ({
 
       CSV_DATA = CSV_DATA.concat([
         String(validatorCommissions),
-        validatorCommissionsFiat,
+        setFiatValue(validatorCommissionsFiat),
         validatorFields.accumulatedRewards,
         validatorFields.withdrawals,
         validatorFields.commissionsPool,

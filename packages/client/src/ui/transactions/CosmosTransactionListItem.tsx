@@ -1,13 +1,14 @@
 import {
   assertUnreachable,
+  coinDenomToName,
   ICosmosTransaction,
   ICosmosValidator,
   NetworkDefinition,
 } from "@anthem/utils";
 import { Card, Elevation, Position, Tooltip } from "@blueprintjs/core";
-import { CosmosLogo } from "assets/icons";
 import {
   LinkIcon,
+  NetworkLogoIcon,
   TxReceiveIcon,
   TxRewardWithdrawalIcon,
   TxSendIcon,
@@ -28,11 +29,14 @@ import {
 } from "tools/client-utils";
 import {
   COSMOS_TRANSACTION_TYPES,
+  CosmosBalance,
+  CosmosTransactionFee,
   CosmosTransactionItemData,
   getTransactionFailedLogMessage,
   getTxFee,
   GovernanceSubmitProposalMessageData,
   GovernanceVoteMessageData,
+  TERRA_TRANSACTION_TYPES,
   TransactionItemData,
   transformCosmosTransactionToRenderElements,
   ValidatorCreateOrEditMessageData,
@@ -47,7 +51,6 @@ import {
   ClickableEventRow,
   EventContextBox,
   EventDescriptionText,
-  EventIcon,
   EventIconBox,
   EventRow,
   EventRowBottom,
@@ -113,7 +116,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     transaction: ICosmosTransaction,
     messages: ReadonlyArray<CosmosTransactionItemData>,
   ) => {
-    const fees = getTxFee(transaction);
+    const fee = getTxFee(transaction);
     const transactionFailedLog = getTransactionFailedLogMessage(transaction);
     return (
       <Card style={TransactionCardStyles} elevation={Elevation.TWO}>
@@ -136,7 +139,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
             </View>
           );
         })}
-        {this.renderTransactionFeesRow(fees, transaction)}
+        {this.renderTransactionFeesRow(fee, transaction)}
       </Card>
     );
   };
@@ -290,7 +293,10 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderTransactionAmount = (amount: Nullable<string>, timestamp: string) => {
+  renderTransactionAmount = (
+    amount: Nullable<CosmosBalance>,
+    timestamp: string,
+  ) => {
     const { network, isDesktop } = this.props;
     if (!amount) {
       if (isDesktop) {
@@ -304,18 +310,21 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     return (
       <EventRowItem style={{ minWidth: 275 }}>
         <EventIconBox>
-          <EventIcon src={CosmosLogo} />
+          <NetworkLogoIcon network={network.name} />
         </EventIconBox>
         <EventContextBox>
           <EventText style={{ fontWeight: "bold" }}>
             {formatCurrencyAmount(
-              denomToUnit(amount, network.denominationSize),
+              denomToUnit(amount.amount, network.denominationSize),
             )}{" "}
-            ATOM
+            {coinDenomToName(amount.denom)}
           </EventText>
-          <EventText>
-            {this.getFiatAmount(amount, timestamp)} {fiatCurrency.symbol}
-          </EventText>
+          {amount.denom === network.denom && (
+            <EventText>
+              {this.getFiatAmount(amount.amount, timestamp)}{" "}
+              {fiatCurrency.symbol}
+            </EventText>
+          )}
         </EventContextBox>
       </EventRowItem>
     );
@@ -390,13 +399,17 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderTransactionFeesRow = (
-    fees: string,
+    fee: CosmosTransactionFee,
     transaction: ICosmosTransaction,
   ) => {
+    if (!fee) {
+      return null;
+    }
+
     const { hash, height, timestamp, chain } = transaction;
     const { t, network, fiatCurrency } = this.props;
-    const atomFees = denomToUnit(fees, network.denominationSize);
-    const fiatFees = this.props.getFiatPriceForTransaction(timestamp, atomFees);
+    const txFee = denomToUnit(fee.amount, network.denominationSize);
+    const fiatFees = this.props.getFiatPriceForTransaction(timestamp, txFee);
 
     return (
       <EventRowBottom>
@@ -412,8 +425,12 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
           <EventContextBox>
             <EventText style={{ fontWeight: "bold" }}>{t("Fees")}</EventText>
             <EventText>
-              {formatCurrencyAmount(atomFees, 6)} ATOM (
-              {formatCurrencyAmount(fiatFees, 2)} {fiatCurrency.symbol})
+              {formatCurrencyAmount(txFee, 6)} {coinDenomToName(fee.denom)}{" "}
+              {fee.denom === network.denom && (
+                <>
+                  ({formatCurrencyAmount(fiatFees, 2)} {fiatCurrency.symbol})
+                </>
+              )}
             </EventText>
           </EventContextBox>
         </EventRowItem>
@@ -445,22 +462,36 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
 /**
  * Return the icon for a given transaction type.
  */
-const getCosmosTransactionTypeIcon = (type: COSMOS_TRANSACTION_TYPES) => {
+const getCosmosTransactionTypeIcon = (
+  type: COSMOS_TRANSACTION_TYPES | TERRA_TRANSACTION_TYPES,
+) => {
   switch (type) {
+    case TERRA_TRANSACTION_TYPES.SEND:
+    case TERRA_TRANSACTION_TYPES.MULTI_SEND:
     case COSMOS_TRANSACTION_TYPES.SEND:
       return <TxSendIcon />;
+    case TERRA_TRANSACTION_TYPES.RECEIVE:
     case COSMOS_TRANSACTION_TYPES.RECEIVE:
       return <TxReceiveIcon />;
     case COSMOS_TRANSACTION_TYPES.VOTE:
       return <TxVoteIcon />;
+    case TERRA_TRANSACTION_TYPES.DELEGATE:
+    case TERRA_TRANSACTION_TYPES.UNDELEGATE:
     case COSMOS_TRANSACTION_TYPES.DELEGATE:
     case COSMOS_TRANSACTION_TYPES.BEGIN_REDELEGATE:
+    case TERRA_TRANSACTION_TYPES.REDELEGATE:
       return <TxStakeIcon />;
     case COSMOS_TRANSACTION_TYPES.UNDELEGATE:
       return <TxWithdrawalStakeIcon />;
+    case TERRA_TRANSACTION_TYPES.WITHDRAW_REWARD:
     case COSMOS_TRANSACTION_TYPES.CLAIM_REWARDS:
+    case TERRA_TRANSACTION_TYPES.WITHDRAW_COMMISSION:
     case COSMOS_TRANSACTION_TYPES.CLAIM_COMMISSION:
       return <TxRewardWithdrawalIcon />;
+    case TERRA_TRANSACTION_TYPES.GOVERNANCE_DEPOSIT:
+    case TERRA_TRANSACTION_TYPES.DELEGATE_FEED_CONSENT:
+    case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_VOTE:
+    case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_PRE_VOTE:
     case COSMOS_TRANSACTION_TYPES.SUBMIT_PROPOSAL:
     case COSMOS_TRANSACTION_TYPES.CREATE_VALIDATOR:
     case COSMOS_TRANSACTION_TYPES.EDIT_VALIDATOR:
@@ -476,26 +507,42 @@ const getCosmosTransactionTypeIcon = (type: COSMOS_TRANSACTION_TYPES) => {
  * Convert a transaction type to its internationalized string label.
  */
 export const getCosmosTransactionLabelFromType = (
-  transactionType: COSMOS_TRANSACTION_TYPES,
+  transactionType: COSMOS_TRANSACTION_TYPES | TERRA_TRANSACTION_TYPES,
   tString: tFnString,
 ): string => {
   switch (transactionType) {
+    case TERRA_TRANSACTION_TYPES.GOVERNANCE_DEPOSIT:
+      return "Governance Deposit";
+    case TERRA_TRANSACTION_TYPES.DELEGATE_FEED_CONSENT:
+      return "Delegate Feed Consent";
+    case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_VOTE:
+      return "Exchange Rate Vote";
+    case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_PRE_VOTE:
+      return "Exchange Rate Pre Vote";
+    case TERRA_TRANSACTION_TYPES.SEND:
+    case TERRA_TRANSACTION_TYPES.MULTI_SEND:
     case COSMOS_TRANSACTION_TYPES.SEND:
       return tString("Send");
+    case TERRA_TRANSACTION_TYPES.RECEIVE:
     case COSMOS_TRANSACTION_TYPES.RECEIVE:
       return tString("Receive");
     case COSMOS_TRANSACTION_TYPES.VOTE:
       return tString("Vote");
+    case TERRA_TRANSACTION_TYPES.DELEGATE:
     case COSMOS_TRANSACTION_TYPES.DELEGATE:
       return tString("Delegate");
+    case TERRA_TRANSACTION_TYPES.UNDELEGATE:
     case COSMOS_TRANSACTION_TYPES.UNDELEGATE:
       return tString("Undelegate");
     case COSMOS_TRANSACTION_TYPES.BEGIN_REDELEGATE:
+    case TERRA_TRANSACTION_TYPES.REDELEGATE:
       return tString("Redelegate");
+    case TERRA_TRANSACTION_TYPES.WITHDRAW_REWARD:
     case COSMOS_TRANSACTION_TYPES.CLAIM_REWARDS:
       return tString("Claim Rewards");
     case COSMOS_TRANSACTION_TYPES.SUBMIT_PROPOSAL:
       return tString("Submit Proposal");
+    case TERRA_TRANSACTION_TYPES.WITHDRAW_COMMISSION:
     case COSMOS_TRANSACTION_TYPES.CLAIM_COMMISSION:
       return tString("Claim Commission");
     case COSMOS_TRANSACTION_TYPES.CREATE_VALIDATOR:

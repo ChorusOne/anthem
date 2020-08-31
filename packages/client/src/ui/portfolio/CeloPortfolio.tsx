@@ -1,5 +1,6 @@
 import {
   assertUnreachable,
+  getDefaultDenomFromNetwork,
   ICeloAccountSnapshot,
   IQuery,
   NetworkDefinition,
@@ -130,7 +131,9 @@ class CeloPortfolio extends React.PureComponent<
                 currencySetting === "fiat",
               );
               if (chartData) {
+                const denom = getDefaultDenomFromNetwork(network);
                 return getHighchartsChartOptions({
+                  denom,
                   tString,
                   network,
                   fullSize,
@@ -144,7 +147,7 @@ class CeloPortfolio extends React.PureComponent<
               return null;
             };
 
-            const noData = accountHistory.length === 0;
+            const noData = !accountHistory || accountHistory.length === 0;
 
             if (noData) {
               return (
@@ -300,8 +303,10 @@ const getChartData = (
     const key = toDateKeyCelo(x.snapshotDate);
     let result = denomToUnit(value, network.denominationSize, Number);
 
+    const CUSD_TABS = tab === "CUSD" || tab === "COMMISSIONS";
+
     // Convert to fiat price if fiat price setting is enabled
-    if (displayFiatPrices && tab !== "CUSD") {
+    if (displayFiatPrices && !CUSD_TABS) {
       const fiatPrice = fiatPriceHistory[key] || firstPrice;
       result = result * fiatPrice;
     }

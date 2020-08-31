@@ -87,5 +87,12 @@ query cosmosTransaction($hash: String!, $network: String!){
         }
         timestamp
         chain
+        events{
+            type
+            attributes{
+                key
+                value
+            }
+        }
     }
 }

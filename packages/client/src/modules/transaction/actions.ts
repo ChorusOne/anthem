@@ -1,12 +1,13 @@
-import { ICosmosTransaction, ICosmosValidator } from "@anthem/utils";
+import {
+  ICeloValidatorGroup,
+  ICosmosTransaction,
+  ICosmosValidator,
+} from "@anthem/utils";
+import { ICeloTransactionResult } from "lib/celo-ledger-lib";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { TxPostBody } from "tools/cosmos-utils";
 import { ActionType, createStandardAction } from "typesafe-actions";
-
-/** ===========================================================================
- * Types & Config
- * ============================================================================
- */
+import { GovernanceVoteDetails } from "./store";
 
 /** ===========================================================================
  * Action Types
@@ -34,6 +35,8 @@ enum ActionTypesEnum {
   SET_TRANSACTIONS_PAGE = "SET_TRANSACTIONS_PAGE",
 
   SET_DELEGATION_VALIDATOR_SELECTION = "SET_DELEGATION_VALIDATOR_SELECTION",
+
+  SET_GOVERNANCE_VOTE_DETAILS = "SET_GOVERNANCE_VOTE_DETAILS",
 }
 
 /** ===========================================================================
@@ -52,9 +55,11 @@ const setTransactionStage = createStandardAction(
 const signTransaction = createStandardAction(
   ActionTypesEnum.SIGN_TRANSACTION,
 )();
+
 const signTransactionSuccess = createStandardAction(
   ActionTypesEnum.SIGN_TRANSACTION_SUCCESS,
-)<TxPostBody>();
+)<TxPostBody | any>();
+
 const signTransactionFailure = createStandardAction(
   ActionTypesEnum.SIGN_TRANSACTION_FAILURE,
 )();
@@ -77,7 +82,7 @@ const pollForTransaction = createStandardAction(
 
 const transactionConfirmed = createStandardAction(
   ActionTypesEnum.TRANSACTION_CONFIRMED,
-)<{ height: string; transaction: Nullable<ICosmosTransaction> }>();
+)<Nullable<ICosmosTransaction | ICeloTransactionResult>>();
 
 const transactionFailed = createStandardAction(
   ActionTypesEnum.TRANSACTION_FAILED,
@@ -93,7 +98,11 @@ const removeLocalCopyOfTransaction = createStandardAction(
 
 const setDelegationValidatorSelection = createStandardAction(
   ActionTypesEnum.SET_DELEGATION_VALIDATOR_SELECTION,
-)<ICosmosValidator>();
+)<ICosmosValidator | ICeloValidatorGroup>();
+
+const setGovernanceVoteDetails = createStandardAction(
+  ActionTypesEnum.SET_GOVERNANCE_VOTE_DETAILS,
+)<GovernanceVoteDetails>();
 
 const actions = {
   setTransactionData,
@@ -110,6 +119,7 @@ const actions = {
   setTransactionsPage,
   removeLocalCopyOfTransaction,
   setDelegationValidatorSelection,
+  setGovernanceVoteDetails,
 };
 
 /** ===========================================================================
