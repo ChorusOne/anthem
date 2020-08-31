@@ -8,11 +8,10 @@ import {
 import { LEDGER_ERRORS } from "constants/ledger-errors";
 import Analytics from "lib/analytics-lib";
 import StorageModule from "lib/storage-lib";
-import { createPolkadotAccountFromSeed } from "modules/polkadot/epics";
 import { EpicSignature, ReduxActionTypes } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import { combineEpics } from "redux-observable";
-import { from, of } from "rxjs";
+import { from } from "rxjs";
 import {
   filter,
   ignoreElements,
@@ -45,7 +44,6 @@ import selectors, { addressSelector } from "./selectors";
  * ============================================================================
  */
 
-// @ts-ignore
 const setAddressEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.setAddress)),
@@ -55,7 +53,7 @@ const setAddressEpic: EpicSignature = (action$, state$, deps) => {
       const address = addressSelector(state$.value);
 
       if (payload.length > 52) {
-        return of(Actions.searchTransactionByHash(payload));
+        return Actions.searchTransactionByHash(payload);
       }
 
       // Convert validator address to operator addresses
@@ -74,7 +72,7 @@ const setAddressEpic: EpicSignature = (action$, state$, deps) => {
           Toast.warn(maybeErrorMessage);
         }
 
-        return of(Actions.setAddressFailure(maybeErrorMessage));
+        return Actions.setAddressFailure(maybeErrorMessage);
       }
 
       StorageModule.setAddress(setAddress);
@@ -83,28 +81,11 @@ const setAddressEpic: EpicSignature = (action$, state$, deps) => {
 
       const network = deriveNetworkFromAddress(setAddress);
 
-      const actions = [];
-
-      if (network.name === "POLKADOT" && setAddress.includes(" ")) {
-        const { account, stashKey } = await createPolkadotAccountFromSeed(
-          setAddress,
-        );
-        actions.push(
-          Actions.polkadotSignin({ account, seed: setAddress, stashKey }),
-        );
-        setAddress = account.stashKey;
-      }
-
-      actions.push(
-        Actions.setAddressSuccess({
-          network,
-          address: setAddress,
-        }),
-      );
-
-      return of(...actions);
+      return Actions.setAddressSuccess({
+        network,
+        address: setAddress,
+      });
     }),
-    mergeMap(x => (Array.isArray(x) ? [x] : x)),
   );
 };
 
@@ -189,13 +170,14 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
                 );
                 break;
               }
-              case "POLKADOT":
               case "OASIS": {
                 await oasisLedgerUtil.connect();
                 ledgerAddress = await oasisLedgerUtil.getAddress();
                 ledgerAppVersion = await oasisLedgerUtil.getVersion();
                 break;
               }
+              case "POLKADOT":
+                return Actions.empty("Polkadot Ledger is not supported.");
               default: {
                 return assertUnreachable(signinNetworkName);
               }

@@ -16,6 +16,9 @@ import { DotAccount } from "./store";
  * ============================================================================
  */
 
+/**
+ * Talk to Dave and Ankit about the server:
+ */
 const SERVER_URL = "https://ns3169927.ip-51-89-192.eu";
 
 // const MOCK_DOT_ACCOUNT = {

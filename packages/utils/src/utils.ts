@@ -13,6 +13,9 @@ export const assertUnreachable = (x: never): never => {
 
 /**
  * Determine the network for a given address using the address prefix.
+ *
+ * NOTE: Polkadot address validation was hard-coded and has been
+ * removed.
  */
 export const deriveNetworkFromAddress = (
   address: string,
@@ -27,8 +30,6 @@ export const deriveNetworkFromAddress = (
     return NETWORKS.OASIS;
   } else if (address.substring(0, 2) === "0x" && address.length === 42) {
     return NETWORKS.CELO;
-  } else if (address.includes(" ") || address.length >= 47) {
-    return NETWORKS.POLKADOT;
   }
 
   throw new Error(
