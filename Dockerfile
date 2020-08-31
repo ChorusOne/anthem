@@ -1,4 +1,4 @@
-FROM cypress/base:12.18.0 AS cypress
+FROM cypress/base:12.16.1 AS cypress
 
 ENV CI=true
 
@@ -25,7 +25,7 @@ RUN lerna bootstrap
 RUN yarn utils:build
 
 # Build the client package in dev mode
-RUN cd packages/client && REACT_APP_DEV=true yarn build
+RUN cd packages/client && REACT_APP_DEV=true yarn build --max_old_space_size=4096
 
 # Build the server package
 RUN yarn server:build
