@@ -32,7 +32,7 @@ const SERVER_URL = "https://ns3169927.ip-51-89-192.eu";
  */
 const fetchAccountEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
-    filter(isActionOf([Actions.fetchAccount, Actions.initializeApp])),
+    filter(isActionOf(Actions.fetchAccount)),
     mergeMap(async () => {
       try {
         const { address } = state$.value.ledger.ledger;
@@ -83,12 +83,6 @@ const stakeEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.setPolkadotStake)),
     pluck("payload"),
-    tap(x => {
-      // Debug:
-      const { polkadot } = state$.value;
-      console.log(polkadot.stakeAmount);
-      console.log(polkadot.interactionType);
-    }),
     mergeMap(async () => {
       try {
         const { stashKey, stakeAmount } = state$.value.polkadot;
