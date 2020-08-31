@@ -5,7 +5,7 @@ import stringToU8a from "@polkadot/util/string/toU8a";
 import axios from "axios";
 import { EpicSignature } from "modules/root";
 import { combineEpics } from "redux-observable";
-import { delay, filter, mapTo, mergeMap, pluck, tap } from "rxjs/operators";
+import { delay, filter, mapTo, mergeMap, pluck } from "rxjs/operators";
 import { isActionOf } from "typesafe-actions";
 import Toast from "ui/Toast";
 import { Actions } from "../root-actions";
