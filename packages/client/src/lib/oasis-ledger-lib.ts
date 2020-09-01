@@ -41,7 +41,7 @@ interface IOasisLedger {
 
 class OasisLedgerClass implements IOasisLedger {
   private app: Nullable<any> = null;
-  private readonly path = [44, 118, 5, 0, 3];
+  private readonly path = [44, 474, 0, 0, 0];
 
   async connect() {
     // Given a transport (U2F/HIF/WebUSB) it is possible instantiate the app
@@ -68,17 +68,11 @@ class OasisLedgerClass implements IOasisLedger {
       throw new Error("Not initialized yet!");
     }
 
-    const response = await this.app.getVersion();
-    console.log(
-      `App Version ${response.major}.${response.minor}.${response.patch}`,
-    );
-    console.log(`Device Locked: ${response.device_locked}`);
-    console.log(`Test mode: ${response.test_mode}`);
-
     const result = await this.app.getAddressAndPubKey(this.path);
-    console.log("Oasis Address:");
-    console.log(result);
-    return result;
+    const address = result.bech32_address;
+    console.log(`Oasis Address: ${address}`);
+
+    return address;
   }
 
   async getVersion() {
@@ -87,7 +81,7 @@ class OasisLedgerClass implements IOasisLedger {
     }
 
     const result = await this.app.getVersion();
-    const version = `${result.major}-${result.minor}-${result.patch}`;
+    const version = `${result.major}.${result.minor}.${result.patch}`;
     return version;
   }
 
