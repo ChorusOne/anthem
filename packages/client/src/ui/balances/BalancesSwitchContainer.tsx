@@ -89,6 +89,8 @@ class BalancesSwitchContainer extends React.Component<IProps, IState> {
         return <OasisBalances />;
       case "CELO":
         return <CeloBalances />;
+      case "POLKADOT":
+        return null;
       default:
         return assertUnreachable(network.name);
     }

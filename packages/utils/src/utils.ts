@@ -13,6 +13,9 @@ export const assertUnreachable = (x: never): never => {
 
 /**
  * Determine the network for a given address using the address prefix.
+ *
+ * NOTE: Polkadot address validation was hard-coded and has been
+ * removed.
  */
 export const deriveNetworkFromAddress = (
   address: string,

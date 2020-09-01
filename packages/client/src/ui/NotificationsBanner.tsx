@@ -24,6 +24,13 @@ interface IProps extends ComponentProps {}
 
 class NotificationsBanner extends React.Component<IProps> {
   render(): Nullable<JSX.Element> {
+    const { network } = this.props;
+
+    // Don't render on Staking Agent page
+    if (network.name === "POLKADOT") {
+      return null;
+    }
+
     if (!this.props.address) {
       return null;
     }
@@ -92,6 +99,8 @@ class NotificationsBanner extends React.Component<IProps> {
             <b>{name} Network</b> is in beta.
           </BannerText>
         );
+      case "POLKADOT":
+        return null;
       default:
         return assertUnreachable(name);
     }

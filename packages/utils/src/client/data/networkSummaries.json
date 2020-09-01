@@ -44,6 +44,15 @@
       "expectedReward": null,
       "inflation": null,
       "supportsLedger": false
+    },
+    {
+      "name": "POLKADOT",
+      "tokenPrice": null,
+      "lastDayChange": null,
+      "marketCapitalization": null,
+      "expectedReward": null,
+      "inflation": null,
+      "supportsLedger": false
     }
   ]
 }

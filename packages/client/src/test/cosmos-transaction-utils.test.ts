@@ -12,6 +12,7 @@ interface TxTypeMap {
  * Transform the transactions to a map, keyed by the transaction type, to
  * be used for testing to easily retrieve transactions of a specific type.
  */
+// @ts-ignore
 const txsByType: TxTypeMap = txs.reduce(
   // @ts-ignore
   (txMap: TxTypeMap, tx: ICosmosTransaction) => {
