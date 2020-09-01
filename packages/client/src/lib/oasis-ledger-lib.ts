@@ -9,6 +9,7 @@ import { wait } from "tools/client-utils";
  * Oasis Ledger Utils
  * ---------------------------------------------------------------------------
  * Docs: https://github.com/Zondax/ledger-oasis-js
+ * Example App: https://github.com/Zondax/ledger-oasis-js/blob/master/vue_example/components/LedgerExample.vue
  * ============================================================================
  */
 
@@ -67,8 +68,15 @@ class OasisLedgerClass implements IOasisLedger {
       throw new Error("Not initialized yet!");
     }
 
+    const response = await this.app.getVersion();
+    console.log(
+      `App Version ${response.major}.${response.minor}.${response.patch}`,
+    );
+    console.log(`Device Locked: ${response.device_locked}`);
+    console.log(`Test mode: ${response.test_mode}`);
+
     const result = await this.app.getAddressAndPubKey(this.path);
-    console.log("ADDRESS:");
+    console.log("Oasis Address:");
     console.log(result);
     return result;
   }
