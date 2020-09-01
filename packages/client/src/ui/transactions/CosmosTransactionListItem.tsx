@@ -175,7 +175,7 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     const { tString } = this.props;
     const isClaim = isClaimTransaction(data.type);
 
-    return (
+    const MainRow = (
       <EventRow data-cy="transaction-list-item">
         {this.renderTypeAndTimestamp(data)}
         {!isClaim && this.renderTransactionAmount(data.amount, data.timestamp)}
@@ -183,6 +183,17 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
         {data.type !== COSMOS_TRANSACTION_TYPES.CLAIM_COMMISSION &&
           this.renderAddressBox(data.toAddress, tString("To"))}
       </EventRow>
+    );
+
+    return (
+      <>
+        {MainRow}
+        {isClaim && (
+          <EventRow data-cy="transaction-list-item">
+            {this.renderClaimEventsData(data)}
+          </EventRow>
+        )}
+      </>
     );
   };
 
@@ -291,6 +302,20 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
             {formatDate(Number(data.timestamp))}{" "}
             {formatTime(Number(data.timestamp))}
           </EventText>
+        </EventContextBox>
+      </EventRowItem>
+    );
+  };
+
+  renderClaimEventsData = (data: CosmosTransactionItemData) => {
+    const { tString } = this.props;
+    const Icon = getCosmosTransactionTypeIcon(data.type);
+    return (
+      <EventRowItem style={{ minWidth: 230 }}>
+        <EventIconBox>{Icon}</EventIconBox>
+        <EventContextBox>
+          <EventText style={{ fontWeight: "bold" }}>hi</EventText>
+          <EventText data-cy="transaction-timestamp">hi</EventText>
         </EventContextBox>
       </EventRowItem>
     );

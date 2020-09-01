@@ -2,6 +2,7 @@ import {
   assertUnreachable,
   COIN_DENOMS,
   ICosmosTransaction,
+  ICosmosTransactionEvent,
   ILogMessage,
   IMsgBeginRedelegate,
   IMsgDelegate,
@@ -252,6 +253,53 @@ const getDelegationTransactionMessage = (
   };
 };
 
+const getClaimDataFromEvents = (
+  events: ICosmosTransactionEvent[],
+  type: "rewards" | "commissions",
+) => {
+  let values: any[] = [];
+  const results = [];
+
+  console.log(events);
+
+  if (type === "rewards") {
+    const rewardsEvent = events.find(x => x.type === "withdraw_rewards");
+    if (rewardsEvent) {
+      const rewards = rewardsEvent.attributes.find(x => x.key === "amount");
+      if (rewards && rewards.value) {
+        values = rewards.value.split(",");
+      }
+    }
+  } else {
+    const commissionsEvent = events.find(x => x.type === "withdraw_commission");
+    if (commissionsEvent) {
+      const commissions = commissionsEvent.attributes.find(
+        x => x.key === "amount",
+      );
+      if (commissions && commissions.value) {
+        values = commissions.value.split(",");
+      }
+    }
+  }
+
+  for (const value of values) {
+    const match = value.match(/\d+/g);
+    if (match) {
+      const numbers = match[0];
+      const denomIndex = numbers.length;
+      const denom = value.slice(denomIndex);
+      results.push({
+        amount: numbers,
+        denom,
+      });
+    }
+  }
+
+  console.log(results);
+
+  return results;
+};
+
 // Rewards claim transaction type.
 const getClaimRewardsMessageData = (
   transaction: ICosmosTransaction,
@@ -291,7 +339,7 @@ const getClaimRewardsMessageData = (
   let claimData: any[] = [];
 
   if (events) {
-    claimData = events;
+    claimData = getClaimDataFromEvents(events, "rewards");
   }
 
   return {
@@ -337,7 +385,7 @@ const getValidatorClaimRewardsMessageData = (
   let claimData: any[] = [];
 
   if (events) {
-    claimData = events;
+    claimData = getClaimDataFromEvents(events, "commissions");
   }
 
   return {
