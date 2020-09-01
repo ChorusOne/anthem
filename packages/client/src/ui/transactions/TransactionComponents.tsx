@@ -120,6 +120,7 @@ export const EventRowItem = styled.div`
     props.theme.isDesktop ? "auto" : "100%"};
 `;
 
+// @ts-ignore
 export const ClickableEventRow = styled(EventRowItem)`
   &:hover {
     cursor: pointer;
@@ -129,6 +130,7 @@ export const ClickableEventRow = styled(EventRowItem)`
   }
 `;
 
+// @ts-ignore
 export const EventRowBottom = styled(EventRow)`
   background: ${(props: { theme: IThemeProps }) => {
     return props.theme.isDarkTheme ? Colors.DARK_GRAY3 : Colors.LIGHT_GRAY4;

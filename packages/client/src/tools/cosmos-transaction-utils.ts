@@ -2,6 +2,7 @@ import {
   assertUnreachable,
   COIN_DENOMS,
   ICosmosTransaction,
+  ICosmosTransactionEvent,
   ILogMessage,
   IMsgBeginRedelegate,
   IMsgDelegate,
@@ -51,6 +52,21 @@ export enum TERRA_TRANSACTION_TYPES {
   EXCHANGE_RATE_PRE_VOTE = "oracle/MsgExchangeRatePrevote",
 }
 
+/**
+ * Determine if a Cosmos SDK transaction is a rewards or commissions claim
+ * transaction.
+ */
+export const isClaimTransaction = (
+  type: COSMOS_TRANSACTION_TYPES | TERRA_TRANSACTION_TYPES,
+): boolean => {
+  return (
+    type === COSMOS_TRANSACTION_TYPES.CLAIM_REWARDS ||
+    type === COSMOS_TRANSACTION_TYPES.CLAIM_COMMISSION ||
+    type === TERRA_TRANSACTION_TYPES.WITHDRAW_REWARD ||
+    type === TERRA_TRANSACTION_TYPES.WITHDRAW_COMMISSION
+  );
+};
+
 export enum TRANSACTION_STAGES {
   "SETUP" = "SETUP",
   "SIGN" = "SIGN",
@@ -69,6 +85,11 @@ export interface CosmosBalance {
 
 export type CosmosTransactionFee = Nullable<CosmosBalance>;
 
+export interface RewardsCommissionsData {
+  amount: string;
+  denom: string;
+}
+
 export interface TransactionItemData {
   type: COSMOS_TRANSACTION_TYPES;
   timestamp: string;
@@ -76,6 +97,7 @@ export interface TransactionItemData {
   fee: CosmosTransactionFee;
   toAddress: string;
   fromAddress: string;
+  rewardsCommissionsData?: RewardsCommissionsData[];
 }
 
 export interface GovernanceVoteMessageData {
@@ -236,13 +258,64 @@ const getDelegationTransactionMessage = (
   };
 };
 
+/**
+ * Search through the transaction events to extract the rewards and
+ * commissions withdraw amounts.
+ *
+ * NOTE: This only applies to transactions which have been updated
+ * to store events data (hipparchus upgrade) - this does not apply to
+ * Cosmos transactions (at the time of this writing).
+ */
+const getClaimDataFromEvents = (
+  events: ICosmosTransactionEvent[],
+  type: "rewards" | "commissions",
+): RewardsCommissionsData[] => {
+  let values: any[] = [];
+  const results = [];
+
+  if (type === "rewards") {
+    const rewardsEvent = events.find(x => x.type === "withdraw_rewards");
+    if (rewardsEvent) {
+      const rewards = rewardsEvent.attributes.find(x => x.key === "amount");
+      if (rewards && rewards.value) {
+        values = rewards.value.split(",");
+      }
+    }
+  } else {
+    const commissionsEvent = events.find(x => x.type === "withdraw_commission");
+    if (commissionsEvent) {
+      const commissions = commissionsEvent.attributes.find(
+        x => x.key === "amount",
+      );
+      if (commissions && commissions.value) {
+        values = commissions.value.split(",");
+      }
+    }
+  }
+
+  for (const value of values) {
+    const match = value.match(/\d+/g);
+    if (match) {
+      const numbers = match[0];
+      const denomIndex = numbers.length;
+      const denom = value.slice(denomIndex);
+      results.push({
+        amount: numbers,
+        denom,
+      });
+    }
+  }
+
+  return results;
+};
+
 // Rewards claim transaction type.
 const getClaimRewardsMessageData = (
   transaction: ICosmosTransaction,
   msgIndex: number,
   denom: COIN_DENOMS,
 ): TransactionItemData => {
-  const { tags } = transaction;
+  const { tags, events } = transaction;
   const msg = transaction.msgs[msgIndex];
 
   const { type, value } = msg;
@@ -272,8 +345,15 @@ const getClaimRewardsMessageData = (
   const validatorAddress = validator_address || "";
   const delegatorAddress = delegator_address || "";
 
+  let claimData: any[] = [];
+
+  if (events) {
+    claimData = getClaimDataFromEvents(events, "rewards");
+  }
+
   return {
     fee,
+    rewardsCommissionsData: claimData,
     amount: { amount: rewards || "0", denom },
     toAddress: delegatorAddress,
     fromAddress: validatorAddress,
@@ -288,7 +368,7 @@ const getValidatorClaimRewardsMessageData = (
   msgIndex: number,
   denom: COIN_DENOMS,
 ): TransactionItemData => {
-  const { tags } = transaction;
+  const { tags, events } = transaction;
   const msg = transaction.msgs[msgIndex];
 
   const { type, value } = msg;
@@ -311,9 +391,16 @@ const getValidatorClaimRewardsMessageData = (
   const fee = getTxFee(transaction);
   const validatorAddress = validator_address || "";
 
+  let claimData: any[] = [];
+
+  if (events) {
+    claimData = getClaimDataFromEvents(events, "commissions");
+  }
+
   return {
     fee,
     toAddress: "",
+    rewardsCommissionsData: claimData,
     amount: { amount: commissions || "0", denom },
     fromAddress: validatorAddress,
     timestamp: transaction.timestamp,

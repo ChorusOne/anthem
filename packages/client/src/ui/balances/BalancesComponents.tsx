@@ -175,7 +175,6 @@ class CosmosMultiDenominationBalances extends React.Component<
       currencySetting,
     } = this.props;
     const SHOULD_SHOW_LEDGER_ACTIONS = isDesktop && network.supportsLedger;
-    console.log(balances);
     return (
       <>
         <SummaryContainer
