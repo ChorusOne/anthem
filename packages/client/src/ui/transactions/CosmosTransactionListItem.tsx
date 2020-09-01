@@ -37,6 +37,7 @@ import {
   GovernanceSubmitProposalMessageData,
   GovernanceVoteMessageData,
   isClaimTransaction,
+  RewardsCommissionsData,
   TERRA_TRANSACTION_TYPES,
   TransactionItemData,
   transformCosmosTransactionToRenderElements,
@@ -185,12 +186,14 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
       </EventRow>
     );
 
+    const claimData = data.rewardsCommissionsData;
+
     return (
       <>
         {MainRow}
-        {isClaim && (
+        {isClaim && claimData && claimData.length && (
           <EventRow data-cy="transaction-list-item">
-            {this.renderClaimEventsData(data)}
+            {claimData.map(claim => this.renderClaimEventsData(claim))}
           </EventRow>
         )}
       </>
@@ -307,15 +310,19 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderClaimEventsData = (data: CosmosTransactionItemData) => {
-    const { tString } = this.props;
-    const Icon = getCosmosTransactionTypeIcon(data.type);
+  renderClaimEventsData = (data: RewardsCommissionsData) => {
+    const { amount, denom } = data;
+    const key = `${amount}${denom}`;
+    const value = formatCurrencyAmount(
+      denomToUnit(amount, this.props.network.denominationSize),
+    );
+
     return (
-      <EventRowItem style={{ minWidth: 230 }}>
-        <EventIconBox>{Icon}</EventIconBox>
+      <EventRowItem key={key} style={{ minWidth: 200 }}>
+        <EventIconBox />
         <EventContextBox>
-          <EventText style={{ fontWeight: "bold" }}>hi</EventText>
-          <EventText data-cy="transaction-timestamp">hi</EventText>
+          <EventText data-cy="amount-denom">{coinDenomToName(denom)}</EventText>
+          <EventText style={{ fontWeight: "bold" }}>{value}</EventText>
         </EventContextBox>
       </EventRowItem>
     );

@@ -85,6 +85,11 @@ export interface CosmosBalance {
 
 export type CosmosTransactionFee = Nullable<CosmosBalance>;
 
+export interface RewardsCommissionsData {
+  amount: string;
+  denom: string;
+}
+
 export interface TransactionItemData {
   type: COSMOS_TRANSACTION_TYPES;
   timestamp: string;
@@ -92,7 +97,7 @@ export interface TransactionItemData {
   fee: CosmosTransactionFee;
   toAddress: string;
   fromAddress: string;
-  claimData?: any[];
+  rewardsCommissionsData?: RewardsCommissionsData[];
 }
 
 export interface GovernanceVoteMessageData {
@@ -253,14 +258,20 @@ const getDelegationTransactionMessage = (
   };
 };
 
+/**
+ * Search through the transaction events to extract the rewards and
+ * commissions withdraw amounts.
+ *
+ * NOTE: This only applies to transactions which have been updated
+ * to store events data (hipparchus upgrade) - this does not apply to
+ * Cosmos transactions (at the time of this writing).
+ */
 const getClaimDataFromEvents = (
   events: ICosmosTransactionEvent[],
   type: "rewards" | "commissions",
-) => {
+): RewardsCommissionsData[] => {
   let values: any[] = [];
   const results = [];
-
-  console.log(events);
 
   if (type === "rewards") {
     const rewardsEvent = events.find(x => x.type === "withdraw_rewards");
@@ -294,8 +305,6 @@ const getClaimDataFromEvents = (
       });
     }
   }
-
-  console.log(results);
 
   return results;
 };
@@ -344,7 +353,7 @@ const getClaimRewardsMessageData = (
 
   return {
     fee,
-    claimData,
+    rewardsCommissionsData: claimData,
     amount: { amount: rewards || "0", denom },
     toAddress: delegatorAddress,
     fromAddress: validatorAddress,
@@ -391,7 +400,7 @@ const getValidatorClaimRewardsMessageData = (
   return {
     fee,
     toAddress: "",
-    claimData,
+    rewardsCommissionsData: claimData,
     amount: { amount: commissions || "0", denom },
     fromAddress: validatorAddress,
     timestamp: transaction.timestamp,
