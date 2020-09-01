@@ -542,6 +542,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
             {this.renderBackArrow()}
           </>
         );
+      case "POLKADOT":
       case "OASIS":
         return null;
       default:

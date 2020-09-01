@@ -62,6 +62,12 @@ const networkToPrefix = (network: NETWORK_NAME): Prefixes => {
         accountPrefix: "celo",
         validatorPrefix: "celo",
       };
+    case "POLKADOT":
+      console.warn("[TODO]: Implement Polkadot address prefixes!");
+      return {
+        accountPrefix: "polkadot",
+        validatorPrefix: "polkadot",
+      };
     default:
       return assertUnreachable(network);
   }

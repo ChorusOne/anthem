@@ -6,6 +6,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
+import PolkadotPage from "ui/pages/PolkadotPage";
 import { PanelMessageText } from "ui/SharedComponents";
 import CosmosValidators from "ui/validators/CosmosValidators";
 import CeloValidators from "./CeloValidators";
@@ -24,7 +25,7 @@ interface IState {
  * ============================================================================
  */
 
-class PortfolioSwitchContainer extends React.Component<IProps, IState> {
+class ValidatorsSwitchContainer extends React.Component<IProps, IState> {
   static getDerivedStateFromError(error: Error) {
     return { hasError: true };
   }
@@ -79,6 +80,8 @@ class PortfolioSwitchContainer extends React.Component<IProps, IState> {
         return null;
       case "CELO":
         return <CeloValidators />;
+      case "POLKADOT":
+        return <PolkadotPage />;
       default:
         return null;
     }
@@ -112,5 +115,5 @@ interface IProps
  */
 
 export default composeWithProps<ComponentProps>(withProps)(
-  PortfolioSwitchContainer,
+  ValidatorsSwitchContainer,
 );

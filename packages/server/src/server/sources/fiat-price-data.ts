@@ -125,6 +125,10 @@ const getBackFillPricesForNetwork = (
     case "CELO":
       return [];
 
+    // NOTE: Not supported yet
+    case "POLKADOT":
+      return [];
+
     default:
       return assertUnreachable(name);
   }

@@ -80,6 +80,7 @@ class TransactionSwitchContainer extends React.Component<IProps, IState> {
         return <OasisTransactionContainer />;
       case "CELO":
         return <CeloTransactionContainer />;
+      case "POLKADOT":
       default:
         return null;
     }

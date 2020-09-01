@@ -86,9 +86,21 @@ const NETWORK_ADDRESS_DEFAULTS: { [key: string]: Addresses } = {
 
 export type TERRA_DENOMS = "ukrw" | "uluna" | "uusd" | "usdr" | "umnt";
 
-export type COIN_DENOMS = "uatom" | "ukava" | TERRA_DENOMS | "AMBR" | "CELO";
+export type COIN_DENOMS =
+  | "uatom"
+  | "ukava"
+  | TERRA_DENOMS
+  | "AMBR"
+  | "CELO"
+  | "DOT";
 
-export type NETWORK_NAME = "COSMOS" | "TERRA" | "KAVA" | "OASIS" | "CELO";
+export type NETWORK_NAME =
+  | "COSMOS"
+  | "TERRA"
+  | "KAVA"
+  | "OASIS"
+  | "CELO"
+  | "POLKADOT";
 
 export interface CoinDenom {
   denom: string;
@@ -241,6 +253,28 @@ const NETWORKS: NetworksMap = {
     supportsBalances: true,
     supportsPortfolio: true,
     supportsTransactionsHistory: true,
+    supportsValidatorsList: false,
+    supportsGovernance: false,
+    denominationSize: 1e9,
+    customChartTabs: new Set(),
+    expectedReward: null,
+  },
+  POLKADOT: {
+    available: false,
+    name: "POLKADOT",
+    denom: "DOT",
+    denomsList: ["DOT"],
+    descriptor: "DOT",
+    chainId: "n/a",
+    cryptoCompareTicker: "DOT",
+    ledgerAppVersion: "n/a",
+    ledgerAppName: "n/a",
+    ledgerDocsLink: "n/a",
+    supportsLedger: false,
+    supportsFiatPrices: false,
+    supportsBalances: false,
+    supportsPortfolio: false,
+    supportsTransactionsHistory: false,
     supportsValidatorsList: false,
     supportsGovernance: false,
     denominationSize: 1e9,

@@ -47,7 +47,7 @@ import selectors, { addressSelector } from "./selectors";
 const setAddressEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
     filter(isActionOf(Actions.setAddress)),
-    map(({ payload, meta }) => {
+    mergeMap(async ({ payload, meta }) => {
       let setAddress = payload;
       const { tString } = i18nSelector(state$.value);
       const address = addressSelector(state$.value);
@@ -176,6 +176,8 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
                 ledgerAppVersion = await oasisLedgerUtil.getVersion();
                 break;
               }
+              case "POLKADOT":
+                return Actions.empty("Polkadot Ledger is not supported.");
               default: {
                 return assertUnreachable(signinNetworkName);
               }

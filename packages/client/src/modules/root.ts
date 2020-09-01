@@ -16,6 +16,7 @@ import { combineEpics, Epic } from "redux-observable";
 import { catchError } from "rxjs/operators";
 import App, { AppActionTypes, AppState } from "./app";
 import Ledger, { LedgerActionTypes, LedgerState } from "./ledger";
+import Polkadot, { PolkadotActionTypes, PolkadotState } from "./polkadot";
 import Settings, { SettingsActionTypes, SettingsState } from "./settings";
 import Transaction, {
   TransactionActionTypes,
@@ -31,6 +32,7 @@ export type ReduxActionTypes =
   | LedgerActionTypes
   | SettingsActionTypes
   | AppActionTypes
+  | PolkadotActionTypes
   | TransactionActionTypes;
 
 export const selectors = {
@@ -38,6 +40,7 @@ export const selectors = {
   ledger: Ledger.selector,
   settings: Settings.selector,
   transaction: Transaction.selector,
+  polkadot: Polkadot.selector,
 };
 
 export const actions = {
@@ -45,6 +48,7 @@ export const actions = {
   ledger: Ledger.actions,
   settings: Settings.actions,
   transaction: Transaction.actions,
+  polkadot: Polkadot.actions,
 };
 
 const Modules = {
@@ -62,6 +66,7 @@ export interface ReduxStoreState {
   ledger: LedgerState;
   settings: SettingsState;
   transaction: TransactionState;
+  polkadot: PolkadotState;
 }
 
 const rootReducer = combineReducers({
@@ -69,6 +74,7 @@ const rootReducer = combineReducers({
   ledger: Ledger.store,
   settings: Settings.store,
   transaction: Transaction.store,
+  polkadot: Polkadot.store,
 });
 
 /** ===========================================================================
@@ -97,6 +103,7 @@ const epics: ReadonlyArray<Epic> = [
   Settings.epics,
   App.epics,
   Transaction.epics,
+  Polkadot.epics,
 ];
 
 /**

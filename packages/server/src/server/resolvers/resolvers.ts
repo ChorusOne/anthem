@@ -103,6 +103,13 @@ const resolvers = {
             case "CELO":
               stats = await CELO.fetchNetworkSummaryStats();
               break;
+            case "POLKADOT":
+              stats = {
+                inflation: null,
+                expectedReward: null,
+                totalSupply: null,
+              };
+              break;
             default:
               assertUnreachable(network.name);
           }

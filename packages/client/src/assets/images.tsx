@@ -4,6 +4,7 @@ import {
   CosmosLogo,
   KavaLogo,
   OasisLogo,
+  PolkadotLogo,
   TerraLogo,
 } from "assets/icons";
 import React from "react";
@@ -278,6 +279,8 @@ export const NetworkLogoIcon = ({
       return <NetworkImage src={OasisLogo} style={styles} />;
     case "CELO":
       return <NetworkImage src={CeloLogo} style={styles} />;
+    case "POLKADOT":
+      return <NetworkImage src={PolkadotLogo} style={styles} />;
     default:
       return assertUnreachable(network);
   }

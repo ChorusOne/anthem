@@ -28,6 +28,7 @@ const postProcessResponse = (response: any, network: NetworkDefinition) => {
     case "COSMOS":
     case "KAVA":
       return response.result;
+    case "POLKADOT":
     case "OASIS":
     case "CELO":
       break;
