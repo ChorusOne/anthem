@@ -522,6 +522,13 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           )}
                         </Text>
                       </RowItem>
+                      {isGreaterThan(pendingWithdrawalBalance, 0) && (
+                        <RowItem width={75}>
+                          <Button onClick={this.handleWithdraw}>
+                            Withdraw
+                          </Button>
+                        </RowItem>
+                      )}
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
                       <RowItem width={125}>
@@ -745,6 +752,18 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
       signinType: "LEDGER",
       ledgerAccessType: "PERFORM_ACTION",
       ledgerActionType: "ACTIVATE_VOTES",
+    });
+  };
+
+  handleWithdraw = () => {
+    if (!this.props.ledger.connected) {
+      this.props.setSigninNetworkName(this.props.network.name);
+    }
+    // Open the ledger dialog
+    this.props.openLedgerDialog({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "LOCK_GOLD",
     });
   };
 
