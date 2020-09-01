@@ -36,6 +36,8 @@ import {
   getTxFee,
   GovernanceSubmitProposalMessageData,
   GovernanceVoteMessageData,
+  isClaimTransaction,
+  RewardsCommissionsData,
   TERRA_TRANSACTION_TYPES,
   TransactionItemData,
   transformCosmosTransactionToRenderElements,
@@ -172,14 +174,29 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderDefaultTransactionMessage = (data: TransactionItemData) => {
     const { tString } = this.props;
-    return (
+    const isClaim = isClaimTransaction(data.type);
+
+    const MainRow = (
       <EventRow data-cy="transaction-list-item">
         {this.renderTypeAndTimestamp(data)}
-        {this.renderTransactionAmount(data.amount, data.timestamp)}
+        {!isClaim && this.renderTransactionAmount(data.amount, data.timestamp)}
         {this.renderAddressBox(data.fromAddress, tString("From"))}
         {data.type !== COSMOS_TRANSACTION_TYPES.CLAIM_COMMISSION &&
           this.renderAddressBox(data.toAddress, tString("To"))}
       </EventRow>
+    );
+
+    const claimData = data.rewardsCommissionsData;
+
+    return (
+      <>
+        {MainRow}
+        {isClaim && claimData && claimData.length && (
+          <EventRow data-cy="transaction-list-item">
+            {claimData.map(claim => this.renderClaimEventsData(claim))}
+          </EventRow>
+        )}
+      </>
     );
   };
 
@@ -293,6 +310,24 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
+  renderClaimEventsData = (data: RewardsCommissionsData) => {
+    const { amount, denom } = data;
+    const key = `${amount}${denom}`;
+    const value = formatCurrencyAmount(
+      denomToUnit(amount, this.props.network.denominationSize),
+    );
+
+    return (
+      <EventRowItem key={key} style={{ minWidth: 200 }}>
+        <EventIconBox />
+        <EventContextBox>
+          <EventText data-cy="amount-denom">{coinDenomToName(denom)}</EventText>
+          <EventText style={{ fontWeight: "bold" }}>{value}</EventText>
+        </EventContextBox>
+      </EventRowItem>
+    );
+  };
+
   renderTransactionAmount = (
     amount: Nullable<CosmosBalance>,
     timestamp: string,
@@ -331,6 +366,10 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderAddressBox = (address: string, titleText: string) => {
+    if (!address) {
+      return null;
+    }
+
     return (
       <ClickableEventRow onClick={this.handleLinkToAddress(address)}>
         <EventIconBox>

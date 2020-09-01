@@ -421,7 +421,7 @@ export interface IDelegation {
 export interface IEventAttributes {
    __typename?: "EventAttributes";
   key: Scalars["String"];
-  value: Scalars["String"];
+  value: Maybe<Scalars["String"]>;
 }
 
 export interface IExecutionProposal {

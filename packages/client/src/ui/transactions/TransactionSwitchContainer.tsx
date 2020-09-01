@@ -39,6 +39,7 @@ class TransactionSwitchContainer extends React.Component<IProps, IState> {
   }
 
   componentDidCatch(error: Error) {
+    console.log(error);
     // Log the error to Sentry.
     Sentry.captureException(error);
   }
