@@ -98,7 +98,7 @@ interface IState {
   displayReceiveQR: boolean;
   revokeVotesGroup: string;
   transactionSetupError: string;
-  celoPendingWithdrawalIndex: Nullable<string>;
+  celoPendingWithdrawalIndex: number | undefined;
   selectedRewards: ReadonlyArray<AvailableReward>;
 }
 
@@ -124,7 +124,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       displayReceiveQR: false,
       revokeVotesGroup: "",
       transactionSetupError: "",
-      celoPendingWithdrawalIndex: null,
+      celoPendingWithdrawalIndex: undefined,
     };
   }
 
@@ -764,8 +764,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             <View>
               <p>You must withdraw CELO tokens.</p>
               <p style={{ marginTop: 8 }}>
-                Available: {bold(`${balance} ${ledger.network.descriptor}`)} (
-                {fiatBalance} {fiatCurrency.symbol})
+                Available: {bold(`${balance} ${ledger.network.descriptor}`)}
+              </p>
+              <p style={{ marginTop: 8 }}>
+                ({fiatBalance} {fiatCurrency.symbol})
               </p>
               <H6 style={{ marginTop: 12, marginBottom: 0 }}>
                 Please choose a pending withdrawal balance from the list to
@@ -789,7 +791,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                       selectedValue={celoPendingWithdrawalIndex}
                       onChange={e =>
                         this.setState({
-                          celoPendingWithdrawalIndex: e.currentTarget.value,
+                          celoPendingWithdrawalIndex: Number(
+                            e.currentTarget.value,
+                          ),
                         })
                       }
                     >
@@ -805,7 +809,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                             label={`Pending Balance: ${value.toFixed()}`}
                             onClick={() =>
                               this.setState({
-                                celoPendingWithdrawalIndex: String(index),
+                                celoPendingWithdrawalIndex: index,
                               })
                             }
                           />
@@ -1441,14 +1445,14 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   submitWithdrawTransaction = () => {
     const { celoPendingWithdrawalIndex } = this.state;
     const withdrawError =
-      celoPendingWithdrawalIndex === null ? "Please select an option" : "";
+      celoPendingWithdrawalIndex === undefined ? "Please select an option" : "";
 
     this.setState(
       {
         transactionSetupError: withdrawError,
       },
       () => {
-        if (amountError === "") {
+        if (withdrawError === "") {
           this.getWithdrawTransaction();
         }
       },
@@ -1461,7 +1465,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
 
     const data: CeloWithdrawArguments = {
       address,
-      index: Number(celoPendingWithdrawalIndex),
+      index: celoPendingWithdrawalIndex as number,
     };
 
     this.props.setTransactionData(data);

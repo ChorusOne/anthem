@@ -19,6 +19,7 @@ import {
   REVOKE_VOTES_RECEIPT,
   TRANSFER_RECEIPT,
   UNLOCK_RECEIPT,
+  WITHDRAW_RECEIPT,
 } from "./celo-mock-data";
 
 /** ===========================================================================
@@ -326,7 +327,6 @@ class CeloLedgerClass implements ICeloLedger {
     const tx = lockedGold.withdraw(index);
     // @ts-ignore
     const receipt = await tx.sendAndWaitForReceipt({ from: address });
-    console.log(receipt);
 
     return receipt;
   }
@@ -476,7 +476,7 @@ class MockCeloLedgerModule implements ICeloLedger {
 
   async withdraw() {
     await wait(2500);
-    return PLACEHOLDER_TX_RECEIPT;
+    return WITHDRAW_RECEIPT;
   }
 
   async activateVotes() {
