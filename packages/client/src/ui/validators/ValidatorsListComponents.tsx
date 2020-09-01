@@ -22,6 +22,7 @@ export const ValidatorRowBase = styled.div`
   flex-direction: row;
 `;
 
+// @ts-ignore
 export const StakingRow = styled(ValidatorRowBase)`
   height: 70px;
 `;

@@ -238,6 +238,24 @@ const syncTransactionPageEpic: EpicSignature = (action$, state$, deps) => {
   );
 };
 
+const fetchCeloPendingWithdrawalsEpic: EpicSignature = (
+  action$,
+  state$,
+  deps,
+) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.connectLedgerSuccess)),
+    filter(action => action.payload.network.name === "CELO"),
+    mergeMap(async action => {
+      const address = action.payload.ledgerAddress;
+      const pendingWithdrawals = await deps.celoLedgerUtil.getPendingWithdrawalBalances(
+        address,
+      );
+      return Actions.setCeloPendingWithdrawalData(pendingWithdrawals);
+    }),
+  );
+};
+
 /** ===========================================================================
  * Export
  * ============================================================================
@@ -248,4 +266,5 @@ export default combineEpics(
   broadcastTransactionEpic,
   pollTransactionEpic,
   syncTransactionPageEpic,
+  fetchCeloPendingWithdrawalsEpic,
 );

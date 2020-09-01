@@ -98,6 +98,7 @@ interface IState {
   displayReceiveQR: boolean;
   revokeVotesGroup: string;
   transactionSetupError: string;
+  celoPendingWithdrawalIndex: Nullable<string>;
   selectedRewards: ReadonlyArray<AvailableReward>;
 }
 
@@ -123,6 +124,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       displayReceiveQR: false,
       revokeVotesGroup: "",
       transactionSetupError: "",
+      celoPendingWithdrawalIndex: null,
     };
   }
 
@@ -719,12 +721,20 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const {
       i18n,
       ledger,
+      transaction,
       fiatCurrency,
       fiatPriceData,
       celoAccountBalances,
     } = this.props;
+    const { celoPendingWithdrawalData } = transaction;
+    if (!celoPendingWithdrawalData) {
+      return <Spinner />;
+    }
+
     const { network } = ledger;
     const { tString } = i18n;
+    const { celoPendingWithdrawalIndex } = this.state;
+
     return (
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
@@ -758,7 +768,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                 {fiatBalance} {fiatCurrency.symbol})
               </p>
               <H6 style={{ marginTop: 12, marginBottom: 0 }}>
-                Please enter an amount of available CELO to withdraw.
+                Please choose a pending withdrawal balance from the list to
+                withdraw.
               </H6>
               <View style={{ marginTop: 12 }}>
                 <FormContainer>
@@ -770,29 +781,40 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     data-cy="ledger-action-input-form"
                     onSubmit={(event: ChangeEvent<HTMLFormElement>) => {
                       event.preventDefault();
-                      this.submitLockGoldAmount();
+                      this.submitWithdrawTransaction();
                     }}
                   >
-                    <TextInput
-                      autoFocus
-                      label="Withdraw Amount (CELO)"
-                      onSubmit={this.submitLockGoldAmount}
-                      style={{ ...InputStyles, width: 300 }}
-                      placeholder={tString("Enter an amount")}
-                      data-cy="transaction-amount-input"
-                      value={this.state.amount}
-                      onChange={this.handleEnterLedgerActionAmount}
-                    />
-                    <Switch
-                      checked={this.state.useFullBalance}
-                      style={{ marginTop: 24 }}
-                      data-cy="transaction-withdraw-all-toggle"
-                      label="Withdraw All"
-                      onChange={() => this.toggleFullBalance(balance)}
-                    />
+                    <RadioGroup
+                      inline
+                      selectedValue={celoPendingWithdrawalIndex}
+                      onChange={e =>
+                        this.setState({
+                          celoPendingWithdrawalIndex: e.currentTarget.value,
+                        })
+                      }
+                    >
+                      {celoPendingWithdrawalData.map((pending, index) => {
+                        const { value } = pending;
+                        return (
+                          <Radio
+                            key={index}
+                            value={index}
+                            color={COLORS.CHORUS}
+                            style={{ marginLeft: 8 }}
+                            data-cy="pending-withdrawal-balance-radio"
+                            label={`Pending Balance: ${value.toFixed()}`}
+                            onClick={() =>
+                              this.setState({
+                                celoPendingWithdrawalIndex: String(index),
+                              })
+                            }
+                          />
+                        );
+                      })}
+                    </RadioGroup>
                     {this.props.renderConfirmArrow(
                       tString("Generate My Transaction"),
-                      this.submitLockGoldAmount,
+                      this.submitWithdrawTransaction,
                     )}
                   </form>
                 </FormContainer>
@@ -1403,7 +1425,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     );
   };
 
-  getUnlockGoldTransaction = async () => {
+  getUnlockGoldTransaction = () => {
     const { amount } = this.state;
     const { network, address } = this.props.ledger;
     const { denominationSize } = network;
@@ -1417,22 +1439,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   submitWithdrawTransaction = () => {
-    const { amount } = this.state;
-    const { network } = this.props.ledger;
-    const { celoAccountBalances } = this.props.celoAccountBalances;
-    const { pendingWithdrawalBalance } = celoAccountBalances;
-    const maximumAmount = pendingWithdrawalBalance;
-
-    // TODO: Fix validation
-    const amountError = validateLedgerTransactionAmount(
-      unitToDenom(amount, network.denominationSize),
-      maximumAmount,
-      this.props.i18n.tString,
-    );
+    const { celoPendingWithdrawalIndex } = this.state;
+    const withdrawError =
+      celoPendingWithdrawalIndex === null ? "Please select an option" : "";
 
     this.setState(
       {
-        transactionSetupError: amountError,
+        transactionSetupError: withdrawError,
       },
       () => {
         if (amountError === "") {
@@ -1442,14 +1455,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     );
   };
 
-  getWithdrawTransaction = async () => {
-    const { amount } = this.state;
-    const { network, address } = this.props.ledger;
-    const { denominationSize } = network;
+  getWithdrawTransaction = () => {
+    const { celoPendingWithdrawalIndex } = this.state;
+    const { address } = this.props.ledger;
 
     const data: CeloWithdrawArguments = {
       address,
-      amount: unitToDenom(amount, denominationSize),
+      index: Number(celoPendingWithdrawalIndex),
     };
 
     this.props.setTransactionData(data);

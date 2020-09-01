@@ -4,6 +4,7 @@ import {
   newLedgerWalletWithSetup,
 } from "@celo/contractkit/lib/wallets/ledger-wallet";
 import { VoteValue } from "@celo/contractkit/lib/wrappers/Governance";
+import { PendingWithdrawal } from "@celo/contractkit/lib/wrappers/LockedGold";
 import Eth from "@ledgerhq/hw-app-eth";
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
@@ -75,7 +76,7 @@ export interface CeloUnlockGoldArguments {
 }
 
 export interface CeloWithdrawArguments {
-  amount: string;
+  index: number;
   address: string;
 }
 
@@ -117,6 +118,7 @@ interface ICeloLedger {
   voteForValidatorGroup(
     args: CeloVoteArguments,
   ): Promise<ICeloTransactionResult>;
+  getPendingWithdrawalBalances(address: string): Promise<PendingWithdrawal[]>;
   withdraw(args: CeloWithdrawArguments): Promise<ICeloTransactionResult>;
   activateVotes(address: string): Promise<ICeloTransactionResult>;
   revokeVotes(args: RevokeVotesArguments): Promise<ICeloTransactionResult>;
@@ -301,19 +303,32 @@ class CeloLedgerClass implements ICeloLedger {
     return receipt;
   }
 
+  async getPendingWithdrawalBalances(address: string) {
+    if (!this.kit) {
+      throw new Error("CeloLedgerClass not initialized yet.");
+    }
+
+    const lockedGold = await this.kit.contracts.getLockedGold();
+    const pending = await lockedGold.getPendingWithdrawals(address);
+    return pending;
+  }
+
   async withdraw(args: CeloWithdrawArguments) {
     if (!this.kit) {
       throw new Error("CeloLedgerClass not initialized yet.");
     }
 
-    const { address } = args;
+    const { index, address } = args;
 
-    console.log(`Withdrawing ${"n/a"} gold for address ${address}`);
+    console.log(`Withdrawing tokens at index ${index} for address ${address}`);
     const lockedGold = await this.kit.contracts.getLockedGold();
-    // TODO: How to withdraw?
-    const pending = await lockedGold.getPendingWithdrawals(address);
-    console.log(pending);
-    return PLACEHOLDER_TX_RECEIPT;
+
+    const tx = lockedGold.withdraw(index);
+    // @ts-ignore
+    const receipt = await tx.sendAndWaitForReceipt({ from: address });
+    console.log(receipt);
+
+    return receipt;
   }
 
   async voteForValidatorGroup(args: CeloVoteArguments) {
@@ -453,6 +468,10 @@ class MockCeloLedgerModule implements ICeloLedger {
   async voteForValidatorGroup(args: CeloVoteArguments) {
     await wait(2500);
     return PLACEHOLDER_TX_RECEIPT;
+  }
+
+  async getPendingWithdrawalBalances(address: string) {
+    return [];
   }
 
   async withdraw() {

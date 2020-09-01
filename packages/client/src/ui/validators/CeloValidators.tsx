@@ -44,6 +44,7 @@ import {
   isGreaterThan,
   multiply,
   subtract,
+  toBigNumber,
 } from "tools/math-utils";
 import AddressIconComponent from "ui/AddressIconComponent";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
@@ -147,6 +148,8 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
               pendingWithdrawalBalance,
               celoUSDValue,
             } = accountBalancesResponse;
+
+            console.log(accountBalancesResponse);
 
             const validatorOperatorAddressMap = getValidatorOperatorAddressMap<
               ICeloValidatorGroup
@@ -427,7 +430,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                       <RowItem width={125}>
                         <H6 style={{ margin: 0 }}>AVAILABLE</H6>
                       </RowItem>
-                      <RowItem width={125}>
+                      <RowItem width={175}>
                         <Text>
                           {renderCurrencyValue(
                             availableGoldBalance,
@@ -451,7 +454,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                       <RowItem width={125}>
                         <H6 style={{ margin: 0 }}>LOCKED</H6>
                       </RowItem>
-                      <RowItem width={125}>
+                      <RowItem width={175}>
                         <Text>
                           {renderCurrencyValue(
                             totalLockedGoldBalance,
@@ -475,7 +478,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                       <RowItem width={125}>
                         <H6 style={{ margin: 0 }}>VOTING</H6>
                       </RowItem>
-                      <RowItem width={125}>
+                      <RowItem width={175}>
                         <Text>
                           {renderCurrencyValue(
                             votingLockedGoldBalance,
@@ -488,7 +491,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                       <RowItem width={125}>
                         <H6 style={{ margin: 0 }}>NON-VOTING</H6>
                       </RowItem>
-                      <RowItem width={125}>
+                      <RowItem width={175}>
                         <Text>
                           {renderCurrencyValue(
                             nonVotingLockedGoldBalance,
@@ -514,7 +517,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                       <RowItem width={125}>
                         <H6 style={{ margin: 0 }}>PENDING</H6>
                       </RowItem>
-                      <RowItem width={125}>
+                      <RowItem width={175}>
                         <Text>
                           {renderCurrencyValue(
                             pendingWithdrawalBalance,
@@ -534,7 +537,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                       <RowItem width={125}>
                         <H6 style={{ margin: 0 }}>cUSD</H6>
                       </RowItem>
-                      <RowItem width={125}>
+                      <RowItem width={175}>
                         <Text>
                           {renderCurrencyValue(
                             celoUSDValue,
@@ -816,7 +819,8 @@ const adjustCeloValue = (value: GenericNumberType) => {
  * Helper to render Celo currency values.
  */
 const renderCurrencyValue = (value: string, denomSize: number) => {
-  return formatCurrencyAmount(denomToUnit(value, denomSize));
+  const amount = denomToUnit(value, denomSize, toBigNumber);
+  return amount.toFixed();
 };
 
 /** ===========================================================================
