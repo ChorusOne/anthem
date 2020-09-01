@@ -306,7 +306,7 @@ class CeloLedgerClass implements ICeloLedger {
       throw new Error("CeloLedgerClass not initialized yet.");
     }
 
-    const { amount, address } = args;
+    const { address } = args;
 
     console.log(`Withdrawing ${"n/a"} gold for address ${address}`);
     const lockedGold = await this.kit.contracts.getLockedGold();
