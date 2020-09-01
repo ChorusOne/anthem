@@ -311,6 +311,9 @@ export const getBlockExplorerUrlForTransaction = (
     case "OASIS":
       console.warn("[TODO]: Implement Block Explorer url for Oasis");
       return "";
+    case "POLKADOT":
+      console.warn("[TODO]: Implement Block Explorer url for Polkadot");
+      return "";
     default:
       return assertUnreachable(network);
   }

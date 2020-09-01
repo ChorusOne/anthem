@@ -110,6 +110,8 @@ Router.get("/tx-history/:network/:address", async (req, res) => {
         transactions = result.data;
         break;
       }
+      case "POLKADOT":
+        break;
       default:
         return assertUnreachable(name);
     }
