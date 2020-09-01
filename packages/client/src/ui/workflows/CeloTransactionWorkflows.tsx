@@ -161,6 +161,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         return this.renderLockGoldTransactionSetup();
       case "UNLOCK_GOLD":
         return this.renderUnlockGoldTransactionSetup();
+      case "WITHDRAW":
+        return this.renderWithdrawTransactionSetup();
       case "ACTIVATE_VOTES":
         return this.renderActivateVotesStep();
       case "REVOKE_VOTES":
@@ -694,6 +696,104 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     {this.props.renderConfirmArrow(
                       tString("Generate My Transaction"),
                       this.submitUnlockGoldAmount,
+                    )}
+                  </form>
+                </FormContainer>
+                {this.state.transactionSetupError && (
+                  <div style={{ marginTop: 12 }} className={Classes.LABEL}>
+                    <ErrorText data-cy="amount-transaction-error">
+                      {this.state.transactionSetupError}
+                    </ErrorText>
+                  </div>
+                )}
+              </View>
+            </View>
+          );
+        }}
+      </GraphQLGuardComponentMultipleQueries>
+    );
+  };
+
+  renderWithdrawTransactionSetup = () => {
+    const {
+      i18n,
+      ledger,
+      fiatCurrency,
+      fiatPriceData,
+      celoAccountBalances,
+    } = this.props;
+    const { network } = ledger;
+    const { tString } = i18n;
+    return (
+      <GraphQLGuardComponentMultipleQueries
+        tString={tString}
+        results={[
+          [celoAccountBalances, "celoAccountBalances"],
+          [fiatPriceData, "fiatPriceData"],
+        ]}
+      >
+        {([accountBalancesData, exchangeRate]: [
+          ICeloAccountBalances,
+          IQuery["fiatPriceData"],
+        ]) => {
+          const { availableGoldBalance } = accountBalancesData;
+          const balance = renderCeloCurrency({
+            denomSize: network.denominationSize,
+            value: availableGoldBalance,
+            fiatPrice: exchangeRate.price,
+            convertToFiat: false,
+          });
+          const fiatBalance = renderCeloCurrency({
+            denomSize: network.denominationSize,
+            value: availableGoldBalance,
+            fiatPrice: exchangeRate.price,
+            convertToFiat: true,
+          });
+          return (
+            <View>
+              <p>
+                To vote for a Celo Validator Group you must first lock CELO.
+              </p>
+              <p style={{ marginTop: 8 }}>
+                Available: {bold(`${balance} ${ledger.network.descriptor}`)} (
+                {fiatBalance} {fiatCurrency.symbol})
+              </p>
+              <H6 style={{ marginTop: 12, marginBottom: 0 }}>
+                Please enter an amount of available CELO to lock:
+              </H6>
+              <View style={{ marginTop: 12 }}>
+                <FormContainer>
+                  <form
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                    data-cy="ledger-action-input-form"
+                    onSubmit={(event: ChangeEvent<HTMLFormElement>) => {
+                      event.preventDefault();
+                      this.submitLockGoldAmount();
+                    }}
+                  >
+                    <TextInput
+                      autoFocus
+                      label="Transaction Amount (CELO)"
+                      onSubmit={this.submitLockGoldAmount}
+                      style={{ ...InputStyles, width: 300 }}
+                      placeholder={tString("Enter an amount")}
+                      data-cy="transaction-amount-input"
+                      value={this.state.amount}
+                      onChange={this.handleEnterLedgerActionAmount}
+                    />
+                    <Switch
+                      checked={this.state.useFullBalance}
+                      style={{ marginTop: 24 }}
+                      data-cy="transaction-delegate-all-toggle"
+                      label="Lock Max"
+                      onChange={() => this.toggleFullBalance(balance)}
+                    />
+                    {this.props.renderConfirmArrow(
+                      tString("Generate My Transaction"),
+                      this.submitLockGoldAmount,
                     )}
                   </form>
                 </FormContainer>

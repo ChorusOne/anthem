@@ -763,7 +763,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
     this.props.openLedgerDialog({
       signinType: "LEDGER",
       ledgerAccessType: "PERFORM_ACTION",
-      ledgerActionType: "LOCK_GOLD",
+      ledgerActionType: "WITHDRAW",
     });
   };
 

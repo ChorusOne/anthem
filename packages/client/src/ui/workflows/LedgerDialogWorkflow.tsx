@@ -186,6 +186,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
       case "SEND":
       case "CLAIM":
       case "DELEGATE":
+      case "WITHDRAW":
       case "VOTE_GOLD":
       case "LOCK_GOLD":
       case "UNLOCK_GOLD":
@@ -660,6 +661,8 @@ const getDialogTitle = (
     transactionTitle = "Lock CELO";
   } else if (ledgerActionType === "UNLOCK_GOLD") {
     transactionTitle = "Unlock CELO";
+  } else if (ledgerActionType === "WITHDRAW") {
+    transactionTitle = "Withdraw";
   } else if (ledgerActionType === "ACTIVATE_VOTES") {
     transactionTitle = "Activate Votes";
   } else if (ledgerActionType === "REVOKE_VOTES") {
