@@ -31,6 +31,7 @@ import {
 } from "graphql/queries";
 import {
   CeloUnlockGoldArguments,
+  CeloWithdrawArguments,
   ICeloTransactionResult,
   RevokeVotesArguments,
 } from "lib/celo-ledger-lib";
@@ -736,30 +737,28 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           ICeloAccountBalances,
           IQuery["fiatPriceData"],
         ]) => {
-          const { availableGoldBalance } = accountBalancesData;
+          const { pendingWithdrawalBalance } = accountBalancesData;
           const balance = renderCeloCurrency({
             denomSize: network.denominationSize,
-            value: availableGoldBalance,
+            value: pendingWithdrawalBalance,
             fiatPrice: exchangeRate.price,
             convertToFiat: false,
           });
           const fiatBalance = renderCeloCurrency({
             denomSize: network.denominationSize,
-            value: availableGoldBalance,
+            value: pendingWithdrawalBalance,
             fiatPrice: exchangeRate.price,
             convertToFiat: true,
           });
           return (
             <View>
-              <p>
-                To vote for a Celo Validator Group you must first lock CELO.
-              </p>
+              <p>You must withdraw CELO tokens.</p>
               <p style={{ marginTop: 8 }}>
                 Available: {bold(`${balance} ${ledger.network.descriptor}`)} (
                 {fiatBalance} {fiatCurrency.symbol})
               </p>
               <H6 style={{ marginTop: 12, marginBottom: 0 }}>
-                Please enter an amount of available CELO to lock:
+                Please enter an amount of available CELO to withdraw.
               </H6>
               <View style={{ marginTop: 12 }}>
                 <FormContainer>
@@ -776,7 +775,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   >
                     <TextInput
                       autoFocus
-                      label="Transaction Amount (CELO)"
+                      label="Withdraw Amount (CELO)"
                       onSubmit={this.submitLockGoldAmount}
                       style={{ ...InputStyles, width: 300 }}
                       placeholder={tString("Enter an amount")}
@@ -787,8 +786,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     <Switch
                       checked={this.state.useFullBalance}
                       style={{ marginTop: 24 }}
-                      data-cy="transaction-delegate-all-toggle"
-                      label="Lock Max"
+                      data-cy="transaction-withdraw-all-toggle"
+                      label="Withdraw All"
                       onChange={() => this.toggleFullBalance(balance)}
                     />
                     {this.props.renderConfirmArrow(
@@ -1410,6 +1409,45 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const { denominationSize } = network;
 
     const data: CeloUnlockGoldArguments = {
+      address,
+      amount: unitToDenom(amount, denominationSize),
+    };
+
+    this.props.setTransactionData(data);
+  };
+
+  submitWithdrawTransaction = () => {
+    const { amount } = this.state;
+    const { network } = this.props.ledger;
+    const { celoAccountBalances } = this.props.celoAccountBalances;
+    const { pendingWithdrawalBalance } = celoAccountBalances;
+    const maximumAmount = pendingWithdrawalBalance;
+
+    // TODO: Fix validation
+    const amountError = validateLedgerTransactionAmount(
+      unitToDenom(amount, network.denominationSize),
+      maximumAmount,
+      this.props.i18n.tString,
+    );
+
+    this.setState(
+      {
+        transactionSetupError: amountError,
+      },
+      () => {
+        if (amountError === "") {
+          this.getWithdrawTransaction();
+        }
+      },
+    );
+  };
+
+  getWithdrawTransaction = async () => {
+    const { amount } = this.state;
+    const { network, address } = this.props.ledger;
+    const { denominationSize } = network;
+
+    const data: CeloWithdrawArguments = {
       address,
       amount: unitToDenom(amount, denominationSize),
     };

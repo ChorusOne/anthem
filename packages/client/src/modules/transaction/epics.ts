@@ -73,6 +73,11 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
                   transactionData,
                 );
                 return Actions.transactionConfirmed(unlockResult);
+              case "WITHDRAW":
+                const withdrawResult = await celoLedgerUtil.withdraw(
+                  transactionData,
+                );
+                return Actions.transactionConfirmed(withdrawResult);
               case "ACTIVATE_VOTES":
                 const activateResult = await celoLedgerUtil.activateVotes(
                   address,
