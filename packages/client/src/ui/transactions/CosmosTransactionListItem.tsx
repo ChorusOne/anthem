@@ -36,6 +36,7 @@ import {
   getTxFee,
   GovernanceSubmitProposalMessageData,
   GovernanceVoteMessageData,
+  isClaimTransaction,
   TERRA_TRANSACTION_TYPES,
   TransactionItemData,
   transformCosmosTransactionToRenderElements,
@@ -90,7 +91,6 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   render(): Nullable<JSX.Element> {
     const { transaction } = this.props;
     const messages = this.getTransactionMessages(transaction);
-    console.log(transaction);
     return this.renderTransaction(transaction, messages);
   }
 
@@ -173,10 +173,12 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderDefaultTransactionMessage = (data: TransactionItemData) => {
     const { tString } = this.props;
+    const isClaim = isClaimTransaction(data.type);
+
     return (
       <EventRow data-cy="transaction-list-item">
         {this.renderTypeAndTimestamp(data)}
-        {this.renderTransactionAmount(data.amount, data.timestamp)}
+        {!isClaim && this.renderTransactionAmount(data.amount, data.timestamp)}
         {this.renderAddressBox(data.fromAddress, tString("From"))}
         {data.type !== COSMOS_TRANSACTION_TYPES.CLAIM_COMMISSION &&
           this.renderAddressBox(data.toAddress, tString("To"))}

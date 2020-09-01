@@ -51,6 +51,21 @@ export enum TERRA_TRANSACTION_TYPES {
   EXCHANGE_RATE_PRE_VOTE = "oracle/MsgExchangeRatePrevote",
 }
 
+/**
+ * Determine if a Cosmos SDK transaction is a rewards or commissions claim
+ * transaction.
+ */
+export const isClaimTransaction = (
+  type: COSMOS_TRANSACTION_TYPES | TERRA_TRANSACTION_TYPES,
+): boolean => {
+  return (
+    type === COSMOS_TRANSACTION_TYPES.CLAIM_REWARDS ||
+    type === COSMOS_TRANSACTION_TYPES.CLAIM_COMMISSION ||
+    type === TERRA_TRANSACTION_TYPES.WITHDRAW_REWARD ||
+    type === TERRA_TRANSACTION_TYPES.WITHDRAW_COMMISSION
+  );
+};
+
 export enum TRANSACTION_STAGES {
   "SETUP" = "SETUP",
   "SIGN" = "SIGN",
@@ -76,6 +91,7 @@ export interface TransactionItemData {
   fee: CosmosTransactionFee;
   toAddress: string;
   fromAddress: string;
+  claimData?: any[];
 }
 
 export interface GovernanceVoteMessageData {
@@ -242,7 +258,7 @@ const getClaimRewardsMessageData = (
   msgIndex: number,
   denom: COIN_DENOMS,
 ): TransactionItemData => {
-  const { tags } = transaction;
+  const { tags, events } = transaction;
   const msg = transaction.msgs[msgIndex];
 
   const { type, value } = msg;
@@ -272,8 +288,15 @@ const getClaimRewardsMessageData = (
   const validatorAddress = validator_address || "";
   const delegatorAddress = delegator_address || "";
 
+  let claimData: any[] = [];
+
+  if (events) {
+    claimData = events;
+  }
+
   return {
     fee,
+    claimData,
     amount: { amount: rewards || "0", denom },
     toAddress: delegatorAddress,
     fromAddress: validatorAddress,
@@ -288,7 +311,7 @@ const getValidatorClaimRewardsMessageData = (
   msgIndex: number,
   denom: COIN_DENOMS,
 ): TransactionItemData => {
-  const { tags } = transaction;
+  const { tags, events } = transaction;
   const msg = transaction.msgs[msgIndex];
 
   const { type, value } = msg;
@@ -311,9 +334,16 @@ const getValidatorClaimRewardsMessageData = (
   const fee = getTxFee(transaction);
   const validatorAddress = validator_address || "";
 
+  let claimData: any[] = [];
+
+  if (events) {
+    claimData = events;
+  }
+
   return {
     fee,
     toAddress: "",
+    claimData,
     amount: { amount: commissions || "0", denom },
     fromAddress: validatorAddress,
     timestamp: transaction.timestamp,
