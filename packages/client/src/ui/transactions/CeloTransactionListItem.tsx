@@ -242,6 +242,9 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
     const size = network.denominationSize;
     const entries = Object.entries(data);
 
+    // Some keys in the transaction tags which we omit:
+    const KEYS_TO_OMIT = new Set(["units"]);
+
     return (
       <>
         <EventRowItem style={{ minWidth: 300 }}>
@@ -254,77 +257,81 @@ class CeloTransactionListItem extends React.PureComponent<IProps, {}> {
             </Row>
           </EventContextBox>
         </EventRowItem>
-        {entries.map(([key, value]) => {
-          const addressKeys = new Set([
-            "validator",
-            "group",
-            "account",
-            "proposer",
-            "from",
-            "to",
-            "owner",
-            "spender",
-          ]);
-          const keyRepresentsAddress = addressKeys.has(key);
+        {entries
+          .filter(([key]) => {
+            return !KEYS_TO_OMIT.has(key.toLowerCase());
+          })
+          .map(([key, value]) => {
+            const addressKeys = new Set([
+              "validator",
+              "group",
+              "account",
+              "proposer",
+              "from",
+              "to",
+              "owner",
+              "spender",
+            ]);
+            const keyRepresentsAddress = addressKeys.has(key);
 
-          if (key === "value") {
-            return (
-              <EventRowItem key={key} style={{ minWidth: 215 }}>
-                <EventIconBox />
-                <EventContextBox>
-                  <EventText style={{ fontWeight: "bold" }}>
-                    {capitalizeString(key)}
-                  </EventText>
-                  <EventText data-cy="transaction-value">
-                    {denomToUnit(value, size)} {network.denom}
-                  </EventText>
-                </EventContextBox>
-              </EventRowItem>
-            );
-          } else if (keyRepresentsAddress) {
-            return (
-              <ClickableEventRow
-                key={key}
-                style={{ minWidth: 215 }}
-                onClick={() => copyTextToClipboard(value)}
-              >
-                <EventIconBox>
-                  <AddressIconComponent
-                    address={value}
-                    networkName={this.props.network.name}
-                    validatorOperatorAddressMap={new Map()}
-                  />
-                </EventIconBox>
-                <EventContextBox>
-                  <EventText style={{ fontWeight: "bold" }}>
-                    {capitalizeString(key)}
-                  </EventText>
-                  <EventText style={{ fontWeight: 100, fontSize: 13 }}>
-                    {formatAddressString(value, true)}
-                  </EventText>
-                </EventContextBox>
-              </ClickableEventRow>
-            );
-          } else {
-            return (
-              <ClickableEventRow
-                key={key}
-                style={{ minWidth: 215 }}
-                onClick={() => copyTextToClipboard(value)}
-              >
-                <EventIconBox />
-                <EventContextBox>
-                  <EventText style={{ fontWeight: "bold" }}>
-                    {capitalizeString(key)}
-                  </EventText>
-                  <EventText style={{ fontWeight: 100, fontSize: 13 }}>
-                    {value}
-                  </EventText>
-                </EventContextBox>
-              </ClickableEventRow>
-            );
-          }
-        })}
+            if (key === "value") {
+              return (
+                <EventRowItem key={key} style={{ minWidth: 215 }}>
+                  <EventIconBox />
+                  <EventContextBox>
+                    <EventText style={{ fontWeight: "bold" }}>
+                      {capitalizeString(key)}
+                    </EventText>
+                    <EventText data-cy="transaction-value">
+                      {denomToUnit(value, size)} {network.denom}
+                    </EventText>
+                  </EventContextBox>
+                </EventRowItem>
+              );
+            } else if (keyRepresentsAddress) {
+              return (
+                <ClickableEventRow
+                  key={key}
+                  style={{ minWidth: 215 }}
+                  onClick={() => copyTextToClipboard(value)}
+                >
+                  <EventIconBox>
+                    <AddressIconComponent
+                      address={value}
+                      networkName={this.props.network.name}
+                      validatorOperatorAddressMap={new Map()}
+                    />
+                  </EventIconBox>
+                  <EventContextBox>
+                    <EventText style={{ fontWeight: "bold" }}>
+                      {capitalizeString(key)}
+                    </EventText>
+                    <EventText style={{ fontWeight: 100, fontSize: 13 }}>
+                      {formatAddressString(value, true)}
+                    </EventText>
+                  </EventContextBox>
+                </ClickableEventRow>
+              );
+            } else {
+              return (
+                <ClickableEventRow
+                  key={key}
+                  style={{ minWidth: 215 }}
+                  onClick={() => copyTextToClipboard(value)}
+                >
+                  <EventIconBox />
+                  <EventContextBox>
+                    <EventText style={{ fontWeight: "bold" }}>
+                      {capitalizeString(key)}
+                    </EventText>
+                    <EventText style={{ fontWeight: 100, fontSize: 13 }}>
+                      {value}
+                    </EventText>
+                  </EventContextBox>
+                </ClickableEventRow>
+              );
+            }
+          })}
       </>
     );
   };
