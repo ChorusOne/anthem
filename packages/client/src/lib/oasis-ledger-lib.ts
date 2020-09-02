@@ -7,13 +7,16 @@ import { wait } from "tools/client-utils";
 
 /** ===========================================================================
  * Oasis Ledger Utils
+ * ---------------------------------------------------------------------------
+ * Docs: https://github.com/Zondax/ledger-oasis-js
+ * Example App: https://github.com/Zondax/ledger-oasis-js/blob/master/vue_example/components/LedgerExample.vue
  * ============================================================================
  */
 
 /**
  * Handle getting the Celo Ledger transport.
  */
-const getOasisLedgerTransport = () => {
+const getOasisLedgerTransport = async () => {
   if (window.USB) {
     return TransportUSB.create();
   } else if (window.u2f) {
@@ -38,11 +41,11 @@ interface IOasisLedger {
 
 class OasisLedgerClass implements IOasisLedger {
   private app: Nullable<any> = null;
-  private readonly path = [44, 118, 5, 0, 3];
+  private readonly path = [44, 474, 0, 0, 0];
 
   async connect() {
     // Given a transport (U2F/HIF/WebUSB) it is possible instantiate the app
-    const transport = getOasisLedgerTransport();
+    const transport = await getOasisLedgerTransport();
     const app = new OasisApp(transport);
 
     this.app = app;
@@ -52,15 +55,24 @@ class OasisLedgerClass implements IOasisLedger {
     this.app = null;
   }
 
+  async showAddress() {
+    if (!this.app) {
+      throw new Error("Not initialized yet!");
+    }
+
+    await this.app.showAddressAndPubKey(this.path);
+  }
+
   async getAddress() {
     if (!this.app) {
       throw new Error("Not initialized yet!");
     }
 
     const result = await this.app.getAddressAndPubKey(this.path);
-    console.log("ADDRESS:");
-    console.log(result);
-    return result;
+    const address = result.bech32_address;
+    console.log(`Oasis Address: ${address}`);
+
+    return address;
   }
 
   async getVersion() {
@@ -69,7 +81,7 @@ class OasisLedgerClass implements IOasisLedger {
     }
 
     const result = await this.app.getVersion();
-    const version = `${result.major}-${result.minor}-${result.patch}`;
+    const version = `${result.major}.${result.minor}.${result.patch}`;
     return version;
   }
 

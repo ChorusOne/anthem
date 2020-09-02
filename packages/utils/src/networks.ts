@@ -245,7 +245,7 @@ const NETWORKS: NetworksMap = {
     descriptor: "AMBR",
     chainId: "oasis",
     cryptoCompareTicker: "OASIS",
-    ledgerAppVersion: "1.0.0",
+    ledgerAppVersion: "1.7.3",
     ledgerAppName: "n/a",
     ledgerDocsLink: "n/a",
     supportsLedger: true,
