@@ -18,6 +18,7 @@ import {
   Switch,
 } from "@blueprintjs/core";
 import { IItemRendererProps, Select } from "@blueprintjs/select";
+import { BigNumber } from "bignumber.js";
 import { COLORS } from "constants/colors";
 import { FiatCurrency } from "constants/fiat";
 import {
@@ -31,6 +32,7 @@ import {
 } from "graphql/queries";
 import {
   CeloUnlockGoldArguments,
+  CeloWithdrawArguments,
   ICeloTransactionResult,
   RevokeVotesArguments,
 } from "lib/celo-ledger-lib";
@@ -97,6 +99,7 @@ interface IState {
   displayReceiveQR: boolean;
   revokeVotesGroup: string;
   transactionSetupError: string;
+  celoPendingWithdrawalIndex: number | undefined;
   selectedRewards: ReadonlyArray<AvailableReward>;
 }
 
@@ -122,6 +125,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       displayReceiveQR: false,
       revokeVotesGroup: "",
       transactionSetupError: "",
+      celoPendingWithdrawalIndex: undefined,
     };
   }
 
@@ -161,6 +165,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         return this.renderLockGoldTransactionSetup();
       case "UNLOCK_GOLD":
         return this.renderUnlockGoldTransactionSetup();
+      case "WITHDRAW":
+        return this.renderWithdrawTransactionSetup();
       case "ACTIVATE_VOTES":
         return this.renderActivateVotesStep();
       case "REVOKE_VOTES":
@@ -694,6 +700,132 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                     {this.props.renderConfirmArrow(
                       tString("Generate My Transaction"),
                       this.submitUnlockGoldAmount,
+                    )}
+                  </form>
+                </FormContainer>
+                {this.state.transactionSetupError && (
+                  <div style={{ marginTop: 12 }} className={Classes.LABEL}>
+                    <ErrorText data-cy="amount-transaction-error">
+                      {this.state.transactionSetupError}
+                    </ErrorText>
+                  </div>
+                )}
+              </View>
+            </View>
+          );
+        }}
+      </GraphQLGuardComponentMultipleQueries>
+    );
+  };
+
+  renderWithdrawTransactionSetup = () => {
+    const {
+      i18n,
+      ledger,
+      transaction,
+      fiatCurrency,
+      fiatPriceData,
+      celoAccountBalances,
+    } = this.props;
+    const { celoPendingWithdrawalData } = transaction;
+    if (!celoPendingWithdrawalData) {
+      return <Spinner />;
+    }
+
+    const { network } = ledger;
+    const { tString } = i18n;
+    const { celoPendingWithdrawalIndex } = this.state;
+
+    return (
+      <GraphQLGuardComponentMultipleQueries
+        tString={tString}
+        results={[
+          [celoAccountBalances, "celoAccountBalances"],
+          [fiatPriceData, "fiatPriceData"],
+        ]}
+      >
+        {([accountBalancesData, exchangeRate]: [
+          ICeloAccountBalances,
+          IQuery["fiatPriceData"],
+        ]) => {
+          const { pendingWithdrawalBalance } = accountBalancesData;
+          const balance = renderCeloCurrency({
+            denomSize: network.denominationSize,
+            value: pendingWithdrawalBalance,
+            fiatPrice: exchangeRate.price,
+            convertToFiat: false,
+          });
+          const fiatBalance = renderCeloCurrency({
+            denomSize: network.denominationSize,
+            value: pendingWithdrawalBalance,
+            fiatPrice: exchangeRate.price,
+            convertToFiat: true,
+          });
+          return (
+            <View>
+              <p>You must withdraw CELO tokens.</p>
+              <p style={{ marginTop: 8 }}>
+                Available: {bold(`${balance} ${ledger.network.descriptor}`)}
+              </p>
+              <p style={{ marginTop: 8 }}>
+                ({fiatBalance} {fiatCurrency.symbol})
+              </p>
+              <H6 style={{ marginTop: 12, marginBottom: 0 }}>
+                Please choose a pending withdrawal balance from the list to
+                withdraw. Revoked votes must wait in a pending state for 3 days
+                before they become available to withdraw.
+              </H6>
+              <View style={{ marginTop: 12 }}>
+                <FormContainer>
+                  <form
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                    data-cy="ledger-action-input-form"
+                    onSubmit={(event: ChangeEvent<HTMLFormElement>) => {
+                      event.preventDefault();
+                      this.submitWithdrawTransaction();
+                    }}
+                  >
+                    <RadioGroup
+                      inline
+                      selectedValue={celoPendingWithdrawalIndex}
+                      onChange={e =>
+                        this.setState({
+                          celoPendingWithdrawalIndex: Number(
+                            e.currentTarget.value,
+                          ),
+                        })
+                      }
+                    >
+                      {celoPendingWithdrawalData.map((pending, index) => {
+                        const { value, time } = pending;
+                        const isAvailableForWithdraw = isUnbondingTimeComplete(
+                          time,
+                        );
+
+                        return (
+                          <Radio
+                            key={index}
+                            value={index}
+                            color={COLORS.CHORUS}
+                            style={{ marginLeft: 8 }}
+                            disabled={isAvailableForWithdraw}
+                            data-cy="pending-withdrawal-balance-radio"
+                            label={`Pending Balance: ${value.toFixed()}`}
+                            onClick={() =>
+                              this.setState({
+                                celoPendingWithdrawalIndex: index,
+                              })
+                            }
+                          />
+                        );
+                      })}
+                    </RadioGroup>
+                    {this.props.renderConfirmArrow(
+                      tString("Generate My Transaction"),
+                      this.submitWithdrawTransaction,
                     )}
                   </form>
                 </FormContainer>
@@ -1304,7 +1436,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     );
   };
 
-  getUnlockGoldTransaction = async () => {
+  getUnlockGoldTransaction = () => {
     const { amount } = this.state;
     const { network, address } = this.props.ledger;
     const { denominationSize } = network;
@@ -1312,6 +1444,35 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const data: CeloUnlockGoldArguments = {
       address,
       amount: unitToDenom(amount, denominationSize),
+    };
+
+    this.props.setTransactionData(data);
+  };
+
+  submitWithdrawTransaction = () => {
+    const { celoPendingWithdrawalIndex } = this.state;
+    const withdrawError =
+      celoPendingWithdrawalIndex === undefined ? "Please select an option" : "";
+
+    this.setState(
+      {
+        transactionSetupError: withdrawError,
+      },
+      () => {
+        if (withdrawError === "") {
+          this.getWithdrawTransaction();
+        }
+      },
+    );
+  };
+
+  getWithdrawTransaction = () => {
+    const { celoPendingWithdrawalIndex } = this.state;
+    const { address } = this.props.ledger;
+
+    const data: CeloWithdrawArguments = {
+      address,
+      index: celoPendingWithdrawalIndex as number,
     };
 
     this.props.setTransactionData(data);
@@ -1444,6 +1605,15 @@ const TransactionHashText = styled(Code)`
   margin-bottom: 16px;
   word-wrap: break-word;
 `;
+
+/**
+ * Determine if a PendingWithdrawal time is less than the current time and
+ * can be withdrawn.
+ */
+const isUnbondingTimeComplete = (time: BigNumber) => {
+  const currentTime = Math.round(new Date().getTime() / 1000);
+  return time.isLessThan(currentTime);
+};
 
 /** ===========================================================================
  * Export

@@ -44,6 +44,7 @@ import {
   isGreaterThan,
   multiply,
   subtract,
+  toBigNumber,
 } from "tools/math-utils";
 import AddressIconComponent from "ui/AddressIconComponent";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
@@ -427,7 +428,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                       <RowItem width={125}>
                         <H6 style={{ margin: 0 }}>AVAILABLE</H6>
                       </RowItem>
-                      <RowItem width={125}>
+                      <RowItem width={175}>
                         <Text>
                           {renderCurrencyValue(
                             availableGoldBalance,
@@ -451,7 +452,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                       <RowItem width={125}>
                         <H6 style={{ margin: 0 }}>LOCKED</H6>
                       </RowItem>
-                      <RowItem width={125}>
+                      <RowItem width={175}>
                         <Text>
                           {renderCurrencyValue(
                             totalLockedGoldBalance,
@@ -475,7 +476,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                       <RowItem width={125}>
                         <H6 style={{ margin: 0 }}>VOTING</H6>
                       </RowItem>
-                      <RowItem width={125}>
+                      <RowItem width={175}>
                         <Text>
                           {renderCurrencyValue(
                             votingLockedGoldBalance,
@@ -488,7 +489,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                       <RowItem width={125}>
                         <H6 style={{ margin: 0 }}>NON-VOTING</H6>
                       </RowItem>
-                      <RowItem width={125}>
+                      <RowItem width={175}>
                         <Text>
                           {renderCurrencyValue(
                             nonVotingLockedGoldBalance,
@@ -514,7 +515,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                       <RowItem width={125}>
                         <H6 style={{ margin: 0 }}>PENDING</H6>
                       </RowItem>
-                      <RowItem width={125}>
+                      <RowItem width={175}>
                         <Text>
                           {renderCurrencyValue(
                             pendingWithdrawalBalance,
@@ -522,12 +523,19 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           )}
                         </Text>
                       </RowItem>
+                      {isGreaterThan(pendingWithdrawalBalance, 0) && (
+                        <RowItem width={75}>
+                          <Button onClick={this.handleWithdraw}>
+                            Withdraw
+                          </Button>
+                        </RowItem>
+                      )}
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
                       <RowItem width={125}>
                         <H6 style={{ margin: 0 }}>cUSD</H6>
                       </RowItem>
-                      <RowItem width={125}>
+                      <RowItem width={175}>
                         <Text>
                           {renderCurrencyValue(
                             celoUSDValue,
@@ -748,6 +756,18 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
     });
   };
 
+  handleWithdraw = () => {
+    if (!this.props.ledger.connected) {
+      this.props.setSigninNetworkName(this.props.network.name);
+    }
+    // Open the ledger dialog
+    this.props.openLedgerDialog({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "WITHDRAW",
+    });
+  };
+
   handleRevokeVotes = () => {
     if (!this.props.ledger.connected) {
       this.props.setSigninNetworkName(this.props.network.name);
@@ -797,7 +817,8 @@ const adjustCeloValue = (value: GenericNumberType) => {
  * Helper to render Celo currency values.
  */
 const renderCurrencyValue = (value: string, denomSize: number) => {
-  return formatCurrencyAmount(denomToUnit(value, denomSize));
+  const amount = denomToUnit(value, denomSize, toBigNumber);
+  return amount.toFixed();
 };
 
 /** ===========================================================================

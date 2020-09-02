@@ -1,4 +1,9 @@
-import { CoinDenom, IFiatPrice, NetworkDefinition } from "@anthem/utils";
+import {
+  CoinDenom,
+  coinDenomToName,
+  IFiatPrice,
+  NetworkDefinition,
+} from "@anthem/utils";
 import { ChartData } from "./chart-utils";
 import {
   getFiatPriceHistoryMap,
@@ -60,7 +65,8 @@ export const chartExportBuilder = ({
   // Map balances by day timestamp to help join balances and rewards data.
   const balanceMapByTime = availableChartData.data;
 
-  const coin = network.descriptor;
+  const { denom } = selectedDenom;
+  const coin = coinDenomToName(denom);
 
   // Create the CSV Header.
   let CSV_HEADERS: ReadonlyArray<string> = [
@@ -90,7 +96,7 @@ export const chartExportBuilder = ({
 
   // Add info text about the address and network
   const ADDRESS_INFO = `Account history data for ${network.name} address ${address}.\n`;
-  const DENOM_INFO = `Displaying account history for ${selectedDenom.denom} denomination.\n`;
+  const DENOM_INFO = `Displaying account history for ${coin} denomination.\n`;
   const FIAT_PRICE_INFO = !supportsFiatPrices
     ? "Fiat exchange rate history is not supported for this denomination.\n"
     : "";

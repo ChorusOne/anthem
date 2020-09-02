@@ -73,6 +73,11 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
                   transactionData,
                 );
                 return Actions.transactionConfirmed(unlockResult);
+              case "WITHDRAW":
+                const withdrawResult = await celoLedgerUtil.withdraw(
+                  transactionData,
+                );
+                return Actions.transactionConfirmed(withdrawResult);
               case "ACTIVATE_VOTES":
                 const activateResult = await celoLedgerUtil.activateVotes(
                   address,
@@ -104,14 +109,13 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
             assertUnreachable(name);
         }
       } catch (err) {
-        console.error(err);
-        const { statusText } = err;
+        const { statusText, message } = err;
         if (statusText && statusText === "CONDITIONS_OF_USE_NOT_SATISFIED") {
           Toast.warn("Transaction rejected.");
         } else {
-          Toast.warn(
-            "Could not access Ledger, or failed to send transaction. Is your device still connected and unlocked?",
-          );
+          const defaultMessage =
+            "Could not access Ledger, or failed to send transaction. Is your device still connected and unlocked?";
+          Toast.warn(message || defaultMessage);
         }
 
         return Actions.signTransactionFailure();
@@ -233,6 +237,24 @@ const syncTransactionPageEpic: EpicSignature = (action$, state$, deps) => {
   );
 };
 
+const fetchCeloPendingWithdrawalsEpic: EpicSignature = (
+  action$,
+  state$,
+  deps,
+) => {
+  return action$.pipe(
+    filter(isActionOf(Actions.connectLedgerSuccess)),
+    filter(action => action.payload.network.name === "CELO"),
+    mergeMap(async action => {
+      const address = action.payload.ledgerAddress;
+      const pendingWithdrawals = await deps.celoLedgerUtil.getPendingWithdrawalBalances(
+        address,
+      );
+      return Actions.setCeloPendingWithdrawalData(pendingWithdrawals);
+    }),
+  );
+};
+
 /** ===========================================================================
  * Export
  * ============================================================================
@@ -243,4 +265,5 @@ export default combineEpics(
   broadcastTransactionEpic,
   pollTransactionEpic,
   syncTransactionPageEpic,
+  fetchCeloPendingWithdrawalsEpic,
 );

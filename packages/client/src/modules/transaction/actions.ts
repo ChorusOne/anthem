@@ -3,6 +3,7 @@ import {
   ICosmosTransaction,
   ICosmosValidator,
 } from "@anthem/utils";
+import { PendingWithdrawal } from "@celo/contractkit/lib/wrappers/LockedGold";
 import { ICeloTransactionResult } from "lib/celo-ledger-lib";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { TxPostBody } from "tools/cosmos-utils";
@@ -37,6 +38,8 @@ enum ActionTypesEnum {
   SET_DELEGATION_VALIDATOR_SELECTION = "SET_DELEGATION_VALIDATOR_SELECTION",
 
   SET_GOVERNANCE_VOTE_DETAILS = "SET_GOVERNANCE_VOTE_DETAILS",
+
+  SET_CELO_PENDING_WITHDRAWAL_DATA = "SET_CELO_PENDING_WITHDRAWAL_DATA",
 }
 
 /** ===========================================================================
@@ -104,6 +107,10 @@ const setGovernanceVoteDetails = createStandardAction(
   ActionTypesEnum.SET_GOVERNANCE_VOTE_DETAILS,
 )<GovernanceVoteDetails>();
 
+const setCeloPendingWithdrawalData = createStandardAction(
+  ActionTypesEnum.SET_CELO_PENDING_WITHDRAWAL_DATA,
+)<PendingWithdrawal[]>();
+
 const actions = {
   setTransactionData,
   setTransactionStage,
@@ -120,6 +127,7 @@ const actions = {
   removeLocalCopyOfTransaction,
   setDelegationValidatorSelection,
   setGovernanceVoteDetails,
+  setCeloPendingWithdrawalData,
 };
 
 /** ===========================================================================

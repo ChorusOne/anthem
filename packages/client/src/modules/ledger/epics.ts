@@ -339,13 +339,16 @@ const saveAddressEpic: EpicSignature = action$ => {
  */
 const syncAddressToUrlEpic: EpicSignature = (action$, state$, deps) => {
   return action$.pipe(
-    filter(isActionOf(Actions.setAddressSuccess)),
+    filter(
+      isActionOf([Actions.setAddressSuccess, Actions.connectLedgerSuccess]),
+    ),
     filter(() => {
       const { location } = deps.router;
       return onPageWhichIncludesAddressParam(location.pathname);
     }),
     pluck("payload"),
-    tap(({ address, network }) => {
+    tap(({ network }) => {
+      const { address } = state$.value.ledger.ledger;
       const { transactionsPage } = state$.value.transaction;
       const { location } = deps.router;
       const { pathname } = location;

@@ -3,6 +3,7 @@ import {
   ICosmosTransaction,
   ICosmosValidator,
 } from "@anthem/utils";
+import { PendingWithdrawal } from "@celo/contractkit/lib/wrappers/LockedGold";
 import { ICeloTransactionResult } from "lib/celo-ledger-lib";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { TransactionData, TxPostBody } from "tools/cosmos-utils";
@@ -40,6 +41,7 @@ export interface TransactionState {
   selectedValidatorForDelegation: Nullable<
     ICosmosValidator | ICeloValidatorGroup
   >;
+  celoPendingWithdrawalData?: PendingWithdrawal[];
 }
 
 const initialState: TransactionState = {
@@ -133,6 +135,10 @@ const transaction = createReducer<
     liveTransactionRecord: state.liveTransactionRecord.filter(
       tx => tx.hash !== action.payload.hash,
     ),
+  }))
+  .handleAction(Actions.setCeloPendingWithdrawalData, (state, action) => ({
+    ...state,
+    celoPendingWithdrawalData: action.payload,
   }))
   .handleAction(LedgerActions.logoutSuccess, () => initialState)
   .handleAction(

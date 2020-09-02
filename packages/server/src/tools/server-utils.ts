@@ -166,7 +166,10 @@ export const gatherEndOfDayBalanceValues = (
 
   for (let i = balances.length - 1; i >= 0; i--) {
     const x = balances[i];
-    const key = toDateKey(x.timestamp);
+    const date = toDateKey(x.timestamp);
+
+    // Key must account for the denom:
+    const key = `${date}-${x.denom}`;
     if (!dates.has(key)) {
       result.push(x);
       dates.add(key);
