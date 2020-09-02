@@ -771,7 +771,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
               </p>
               <H6 style={{ marginTop: 12, marginBottom: 0 }}>
                 Please choose a pending withdrawal balance from the list to
-                withdraw.
+                withdraw. Revoked votes must wait in a pending state for 3 days
+                before they become available to withdraw.
               </H6>
               <View style={{ marginTop: 12 }}>
                 <FormContainer>
@@ -798,13 +799,18 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                       }
                     >
                       {celoPendingWithdrawalData.map((pending, index) => {
-                        const { value } = pending;
+                        const { value, time } = pending;
+                        const isAvailableForWithdraw = isUnbondingTimeComplete(
+                          time,
+                        );
+
                         return (
                           <Radio
                             key={index}
                             value={index}
                             color={COLORS.CHORUS}
                             style={{ marginLeft: 8 }}
+                            disabled={isAvailableForWithdraw}
                             data-cy="pending-withdrawal-balance-radio"
                             label={`Pending Balance: ${value.toFixed()}`}
                             onClick={() =>
@@ -1598,6 +1604,15 @@ const TransactionHashText = styled(Code)`
   margin-bottom: 16px;
   word-wrap: break-word;
 `;
+
+/**
+ * Determine if a PendingWithdrawal time is less than the current time and
+ * can be withdrawn.
+ */
+const isUnbondingTimeComplete = (time: BigNumber) => {
+  const currentTime = Math.round(new Date().getTime() / 1000);
+  return time.isLessThan(currentTime);
+};
 
 /** ===========================================================================
  * Export
