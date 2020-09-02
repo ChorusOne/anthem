@@ -78,6 +78,7 @@ import {
   View,
 } from "../SharedComponents";
 import Toast from "../Toast";
+import { BigNumber } from "bignumber.js";
 
 /** ===========================================================================
  * Types & Config
