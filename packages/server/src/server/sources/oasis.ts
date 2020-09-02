@@ -223,6 +223,19 @@ type OasisTransaction =
  * ============================================================================
  */
 
+const ZeroBalance: IOasisAccountBalances = {
+  available: "0",
+  staked: { balance: "0", shares: "0" },
+  unbonding: { balance: "0", shares: "0" },
+  rewards: "0",
+  commissions: "0",
+  meta: {
+    is_validator: false,
+    is_delegator: false,
+  },
+  delegations: [],
+};
+
 /**
  * Fetch Oasis account balances.
  */
@@ -234,6 +247,11 @@ const fetchAccountBalances = async (
   const response = await AxiosUtil.get<OasisAccountResponse>(
     `${host}/account/${address}`,
   );
+
+  // No balances, default to zero:
+  if (!response) {
+    return ZeroBalance;
+  }
 
   const {
     meta,
