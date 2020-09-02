@@ -304,6 +304,10 @@ class CeloLedgerClass implements ICeloLedger {
     return receipt;
   }
 
+  /**
+   * NOTE: We could also create a util to withdraw all pending rewards,
+   * see: https://github.com/celo-org/celo-monorepo/blob/master/packages/cli/src/commands/lockedgold/withdraw.ts
+   */
   async getPendingWithdrawalBalances(address: string) {
     if (!this.kit) {
       throw new Error("CeloLedgerClass not initialized yet.");

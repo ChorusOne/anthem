@@ -18,6 +18,7 @@ import {
   Switch,
 } from "@blueprintjs/core";
 import { IItemRendererProps, Select } from "@blueprintjs/select";
+import { BigNumber } from "bignumber.js";
 import { COLORS } from "constants/colors";
 import { FiatCurrency } from "constants/fiat";
 import {
@@ -78,7 +79,6 @@ import {
   View,
 } from "../SharedComponents";
 import Toast from "../Toast";
-import { BigNumber } from "bignumber.js";
 
 /** ===========================================================================
  * Types & Config

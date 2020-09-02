@@ -109,14 +109,13 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
             assertUnreachable(name);
         }
       } catch (err) {
-        console.error(err);
-        const { statusText } = err;
+        const { statusText, message } = err;
         if (statusText && statusText === "CONDITIONS_OF_USE_NOT_SATISFIED") {
           Toast.warn("Transaction rejected.");
         } else {
-          Toast.warn(
-            "Could not access Ledger, or failed to send transaction. Is your device still connected and unlocked?",
-          );
+          const defaultMessage =
+            "Could not access Ledger, or failed to send transaction. Is your device still connected and unlocked?";
+          Toast.warn(message || defaultMessage);
         }
 
         return Actions.signTransactionFailure();
