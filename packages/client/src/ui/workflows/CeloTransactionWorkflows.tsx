@@ -771,11 +771,12 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
               <p style={{ marginTop: 8 }}>
                 ({fiatBalance} {fiatCurrency.symbol})
               </p>
-              <H6 style={{ marginTop: 12, marginBottom: 0 }}>
+              <p style={{ marginTop: 12, marginBottom: 0 }}>
                 Please choose a pending withdrawal balance from the list to
                 withdraw. Revoked votes must wait in a pending state for 3 days
-                before they become available to withdraw.
-              </H6>
+                before they become available to withdraw. Unavailable balances
+                will be displayed but disabled.
+              </p>
               <View style={{ marginTop: 12 }}>
                 <FormContainer>
                   <form
@@ -1617,7 +1618,7 @@ const TransactionHashText = styled(Code)`
  */
 const isUnbondingTimeComplete = (time: BigNumber) => {
   const currentTime = Math.round(new Date().getTime() / 1000);
-  return time.isLessThan(currentTime);
+  return !time.isLessThan(currentTime);
 };
 
 /** ===========================================================================

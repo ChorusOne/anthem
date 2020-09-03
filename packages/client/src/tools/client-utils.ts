@@ -712,7 +712,7 @@ export const getValidatorNameFromAddress = (
  * Artificially wait the provided amount of time.
  */
 export const wait = async (time: number = 1000) => {
-  await new Promise((_: any) => setTimeout(_, time));
+  await new Promise((res: any) => setTimeout(res, time));
 };
 
 /**
