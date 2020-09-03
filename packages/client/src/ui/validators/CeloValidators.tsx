@@ -818,7 +818,8 @@ const adjustCeloValue = (value: GenericNumberType) => {
  */
 const renderCurrencyValue = (value: string, denomSize: number) => {
   const amount = denomToUnit(value, denomSize, toBigNumber);
-  return amount.toFixed();
+  // Show 6 decimal places and remove trailing decimal zeroes
+  return Number(amount.toFixed(6)).toString();
 };
 
 /** ===========================================================================

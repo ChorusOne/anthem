@@ -278,10 +278,10 @@ const refreshBalanceAndTransactionsEpic: EpicSignature = (
       ]),
     ),
     mergeMap(() => {
-      return from([1, 2, 3]).pipe(
-        delay(500),
+      return from([2000, 4000]).pipe(
+        delay(3000), // Wait 3 seconds, then query after 2 and 4 seconds
         mergeMap(async time => {
-          await wait(time * 1000);
+          await wait(time);
 
           const { client } = deps;
           const { address } = graphqlSelector(state$.value);
@@ -302,12 +302,12 @@ const refreshBalanceAndTransactionsEpic: EpicSignature = (
               });
               break;
             case "CELO":
-              client.query({
+              const x = await client.query({
                 query: CeloAccountBalancesDocument,
                 variables,
               });
 
-              client.query({
+              const y = await client.query({
                 query: CeloTransactionsDocument,
                 variables,
               });

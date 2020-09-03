@@ -548,7 +548,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           return (
             <View>
               <p>
-                To vote for a Celo Validator Group you must first lock CELO.
+                To vote for a Celo Validator Group you must first lock CELO
+                tokens.
               </p>
               <p style={{ marginTop: 8 }}>
                 Available: {bold(`${balance} ${ledger.network.descriptor}`)} (
@@ -572,7 +573,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   >
                     <TextInput
                       autoFocus
-                      label="Transaction Amount (CELO)"
+                      label="Amount of CELO to lock"
                       onSubmit={this.submitLockGoldAmount}
                       style={{ ...InputStyles, width: 300 }}
                       placeholder={tString("Enter an amount")}
@@ -1134,6 +1135,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             : tString(
                 "Select “Sign Transaction” to confirm the transaction details on your Ledger.",
               )}
+        </p>
+        <p style={{ marginTop: 12, marginBottom: 0 }}>
+          Note that CELO transactions will be sent to a contract address, so you
+          will see a contract address in the transaction details to confirm.
         </p>
         {!this.props.transaction.signPending &&
           this.props.renderConfirmArrow(tString("Sign Transaction"), () =>
