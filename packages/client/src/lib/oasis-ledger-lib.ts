@@ -97,6 +97,25 @@ class OasisLedgerClass implements IOasisLedger {
   }
 }
 
+/**
+ * Fill in the rest: https://runkit.com/embed/jhwmrma4tdfb
+ */
+const getStakingTransferTransaction = (from: string, amount: string) => {
+  const tx = {
+    nonce: 0,
+    fee: {
+      amount: "0",
+      gas: 0,
+    },
+    method: "staking.Transfer",
+    body: {
+      to: "oasis1qrrnesqpgc6rfy2m50eew5d7klqfqk69avhv4ak5",
+      amount: "0",
+    },
+  };
+  return tx;
+};
+
 /** ===========================================================================
  * Mock Oasis Ledger Class
  * ============================================================================
