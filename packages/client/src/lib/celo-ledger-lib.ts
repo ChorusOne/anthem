@@ -402,7 +402,6 @@ class CeloLedgerClass implements ICeloLedger {
       throw new Error("CeloLedgerClass not initialized yet.");
     }
 
-    const election = await this.kit.contracts.getElection();
     const balances = await this.kit.getTotalBalance(this.address);
     const { gold, lockedGold, pending, usd } = balances;
     console.log("Account Balances:");

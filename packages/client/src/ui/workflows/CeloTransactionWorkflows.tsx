@@ -772,7 +772,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           });
           return (
             <View>
-              <p>You must withdraw CELO tokens.</p>
+              <p>
+                Withdraw CELO tokens to move them to your available balance.
+              </p>
               <p style={{ marginTop: 8 }}>
                 Available: {bold(`${balance} ${ledger.network.descriptor}`)}
               </p>

@@ -273,9 +273,7 @@ const refreshBalanceAndTransactionsEpic: EpicSignature = (
   return action$.pipe(
     filter(isActionOf(Actions.refreshBalanceAndTransactions)),
     mergeMap(() => {
-      return from([2000, 4000]).pipe(
-        tap(() => console.log("STARTING TO WAIT!")),
-        delay(15000), // Wait 15 seconds, then query after 2 and 4 seconds
+      return from([2500, 7500]).pipe(
         mergeMap(async time => {
           await wait(time);
           const { client } = deps;
@@ -289,22 +287,26 @@ const refreshBalanceAndTransactionsEpic: EpicSignature = (
               client.query({
                 query: CosmosAccountBalancesDocument,
                 variables,
+                fetchPolicy: "network-only",
               });
 
               client.query({
                 query: CosmosTransactionsDocument,
                 variables,
+                fetchPolicy: "network-only",
               });
               break;
             case "CELO":
               await client.query({
                 query: CeloAccountBalancesDocument,
                 variables,
+                fetchPolicy: "network-only",
               });
 
               await client.query({
                 query: CeloTransactionsDocument,
                 variables,
+                fetchPolicy: "network-only",
               });
               break;
             // No need for now, can be added later
