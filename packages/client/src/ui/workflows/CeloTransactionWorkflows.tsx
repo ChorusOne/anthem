@@ -1138,8 +1138,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
               )}
         </p>
         <p style={{ marginTop: 12, marginBottom: 0 }}>
-          Note that CELO transactions will be sent to a contract address, so you
-          will see a contract address in the transaction details to confirm.
+          Note that CELO transactions are sent to special contract addresses, so
+          you will see a contract address to confirm on your Ledger confirmation
+          dialog.
         </p>
         {!this.props.transaction.signPending &&
           this.props.renderConfirmArrow(tString("Sign Transaction"), () =>
