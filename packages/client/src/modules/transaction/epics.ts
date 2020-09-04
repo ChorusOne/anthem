@@ -109,6 +109,7 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
             assertUnreachable(name);
         }
       } catch (err) {
+        console.error(err);
         const { statusText, message } = err;
         if (statusText && statusText === "CONDITIONS_OF_USE_NOT_SATISFIED") {
           Toast.warn("Transaction rejected.");
