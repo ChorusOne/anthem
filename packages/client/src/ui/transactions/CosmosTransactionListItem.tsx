@@ -191,11 +191,11 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     return (
       <>
         {MainRow}
-        {isClaim && claimData && claimData.length && (
+        {isClaim && claimData && claimData.length ? (
           <EventRow data-cy="transaction-list-item">
             {claimData.map(claim => this.renderClaimEventsData(claim))}
           </EventRow>
-        )}
+        ) : null}
       </>
     );
   };
