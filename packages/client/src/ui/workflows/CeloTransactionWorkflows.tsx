@@ -267,8 +267,16 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         </H6>
         <p>
           Selecting Activate Votes will prompt you to confirm the transaction
-          details on your Ledger Device. This will activate any pending votes on
-          your account.
+          details on your Ledger Device. This will activate <i>any</i> pending
+          votes on your account.
+        </p>
+        <p>
+          Note that votes must be activated in an epoch after they have been
+          voted. You can read more about this{" "}
+          <Link href="https://docs.celo.org/command-line-interface/election">
+            here
+          </Link>
+          .
         </p>
         {this.props.renderConfirmArrow(
           "Activate Votes",
@@ -548,7 +556,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           return (
             <View>
               <p>
-                To vote for a Celo Validator Group you must first lock CELO.
+                To vote for a Celo Validator Group you must first lock CELO
+                tokens.
               </p>
               <p style={{ marginTop: 8 }}>
                 Available: {bold(`${balance} ${ledger.network.descriptor}`)} (
@@ -572,7 +581,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                   >
                     <TextInput
                       autoFocus
-                      label="Transaction Amount (CELO)"
+                      label="Amount of CELO to lock"
                       onSubmit={this.submitLockGoldAmount}
                       style={{ ...InputStyles, width: 300 }}
                       placeholder={tString("Enter an amount")}
@@ -763,18 +772,21 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           });
           return (
             <View>
-              <p>You must withdraw CELO tokens.</p>
+              <p>
+                Withdraw CELO tokens to move them to your available balance.
+              </p>
               <p style={{ marginTop: 8 }}>
                 Available: {bold(`${balance} ${ledger.network.descriptor}`)}
               </p>
               <p style={{ marginTop: 8 }}>
                 ({fiatBalance} {fiatCurrency.symbol})
               </p>
-              <H6 style={{ marginTop: 12, marginBottom: 0 }}>
+              <p style={{ marginTop: 12, marginBottom: 0 }}>
                 Please choose a pending withdrawal balance from the list to
                 withdraw. Revoked votes must wait in a pending state for 3 days
-                before they become available to withdraw.
-              </H6>
+                before they become available to withdraw. Unavailable balances
+                will be displayed but disabled.
+              </p>
               <View style={{ marginTop: 12 }}>
                 <FormContainer>
                   <form
@@ -1134,6 +1146,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             : tString(
                 "Select “Sign Transaction” to confirm the transaction details on your Ledger.",
               )}
+        </p>
+        <p style={{ marginTop: 12, marginBottom: 0 }}>
+          Note that CELO transactions are sent to special contract addresses, so
+          you will see a contract address to confirm on your Ledger confirmation
+          dialog.
         </p>
         {!this.props.transaction.signPending &&
           this.props.renderConfirmArrow(tString("Sign Transaction"), () =>
@@ -1612,7 +1629,7 @@ const TransactionHashText = styled(Code)`
  */
 const isUnbondingTimeComplete = (time: BigNumber) => {
   const currentTime = Math.round(new Date().getTime() / 1000);
-  return time.isLessThan(currentTime);
+  return !time.isLessThan(currentTime);
 };
 
 /** ===========================================================================

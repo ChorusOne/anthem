@@ -270,6 +270,8 @@ class CeloLedgerClass implements ICeloLedger {
 
     const accounts = await this.kit.contracts.getAccounts();
     const isAccount = await accounts.isAccount(address);
+    const summary = await accounts.getAccountSummary(address);
+    console.log(summary);
     return isAccount;
   }
 

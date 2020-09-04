@@ -271,18 +271,11 @@ const refreshBalanceAndTransactionsEpic: EpicSignature = (
   deps,
 ) => {
   return action$.pipe(
-    filter(
-      isActionOf([
-        Actions.transactionConfirmed,
-        Actions.refreshBalanceAndTransactions,
-      ]),
-    ),
+    filter(isActionOf(Actions.refreshBalanceAndTransactions)),
     mergeMap(() => {
-      return from([1, 2, 3]).pipe(
-        delay(500),
+      return from([2500, 7500]).pipe(
         mergeMap(async time => {
-          await wait(time * 1000);
-
+          await wait(time);
           const { client } = deps;
           const { address } = graphqlSelector(state$.value);
           const { network } = state$.value.ledger.ledger;
@@ -294,22 +287,26 @@ const refreshBalanceAndTransactionsEpic: EpicSignature = (
               client.query({
                 query: CosmosAccountBalancesDocument,
                 variables,
+                fetchPolicy: "network-only",
               });
 
               client.query({
                 query: CosmosTransactionsDocument,
                 variables,
+                fetchPolicy: "network-only",
               });
               break;
             case "CELO":
-              client.query({
+              await client.query({
                 query: CeloAccountBalancesDocument,
                 variables,
+                fetchPolicy: "network-only",
               });
 
-              client.query({
+              await client.query({
                 query: CeloTransactionsDocument,
                 variables,
+                fetchPolicy: "network-only",
               });
               break;
             // No need for now, can be added later
