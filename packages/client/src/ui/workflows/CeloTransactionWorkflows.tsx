@@ -267,8 +267,16 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         </H6>
         <p>
           Selecting Activate Votes will prompt you to confirm the transaction
-          details on your Ledger Device. This will activate any pending votes on
-          your account.
+          details on your Ledger Device. This will activate <i>any</i> pending
+          votes on your account.
+        </p>
+        <p>
+          Note that votes must be activated in an epoch after they have been
+          voted. You can read more about this{" "}
+          <Link href="https://docs.celo.org/command-line-interface/election">
+            here
+          </Link>
+          .
         </p>
         {this.props.renderConfirmArrow(
           "Activate Votes",
