@@ -51,10 +51,6 @@ const ledger = createReducer<LedgerState, ActionTypes | LoadingActionTypes>(
     network: action.payload.network,
     address: action.payload.address,
   }))
-  // .handleAction(actions.connectLedgerFailure, () => ({
-  //   ...initialState,
-  //   ledgerAppVersionValid: true,
-  // }))
   .handleAction(actions.setCeloAccountStage, (state, action) => ({
     ...state,
     celoCreateAccountStatus: action.payload,

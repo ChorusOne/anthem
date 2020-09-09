@@ -112,12 +112,7 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
       return from(
         new Promise<ReduxActionTypes>(async resolve => {
           try {
-            const {
-              cosmosLedgerUtil,
-              celoLedgerUtil,
-              oasisLedgerUtil,
-              polkadotLedgerUtil,
-            } = deps;
+            const { cosmosLedgerUtil, celoLedgerUtil, oasisLedgerUtil } = deps;
             const { signinNetworkName } = selectors.ledgerDialogSelector(
               state$.value,
             );
@@ -182,14 +177,11 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
                 break;
               }
               case "POLKADOT":
-                console.log("CONNECTING!");
-                await polkadotLedgerUtil.connect();
-                ledgerAddress = await polkadotLedgerUtil.getAddress();
-                ledgerAppVersion = await polkadotLedgerUtil.getVersion();
-                console.log(ledgerAddress);
-                console.log(ledgerAppVersion);
-                break;
-              // return Actions.empty("Polkadot Ledger is not supported.");
+                return Actions.empty("Polkadot Ledger is not supported.");
+              // await polkadotLedgerUtil.connect();
+              // ledgerAddress = await polkadotLedgerUtil.getAddress();
+              // ledgerAppVersion = await polkadotLedgerUtil.getVersion();
+              // break;
               default: {
                 return assertUnreachable(signinNetworkName);
               }
