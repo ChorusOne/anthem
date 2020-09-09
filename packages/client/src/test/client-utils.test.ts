@@ -11,7 +11,6 @@ import {
   getFiatPriceHistoryMap,
   getPercentageFromTotal,
   getPortfolioTypeFromUrl,
-  getPriceFromTransactionTimestamp,
   getQueryParamsFromUrl,
   getValidatorNameFromAddress,
   getValidatorOperatorAddressMap,
@@ -25,9 +24,7 @@ import {
   trimZeroes,
   wait,
 } from "tools/client-utils";
-import cosmosAccountBalances from "../../../utils/src/client/data/cosmosAccountBalances.json";
 import { cosmosRewardsByValidator } from "../../../utils/src/client/data/cosmosRewardsByValidator.json";
-import { cosmosTransactions } from "../../../utils/src/client/data/cosmosTransactions.json";
 import { cosmosValidators } from "../../../utils/src/client/data/cosmosValidators.json";
 import { fiatPriceHistory } from "../../../utils/src/client/data/fiatPriceHistory.json";
 
@@ -93,27 +90,6 @@ describe("utils", () => {
     for (const price of Object.values(result)) {
       expect(typeof price).toBe("number");
     }
-  });
-
-  test("getPriceFromTransactionTimestamp", () => {
-    const priceMap = getFiatPriceHistoryMap(fiatPriceHistory);
-    let result = getPriceFromTransactionTimestamp(
-      cosmosTransactions.data[0].timestamp,
-      priceMap,
-    );
-    expect(result).toMatchInlineSnapshot(`"3.955"`);
-
-    result = getPriceFromTransactionTimestamp(
-      cosmosTransactions.data[1].timestamp,
-      priceMap,
-    );
-    expect(result).toMatchInlineSnapshot(`"3.765"`);
-
-    result = getPriceFromTransactionTimestamp(
-      cosmosTransactions.data[2].timestamp,
-      priceMap,
-    );
-    expect(result).toMatchInlineSnapshot(`"3.765"`);
   });
 
   test("getValidatorOperatorAddressMap", () => {
@@ -207,30 +183,54 @@ describe("utils", () => {
 
   test("getAccountBalances", () => {
     const result = getAccountBalances(
-      cosmosAccountBalances.cosmosAccountBalances,
+      {
+        balance: [{ denom: "uatom", amount: "10437483575" }],
+        rewards: [
+          { denom: "uatom", amount: "43885834.430233950285662958" },
+          { denom: "uatom", amount: "55210.393536427332000000" },
+        ],
+        delegations: [
+          {
+            delegator_address: "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+            validator_address:
+              "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+            shares: "4998999999.000000000000000000",
+          },
+          {
+            delegator_address: "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+            validator_address:
+              "cosmosvaloper14lultfckehtszvzw4ehu0apvsr77afvyju5zzy",
+            shares: "1000000.000000000000000000",
+          },
+        ],
+        unbonding: [],
+        commissions: [
+          { denom: "uatom", amount: "3948657657.935688218355926858" },
+        ],
+      },
       100.52,
       NETWORKS.COSMOS,
       NETWORKS.COSMOS.denom,
     );
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "balance": "12,437.49",
-        "balanceFiat": "1,250,216.82",
-        "commissions": "1,946.80",
-        "commissionsFiat": "195,691.95",
+        "balance": "10,437.48",
+        "balanceFiat": "1,049,175.85",
+        "commissions": "3,948.66",
+        "commissionsFiat": "396,919.07",
         "delegations": "5,000.00",
         "delegationsFiat": "502,600.00",
         "percentages": Array [
-          64.09126542237438,
-          25.765346862955223,
-          0.11141220745817973,
+          53.71816457763739,
+          25.733292982400577,
+          0.2261495561258058,
           0,
-          10.031975507212222,
+          20.322392883836226,
         ],
-        "rewards": "21.62",
-        "rewardsFiat": "2,173.30",
-        "total": "19,405.91",
-        "totalFiat": "1,950,682.06",
+        "rewards": "43.94",
+        "rewardsFiat": "4,416.95",
+        "total": "19,430.08",
+        "totalFiat": "1,953,111.87",
         "unbonding": "0",
         "unbondingFiat": "0",
       }
