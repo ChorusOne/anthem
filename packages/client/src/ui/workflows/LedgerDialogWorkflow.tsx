@@ -16,7 +16,7 @@ import { i18nSelector } from "modules/settings/selectors";
 import React, { ChangeEvent } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import styled, { CSSProperties } from "styled-components";
+import styled from "styled-components";
 import {
   formatAddressString,
   getDefaultChartTabForNetwork,
@@ -575,8 +575,10 @@ const getDialogDimensions = (isDesktop: boolean) => {
       };
 };
 
-const getMobileDialogPositioning = (isDesktop: boolean): CSSProperties => {
-  const mobileStyles: CSSProperties = {
+const getMobileDialogPositioning = (
+  isDesktop: boolean,
+): React.CSSProperties => {
+  const mobileStyles: React.CSSProperties = {
     position: "absolute",
     top: 45,
   };

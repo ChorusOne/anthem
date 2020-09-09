@@ -463,6 +463,7 @@ export interface IFiatCurrency {
    __typename?: "FiatCurrency";
   name: Scalars["String"];
   symbol: Scalars["String"];
+  letter: Scalars["String"];
 }
 
 export interface IFiatPrice {
@@ -1676,7 +1677,7 @@ export type IFiatCurrenciesQuery = (
   { __typename?: "Query" }
   & { fiatCurrencies: Array<(
     { __typename?: "FiatCurrency" }
-    & Pick<IFiatCurrency, "name" | "symbol">
+    & Pick<IFiatCurrency, "name" | "symbol" | "letter">
   )> }
 );
 
@@ -3851,6 +3852,7 @@ export const FiatCurrenciesDocument = gql`
   fiatCurrencies {
     name
     symbol
+    letter
   }
 }
     `;

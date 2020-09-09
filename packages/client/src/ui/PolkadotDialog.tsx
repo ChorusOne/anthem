@@ -9,7 +9,7 @@ import {
 import Modules, { ReduxStoreState } from "modules/root";
 import React from "react";
 import { connect } from "react-redux";
-import styled, { CSSProperties } from "styled-components";
+import styled from "styled-components";
 import { copyTextToClipboard } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import {
@@ -370,8 +370,10 @@ const getDialogDimensions = (isDesktop: boolean) => {
       };
 };
 
-const getMobileDialogPositioning = (isDesktop: boolean): CSSProperties => {
-  const mobileStyles: CSSProperties = {
+const getMobileDialogPositioning = (
+  isDesktop: boolean,
+): React.CSSProperties => {
+  const mobileStyles: React.CSSProperties = {
     position: "absolute",
     top: 45,
   };

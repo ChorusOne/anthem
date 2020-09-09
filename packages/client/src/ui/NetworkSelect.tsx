@@ -122,7 +122,7 @@ const NetworkSelect = (props: NetworkSelectProps) => {
   );
 };
 
-const cardButtonStyles: CSSProperties = {
+const cardButtonStyles: React.CSSProperties = {
   width: 115,
   height: 115,
   margin: 12,

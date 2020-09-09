@@ -6,6 +6,7 @@ import ENV from "lib/client-env";
 import cosmosLedgerLib from "lib/cosmos-ledger-lib";
 import { reduxLogger as logger } from "lib/logger-lib";
 import oasisLedgerLib from "lib/oasis-ledger-lib";
+import polkadotLedgerLib from "lib/polkadot-ledger-lib";
 import { applyMiddleware, createStore, Middleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { createEpicMiddleware } from "redux-observable";
@@ -29,6 +30,7 @@ const dependencies: EpicDependencies = {
   cosmosLedgerUtil: cosmosLedgerLib,
   celoLedgerUtil: celoLedgerLib,
   oasisLedgerUtil: oasisLedgerLib,
+  polkadotLedgerUtil: polkadotLedgerLib,
   cosmos: cosmosBlockchainModule,
 };
 

@@ -2,10 +2,12 @@
   "celoGovernanceProposals": {
     "queuedProposals": [],
     "approvalProposals": [],
-    "referendumProposals": [
+    "referendumProposals": [],
+    "executionProposals": [],
+    "expiredProposals": [
       {
         "proposalID": 1,
-        "currentBlockNumber": 2065430,
+        "currentBlockNumber": 2416699,
         "stage": "Expiration",
         "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
         "executed": true,
@@ -14,13 +16,10 @@
         "queuedAtTimestamp": 1588031167,
         "gist": "https://gist.github.com/aslawson/a1f693f0e4c5fd391eac463237c4182a",
         "description": "RC1 - \n1. Unfreeze Election contract  -- enables validator elections\n2. Set Carbon Offset Fund to Project Wren (https://projectwren.com/about) & keeps fraction as 1/1000\n3. Unfreeze EpochRewards contract -- enables epoch rewards (excluding voter rewards)\n"
-      }
-    ],
-    "executionProposals": [],
-    "expiredProposals": [
+      },
       {
         "proposalID": 2,
-        "currentBlockNumber": 2065430,
+        "currentBlockNumber": 2416699,
         "stage": "Expiration",
         "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
         "executed": true,
@@ -32,7 +31,7 @@
       },
       {
         "proposalID": 3,
-        "currentBlockNumber": 2065430,
+        "currentBlockNumber": 2416699,
         "stage": "Expiration",
         "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
         "executed": true,
@@ -44,7 +43,7 @@
       },
       {
         "proposalID": 4,
-        "currentBlockNumber": 2065430,
+        "currentBlockNumber": 2416699,
         "stage": "Expiration",
         "proposer": "0x351aebcded9240ae77dd0a3987e2110b15e0f038",
         "executed": true,
@@ -56,7 +55,7 @@
       },
       {
         "proposalID": 5,
-        "currentBlockNumber": 2065430,
+        "currentBlockNumber": 2416699,
         "stage": "Expiration",
         "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
         "executed": false,
@@ -68,7 +67,7 @@
       },
       {
         "proposalID": 6,
-        "currentBlockNumber": 2065430,
+        "currentBlockNumber": 2416699,
         "stage": "Expiration",
         "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
         "executed": true,
@@ -80,7 +79,7 @@
       },
       {
         "proposalID": 7,
-        "currentBlockNumber": 2065430,
+        "currentBlockNumber": 2416699,
         "stage": "Expiration",
         "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
         "executed": true,
@@ -92,7 +91,7 @@
       },
       {
         "proposalID": 8,
-        "currentBlockNumber": 2065430,
+        "currentBlockNumber": 2416699,
         "stage": "Expiration",
         "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
         "executed": true,
@@ -104,7 +103,7 @@
       },
       {
         "proposalID": 9,
-        "currentBlockNumber": 2065430,
+        "currentBlockNumber": 2416699,
         "stage": "Expiration",
         "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
         "executed": true,
@@ -116,7 +115,7 @@
       },
       {
         "proposalID": 10,
-        "currentBlockNumber": 2065430,
+        "currentBlockNumber": 2416699,
         "stage": "Expiration",
         "proposer": "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
         "executed": false,

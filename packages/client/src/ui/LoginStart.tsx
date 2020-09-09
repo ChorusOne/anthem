@@ -122,7 +122,7 @@ class LoginStart extends React.Component<IProps, {}> {
  * ============================================================================
  */
 
-const getCardButtonStyles = (isDesktop: boolean): CSSProperties => {
+const getCardButtonStyles = (isDesktop: boolean): React.CSSProperties => {
   const dimensions = isDesktop
     ? {
         width: 190,

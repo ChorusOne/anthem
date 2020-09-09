@@ -8,7 +8,7 @@ import {
   TerraLogo,
 } from "assets/icons";
 import React from "react";
-import styled, { CSSProperties } from "styled-components";
+import styled from "styled-components";
 import { ReactComponent as ChorusLogoIconOnlyDark } from "../assets/chorus/C1_logo_simple_black.svg";
 import { ReactComponent as ChorusLogoIconOnlyLight } from "../assets/chorus/C1_logo_simple_white.svg";
 import { ReactComponent as AddressIconSvg } from "../assets/landing-page/address-icon.svg";
@@ -266,7 +266,7 @@ export const NetworkLogoIcon = ({
   styles,
 }: {
   network: NETWORK_NAME;
-  styles?: CSSProperties;
+  styles?: React.CSSProperties;
 }) => {
   switch (network) {
     case "COSMOS":
