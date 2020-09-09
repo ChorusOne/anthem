@@ -359,12 +359,19 @@ class CeloLedgerClass implements ICeloLedger {
       throw new Error("CeloLedgerClass not initialized yet.");
     }
 
-    this.kit.defaultAccount = address;
-    const election = await this.kit.contracts.getElection();
-    console.log(`Activating votes for address: ${address}`);
-    const tx = await election.activate(address);
-    const receipt = await tx[0].sendAndWaitForReceipt();
-    return receipt;
+    try {
+      this.kit.defaultAccount = address;
+      const election = await this.kit.contracts.getElection();
+      console.log(`Activating votes for address: ${address}`);
+      const tx = await election.activate(address);
+      const receipt = await tx[0].sendAndWaitForReceipt();
+      return receipt;
+    } catch (err) {
+      // If this failed it's likely because the user needs to wait for the
+      // next epoch first.
+      const message = `Your transaction to activate votes could not be completed. You may have tried to send it too early. Celo staking design requires votes for validator groups to be activated in the epoch after they were cast. Please retry later. Contact us if you continue to experience problems.`;
+      throw new Error(message);
+    }
   }
 
   async revokeVotes(args: RevokeVotesArguments) {
