@@ -139,7 +139,7 @@ class NetworkSummaryPage extends React.Component<IProps> {
                           <Text>
                             {marketCapitalization ? (
                               <span>
-                                ${formatCurrencyAmount(marketCapitalization)}
+                                HI{formatCurrencyAmount(marketCapitalization)}
                               </span>
                             ) : (
                               "n/a"

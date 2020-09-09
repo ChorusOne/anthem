@@ -839,6 +839,7 @@ type Price {
 type FiatCurrency {
   name: String!
   symbol: String!
+  letter: String!
 }
 
 type FiatPriceData {
