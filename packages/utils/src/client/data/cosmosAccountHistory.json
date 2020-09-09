@@ -400,6 +400,22 @@
         "height": 2831545,
         "timestamp": "2020-08-01T07:06:05.000Z",
         "chain": "cosmoshub-3"
+      },
+      {
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "denom": "uatom",
+        "balance": "10437489650",
+        "height": 3214915,
+        "timestamp": "2020-09-02T08:37:07.000Z",
+        "chain": "cosmoshub-3"
+      },
+      {
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "denom": "uatom",
+        "balance": "10437483575",
+        "height": 3287619,
+        "timestamp": "2020-09-08T12:35:27.000Z",
+        "chain": "cosmoshub-3"
       }
     ],
     "delegations": [
@@ -5095,6 +5111,265 @@
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "timestamp": "2020-08-19T16:00:05.000Z",
         "denom": "uatom"
+      },
+      {
+        "balance": "21801700",
+        "height": 3056645,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-20T01:29:12.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "22468267",
+        "height": 3063891,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-20T16:00:01.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "23569780",
+        "height": 3075843,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-21T16:00:00.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "23747025",
+        "height": 3077767,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-21T19:52:26.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "24670789",
+        "height": 3087795,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-22T16:00:00.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "25771055",
+        "height": 3099730,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-23T16:00:01.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "26872857",
+        "height": 3111660,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-24T16:00:02.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "27087208",
+        "height": 3113974,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-24T20:38:53.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "27981827",
+        "height": 3123587,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-25T16:00:04.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "28305534",
+        "height": 3127062,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-25T23:00:12.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "29091192",
+        "height": 3135486,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-26T16:00:05.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "29730073",
+        "height": 3142327,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-27T05:49:17.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "30199809",
+        "height": 3147360,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-27T16:00:01.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "31031042",
+        "height": 3156290,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-28T10:06:40.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "31303396",
+        "height": 3159205,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-28T16:00:03.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "32340554",
+        "height": 3170317,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-29T14:26:43.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "32412498",
+        "height": 3171089,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-29T16:00:05.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "32710609",
+        "height": 3174285,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-29T22:27:33.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "33513259",
+        "height": 3182907,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-30T16:00:00.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "34011125",
+        "height": 3188244,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-31T02:46:46.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "34616637",
+        "height": 3194775,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-08-31T16:00:00.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "35305142",
+        "height": 3202268,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-01T07:06:47.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "35710096",
+        "height": 3206676,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-01T16:00:04.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "35818215",
+        "height": 3207853,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-01T18:22:32.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "36801537",
+        "height": 3218562,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-02T16:00:00.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "37100712",
+        "height": 3221819,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-02T22:36:52.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "37885832",
+        "height": 3230367,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-03T16:00:00.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "38380615",
+        "height": 3235750,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-04T02:56:58.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "38973251",
+        "height": 3242164,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-04T16:00:00.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "39083473",
+        "height": 3243357,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-04T18:25:36.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "40064293",
+        "height": 3253956,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-05T16:00:02.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "40486179",
+        "height": 3258519,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-06T01:16:21.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "41154508",
+        "height": 3265752,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-06T16:00:05.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "41897994",
+        "height": 3273798,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-07T08:23:11.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "42242157",
+        "height": 3277527,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-07T16:00:00.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "43175681",
+        "height": 3287632,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-08T12:37:04.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "43329274",
+        "height": 3289294,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-08T16:00:06.000Z",
+        "denom": "uatom"
       }
     ],
     "validatorCommissions": [
@@ -9521,6 +9796,265 @@
         "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
         "timestamp": "2020-08-19T16:00:05.000Z",
         "denom": "uatom"
+      },
+      {
+        "balance": "1963174583",
+        "height": 3056645,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-20T01:29:12.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "2023453973",
+        "height": 3063891,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-20T16:00:01.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "2123072863",
+        "height": 3075843,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-21T16:00:00.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "2139104243",
+        "height": 3077767,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-21T19:52:26.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "2222656067",
+        "height": 3087795,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-22T16:00:00.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "2322239322",
+        "height": 3099730,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-23T16:00:01.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "2421870327",
+        "height": 3111660,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-24T16:00:02.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "2441240449",
+        "height": 3113974,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-24T20:38:53.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "2522083987",
+        "height": 3123587,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-25T16:00:04.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "2551346928",
+        "height": 3127062,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-25T23:00:12.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "2622348474",
+        "height": 3135486,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-26T16:00:05.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "2679729148",
+        "height": 3142327,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-27T05:49:17.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "2721683261",
+        "height": 3147360,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-27T16:00:01.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "2795924234",
+        "height": 3156290,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-28T10:06:40.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "2820251133",
+        "height": 3159205,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-28T16:00:03.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "2912862330",
+        "height": 3170317,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-29T14:26:43.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "2919285929",
+        "height": 3171089,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-29T16:00:05.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "2945903168",
+        "height": 3174285,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-29T22:27:33.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3017569449",
+        "height": 3182907,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-30T16:00:00.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3062023812",
+        "height": 3188244,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-31T02:46:46.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3116090078",
+        "height": 3194775,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-08-31T16:00:00.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3177562249",
+        "height": 3202268,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-01T07:06:47.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3213719862",
+        "height": 3206676,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-01T16:00:04.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3223373558",
+        "height": 3207853,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-01T18:22:32.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3311171960",
+        "height": 3218562,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-02T16:00:00.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3337884444",
+        "height": 3221819,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-02T22:36:52.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3407985618",
+        "height": 3230367,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-03T16:00:00.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3452162927",
+        "height": 3235750,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-04T02:56:58.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3505070231",
+        "height": 3242164,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-04T16:00:00.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3514909412",
+        "height": 3243357,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-04T18:25:36.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3602464384",
+        "height": 3253956,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-05T16:00:02.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3640125616",
+        "height": 3258519,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-06T01:16:21.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3699786840",
+        "height": 3265752,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-06T16:00:05.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3766160121",
+        "height": 3273798,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-07T08:23:11.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3796898528",
+        "height": 3277527,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-07T16:00:00.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3880287463",
+        "height": 3287632,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-08T12:37:04.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "3894007936",
+        "height": 3289294,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-08T16:00:06.000Z",
+        "denom": "uatom"
       }
     ],
     "fiatPriceHistory": [
@@ -10071,7 +10605,27 @@
       { "price": 6.1015, "timestamp": "2020-08-17T00:00:00.000Z" },
       { "price": 5.861, "timestamp": "2020-08-18T00:00:00.000Z" },
       { "price": 5.6805, "timestamp": "2020-08-19T00:00:00.000Z" },
-      { "price": 5.6987499999999995, "timestamp": "2020-08-20T00:00:00.000Z" }
+      { "price": 5.9735, "timestamp": "2020-08-20T00:00:00.000Z" },
+      { "price": 6.05075, "timestamp": "2020-08-21T00:00:00.000Z" },
+      { "price": 5.976750000000001, "timestamp": "2020-08-22T00:00:00.000Z" },
+      { "price": 7.47325, "timestamp": "2020-08-23T00:00:00.000Z" },
+      { "price": 8.24325, "timestamp": "2020-08-24T00:00:00.000Z" },
+      { "price": 8.30925, "timestamp": "2020-08-25T00:00:00.000Z" },
+      { "price": 8.11025, "timestamp": "2020-08-26T00:00:00.000Z" },
+      { "price": 7.4544999999999995, "timestamp": "2020-08-27T00:00:00.000Z" },
+      { "price": 7.46025, "timestamp": "2020-08-28T00:00:00.000Z" },
+      { "price": 7.4315, "timestamp": "2020-08-29T00:00:00.000Z" },
+      { "price": 7.513999999999999, "timestamp": "2020-08-30T00:00:00.000Z" },
+      { "price": 7.45675, "timestamp": "2020-08-31T00:00:00.000Z" },
+      { "price": 7.27375, "timestamp": "2020-09-01T00:00:00.000Z" },
+      { "price": 6.89575, "timestamp": "2020-09-02T00:00:00.000Z" },
+      { "price": 5.828, "timestamp": "2020-09-03T00:00:00.000Z" },
+      { "price": 5.22475, "timestamp": "2020-09-04T00:00:00.000Z" },
+      { "price": 5.16325, "timestamp": "2020-09-05T00:00:00.000Z" },
+      { "price": 4.9795, "timestamp": "2020-09-06T00:00:00.000Z" },
+      { "price": 5.022, "timestamp": "2020-09-07T00:00:00.000Z" },
+      { "price": 4.975499999999999, "timestamp": "2020-09-08T00:00:00.000Z" },
+      { "price": 5.0805, "timestamp": "2020-09-09T00:00:00.000Z" }
     ]
   }
 }
