@@ -32,6 +32,7 @@ interface IOasisLedger {
   getAddress(): Promise<string>;
   getVersion(): Promise<string>;
   getPublicKey(): Promise<string>;
+  transfer(from: string, to: string, amount: string): Promise<string>;
 }
 
 /** ===========================================================================
@@ -95,6 +96,13 @@ class OasisLedgerClass implements IOasisLedger {
     console.log(result);
     return result;
   }
+
+  async transfer(from: string, to: string, amount: string) {
+    const tx = getStakingTransferTransaction(from, amount);
+    console.log("Transfer transaction to: ", to);
+    console.log(tx);
+    return "";
+  }
 }
 
 /**
@@ -142,6 +150,11 @@ class MockOasisLedgerModule implements IOasisLedger {
   }
 
   async getPublicKey() {
+    await wait(1500);
+    return "";
+  }
+
+  async transfer(from: string, to: string, amount: string) {
     await wait(1500);
     return "";
   }
