@@ -23,9 +23,11 @@ import { COLORS } from "constants/colors";
 import { FiatCurrency } from "constants/fiat";
 import {
   CeloAccountBalancesProps,
+  CeloSystemBalancesProps,
   CeloValidatorsProps,
   FiatPriceDataProps,
   withCeloAccountBalances,
+  withCeloSystemBalances,
   withCeloValidatorGroups,
   withFiatPriceData,
   withGraphQLVariables,
@@ -48,6 +50,7 @@ import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import styled from "styled-components";
 import {
   capitalizeString,
+  estimateNextCeloEpochFromHeight,
   getBlockExplorerUrlForTransaction,
   getValidatorOperatorAddressMap,
   sortValidatorsChorusOnTop,
@@ -260,7 +263,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   renderActivateVotesStep = () => {
-    // Epoch: 17280 heights/epoch
+    const { height } = this.props.celoSystemBalances.celoSystemBalances;
+    const estimatedHoursLeft = estimateNextCeloEpochFromHeight(height);
     return (
       <View>
         <H6 style={{ marginTop: 8, marginBottom: 8 }}>
@@ -278,6 +282,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             here
           </Link>
           .
+        </p>
+        <p>
+          The next epoch will occur in approximately {estimatedHoursLeft} hours.
         </p>
         {this.props.renderConfirmArrow(
           "Activate Votes",
@@ -1164,6 +1171,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   renderTransactionConfirmation = () => {
     const { tString } = this.props.i18n;
     const { network } = this.props.ledger;
+
     return (
       <Centered style={{ flexDirection: "column" }}>
         {this.props.transaction.broadcastingTransaction ? (
@@ -1226,6 +1234,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const { i18n, transaction, ledger } = this.props;
     const { t, tString } = i18n;
     const { transactionResult } = transaction;
+    const { ledgerActionType } = this.props.ledgerDialog;
+    const isVoteTransaction = ledgerActionType === "VOTE_GOLD";
+    const { height } = this.props.celoSystemBalances.celoSystemBalances;
+    const estimatedHoursLeft = estimateNextCeloEpochFromHeight(height);
 
     if (!transactionResult) {
       return (
@@ -1272,6 +1284,17 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         >
           {tString("View on a block explorer")}
         </Link>
+        {isVoteTransaction && (
+          <p>
+            Your vote was successful and has entered the pending state. You will
+            need to return after {estimatedHoursLeft} hours to activate your
+            votes to start earning CELO staking rewards. Read more about this{" "}
+            <Link href="https://docs.celo.org/command-line-interface/election">
+              here
+            </Link>
+            .
+          </p>
+        )}
         <Button
           data-cy="transaction-dialog-close-button"
           style={{ marginTop: 16 }}
@@ -1674,6 +1697,7 @@ interface IProps
   extends ComponentProps,
     ConnectProps,
     CeloValidatorsProps,
+    CeloSystemBalancesProps,
     CeloAccountBalancesProps,
     FiatPriceDataProps {}
 
@@ -1682,5 +1706,6 @@ export default composeWithProps<ComponentProps>(
   withGraphQLVariables,
   withCeloValidatorGroups,
   withFiatPriceData,
+  withCeloSystemBalances,
   withCeloAccountBalances,
 )(CreateTransactionForm);

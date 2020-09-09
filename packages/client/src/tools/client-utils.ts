@@ -1115,9 +1115,10 @@ export const deriveCurrentDelegationsInformation = (
  * Given the current Celo block height estimate the time until the next
  * epoch.
  */
-export const estimateNextCeloEpochFromHeight = (currentHeight: number) => {
+export const estimateNextCeloEpochFromHeight = (currentHeight: string) => {
+  const height = Number(currentHeight);
   const epochLimit = 17280; // -> 17,280 heights/epoch.
-  const remainingHeights = epochLimit - (currentHeight % epochLimit);
+  const remainingHeights = epochLimit - (height % epochLimit);
   const averageBlockTime = 5; // -> 5 seconds
   const estimatedHoursLeft = (remainingHeights * averageBlockTime) / 60 / 60;
   return estimatedHoursLeft;
