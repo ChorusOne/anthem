@@ -2,5 +2,6 @@ query fiatCurrencies{
     fiatCurrencies{
         name
         symbol
+        letter
     }
 }

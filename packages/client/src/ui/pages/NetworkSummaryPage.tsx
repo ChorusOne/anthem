@@ -35,7 +35,7 @@ class NetworkSummaryPage extends React.Component<IProps> {
   render(): JSX.Element {
     const { settings, networkSummaries, i18n } = this.props;
     const { tString } = i18n;
-    const fiatSymbol = settings.fiatCurrency.symbol;
+    const { letter } = settings.fiatCurrency;
 
     return (
       <PageContainer>
@@ -118,8 +118,7 @@ class NetworkSummaryPage extends React.Component<IProps> {
                           <Text>
                             {tokenPrice ? (
                               <span>
-                                {formatCurrencyAmount(tokenPrice, 2)}{" "}
-                                {fiatSymbol}
+                                {formatCurrencyAmount(tokenPrice, 2)} {letter}
                               </span>
                             ) : (
                               "n/a"
@@ -139,7 +138,8 @@ class NetworkSummaryPage extends React.Component<IProps> {
                           <Text>
                             {marketCapitalization ? (
                               <span>
-                                HI{formatCurrencyAmount(marketCapitalization)}
+                                {letter}
+                                {formatCurrencyAmount(marketCapitalization)}
                               </span>
                             ) : (
                               "n/a"

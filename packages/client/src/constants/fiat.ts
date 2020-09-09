@@ -4,11 +4,13 @@
  */
 
 export interface FiatCurrency {
+  letter: string;
   symbol: string;
   name: string;
 }
 
 export const DEFAULT_FIAT_CURRENCY = {
+  letter: "$",
   symbol: "USD",
   name: "US Dollar",
 };
