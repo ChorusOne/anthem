@@ -831,15 +831,23 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                           network.denominationSize,
                         );
 
+                        const timeDateString = new Date(
+                          time.toNumber(),
+                        ).toLocaleString();
+
+                        const untilLabel = isAvailableForWithdraw
+                          ? ""
+                          : ` (Available: ${timeDateString})`;
+
                         return (
                           <Radio
                             key={index}
                             value={index}
                             color={COLORS.CHORUS}
                             style={{ marginLeft: 8 }}
-                            disabled={isAvailableForWithdraw}
+                            disabled={!isAvailableForWithdraw}
                             data-cy="pending-withdrawal-balance-radio"
-                            label={`Pending Balance: ${tokens}`}
+                            label={`Pending Balance: ${tokens}${untilLabel}`}
                             onClick={() =>
                               this.setState({
                                 celoPendingWithdrawalIndex: index,
@@ -1660,7 +1668,7 @@ const TransactionHashText = styled(Code)`
  */
 const isUnbondingTimeComplete = (time: BigNumber) => {
   const currentTime = Math.round(new Date().getTime() / 1000);
-  return !time.isLessThan(currentTime);
+  return time.isLessThan(currentTime);
 };
 
 /** ===========================================================================
