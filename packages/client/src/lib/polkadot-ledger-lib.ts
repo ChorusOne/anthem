@@ -129,4 +129,4 @@ const polkadotLedger = new PolkadotLedgerClass();
 
 const mockPolkadotLedger = new MockPolkadotLedgerModule();
 
-export default !ENV.ENABLE_MOCK_APIS ? mockPolkadotLedger : polkadotLedger;
+export default ENV.ENABLE_MOCK_APIS ? mockPolkadotLedger : polkadotLedger;
