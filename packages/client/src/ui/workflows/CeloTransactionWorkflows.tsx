@@ -260,6 +260,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
   };
 
   renderActivateVotesStep = () => {
+    // Epoch: 17280 heights/epoch
     return (
       <View>
         <H6 style={{ marginTop: 8, marginBottom: 8 }}>
