@@ -484,7 +484,12 @@ class MockCeloLedgerModule implements ICeloLedger {
   }
 
   async getPendingWithdrawalBalances(address: string) {
-    return [];
+    return [
+      {
+        time: new BigNumber(Date.now()),
+        value: new BigNumber(1000000000000000000),
+      },
+    ];
   }
 
   async withdraw() {

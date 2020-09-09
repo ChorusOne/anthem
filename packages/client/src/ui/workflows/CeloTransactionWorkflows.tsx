@@ -784,7 +784,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                 Withdraw CELO tokens to move them to your available balance.
               </p>
               <p style={{ marginTop: 8 }}>
-                Available: {bold(`${balance} ${ledger.network.descriptor}`)}
+                Currently Pending:{" "}
+                {bold(`${balance} ${ledger.network.descriptor}`)}
               </p>
               <p style={{ marginTop: 8 }}>
                 ({fiatBalance} {fiatCurrency.symbol})
@@ -825,6 +826,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                           time,
                         );
 
+                        const tokens = denomToUnit(
+                          value,
+                          network.denominationSize,
+                        );
+
                         return (
                           <Radio
                             key={index}
@@ -833,7 +839,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                             style={{ marginLeft: 8 }}
                             disabled={isAvailableForWithdraw}
                             data-cy="pending-withdrawal-balance-radio"
-                            label={`Pending Balance: ${value.toFixed()}`}
+                            label={`Pending Balance: ${tokens}`}
                             onClick={() =>
                               this.setState({
                                 celoPendingWithdrawalIndex: index,
