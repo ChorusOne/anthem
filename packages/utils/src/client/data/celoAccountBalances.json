@@ -3,8 +3,8 @@
     "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
     "height": "2065430",
     "availableGoldBalance": "1000000000000000016",
-    "totalLockedGoldBalance": "50741677760806359200241",
-    "nonVotingLockedGoldBalance": "0",
+    "totalLockedGoldBalance": "60741677760806359200241",
+    "nonVotingLockedGoldBalance": "10741677760806359200241",
     "votingLockedGoldBalance": "50741677760806359200241",
     "pendingWithdrawalBalance": "30741677760806359200241",
     "celoUSDValue": "33985957611429570793093",
@@ -14,6 +14,12 @@
         "totalVotes": "50741677760806359200241",
         "activeVotes": "50741677760806359200241",
         "pendingVotes": "0"
+      },
+      {
+        "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
+        "totalVotes": "10741677760806359200241",
+        "activeVotes": "0",
+        "pendingVotes": "10741677760806359200241"
       }
     ]
   }

@@ -1121,5 +1121,5 @@ export const estimateNextCeloEpochFromHeight = (currentHeight: string) => {
   const remainingHeights = epochLimit - (height % epochLimit);
   const averageBlockTime = 5; // -> 5 seconds
   const estimatedHoursLeft = (remainingHeights * averageBlockTime) / 60 / 60;
-  return estimatedHoursLeft;
+  return Math.round(estimatedHoursLeft);
 };

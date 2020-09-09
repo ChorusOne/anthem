@@ -275,7 +275,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           details on your Ledger Device. This will activate <i>any</i> pending
           votes on your account.
         </p>
-        <p>
+        <p style={{ marginTop: 12 }}>
           Note that votes must be activated in an epoch after they have been
           voted. You can read more about this{" "}
           <Link href="https://docs.celo.org/command-line-interface/election">
@@ -283,7 +283,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           </Link>
           .
         </p>
-        <p>
+        <p style={{ marginTop: 12 }}>
           The next epoch will occur in approximately {estimatedHoursLeft} hours.
         </p>
         {this.props.renderConfirmArrow(
@@ -1285,10 +1285,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           {tString("View on a block explorer")}
         </Link>
         {isVoteTransaction && (
-          <p>
+          <p style={{ marginTop: 12 }}>
             Your vote was successful and has entered the pending state. You will
-            need to return after {estimatedHoursLeft} hours to activate your
-            votes to start earning CELO staking rewards. Read more about this{" "}
+            need to return after approximately {estimatedHoursLeft} hours to
+            activate your votes to start earning CELO staking rewards. Read more
+            about this{" "}
             <Link href="https://docs.celo.org/command-line-interface/election">
               here
             </Link>
