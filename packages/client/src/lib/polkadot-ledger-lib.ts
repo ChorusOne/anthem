@@ -1,22 +1,22 @@
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
-import OasisApp from "ledger-oasis-js";
+import PolkadotApp from "@zondax/ledger-polkadot";
 import ENV from "lib/client-env";
 import { wait } from "tools/client-utils";
 
 /** ===========================================================================
- * Oasis Ledger Utils
+ * Polkadot Ledger Utils
  * ---------------------------------------------------------------------------
- * Docs: https://github.com/Zondax/ledger-oasis-js
- * Example App: https://github.com/Zondax/ledger-oasis-js/blob/master/vue_example/components/LedgerExample.vue
+ * Docs: https://github.com/Zondax/ledger-polkadot-js
+ * Example App: https://github.com/Zondax/ledger-polkadot-js/blob/master/vue_example/components/LedgerExample.vue
  * ============================================================================
  */
 
 /**
- * Handle getting the Oasis Ledger transport.
+ * Handle getting the Polkadot Ledger transport.
  */
-const getOasisLedgerTransport = async () => {
+const getPolkadotLedgerTransport = async () => {
   if (window.USB) {
     return TransportUSB.create();
   } else if (window.u2f) {
@@ -26,27 +26,26 @@ const getOasisLedgerTransport = async () => {
   throw new Error(LEDGER_ERRORS.BROWSER_NOT_SUPPORTED);
 };
 
-interface IOasisLedger {
+interface IPolkadotLedger {
   connect(): Promise<void>;
   disconnect(): void;
   getAddress(): Promise<string>;
   getVersion(): Promise<string>;
-  getPublicKey(): Promise<string>;
 }
 
 /** ===========================================================================
- * Oasis Ledger Class
+ * Polkadot Ledger Class
  * ============================================================================
  */
 
-class OasisLedgerClass implements IOasisLedger {
+class PolkadotLedgerClass implements IPolkadotLedger {
   private app: Nullable<any> = null;
   private readonly path = [44, 474, 0, 0, 0];
 
   async connect() {
     // Given a transport (U2F/HIF/WebUSB) it is possible instantiate the app
-    const transport = await getOasisLedgerTransport();
-    const app = new OasisApp(transport);
+    const transport = await getPolkadotLedgerTransport();
+    const app = new PolkadotApp(transport);
 
     this.app = app;
   }
@@ -55,24 +54,31 @@ class OasisLedgerClass implements IOasisLedger {
     this.app = null;
   }
 
-  async showAddress() {
-    if (!this.app) {
-      throw new Error("Not initialized yet!");
-    }
-
-    await this.app.showAddressAndPubKey(this.path);
-  }
-
   async getAddress() {
     if (!this.app) {
       throw new Error("Not initialized yet!");
     }
 
-    const result = await this.app.getAddressAndPubKey(this.path);
-    const address = result.bech32_address;
-    console.log(`Oasis Address: ${address}`);
+    const pathAccount = 0x80000000;
+    const pathChange = 0x80000000;
+    const pathIndex = 0x80000000;
 
-    return address;
+    const response = await this.app.getAddress(
+      pathAccount,
+      pathChange,
+      pathIndex,
+      false,
+    );
+    if (response.return_code !== 0x9000) {
+      console.log(`Error [${response.return_code}] ${response.error_message}`);
+      return;
+    }
+
+    console.log("Response received!");
+    console.log("Full response:");
+    console.log(response);
+
+    return response;
   }
 
   async getVersion() {
@@ -84,17 +90,6 @@ class OasisLedgerClass implements IOasisLedger {
     const version = `${result.major}.${result.minor}.${result.patch}`;
     return version;
   }
-
-  async getPublicKey() {
-    if (!this.app) {
-      throw new Error("Not initialized yet!");
-    }
-
-    const result = await this.app.publicKey(this.path);
-    console.log("PUBLIC KEY:");
-    console.log(result);
-    return result;
-  }
 }
 
 /** ===========================================================================
@@ -102,7 +97,7 @@ class OasisLedgerClass implements IOasisLedger {
  * ============================================================================
  */
 
-class MockOasisLedgerModule implements IOasisLedger {
+class MockPolkadotLedgerModule implements IPolkadotLedger {
   async connect() {
     await wait(1500);
     return;
@@ -133,8 +128,8 @@ class MockOasisLedgerModule implements IOasisLedger {
  * ============================================================================
  */
 
-const oasisLedger = new OasisLedgerClass();
+const polkadotLedger = new PolkadotLedgerClass();
 
-const mockOasisLedger = new MockOasisLedgerModule();
+const mockPolkadotLedger = new MockPolkadotLedgerModule();
 
-export default ENV.ENABLE_MOCK_APIS ? mockOasisLedger : oasisLedger;
+export default ENV.ENABLE_MOCK_APIS ? mockPolkadotLedger : polkadotLedger;
