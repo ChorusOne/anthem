@@ -5,6 +5,7 @@ import cosmosBlockchainModule from "lib/blockchain-lib";
 import celoLedgerModule from "lib/celo-ledger-lib";
 import cosmosLedgerModule from "lib/cosmos-ledger-lib";
 import oasisLedgerModule from "lib/oasis-ledger-lib";
+import polkadotLedgerModule from "lib/polkadot-ledger-lib";
 import { combineReducers } from "redux";
 import { combineEpics, Epic } from "redux-observable";
 
@@ -88,6 +89,7 @@ export interface EpicDependencies {
   cosmosLedgerUtil: typeof cosmosLedgerModule;
   celoLedgerUtil: typeof celoLedgerModule;
   oasisLedgerUtil: typeof oasisLedgerModule;
+  polkadotLedgerUtil: typeof polkadotLedgerModule;
   client: ApolloClient<NormalizedCacheObject>;
 }
 

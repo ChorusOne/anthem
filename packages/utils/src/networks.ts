@@ -260,7 +260,7 @@ const NETWORKS: NetworksMap = {
     expectedReward: null,
   },
   POLKADOT: {
-    available: false,
+    available: true,
     name: "POLKADOT",
     denom: "DOT",
     denomsList: ["DOT"],

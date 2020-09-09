@@ -88,6 +88,7 @@ class PolkadotLedgerClass implements IPolkadotLedger {
 
     const result = await this.app.getVersion();
     const version = `${result.major}.${result.minor}.${result.patch}`;
+    console.log(`Version: ${version}`);
     return version;
   }
 }

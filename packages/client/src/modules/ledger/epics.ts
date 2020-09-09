@@ -112,7 +112,12 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
       return from(
         new Promise<ReduxActionTypes>(async resolve => {
           try {
-            const { cosmosLedgerUtil, celoLedgerUtil, oasisLedgerUtil } = deps;
+            const {
+              cosmosLedgerUtil,
+              celoLedgerUtil,
+              oasisLedgerUtil,
+              polkadotLedgerUtil,
+            } = deps;
             const { signinNetworkName } = selectors.ledgerDialogSelector(
               state$.value,
             );
@@ -171,9 +176,9 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
                 break;
               }
               case "OASIS": {
-                await oasisLedgerUtil.connect();
-                ledgerAddress = await oasisLedgerUtil.getAddress();
-                ledgerAppVersion = await oasisLedgerUtil.getVersion();
+                await polkadotLedgerUtil.connect();
+                ledgerAddress = await polkadotLedgerUtil.getAddress();
+                ledgerAppVersion = await polkadotLedgerUtil.getVersion();
                 break;
               }
               case "POLKADOT":
