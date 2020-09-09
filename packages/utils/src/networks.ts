@@ -260,7 +260,7 @@ const NETWORKS: NetworksMap = {
     expectedReward: null,
   },
   POLKADOT: {
-    available: true,
+    available: false,
     name: "POLKADOT",
     denom: "DOT",
     denomsList: ["DOT"],
@@ -270,7 +270,7 @@ const NETWORKS: NetworksMap = {
     ledgerAppVersion: "4.18.0",
     ledgerAppName: "Polkadot",
     ledgerDocsLink: "https://wiki.polkadot.network/docs/en/learn-ledger",
-    supportsLedger: true,
+    supportsLedger: false,
     supportsFiatPrices: false,
     supportsBalances: false,
     supportsPortfolio: false,
