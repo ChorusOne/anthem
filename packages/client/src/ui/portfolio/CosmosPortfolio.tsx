@@ -27,7 +27,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import styled from "styled-components";
 import { throttle } from "throttle-debounce";
 import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
-import { BASE_CHART_TABS, getPortfolioTypeFromUrl } from "tools/client-utils";
+import { BASE_CHART_TABS } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import {
   getChartTotalGraph,
@@ -377,28 +377,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     const { settings, network, cosmosAccountHistory } = this.props;
 
     if (cosmosAccountHistory && cosmosAccountHistory.cosmosAccountHistory) {
-      const {
-        validatorCommissions,
-      } = cosmosAccountHistory.cosmosAccountHistory;
-
-      const portfolioType = getPortfolioTypeFromUrl(window.location.pathname);
-      const onCommissionsTab = portfolioType === "COMMISSIONS";
-      const noCommissionsExist = validatorCommissions.length === 0;
-
-      /**
-       * If the commissions tab is active but an address loads without commissions
-       * data, redirect to the /rewards tab instead. This is actually crap
-       * because it just generates a navigation side effect in the middle of
-       * this function. This should be moved into an epic and handled properly,
-       * but this is a little tricky because it depends on the GraphQL data
-       * loading for the new address.
-       */
-      if (noCommissionsExist && onCommissionsTab) {
-        this.props.history.push("/dashboard/rewards");
-      }
-
       const { denom } = this.state.selectedDenom;
-
       const displayFiat = settings.currencySetting === "fiat";
       const result = processPortfolioHistoryData(
         this.props.cosmosAccountHistory,

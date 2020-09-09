@@ -846,9 +846,6 @@ export const sortCeloValidatorsList = (
   let result: ICeloValidatorGroup[] = [];
 
   switch (sortField) {
-    case CELO_VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT:
-      result = list;
-      break;
     case CELO_VALIDATORS_LIST_SORT_FILTER.NAME:
       result = list.sort((a, b) => {
         const aName = a.name;
@@ -860,6 +857,7 @@ export const sortCeloValidatorsList = (
         }
       });
       break;
+    case CELO_VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT:
     case CELO_VALIDATORS_LIST_SORT_FILTER.VOTING_POWER:
       result = list.sort((a, b) => {
         const aFraction = Number(a.votingPowerFraction);
@@ -1111,4 +1109,17 @@ export const deriveCurrentDelegationsInformation = (
     total: formatCurrencyAmount(denomToUnit(total, denomSize), 2),
     delegations,
   };
+};
+
+/**
+ * Given the current Celo block height estimate the time until the next
+ * epoch.
+ */
+export const estimateNextCeloEpochFromHeight = (currentHeight: string) => {
+  const height = Number(currentHeight);
+  const epochLimit = 17280; // -> 17,280 heights/epoch.
+  const remainingHeights = epochLimit - (height % epochLimit);
+  const averageBlockTime = 5; // -> 5 seconds
+  const estimatedHoursLeft = (remainingHeights * averageBlockTime) / 60 / 60;
+  return Math.round(estimatedHoursLeft);
 };

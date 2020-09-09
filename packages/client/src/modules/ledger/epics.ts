@@ -178,6 +178,10 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
               }
               case "POLKADOT":
                 return Actions.empty("Polkadot Ledger is not supported.");
+              // await polkadotLedgerUtil.connect();
+              // ledgerAddress = await polkadotLedgerUtil.getAddress();
+              // ledgerAppVersion = await polkadotLedgerUtil.getVersion();
+              // break;
               default: {
                 return assertUnreachable(signinNetworkName);
               }

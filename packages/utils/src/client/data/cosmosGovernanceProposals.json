@@ -287,6 +287,22 @@
       "submit_time": "2020-07-12T06:23:02.440964897Z",
       "total_deposit": [{ "denom": "uatom", "amount": "512000000" }],
       "voting_start_time": "2020-07-13T01:37:47.298505506Z"
+    },
+    {
+      "proposal_id": null,
+      "title": null,
+      "description": null,
+      "proposal_type": null,
+      "proposal_status": "VotingPeriod",
+      "final_tally_result": {
+        "yes": "0",
+        "abstain": "0",
+        "no": "0",
+        "no_with_veto": "0"
+      },
+      "submit_time": "2020-09-09T06:47:46.521375251Z",
+      "total_deposit": [{ "denom": "uatom", "amount": "512000000" }],
+      "voting_start_time": "2020-09-09T06:47:46.521375251Z"
     }
   ]
 }

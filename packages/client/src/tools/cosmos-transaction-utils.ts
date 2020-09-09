@@ -50,6 +50,7 @@ export enum TERRA_TRANSACTION_TYPES {
   WITHDRAW_COMMISSION = "distribution/MsgWithdrawValidatorCommission",
   EXCHANGE_RATE_VOTE = "oracle/MsgExchangeRateVote",
   EXCHANGE_RATE_PRE_VOTE = "oracle/MsgExchangeRatePrevote",
+  MODIFY_WITHDRAW_ADDRESS = "distribution/MsgModifyWithdrawAddress",
 }
 
 /**
@@ -128,7 +129,7 @@ export interface ValidatorCreateOrEditMessageData {
 
 export interface ValidatorModifyWithdrawAddressMessageData {
   fee: CosmosTransactionFee;
-  type: COSMOS_TRANSACTION_TYPES;
+  type: COSMOS_TRANSACTION_TYPES | TERRA_TRANSACTION_TYPES;
   timestamp: string;
   withdrawAddress: string;
   validatorAddress: string | null;
@@ -545,18 +546,21 @@ const getChangeWithdrawAddressMessage = (
 ): ValidatorModifyWithdrawAddressMessageData => {
   const msg = transaction.msgs[msgIndex];
   const fee = getTxFee(transaction);
+  const type: any = msg.type;
   const value = msg.value as IMsgModifyWithdrawAddress;
   const { withdraw_address, validator_address } = value;
 
+  console.log(transaction);
+
   const withdrawAddress = withdraw_address || "";
-  const validatorAddress = validator_address;
+  const validatorAddress = validator_address || "";
 
   return {
     fee,
+    type,
     withdrawAddress,
     validatorAddress,
     timestamp: transaction.timestamp,
-    type: COSMOS_TRANSACTION_TYPES.MODIFY_WITHDRAW_ADDRESS,
   };
 };
 
@@ -666,6 +670,10 @@ export const transformCosmosTransactionToRenderElements = ({
           msgIndex,
           denom,
         );
+      }
+
+      case TERRA_TRANSACTION_TYPES.MODIFY_WITHDRAW_ADDRESS: {
+        return getChangeWithdrawAddressMessage(transaction, msgIndex);
       }
 
       case TERRA_TRANSACTION_TYPES.GOVERNANCE_DEPOSIT:

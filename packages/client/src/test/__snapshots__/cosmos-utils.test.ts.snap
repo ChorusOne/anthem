@@ -73,38 +73,6 @@ Object {
 }
 `;
 
-exports[`cosmos-utils createRewardsClaimTransaction 1`] = `
-Object {
-  "fee": Object {
-    "amount": Array [
-      Object {
-        "amount": "225000000",
-        "denom": "uatom",
-      },
-    ],
-    "gas": "1500",
-  },
-  "memo": "Stake online with Chorus One at https://chorus.one",
-  "msg": Array [
-    Object {
-      "type": "cosmos-sdk/MsgWithdrawDelegationReward",
-      "value": Object {
-        "delegator_address": "cosmos1yeygh0y8rfyufdczhzytcl3pehsnxv9d3wsnlg",
-        "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
-      },
-    },
-    Object {
-      "type": "cosmos-sdk/MsgWithdrawDelegationReward",
-      "value": Object {
-        "delegator_address": "cosmos1yeygh0y8rfyufdczhzytcl3pehsnxv9d3wsnlg",
-        "validator_address": "cosmosvaloper14lultfckehtszvzw4ehu0apvsr77afvyju5zzy",
-      },
-    },
-  ],
-  "signatures": null,
-}
-`;
-
 exports[`cosmos-utils createTransactionRequestMetadata 1`] = `
 Object {
   "account_number": "16451",

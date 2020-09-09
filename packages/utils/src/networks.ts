@@ -238,7 +238,7 @@ const NETWORKS: NetworksMap = {
     expectedReward: 8,
   },
   OASIS: {
-    available: true,
+    available: false,
     name: "OASIS",
     denom: "AMBR", // For Amber testnet
     denomsList: ["AMBR"],
@@ -267,9 +267,9 @@ const NETWORKS: NetworksMap = {
     descriptor: "DOT",
     chainId: "n/a",
     cryptoCompareTicker: "DOT",
-    ledgerAppVersion: "n/a",
-    ledgerAppName: "n/a",
-    ledgerDocsLink: "n/a",
+    ledgerAppVersion: "4.18.0",
+    ledgerAppName: "Polkadot",
+    ledgerDocsLink: "https://wiki.polkadot.network/docs/en/learn-ledger",
     supportsLedger: false,
     supportsFiatPrices: false,
     supportsBalances: false,

@@ -3,11 +3,8 @@ import { transaction } from "test/data/mock-transaction-data.json";
 import {
   createCosmosTransactionPostBody,
   createDelegationTransactionMessage,
-  createRewardsClaimTransaction,
   createTransactionRequestMetadata,
 } from "tools/cosmos-utils";
-import { cosmosAccountInformation } from "../../../utils/src/client/data/cosmosAccountInformation.json";
-import { cosmosRewardsByValidator } from "../../../utils/src/client/data/cosmosRewardsByValidator.json";
 
 describe("cosmos-utils", () => {
   test("createDelegationTransactionMessage", () => {
@@ -25,28 +22,21 @@ describe("cosmos-utils", () => {
     expect(result).toMatchSnapshot();
   });
 
-  test.skip("createRewardsClaimTransaction", () => {
-    /**
-     * TODO: Fix this test!
-     */
-    const result = createRewardsClaimTransaction({
-      address: "cosmos1yeygh0y8rfyufdczhzytcl3pehsnxv9d3wsnlg",
-      gasAmount: "1500",
-      gasPrice: "150000",
-      denom: "uatom",
-      // @ts-ignore
-      selectedRewards: cosmosRewardsByValidator,
-    });
-
-    expect(result).toMatchSnapshot();
-  });
-
   test("createTransactionRequestMetadata", () => {
     const result = createTransactionRequestMetadata({
       address: "cosmos1yeygh0y8rfyufdczhzytcl3pehsnxv9d3wsnlg",
       gasAmount: "1500",
       gasPrice: "150000",
-      account: cosmosAccountInformation,
+      account: {
+        type: "cosmos-sdk/Account",
+        value: {
+          account_number: "16451",
+          address: "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+          coins: [{ denom: "uatom", amount: "10437483575" }],
+          public_key: { type: "tendermint/PubKeySecp256k1" },
+          sequence: "75",
+        },
+      },
       network: NETWORKS.COSMOS,
     });
 
