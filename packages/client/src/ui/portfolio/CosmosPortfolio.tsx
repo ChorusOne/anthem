@@ -27,7 +27,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import styled from "styled-components";
 import { throttle } from "throttle-debounce";
 import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
-import { BASE_CHART_TABS, getPortfolioTypeFromUrl } from "tools/client-utils";
+import { BASE_CHART_TABS } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import {
   getChartTotalGraph,

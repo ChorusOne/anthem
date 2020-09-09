@@ -147,6 +147,10 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderMessage = (data: CosmosTransactionItemData) => {
+    /**
+     * NOTE: Will need to add other Terra transaction types as necessary.
+     */
+    const { type } = data;
     if (data.type === COSMOS_TRANSACTION_TYPES.SUBMIT_PROPOSAL) {
       return this.renderGovernanceSubmitProposalTransaction(
         data as GovernanceSubmitProposalMessageData,
@@ -163,7 +167,10 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
       return this.renderValidatorCreateOrEditMessage(
         data as ValidatorCreateOrEditMessageData,
       );
-    } else if (data.type === COSMOS_TRANSACTION_TYPES.MODIFY_WITHDRAW_ADDRESS) {
+    } else if (
+      type === COSMOS_TRANSACTION_TYPES.MODIFY_WITHDRAW_ADDRESS ||
+      type === TERRA_TRANSACTION_TYPES.MODIFY_WITHDRAW_ADDRESS
+    ) {
       return this.renderValidatorModifyWithdrawAddressMessage(
         data as ValidatorModifyWithdrawAddressMessageData,
       );
@@ -534,6 +541,7 @@ const getCosmosTransactionTypeIcon = (
     case COSMOS_TRANSACTION_TYPES.SUBMIT_PROPOSAL:
     case COSMOS_TRANSACTION_TYPES.CREATE_VALIDATOR:
     case COSMOS_TRANSACTION_TYPES.EDIT_VALIDATOR:
+    case TERRA_TRANSACTION_TYPES.MODIFY_WITHDRAW_ADDRESS:
     case COSMOS_TRANSACTION_TYPES.MODIFY_WITHDRAW_ADDRESS:
       // No separate icon
       return <TxSendIcon />;
@@ -588,6 +596,7 @@ export const getCosmosTransactionLabelFromType = (
       return tString("Create Validator");
     case COSMOS_TRANSACTION_TYPES.EDIT_VALIDATOR:
       return tString("Edit Validator");
+    case TERRA_TRANSACTION_TYPES.MODIFY_WITHDRAW_ADDRESS:
     case COSMOS_TRANSACTION_TYPES.MODIFY_WITHDRAW_ADDRESS:
       return "Modify Withdraw Address";
     default:
