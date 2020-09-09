@@ -10,8 +10,9 @@ import {
 describe("validation-utils", () => {
   test("validateFiatCurrency", () => {
     let result = validateFiatCurrency({
-      name: "US Dollar",
+      letter: "$",
       symbol: "USD",
+      name: "US Dollar",
     });
     expect(result).toBeTruthy();
 
