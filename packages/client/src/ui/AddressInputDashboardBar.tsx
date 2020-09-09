@@ -65,8 +65,8 @@ class AddressInputDashboardBar extends React.Component<IProps, {}> {
                         {network.descriptor} {tString("Price")}
                       </p>
                       <b>
-                        {formatCurrencyAmount(price, 2)}{" "}
-                        {this.props.settings.fiatCurrency.symbol}
+                        {this.props.settings.fiatCurrency.letter}
+                        {formatCurrencyAmount(price, 2)}
                       </b>
                     </NetworkBar>
                   </Row>

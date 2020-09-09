@@ -13,7 +13,7 @@ import QRCode from "qrcode.react";
 import React, { ChangeEvent } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import Loader from "react-loader-spinner";
-import styled, { CSSProperties } from "styled-components";
+import styled from "styled-components";
 import { copyTextToClipboard } from "tools/client-utils";
 import { tFnString } from "tools/i18n-utils";
 import { isGreaterThan, isLessThan } from "tools/math-utils";
@@ -25,7 +25,7 @@ import { IThemeProps } from "ui/containers/ThemeContainer";
  */
 
 interface StyleProps {
-  style?: CSSProperties;
+  style?: React.CSSProperties;
 }
 
 /** ===========================================================================
@@ -108,7 +108,6 @@ export const PageContainer = styled.div`
  * ============================================================================
  */
 
-// @ts-ignore
 export const PageContainerScrollable = styled(PageContainer)`
   overflow-y: scroll;
   padding-bottom: 50px;
@@ -143,7 +142,7 @@ export const PageTitle = (props: {
  * LoaderBars
  * ============================================================================
  */
-export const LoaderBars = ({ style }: { style?: CSSProperties }) => (
+export const LoaderBars = ({ style }: { style?: React.CSSProperties }) => (
   <View style={style}>
     <Loader type="Bars" color={COLORS.CTA} height={124} width={124} />
   </View>
@@ -209,7 +208,7 @@ export const Link = ({
 }: {
   testID?: string;
   href?: string;
-  style?: CSSProperties;
+  style?: React.CSSProperties;
   onClick?: () => void;
   children: string | JSX.Element;
 }) => (
@@ -229,7 +228,7 @@ interface IButtonProps {
   "data-cy"?: string;
   type?: "button" | "submit" | "reset" | undefined;
   category?: "PRIMARY" | "SECONDARY" | "DANGER";
-  style?: CSSProperties;
+  style?: React.CSSProperties;
   disabled?: boolean;
   icon?: IconName;
   rightIcon?: IconName;
@@ -337,7 +336,7 @@ export const TextInput = (props: {
   placeholder: string;
   value: string;
   type?: string;
-  style?: CSSProperties;
+  style?: React.CSSProperties;
   onSubmit?: () => void;
   onFocus?: () => void;
   onBlur?: () => void;
@@ -389,7 +388,7 @@ export const SearchInput = (props: {
   placeholder: string;
   value: string;
   type?: string;
-  style?: CSSProperties;
+  style?: React.CSSProperties;
   onSubmit?: () => void;
   onFocus?: () => void;
   onBlur?: () => void;

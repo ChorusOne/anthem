@@ -846,9 +846,6 @@ export const sortCeloValidatorsList = (
   let result: ICeloValidatorGroup[] = [];
 
   switch (sortField) {
-    case CELO_VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT:
-      result = list;
-      break;
     case CELO_VALIDATORS_LIST_SORT_FILTER.NAME:
       result = list.sort((a, b) => {
         const aName = a.name;
@@ -860,6 +857,7 @@ export const sortCeloValidatorsList = (
         }
       });
       break;
+    case CELO_VALIDATORS_LIST_SORT_FILTER.CUSTOM_DEFAULT:
     case CELO_VALIDATORS_LIST_SORT_FILTER.VOTING_POWER:
       result = list.sort((a, b) => {
         const aFraction = Number(a.votingPowerFraction);
