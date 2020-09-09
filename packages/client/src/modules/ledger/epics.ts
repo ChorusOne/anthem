@@ -176,13 +176,20 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
                 break;
               }
               case "OASIS": {
-                await polkadotLedgerUtil.connect();
-                ledgerAddress = await polkadotLedgerUtil.getAddress();
-                ledgerAppVersion = await polkadotLedgerUtil.getVersion();
+                await oasisLedgerUtil.connect();
+                ledgerAddress = await oasisLedgerUtil.getAddress();
+                ledgerAppVersion = await oasisLedgerUtil.getVersion();
                 break;
               }
               case "POLKADOT":
-                return Actions.empty("Polkadot Ledger is not supported.");
+                console.log("CONNECTING!");
+                await polkadotLedgerUtil.connect();
+                ledgerAddress = await polkadotLedgerUtil.getAddress();
+                ledgerAppVersion = await polkadotLedgerUtil.getVersion();
+                console.log(ledgerAddress);
+                console.log(ledgerAppVersion);
+                break;
+              // return Actions.empty("Polkadot Ledger is not supported.");
               default: {
                 return assertUnreachable(signinNetworkName);
               }

@@ -1,7 +1,7 @@
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
+import { newPolkadotApp } from "@zondax/ledger-polkadot";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
-import PolkadotApp from "@zondax/ledger-polkadot";
 import ENV from "lib/client-env";
 import { wait } from "tools/client-utils";
 
@@ -45,7 +45,7 @@ class PolkadotLedgerClass implements IPolkadotLedger {
   async connect() {
     // Given a transport (U2F/HIF/WebUSB) it is possible instantiate the app
     const transport = await getPolkadotLedgerTransport();
-    const app = new PolkadotApp(transport);
+    const app = newPolkadotApp(transport);
 
     this.app = app;
   }
@@ -69,16 +69,13 @@ class PolkadotLedgerClass implements IPolkadotLedger {
       pathIndex,
       false,
     );
+
     if (response.return_code !== 0x9000) {
       console.log(`Error [${response.return_code}] ${response.error_message}`);
-      return;
+      throw new Error(response.error_message);
     }
 
-    console.log("Response received!");
-    console.log("Full response:");
-    console.log(response);
-
-    return response;
+    return response.address;
   }
 
   async getVersion() {
@@ -88,7 +85,6 @@ class PolkadotLedgerClass implements IPolkadotLedger {
 
     const result = await this.app.getVersion();
     const version = `${result.major}.${result.minor}.${result.patch}`;
-    console.log(`Version: ${version}`);
     return version;
   }
 }
@@ -110,12 +106,12 @@ class MockPolkadotLedgerModule implements IPolkadotLedger {
 
   async getAddress() {
     await wait(1500);
-    return "oasis1qrllkgqgqheus3qvq69wzsmh7799agg8lgsyecfq";
+    return "16UsqQtujrCLShvwGXEJNFUGAPeTRhHBBoGbJU8AatUY4s7r";
   }
 
   async getVersion() {
     await wait(1500);
-    return "1.0.0";
+    return "4.18.0";
   }
 
   async getPublicKey() {
@@ -133,4 +129,4 @@ const polkadotLedger = new PolkadotLedgerClass();
 
 const mockPolkadotLedger = new MockPolkadotLedgerModule();
 
-export default ENV.ENABLE_MOCK_APIS ? mockPolkadotLedger : polkadotLedger;
+export default !ENV.ENABLE_MOCK_APIS ? mockPolkadotLedger : polkadotLedger;
