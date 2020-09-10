@@ -66,10 +66,11 @@ interface GenericProposalHistory {
   proposalID: number;
   stage: string;
   proposer: string;
-  description: string;
-  gist: string;
   deposit: number;
   queuedAtTimestamp: number;
+  gist: string;
+  title: string;
+  description: string;
 }
 
 type GovernanceProposalType =
@@ -238,7 +239,7 @@ class CeloGovernanceComponent extends React.Component<
                           {x.proposalID}
                         </Text>
                         <Text style={{ flex: 3 }}>{x.stage}</Text>
-                        <Text style={{ flex: 4 }}>(Titles coming soon)</Text>
+                        <Text style={{ flex: 4 }}>{x.title}</Text>
                         <Text style={{ flex: 2, fontSize: 12 }}>
                           {convertCeloEpochToDate(x.queuedAtTimestamp)}
                         </Text>
@@ -269,7 +270,7 @@ class CeloGovernanceComponent extends React.Component<
                           <ProposalDetailsRow>
                             {isDesktop && <Block />}
                             <Text style={{ flex: 9 }}>
-                              <b>Details:</b>{" "}
+                              <b>Gist URL:</b>{" "}
                               <Link href={x.gist} style={{ fontSize: 12 }}>
                                 {x.gist}
                               </Link>
@@ -584,6 +585,7 @@ const ProposalRow = styled.div`
   flex-direction: row;
   width: 100%;
   padding: 4px;
+  padding-bottom: 8px;
   padding-left: 8px;
   padding-right: 8px;
 `;
