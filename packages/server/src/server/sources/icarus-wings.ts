@@ -13,6 +13,7 @@ const fetchData = async (URL: string) => {
 // Given a URL of a Proposal.md file : extracts and returns the title of the proposal
 const fetchProposalTitleFromURL = async (URL: string) => {
   let title;
+  let contents;
 
   const db = await open({
     filename: "./wings.db",
@@ -25,20 +26,37 @@ const fetchProposalTitleFromURL = async (URL: string) => {
     title TEXT
   )`);
 
-  const res = await db.get(
+  await db.exec(`
+  CREATE TABLE IF NOT EXISTS contents (
+    url TEXT UNIQUE,
+    contents TEXT
+  )`);
+
+  const titleResult = await db.get(
     `
   SELECT * from "proposals"
   WHERE url="${URL}"
   `,
   );
 
-  title = res && res.title;
+  const contentsResult = await db.get(
+    `
+  SELECT * from "contents"
+  WHERE url="${URL}"
+  `,
+  );
+
+  title = titleResult && titleResult.title;
+  contents = contentsResult && contentsResult.contents;
+
+  let data = "";
+
+  if (!title || !contents) {
+    data = await fetchData(URL);
+  }
 
   if (!title) {
-    const data = await fetchData(URL);
-
     const regex = /]:([^\n]+)/;
-
     const result = regex.exec(data);
 
     if (result) {
@@ -54,7 +72,18 @@ const fetchProposalTitleFromURL = async (URL: string) => {
     }
   }
 
-  return title;
+  if (!contents) {
+    contents = data;
+
+    await db.exec(
+      `
+      INSERT INTO "contents"
+      VALUES ("${URL}","${contents}")
+      `,
+    );
+  }
+
+  return { title, contents };
 };
 
 // Generates URL of markdown file from proposalId
