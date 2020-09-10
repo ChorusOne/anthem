@@ -1,9 +1,9 @@
-import gql from 'graphql-tag';
-import * as React from 'react';
-import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
-import * as ApolloReactHooks from '@apollo/react-hooks';
+import gql from "graphql-tag";
+import * as React from "react";
+import * as ApolloReactCommon from "@apollo/react-common";
+import * as ApolloReactComponents from "@apollo/react-components";
+import * as ApolloReactHoc from "@apollo/react-hoc";
+import * as ApolloReactHooks from "@apollo/react-hooks";
 export type Maybe<T> = T | null;
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
@@ -16,1022 +16,991 @@ export interface Scalars {
 }
 
 export interface IAccount {
-   __typename?: 'Account';
-  account_number: Scalars['String'];
-  address: Scalars['String'];
-  coins: Maybe<Array<IAccountCoin>>;
+   __typename?: "Account";
+  account_number: Scalars["String"];
+  address: Scalars["String"];
+  coins: Maybe<IAccountCoin[]>;
   public_key: Maybe<IPubKey>;
-  sequence: Scalars['String'];
+  sequence: Scalars["String"];
 }
 
 export interface IAccountCoin {
-   __typename?: 'AccountCoin';
-  denom: Scalars['String'];
-  amount: Scalars['String'];
+   __typename?: "AccountCoin";
+  denom: Scalars["String"];
+  amount: Scalars["String"];
 }
 
 export interface IApprovedProposal {
-   __typename?: 'ApprovedProposal';
-  proposalID: Scalars['Float'];
-  index: Scalars['Float'];
-  currentBlockNumber: Scalars['Float'];
-  stage: Scalars['String'];
-  proposer: Scalars['String'];
-  proposalEpoch: Scalars['Float'];
-  referendumEpoch: Scalars['Float'];
-  executionEpoch: Scalars['Float'];
-  expirationEpoch: Scalars['Float'];
-  queuedAtBlockNumber: Scalars['Float'];
-  deposit: Scalars['Float'];
-  queuedAtTimestamp: Scalars['Float'];
-  gist: Scalars['String'];
-  title: Scalars['String'];
-  description: Scalars['String'];
+   __typename?: "ApprovedProposal";
+  proposalID: Scalars["Float"];
+  index: Scalars["Float"];
+  currentBlockNumber: Scalars["Float"];
+  stage: Scalars["String"];
+  proposer: Scalars["String"];
+  proposalEpoch: Scalars["Float"];
+  referendumEpoch: Scalars["Float"];
+  executionEpoch: Scalars["Float"];
+  expirationEpoch: Scalars["Float"];
+  queuedAtBlockNumber: Scalars["Float"];
+  deposit: Scalars["Float"];
+  queuedAtTimestamp: Scalars["Float"];
+  gist: Scalars["String"];
+  title: Scalars["String"];
+  description: Scalars["String"];
 }
 
 export interface IAvailableReward {
-   __typename?: 'AvailableReward';
-  reward: Maybe<Array<ICosmosBalance>>;
-  validator_address: Scalars['String'];
+   __typename?: "AvailableReward";
+  reward: Maybe<ICosmosBalance[]>;
+  validator_address: Scalars["String"];
 }
 
 export interface IBlock {
-   __typename?: 'Block';
+   __typename?: "Block";
   header: IBlockHeader;
 }
 
 export interface IBlockHeader {
-   __typename?: 'BlockHeader';
-  chain_id: Scalars['String'];
-  height: Scalars['String'];
-  time: Scalars['String'];
-  num_txs: Scalars['String'];
-  total_txs: Scalars['String'];
-  last_commit_hash: Scalars['String'];
-  data_hash: Scalars['String'];
-  validators_hash: Scalars['String'];
-  next_validators_hash: Scalars['String'];
-  consensus_hash: Scalars['String'];
-  app_hash: Scalars['String'];
-  last_results_hash: Scalars['String'];
-  evidence_hash: Scalars['String'];
-  proposer_address: Scalars['String'];
+   __typename?: "BlockHeader";
+  chain_id: Scalars["String"];
+  height: Scalars["String"];
+  time: Scalars["String"];
+  num_txs: Scalars["String"];
+  total_txs: Scalars["String"];
+  last_commit_hash: Scalars["String"];
+  data_hash: Scalars["String"];
+  validators_hash: Scalars["String"];
+  next_validators_hash: Scalars["String"];
+  consensus_hash: Scalars["String"];
+  app_hash: Scalars["String"];
+  last_results_hash: Scalars["String"];
+  evidence_hash: Scalars["String"];
+  proposer_address: Scalars["String"];
 }
 
 export interface ICeloAccountBalances {
-   __typename?: 'CeloAccountBalances';
-  address: Scalars['String'];
-  height: Scalars['String'];
-  availableGoldBalance: Scalars['String'];
-  totalLockedGoldBalance: Scalars['String'];
-  nonVotingLockedGoldBalance: Scalars['String'];
-  votingLockedGoldBalance: Scalars['String'];
-  pendingWithdrawalBalance: Scalars['String'];
-  celoUSDValue: Scalars['String'];
-  delegations: Array<ICeloDelegation>;
+   __typename?: "CeloAccountBalances";
+  address: Scalars["String"];
+  height: Scalars["String"];
+  availableGoldBalance: Scalars["String"];
+  totalLockedGoldBalance: Scalars["String"];
+  nonVotingLockedGoldBalance: Scalars["String"];
+  votingLockedGoldBalance: Scalars["String"];
+  pendingWithdrawalBalance: Scalars["String"];
+  celoUSDValue: Scalars["String"];
+  delegations: ICeloDelegation[];
 }
 
 export interface ICeloAccountSnapshot {
-   __typename?: 'CeloAccountSnapshot';
-  snapshotDate: Scalars['String'];
-  address: Scalars['String'];
-  height: Scalars['String'];
-  snapshotReward: Scalars['String'];
-  snapshotCommission: Scalars['String'];
-  availableGoldBalance: Scalars['String'];
-  totalLockedGoldBalance: Scalars['String'];
-  nonVotingLockedGoldBalance: Scalars['String'];
-  votingLockedGoldBalance: Scalars['String'];
-  pendingWithdrawalBalance: Scalars['String'];
-  celoUSDValue: Scalars['String'];
-  delegations: Array<ICeloDelegation>;
+   __typename?: "CeloAccountSnapshot";
+  snapshotDate: Scalars["String"];
+  address: Scalars["String"];
+  height: Scalars["String"];
+  snapshotReward: Scalars["String"];
+  snapshotCommission: Scalars["String"];
+  availableGoldBalance: Scalars["String"];
+  totalLockedGoldBalance: Scalars["String"];
+  nonVotingLockedGoldBalance: Scalars["String"];
+  votingLockedGoldBalance: Scalars["String"];
+  pendingWithdrawalBalance: Scalars["String"];
+  celoUSDValue: Scalars["String"];
+  delegations: ICeloDelegation[];
 }
 
 export interface ICeloDelegation {
-   __typename?: 'CeloDelegation';
-  group: Scalars['String'];
-  totalVotes: Scalars['String'];
-  activeVotes: Scalars['String'];
-  pendingVotes: Scalars['String'];
+   __typename?: "CeloDelegation";
+  group: Scalars["String"];
+  totalVotes: Scalars["String"];
+  activeVotes: Scalars["String"];
+  pendingVotes: Scalars["String"];
 }
 
 export interface ICeloGovernanceProposalHistory {
-   __typename?: 'CeloGovernanceProposalHistory';
-  queuedProposals: Array<IQueuedProposal>;
-  approvalProposals: Array<IApprovedProposal>;
-  referendumProposals: Array<IReferendumProposal>;
-  executionProposals: Array<IExecutionProposal>;
-  expiredProposals: Array<IExpiredProposal>;
+   __typename?: "CeloGovernanceProposalHistory";
+  queuedProposals: IQueuedProposal[];
+  approvalProposals: IApprovedProposal[];
+  referendumProposals: IReferendumProposal[];
+  executionProposals: IExecutionProposal[];
+  expiredProposals: IExpiredProposal[];
 }
 
 export interface ICeloSystemBalances {
-   __typename?: 'CeloSystemBalances';
-  height: Scalars['String'];
-  goldTokenSupply: Scalars['String'];
-  totalLockedGoldBalance: Scalars['String'];
-  nonVotingLockedGoldBalance: Scalars['String'];
-  totalCeloUSDValue: Maybe<Scalars['String']>;
+   __typename?: "CeloSystemBalances";
+  height: Scalars["String"];
+  goldTokenSupply: Scalars["String"];
+  totalLockedGoldBalance: Scalars["String"];
+  nonVotingLockedGoldBalance: Scalars["String"];
+  totalCeloUSDValue: Maybe<Scalars["String"]>;
 }
 
 export interface ICeloSystemHistory {
-   __typename?: 'CeloSystemHistory';
-  BlockNumber: Scalars['String'];
-  SnapshotDate: Scalars['String'];
-  GoldTokenSupply: Scalars['String'];
-  TotalLockedGoldBalance: Scalars['String'];
-  NonVotingLockedGoldBalance: Scalars['String'];
-  TotalCeloUSDValue: Scalars['String'];
+   __typename?: "CeloSystemHistory";
+  BlockNumber: Scalars["String"];
+  SnapshotDate: Scalars["String"];
+  GoldTokenSupply: Scalars["String"];
+  TotalLockedGoldBalance: Scalars["String"];
+  NonVotingLockedGoldBalance: Scalars["String"];
+  TotalCeloUSDValue: Scalars["String"];
 }
 
 export interface ICeloTransaction {
-   __typename?: 'CeloTransaction';
-  blockNumber: Scalars['Int'];
-  timestamp: Scalars['String'];
-  hash: Scalars['String'];
-  from: Maybe<Scalars['String']>;
-  to: Maybe<Scalars['String']>;
+   __typename?: "CeloTransaction";
+  blockNumber: Scalars["Int"];
+  timestamp: Scalars["String"];
+  hash: Scalars["String"];
+  from: Maybe<Scalars["String"]>;
+  to: Maybe<Scalars["String"]>;
   details: ICeloTransactionDetails;
-  tags: Array<ICeloTransactionTags>;
+  tags: ICeloTransactionTags[];
 }
 
 export interface ICeloTransactionDetails {
-   __typename?: 'CeloTransactionDetails';
-  nonce: Scalars['Float'];
-  gasLimit: Scalars['Float'];
-  gasPrice: Scalars['Float'];
-  gasUsed: Scalars['Float'];
-  feeCurrency: Maybe<Scalars['String']>;
-  gatewayFeeRecipient: Maybe<Scalars['String']>;
-  gatewayFee: Scalars['Float'];
-  to: Maybe<Scalars['String']>;
-  value: Scalars['Float'];
+   __typename?: "CeloTransactionDetails";
+  nonce: Scalars["Float"];
+  gasLimit: Scalars["Float"];
+  gasPrice: Scalars["Float"];
+  gasUsed: Scalars["Float"];
+  feeCurrency: Maybe<Scalars["String"]>;
+  gatewayFeeRecipient: Maybe<Scalars["String"]>;
+  gatewayFee: Scalars["Float"];
+  to: Maybe<Scalars["String"]>;
+  value: Scalars["Float"];
 }
 
 export interface ICeloTransactionResult {
-   __typename?: 'CeloTransactionResult';
-  page: Scalars['Float'];
-  limit: Scalars['Float'];
-  data: Array<ICeloTransaction>;
-  moreResultsExist: Scalars['Boolean'];
+   __typename?: "CeloTransactionResult";
+  page: Scalars["Float"];
+  limit: Scalars["Float"];
+  data: ICeloTransaction[];
+  moreResultsExist: Scalars["Boolean"];
 }
 
 export interface ICeloTransactionTags {
-   __typename?: 'CeloTransactionTags';
-  eventname: Scalars['String'];
-  source: Scalars['String'];
-  parameters: Scalars['String'];
+   __typename?: "CeloTransactionTags";
+  eventname: Scalars["String"];
+  source: Scalars["String"];
+  parameters: Scalars["String"];
 }
 
 export interface ICeloValidatorDetail {
-   __typename?: 'CeloValidatorDetail';
-  validatorAddress: Scalars['String'];
-  validator_score: Scalars['Float'];
+   __typename?: "CeloValidatorDetail";
+  validatorAddress: Scalars["String"];
+  validator_score: Scalars["Float"];
 }
 
 export interface ICeloValidatorGroup {
-   __typename?: 'CeloValidatorGroup';
-  group: Scalars['String'];
-  name: Scalars['String'];
-  metadataURL: Scalars['String'];
-  blockNumber: Scalars['Float'];
-  votingPower: Scalars['Float'];
-  votingPowerFraction: Scalars['String'];
-  capacityAvailable: Scalars['Float'];
-  totalCapacity: Scalars['Float'];
-  multiplier: Scalars['Float'];
-  groupShare: Scalars['Float'];
-  groupScore: Scalars['Float'];
-  validatorDetails: Array<ICeloValidatorDetail>;
+   __typename?: "CeloValidatorGroup";
+  group: Scalars["String"];
+  name: Scalars["String"];
+  metadataURL: Scalars["String"];
+  blockNumber: Scalars["Float"];
+  votingPower: Scalars["Float"];
+  votingPowerFraction: Scalars["String"];
+  capacityAvailable: Scalars["Float"];
+  totalCapacity: Scalars["Float"];
+  multiplier: Scalars["Float"];
+  groupShare: Scalars["Float"];
+  groupScore: Scalars["Float"];
+  validatorDetails: ICeloValidatorDetail[];
 }
 
 export interface ICommissionRates {
-   __typename?: 'CommissionRates';
-  rate: Scalars['String'];
-  max_rate: Scalars['String'];
-  max_change_rate: Scalars['String'];
+   __typename?: "CommissionRates";
+  rate: Scalars["String"];
+  max_rate: Scalars["String"];
+  max_change_rate: Scalars["String"];
 }
 
 export interface ICosmosAccountBalances {
-   __typename?: 'CosmosAccountBalances';
-  balance: Maybe<Array<ICosmosBalance>>;
-  rewards: Maybe<Array<ICosmosBalance>>;
-  delegations: Maybe<Array<IDelegation>>;
-  unbonding: Maybe<Array<IUnbondingDelegation>>;
-  commissions: Maybe<Array<ICosmosBalance>>;
+   __typename?: "CosmosAccountBalances";
+  balance: Maybe<ICosmosBalance[]>;
+  rewards: Maybe<ICosmosBalance[]>;
+  delegations: Maybe<IDelegation[]>;
+  unbonding: Maybe<IUnbondingDelegation[]>;
+  commissions: Maybe<ICosmosBalance[]>;
 }
 
 export interface ICosmosAccountHistory {
-   __typename?: 'CosmosAccountHistory';
-  balanceHistory: Array<ICosmosBalanceHistory>;
-  delegations: Array<ICosmosDelegationHistory>;
-  unbondings: Array<ICosmosDelegationHistory>;
-  delegatorRewards: Array<ICosmosRewardHistory>;
-  validatorCommissions: Array<ICosmosCommissionHistory>;
-  fiatPriceHistory: Array<IFiatPrice>;
+   __typename?: "CosmosAccountHistory";
+  balanceHistory: ICosmosBalanceHistory[];
+  delegations: ICosmosDelegationHistory[];
+  unbondings: ICosmosDelegationHistory[];
+  delegatorRewards: ICosmosRewardHistory[];
+  validatorCommissions: ICosmosCommissionHistory[];
+  fiatPriceHistory: IFiatPrice[];
 }
 
 export interface ICosmosAccountInformation {
-   __typename?: 'CosmosAccountInformation';
-  type: Scalars['String'];
+   __typename?: "CosmosAccountInformation";
+  type: Scalars["String"];
   value: IAccount;
 }
 
 export interface ICosmosBalance {
-   __typename?: 'CosmosBalance';
-  denom: Scalars['String'];
-  amount: Scalars['String'];
+   __typename?: "CosmosBalance";
+  denom: Scalars["String"];
+  amount: Scalars["String"];
 }
 
 export interface ICosmosBalanceHistory {
-   __typename?: 'CosmosBalanceHistory';
-  address: Scalars['String'];
-  denom: Scalars['String'];
-  balance: Scalars['String'];
-  height: Scalars['Int'];
-  timestamp: Scalars['String'];
-  chain: Scalars['String'];
+   __typename?: "CosmosBalanceHistory";
+  address: Scalars["String"];
+  denom: Scalars["String"];
+  balance: Scalars["String"];
+  height: Scalars["Int"];
+  timestamp: Scalars["String"];
+  chain: Scalars["String"];
 }
 
 export interface ICosmosBlockData {
-   __typename?: 'CosmosBlockData';
+   __typename?: "CosmosBlockData";
   block: IBlock;
 }
 
 export interface ICosmosCommissionHistory {
-   __typename?: 'CosmosCommissionHistory';
-  balance: Scalars['String'];
-  height: Scalars['Int'];
-  validator: Scalars['String'];
-  timestamp: Scalars['String'];
-  denom: Scalars['String'];
+   __typename?: "CosmosCommissionHistory";
+  balance: Scalars["String"];
+  height: Scalars["Int"];
+  validator: Scalars["String"];
+  timestamp: Scalars["String"];
+  denom: Scalars["String"];
 }
 
 export interface ICosmosDelegationHistory {
-   __typename?: 'CosmosDelegationHistory';
-  balance: Scalars['String'];
-  address: Scalars['String'];
-  timestamp: Scalars['String'];
+   __typename?: "CosmosDelegationHistory";
+  balance: Scalars["String"];
+  address: Scalars["String"];
+  timestamp: Scalars["String"];
 }
 
 export interface ICosmosDistributionParameters {
-   __typename?: 'CosmosDistributionParameters';
-  base_proposer_reward: Scalars['String'];
-  bonus_proposer_reward: Scalars['String'];
-  community_tax: Scalars['String'];
+   __typename?: "CosmosDistributionParameters";
+  base_proposer_reward: Scalars["String"];
+  bonus_proposer_reward: Scalars["String"];
+  community_tax: Scalars["String"];
 }
 
 export interface ICosmosGovernanceParametersDeposit {
-   __typename?: 'CosmosGovernanceParametersDeposit';
-  min_deposit: Maybe<Array<ICosmosBalance>>;
-  max_deposit_period: Scalars['String'];
+   __typename?: "CosmosGovernanceParametersDeposit";
+  min_deposit: Maybe<ICosmosBalance[]>;
+  max_deposit_period: Scalars["String"];
 }
 
 export interface ICosmosGovernanceParametersTallying {
-   __typename?: 'CosmosGovernanceParametersTallying';
-  threshold: Scalars['String'];
-  veto: Scalars['String'];
-  governance_penalty: Maybe<Scalars['String']>;
+   __typename?: "CosmosGovernanceParametersTallying";
+  threshold: Scalars["String"];
+  veto: Scalars["String"];
+  governance_penalty: Maybe<Scalars["String"]>;
 }
 
 export interface ICosmosGovernanceParametersVoting {
-   __typename?: 'CosmosGovernanceParametersVoting';
-  voting_period: Scalars['String'];
+   __typename?: "CosmosGovernanceParametersVoting";
+  voting_period: Scalars["String"];
 }
 
 export interface ICosmosGovernanceProposal {
-   __typename?: 'CosmosGovernanceProposal';
-  proposal_id: Maybe<Scalars['Int']>;
-  title: Maybe<Scalars['String']>;
-  description: Maybe<Scalars['String']>;
-  proposal_type: Maybe<Scalars['String']>;
-  proposal_status: Scalars['String'];
+   __typename?: "CosmosGovernanceProposal";
+  proposal_id: Maybe<Scalars["Int"]>;
+  title: Maybe<Scalars["String"]>;
+  description: Maybe<Scalars["String"]>;
+  proposal_type: Maybe<Scalars["String"]>;
+  proposal_status: Scalars["String"];
   final_tally_result: ITallyResult;
-  submit_time: Scalars['String'];
-  total_deposit: Maybe<Array<ICosmosBalance>>;
-  voting_start_time: Scalars['String'];
+  submit_time: Scalars["String"];
+  total_deposit: Maybe<ICosmosBalance[]>;
+  voting_start_time: Scalars["String"];
 }
 
 export interface ICosmosRewardHistory {
-   __typename?: 'CosmosRewardHistory';
-  balance: Scalars['String'];
-  height: Scalars['Int'];
-  address: Scalars['String'];
-  timestamp: Scalars['String'];
-  denom: Scalars['String'];
+   __typename?: "CosmosRewardHistory";
+  balance: Scalars["String"];
+  height: Scalars["Int"];
+  address: Scalars["String"];
+  timestamp: Scalars["String"];
+  denom: Scalars["String"];
 }
 
 export interface ICosmosSlashingParameters {
-   __typename?: 'CosmosSlashingParameters';
-  max_evidence_age: Scalars['String'];
-  signed_blocks_window: Scalars['String'];
-  min_signed_per_window: Scalars['String'];
-  double_sign_unbond_duration: Maybe<Scalars['String']>;
-  downtime_unbond_duration: Maybe<Scalars['String']>;
-  slash_fraction_double_sign: Scalars['String'];
-  slash_fraction_downtime: Scalars['String'];
+   __typename?: "CosmosSlashingParameters";
+  max_evidence_age: Scalars["String"];
+  signed_blocks_window: Scalars["String"];
+  min_signed_per_window: Scalars["String"];
+  double_sign_unbond_duration: Maybe<Scalars["String"]>;
+  downtime_unbond_duration: Maybe<Scalars["String"]>;
+  slash_fraction_double_sign: Scalars["String"];
+  slash_fraction_downtime: Scalars["String"];
 }
 
 export interface ICosmosStakingParameters {
-   __typename?: 'CosmosStakingParameters';
-  inflation_rate_change: Maybe<Scalars['String']>;
-  inflation_max: Maybe<Scalars['String']>;
-  inflation_min: Maybe<Scalars['String']>;
-  goal_bonded: Maybe<Scalars['String']>;
-  unbonding_time: Scalars['String'];
-  max_validators: Scalars['Int'];
-  max_entries: Scalars['Int'];
-  bond_denom: Scalars['String'];
+   __typename?: "CosmosStakingParameters";
+  inflation_rate_change: Maybe<Scalars["String"]>;
+  inflation_max: Maybe<Scalars["String"]>;
+  inflation_min: Maybe<Scalars["String"]>;
+  goal_bonded: Maybe<Scalars["String"]>;
+  unbonding_time: Scalars["String"];
+  max_validators: Scalars["Int"];
+  max_entries: Scalars["Int"];
+  bond_denom: Scalars["String"];
 }
 
 export interface ICosmosStakingPool {
-   __typename?: 'CosmosStakingPool';
-  loose_tokens: Maybe<Scalars['String']>;
-  bonded_tokens: Maybe<Scalars['String']>;
-  not_bonded_tokens: Maybe<Scalars['String']>;
-  inflation_last_time: Maybe<Scalars['String']>;
-  inflation: Maybe<Scalars['String']>;
-  date_last_commission_reset: Maybe<Scalars['String']>;
-  prev_bonded_shares: Maybe<Scalars['String']>;
+   __typename?: "CosmosStakingPool";
+  loose_tokens: Maybe<Scalars["String"]>;
+  bonded_tokens: Maybe<Scalars["String"]>;
+  not_bonded_tokens: Maybe<Scalars["String"]>;
+  inflation_last_time: Maybe<Scalars["String"]>;
+  inflation: Maybe<Scalars["String"]>;
+  date_last_commission_reset: Maybe<Scalars["String"]>;
+  prev_bonded_shares: Maybe<Scalars["String"]>;
 }
 
 export interface ICosmosTransaction {
-   __typename?: 'CosmosTransaction';
-  hash: Scalars['String'];
-  height: Scalars['String'];
+   __typename?: "CosmosTransaction";
+  hash: Scalars["String"];
+  height: Scalars["String"];
   log: Array<Maybe<ILogMessage>>;
-  gaswanted: Scalars['String'];
-  gasused: Scalars['String'];
-  memo: Maybe<Scalars['String']>;
+  gaswanted: Scalars["String"];
+  gasused: Scalars["String"];
+  memo: Maybe<Scalars["String"]>;
   fees: ITxFee;
-  tags: Maybe<Array<ITag>>;
-  msgs: Array<ITxMsg>;
-  timestamp: Scalars['String'];
-  chain: Scalars['String'];
-  events: Maybe<Array<ICosmosTransactionEvent>>;
+  tags: Maybe<ITag[]>;
+  msgs: ITxMsg[];
+  timestamp: Scalars["String"];
+  chain: Scalars["String"];
+  events: Maybe<ICosmosTransactionEvent[]>;
 }
 
 export interface ICosmosTransactionEvent {
-   __typename?: 'CosmosTransactionEvent';
-  type: Scalars['String'];
-  attributes: Array<IEventAttributes>;
+   __typename?: "CosmosTransactionEvent";
+  type: Scalars["String"];
+  attributes: IEventAttributes[];
 }
 
 export interface ICosmosTransactionResult {
-   __typename?: 'CosmosTransactionResult';
-  page: Scalars['Float'];
-  limit: Scalars['Float'];
-  data: Array<ICosmosTransaction>;
-  moreResultsExist: Scalars['Boolean'];
+   __typename?: "CosmosTransactionResult";
+  page: Scalars["Float"];
+  limit: Scalars["Float"];
+  data: ICosmosTransaction[];
+  moreResultsExist: Scalars["Boolean"];
 }
 
 export interface ICosmosValidator {
-   __typename?: 'CosmosValidator';
-  operator_address: Scalars['String'];
-  consensus_pubkey: Scalars['String'];
-  jailed: Scalars['Boolean'];
-  status: Scalars['Int'];
-  tokens: Scalars['String'];
-  delegator_shares: Scalars['String'];
+   __typename?: "CosmosValidator";
+  operator_address: Scalars["String"];
+  consensus_pubkey: Scalars["String"];
+  jailed: Scalars["Boolean"];
+  status: Scalars["Int"];
+  tokens: Scalars["String"];
+  delegator_shares: Scalars["String"];
   description: IValidatorDescription;
-  unbonding_height: Scalars['String'];
-  unbonding_time: Scalars['String'];
+  unbonding_height: Scalars["String"];
+  unbonding_time: Scalars["String"];
   commission: IValidatorCommission;
-  min_self_delegation: Scalars['String'];
+  min_self_delegation: Scalars["String"];
 }
 
 export interface ICosmosValidatorDistribution {
-   __typename?: 'CosmosValidatorDistribution';
-  operator_address: Scalars['String'];
-  self_bond_rewards: Maybe<Array<ICosmosBalance>>;
-  val_commission: Maybe<Array<ICosmosBalance>>;
+   __typename?: "CosmosValidatorDistribution";
+  operator_address: Scalars["String"];
+  self_bond_rewards: Maybe<ICosmosBalance[]>;
+  val_commission: Maybe<ICosmosBalance[]>;
 }
 
 export interface ICosmosValidatorSet {
-   __typename?: 'CosmosValidatorSet';
-  block_height: Scalars['Int'];
-  validators: Maybe<Array<IValidatorSetItem>>;
+   __typename?: "CosmosValidatorSet";
+  block_height: Scalars["Int"];
+  validators: Maybe<IValidatorSetItem[]>;
 }
 
 export interface IDelegation {
-   __typename?: 'Delegation';
-  delegator_address: Scalars['String'];
-  validator_address: Scalars['String'];
-  shares: Scalars['String'];
+   __typename?: "Delegation";
+  delegator_address: Scalars["String"];
+  validator_address: Scalars["String"];
+  shares: Scalars["String"];
 }
 
 export interface IEventAttributes {
-   __typename?: 'EventAttributes';
-  key: Scalars['String'];
-  value: Maybe<Scalars['String']>;
+   __typename?: "EventAttributes";
+  key: Scalars["String"];
+  value: Maybe<Scalars["String"]>;
 }
 
 export interface IExecutionProposal {
-   __typename?: 'ExecutionProposal';
-  proposalID: Scalars['Float'];
-  index: Scalars['Float'];
-  currentBlockNumber: Scalars['Float'];
-  stage: Scalars['String'];
-  proposer: Scalars['String'];
-  yesVotes: Scalars['Float'];
-  noVotes: Scalars['Float'];
-  abstainVotes: Scalars['Float'];
-  proposalEpoch: Scalars['Float'];
-  referendumEpoch: Scalars['Float'];
-  executionEpoch: Scalars['Float'];
-  expirationEpoch: Scalars['Float'];
-  queuedAtBlockNumber: Scalars['Float'];
-  deposit: Scalars['Float'];
-  queuedAtTimestamp: Scalars['Float'];
-  gist: Scalars['String'];
-  title: Scalars['String'];
-  description: Scalars['String'];
+   __typename?: "ExecutionProposal";
+  proposalID: Scalars["Float"];
+  index: Scalars["Float"];
+  currentBlockNumber: Scalars["Float"];
+  stage: Scalars["String"];
+  proposer: Scalars["String"];
+  yesVotes: Scalars["Float"];
+  noVotes: Scalars["Float"];
+  abstainVotes: Scalars["Float"];
+  proposalEpoch: Scalars["Float"];
+  referendumEpoch: Scalars["Float"];
+  executionEpoch: Scalars["Float"];
+  expirationEpoch: Scalars["Float"];
+  queuedAtBlockNumber: Scalars["Float"];
+  deposit: Scalars["Float"];
+  queuedAtTimestamp: Scalars["Float"];
+  gist: Scalars["String"];
+  title: Scalars["String"];
+  description: Scalars["String"];
 }
 
 export interface IExpiredProposal {
-   __typename?: 'ExpiredProposal';
-  proposalID: Scalars['Float'];
-  currentBlockNumber: Scalars['Float'];
-  stage: Scalars['String'];
-  proposer: Scalars['String'];
-  executed: Maybe<Scalars['Boolean']>;
-  queuedAtBlockNumber: Scalars['Float'];
-  deposit: Scalars['Float'];
-  queuedAtTimestamp: Scalars['Float'];
-  gist: Scalars['String'];
-  title: Scalars['String'];
-  description: Scalars['String'];
+   __typename?: "ExpiredProposal";
+  proposalID: Scalars["Float"];
+  currentBlockNumber: Scalars["Float"];
+  stage: Scalars["String"];
+  proposer: Scalars["String"];
+  executed: Maybe<Scalars["Boolean"]>;
+  queuedAtBlockNumber: Scalars["Float"];
+  deposit: Scalars["Float"];
+  queuedAtTimestamp: Scalars["Float"];
+  gist: Scalars["String"];
+  title: Scalars["String"];
+  description: Scalars["String"];
 }
 
 export interface IFiatCurrency {
-   __typename?: 'FiatCurrency';
-  name: Scalars['String'];
-  symbol: Scalars['String'];
-  letter: Scalars['String'];
+   __typename?: "FiatCurrency";
+  name: Scalars["String"];
+  symbol: Scalars["String"];
+  letter: Scalars["String"];
 }
 
 export interface IFiatPrice {
-   __typename?: 'FiatPrice';
-  price: Scalars['Float'];
-  timestamp: Scalars['String'];
+   __typename?: "FiatPrice";
+  price: Scalars["Float"];
+  timestamp: Scalars["String"];
 }
 
 export interface IFiatPriceData {
-   __typename?: 'FiatPriceData';
-  price: Scalars['Float'];
-  lastDayChange: Scalars['Float'];
+   __typename?: "FiatPriceData";
+  price: Scalars["Float"];
+  lastDayChange: Scalars["Float"];
 }
 
 export interface ILogMessage {
-   __typename?: 'LogMessage';
-  code: Maybe<Scalars['Int']>;
-  message: Maybe<Scalars['String']>;
-  success: Maybe<Scalars['Boolean']>;
-  log: Maybe<Scalars['String']>;
-  msg_index: Maybe<Scalars['String']>;
+   __typename?: "LogMessage";
+  code: Maybe<Scalars["Int"]>;
+  message: Maybe<Scalars["String"]>;
+  success: Maybe<Scalars["Boolean"]>;
+  log: Maybe<Scalars["String"]>;
+  msg_index: Maybe<Scalars["String"]>;
 }
 
 export interface IMsgBeginRedelegate {
-   __typename?: 'MsgBeginRedelegate';
+   __typename?: "MsgBeginRedelegate";
   amount: ICosmosBalance;
-  delegator_address: Maybe<Scalars['String']>;
-  validator_src_address: Scalars['String'];
-  validator_dst_address: Scalars['String'];
+  delegator_address: Maybe<Scalars["String"]>;
+  validator_src_address: Scalars["String"];
+  validator_dst_address: Scalars["String"];
 }
 
 export interface IMsgBeginRedelegateLegacy {
-   __typename?: 'MsgBeginRedelegateLegacy';
-  shares_amount: Scalars['String'];
-  delegator_address: Maybe<Scalars['String']>;
-  validator_src_address: Scalars['String'];
-  validator_dst_address: Scalars['String'];
+   __typename?: "MsgBeginRedelegateLegacy";
+  shares_amount: Scalars["String"];
+  delegator_address: Maybe<Scalars["String"]>;
+  validator_src_address: Scalars["String"];
+  validator_dst_address: Scalars["String"];
 }
 
 export interface IMsgDelegate {
-   __typename?: 'MsgDelegate';
+   __typename?: "MsgDelegate";
   amount: ICosmosBalance;
-  delegator_address: Maybe<Scalars['String']>;
-  validator_address: Maybe<Scalars['String']>;
+  delegator_address: Maybe<Scalars["String"]>;
+  validator_address: Maybe<Scalars["String"]>;
 }
 
 export interface IMsgModifyWithdrawAddress {
-   __typename?: 'MsgModifyWithdrawAddress';
-  withdraw_address: Maybe<Scalars['String']>;
-  validator_address: Maybe<Scalars['String']>;
+   __typename?: "MsgModifyWithdrawAddress";
+  withdraw_address: Maybe<Scalars["String"]>;
+  validator_address: Maybe<Scalars["String"]>;
 }
 
 export interface IMsgSend {
-   __typename?: 'MsgSend';
-  amounts: Maybe<Array<ICosmosBalance>>;
-  to_address: Maybe<Scalars['String']>;
-  from_address: Maybe<Scalars['String']>;
+   __typename?: "MsgSend";
+  amounts: Maybe<ICosmosBalance[]>;
+  to_address: Maybe<Scalars["String"]>;
+  from_address: Maybe<Scalars["String"]>;
 }
 
 export interface IMsgSubmitProposal {
-   __typename?: 'MsgSubmitProposal';
-  title: Scalars['String'];
-  description: Scalars['String'];
-  proposal_type: Scalars['String'];
-  proposer: Scalars['String'];
-  initial_deposit: Maybe<Array<ICosmosBalance>>;
+   __typename?: "MsgSubmitProposal";
+  title: Scalars["String"];
+  description: Scalars["String"];
+  proposal_type: Scalars["String"];
+  proposer: Scalars["String"];
+  initial_deposit: Maybe<ICosmosBalance[]>;
 }
 
 export interface IMsgVote {
-   __typename?: 'MsgVote';
-  proposal_id: Scalars['String'];
-  voter: Scalars['String'];
-  option: Scalars['String'];
+   __typename?: "MsgVote";
+  proposal_id: Scalars["String"];
+  voter: Scalars["String"];
+  option: Scalars["String"];
 }
 
 export interface IMsgWithdrawDelegationReward {
-   __typename?: 'MsgWithdrawDelegationReward';
-  delegator_address: Maybe<Scalars['String']>;
-  validator_address: Maybe<Scalars['String']>;
+   __typename?: "MsgWithdrawDelegationReward";
+  delegator_address: Maybe<Scalars["String"]>;
+  validator_address: Maybe<Scalars["String"]>;
 }
 
 export interface IMsgWithdrawValidatorCommission {
-   __typename?: 'MsgWithdrawValidatorCommission';
-  validator_address: Maybe<Scalars['String']>;
+   __typename?: "MsgWithdrawValidatorCommission";
+  validator_address: Maybe<Scalars["String"]>;
 }
 
 export interface INetworkSummary {
-   __typename?: 'NetworkSummary';
-  name: Scalars['String'];
-  tokenPrice: Maybe<Scalars['Float']>;
-  lastDayChange: Maybe<Scalars['Float']>;
-  marketCapitalization: Maybe<Scalars['Float']>;
-  expectedReward: Maybe<Scalars['Float']>;
-  inflation: Maybe<Scalars['Float']>;
-  supportsLedger: Maybe<Scalars['Boolean']>;
+   __typename?: "NetworkSummary";
+  name: Scalars["String"];
+  tokenPrice: Maybe<Scalars["Float"]>;
+  lastDayChange: Maybe<Scalars["Float"]>;
+  marketCapitalization: Maybe<Scalars["Float"]>;
+  expectedReward: Maybe<Scalars["Float"]>;
+  inflation: Maybe<Scalars["Float"]>;
+  supportsLedger: Maybe<Scalars["Boolean"]>;
 }
 
 export interface IOasisAccountBalances {
-   __typename?: 'OasisAccountBalances';
-  available: Scalars['String'];
+   __typename?: "OasisAccountBalances";
+  available: Scalars["String"];
   staked: IOasisBalance;
   unbonding: IOasisBalance;
-  rewards: Scalars['String'];
-  commissions: Scalars['String'];
+  rewards: Scalars["String"];
+  commissions: Scalars["String"];
   meta: IOasisAccountMeta;
-  delegations: Maybe<Array<IOasisDelegation>>;
+  delegations: Maybe<IOasisDelegation[]>;
 }
 
 export interface IOasisAccountHistory {
-   __typename?: 'OasisAccountHistory';
-  date: Scalars['String'];
-  height: Scalars['Float'];
-  address: Scalars['String'];
-  rewards: Scalars['String'];
-  balance: Scalars['String'];
+   __typename?: "OasisAccountHistory";
+  date: Scalars["String"];
+  height: Scalars["Float"];
+  address: Scalars["String"];
+  rewards: Scalars["String"];
+  balance: Scalars["String"];
   meta: IOasisAccountMeta;
-  delegations: Maybe<Array<IOasisDelegation>>;
+  delegations: Maybe<IOasisDelegation[]>;
   debonding_balance: IOasisBalance;
   staked_balance: IOasisBalance;
 }
 
 export interface IOasisAccountMeta {
-   __typename?: 'OasisAccountMeta';
-  is_validator: Scalars['Boolean'];
-  is_delegator: Scalars['Boolean'];
+   __typename?: "OasisAccountMeta";
+  is_validator: Scalars["Boolean"];
+  is_delegator: Scalars["Boolean"];
 }
 
 export interface IOasisAmendCommissionScheduleEvent {
-   __typename?: 'OasisAmendCommissionScheduleEvent';
+   __typename?: "OasisAmendCommissionScheduleEvent";
   type: IOasisTransactionType;
-  rates: Maybe<Array<Scalars['String']>>;
-  bounds: Maybe<Array<Scalars['String']>>;
+  rates: Maybe<Array<Scalars["String"]>>;
+  bounds: Maybe<Array<Scalars["String"]>>;
 }
 
 export interface IOasisBalance {
-   __typename?: 'OasisBalance';
-  balance: Scalars['String'];
-  shares: Scalars['String'];
+   __typename?: "OasisBalance";
+  balance: Scalars["String"];
+  shares: Scalars["String"];
 }
 
 export interface IOasisBoundEvent {
-   __typename?: 'OasisBoundEvent';
+   __typename?: "OasisBoundEvent";
   type: IOasisTransactionType;
-  start: Scalars['String'];
-  rate_min: Scalars['String'];
-  rate_max: Scalars['String'];
+  start: Scalars["String"];
+  rate_min: Scalars["String"];
+  rate_max: Scalars["String"];
 }
 
 export interface IOasisBurnEvent {
-   __typename?: 'OasisBurnEvent';
+   __typename?: "OasisBurnEvent";
   type: IOasisTransactionType;
-  owner: Maybe<Scalars['String']>;
-  tokens: Scalars['String'];
+  owner: Maybe<Scalars["String"]>;
+  tokens: Scalars["String"];
 }
 
 export interface IOasisDelegation {
-   __typename?: 'OasisDelegation';
-  delegator: Scalars['String'];
-  validator: Scalars['String'];
-  amount: Scalars['String'];
+   __typename?: "OasisDelegation";
+  delegator: Scalars["String"];
+  validator: Scalars["String"];
+  amount: Scalars["String"];
 }
 
 export interface IOasisEscrowAddEvent {
-   __typename?: 'OasisEscrowAddEvent';
+   __typename?: "OasisEscrowAddEvent";
   type: IOasisTransactionType;
-  to: Scalars['String'];
-  tokens: Scalars['String'];
+  to: Scalars["String"];
+  tokens: Scalars["String"];
 }
 
 export interface IOasisEscrowReclaimEvent {
-   __typename?: 'OasisEscrowReclaimEvent';
+   __typename?: "OasisEscrowReclaimEvent";
   type: IOasisTransactionType;
-  from: Scalars['String'];
-  shares: Scalars['String'];
+  from: Scalars["String"];
+  shares: Scalars["String"];
 }
 
 export interface IOasisEscrowTakeEvent {
-   __typename?: 'OasisEscrowTakeEvent';
+   __typename?: "OasisEscrowTakeEvent";
   type: IOasisTransactionType;
-  from: Scalars['String'];
-  to: Scalars['String'];
-  tokens: Scalars['String'];
+  from: Scalars["String"];
+  to: Scalars["String"];
+  tokens: Scalars["String"];
 }
 
 export interface IOasisRateEvent {
-   __typename?: 'OasisRateEvent';
+   __typename?: "OasisRateEvent";
   type: IOasisTransactionType;
-  start: Scalars['String'];
-  rate: Scalars['String'];
+  start: Scalars["String"];
+  rate: Scalars["String"];
 }
 
 export interface IOasisRegisterEntityEvent {
-   __typename?: 'OasisRegisterEntityEvent';
+   __typename?: "OasisRegisterEntityEvent";
   type: IOasisTransactionType;
-  id: Maybe<Scalars['String']>;
-  nodes: Maybe<Array<Scalars['String']>>;
-  allow_entity_signed_nodes: Maybe<Scalars['Boolean']>;
+  id: Maybe<Scalars["String"]>;
+  nodes: Maybe<Array<Scalars["String"]>>;
+  allow_entity_signed_nodes: Maybe<Scalars["Boolean"]>;
 }
 
 export interface IOasisRegisterNodeEvent {
-   __typename?: 'OasisRegisterNodeEvent';
+   __typename?: "OasisRegisterNodeEvent";
   type: IOasisTransactionType;
-  id: Maybe<Scalars['String']>;
-  entity_id: Maybe<Scalars['String']>;
-  expiration: Maybe<Scalars['Float']>;
+  id: Maybe<Scalars["String"]>;
+  entity_id: Maybe<Scalars["String"]>;
+  expiration: Maybe<Scalars["Float"]>;
 }
 
 export interface IOasisRegisterRuntimeEvent {
-   __typename?: 'OasisRegisterRuntimeEvent';
+   __typename?: "OasisRegisterRuntimeEvent";
   type: IOasisTransactionType;
-  id: Maybe<Scalars['String']>;
-  version: Scalars['String'];
+  id: Maybe<Scalars["String"]>;
+  version: Scalars["String"];
 }
 
 export interface IOasisTransaction {
-   __typename?: 'OasisTransaction';
-  hash: Scalars['String'];
-  fee: Scalars['String'];
-  gas: Scalars['Int'];
-  gas_price: Scalars['String'];
-  height: Scalars['Int'];
-  method: Scalars['String'];
-  date: Scalars['String'];
-  sender: Scalars['String'];
+   __typename?: "OasisTransaction";
+  hash: Scalars["String"];
+  fee: Scalars["String"];
+  gas: Scalars["Int"];
+  gas_price: Scalars["String"];
+  height: Scalars["Int"];
+  method: Scalars["String"];
+  date: Scalars["String"];
+  sender: Scalars["String"];
   data: IOasisTransactionData;
 }
 
 export type IOasisTransactionData = IOasisBurnEvent | IOasisTransferEvent | IOasisEscrowAddEvent | IOasisEscrowTakeEvent | IOasisEscrowReclaimEvent | IOasisRegisterEntityEvent | IOasisRegisterNodeEvent | IOasisUnfreezeNodeEvent | IOasisRegisterRuntimeEvent | IOasisRateEvent | IOasisBoundEvent | IOasisAmendCommissionScheduleEvent | IOasisUnknownEvent;
 
 export interface IOasisTransactionResult {
-   __typename?: 'OasisTransactionResult';
-  page: Scalars['Float'];
-  limit: Scalars['Float'];
-  data: Array<IOasisTransaction>;
-  moreResultsExist: Scalars['Boolean'];
+   __typename?: "OasisTransactionResult";
+  page: Scalars["Float"];
+  limit: Scalars["Float"];
+  data: IOasisTransaction[];
+  moreResultsExist: Scalars["Boolean"];
 }
 
 export enum IOasisTransactionType {
-  Burn = 'BURN',
-  Transfer = 'TRANSFER',
-  EscrowAdd = 'ESCROW_ADD',
-  EscrowTake = 'ESCROW_TAKE',
-  EscrowReclaim = 'ESCROW_RECLAIM',
-  RegisterEntity = 'REGISTER_ENTITY',
-  RegisterNode = 'REGISTER_NODE',
-  UnfreezeNode = 'UNFREEZE_NODE',
-  RegisterRuntime = 'REGISTER_RUNTIME',
-  RateEvent = 'RATE_EVENT',
-  BoundEvent = 'BOUND_EVENT',
-  AmendCommissionSchedule = 'AMEND_COMMISSION_SCHEDULE',
-  UnknownEvent = 'UNKNOWN_EVENT'
+  Burn = "BURN",
+  Transfer = "TRANSFER",
+  EscrowAdd = "ESCROW_ADD",
+  EscrowTake = "ESCROW_TAKE",
+  EscrowReclaim = "ESCROW_RECLAIM",
+  RegisterEntity = "REGISTER_ENTITY",
+  RegisterNode = "REGISTER_NODE",
+  UnfreezeNode = "UNFREEZE_NODE",
+  RegisterRuntime = "REGISTER_RUNTIME",
+  RateEvent = "RATE_EVENT",
+  BoundEvent = "BOUND_EVENT",
+  AmendCommissionSchedule = "AMEND_COMMISSION_SCHEDULE",
+  UnknownEvent = "UNKNOWN_EVENT",
 }
 
 export interface IOasisTransferEvent {
-   __typename?: 'OasisTransferEvent';
+   __typename?: "OasisTransferEvent";
   type: IOasisTransactionType;
-  from: Scalars['String'];
-  to: Scalars['String'];
-  tokens: Scalars['String'];
+  from: Scalars["String"];
+  to: Scalars["String"];
+  tokens: Scalars["String"];
 }
 
 export interface IOasisUnfreezeNodeEvent {
-   __typename?: 'OasisUnfreezeNodeEvent';
+   __typename?: "OasisUnfreezeNodeEvent";
   type: IOasisTransactionType;
-  id: Maybe<Scalars['String']>;
+  id: Maybe<Scalars["String"]>;
 }
 
 export interface IOasisUnknownEvent {
-   __typename?: 'OasisUnknownEvent';
+   __typename?: "OasisUnknownEvent";
   type: IOasisTransactionType;
-  method_name: Scalars['String'];
+  method_name: Scalars["String"];
 }
 
 export interface IPrice {
-   __typename?: 'Price';
-  price: Scalars['Float'];
+   __typename?: "Price";
+  price: Scalars["Float"];
 }
 
 export interface IPubKey {
-   __typename?: 'PubKey';
-  type: Scalars['String'];
+   __typename?: "PubKey";
+  type: Scalars["String"];
 }
 
 export interface IQuery {
-   __typename?: 'Query';
+   __typename?: "Query";
   /** Cosmos APIs */
   cosmosAccountBalances: ICosmosAccountBalances;
   cosmosAccountHistory: ICosmosAccountHistory;
   cosmosTransaction: ICosmosTransaction;
   cosmosTransactions: ICosmosTransactionResult;
-  cosmosRewardsByValidator: Array<IAvailableReward>;
+  cosmosRewardsByValidator: IAvailableReward[];
   cosmosAccountInformation: ICosmosAccountInformation;
   cosmosValidatorDistribution: ICosmosValidatorDistribution;
-  cosmosValidators: Array<ICosmosValidator>;
+  cosmosValidators: ICosmosValidator[];
   cosmosValidatorSets: ICosmosValidatorSet;
   cosmosLatestBlock: ICosmosBlockData;
   cosmosStakingPool: ICosmosStakingPool;
   cosmosStakingParameters: ICosmosStakingParameters;
-  cosmosGovernanceProposals: Array<ICosmosGovernanceProposal>;
+  cosmosGovernanceProposals: ICosmosGovernanceProposal[];
   cosmosGovernanceParametersDeposit: ICosmosGovernanceParametersDeposit;
   cosmosGovernanceParametersTallying: ICosmosGovernanceParametersTallying;
   cosmosGovernanceParametersVoting: ICosmosGovernanceParametersVoting;
   cosmosSlashingParameters: ICosmosSlashingParameters;
-  cosmosDistributionCommunityPool: Array<ICosmosBalance>;
+  cosmosDistributionCommunityPool: ICosmosBalance[];
   cosmosDistributionParameters: ICosmosDistributionParameters;
   /** Oasis APIs */
   oasisAccountBalances: IOasisAccountBalances;
-  oasisAccountHistory: Array<IOasisAccountHistory>;
+  oasisAccountHistory: IOasisAccountHistory[];
   oasisTransactions: IOasisTransactionResult;
   oasisTransaction: IOasisTransaction;
   /** Celo APIs */
   celoAccountBalances: ICeloAccountBalances;
-  celoAccountHistory: Array<ICeloAccountSnapshot>;
+  celoAccountHistory: ICeloAccountSnapshot[];
   celoTransactions: ICeloTransactionResult;
-  celoGovernanceTransactions: Array<ICeloTransaction>;
+  celoGovernanceTransactions: ICeloTransaction[];
   celoTransaction: ICeloTransaction;
   celoSystemBalances: ICeloSystemBalances;
-  celoSystemHistory: Array<ICeloSystemHistory>;
-  celoValidatorGroups: Array<ICeloValidatorGroup>;
+  celoSystemHistory: ICeloSystemHistory[];
+  celoValidatorGroups: ICeloValidatorGroup[];
   celoGovernanceProposals: ICeloGovernanceProposalHistory;
   /** Fiat price APIs */
-  fiatCurrencies: Array<IFiatCurrency>;
-  fiatPriceHistory: Array<IFiatPrice>;
+  fiatCurrencies: IFiatCurrency[];
+  fiatPriceHistory: IFiatPrice[];
   fiatPriceData: IFiatPriceData;
-  networkSummaries: Array<INetworkSummary>;
+  networkSummaries: INetworkSummary[];
 }
-
 
 export interface IQueryCosmosAccountBalancesArgs {
-  address: Scalars['String'];
+  address: Scalars["String"];
 }
-
 
 export interface IQueryCosmosAccountHistoryArgs {
-  address: Scalars['String'];
-  fiat: Scalars['String'];
+  address: Scalars["String"];
+  fiat: Scalars["String"];
 }
-
 
 export interface IQueryCosmosTransactionArgs {
-  hash: Scalars['String'];
-  network: Scalars['String'];
+  hash: Scalars["String"];
+  network: Scalars["String"];
 }
-
 
 export interface IQueryCosmosTransactionsArgs {
-  address: Scalars['String'];
-  startingPage: Maybe<Scalars['Float']>;
-  pageSize: Maybe<Scalars['Float']>;
+  address: Scalars["String"];
+  startingPage: Maybe<Scalars["Float"]>;
+  pageSize: Maybe<Scalars["Float"]>;
 }
-
 
 export interface IQueryCosmosRewardsByValidatorArgs {
-  address: Scalars['String'];
+  address: Scalars["String"];
 }
-
 
 export interface IQueryCosmosAccountInformationArgs {
-  address: Scalars['String'];
+  address: Scalars["String"];
 }
-
 
 export interface IQueryCosmosValidatorDistributionArgs {
-  validatorAddress: Scalars['String'];
+  validatorAddress: Scalars["String"];
 }
-
 
 export interface IQueryCosmosValidatorsArgs {
-  network: Scalars['String'];
+  network: Scalars["String"];
 }
-
 
 export interface IQueryCosmosValidatorSetsArgs {
-  network: Scalars['String'];
+  network: Scalars["String"];
 }
-
 
 export interface IQueryCosmosLatestBlockArgs {
-  network: Scalars['String'];
+  network: Scalars["String"];
 }
-
 
 export interface IQueryCosmosStakingPoolArgs {
-  network: Scalars['String'];
+  network: Scalars["String"];
 }
-
 
 export interface IQueryCosmosStakingParametersArgs {
-  network: Scalars['String'];
+  network: Scalars["String"];
 }
-
 
 export interface IQueryCosmosGovernanceProposalsArgs {
-  network: Scalars['String'];
+  network: Scalars["String"];
 }
-
 
 export interface IQueryCosmosGovernanceParametersDepositArgs {
-  network: Scalars['String'];
+  network: Scalars["String"];
 }
-
 
 export interface IQueryCosmosGovernanceParametersTallyingArgs {
-  network: Scalars['String'];
+  network: Scalars["String"];
 }
-
 
 export interface IQueryCosmosGovernanceParametersVotingArgs {
-  network: Scalars['String'];
+  network: Scalars["String"];
 }
-
 
 export interface IQueryCosmosSlashingParametersArgs {
-  network: Scalars['String'];
+  network: Scalars["String"];
 }
-
 
 export interface IQueryCosmosDistributionCommunityPoolArgs {
-  network: Scalars['String'];
+  network: Scalars["String"];
 }
-
 
 export interface IQueryCosmosDistributionParametersArgs {
-  network: Scalars['String'];
+  network: Scalars["String"];
 }
-
 
 export interface IQueryOasisAccountBalancesArgs {
-  address: Scalars['String'];
+  address: Scalars["String"];
 }
-
 
 export interface IQueryOasisAccountHistoryArgs {
-  address: Scalars['String'];
-  fiat: Scalars['String'];
+  address: Scalars["String"];
+  fiat: Scalars["String"];
 }
-
 
 export interface IQueryOasisTransactionsArgs {
-  address: Scalars['String'];
-  startingPage: Maybe<Scalars['Float']>;
-  pageSize: Maybe<Scalars['Float']>;
+  address: Scalars["String"];
+  startingPage: Maybe<Scalars["Float"]>;
+  pageSize: Maybe<Scalars["Float"]>;
 }
-
 
 export interface IQueryOasisTransactionArgs {
-  hash: Scalars['String'];
+  hash: Scalars["String"];
 }
-
 
 export interface IQueryCeloAccountBalancesArgs {
-  address: Scalars['String'];
+  address: Scalars["String"];
 }
-
 
 export interface IQueryCeloAccountHistoryArgs {
-  address: Scalars['String'];
-  fiat: Scalars['String'];
+  address: Scalars["String"];
+  fiat: Scalars["String"];
 }
-
 
 export interface IQueryCeloTransactionsArgs {
-  address: Scalars['String'];
-  startingPage: Maybe<Scalars['Float']>;
-  pageSize: Maybe<Scalars['Float']>;
+  address: Scalars["String"];
+  startingPage: Maybe<Scalars["Float"]>;
+  pageSize: Maybe<Scalars["Float"]>;
 }
-
 
 export interface IQueryCeloGovernanceTransactionsArgs {
-  address: Scalars['String'];
+  address: Scalars["String"];
 }
-
 
 export interface IQueryCeloTransactionArgs {
-  hash: Scalars['String'];
+  hash: Scalars["String"];
 }
-
 
 export interface IQueryFiatPriceHistoryArgs {
-  fiat: Scalars['String'];
-  network: Scalars['String'];
+  fiat: Scalars["String"];
+  network: Scalars["String"];
 }
-
 
 export interface IQueryFiatPriceDataArgs {
-  currency: Scalars['String'];
-  fiat: Scalars['String'];
+  currency: Scalars["String"];
+  fiat: Scalars["String"];
 }
 
-
 export interface IQueryNetworkSummariesArgs {
-  fiat: Scalars['String'];
+  fiat: Scalars["String"];
 }
 
 export interface IQueuedProposal {
-   __typename?: 'QueuedProposal';
-  proposalID: Scalars['Float'];
-  index: Scalars['Float'];
-  currentBlockNumber: Scalars['Float'];
-  stage: Scalars['String'];
-  proposer: Scalars['String'];
-  upvotes: Scalars['Float'];
-  proposalEpoch: Scalars['Float'];
-  referendumEpoch: Scalars['Float'];
-  executionEpoch: Scalars['Float'];
-  expirationEpoch: Scalars['Float'];
-  queuedAtBlockNumber: Scalars['Float'];
-  deposit: Scalars['Float'];
-  queuedAtTimestamp: Scalars['Float'];
-  gist: Scalars['String'];
-  title: Scalars['String'];
-  description: Scalars['String'];
+   __typename?: "QueuedProposal";
+  proposalID: Scalars["Float"];
+  index: Scalars["Float"];
+  currentBlockNumber: Scalars["Float"];
+  stage: Scalars["String"];
+  proposer: Scalars["String"];
+  upvotes: Scalars["Float"];
+  proposalEpoch: Scalars["Float"];
+  referendumEpoch: Scalars["Float"];
+  executionEpoch: Scalars["Float"];
+  expirationEpoch: Scalars["Float"];
+  queuedAtBlockNumber: Scalars["Float"];
+  deposit: Scalars["Float"];
+  queuedAtTimestamp: Scalars["Float"];
+  gist: Scalars["String"];
+  title: Scalars["String"];
+  description: Scalars["String"];
 }
 
 export interface IReferendumProposal {
-   __typename?: 'ReferendumProposal';
-  proposalID: Scalars['Float'];
-  index: Scalars['Float'];
-  currentBlockNumber: Scalars['Float'];
-  stage: Scalars['String'];
-  proposer: Scalars['String'];
-  yesVotes: Scalars['Float'];
-  noVotes: Scalars['Float'];
-  abstainVotes: Scalars['Float'];
-  proposalEpoch: Scalars['Float'];
-  referendumEpoch: Scalars['Float'];
-  executionEpoch: Scalars['Float'];
-  expirationEpoch: Scalars['Float'];
-  queuedAtBlockNumber: Scalars['Float'];
-  deposit: Scalars['Float'];
-  queuedAtTimestamp: Scalars['Float'];
-  gist: Scalars['String'];
-  title: Scalars['String'];
-  description: Scalars['String'];
+   __typename?: "ReferendumProposal";
+  proposalID: Scalars["Float"];
+  index: Scalars["Float"];
+  currentBlockNumber: Scalars["Float"];
+  stage: Scalars["String"];
+  proposer: Scalars["String"];
+  yesVotes: Scalars["Float"];
+  noVotes: Scalars["Float"];
+  abstainVotes: Scalars["Float"];
+  proposalEpoch: Scalars["Float"];
+  referendumEpoch: Scalars["Float"];
+  executionEpoch: Scalars["Float"];
+  expirationEpoch: Scalars["Float"];
+  queuedAtBlockNumber: Scalars["Float"];
+  deposit: Scalars["Float"];
+  queuedAtTimestamp: Scalars["Float"];
+  gist: Scalars["String"];
+  title: Scalars["String"];
+  description: Scalars["String"];
 }
 
 export interface ITag {
-   __typename?: 'Tag';
-  key: Scalars['String'];
-  value: Maybe<Scalars['String']>;
+   __typename?: "Tag";
+  key: Scalars["String"];
+  value: Maybe<Scalars["String"]>;
 }
 
 export interface ITallyResult {
-   __typename?: 'TallyResult';
-  yes: Scalars['String'];
-  abstain: Scalars['String'];
-  no: Scalars['String'];
-  no_with_veto: Scalars['String'];
+   __typename?: "TallyResult";
+  yes: Scalars["String"];
+  abstain: Scalars["String"];
+  no: Scalars["String"];
+  no_with_veto: Scalars["String"];
 }
 
 export interface ITx {
-   __typename?: 'Tx';
-  type: Scalars['String'];
+   __typename?: "Tx";
+  type: Scalars["String"];
   value: ITxValue;
 }
 
 export interface ITxFee {
-   __typename?: 'TxFee';
-  amount: Maybe<Array<ICosmosBalance>>;
-  gas: Scalars['String'];
+   __typename?: "TxFee";
+  amount: Maybe<ICosmosBalance[]>;
+  gas: Scalars["String"];
 }
 
 export interface ITxMsg {
-   __typename?: 'TxMsg';
-  type: Scalars['String'];
+   __typename?: "TxMsg";
+  type: Scalars["String"];
   value: Maybe<ITxMsgValue>;
 }
 
@@ -1039,919 +1008,882 @@ export interface ITxMsg {
 export type ITxMsgValue = IMsgSend | IMsgVote | IMsgDelegate | IMsgSubmitProposal | IMsgBeginRedelegate | IMsgModifyWithdrawAddress | IMsgBeginRedelegateLegacy | IMsgWithdrawDelegationReward | IMsgWithdrawValidatorCommission;
 
 export interface ITxSignature {
-   __typename?: 'TxSignature';
+   __typename?: "TxSignature";
   pub_key: IPubKey;
-  signature: Scalars['String'];
+  signature: Scalars["String"];
 }
 
 export interface ITxValue {
-   __typename?: 'TxValue';
+   __typename?: "TxValue";
   fee: ITxFee;
-  memo: Scalars['String'];
-  msg: Maybe<Array<ITxMsg>>;
-  signatures: Maybe<Array<ITxSignature>>;
+  memo: Scalars["String"];
+  msg: Maybe<ITxMsg[]>;
+  signatures: Maybe<ITxSignature[]>;
 }
 
 export interface IUnbondingDelegation {
-   __typename?: 'UnbondingDelegation';
-  delegator_address: Scalars['String'];
-  validator_address: Scalars['String'];
-  entries: Array<IUnbondingDelegationEntry>;
+   __typename?: "UnbondingDelegation";
+  delegator_address: Scalars["String"];
+  validator_address: Scalars["String"];
+  entries: IUnbondingDelegationEntry[];
 }
 
 export interface IUnbondingDelegationEntry {
-   __typename?: 'UnbondingDelegationEntry';
-  balance: Scalars['String'];
-  initial_balance: Scalars['String'];
-  creation_height: Scalars['String'];
-  completion_time: Scalars['String'];
+   __typename?: "UnbondingDelegationEntry";
+  balance: Scalars["String"];
+  initial_balance: Scalars["String"];
+  creation_height: Scalars["String"];
+  completion_time: Scalars["String"];
 }
 
 export interface IValidatorCommission {
-   __typename?: 'ValidatorCommission';
-  update_time: Scalars['String'];
+   __typename?: "ValidatorCommission";
+  update_time: Scalars["String"];
   commission_rates: ICommissionRates;
 }
 
 export interface IValidatorDescription {
-   __typename?: 'ValidatorDescription';
-  moniker: Scalars['String'];
-  identity: Scalars['String'];
-  website: Scalars['String'];
-  details: Scalars['String'];
+   __typename?: "ValidatorDescription";
+  moniker: Scalars["String"];
+  identity: Scalars["String"];
+  website: Scalars["String"];
+  details: Scalars["String"];
 }
 
 export interface IValidatorSetItem {
-   __typename?: 'ValidatorSetItem';
-  address: Scalars['String'];
-  pub_key: Scalars['String'];
-  voting_power: Scalars['String'];
-  proposer_priority: Scalars['String'];
+   __typename?: "ValidatorSetItem";
+  address: Scalars["String"];
+  pub_key: Scalars["String"];
+  voting_power: Scalars["String"];
+  proposer_priority: Scalars["String"];
 }
 
-export type ICeloAccountBalancesQueryVariables = {
-  address: Scalars['String'];
-};
-
+export interface ICeloAccountBalancesQueryVariables {
+  address: Scalars["String"];
+}
 
 export type ICeloAccountBalancesQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { celoAccountBalances: (
-    { __typename?: 'CeloAccountBalances' }
-    & Pick<ICeloAccountBalances, 'address' | 'height' | 'availableGoldBalance' | 'totalLockedGoldBalance' | 'nonVotingLockedGoldBalance' | 'votingLockedGoldBalance' | 'pendingWithdrawalBalance' | 'celoUSDValue'>
+    { __typename?: "CeloAccountBalances" }
+    & Pick<ICeloAccountBalances, "address" | "height" | "availableGoldBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
     & { delegations: Array<(
-      { __typename?: 'CeloDelegation' }
-      & Pick<ICeloDelegation, 'group' | 'totalVotes' | 'activeVotes' | 'pendingVotes'>
+      { __typename?: "CeloDelegation" }
+      & Pick<ICeloDelegation, "group" | "totalVotes" | "activeVotes" | "pendingVotes">
     )> }
   ) }
 );
 
-export type ICeloAccountHistoryQueryVariables = {
-  address: Scalars['String'];
-  fiat: Scalars['String'];
-};
-
+export interface ICeloAccountHistoryQueryVariables {
+  address: Scalars["String"];
+  fiat: Scalars["String"];
+}
 
 export type ICeloAccountHistoryQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { celoAccountHistory: Array<(
-    { __typename?: 'CeloAccountSnapshot' }
-    & Pick<ICeloAccountSnapshot, 'snapshotDate' | 'address' | 'height' | 'snapshotReward' | 'snapshotCommission' | 'availableGoldBalance' | 'totalLockedGoldBalance' | 'nonVotingLockedGoldBalance' | 'votingLockedGoldBalance' | 'pendingWithdrawalBalance' | 'celoUSDValue'>
+    { __typename?: "CeloAccountSnapshot" }
+    & Pick<ICeloAccountSnapshot, "snapshotDate" | "address" | "height" | "snapshotReward" | "snapshotCommission" | "availableGoldBalance" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "votingLockedGoldBalance" | "pendingWithdrawalBalance" | "celoUSDValue">
     & { delegations: Array<(
-      { __typename?: 'CeloDelegation' }
-      & Pick<ICeloDelegation, 'group' | 'totalVotes' | 'activeVotes' | 'pendingVotes'>
+      { __typename?: "CeloDelegation" }
+      & Pick<ICeloDelegation, "group" | "totalVotes" | "activeVotes" | "pendingVotes">
     )> }
   )> }
 );
 
-export type ICeloGovernanceProposalsQueryVariables = {};
-
+export interface ICeloGovernanceProposalsQueryVariables {}
 
 export type ICeloGovernanceProposalsQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { celoGovernanceProposals: (
-    { __typename?: 'CeloGovernanceProposalHistory' }
+    { __typename?: "CeloGovernanceProposalHistory" }
     & { queuedProposals: Array<(
-      { __typename?: 'QueuedProposal' }
-      & Pick<IQueuedProposal, 'proposalID' | 'index' | 'currentBlockNumber' | 'stage' | 'proposer' | 'upvotes' | 'proposalEpoch' | 'referendumEpoch' | 'executionEpoch' | 'expirationEpoch' | 'queuedAtBlockNumber' | 'deposit' | 'queuedAtTimestamp' | 'gist' | 'title' | 'description'>
+      { __typename?: "QueuedProposal" }
+      & Pick<IQueuedProposal, "proposalID" | "index" | "currentBlockNumber" | "stage" | "proposer" | "upvotes" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp" | "gist" | "title" | "description">
     )>, approvalProposals: Array<(
-      { __typename?: 'ApprovedProposal' }
-      & Pick<IApprovedProposal, 'proposalID' | 'index' | 'currentBlockNumber' | 'stage' | 'proposer' | 'proposalEpoch' | 'referendumEpoch' | 'executionEpoch' | 'expirationEpoch' | 'queuedAtBlockNumber' | 'deposit' | 'queuedAtTimestamp' | 'gist' | 'title' | 'description'>
+      { __typename?: "ApprovedProposal" }
+      & Pick<IApprovedProposal, "proposalID" | "index" | "currentBlockNumber" | "stage" | "proposer" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp" | "gist" | "title" | "description">
     )>, referendumProposals: Array<(
-      { __typename?: 'ReferendumProposal' }
-      & Pick<IReferendumProposal, 'proposalID' | 'index' | 'currentBlockNumber' | 'stage' | 'proposer' | 'yesVotes' | 'noVotes' | 'abstainVotes' | 'proposalEpoch' | 'referendumEpoch' | 'executionEpoch' | 'expirationEpoch' | 'queuedAtBlockNumber' | 'deposit' | 'queuedAtTimestamp' | 'gist' | 'title' | 'description'>
+      { __typename?: "ReferendumProposal" }
+      & Pick<IReferendumProposal, "proposalID" | "index" | "currentBlockNumber" | "stage" | "proposer" | "yesVotes" | "noVotes" | "abstainVotes" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp" | "gist" | "title" | "description">
     )>, executionProposals: Array<(
-      { __typename?: 'ExecutionProposal' }
-      & Pick<IExecutionProposal, 'proposalID' | 'index' | 'currentBlockNumber' | 'stage' | 'proposer' | 'yesVotes' | 'noVotes' | 'abstainVotes' | 'proposalEpoch' | 'referendumEpoch' | 'executionEpoch' | 'expirationEpoch' | 'queuedAtBlockNumber' | 'deposit' | 'queuedAtTimestamp' | 'gist' | 'title' | 'description'>
+      { __typename?: "ExecutionProposal" }
+      & Pick<IExecutionProposal, "proposalID" | "index" | "currentBlockNumber" | "stage" | "proposer" | "yesVotes" | "noVotes" | "abstainVotes" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp" | "gist" | "title" | "description">
     )>, expiredProposals: Array<(
-      { __typename?: 'ExpiredProposal' }
-      & Pick<IExpiredProposal, 'proposalID' | 'currentBlockNumber' | 'stage' | 'proposer' | 'executed' | 'queuedAtBlockNumber' | 'deposit' | 'queuedAtTimestamp' | 'gist' | 'title' | 'description'>
+      { __typename?: "ExpiredProposal" }
+      & Pick<IExpiredProposal, "proposalID" | "currentBlockNumber" | "stage" | "proposer" | "executed" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp" | "gist" | "title" | "description">
     )> }
   ) }
 );
 
-export type ICeloGovernanceTransactionsQueryVariables = {
-  address: Scalars['String'];
-};
-
+export interface ICeloGovernanceTransactionsQueryVariables {
+  address: Scalars["String"];
+}
 
 export type ICeloGovernanceTransactionsQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { celoGovernanceTransactions: Array<(
-    { __typename?: 'CeloTransaction' }
-    & Pick<ICeloTransaction, 'blockNumber' | 'timestamp' | 'hash' | 'from' | 'to'>
+    { __typename?: "CeloTransaction" }
+    & Pick<ICeloTransaction, "blockNumber" | "timestamp" | "hash" | "from" | "to">
     & { details: (
-      { __typename?: 'CeloTransactionDetails' }
-      & Pick<ICeloTransactionDetails, 'nonce' | 'gasLimit' | 'gasPrice' | 'gasUsed' | 'feeCurrency' | 'gatewayFeeRecipient' | 'gatewayFee' | 'to' | 'value'>
+      { __typename?: "CeloTransactionDetails" }
+      & Pick<ICeloTransactionDetails, "nonce" | "gasLimit" | "gasPrice" | "gasUsed" | "feeCurrency" | "gatewayFeeRecipient" | "gatewayFee" | "to" | "value">
     ), tags: Array<(
-      { __typename?: 'CeloTransactionTags' }
-      & Pick<ICeloTransactionTags, 'eventname' | 'source' | 'parameters'>
+      { __typename?: "CeloTransactionTags" }
+      & Pick<ICeloTransactionTags, "eventname" | "source" | "parameters">
     )> }
   )> }
 );
 
-export type ICeloSystemBalancesQueryVariables = {};
-
+export interface ICeloSystemBalancesQueryVariables {}
 
 export type ICeloSystemBalancesQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { celoSystemBalances: (
-    { __typename?: 'CeloSystemBalances' }
-    & Pick<ICeloSystemBalances, 'height' | 'goldTokenSupply' | 'totalLockedGoldBalance' | 'nonVotingLockedGoldBalance' | 'totalCeloUSDValue'>
+    { __typename?: "CeloSystemBalances" }
+    & Pick<ICeloSystemBalances, "height" | "goldTokenSupply" | "totalLockedGoldBalance" | "nonVotingLockedGoldBalance" | "totalCeloUSDValue">
   ) }
 );
 
-export type ICeloSystemHistoryQueryVariables = {};
-
+export interface ICeloSystemHistoryQueryVariables {}
 
 export type ICeloSystemHistoryQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { celoSystemHistory: Array<(
-    { __typename?: 'CeloSystemHistory' }
-    & Pick<ICeloSystemHistory, 'BlockNumber' | 'SnapshotDate' | 'GoldTokenSupply' | 'TotalLockedGoldBalance' | 'NonVotingLockedGoldBalance' | 'TotalCeloUSDValue'>
+    { __typename?: "CeloSystemHistory" }
+    & Pick<ICeloSystemHistory, "BlockNumber" | "SnapshotDate" | "GoldTokenSupply" | "TotalLockedGoldBalance" | "NonVotingLockedGoldBalance" | "TotalCeloUSDValue">
   )> }
 );
 
-export type ICeloTransactionQueryVariables = {
-  hash: Scalars['String'];
-};
-
+export interface ICeloTransactionQueryVariables {
+  hash: Scalars["String"];
+}
 
 export type ICeloTransactionQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { celoTransaction: (
-    { __typename?: 'CeloTransaction' }
-    & Pick<ICeloTransaction, 'blockNumber' | 'timestamp' | 'hash' | 'from' | 'to'>
+    { __typename?: "CeloTransaction" }
+    & Pick<ICeloTransaction, "blockNumber" | "timestamp" | "hash" | "from" | "to">
     & { details: (
-      { __typename?: 'CeloTransactionDetails' }
-      & Pick<ICeloTransactionDetails, 'nonce' | 'gasLimit' | 'gasPrice' | 'gasUsed' | 'feeCurrency' | 'gatewayFeeRecipient' | 'gatewayFee' | 'to' | 'value'>
+      { __typename?: "CeloTransactionDetails" }
+      & Pick<ICeloTransactionDetails, "nonce" | "gasLimit" | "gasPrice" | "gasUsed" | "feeCurrency" | "gatewayFeeRecipient" | "gatewayFee" | "to" | "value">
     ), tags: Array<(
-      { __typename?: 'CeloTransactionTags' }
-      & Pick<ICeloTransactionTags, 'eventname' | 'source' | 'parameters'>
+      { __typename?: "CeloTransactionTags" }
+      & Pick<ICeloTransactionTags, "eventname" | "source" | "parameters">
     )> }
   ) }
 );
 
-export type ICeloTransactionsQueryVariables = {
-  address: Scalars['String'];
-  startingPage: Maybe<Scalars['Float']>;
-  pageSize: Maybe<Scalars['Float']>;
-};
-
+export interface ICeloTransactionsQueryVariables {
+  address: Scalars["String"];
+  startingPage: Maybe<Scalars["Float"]>;
+  pageSize: Maybe<Scalars["Float"]>;
+}
 
 export type ICeloTransactionsQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { celoTransactions: (
-    { __typename?: 'CeloTransactionResult' }
-    & Pick<ICeloTransactionResult, 'page' | 'limit' | 'moreResultsExist'>
+    { __typename?: "CeloTransactionResult" }
+    & Pick<ICeloTransactionResult, "page" | "limit" | "moreResultsExist">
     & { data: Array<(
-      { __typename?: 'CeloTransaction' }
-      & Pick<ICeloTransaction, 'blockNumber' | 'timestamp' | 'hash' | 'from' | 'to'>
+      { __typename?: "CeloTransaction" }
+      & Pick<ICeloTransaction, "blockNumber" | "timestamp" | "hash" | "from" | "to">
       & { details: (
-        { __typename?: 'CeloTransactionDetails' }
-        & Pick<ICeloTransactionDetails, 'nonce' | 'gasLimit' | 'gasPrice' | 'gasUsed' | 'feeCurrency' | 'gatewayFeeRecipient' | 'gatewayFee' | 'to' | 'value'>
+        { __typename?: "CeloTransactionDetails" }
+        & Pick<ICeloTransactionDetails, "nonce" | "gasLimit" | "gasPrice" | "gasUsed" | "feeCurrency" | "gatewayFeeRecipient" | "gatewayFee" | "to" | "value">
       ), tags: Array<(
-        { __typename?: 'CeloTransactionTags' }
-        & Pick<ICeloTransactionTags, 'eventname' | 'source' | 'parameters'>
+        { __typename?: "CeloTransactionTags" }
+        & Pick<ICeloTransactionTags, "eventname" | "source" | "parameters">
       )> }
     )> }
   ) }
 );
 
-export type ICeloValidatorGroupsQueryVariables = {};
-
+export interface ICeloValidatorGroupsQueryVariables {}
 
 export type ICeloValidatorGroupsQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { celoValidatorGroups: Array<(
-    { __typename?: 'CeloValidatorGroup' }
-    & Pick<ICeloValidatorGroup, 'group' | 'name' | 'metadataURL' | 'blockNumber' | 'votingPower' | 'votingPowerFraction' | 'capacityAvailable' | 'totalCapacity' | 'multiplier' | 'groupShare' | 'groupScore'>
+    { __typename?: "CeloValidatorGroup" }
+    & Pick<ICeloValidatorGroup, "group" | "name" | "metadataURL" | "blockNumber" | "votingPower" | "votingPowerFraction" | "capacityAvailable" | "totalCapacity" | "multiplier" | "groupShare" | "groupScore">
     & { validatorDetails: Array<(
-      { __typename?: 'CeloValidatorDetail' }
-      & Pick<ICeloValidatorDetail, 'validatorAddress' | 'validator_score'>
+      { __typename?: "CeloValidatorDetail" }
+      & Pick<ICeloValidatorDetail, "validatorAddress" | "validator_score">
     )> }
   )> }
 );
 
-export type ICosmosAccountBalancesQueryVariables = {
-  address: Scalars['String'];
-};
-
+export interface ICosmosAccountBalancesQueryVariables {
+  address: Scalars["String"];
+}
 
 export type ICosmosAccountBalancesQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosAccountBalances: (
-    { __typename?: 'CosmosAccountBalances' }
+    { __typename?: "CosmosAccountBalances" }
     & { balance: Maybe<Array<(
-      { __typename?: 'CosmosBalance' }
-      & Pick<ICosmosBalance, 'denom' | 'amount'>
+      { __typename?: "CosmosBalance" }
+      & Pick<ICosmosBalance, "denom" | "amount">
     )>>, rewards: Maybe<Array<(
-      { __typename?: 'CosmosBalance' }
-      & Pick<ICosmosBalance, 'denom' | 'amount'>
+      { __typename?: "CosmosBalance" }
+      & Pick<ICosmosBalance, "denom" | "amount">
     )>>, delegations: Maybe<Array<(
-      { __typename?: 'Delegation' }
-      & Pick<IDelegation, 'delegator_address' | 'validator_address' | 'shares'>
+      { __typename?: "Delegation" }
+      & Pick<IDelegation, "delegator_address" | "validator_address" | "shares">
     )>>, unbonding: Maybe<Array<(
-      { __typename?: 'UnbondingDelegation' }
-      & Pick<IUnbondingDelegation, 'delegator_address' | 'validator_address'>
+      { __typename?: "UnbondingDelegation" }
+      & Pick<IUnbondingDelegation, "delegator_address" | "validator_address">
       & { entries: Array<(
-        { __typename?: 'UnbondingDelegationEntry' }
-        & Pick<IUnbondingDelegationEntry, 'balance' | 'initial_balance' | 'creation_height' | 'completion_time'>
+        { __typename?: "UnbondingDelegationEntry" }
+        & Pick<IUnbondingDelegationEntry, "balance" | "initial_balance" | "creation_height" | "completion_time">
       )> }
     )>>, commissions: Maybe<Array<(
-      { __typename?: 'CosmosBalance' }
-      & Pick<ICosmosBalance, 'denom' | 'amount'>
+      { __typename?: "CosmosBalance" }
+      & Pick<ICosmosBalance, "denom" | "amount">
     )>> }
   ) }
 );
 
-export type ICosmosAccountHistoryQueryVariables = {
-  address: Scalars['String'];
-  fiat: Scalars['String'];
-};
-
+export interface ICosmosAccountHistoryQueryVariables {
+  address: Scalars["String"];
+  fiat: Scalars["String"];
+}
 
 export type ICosmosAccountHistoryQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosAccountHistory: (
-    { __typename?: 'CosmosAccountHistory' }
+    { __typename?: "CosmosAccountHistory" }
     & { balanceHistory: Array<(
-      { __typename?: 'CosmosBalanceHistory' }
-      & Pick<ICosmosBalanceHistory, 'address' | 'denom' | 'balance' | 'height' | 'timestamp' | 'chain'>
+      { __typename?: "CosmosBalanceHistory" }
+      & Pick<ICosmosBalanceHistory, "address" | "denom" | "balance" | "height" | "timestamp" | "chain">
     )>, delegations: Array<(
-      { __typename?: 'CosmosDelegationHistory' }
-      & Pick<ICosmosDelegationHistory, 'balance' | 'address' | 'timestamp'>
+      { __typename?: "CosmosDelegationHistory" }
+      & Pick<ICosmosDelegationHistory, "balance" | "address" | "timestamp">
     )>, unbondings: Array<(
-      { __typename?: 'CosmosDelegationHistory' }
-      & Pick<ICosmosDelegationHistory, 'balance' | 'address' | 'timestamp'>
+      { __typename?: "CosmosDelegationHistory" }
+      & Pick<ICosmosDelegationHistory, "balance" | "address" | "timestamp">
     )>, delegatorRewards: Array<(
-      { __typename?: 'CosmosRewardHistory' }
-      & Pick<ICosmosRewardHistory, 'balance' | 'height' | 'address' | 'timestamp' | 'denom'>
+      { __typename?: "CosmosRewardHistory" }
+      & Pick<ICosmosRewardHistory, "balance" | "height" | "address" | "timestamp" | "denom">
     )>, validatorCommissions: Array<(
-      { __typename?: 'CosmosCommissionHistory' }
-      & Pick<ICosmosCommissionHistory, 'balance' | 'height' | 'validator' | 'timestamp' | 'denom'>
+      { __typename?: "CosmosCommissionHistory" }
+      & Pick<ICosmosCommissionHistory, "balance" | "height" | "validator" | "timestamp" | "denom">
     )>, fiatPriceHistory: Array<(
-      { __typename?: 'FiatPrice' }
-      & Pick<IFiatPrice, 'price' | 'timestamp'>
+      { __typename?: "FiatPrice" }
+      & Pick<IFiatPrice, "price" | "timestamp">
     )> }
   ) }
 );
 
-export type ICosmosAccountInformationQueryVariables = {
-  address: Scalars['String'];
-};
-
+export interface ICosmosAccountInformationQueryVariables {
+  address: Scalars["String"];
+}
 
 export type ICosmosAccountInformationQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosAccountInformation: (
-    { __typename?: 'CosmosAccountInformation' }
-    & Pick<ICosmosAccountInformation, 'type'>
+    { __typename?: "CosmosAccountInformation" }
+    & Pick<ICosmosAccountInformation, "type">
     & { value: (
-      { __typename?: 'Account' }
-      & Pick<IAccount, 'account_number' | 'address' | 'sequence'>
+      { __typename?: "Account" }
+      & Pick<IAccount, "account_number" | "address" | "sequence">
       & { coins: Maybe<Array<(
-        { __typename?: 'AccountCoin' }
-        & Pick<IAccountCoin, 'denom' | 'amount'>
+        { __typename?: "AccountCoin" }
+        & Pick<IAccountCoin, "denom" | "amount">
       )>>, public_key: Maybe<(
-        { __typename?: 'PubKey' }
-        & Pick<IPubKey, 'type'>
+        { __typename?: "PubKey" }
+        & Pick<IPubKey, "type">
       )> }
     ) }
   ) }
 );
 
-export type ICosmosDistributionCommunityPoolQueryVariables = {
-  network: Scalars['String'];
-};
-
+export interface ICosmosDistributionCommunityPoolQueryVariables {
+  network: Scalars["String"];
+}
 
 export type ICosmosDistributionCommunityPoolQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosDistributionCommunityPool: Array<(
-    { __typename?: 'CosmosBalance' }
-    & Pick<ICosmosBalance, 'denom' | 'amount'>
+    { __typename?: "CosmosBalance" }
+    & Pick<ICosmosBalance, "denom" | "amount">
   )> }
 );
 
-export type ICosmosDistributionParametersQueryVariables = {
-  network: Scalars['String'];
-};
-
+export interface ICosmosDistributionParametersQueryVariables {
+  network: Scalars["String"];
+}
 
 export type ICosmosDistributionParametersQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosDistributionParameters: (
-    { __typename?: 'CosmosDistributionParameters' }
-    & Pick<ICosmosDistributionParameters, 'base_proposer_reward' | 'bonus_proposer_reward' | 'community_tax'>
+    { __typename?: "CosmosDistributionParameters" }
+    & Pick<ICosmosDistributionParameters, "base_proposer_reward" | "bonus_proposer_reward" | "community_tax">
   ) }
 );
 
-export type ICosmosGovernanceParametersDepositQueryVariables = {
-  network: Scalars['String'];
-};
-
+export interface ICosmosGovernanceParametersDepositQueryVariables {
+  network: Scalars["String"];
+}
 
 export type ICosmosGovernanceParametersDepositQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosGovernanceParametersDeposit: (
-    { __typename?: 'CosmosGovernanceParametersDeposit' }
-    & Pick<ICosmosGovernanceParametersDeposit, 'max_deposit_period'>
+    { __typename?: "CosmosGovernanceParametersDeposit" }
+    & Pick<ICosmosGovernanceParametersDeposit, "max_deposit_period">
     & { min_deposit: Maybe<Array<(
-      { __typename?: 'CosmosBalance' }
-      & Pick<ICosmosBalance, 'denom' | 'amount'>
+      { __typename?: "CosmosBalance" }
+      & Pick<ICosmosBalance, "denom" | "amount">
     )>> }
   ) }
 );
 
-export type ICosmosGovernanceParametersTallyingQueryVariables = {
-  network: Scalars['String'];
-};
-
+export interface ICosmosGovernanceParametersTallyingQueryVariables {
+  network: Scalars["String"];
+}
 
 export type ICosmosGovernanceParametersTallyingQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosGovernanceParametersTallying: (
-    { __typename?: 'CosmosGovernanceParametersTallying' }
-    & Pick<ICosmosGovernanceParametersTallying, 'threshold' | 'veto' | 'governance_penalty'>
+    { __typename?: "CosmosGovernanceParametersTallying" }
+    & Pick<ICosmosGovernanceParametersTallying, "threshold" | "veto" | "governance_penalty">
   ) }
 );
 
-export type ICosmosGovernanceParametersVotingQueryVariables = {
-  network: Scalars['String'];
-};
-
+export interface ICosmosGovernanceParametersVotingQueryVariables {
+  network: Scalars["String"];
+}
 
 export type ICosmosGovernanceParametersVotingQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosGovernanceParametersVoting: (
-    { __typename?: 'CosmosGovernanceParametersVoting' }
-    & Pick<ICosmosGovernanceParametersVoting, 'voting_period'>
+    { __typename?: "CosmosGovernanceParametersVoting" }
+    & Pick<ICosmosGovernanceParametersVoting, "voting_period">
   ) }
 );
 
-export type ICosmosGovernanceProposalsQueryVariables = {
-  network: Scalars['String'];
-};
-
+export interface ICosmosGovernanceProposalsQueryVariables {
+  network: Scalars["String"];
+}
 
 export type ICosmosGovernanceProposalsQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosGovernanceProposals: Array<(
-    { __typename?: 'CosmosGovernanceProposal' }
-    & Pick<ICosmosGovernanceProposal, 'proposal_id' | 'title' | 'description' | 'proposal_type' | 'proposal_status' | 'submit_time' | 'voting_start_time'>
+    { __typename?: "CosmosGovernanceProposal" }
+    & Pick<ICosmosGovernanceProposal, "proposal_id" | "title" | "description" | "proposal_type" | "proposal_status" | "submit_time" | "voting_start_time">
     & { final_tally_result: (
-      { __typename?: 'TallyResult' }
-      & Pick<ITallyResult, 'yes' | 'abstain' | 'no' | 'no_with_veto'>
+      { __typename?: "TallyResult" }
+      & Pick<ITallyResult, "yes" | "abstain" | "no" | "no_with_veto">
     ), total_deposit: Maybe<Array<(
-      { __typename?: 'CosmosBalance' }
-      & Pick<ICosmosBalance, 'denom' | 'amount'>
+      { __typename?: "CosmosBalance" }
+      & Pick<ICosmosBalance, "denom" | "amount">
     )>> }
   )> }
 );
 
-export type ICosmosLatestBlockQueryVariables = {
-  network: Scalars['String'];
-};
-
+export interface ICosmosLatestBlockQueryVariables {
+  network: Scalars["String"];
+}
 
 export type ICosmosLatestBlockQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosLatestBlock: (
-    { __typename?: 'CosmosBlockData' }
+    { __typename?: "CosmosBlockData" }
     & { block: (
-      { __typename?: 'Block' }
+      { __typename?: "Block" }
       & { header: (
-        { __typename?: 'BlockHeader' }
-        & Pick<IBlockHeader, 'chain_id' | 'height' | 'time' | 'num_txs' | 'total_txs' | 'last_commit_hash' | 'data_hash' | 'validators_hash' | 'next_validators_hash' | 'consensus_hash' | 'app_hash' | 'last_results_hash' | 'evidence_hash' | 'proposer_address'>
+        { __typename?: "BlockHeader" }
+        & Pick<IBlockHeader, "chain_id" | "height" | "time" | "num_txs" | "total_txs" | "last_commit_hash" | "data_hash" | "validators_hash" | "next_validators_hash" | "consensus_hash" | "app_hash" | "last_results_hash" | "evidence_hash" | "proposer_address">
       ) }
     ) }
   ) }
 );
 
-export type ICosmosRewardsByValidatorQueryVariables = {
-  address: Scalars['String'];
-};
-
+export interface ICosmosRewardsByValidatorQueryVariables {
+  address: Scalars["String"];
+}
 
 export type ICosmosRewardsByValidatorQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosRewardsByValidator: Array<(
-    { __typename?: 'AvailableReward' }
-    & Pick<IAvailableReward, 'validator_address'>
+    { __typename?: "AvailableReward" }
+    & Pick<IAvailableReward, "validator_address">
     & { reward: Maybe<Array<(
-      { __typename?: 'CosmosBalance' }
-      & Pick<ICosmosBalance, 'denom' | 'amount'>
+      { __typename?: "CosmosBalance" }
+      & Pick<ICosmosBalance, "denom" | "amount">
     )>> }
   )> }
 );
 
-export type ICosmosSlashingParametersQueryVariables = {
-  network: Scalars['String'];
-};
-
+export interface ICosmosSlashingParametersQueryVariables {
+  network: Scalars["String"];
+}
 
 export type ICosmosSlashingParametersQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosSlashingParameters: (
-    { __typename?: 'CosmosSlashingParameters' }
-    & Pick<ICosmosSlashingParameters, 'max_evidence_age' | 'signed_blocks_window' | 'min_signed_per_window' | 'double_sign_unbond_duration' | 'downtime_unbond_duration' | 'slash_fraction_double_sign' | 'slash_fraction_downtime'>
+    { __typename?: "CosmosSlashingParameters" }
+    & Pick<ICosmosSlashingParameters, "max_evidence_age" | "signed_blocks_window" | "min_signed_per_window" | "double_sign_unbond_duration" | "downtime_unbond_duration" | "slash_fraction_double_sign" | "slash_fraction_downtime">
   ) }
 );
 
-export type ICosmosStakingParametersQueryVariables = {
-  network: Scalars['String'];
-};
-
+export interface ICosmosStakingParametersQueryVariables {
+  network: Scalars["String"];
+}
 
 export type ICosmosStakingParametersQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosStakingParameters: (
-    { __typename?: 'CosmosStakingParameters' }
-    & Pick<ICosmosStakingParameters, 'inflation_rate_change' | 'inflation_max' | 'inflation_min' | 'goal_bonded' | 'unbonding_time' | 'max_validators' | 'max_entries' | 'bond_denom'>
+    { __typename?: "CosmosStakingParameters" }
+    & Pick<ICosmosStakingParameters, "inflation_rate_change" | "inflation_max" | "inflation_min" | "goal_bonded" | "unbonding_time" | "max_validators" | "max_entries" | "bond_denom">
   ) }
 );
 
-export type ICosmosStakingPoolQueryVariables = {
-  network: Scalars['String'];
-};
-
+export interface ICosmosStakingPoolQueryVariables {
+  network: Scalars["String"];
+}
 
 export type ICosmosStakingPoolQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosStakingPool: (
-    { __typename?: 'CosmosStakingPool' }
-    & Pick<ICosmosStakingPool, 'loose_tokens' | 'bonded_tokens' | 'not_bonded_tokens' | 'inflation_last_time' | 'inflation' | 'date_last_commission_reset' | 'prev_bonded_shares'>
+    { __typename?: "CosmosStakingPool" }
+    & Pick<ICosmosStakingPool, "loose_tokens" | "bonded_tokens" | "not_bonded_tokens" | "inflation_last_time" | "inflation" | "date_last_commission_reset" | "prev_bonded_shares">
   ) }
 );
 
-export type ICosmosTransactionQueryVariables = {
-  hash: Scalars['String'];
-  network: Scalars['String'];
-};
-
+export interface ICosmosTransactionQueryVariables {
+  hash: Scalars["String"];
+  network: Scalars["String"];
+}
 
 export type ICosmosTransactionQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosTransaction: (
-    { __typename?: 'CosmosTransaction' }
-    & Pick<ICosmosTransaction, 'hash' | 'height' | 'gaswanted' | 'gasused' | 'memo' | 'timestamp' | 'chain'>
+    { __typename?: "CosmosTransaction" }
+    & Pick<ICosmosTransaction, "hash" | "height" | "gaswanted" | "gasused" | "memo" | "timestamp" | "chain">
     & { log: Array<Maybe<(
-      { __typename?: 'LogMessage' }
-      & Pick<ILogMessage, 'code' | 'message' | 'success' | 'log' | 'msg_index'>
+      { __typename?: "LogMessage" }
+      & Pick<ILogMessage, "code" | "message" | "success" | "log" | "msg_index">
     )>>, fees: (
-      { __typename?: 'TxFee' }
-      & Pick<ITxFee, 'gas'>
+      { __typename?: "TxFee" }
+      & Pick<ITxFee, "gas">
       & { amount: Maybe<Array<(
-        { __typename?: 'CosmosBalance' }
-        & Pick<ICosmosBalance, 'denom' | 'amount'>
+        { __typename?: "CosmosBalance" }
+        & Pick<ICosmosBalance, "denom" | "amount">
       )>> }
     ), tags: Maybe<Array<(
-      { __typename?: 'Tag' }
-      & Pick<ITag, 'key' | 'value'>
+      { __typename?: "Tag" }
+      & Pick<ITag, "key" | "value">
     )>>, msgs: Array<(
-      { __typename?: 'TxMsg' }
-      & Pick<ITxMsg, 'type'>
+      { __typename?: "TxMsg" }
+      & Pick<ITxMsg, "type">
       & { value: Maybe<(
-        { __typename?: 'MsgSend' }
-        & Pick<IMsgSend, 'to_address' | 'from_address'>
+        { __typename?: "MsgSend" }
+        & Pick<IMsgSend, "to_address" | "from_address">
         & { amounts: Maybe<Array<(
-          { __typename?: 'CosmosBalance' }
-          & Pick<ICosmosBalance, 'denom' | 'amount'>
+          { __typename?: "CosmosBalance" }
+          & Pick<ICosmosBalance, "denom" | "amount">
         )>> }
       ) | (
-        { __typename?: 'MsgVote' }
-        & Pick<IMsgVote, 'proposal_id' | 'voter' | 'option'>
+        { __typename?: "MsgVote" }
+        & Pick<IMsgVote, "proposal_id" | "voter" | "option">
       ) | (
-        { __typename?: 'MsgDelegate' }
-        & Pick<IMsgDelegate, 'delegator_address' | 'validator_address'>
+        { __typename?: "MsgDelegate" }
+        & Pick<IMsgDelegate, "delegator_address" | "validator_address">
         & { amount: (
-          { __typename?: 'CosmosBalance' }
-          & Pick<ICosmosBalance, 'denom' | 'amount'>
+          { __typename?: "CosmosBalance" }
+          & Pick<ICosmosBalance, "denom" | "amount">
         ) }
       ) | (
-        { __typename?: 'MsgSubmitProposal' }
-        & Pick<IMsgSubmitProposal, 'title' | 'description' | 'proposal_type' | 'proposer'>
+        { __typename?: "MsgSubmitProposal" }
+        & Pick<IMsgSubmitProposal, "title" | "description" | "proposal_type" | "proposer">
         & { initial_deposit: Maybe<Array<(
-          { __typename?: 'CosmosBalance' }
-          & Pick<ICosmosBalance, 'denom' | 'amount'>
+          { __typename?: "CosmosBalance" }
+          & Pick<ICosmosBalance, "denom" | "amount">
         )>> }
       ) | (
-        { __typename?: 'MsgBeginRedelegate' }
-        & Pick<IMsgBeginRedelegate, 'delegator_address' | 'validator_src_address' | 'validator_dst_address'>
+        { __typename?: "MsgBeginRedelegate" }
+        & Pick<IMsgBeginRedelegate, "delegator_address" | "validator_src_address" | "validator_dst_address">
         & { amount: (
-          { __typename?: 'CosmosBalance' }
-          & Pick<ICosmosBalance, 'denom' | 'amount'>
+          { __typename?: "CosmosBalance" }
+          & Pick<ICosmosBalance, "denom" | "amount">
         ) }
       ) | (
-        { __typename?: 'MsgModifyWithdrawAddress' }
-        & Pick<IMsgModifyWithdrawAddress, 'withdraw_address' | 'validator_address'>
+        { __typename?: "MsgModifyWithdrawAddress" }
+        & Pick<IMsgModifyWithdrawAddress, "withdraw_address" | "validator_address">
       ) | (
-        { __typename?: 'MsgBeginRedelegateLegacy' }
-        & Pick<IMsgBeginRedelegateLegacy, 'shares_amount' | 'delegator_address' | 'validator_src_address' | 'validator_dst_address'>
+        { __typename?: "MsgBeginRedelegateLegacy" }
+        & Pick<IMsgBeginRedelegateLegacy, "shares_amount" | "delegator_address" | "validator_src_address" | "validator_dst_address">
       ) | (
-        { __typename?: 'MsgWithdrawDelegationReward' }
-        & Pick<IMsgWithdrawDelegationReward, 'delegator_address' | 'validator_address'>
+        { __typename?: "MsgWithdrawDelegationReward" }
+        & Pick<IMsgWithdrawDelegationReward, "delegator_address" | "validator_address">
       ) | (
-        { __typename?: 'MsgWithdrawValidatorCommission' }
-        & Pick<IMsgWithdrawValidatorCommission, 'validator_address'>
+        { __typename?: "MsgWithdrawValidatorCommission" }
+        & Pick<IMsgWithdrawValidatorCommission, "validator_address">
       )> }
     )>, events: Maybe<Array<(
-      { __typename?: 'CosmosTransactionEvent' }
-      & Pick<ICosmosTransactionEvent, 'type'>
+      { __typename?: "CosmosTransactionEvent" }
+      & Pick<ICosmosTransactionEvent, "type">
       & { attributes: Array<(
-        { __typename?: 'EventAttributes' }
-        & Pick<IEventAttributes, 'key' | 'value'>
+        { __typename?: "EventAttributes" }
+        & Pick<IEventAttributes, "key" | "value">
       )> }
     )>> }
   ) }
 );
 
-export type ICosmosTransactionsQueryVariables = {
-  address: Scalars['String'];
-  startingPage: Maybe<Scalars['Float']>;
-  pageSize: Maybe<Scalars['Float']>;
-};
-
+export interface ICosmosTransactionsQueryVariables {
+  address: Scalars["String"];
+  startingPage: Maybe<Scalars["Float"]>;
+  pageSize: Maybe<Scalars["Float"]>;
+}
 
 export type ICosmosTransactionsQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosTransactions: (
-    { __typename?: 'CosmosTransactionResult' }
-    & Pick<ICosmosTransactionResult, 'page' | 'limit' | 'moreResultsExist'>
+    { __typename?: "CosmosTransactionResult" }
+    & Pick<ICosmosTransactionResult, "page" | "limit" | "moreResultsExist">
     & { data: Array<(
-      { __typename?: 'CosmosTransaction' }
-      & Pick<ICosmosTransaction, 'hash' | 'height' | 'gaswanted' | 'gasused' | 'memo' | 'timestamp' | 'chain'>
+      { __typename?: "CosmosTransaction" }
+      & Pick<ICosmosTransaction, "hash" | "height" | "gaswanted" | "gasused" | "memo" | "timestamp" | "chain">
       & { log: Array<Maybe<(
-        { __typename?: 'LogMessage' }
-        & Pick<ILogMessage, 'code' | 'message' | 'success' | 'log' | 'msg_index'>
+        { __typename?: "LogMessage" }
+        & Pick<ILogMessage, "code" | "message" | "success" | "log" | "msg_index">
       )>>, fees: (
-        { __typename?: 'TxFee' }
-        & Pick<ITxFee, 'gas'>
+        { __typename?: "TxFee" }
+        & Pick<ITxFee, "gas">
         & { amount: Maybe<Array<(
-          { __typename?: 'CosmosBalance' }
-          & Pick<ICosmosBalance, 'denom' | 'amount'>
+          { __typename?: "CosmosBalance" }
+          & Pick<ICosmosBalance, "denom" | "amount">
         )>> }
       ), tags: Maybe<Array<(
-        { __typename?: 'Tag' }
-        & Pick<ITag, 'key' | 'value'>
+        { __typename?: "Tag" }
+        & Pick<ITag, "key" | "value">
       )>>, msgs: Array<(
-        { __typename?: 'TxMsg' }
-        & Pick<ITxMsg, 'type'>
+        { __typename?: "TxMsg" }
+        & Pick<ITxMsg, "type">
         & { value: Maybe<(
-          { __typename?: 'MsgSend' }
-          & Pick<IMsgSend, 'to_address' | 'from_address'>
+          { __typename?: "MsgSend" }
+          & Pick<IMsgSend, "to_address" | "from_address">
           & { amounts: Maybe<Array<(
-            { __typename?: 'CosmosBalance' }
-            & Pick<ICosmosBalance, 'denom' | 'amount'>
+            { __typename?: "CosmosBalance" }
+            & Pick<ICosmosBalance, "denom" | "amount">
           )>> }
         ) | (
-          { __typename?: 'MsgVote' }
-          & Pick<IMsgVote, 'proposal_id' | 'voter' | 'option'>
+          { __typename?: "MsgVote" }
+          & Pick<IMsgVote, "proposal_id" | "voter" | "option">
         ) | (
-          { __typename?: 'MsgDelegate' }
-          & Pick<IMsgDelegate, 'delegator_address' | 'validator_address'>
+          { __typename?: "MsgDelegate" }
+          & Pick<IMsgDelegate, "delegator_address" | "validator_address">
           & { amount: (
-            { __typename?: 'CosmosBalance' }
-            & Pick<ICosmosBalance, 'denom' | 'amount'>
+            { __typename?: "CosmosBalance" }
+            & Pick<ICosmosBalance, "denom" | "amount">
           ) }
         ) | (
-          { __typename?: 'MsgSubmitProposal' }
-          & Pick<IMsgSubmitProposal, 'title' | 'description' | 'proposal_type' | 'proposer'>
+          { __typename?: "MsgSubmitProposal" }
+          & Pick<IMsgSubmitProposal, "title" | "description" | "proposal_type" | "proposer">
           & { initial_deposit: Maybe<Array<(
-            { __typename?: 'CosmosBalance' }
-            & Pick<ICosmosBalance, 'denom' | 'amount'>
+            { __typename?: "CosmosBalance" }
+            & Pick<ICosmosBalance, "denom" | "amount">
           )>> }
         ) | (
-          { __typename?: 'MsgBeginRedelegate' }
-          & Pick<IMsgBeginRedelegate, 'delegator_address' | 'validator_src_address' | 'validator_dst_address'>
+          { __typename?: "MsgBeginRedelegate" }
+          & Pick<IMsgBeginRedelegate, "delegator_address" | "validator_src_address" | "validator_dst_address">
           & { amount: (
-            { __typename?: 'CosmosBalance' }
-            & Pick<ICosmosBalance, 'denom' | 'amount'>
+            { __typename?: "CosmosBalance" }
+            & Pick<ICosmosBalance, "denom" | "amount">
           ) }
         ) | (
-          { __typename?: 'MsgModifyWithdrawAddress' }
-          & Pick<IMsgModifyWithdrawAddress, 'withdraw_address' | 'validator_address'>
+          { __typename?: "MsgModifyWithdrawAddress" }
+          & Pick<IMsgModifyWithdrawAddress, "withdraw_address" | "validator_address">
         ) | (
-          { __typename?: 'MsgBeginRedelegateLegacy' }
-          & Pick<IMsgBeginRedelegateLegacy, 'shares_amount' | 'delegator_address' | 'validator_src_address' | 'validator_dst_address'>
+          { __typename?: "MsgBeginRedelegateLegacy" }
+          & Pick<IMsgBeginRedelegateLegacy, "shares_amount" | "delegator_address" | "validator_src_address" | "validator_dst_address">
         ) | (
-          { __typename?: 'MsgWithdrawDelegationReward' }
-          & Pick<IMsgWithdrawDelegationReward, 'delegator_address' | 'validator_address'>
+          { __typename?: "MsgWithdrawDelegationReward" }
+          & Pick<IMsgWithdrawDelegationReward, "delegator_address" | "validator_address">
         ) | (
-          { __typename?: 'MsgWithdrawValidatorCommission' }
-          & Pick<IMsgWithdrawValidatorCommission, 'validator_address'>
+          { __typename?: "MsgWithdrawValidatorCommission" }
+          & Pick<IMsgWithdrawValidatorCommission, "validator_address">
         )> }
       )>, events: Maybe<Array<(
-        { __typename?: 'CosmosTransactionEvent' }
-        & Pick<ICosmosTransactionEvent, 'type'>
+        { __typename?: "CosmosTransactionEvent" }
+        & Pick<ICosmosTransactionEvent, "type">
         & { attributes: Array<(
-          { __typename?: 'EventAttributes' }
-          & Pick<IEventAttributes, 'key' | 'value'>
+          { __typename?: "EventAttributes" }
+          & Pick<IEventAttributes, "key" | "value">
         )> }
       )>> }
     )> }
   ) }
 );
 
-export type ICosmosValidatorDistributionQueryVariables = {
-  validatorAddress: Scalars['String'];
-};
-
+export interface ICosmosValidatorDistributionQueryVariables {
+  validatorAddress: Scalars["String"];
+}
 
 export type ICosmosValidatorDistributionQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosValidatorDistribution: (
-    { __typename?: 'CosmosValidatorDistribution' }
-    & Pick<ICosmosValidatorDistribution, 'operator_address'>
+    { __typename?: "CosmosValidatorDistribution" }
+    & Pick<ICosmosValidatorDistribution, "operator_address">
     & { self_bond_rewards: Maybe<Array<(
-      { __typename?: 'CosmosBalance' }
-      & Pick<ICosmosBalance, 'denom' | 'amount'>
+      { __typename?: "CosmosBalance" }
+      & Pick<ICosmosBalance, "denom" | "amount">
     )>>, val_commission: Maybe<Array<(
-      { __typename?: 'CosmosBalance' }
-      & Pick<ICosmosBalance, 'denom' | 'amount'>
+      { __typename?: "CosmosBalance" }
+      & Pick<ICosmosBalance, "denom" | "amount">
     )>> }
   ) }
 );
 
-export type ICosmosValidatorSetsQueryVariables = {
-  network: Scalars['String'];
-};
-
+export interface ICosmosValidatorSetsQueryVariables {
+  network: Scalars["String"];
+}
 
 export type ICosmosValidatorSetsQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosValidatorSets: (
-    { __typename?: 'CosmosValidatorSet' }
-    & Pick<ICosmosValidatorSet, 'block_height'>
+    { __typename?: "CosmosValidatorSet" }
+    & Pick<ICosmosValidatorSet, "block_height">
     & { validators: Maybe<Array<(
-      { __typename?: 'ValidatorSetItem' }
-      & Pick<IValidatorSetItem, 'address' | 'pub_key' | 'voting_power' | 'proposer_priority'>
+      { __typename?: "ValidatorSetItem" }
+      & Pick<IValidatorSetItem, "address" | "pub_key" | "voting_power" | "proposer_priority">
     )>> }
   ) }
 );
 
-export type ICosmosValidatorsQueryVariables = {
-  network: Scalars['String'];
-};
-
+export interface ICosmosValidatorsQueryVariables {
+  network: Scalars["String"];
+}
 
 export type ICosmosValidatorsQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { cosmosValidators: Array<(
-    { __typename?: 'CosmosValidator' }
-    & Pick<ICosmosValidator, 'operator_address' | 'consensus_pubkey' | 'jailed' | 'status' | 'tokens' | 'delegator_shares' | 'unbonding_height' | 'unbonding_time' | 'min_self_delegation'>
+    { __typename?: "CosmosValidator" }
+    & Pick<ICosmosValidator, "operator_address" | "consensus_pubkey" | "jailed" | "status" | "tokens" | "delegator_shares" | "unbonding_height" | "unbonding_time" | "min_self_delegation">
     & { description: (
-      { __typename?: 'ValidatorDescription' }
-      & Pick<IValidatorDescription, 'moniker' | 'identity' | 'website' | 'details'>
+      { __typename?: "ValidatorDescription" }
+      & Pick<IValidatorDescription, "moniker" | "identity" | "website" | "details">
     ), commission: (
-      { __typename?: 'ValidatorCommission' }
-      & Pick<IValidatorCommission, 'update_time'>
+      { __typename?: "ValidatorCommission" }
+      & Pick<IValidatorCommission, "update_time">
       & { commission_rates: (
-        { __typename?: 'CommissionRates' }
-        & Pick<ICommissionRates, 'rate' | 'max_rate' | 'max_change_rate'>
+        { __typename?: "CommissionRates" }
+        & Pick<ICommissionRates, "rate" | "max_rate" | "max_change_rate">
       ) }
     ) }
   )> }
 );
 
-export type IFiatCurrenciesQueryVariables = {};
-
+export interface IFiatCurrenciesQueryVariables {}
 
 export type IFiatCurrenciesQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { fiatCurrencies: Array<(
-    { __typename?: 'FiatCurrency' }
-    & Pick<IFiatCurrency, 'name' | 'symbol' | 'letter'>
+    { __typename?: "FiatCurrency" }
+    & Pick<IFiatCurrency, "name" | "symbol" | "letter">
   )> }
 );
 
-export type IFiatPriceDataQueryVariables = {
-  currency: Scalars['String'];
-  fiat: Scalars['String'];
-};
-
+export interface IFiatPriceDataQueryVariables {
+  currency: Scalars["String"];
+  fiat: Scalars["String"];
+}
 
 export type IFiatPriceDataQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { fiatPriceData: (
-    { __typename?: 'FiatPriceData' }
-    & Pick<IFiatPriceData, 'price' | 'lastDayChange'>
+    { __typename?: "FiatPriceData" }
+    & Pick<IFiatPriceData, "price" | "lastDayChange">
   ) }
 );
 
-export type IFiatPriceHistoryQueryVariables = {
-  fiat: Scalars['String'];
-  network: Scalars['String'];
-};
-
+export interface IFiatPriceHistoryQueryVariables {
+  fiat: Scalars["String"];
+  network: Scalars["String"];
+}
 
 export type IFiatPriceHistoryQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { fiatPriceHistory: Array<(
-    { __typename?: 'FiatPrice' }
-    & Pick<IFiatPrice, 'price' | 'timestamp'>
+    { __typename?: "FiatPrice" }
+    & Pick<IFiatPrice, "price" | "timestamp">
   )> }
 );
 
-export type INetworkSummariesQueryVariables = {
-  fiat: Scalars['String'];
-};
-
+export interface INetworkSummariesQueryVariables {
+  fiat: Scalars["String"];
+}
 
 export type INetworkSummariesQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { networkSummaries: Array<(
-    { __typename?: 'NetworkSummary' }
-    & Pick<INetworkSummary, 'name' | 'tokenPrice' | 'lastDayChange' | 'marketCapitalization' | 'expectedReward' | 'inflation' | 'supportsLedger'>
+    { __typename?: "NetworkSummary" }
+    & Pick<INetworkSummary, "name" | "tokenPrice" | "lastDayChange" | "marketCapitalization" | "expectedReward" | "inflation" | "supportsLedger">
   )> }
 );
 
-export type IOasisAccountBalancesQueryVariables = {
-  address: Scalars['String'];
-};
-
+export interface IOasisAccountBalancesQueryVariables {
+  address: Scalars["String"];
+}
 
 export type IOasisAccountBalancesQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { oasisAccountBalances: (
-    { __typename?: 'OasisAccountBalances' }
-    & Pick<IOasisAccountBalances, 'available' | 'rewards' | 'commissions'>
+    { __typename?: "OasisAccountBalances" }
+    & Pick<IOasisAccountBalances, "available" | "rewards" | "commissions">
     & { staked: (
-      { __typename?: 'OasisBalance' }
-      & Pick<IOasisBalance, 'balance' | 'shares'>
+      { __typename?: "OasisBalance" }
+      & Pick<IOasisBalance, "balance" | "shares">
     ), unbonding: (
-      { __typename?: 'OasisBalance' }
-      & Pick<IOasisBalance, 'balance' | 'shares'>
+      { __typename?: "OasisBalance" }
+      & Pick<IOasisBalance, "balance" | "shares">
     ), meta: (
-      { __typename?: 'OasisAccountMeta' }
-      & Pick<IOasisAccountMeta, 'is_validator' | 'is_delegator'>
+      { __typename?: "OasisAccountMeta" }
+      & Pick<IOasisAccountMeta, "is_validator" | "is_delegator">
     ), delegations: Maybe<Array<(
-      { __typename?: 'OasisDelegation' }
-      & Pick<IOasisDelegation, 'delegator' | 'validator' | 'amount'>
+      { __typename?: "OasisDelegation" }
+      & Pick<IOasisDelegation, "delegator" | "validator" | "amount">
     )>> }
   ) }
 );
 
-export type IOasisAccountHistoryQueryVariables = {
-  address: Scalars['String'];
-  fiat: Scalars['String'];
-};
-
+export interface IOasisAccountHistoryQueryVariables {
+  address: Scalars["String"];
+  fiat: Scalars["String"];
+}
 
 export type IOasisAccountHistoryQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { oasisAccountHistory: Array<(
-    { __typename?: 'OasisAccountHistory' }
-    & Pick<IOasisAccountHistory, 'date' | 'height' | 'address' | 'rewards' | 'balance'>
+    { __typename?: "OasisAccountHistory" }
+    & Pick<IOasisAccountHistory, "date" | "height" | "address" | "rewards" | "balance">
     & { meta: (
-      { __typename?: 'OasisAccountMeta' }
-      & Pick<IOasisAccountMeta, 'is_validator' | 'is_delegator'>
+      { __typename?: "OasisAccountMeta" }
+      & Pick<IOasisAccountMeta, "is_validator" | "is_delegator">
     ), delegations: Maybe<Array<(
-      { __typename?: 'OasisDelegation' }
-      & Pick<IOasisDelegation, 'delegator' | 'validator' | 'amount'>
+      { __typename?: "OasisDelegation" }
+      & Pick<IOasisDelegation, "delegator" | "validator" | "amount">
     )>>, debonding_balance: (
-      { __typename?: 'OasisBalance' }
-      & Pick<IOasisBalance, 'balance' | 'shares'>
+      { __typename?: "OasisBalance" }
+      & Pick<IOasisBalance, "balance" | "shares">
     ), staked_balance: (
-      { __typename?: 'OasisBalance' }
-      & Pick<IOasisBalance, 'balance' | 'shares'>
+      { __typename?: "OasisBalance" }
+      & Pick<IOasisBalance, "balance" | "shares">
     ) }
   )> }
 );
 
-export type IOasisTransactionQueryVariables = {
-  hash: Scalars['String'];
-};
-
+export interface IOasisTransactionQueryVariables {
+  hash: Scalars["String"];
+}
 
 export type IOasisTransactionQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { oasisTransaction: (
-    { __typename?: 'OasisTransaction' }
-    & Pick<IOasisTransaction, 'hash' | 'fee' | 'gas' | 'gas_price' | 'height' | 'method' | 'date' | 'sender'>
+    { __typename?: "OasisTransaction" }
+    & Pick<IOasisTransaction, "hash" | "fee" | "gas" | "gas_price" | "height" | "method" | "date" | "sender">
     & { data: (
-      { __typename?: 'OasisBurnEvent' }
-      & Pick<IOasisBurnEvent, 'type' | 'owner' | 'tokens'>
+      { __typename?: "OasisBurnEvent" }
+      & Pick<IOasisBurnEvent, "type" | "owner" | "tokens">
     ) | (
-      { __typename?: 'OasisTransferEvent' }
-      & Pick<IOasisTransferEvent, 'type' | 'from' | 'to' | 'tokens'>
+      { __typename?: "OasisTransferEvent" }
+      & Pick<IOasisTransferEvent, "type" | "from" | "to" | "tokens">
     ) | (
-      { __typename?: 'OasisEscrowAddEvent' }
-      & Pick<IOasisEscrowAddEvent, 'type' | 'to' | 'tokens'>
+      { __typename?: "OasisEscrowAddEvent" }
+      & Pick<IOasisEscrowAddEvent, "type" | "to" | "tokens">
     ) | (
-      { __typename?: 'OasisEscrowTakeEvent' }
-      & Pick<IOasisEscrowTakeEvent, 'type' | 'from' | 'to' | 'tokens'>
+      { __typename?: "OasisEscrowTakeEvent" }
+      & Pick<IOasisEscrowTakeEvent, "type" | "from" | "to" | "tokens">
     ) | (
-      { __typename?: 'OasisEscrowReclaimEvent' }
-      & Pick<IOasisEscrowReclaimEvent, 'type' | 'from' | 'shares'>
+      { __typename?: "OasisEscrowReclaimEvent" }
+      & Pick<IOasisEscrowReclaimEvent, "type" | "from" | "shares">
     ) | (
-      { __typename?: 'OasisRegisterEntityEvent' }
-      & Pick<IOasisRegisterEntityEvent, 'type' | 'id' | 'nodes' | 'allow_entity_signed_nodes'>
+      { __typename?: "OasisRegisterEntityEvent" }
+      & Pick<IOasisRegisterEntityEvent, "type" | "id" | "nodes" | "allow_entity_signed_nodes">
     ) | (
-      { __typename?: 'OasisRegisterNodeEvent' }
-      & Pick<IOasisRegisterNodeEvent, 'type' | 'id' | 'entity_id' | 'expiration'>
+      { __typename?: "OasisRegisterNodeEvent" }
+      & Pick<IOasisRegisterNodeEvent, "type" | "id" | "entity_id" | "expiration">
     ) | (
-      { __typename?: 'OasisUnfreezeNodeEvent' }
-      & Pick<IOasisUnfreezeNodeEvent, 'type' | 'id'>
+      { __typename?: "OasisUnfreezeNodeEvent" }
+      & Pick<IOasisUnfreezeNodeEvent, "type" | "id">
     ) | (
-      { __typename?: 'OasisRegisterRuntimeEvent' }
-      & Pick<IOasisRegisterRuntimeEvent, 'type' | 'id' | 'version'>
+      { __typename?: "OasisRegisterRuntimeEvent" }
+      & Pick<IOasisRegisterRuntimeEvent, "type" | "id" | "version">
     ) | (
-      { __typename?: 'OasisRateEvent' }
-      & Pick<IOasisRateEvent, 'type' | 'start' | 'rate'>
+      { __typename?: "OasisRateEvent" }
+      & Pick<IOasisRateEvent, "type" | "start" | "rate">
     ) | (
-      { __typename?: 'OasisBoundEvent' }
-      & Pick<IOasisBoundEvent, 'type' | 'start' | 'rate_min' | 'rate_max'>
+      { __typename?: "OasisBoundEvent" }
+      & Pick<IOasisBoundEvent, "type" | "start" | "rate_min" | "rate_max">
     ) | (
-      { __typename?: 'OasisAmendCommissionScheduleEvent' }
-      & Pick<IOasisAmendCommissionScheduleEvent, 'type' | 'rates' | 'bounds'>
+      { __typename?: "OasisAmendCommissionScheduleEvent" }
+      & Pick<IOasisAmendCommissionScheduleEvent, "type" | "rates" | "bounds">
     ) | (
-      { __typename?: 'OasisUnknownEvent' }
-      & Pick<IOasisUnknownEvent, 'type' | 'method_name'>
+      { __typename?: "OasisUnknownEvent" }
+      & Pick<IOasisUnknownEvent, "type" | "method_name">
     ) }
   ) }
 );
 
-export type IOasisTransactionsQueryVariables = {
-  address: Scalars['String'];
-  startingPage: Maybe<Scalars['Float']>;
-  pageSize: Maybe<Scalars['Float']>;
-};
-
+export interface IOasisTransactionsQueryVariables {
+  address: Scalars["String"];
+  startingPage: Maybe<Scalars["Float"]>;
+  pageSize: Maybe<Scalars["Float"]>;
+}
 
 export type IOasisTransactionsQuery = (
-  { __typename?: 'Query' }
+  { __typename?: "Query" }
   & { oasisTransactions: (
-    { __typename?: 'OasisTransactionResult' }
-    & Pick<IOasisTransactionResult, 'page' | 'limit' | 'moreResultsExist'>
+    { __typename?: "OasisTransactionResult" }
+    & Pick<IOasisTransactionResult, "page" | "limit" | "moreResultsExist">
     & { data: Array<(
-      { __typename?: 'OasisTransaction' }
-      & Pick<IOasisTransaction, 'hash' | 'fee' | 'gas' | 'gas_price' | 'height' | 'method' | 'date' | 'sender'>
+      { __typename?: "OasisTransaction" }
+      & Pick<IOasisTransaction, "hash" | "fee" | "gas" | "gas_price" | "height" | "method" | "date" | "sender">
       & { data: (
-        { __typename?: 'OasisBurnEvent' }
-        & Pick<IOasisBurnEvent, 'type' | 'owner' | 'tokens'>
+        { __typename?: "OasisBurnEvent" }
+        & Pick<IOasisBurnEvent, "type" | "owner" | "tokens">
       ) | (
-        { __typename?: 'OasisTransferEvent' }
-        & Pick<IOasisTransferEvent, 'type' | 'from' | 'to' | 'tokens'>
+        { __typename?: "OasisTransferEvent" }
+        & Pick<IOasisTransferEvent, "type" | "from" | "to" | "tokens">
       ) | (
-        { __typename?: 'OasisEscrowAddEvent' }
-        & Pick<IOasisEscrowAddEvent, 'type' | 'to' | 'tokens'>
+        { __typename?: "OasisEscrowAddEvent" }
+        & Pick<IOasisEscrowAddEvent, "type" | "to" | "tokens">
       ) | (
-        { __typename?: 'OasisEscrowTakeEvent' }
-        & Pick<IOasisEscrowTakeEvent, 'type' | 'from' | 'to' | 'tokens'>
+        { __typename?: "OasisEscrowTakeEvent" }
+        & Pick<IOasisEscrowTakeEvent, "type" | "from" | "to" | "tokens">
       ) | (
-        { __typename?: 'OasisEscrowReclaimEvent' }
-        & Pick<IOasisEscrowReclaimEvent, 'type' | 'from' | 'shares'>
+        { __typename?: "OasisEscrowReclaimEvent" }
+        & Pick<IOasisEscrowReclaimEvent, "type" | "from" | "shares">
       ) | (
-        { __typename?: 'OasisRegisterEntityEvent' }
-        & Pick<IOasisRegisterEntityEvent, 'type' | 'id' | 'nodes' | 'allow_entity_signed_nodes'>
+        { __typename?: "OasisRegisterEntityEvent" }
+        & Pick<IOasisRegisterEntityEvent, "type" | "id" | "nodes" | "allow_entity_signed_nodes">
       ) | (
-        { __typename?: 'OasisRegisterNodeEvent' }
-        & Pick<IOasisRegisterNodeEvent, 'type' | 'id' | 'entity_id' | 'expiration'>
+        { __typename?: "OasisRegisterNodeEvent" }
+        & Pick<IOasisRegisterNodeEvent, "type" | "id" | "entity_id" | "expiration">
       ) | (
-        { __typename?: 'OasisUnfreezeNodeEvent' }
-        & Pick<IOasisUnfreezeNodeEvent, 'type' | 'id'>
+        { __typename?: "OasisUnfreezeNodeEvent" }
+        & Pick<IOasisUnfreezeNodeEvent, "type" | "id">
       ) | (
-        { __typename?: 'OasisRegisterRuntimeEvent' }
-        & Pick<IOasisRegisterRuntimeEvent, 'type' | 'id' | 'version'>
+        { __typename?: "OasisRegisterRuntimeEvent" }
+        & Pick<IOasisRegisterRuntimeEvent, "type" | "id" | "version">
       ) | (
-        { __typename?: 'OasisRateEvent' }
-        & Pick<IOasisRateEvent, 'type' | 'start' | 'rate'>
+        { __typename?: "OasisRateEvent" }
+        & Pick<IOasisRateEvent, "type" | "start" | "rate">
       ) | (
-        { __typename?: 'OasisBoundEvent' }
-        & Pick<IOasisBoundEvent, 'type' | 'start' | 'rate_min' | 'rate_max'>
+        { __typename?: "OasisBoundEvent" }
+        & Pick<IOasisBoundEvent, "type" | "start" | "rate_min" | "rate_max">
       ) | (
-        { __typename?: 'OasisAmendCommissionScheduleEvent' }
-        & Pick<IOasisAmendCommissionScheduleEvent, 'type' | 'rates' | 'bounds'>
+        { __typename?: "OasisAmendCommissionScheduleEvent" }
+        & Pick<IOasisAmendCommissionScheduleEvent, "type" | "rates" | "bounds">
       ) | (
-        { __typename?: 'OasisUnknownEvent' }
-        & Pick<IOasisUnknownEvent, 'type' | 'method_name'>
+        { __typename?: "OasisUnknownEvent" }
+        & Pick<IOasisUnknownEvent, "type" | "method_name">
       ) }
     )> }
   ) }
 );
-
 
 export const CeloAccountBalancesDocument = gql`
     query celoAccountBalances($address: String!) {
@@ -1973,12 +1905,12 @@ export const CeloAccountBalancesDocument = gql`
   }
 }
     `;
-export type CeloAccountBalancesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloAccountBalancesQuery, ICeloAccountBalancesQueryVariables>, 'query'> & ({ variables: ICeloAccountBalancesQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CeloAccountBalancesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloAccountBalancesQuery, ICeloAccountBalancesQueryVariables>, "query"> & ({ variables: ICeloAccountBalancesQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CeloAccountBalancesComponent = (props: CeloAccountBalancesComponentProps) => (
+export const CeloAccountBalancesComponent = (props: CeloAccountBalancesComponentProps) => (
       <ApolloReactComponents.Query<ICeloAccountBalancesQuery, ICeloAccountBalancesQueryVariables> query={CeloAccountBalancesDocument} {...props} />
     );
-    
+
 export type ICeloAccountBalancesProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICeloAccountBalancesQuery, ICeloAccountBalancesQueryVariables> & TChildProps;
 export function withCeloAccountBalances<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -1986,16 +1918,16 @@ export function withCeloAccountBalances<TProps, TChildProps = {}>(operationOptio
   ICeloAccountBalancesQueryVariables,
   ICeloAccountBalancesProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICeloAccountBalancesQuery, ICeloAccountBalancesQueryVariables, ICeloAccountBalancesProps<TChildProps>>(CeloAccountBalancesDocument, {
-      alias: 'celoAccountBalances',
-      ...operationOptions
+      alias: "celoAccountBalances",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCeloAccountBalancesQuery__
  *
  * To run a query within a React component, call `useCeloAccountBalancesQuery` and pass it any options that fit your needs.
- * When your component renders, `useCeloAccountBalancesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCeloAccountBalancesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -2039,12 +1971,12 @@ export const CeloAccountHistoryDocument = gql`
   }
 }
     `;
-export type CeloAccountHistoryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloAccountHistoryQuery, ICeloAccountHistoryQueryVariables>, 'query'> & ({ variables: ICeloAccountHistoryQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CeloAccountHistoryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloAccountHistoryQuery, ICeloAccountHistoryQueryVariables>, "query"> & ({ variables: ICeloAccountHistoryQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CeloAccountHistoryComponent = (props: CeloAccountHistoryComponentProps) => (
+export const CeloAccountHistoryComponent = (props: CeloAccountHistoryComponentProps) => (
       <ApolloReactComponents.Query<ICeloAccountHistoryQuery, ICeloAccountHistoryQueryVariables> query={CeloAccountHistoryDocument} {...props} />
     );
-    
+
 export type ICeloAccountHistoryProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICeloAccountHistoryQuery, ICeloAccountHistoryQueryVariables> & TChildProps;
 export function withCeloAccountHistory<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -2052,16 +1984,16 @@ export function withCeloAccountHistory<TProps, TChildProps = {}>(operationOption
   ICeloAccountHistoryQueryVariables,
   ICeloAccountHistoryProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICeloAccountHistoryQuery, ICeloAccountHistoryQueryVariables, ICeloAccountHistoryProps<TChildProps>>(CeloAccountHistoryDocument, {
-      alias: 'celoAccountHistory',
-      ...operationOptions
+      alias: "celoAccountHistory",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCeloAccountHistoryQuery__
  *
  * To run a query within a React component, call `useCeloAccountHistoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useCeloAccountHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCeloAccountHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -2177,12 +2109,12 @@ export const CeloGovernanceProposalsDocument = gql`
   }
 }
     `;
-export type CeloGovernanceProposalsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloGovernanceProposalsQuery, ICeloGovernanceProposalsQueryVariables>, 'query'>;
+export type CeloGovernanceProposalsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloGovernanceProposalsQuery, ICeloGovernanceProposalsQueryVariables>, "query">;
 
-    export const CeloGovernanceProposalsComponent = (props: CeloGovernanceProposalsComponentProps) => (
+export const CeloGovernanceProposalsComponent = (props: CeloGovernanceProposalsComponentProps) => (
       <ApolloReactComponents.Query<ICeloGovernanceProposalsQuery, ICeloGovernanceProposalsQueryVariables> query={CeloGovernanceProposalsDocument} {...props} />
     );
-    
+
 export type ICeloGovernanceProposalsProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICeloGovernanceProposalsQuery, ICeloGovernanceProposalsQueryVariables> & TChildProps;
 export function withCeloGovernanceProposals<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -2190,16 +2122,16 @@ export function withCeloGovernanceProposals<TProps, TChildProps = {}>(operationO
   ICeloGovernanceProposalsQueryVariables,
   ICeloGovernanceProposalsProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICeloGovernanceProposalsQuery, ICeloGovernanceProposalsQueryVariables, ICeloGovernanceProposalsProps<TChildProps>>(CeloGovernanceProposalsDocument, {
-      alias: 'celoGovernanceProposals',
-      ...operationOptions
+      alias: "celoGovernanceProposals",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCeloGovernanceProposalsQuery__
  *
  * To run a query within a React component, call `useCeloGovernanceProposalsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCeloGovernanceProposalsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCeloGovernanceProposalsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -2246,12 +2178,12 @@ export const CeloGovernanceTransactionsDocument = gql`
   }
 }
     `;
-export type CeloGovernanceTransactionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloGovernanceTransactionsQuery, ICeloGovernanceTransactionsQueryVariables>, 'query'> & ({ variables: ICeloGovernanceTransactionsQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CeloGovernanceTransactionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloGovernanceTransactionsQuery, ICeloGovernanceTransactionsQueryVariables>, "query"> & ({ variables: ICeloGovernanceTransactionsQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CeloGovernanceTransactionsComponent = (props: CeloGovernanceTransactionsComponentProps) => (
+export const CeloGovernanceTransactionsComponent = (props: CeloGovernanceTransactionsComponentProps) => (
       <ApolloReactComponents.Query<ICeloGovernanceTransactionsQuery, ICeloGovernanceTransactionsQueryVariables> query={CeloGovernanceTransactionsDocument} {...props} />
     );
-    
+
 export type ICeloGovernanceTransactionsProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICeloGovernanceTransactionsQuery, ICeloGovernanceTransactionsQueryVariables> & TChildProps;
 export function withCeloGovernanceTransactions<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -2259,16 +2191,16 @@ export function withCeloGovernanceTransactions<TProps, TChildProps = {}>(operati
   ICeloGovernanceTransactionsQueryVariables,
   ICeloGovernanceTransactionsProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICeloGovernanceTransactionsQuery, ICeloGovernanceTransactionsQueryVariables, ICeloGovernanceTransactionsProps<TChildProps>>(CeloGovernanceTransactionsDocument, {
-      alias: 'celoGovernanceTransactions',
-      ...operationOptions
+      alias: "celoGovernanceTransactions",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCeloGovernanceTransactionsQuery__
  *
  * To run a query within a React component, call `useCeloGovernanceTransactionsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCeloGovernanceTransactionsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCeloGovernanceTransactionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -2300,12 +2232,12 @@ export const CeloSystemBalancesDocument = gql`
   }
 }
     `;
-export type CeloSystemBalancesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloSystemBalancesQuery, ICeloSystemBalancesQueryVariables>, 'query'>;
+export type CeloSystemBalancesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloSystemBalancesQuery, ICeloSystemBalancesQueryVariables>, "query">;
 
-    export const CeloSystemBalancesComponent = (props: CeloSystemBalancesComponentProps) => (
+export const CeloSystemBalancesComponent = (props: CeloSystemBalancesComponentProps) => (
       <ApolloReactComponents.Query<ICeloSystemBalancesQuery, ICeloSystemBalancesQueryVariables> query={CeloSystemBalancesDocument} {...props} />
     );
-    
+
 export type ICeloSystemBalancesProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICeloSystemBalancesQuery, ICeloSystemBalancesQueryVariables> & TChildProps;
 export function withCeloSystemBalances<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -2313,16 +2245,16 @@ export function withCeloSystemBalances<TProps, TChildProps = {}>(operationOption
   ICeloSystemBalancesQueryVariables,
   ICeloSystemBalancesProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICeloSystemBalancesQuery, ICeloSystemBalancesQueryVariables, ICeloSystemBalancesProps<TChildProps>>(CeloSystemBalancesDocument, {
-      alias: 'celoSystemBalances',
-      ...operationOptions
+      alias: "celoSystemBalances",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCeloSystemBalancesQuery__
  *
  * To run a query within a React component, call `useCeloSystemBalancesQuery` and pass it any options that fit your needs.
- * When your component renders, `useCeloSystemBalancesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCeloSystemBalancesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -2354,12 +2286,12 @@ export const CeloSystemHistoryDocument = gql`
   }
 }
     `;
-export type CeloSystemHistoryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloSystemHistoryQuery, ICeloSystemHistoryQueryVariables>, 'query'>;
+export type CeloSystemHistoryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloSystemHistoryQuery, ICeloSystemHistoryQueryVariables>, "query">;
 
-    export const CeloSystemHistoryComponent = (props: CeloSystemHistoryComponentProps) => (
+export const CeloSystemHistoryComponent = (props: CeloSystemHistoryComponentProps) => (
       <ApolloReactComponents.Query<ICeloSystemHistoryQuery, ICeloSystemHistoryQueryVariables> query={CeloSystemHistoryDocument} {...props} />
     );
-    
+
 export type ICeloSystemHistoryProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICeloSystemHistoryQuery, ICeloSystemHistoryQueryVariables> & TChildProps;
 export function withCeloSystemHistory<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -2367,16 +2299,16 @@ export function withCeloSystemHistory<TProps, TChildProps = {}>(operationOptions
   ICeloSystemHistoryQueryVariables,
   ICeloSystemHistoryProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICeloSystemHistoryQuery, ICeloSystemHistoryQueryVariables, ICeloSystemHistoryProps<TChildProps>>(CeloSystemHistoryDocument, {
-      alias: 'celoSystemHistory',
-      ...operationOptions
+      alias: "celoSystemHistory",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCeloSystemHistoryQuery__
  *
  * To run a query within a React component, call `useCeloSystemHistoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useCeloSystemHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCeloSystemHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -2423,12 +2355,12 @@ export const CeloTransactionDocument = gql`
   }
 }
     `;
-export type CeloTransactionComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloTransactionQuery, ICeloTransactionQueryVariables>, 'query'> & ({ variables: ICeloTransactionQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CeloTransactionComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloTransactionQuery, ICeloTransactionQueryVariables>, "query"> & ({ variables: ICeloTransactionQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CeloTransactionComponent = (props: CeloTransactionComponentProps) => (
+export const CeloTransactionComponent = (props: CeloTransactionComponentProps) => (
       <ApolloReactComponents.Query<ICeloTransactionQuery, ICeloTransactionQueryVariables> query={CeloTransactionDocument} {...props} />
     );
-    
+
 export type ICeloTransactionProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICeloTransactionQuery, ICeloTransactionQueryVariables> & TChildProps;
 export function withCeloTransaction<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -2436,16 +2368,16 @@ export function withCeloTransaction<TProps, TChildProps = {}>(operationOptions?:
   ICeloTransactionQueryVariables,
   ICeloTransactionProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICeloTransactionQuery, ICeloTransactionQueryVariables, ICeloTransactionProps<TChildProps>>(CeloTransactionDocument, {
-      alias: 'celoTransaction',
-      ...operationOptions
+      alias: "celoTransaction",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCeloTransactionQuery__
  *
  * To run a query within a React component, call `useCeloTransactionQuery` and pass it any options that fit your needs.
- * When your component renders, `useCeloTransactionQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCeloTransactionQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -2498,12 +2430,12 @@ export const CeloTransactionsDocument = gql`
   }
 }
     `;
-export type CeloTransactionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloTransactionsQuery, ICeloTransactionsQueryVariables>, 'query'> & ({ variables: ICeloTransactionsQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CeloTransactionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloTransactionsQuery, ICeloTransactionsQueryVariables>, "query"> & ({ variables: ICeloTransactionsQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CeloTransactionsComponent = (props: CeloTransactionsComponentProps) => (
+export const CeloTransactionsComponent = (props: CeloTransactionsComponentProps) => (
       <ApolloReactComponents.Query<ICeloTransactionsQuery, ICeloTransactionsQueryVariables> query={CeloTransactionsDocument} {...props} />
     );
-    
+
 export type ICeloTransactionsProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICeloTransactionsQuery, ICeloTransactionsQueryVariables> & TChildProps;
 export function withCeloTransactions<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -2511,16 +2443,16 @@ export function withCeloTransactions<TProps, TChildProps = {}>(operationOptions?
   ICeloTransactionsQueryVariables,
   ICeloTransactionsProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICeloTransactionsQuery, ICeloTransactionsQueryVariables, ICeloTransactionsProps<TChildProps>>(CeloTransactionsDocument, {
-      alias: 'celoTransactions',
-      ...operationOptions
+      alias: "celoTransactions",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCeloTransactionsQuery__
  *
  * To run a query within a React component, call `useCeloTransactionsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCeloTransactionsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCeloTransactionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -2564,12 +2496,12 @@ export const CeloValidatorGroupsDocument = gql`
   }
 }
     `;
-export type CeloValidatorGroupsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloValidatorGroupsQuery, ICeloValidatorGroupsQueryVariables>, 'query'>;
+export type CeloValidatorGroupsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICeloValidatorGroupsQuery, ICeloValidatorGroupsQueryVariables>, "query">;
 
-    export const CeloValidatorGroupsComponent = (props: CeloValidatorGroupsComponentProps) => (
+export const CeloValidatorGroupsComponent = (props: CeloValidatorGroupsComponentProps) => (
       <ApolloReactComponents.Query<ICeloValidatorGroupsQuery, ICeloValidatorGroupsQueryVariables> query={CeloValidatorGroupsDocument} {...props} />
     );
-    
+
 export type ICeloValidatorGroupsProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICeloValidatorGroupsQuery, ICeloValidatorGroupsQueryVariables> & TChildProps;
 export function withCeloValidatorGroups<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -2577,16 +2509,16 @@ export function withCeloValidatorGroups<TProps, TChildProps = {}>(operationOptio
   ICeloValidatorGroupsQueryVariables,
   ICeloValidatorGroupsProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICeloValidatorGroupsQuery, ICeloValidatorGroupsQueryVariables, ICeloValidatorGroupsProps<TChildProps>>(CeloValidatorGroupsDocument, {
-      alias: 'celoValidatorGroups',
-      ...operationOptions
+      alias: "celoValidatorGroups",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCeloValidatorGroupsQuery__
  *
  * To run a query within a React component, call `useCeloValidatorGroupsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCeloValidatorGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCeloValidatorGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -2639,12 +2571,12 @@ export const CosmosAccountBalancesDocument = gql`
   }
 }
     `;
-export type CosmosAccountBalancesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosAccountBalancesQuery, ICosmosAccountBalancesQueryVariables>, 'query'> & ({ variables: ICosmosAccountBalancesQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosAccountBalancesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosAccountBalancesQuery, ICosmosAccountBalancesQueryVariables>, "query"> & ({ variables: ICosmosAccountBalancesQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosAccountBalancesComponent = (props: CosmosAccountBalancesComponentProps) => (
+export const CosmosAccountBalancesComponent = (props: CosmosAccountBalancesComponentProps) => (
       <ApolloReactComponents.Query<ICosmosAccountBalancesQuery, ICosmosAccountBalancesQueryVariables> query={CosmosAccountBalancesDocument} {...props} />
     );
-    
+
 export type ICosmosAccountBalancesProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosAccountBalancesQuery, ICosmosAccountBalancesQueryVariables> & TChildProps;
 export function withCosmosAccountBalances<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -2652,16 +2584,16 @@ export function withCosmosAccountBalances<TProps, TChildProps = {}>(operationOpt
   ICosmosAccountBalancesQueryVariables,
   ICosmosAccountBalancesProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosAccountBalancesQuery, ICosmosAccountBalancesQueryVariables, ICosmosAccountBalancesProps<TChildProps>>(CosmosAccountBalancesDocument, {
-      alias: 'cosmosAccountBalances',
-      ...operationOptions
+      alias: "cosmosAccountBalances",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosAccountBalancesQuery__
  *
  * To run a query within a React component, call `useCosmosAccountBalancesQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosAccountBalancesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosAccountBalancesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -2724,12 +2656,12 @@ export const CosmosAccountHistoryDocument = gql`
   }
 }
     `;
-export type CosmosAccountHistoryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosAccountHistoryQuery, ICosmosAccountHistoryQueryVariables>, 'query'> & ({ variables: ICosmosAccountHistoryQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosAccountHistoryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosAccountHistoryQuery, ICosmosAccountHistoryQueryVariables>, "query"> & ({ variables: ICosmosAccountHistoryQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosAccountHistoryComponent = (props: CosmosAccountHistoryComponentProps) => (
+export const CosmosAccountHistoryComponent = (props: CosmosAccountHistoryComponentProps) => (
       <ApolloReactComponents.Query<ICosmosAccountHistoryQuery, ICosmosAccountHistoryQueryVariables> query={CosmosAccountHistoryDocument} {...props} />
     );
-    
+
 export type ICosmosAccountHistoryProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosAccountHistoryQuery, ICosmosAccountHistoryQueryVariables> & TChildProps;
 export function withCosmosAccountHistory<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -2737,16 +2669,16 @@ export function withCosmosAccountHistory<TProps, TChildProps = {}>(operationOpti
   ICosmosAccountHistoryQueryVariables,
   ICosmosAccountHistoryProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosAccountHistoryQuery, ICosmosAccountHistoryQueryVariables, ICosmosAccountHistoryProps<TChildProps>>(CosmosAccountHistoryDocument, {
-      alias: 'cosmosAccountHistory',
-      ...operationOptions
+      alias: "cosmosAccountHistory",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosAccountHistoryQuery__
  *
  * To run a query within a React component, call `useCosmosAccountHistoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosAccountHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosAccountHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -2787,12 +2719,12 @@ export const CosmosAccountInformationDocument = gql`
   }
 }
     `;
-export type CosmosAccountInformationComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosAccountInformationQuery, ICosmosAccountInformationQueryVariables>, 'query'> & ({ variables: ICosmosAccountInformationQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosAccountInformationComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosAccountInformationQuery, ICosmosAccountInformationQueryVariables>, "query"> & ({ variables: ICosmosAccountInformationQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosAccountInformationComponent = (props: CosmosAccountInformationComponentProps) => (
+export const CosmosAccountInformationComponent = (props: CosmosAccountInformationComponentProps) => (
       <ApolloReactComponents.Query<ICosmosAccountInformationQuery, ICosmosAccountInformationQueryVariables> query={CosmosAccountInformationDocument} {...props} />
     );
-    
+
 export type ICosmosAccountInformationProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosAccountInformationQuery, ICosmosAccountInformationQueryVariables> & TChildProps;
 export function withCosmosAccountInformation<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -2800,16 +2732,16 @@ export function withCosmosAccountInformation<TProps, TChildProps = {}>(operation
   ICosmosAccountInformationQueryVariables,
   ICosmosAccountInformationProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosAccountInformationQuery, ICosmosAccountInformationQueryVariables, ICosmosAccountInformationProps<TChildProps>>(CosmosAccountInformationDocument, {
-      alias: 'cosmosAccountInformation',
-      ...operationOptions
+      alias: "cosmosAccountInformation",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosAccountInformationQuery__
  *
  * To run a query within a React component, call `useCosmosAccountInformationQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosAccountInformationQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosAccountInformationQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -2838,12 +2770,12 @@ export const CosmosDistributionCommunityPoolDocument = gql`
   }
 }
     `;
-export type CosmosDistributionCommunityPoolComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosDistributionCommunityPoolQuery, ICosmosDistributionCommunityPoolQueryVariables>, 'query'> & ({ variables: ICosmosDistributionCommunityPoolQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosDistributionCommunityPoolComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosDistributionCommunityPoolQuery, ICosmosDistributionCommunityPoolQueryVariables>, "query"> & ({ variables: ICosmosDistributionCommunityPoolQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosDistributionCommunityPoolComponent = (props: CosmosDistributionCommunityPoolComponentProps) => (
+export const CosmosDistributionCommunityPoolComponent = (props: CosmosDistributionCommunityPoolComponentProps) => (
       <ApolloReactComponents.Query<ICosmosDistributionCommunityPoolQuery, ICosmosDistributionCommunityPoolQueryVariables> query={CosmosDistributionCommunityPoolDocument} {...props} />
     );
-    
+
 export type ICosmosDistributionCommunityPoolProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosDistributionCommunityPoolQuery, ICosmosDistributionCommunityPoolQueryVariables> & TChildProps;
 export function withCosmosDistributionCommunityPool<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -2851,16 +2783,16 @@ export function withCosmosDistributionCommunityPool<TProps, TChildProps = {}>(op
   ICosmosDistributionCommunityPoolQueryVariables,
   ICosmosDistributionCommunityPoolProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosDistributionCommunityPoolQuery, ICosmosDistributionCommunityPoolQueryVariables, ICosmosDistributionCommunityPoolProps<TChildProps>>(CosmosDistributionCommunityPoolDocument, {
-      alias: 'cosmosDistributionCommunityPool',
-      ...operationOptions
+      alias: "cosmosDistributionCommunityPool",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosDistributionCommunityPoolQuery__
  *
  * To run a query within a React component, call `useCosmosDistributionCommunityPoolQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosDistributionCommunityPoolQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosDistributionCommunityPoolQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -2890,12 +2822,12 @@ export const CosmosDistributionParametersDocument = gql`
   }
 }
     `;
-export type CosmosDistributionParametersComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosDistributionParametersQuery, ICosmosDistributionParametersQueryVariables>, 'query'> & ({ variables: ICosmosDistributionParametersQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosDistributionParametersComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosDistributionParametersQuery, ICosmosDistributionParametersQueryVariables>, "query"> & ({ variables: ICosmosDistributionParametersQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosDistributionParametersComponent = (props: CosmosDistributionParametersComponentProps) => (
+export const CosmosDistributionParametersComponent = (props: CosmosDistributionParametersComponentProps) => (
       <ApolloReactComponents.Query<ICosmosDistributionParametersQuery, ICosmosDistributionParametersQueryVariables> query={CosmosDistributionParametersDocument} {...props} />
     );
-    
+
 export type ICosmosDistributionParametersProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosDistributionParametersQuery, ICosmosDistributionParametersQueryVariables> & TChildProps;
 export function withCosmosDistributionParameters<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -2903,16 +2835,16 @@ export function withCosmosDistributionParameters<TProps, TChildProps = {}>(opera
   ICosmosDistributionParametersQueryVariables,
   ICosmosDistributionParametersProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosDistributionParametersQuery, ICosmosDistributionParametersQueryVariables, ICosmosDistributionParametersProps<TChildProps>>(CosmosDistributionParametersDocument, {
-      alias: 'cosmosDistributionParameters',
-      ...operationOptions
+      alias: "cosmosDistributionParameters",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosDistributionParametersQuery__
  *
  * To run a query within a React component, call `useCosmosDistributionParametersQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosDistributionParametersQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosDistributionParametersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -2944,12 +2876,12 @@ export const CosmosGovernanceParametersDepositDocument = gql`
   }
 }
     `;
-export type CosmosGovernanceParametersDepositComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosGovernanceParametersDepositQuery, ICosmosGovernanceParametersDepositQueryVariables>, 'query'> & ({ variables: ICosmosGovernanceParametersDepositQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosGovernanceParametersDepositComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosGovernanceParametersDepositQuery, ICosmosGovernanceParametersDepositQueryVariables>, "query"> & ({ variables: ICosmosGovernanceParametersDepositQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosGovernanceParametersDepositComponent = (props: CosmosGovernanceParametersDepositComponentProps) => (
+export const CosmosGovernanceParametersDepositComponent = (props: CosmosGovernanceParametersDepositComponentProps) => (
       <ApolloReactComponents.Query<ICosmosGovernanceParametersDepositQuery, ICosmosGovernanceParametersDepositQueryVariables> query={CosmosGovernanceParametersDepositDocument} {...props} />
     );
-    
+
 export type ICosmosGovernanceParametersDepositProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosGovernanceParametersDepositQuery, ICosmosGovernanceParametersDepositQueryVariables> & TChildProps;
 export function withCosmosGovernanceParametersDeposit<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -2957,16 +2889,16 @@ export function withCosmosGovernanceParametersDeposit<TProps, TChildProps = {}>(
   ICosmosGovernanceParametersDepositQueryVariables,
   ICosmosGovernanceParametersDepositProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosGovernanceParametersDepositQuery, ICosmosGovernanceParametersDepositQueryVariables, ICosmosGovernanceParametersDepositProps<TChildProps>>(CosmosGovernanceParametersDepositDocument, {
-      alias: 'cosmosGovernanceParametersDeposit',
-      ...operationOptions
+      alias: "cosmosGovernanceParametersDeposit",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosGovernanceParametersDepositQuery__
  *
  * To run a query within a React component, call `useCosmosGovernanceParametersDepositQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosGovernanceParametersDepositQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosGovernanceParametersDepositQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -2996,12 +2928,12 @@ export const CosmosGovernanceParametersTallyingDocument = gql`
   }
 }
     `;
-export type CosmosGovernanceParametersTallyingComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosGovernanceParametersTallyingQuery, ICosmosGovernanceParametersTallyingQueryVariables>, 'query'> & ({ variables: ICosmosGovernanceParametersTallyingQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosGovernanceParametersTallyingComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosGovernanceParametersTallyingQuery, ICosmosGovernanceParametersTallyingQueryVariables>, "query"> & ({ variables: ICosmosGovernanceParametersTallyingQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosGovernanceParametersTallyingComponent = (props: CosmosGovernanceParametersTallyingComponentProps) => (
+export const CosmosGovernanceParametersTallyingComponent = (props: CosmosGovernanceParametersTallyingComponentProps) => (
       <ApolloReactComponents.Query<ICosmosGovernanceParametersTallyingQuery, ICosmosGovernanceParametersTallyingQueryVariables> query={CosmosGovernanceParametersTallyingDocument} {...props} />
     );
-    
+
 export type ICosmosGovernanceParametersTallyingProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosGovernanceParametersTallyingQuery, ICosmosGovernanceParametersTallyingQueryVariables> & TChildProps;
 export function withCosmosGovernanceParametersTallying<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -3009,16 +2941,16 @@ export function withCosmosGovernanceParametersTallying<TProps, TChildProps = {}>
   ICosmosGovernanceParametersTallyingQueryVariables,
   ICosmosGovernanceParametersTallyingProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosGovernanceParametersTallyingQuery, ICosmosGovernanceParametersTallyingQueryVariables, ICosmosGovernanceParametersTallyingProps<TChildProps>>(CosmosGovernanceParametersTallyingDocument, {
-      alias: 'cosmosGovernanceParametersTallying',
-      ...operationOptions
+      alias: "cosmosGovernanceParametersTallying",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosGovernanceParametersTallyingQuery__
  *
  * To run a query within a React component, call `useCosmosGovernanceParametersTallyingQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosGovernanceParametersTallyingQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosGovernanceParametersTallyingQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -3046,12 +2978,12 @@ export const CosmosGovernanceParametersVotingDocument = gql`
   }
 }
     `;
-export type CosmosGovernanceParametersVotingComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosGovernanceParametersVotingQuery, ICosmosGovernanceParametersVotingQueryVariables>, 'query'> & ({ variables: ICosmosGovernanceParametersVotingQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosGovernanceParametersVotingComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosGovernanceParametersVotingQuery, ICosmosGovernanceParametersVotingQueryVariables>, "query"> & ({ variables: ICosmosGovernanceParametersVotingQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosGovernanceParametersVotingComponent = (props: CosmosGovernanceParametersVotingComponentProps) => (
+export const CosmosGovernanceParametersVotingComponent = (props: CosmosGovernanceParametersVotingComponentProps) => (
       <ApolloReactComponents.Query<ICosmosGovernanceParametersVotingQuery, ICosmosGovernanceParametersVotingQueryVariables> query={CosmosGovernanceParametersVotingDocument} {...props} />
     );
-    
+
 export type ICosmosGovernanceParametersVotingProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosGovernanceParametersVotingQuery, ICosmosGovernanceParametersVotingQueryVariables> & TChildProps;
 export function withCosmosGovernanceParametersVoting<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -3059,16 +2991,16 @@ export function withCosmosGovernanceParametersVoting<TProps, TChildProps = {}>(o
   ICosmosGovernanceParametersVotingQueryVariables,
   ICosmosGovernanceParametersVotingProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosGovernanceParametersVotingQuery, ICosmosGovernanceParametersVotingQueryVariables, ICosmosGovernanceParametersVotingProps<TChildProps>>(CosmosGovernanceParametersVotingDocument, {
-      alias: 'cosmosGovernanceParametersVoting',
-      ...operationOptions
+      alias: "cosmosGovernanceParametersVoting",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosGovernanceParametersVotingQuery__
  *
  * To run a query within a React component, call `useCosmosGovernanceParametersVotingQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosGovernanceParametersVotingQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosGovernanceParametersVotingQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -3112,12 +3044,12 @@ export const CosmosGovernanceProposalsDocument = gql`
   }
 }
     `;
-export type CosmosGovernanceProposalsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosGovernanceProposalsQuery, ICosmosGovernanceProposalsQueryVariables>, 'query'> & ({ variables: ICosmosGovernanceProposalsQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosGovernanceProposalsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosGovernanceProposalsQuery, ICosmosGovernanceProposalsQueryVariables>, "query"> & ({ variables: ICosmosGovernanceProposalsQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosGovernanceProposalsComponent = (props: CosmosGovernanceProposalsComponentProps) => (
+export const CosmosGovernanceProposalsComponent = (props: CosmosGovernanceProposalsComponentProps) => (
       <ApolloReactComponents.Query<ICosmosGovernanceProposalsQuery, ICosmosGovernanceProposalsQueryVariables> query={CosmosGovernanceProposalsDocument} {...props} />
     );
-    
+
 export type ICosmosGovernanceProposalsProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosGovernanceProposalsQuery, ICosmosGovernanceProposalsQueryVariables> & TChildProps;
 export function withCosmosGovernanceProposals<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -3125,16 +3057,16 @@ export function withCosmosGovernanceProposals<TProps, TChildProps = {}>(operatio
   ICosmosGovernanceProposalsQueryVariables,
   ICosmosGovernanceProposalsProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosGovernanceProposalsQuery, ICosmosGovernanceProposalsQueryVariables, ICosmosGovernanceProposalsProps<TChildProps>>(CosmosGovernanceProposalsDocument, {
-      alias: 'cosmosGovernanceProposals',
-      ...operationOptions
+      alias: "cosmosGovernanceProposals",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosGovernanceProposalsQuery__
  *
  * To run a query within a React component, call `useCosmosGovernanceProposalsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosGovernanceProposalsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosGovernanceProposalsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -3179,12 +3111,12 @@ export const CosmosLatestBlockDocument = gql`
   }
 }
     `;
-export type CosmosLatestBlockComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosLatestBlockQuery, ICosmosLatestBlockQueryVariables>, 'query'> & ({ variables: ICosmosLatestBlockQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosLatestBlockComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosLatestBlockQuery, ICosmosLatestBlockQueryVariables>, "query"> & ({ variables: ICosmosLatestBlockQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosLatestBlockComponent = (props: CosmosLatestBlockComponentProps) => (
+export const CosmosLatestBlockComponent = (props: CosmosLatestBlockComponentProps) => (
       <ApolloReactComponents.Query<ICosmosLatestBlockQuery, ICosmosLatestBlockQueryVariables> query={CosmosLatestBlockDocument} {...props} />
     );
-    
+
 export type ICosmosLatestBlockProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosLatestBlockQuery, ICosmosLatestBlockQueryVariables> & TChildProps;
 export function withCosmosLatestBlock<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -3192,16 +3124,16 @@ export function withCosmosLatestBlock<TProps, TChildProps = {}>(operationOptions
   ICosmosLatestBlockQueryVariables,
   ICosmosLatestBlockProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosLatestBlockQuery, ICosmosLatestBlockQueryVariables, ICosmosLatestBlockProps<TChildProps>>(CosmosLatestBlockDocument, {
-      alias: 'cosmosLatestBlock',
-      ...operationOptions
+      alias: "cosmosLatestBlock",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosLatestBlockQuery__
  *
  * To run a query within a React component, call `useCosmosLatestBlockQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosLatestBlockQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosLatestBlockQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -3233,12 +3165,12 @@ export const CosmosRewardsByValidatorDocument = gql`
   }
 }
     `;
-export type CosmosRewardsByValidatorComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosRewardsByValidatorQuery, ICosmosRewardsByValidatorQueryVariables>, 'query'> & ({ variables: ICosmosRewardsByValidatorQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosRewardsByValidatorComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosRewardsByValidatorQuery, ICosmosRewardsByValidatorQueryVariables>, "query"> & ({ variables: ICosmosRewardsByValidatorQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosRewardsByValidatorComponent = (props: CosmosRewardsByValidatorComponentProps) => (
+export const CosmosRewardsByValidatorComponent = (props: CosmosRewardsByValidatorComponentProps) => (
       <ApolloReactComponents.Query<ICosmosRewardsByValidatorQuery, ICosmosRewardsByValidatorQueryVariables> query={CosmosRewardsByValidatorDocument} {...props} />
     );
-    
+
 export type ICosmosRewardsByValidatorProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosRewardsByValidatorQuery, ICosmosRewardsByValidatorQueryVariables> & TChildProps;
 export function withCosmosRewardsByValidator<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -3246,16 +3178,16 @@ export function withCosmosRewardsByValidator<TProps, TChildProps = {}>(operation
   ICosmosRewardsByValidatorQueryVariables,
   ICosmosRewardsByValidatorProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosRewardsByValidatorQuery, ICosmosRewardsByValidatorQueryVariables, ICosmosRewardsByValidatorProps<TChildProps>>(CosmosRewardsByValidatorDocument, {
-      alias: 'cosmosRewardsByValidator',
-      ...operationOptions
+      alias: "cosmosRewardsByValidator",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosRewardsByValidatorQuery__
  *
  * To run a query within a React component, call `useCosmosRewardsByValidatorQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosRewardsByValidatorQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosRewardsByValidatorQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -3289,12 +3221,12 @@ export const CosmosSlashingParametersDocument = gql`
   }
 }
     `;
-export type CosmosSlashingParametersComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosSlashingParametersQuery, ICosmosSlashingParametersQueryVariables>, 'query'> & ({ variables: ICosmosSlashingParametersQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosSlashingParametersComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosSlashingParametersQuery, ICosmosSlashingParametersQueryVariables>, "query"> & ({ variables: ICosmosSlashingParametersQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosSlashingParametersComponent = (props: CosmosSlashingParametersComponentProps) => (
+export const CosmosSlashingParametersComponent = (props: CosmosSlashingParametersComponentProps) => (
       <ApolloReactComponents.Query<ICosmosSlashingParametersQuery, ICosmosSlashingParametersQueryVariables> query={CosmosSlashingParametersDocument} {...props} />
     );
-    
+
 export type ICosmosSlashingParametersProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosSlashingParametersQuery, ICosmosSlashingParametersQueryVariables> & TChildProps;
 export function withCosmosSlashingParameters<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -3302,16 +3234,16 @@ export function withCosmosSlashingParameters<TProps, TChildProps = {}>(operation
   ICosmosSlashingParametersQueryVariables,
   ICosmosSlashingParametersProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosSlashingParametersQuery, ICosmosSlashingParametersQueryVariables, ICosmosSlashingParametersProps<TChildProps>>(CosmosSlashingParametersDocument, {
-      alias: 'cosmosSlashingParameters',
-      ...operationOptions
+      alias: "cosmosSlashingParameters",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosSlashingParametersQuery__
  *
  * To run a query within a React component, call `useCosmosSlashingParametersQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosSlashingParametersQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosSlashingParametersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -3346,12 +3278,12 @@ export const CosmosStakingParametersDocument = gql`
   }
 }
     `;
-export type CosmosStakingParametersComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosStakingParametersQuery, ICosmosStakingParametersQueryVariables>, 'query'> & ({ variables: ICosmosStakingParametersQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosStakingParametersComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosStakingParametersQuery, ICosmosStakingParametersQueryVariables>, "query"> & ({ variables: ICosmosStakingParametersQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosStakingParametersComponent = (props: CosmosStakingParametersComponentProps) => (
+export const CosmosStakingParametersComponent = (props: CosmosStakingParametersComponentProps) => (
       <ApolloReactComponents.Query<ICosmosStakingParametersQuery, ICosmosStakingParametersQueryVariables> query={CosmosStakingParametersDocument} {...props} />
     );
-    
+
 export type ICosmosStakingParametersProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosStakingParametersQuery, ICosmosStakingParametersQueryVariables> & TChildProps;
 export function withCosmosStakingParameters<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -3359,16 +3291,16 @@ export function withCosmosStakingParameters<TProps, TChildProps = {}>(operationO
   ICosmosStakingParametersQueryVariables,
   ICosmosStakingParametersProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosStakingParametersQuery, ICosmosStakingParametersQueryVariables, ICosmosStakingParametersProps<TChildProps>>(CosmosStakingParametersDocument, {
-      alias: 'cosmosStakingParameters',
-      ...operationOptions
+      alias: "cosmosStakingParameters",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosStakingParametersQuery__
  *
  * To run a query within a React component, call `useCosmosStakingParametersQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosStakingParametersQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosStakingParametersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -3402,12 +3334,12 @@ export const CosmosStakingPoolDocument = gql`
   }
 }
     `;
-export type CosmosStakingPoolComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosStakingPoolQuery, ICosmosStakingPoolQueryVariables>, 'query'> & ({ variables: ICosmosStakingPoolQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosStakingPoolComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosStakingPoolQuery, ICosmosStakingPoolQueryVariables>, "query"> & ({ variables: ICosmosStakingPoolQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosStakingPoolComponent = (props: CosmosStakingPoolComponentProps) => (
+export const CosmosStakingPoolComponent = (props: CosmosStakingPoolComponentProps) => (
       <ApolloReactComponents.Query<ICosmosStakingPoolQuery, ICosmosStakingPoolQueryVariables> query={CosmosStakingPoolDocument} {...props} />
     );
-    
+
 export type ICosmosStakingPoolProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosStakingPoolQuery, ICosmosStakingPoolQueryVariables> & TChildProps;
 export function withCosmosStakingPool<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -3415,16 +3347,16 @@ export function withCosmosStakingPool<TProps, TChildProps = {}>(operationOptions
   ICosmosStakingPoolQueryVariables,
   ICosmosStakingPoolProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosStakingPoolQuery, ICosmosStakingPoolQueryVariables, ICosmosStakingPoolProps<TChildProps>>(CosmosStakingPoolDocument, {
-      alias: 'cosmosStakingPool',
-      ...operationOptions
+      alias: "cosmosStakingPool",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosStakingPoolQuery__
  *
  * To run a query within a React component, call `useCosmosStakingPoolQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosStakingPoolQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosStakingPoolQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -3545,12 +3477,12 @@ export const CosmosTransactionDocument = gql`
   }
 }
     `;
-export type CosmosTransactionComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosTransactionQuery, ICosmosTransactionQueryVariables>, 'query'> & ({ variables: ICosmosTransactionQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosTransactionComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosTransactionQuery, ICosmosTransactionQueryVariables>, "query"> & ({ variables: ICosmosTransactionQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosTransactionComponent = (props: CosmosTransactionComponentProps) => (
+export const CosmosTransactionComponent = (props: CosmosTransactionComponentProps) => (
       <ApolloReactComponents.Query<ICosmosTransactionQuery, ICosmosTransactionQueryVariables> query={CosmosTransactionDocument} {...props} />
     );
-    
+
 export type ICosmosTransactionProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosTransactionQuery, ICosmosTransactionQueryVariables> & TChildProps;
 export function withCosmosTransaction<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -3558,16 +3490,16 @@ export function withCosmosTransaction<TProps, TChildProps = {}>(operationOptions
   ICosmosTransactionQueryVariables,
   ICosmosTransactionProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosTransactionQuery, ICosmosTransactionQueryVariables, ICosmosTransactionProps<TChildProps>>(CosmosTransactionDocument, {
-      alias: 'cosmosTransaction',
-      ...operationOptions
+      alias: "cosmosTransaction",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosTransactionQuery__
  *
  * To run a query within a React component, call `useCosmosTransactionQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosTransactionQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosTransactionQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -3694,12 +3626,12 @@ export const CosmosTransactionsDocument = gql`
   }
 }
     `;
-export type CosmosTransactionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosTransactionsQuery, ICosmosTransactionsQueryVariables>, 'query'> & ({ variables: ICosmosTransactionsQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosTransactionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosTransactionsQuery, ICosmosTransactionsQueryVariables>, "query"> & ({ variables: ICosmosTransactionsQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosTransactionsComponent = (props: CosmosTransactionsComponentProps) => (
+export const CosmosTransactionsComponent = (props: CosmosTransactionsComponentProps) => (
       <ApolloReactComponents.Query<ICosmosTransactionsQuery, ICosmosTransactionsQueryVariables> query={CosmosTransactionsDocument} {...props} />
     );
-    
+
 export type ICosmosTransactionsProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosTransactionsQuery, ICosmosTransactionsQueryVariables> & TChildProps;
 export function withCosmosTransactions<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -3707,16 +3639,16 @@ export function withCosmosTransactions<TProps, TChildProps = {}>(operationOption
   ICosmosTransactionsQueryVariables,
   ICosmosTransactionsProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosTransactionsQuery, ICosmosTransactionsQueryVariables, ICosmosTransactionsProps<TChildProps>>(CosmosTransactionsDocument, {
-      alias: 'cosmosTransactions',
-      ...operationOptions
+      alias: "cosmosTransactions",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosTransactionsQuery__
  *
  * To run a query within a React component, call `useCosmosTransactionsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosTransactionsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosTransactionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -3754,12 +3686,12 @@ export const CosmosValidatorDistributionDocument = gql`
   }
 }
     `;
-export type CosmosValidatorDistributionComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosValidatorDistributionQuery, ICosmosValidatorDistributionQueryVariables>, 'query'> & ({ variables: ICosmosValidatorDistributionQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosValidatorDistributionComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosValidatorDistributionQuery, ICosmosValidatorDistributionQueryVariables>, "query"> & ({ variables: ICosmosValidatorDistributionQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosValidatorDistributionComponent = (props: CosmosValidatorDistributionComponentProps) => (
+export const CosmosValidatorDistributionComponent = (props: CosmosValidatorDistributionComponentProps) => (
       <ApolloReactComponents.Query<ICosmosValidatorDistributionQuery, ICosmosValidatorDistributionQueryVariables> query={CosmosValidatorDistributionDocument} {...props} />
     );
-    
+
 export type ICosmosValidatorDistributionProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosValidatorDistributionQuery, ICosmosValidatorDistributionQueryVariables> & TChildProps;
 export function withCosmosValidatorDistribution<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -3767,16 +3699,16 @@ export function withCosmosValidatorDistribution<TProps, TChildProps = {}>(operat
   ICosmosValidatorDistributionQueryVariables,
   ICosmosValidatorDistributionProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosValidatorDistributionQuery, ICosmosValidatorDistributionQueryVariables, ICosmosValidatorDistributionProps<TChildProps>>(CosmosValidatorDistributionDocument, {
-      alias: 'cosmosValidatorDistribution',
-      ...operationOptions
+      alias: "cosmosValidatorDistribution",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosValidatorDistributionQuery__
  *
  * To run a query within a React component, call `useCosmosValidatorDistributionQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosValidatorDistributionQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosValidatorDistributionQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -3810,12 +3742,12 @@ export const CosmosValidatorSetsDocument = gql`
   }
 }
     `;
-export type CosmosValidatorSetsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosValidatorSetsQuery, ICosmosValidatorSetsQueryVariables>, 'query'> & ({ variables: ICosmosValidatorSetsQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosValidatorSetsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosValidatorSetsQuery, ICosmosValidatorSetsQueryVariables>, "query"> & ({ variables: ICosmosValidatorSetsQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosValidatorSetsComponent = (props: CosmosValidatorSetsComponentProps) => (
+export const CosmosValidatorSetsComponent = (props: CosmosValidatorSetsComponentProps) => (
       <ApolloReactComponents.Query<ICosmosValidatorSetsQuery, ICosmosValidatorSetsQueryVariables> query={CosmosValidatorSetsDocument} {...props} />
     );
-    
+
 export type ICosmosValidatorSetsProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosValidatorSetsQuery, ICosmosValidatorSetsQueryVariables> & TChildProps;
 export function withCosmosValidatorSets<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -3823,16 +3755,16 @@ export function withCosmosValidatorSets<TProps, TChildProps = {}>(operationOptio
   ICosmosValidatorSetsQueryVariables,
   ICosmosValidatorSetsProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosValidatorSetsQuery, ICosmosValidatorSetsQueryVariables, ICosmosValidatorSetsProps<TChildProps>>(CosmosValidatorSetsDocument, {
-      alias: 'cosmosValidatorSets',
-      ...operationOptions
+      alias: "cosmosValidatorSets",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosValidatorSetsQuery__
  *
  * To run a query within a React component, call `useCosmosValidatorSetsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosValidatorSetsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosValidatorSetsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -3882,12 +3814,12 @@ export const CosmosValidatorsDocument = gql`
   }
 }
     `;
-export type CosmosValidatorsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosValidatorsQuery, ICosmosValidatorsQueryVariables>, 'query'> & ({ variables: ICosmosValidatorsQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type CosmosValidatorsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ICosmosValidatorsQuery, ICosmosValidatorsQueryVariables>, "query"> & ({ variables: ICosmosValidatorsQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const CosmosValidatorsComponent = (props: CosmosValidatorsComponentProps) => (
+export const CosmosValidatorsComponent = (props: CosmosValidatorsComponentProps) => (
       <ApolloReactComponents.Query<ICosmosValidatorsQuery, ICosmosValidatorsQueryVariables> query={CosmosValidatorsDocument} {...props} />
     );
-    
+
 export type ICosmosValidatorsProps<TChildProps = {}> = ApolloReactHoc.DataProps<ICosmosValidatorsQuery, ICosmosValidatorsQueryVariables> & TChildProps;
 export function withCosmosValidators<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -3895,16 +3827,16 @@ export function withCosmosValidators<TProps, TChildProps = {}>(operationOptions?
   ICosmosValidatorsQueryVariables,
   ICosmosValidatorsProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, ICosmosValidatorsQuery, ICosmosValidatorsQueryVariables, ICosmosValidatorsProps<TChildProps>>(CosmosValidatorsDocument, {
-      alias: 'cosmosValidators',
-      ...operationOptions
+      alias: "cosmosValidators",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useCosmosValidatorsQuery__
  *
  * To run a query within a React component, call `useCosmosValidatorsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCosmosValidatorsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useCosmosValidatorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -3934,12 +3866,12 @@ export const FiatCurrenciesDocument = gql`
   }
 }
     `;
-export type FiatCurrenciesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IFiatCurrenciesQuery, IFiatCurrenciesQueryVariables>, 'query'>;
+export type FiatCurrenciesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IFiatCurrenciesQuery, IFiatCurrenciesQueryVariables>, "query">;
 
-    export const FiatCurrenciesComponent = (props: FiatCurrenciesComponentProps) => (
+export const FiatCurrenciesComponent = (props: FiatCurrenciesComponentProps) => (
       <ApolloReactComponents.Query<IFiatCurrenciesQuery, IFiatCurrenciesQueryVariables> query={FiatCurrenciesDocument} {...props} />
     );
-    
+
 export type IFiatCurrenciesProps<TChildProps = {}> = ApolloReactHoc.DataProps<IFiatCurrenciesQuery, IFiatCurrenciesQueryVariables> & TChildProps;
 export function withFiatCurrencies<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -3947,16 +3879,16 @@ export function withFiatCurrencies<TProps, TChildProps = {}>(operationOptions?: 
   IFiatCurrenciesQueryVariables,
   IFiatCurrenciesProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, IFiatCurrenciesQuery, IFiatCurrenciesQueryVariables, IFiatCurrenciesProps<TChildProps>>(FiatCurrenciesDocument, {
-      alias: 'fiatCurrencies',
-      ...operationOptions
+      alias: "fiatCurrencies",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useFiatCurrenciesQuery__
  *
  * To run a query within a React component, call `useFiatCurrenciesQuery` and pass it any options that fit your needs.
- * When your component renders, `useFiatCurrenciesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useFiatCurrenciesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -3984,12 +3916,12 @@ export const FiatPriceDataDocument = gql`
   }
 }
     `;
-export type FiatPriceDataComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IFiatPriceDataQuery, IFiatPriceDataQueryVariables>, 'query'> & ({ variables: IFiatPriceDataQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type FiatPriceDataComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IFiatPriceDataQuery, IFiatPriceDataQueryVariables>, "query"> & ({ variables: IFiatPriceDataQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const FiatPriceDataComponent = (props: FiatPriceDataComponentProps) => (
+export const FiatPriceDataComponent = (props: FiatPriceDataComponentProps) => (
       <ApolloReactComponents.Query<IFiatPriceDataQuery, IFiatPriceDataQueryVariables> query={FiatPriceDataDocument} {...props} />
     );
-    
+
 export type IFiatPriceDataProps<TChildProps = {}> = ApolloReactHoc.DataProps<IFiatPriceDataQuery, IFiatPriceDataQueryVariables> & TChildProps;
 export function withFiatPriceData<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -3997,16 +3929,16 @@ export function withFiatPriceData<TProps, TChildProps = {}>(operationOptions?: A
   IFiatPriceDataQueryVariables,
   IFiatPriceDataProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, IFiatPriceDataQuery, IFiatPriceDataQueryVariables, IFiatPriceDataProps<TChildProps>>(FiatPriceDataDocument, {
-      alias: 'fiatPriceData',
-      ...operationOptions
+      alias: "fiatPriceData",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useFiatPriceDataQuery__
  *
  * To run a query within a React component, call `useFiatPriceDataQuery` and pass it any options that fit your needs.
- * When your component renders, `useFiatPriceDataQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useFiatPriceDataQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -4036,12 +3968,12 @@ export const FiatPriceHistoryDocument = gql`
   }
 }
     `;
-export type FiatPriceHistoryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IFiatPriceHistoryQuery, IFiatPriceHistoryQueryVariables>, 'query'> & ({ variables: IFiatPriceHistoryQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type FiatPriceHistoryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IFiatPriceHistoryQuery, IFiatPriceHistoryQueryVariables>, "query"> & ({ variables: IFiatPriceHistoryQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const FiatPriceHistoryComponent = (props: FiatPriceHistoryComponentProps) => (
+export const FiatPriceHistoryComponent = (props: FiatPriceHistoryComponentProps) => (
       <ApolloReactComponents.Query<IFiatPriceHistoryQuery, IFiatPriceHistoryQueryVariables> query={FiatPriceHistoryDocument} {...props} />
     );
-    
+
 export type IFiatPriceHistoryProps<TChildProps = {}> = ApolloReactHoc.DataProps<IFiatPriceHistoryQuery, IFiatPriceHistoryQueryVariables> & TChildProps;
 export function withFiatPriceHistory<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -4049,16 +3981,16 @@ export function withFiatPriceHistory<TProps, TChildProps = {}>(operationOptions?
   IFiatPriceHistoryQueryVariables,
   IFiatPriceHistoryProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, IFiatPriceHistoryQuery, IFiatPriceHistoryQueryVariables, IFiatPriceHistoryProps<TChildProps>>(FiatPriceHistoryDocument, {
-      alias: 'fiatPriceHistory',
-      ...operationOptions
+      alias: "fiatPriceHistory",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useFiatPriceHistoryQuery__
  *
  * To run a query within a React component, call `useFiatPriceHistoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useFiatPriceHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useFiatPriceHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -4093,12 +4025,12 @@ export const NetworkSummariesDocument = gql`
   }
 }
     `;
-export type NetworkSummariesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<INetworkSummariesQuery, INetworkSummariesQueryVariables>, 'query'> & ({ variables: INetworkSummariesQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type NetworkSummariesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<INetworkSummariesQuery, INetworkSummariesQueryVariables>, "query"> & ({ variables: INetworkSummariesQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const NetworkSummariesComponent = (props: NetworkSummariesComponentProps) => (
+export const NetworkSummariesComponent = (props: NetworkSummariesComponentProps) => (
       <ApolloReactComponents.Query<INetworkSummariesQuery, INetworkSummariesQueryVariables> query={NetworkSummariesDocument} {...props} />
     );
-    
+
 export type INetworkSummariesProps<TChildProps = {}> = ApolloReactHoc.DataProps<INetworkSummariesQuery, INetworkSummariesQueryVariables> & TChildProps;
 export function withNetworkSummaries<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -4106,16 +4038,16 @@ export function withNetworkSummaries<TProps, TChildProps = {}>(operationOptions?
   INetworkSummariesQueryVariables,
   INetworkSummariesProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, INetworkSummariesQuery, INetworkSummariesQueryVariables, INetworkSummariesProps<TChildProps>>(NetworkSummariesDocument, {
-      alias: 'networkSummaries',
-      ...operationOptions
+      alias: "networkSummaries",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useNetworkSummariesQuery__
  *
  * To run a query within a React component, call `useNetworkSummariesQuery` and pass it any options that fit your needs.
- * When your component renders, `useNetworkSummariesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useNetworkSummariesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -4162,12 +4094,12 @@ export const OasisAccountBalancesDocument = gql`
   }
 }
     `;
-export type OasisAccountBalancesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IOasisAccountBalancesQuery, IOasisAccountBalancesQueryVariables>, 'query'> & ({ variables: IOasisAccountBalancesQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type OasisAccountBalancesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IOasisAccountBalancesQuery, IOasisAccountBalancesQueryVariables>, "query"> & ({ variables: IOasisAccountBalancesQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const OasisAccountBalancesComponent = (props: OasisAccountBalancesComponentProps) => (
+export const OasisAccountBalancesComponent = (props: OasisAccountBalancesComponentProps) => (
       <ApolloReactComponents.Query<IOasisAccountBalancesQuery, IOasisAccountBalancesQueryVariables> query={OasisAccountBalancesDocument} {...props} />
     );
-    
+
 export type IOasisAccountBalancesProps<TChildProps = {}> = ApolloReactHoc.DataProps<IOasisAccountBalancesQuery, IOasisAccountBalancesQueryVariables> & TChildProps;
 export function withOasisAccountBalances<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -4175,16 +4107,16 @@ export function withOasisAccountBalances<TProps, TChildProps = {}>(operationOpti
   IOasisAccountBalancesQueryVariables,
   IOasisAccountBalancesProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, IOasisAccountBalancesQuery, IOasisAccountBalancesQueryVariables, IOasisAccountBalancesProps<TChildProps>>(OasisAccountBalancesDocument, {
-      alias: 'oasisAccountBalances',
-      ...operationOptions
+      alias: "oasisAccountBalances",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useOasisAccountBalancesQuery__
  *
  * To run a query within a React component, call `useOasisAccountBalancesQuery` and pass it any options that fit your needs.
- * When your component renders, `useOasisAccountBalancesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useOasisAccountBalancesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -4233,12 +4165,12 @@ export const OasisAccountHistoryDocument = gql`
   }
 }
     `;
-export type OasisAccountHistoryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IOasisAccountHistoryQuery, IOasisAccountHistoryQueryVariables>, 'query'> & ({ variables: IOasisAccountHistoryQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type OasisAccountHistoryComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IOasisAccountHistoryQuery, IOasisAccountHistoryQueryVariables>, "query"> & ({ variables: IOasisAccountHistoryQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const OasisAccountHistoryComponent = (props: OasisAccountHistoryComponentProps) => (
+export const OasisAccountHistoryComponent = (props: OasisAccountHistoryComponentProps) => (
       <ApolloReactComponents.Query<IOasisAccountHistoryQuery, IOasisAccountHistoryQueryVariables> query={OasisAccountHistoryDocument} {...props} />
     );
-    
+
 export type IOasisAccountHistoryProps<TChildProps = {}> = ApolloReactHoc.DataProps<IOasisAccountHistoryQuery, IOasisAccountHistoryQueryVariables> & TChildProps;
 export function withOasisAccountHistory<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -4246,16 +4178,16 @@ export function withOasisAccountHistory<TProps, TChildProps = {}>(operationOptio
   IOasisAccountHistoryQueryVariables,
   IOasisAccountHistoryProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, IOasisAccountHistoryQuery, IOasisAccountHistoryQueryVariables, IOasisAccountHistoryProps<TChildProps>>(OasisAccountHistoryDocument, {
-      alias: 'oasisAccountHistory',
-      ...operationOptions
+      alias: "oasisAccountHistory",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useOasisAccountHistoryQuery__
  *
  * To run a query within a React component, call `useOasisAccountHistoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useOasisAccountHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useOasisAccountHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -4361,12 +4293,12 @@ export const OasisTransactionDocument = gql`
   }
 }
     `;
-export type OasisTransactionComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IOasisTransactionQuery, IOasisTransactionQueryVariables>, 'query'> & ({ variables: IOasisTransactionQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type OasisTransactionComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IOasisTransactionQuery, IOasisTransactionQueryVariables>, "query"> & ({ variables: IOasisTransactionQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const OasisTransactionComponent = (props: OasisTransactionComponentProps) => (
+export const OasisTransactionComponent = (props: OasisTransactionComponentProps) => (
       <ApolloReactComponents.Query<IOasisTransactionQuery, IOasisTransactionQueryVariables> query={OasisTransactionDocument} {...props} />
     );
-    
+
 export type IOasisTransactionProps<TChildProps = {}> = ApolloReactHoc.DataProps<IOasisTransactionQuery, IOasisTransactionQueryVariables> & TChildProps;
 export function withOasisTransaction<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -4374,16 +4306,16 @@ export function withOasisTransaction<TProps, TChildProps = {}>(operationOptions?
   IOasisTransactionQueryVariables,
   IOasisTransactionProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, IOasisTransactionQuery, IOasisTransactionQueryVariables, IOasisTransactionProps<TChildProps>>(OasisTransactionDocument, {
-      alias: 'oasisTransaction',
-      ...operationOptions
+      alias: "oasisTransaction",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useOasisTransactionQuery__
  *
  * To run a query within a React component, call `useOasisTransactionQuery` and pass it any options that fit your needs.
- * When your component renders, `useOasisTransactionQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useOasisTransactionQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -4493,12 +4425,12 @@ export const OasisTransactionsDocument = gql`
   }
 }
     `;
-export type OasisTransactionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IOasisTransactionsQuery, IOasisTransactionsQueryVariables>, 'query'> & ({ variables: IOasisTransactionsQueryVariables; skip?: boolean; } | { skip: boolean; });
+export type OasisTransactionsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IOasisTransactionsQuery, IOasisTransactionsQueryVariables>, "query"> & ({ variables: IOasisTransactionsQueryVariables; skip?: boolean; } | { skip: boolean; });
 
-    export const OasisTransactionsComponent = (props: OasisTransactionsComponentProps) => (
+export const OasisTransactionsComponent = (props: OasisTransactionsComponentProps) => (
       <ApolloReactComponents.Query<IOasisTransactionsQuery, IOasisTransactionsQueryVariables> query={OasisTransactionsDocument} {...props} />
     );
-    
+
 export type IOasisTransactionsProps<TChildProps = {}> = ApolloReactHoc.DataProps<IOasisTransactionsQuery, IOasisTransactionsQueryVariables> & TChildProps;
 export function withOasisTransactions<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
@@ -4506,16 +4438,16 @@ export function withOasisTransactions<TProps, TChildProps = {}>(operationOptions
   IOasisTransactionsQueryVariables,
   IOasisTransactionsProps<TChildProps>>) {
     return ApolloReactHoc.withQuery<TProps, IOasisTransactionsQuery, IOasisTransactionsQueryVariables, IOasisTransactionsProps<TChildProps>>(OasisTransactionsDocument, {
-      alias: 'oasisTransactions',
-      ...operationOptions
+      alias: "oasisTransactions",
+      ...operationOptions,
     });
-};
+}
 
 /**
  * __useOasisTransactionsQuery__
  *
  * To run a query within a React component, call `useOasisTransactionsQuery` and pass it any options that fit your needs.
- * When your component renders, `useOasisTransactionsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useOasisTransactionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
