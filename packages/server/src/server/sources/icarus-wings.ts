@@ -1,16 +1,17 @@
-const fetch = require("node-fetch");
+import fetch from "node-fetch";
+import { open } from "sqlite";
+
 const sqlite3 = require("sqlite3").verbose();
-const { open } = require("sqlite");
 
 // Fetch data from URL
-const fetchData = async URL => {
+const fetchData = async (URL: string) => {
   const response = await fetch(URL);
   const data = await response.text();
   return data;
 };
 
 // Given a URL of a Proposal.md file : extracts and returns the title of the proposal
-const FetchProposalTitleFromURL = async URL => {
+const fetchProposalTitleFromURL = async (URL: string) => {
   let title;
 
   const db = await open({
@@ -40,41 +41,43 @@ const FetchProposalTitleFromURL = async URL => {
 
     const result = regex.exec(data);
 
-    title = result[1].trim();
+    if (result) {
+      title = result[1].trim();
 
-    // Adding result to cache
-    await db.exec(
-      `
-      INSERT INTO "proposals"
-      VALUES ("${URL}","${title}")
-      `,
-    );
+      // Adding result to cache
+      await db.exec(
+        `
+        INSERT INTO "proposals"
+        VALUES ("${URL}","${title}")
+        `,
+      );
+    }
   }
 
   return title;
 };
 
 // Generates URL of markdown file from proposalId
-const generateUrl = proposalId => {
+const generateUrl = (proposalId: number) => {
   let URL =
     "https://raw.githubusercontent.com/celo-org/celo-proposals/master/CGPs/";
 
-  const parsedProposalId = ("000000" + proposalId).slice(-4);
+  const parsedProposalId = `000000${proposalId}`.slice(-4);
 
-  URL = URL + parsedProposalId + ".md";
+  URL = `${URL}${parsedProposalId}.md`;
 
   return URL;
 };
 
 // Given a Proposal ID > 0 : returns the title of the corresponding proposal
-const FetchProposalTitleFromID = async proposalId => {
+const fetchProposalTitleFromID = async (proposalId: number) => {
   if (proposalId <= 0) {
     return "";
   }
 
   const URL = generateUrl(proposalId);
 
-  const title = await FetchProposalTitleFromURL(URL);
+  const title = await fetchProposalTitleFromURL(URL);
 
   return title;
 };
@@ -82,16 +85,16 @@ const FetchProposalTitleFromID = async proposalId => {
 // Validator Group Details Functions ---->
 
 // Returns object that contains useful data
-const getClaimObject = (data, keyword) => {
-  const object = data.claims.filter(claim => claim.type === keyword);
+const getClaimObject = (data: any, keyword: string) => {
+  const object = data.claims.filter((claim: any) => claim.type === keyword);
 
   return object[0];
 };
 
 // Parse all required info from keybase api for a given username
-const fetchKeybaseData = async username => {
+const fetchKeybaseData = async (username: string) => {
   try {
-    let response = await fetch(
+    let response: any = await fetch(
       `https://keybase.io/_/api/1.0/user/lookup.json?usernames=${username}&field=basics,proofs_summary,pictures`,
     );
 
@@ -106,8 +109,8 @@ const fetchKeybaseData = async username => {
     const logoUrl = pictures.primary.url;
 
     // Extracting social links
-    const socialLinks = {};
-    proofsSummary.all.map(proof => {
+    const socialLinks: any = {};
+    proofsSummary.all.map((proof: any) => {
       socialLinks[proof.proof_type] = proof.service_url;
     });
 
@@ -119,7 +122,7 @@ const fetchKeybaseData = async username => {
 
 // Given the URL of a metadata file of a validator group, returns its metadata in JSON format
 // If metadata file contains a keybase reference, then the response also includes metadata from keybase
-const FetchValidatorGroupDetails = async URL => {
+const fetchValidatorGroupDetails = async (URL: string) => {
   let returnData;
 
   const db = await open({
@@ -170,8 +173,8 @@ const FetchValidatorGroupDetails = async URL => {
   return returnData;
 };
 
-module.exports = {
-  FetchProposalTitleFromID,
-  FetchValidatorGroupDetails,
-  FetchProposalTitleFromURL,
+export {
+  fetchProposalTitleFromID,
+  fetchValidatorGroupDetails,
+  fetchProposalTitleFromURL,
 };
