@@ -196,6 +196,7 @@ type QueuedProposal {
   deposit: Float!
   queuedAtTimestamp: Float!
   gist: String!
+  title: String!
   description: String!
 }
 
@@ -213,6 +214,7 @@ type ApprovedProposal {
   deposit: Float!
   queuedAtTimestamp: Float!
   gist: String!
+  title: String!
   description: String!
 }
 
@@ -233,6 +235,7 @@ type ReferendumProposal {
   deposit: Float!
   queuedAtTimestamp: Float!
   gist: String!
+  title: String!
   description: String!
 }
 
@@ -253,6 +256,7 @@ type ExecutionProposal {
   deposit: Float!
   queuedAtTimestamp: Float!
   gist: String!
+  title: String!
   description: String!
 }
 
@@ -266,6 +270,7 @@ type ExpiredProposal {
   deposit: Float!
   queuedAtTimestamp: Float!
   gist: String!
+  title: String!
   description: String!
 }
 

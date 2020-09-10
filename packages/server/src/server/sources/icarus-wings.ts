@@ -12,8 +12,8 @@ const fetchData = async (URL: string) => {
 
 // Given a URL of a Proposal.md file : extracts and returns the title of the proposal
 const fetchProposalDetailsFromURL = async (URL: string) => {
-  let title;
-  let contents;
+  let title = "";
+  let contents = "";
 
   const db = await open({
     filename: "./wings.db",
@@ -101,7 +101,7 @@ const generateUrl = (proposalId: number) => {
 // Given a Proposal ID > 0 : returns the title of the corresponding proposal
 const fetchProposalDetailsFromID = async (proposalId: number) => {
   if (proposalId <= 0) {
-    return "";
+    return { title: "", contents: "" };
   }
 
   const URL = generateUrl(proposalId);
