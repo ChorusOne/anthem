@@ -7,6 +7,7 @@ import {
 } from "@anthem/utils";
 import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
 import { PaginationParams } from "../resolvers/resolvers";
+import { fetchProposalTitleFromID } from "./icarus-wings";
 
 /** ===========================================================================
  * Types & Config
@@ -269,29 +270,16 @@ const fetchGistContentForProposalList = async (
   proposals: GenericProposalHistory[],
 ): Promise<GenericProposalHistory[]> => {
   return Promise.all(
-    proposals.map(async content => {
-      const gist = content.description;
-      const gistContent = await fetchProposalGistContent(gist);
+    proposals.map(async proposal => {
+      const { proposalID } = proposal;
+      const { title, contents } = await fetchProposalTitleFromID(proposalID);
       return {
-        ...content,
-        gist,
-        description: gistContent,
+        ...proposal,
+        title,
+        description: contents,
       };
     }),
   );
-};
-
-/**
- * Given a proposal GitHub gist link fetch the raw content.
- */
-const fetchProposalGistContent = async (gistUrl: string) => {
-  try {
-    const url = `${gistUrl}/raw`;
-    const description = await AxiosUtil.get<string>(url);
-    return description;
-  } catch (err) {
-    return "";
-  }
 };
 
 /** ===========================================================================

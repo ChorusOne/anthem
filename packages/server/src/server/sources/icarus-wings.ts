@@ -11,7 +11,7 @@ const fetchData = async (URL: string) => {
 };
 
 // Given a URL of a Proposal.md file : extracts and returns the title of the proposal
-const fetchProposalTitleFromURL = async (URL: string) => {
+const fetchProposalDetailsFromURL = async (URL: string) => {
   let title;
   let contents;
 
@@ -99,16 +99,16 @@ const generateUrl = (proposalId: number) => {
 };
 
 // Given a Proposal ID > 0 : returns the title of the corresponding proposal
-const fetchProposalTitleFromID = async (proposalId: number) => {
+const fetchProposalDetailsFromID = async (proposalId: number) => {
   if (proposalId <= 0) {
     return "";
   }
 
   const URL = generateUrl(proposalId);
 
-  const title = await fetchProposalTitleFromURL(URL);
+  const result = await fetchProposalDetailsFromURL(URL);
 
-  return title;
+  return result;
 };
 
 // Validator Group Details Functions ---->
@@ -203,7 +203,7 @@ const fetchValidatorGroupDetails = async (URL: string) => {
 };
 
 export {
-  fetchProposalTitleFromID,
+  fetchProposalDetailsFromID as fetchProposalTitleFromID,
   fetchValidatorGroupDetails,
-  fetchProposalTitleFromURL,
+  fetchProposalDetailsFromURL as fetchProposalTitleFromURL,
 };
