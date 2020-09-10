@@ -78,12 +78,12 @@ const fetchProposalDetailsFromURL = async (URL: string) => {
     await db.exec(
       `
       INSERT INTO "contents"
-      VALUES ("${URL}","${contents}")
+      VALUES ("${URL}","${contents.replace(/"/g, "'")}")
       `,
     );
   }
 
-  return { title, contents };
+  return { url: URL, title, contents };
 };
 
 // Generates URL of markdown file from proposalId
@@ -101,7 +101,7 @@ const generateUrl = (proposalId: number) => {
 // Given a Proposal ID > 0 : returns the title of the corresponding proposal
 const fetchProposalDetailsFromID = async (proposalId: number) => {
   if (proposalId <= 0) {
-    return { title: "", contents: "" };
+    return { title: "", contents: "", url: "" };
   }
 
   const URL = generateUrl(proposalId);
