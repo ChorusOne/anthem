@@ -32,6 +32,7 @@ import { i18nSelector } from "modules/settings/selectors";
 import { SettingsState } from "modules/settings/store";
 import { Vote } from "modules/transaction/store";
 import React from "react";
+import ReactMarkdown from "react-markdown";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { copyTextToClipboard } from "tools/client-utils";
@@ -270,6 +271,14 @@ class CeloGovernanceComponent extends React.Component<
                           <ProposalDetailsRow>
                             {isDesktop && <Block />}
                             <Text style={{ flex: 9 }}>
+                              <b>Deposit:</b>{" "}
+                              {denomToUnit(x.deposit, network.denominationSize)}{" "}
+                              {network.denom}
+                            </Text>
+                          </ProposalDetailsRow>
+                          <ProposalDetailsRow>
+                            {isDesktop && <Block />}
+                            <Text style={{ flex: 9 }}>
                               <b>Gist URL:</b>{" "}
                               <Link href={x.gist} style={{ fontSize: 12 }}>
                                 {x.gist}
@@ -279,10 +288,14 @@ class CeloGovernanceComponent extends React.Component<
                           <ProposalDetailsRow>
                             {isDesktop && <Block />}
                             <Text style={{ flex: 9 }}>
-                              <b>Deposit:</b>{" "}
-                              {denomToUnit(x.deposit, network.denominationSize)}{" "}
-                              {network.denom}
+                              <b>Proposal Details:</b>
                             </Text>
+                          </ProposalDetailsRow>
+                          <ProposalDetailsRow>
+                            {isDesktop && <Block />}
+                            <Block style={{ flex: 9, paddingRight: 12 }}>
+                              <ReactMarkdown source={x.description} />
+                            </Block>
                           </ProposalDetailsRow>
                         </ProposalDetails>
                       </Collapse>
