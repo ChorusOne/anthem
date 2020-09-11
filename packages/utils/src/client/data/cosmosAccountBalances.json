@@ -1,15 +1,15 @@
 {
   "cosmosAccountBalances": {
-    "balance": [{ "denom": "uatom", "amount": "10437483575" }],
+    "balance": [{ "denom": "uatom", "amount": "3482295683" }],
     "rewards": [
-      { "denom": "uatom", "amount": "43885834.430233950285662958" },
-      { "denom": "uatom", "amount": "55210.393536427332000000" }
+      { "denom": "uatom", "amount": "2491958.851869806299614844" },
+      { "denom": "uatom", "amount": "55571.973980915812000000" }
     ],
     "delegations": [
       {
         "delegator_address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "validator_address": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
-        "shares": "4998999999.000000000000000000"
+        "shares": "11998999999.000000000000000000"
       },
       {
         "delegator_address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
@@ -19,7 +19,7 @@
     ],
     "unbonding": [],
     "commissions": [
-      { "denom": "uatom", "amount": "3948657657.935688218355926858" }
+      { "denom": "uatom", "amount": "4124817323.840566822207723042" }
     ]
   }
 }

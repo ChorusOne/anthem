@@ -1,8 +1,8 @@
 {
   "cosmosStakingPool": {
     "loose_tokens": null,
-    "bonded_tokens": "184436647738726",
-    "not_bonded_tokens": "10385979407208",
+    "bonded_tokens": "164554395723003",
+    "not_bonded_tokens": "30095574758950",
     "inflation_last_time": null,
     "inflation": null,
     "date_last_commission_reset": null,

@@ -416,6 +416,14 @@
         "height": 3287619,
         "timestamp": "2020-09-08T12:35:27.000Z",
         "chain": "cosmoshub-3"
+      },
+      {
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "denom": "uatom",
+        "balance": "3482295683",
+        "height": 3305978,
+        "timestamp": "2020-09-10T02:00:37.000Z",
+        "chain": "cosmoshub-3"
       }
     ],
     "delegations": [
@@ -478,6 +486,11 @@
         "balance": "4999999999",
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "timestamp": "2020-02-25T10:27:35.000Z"
+      },
+      {
+        "balance": "11999999999",
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-10T02:00:37.000Z"
       }
     ],
     "unbondings": [
@@ -5370,6 +5383,34 @@
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "timestamp": "2020-09-08T16:00:06.000Z",
         "denom": "uatom"
+      },
+      {
+        "balance": "44417933",
+        "height": 3301075,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-09T16:00:04.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "44871064",
+        "height": 3305978,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-10T02:00:37.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "326871",
+        "height": 3307201,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-10T04:30:14.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "1605827",
+        "height": 3312837,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-10T16:00:00.000Z",
+        "denom": "uatom"
       }
     ],
     "validatorCommissions": [
@@ -10055,6 +10096,27 @@
         "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
         "timestamp": "2020-09-08T16:00:06.000Z",
         "denom": "uatom"
+      },
+      {
+        "balance": "3991252876",
+        "height": 3301075,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-09T16:00:04.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "4041841779",
+        "height": 3307201,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-10T04:30:14.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "4089603102",
+        "height": 3312837,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-10T16:00:00.000Z",
+        "denom": "uatom"
       }
     ],
     "fiatPriceHistory": [
@@ -10625,7 +10687,9 @@
       { "price": 4.9795, "timestamp": "2020-09-06T00:00:00.000Z" },
       { "price": 5.022, "timestamp": "2020-09-07T00:00:00.000Z" },
       { "price": 4.975499999999999, "timestamp": "2020-09-08T00:00:00.000Z" },
-      { "price": 5.0805, "timestamp": "2020-09-09T00:00:00.000Z" }
+      { "price": 5.15825, "timestamp": "2020-09-09T00:00:00.000Z" },
+      { "price": 5.3445, "timestamp": "2020-09-10T00:00:00.000Z" },
+      { "price": 5.23125, "timestamp": "2020-09-11T00:00:00.000Z" }
     ]
   }
 }

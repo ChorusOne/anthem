@@ -1,6 +1,22 @@
 {
   "celoSystemHistory": [
     {
+      "BlockNumber": "2441558",
+      "SnapshotDate": "11-09-2020",
+      "GoldTokenSupply": "607514336282648603686370816",
+      "TotalLockedGoldBalance": "336990111209136584965999993",
+      "NonVotingLockedGoldBalance": "69150457672731231088271132",
+      "TotalCeloUSDValue": "8239928752381364618114527"
+    },
+    {
+      "BlockNumber": "2424278",
+      "SnapshotDate": "10-09-2020",
+      "GoldTokenSupply": "607450964248980578945761714",
+      "TotalLockedGoldBalance": "336861831544938177423860590",
+      "NonVotingLockedGoldBalance": "69150457672731231088192026",
+      "TotalCeloUSDValue": "8222674264628961545878460"
+    },
+    {
       "BlockNumber": "2406998",
       "SnapshotDate": "09-09-2020",
       "GoldTokenSupply": "607387627962451892464674871",
