@@ -45,6 +45,7 @@ export interface IApprovedProposal {
   deposit: Scalars["Float"];
   queuedAtTimestamp: Scalars["Float"];
   gist: Scalars["String"];
+  title: Scalars["String"];
   description: Scalars["String"];
 }
 
@@ -442,6 +443,7 @@ export interface IExecutionProposal {
   deposit: Scalars["Float"];
   queuedAtTimestamp: Scalars["Float"];
   gist: Scalars["String"];
+  title: Scalars["String"];
   description: Scalars["String"];
 }
 
@@ -456,6 +458,7 @@ export interface IExpiredProposal {
   deposit: Scalars["Float"];
   queuedAtTimestamp: Scalars["Float"];
   gist: Scalars["String"];
+  title: Scalars["String"];
   description: Scalars["String"];
 }
 
@@ -943,6 +946,7 @@ export interface IQueuedProposal {
   deposit: Scalars["Float"];
   queuedAtTimestamp: Scalars["Float"];
   gist: Scalars["String"];
+  title: Scalars["String"];
   description: Scalars["String"];
 }
 
@@ -964,6 +968,7 @@ export interface IReferendumProposal {
   deposit: Scalars["Float"];
   queuedAtTimestamp: Scalars["Float"];
   gist: Scalars["String"];
+  title: Scalars["String"];
   description: Scalars["String"];
 }
 
@@ -1094,19 +1099,19 @@ export type ICeloGovernanceProposalsQuery = (
     { __typename?: "CeloGovernanceProposalHistory" }
     & { queuedProposals: Array<(
       { __typename?: "QueuedProposal" }
-      & Pick<IQueuedProposal, "proposalID" | "index" | "currentBlockNumber" | "stage" | "proposer" | "upvotes" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp" | "gist" | "description">
+      & Pick<IQueuedProposal, "proposalID" | "index" | "currentBlockNumber" | "stage" | "proposer" | "upvotes" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp" | "gist" | "title" | "description">
     )>, approvalProposals: Array<(
       { __typename?: "ApprovedProposal" }
-      & Pick<IApprovedProposal, "proposalID" | "index" | "currentBlockNumber" | "stage" | "proposer" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp" | "gist" | "description">
+      & Pick<IApprovedProposal, "proposalID" | "index" | "currentBlockNumber" | "stage" | "proposer" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp" | "gist" | "title" | "description">
     )>, referendumProposals: Array<(
       { __typename?: "ReferendumProposal" }
-      & Pick<IReferendumProposal, "proposalID" | "index" | "currentBlockNumber" | "stage" | "proposer" | "yesVotes" | "noVotes" | "abstainVotes" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp" | "gist" | "description">
+      & Pick<IReferendumProposal, "proposalID" | "index" | "currentBlockNumber" | "stage" | "proposer" | "yesVotes" | "noVotes" | "abstainVotes" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp" | "gist" | "title" | "description">
     )>, executionProposals: Array<(
       { __typename?: "ExecutionProposal" }
-      & Pick<IExecutionProposal, "proposalID" | "index" | "currentBlockNumber" | "stage" | "proposer" | "yesVotes" | "noVotes" | "abstainVotes" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp" | "gist" | "description">
+      & Pick<IExecutionProposal, "proposalID" | "index" | "currentBlockNumber" | "stage" | "proposer" | "yesVotes" | "noVotes" | "abstainVotes" | "proposalEpoch" | "referendumEpoch" | "executionEpoch" | "expirationEpoch" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp" | "gist" | "title" | "description">
     )>, expiredProposals: Array<(
       { __typename?: "ExpiredProposal" }
-      & Pick<IExpiredProposal, "proposalID" | "currentBlockNumber" | "stage" | "proposer" | "executed" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp" | "gist" | "description">
+      & Pick<IExpiredProposal, "proposalID" | "currentBlockNumber" | "stage" | "proposer" | "executed" | "queuedAtBlockNumber" | "deposit" | "queuedAtTimestamp" | "gist" | "title" | "description">
     )> }
   ) }
 );
@@ -2028,6 +2033,7 @@ export const CeloGovernanceProposalsDocument = gql`
       deposit
       queuedAtTimestamp
       gist
+      title
       description
     }
     approvalProposals {
@@ -2044,6 +2050,7 @@ export const CeloGovernanceProposalsDocument = gql`
       deposit
       queuedAtTimestamp
       gist
+      title
       description
     }
     referendumProposals {
@@ -2063,6 +2070,7 @@ export const CeloGovernanceProposalsDocument = gql`
       deposit
       queuedAtTimestamp
       gist
+      title
       description
     }
     executionProposals {
@@ -2082,6 +2090,7 @@ export const CeloGovernanceProposalsDocument = gql`
       deposit
       queuedAtTimestamp
       gist
+      title
       description
     }
     expiredProposals {
@@ -2094,6 +2103,7 @@ export const CeloGovernanceProposalsDocument = gql`
       deposit
       queuedAtTimestamp
       gist
+      title
       description
     }
   }
