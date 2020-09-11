@@ -6,6 +6,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 
 /** ===========================================================================
@@ -48,6 +49,7 @@ class NotificationsBanner extends React.Component<IProps> {
 
     switch (name) {
       case "COSMOS":
+      case "TERRA":
         return (
           <BannerText>
             <b>
@@ -56,8 +58,9 @@ class NotificationsBanner extends React.Component<IProps> {
               </span>{" "}
               BETA:
             </b>{" "}
-            Anthem provides data for the Cosmos network but is currently in a
-            beta release. You may experience data integrity issues.{" "}
+            Anthem provides data for the {capitalizeString(name)} network but is
+            currently in a beta release. You may experience data integrity
+            issues.{" "}
             <Link
               to="/help"
               onClick={this.props.displayDataIntegrityHelpLabel}
@@ -65,13 +68,6 @@ class NotificationsBanner extends React.Component<IProps> {
             >
               Learn More.
             </Link>
-          </BannerText>
-        );
-      case "TERRA":
-        return (
-          <BannerText>
-            Terra Network in Anthem currently only supports balances and Ledger
-            transaction workflows.
           </BannerText>
         );
       case "KAVA":
