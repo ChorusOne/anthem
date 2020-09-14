@@ -82,7 +82,7 @@ class CosmosValidatorsListPage extends React.Component<IProps, IState> {
 
     this.state = {
       showValidatorDetailsAddress: "",
-      sortValidatorsListAscending: true,
+      sortValidatorsListAscending: false,
       validatorsListSortFilter: COSMOS_VALIDATORS_SORT_FILTER.CUSTOM_DEFAULT,
     };
   }
