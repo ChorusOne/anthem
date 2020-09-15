@@ -229,12 +229,9 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
       <View>
         <Row style={{ justifyContent: "left" }}>
           <Circle />
-          <H6 style={{ margin: 0 }}>Connect and unlock your Ledger device.</H6>
-        </Row>
-        <Row style={{ justifyContent: "left" }}>
-          <Circle />
           <H6 style={{ margin: 0 }}>
-            Open the {network.ledgerAppName} Ledger application.
+            Connect and unlock your Ledger and open the {network.ledgerAppName}{" "}
+            Ledger App.
           </H6>
         </Row>
         <Row style={{ justifyContent: "left" }}>
@@ -252,6 +249,12 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
             </H6>
           </Row>
         )}
+        <Row style={{ justifyContent: "left" }}>
+          <Circle />
+          <H6 style={{ margin: 0 }}>
+            If you experience issues, disconnect and reconnect your Ledger.
+          </H6>
+        </Row>
         {ledgerAppVersionValid === false ? (
           <Centered style={{ flexDirection: "column", marginTop: 52 }}>
             <ErrorText>
