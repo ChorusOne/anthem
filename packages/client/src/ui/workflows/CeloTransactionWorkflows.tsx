@@ -63,6 +63,7 @@ import {
   unitToDenom,
 } from "tools/currency-utils";
 import { bold } from "tools/i18n-utils";
+import { isGreaterThan } from "tools/math-utils";
 import {
   validateEthereumAddress,
   validateLedgerTransactionAmount,
@@ -1621,7 +1622,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       error = "Please select a group.";
     } else if (!amount) {
       error = "Please set an amount of votes to revoke.";
-    } else if (value > delegation.activeVotes) {
+    } else if (isGreaterThan(value, delegation.activeVotes)) {
       error = "Selected revoke amount is too large.";
     }
 
