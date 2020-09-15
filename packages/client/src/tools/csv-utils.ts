@@ -71,7 +71,7 @@ export const chartExportBuilder = ({
   // Create the CSV Header.
   let CSV_HEADERS: ReadonlyArray<string> = [
     "Timestamp",
-    `Exchange Rate (${fiatCurrencySymbol}:${coin})`,
+    `Exchange Rate (${coin}:${fiatCurrencySymbol})`,
     `Total Balance (${coin})`,
     `Available Balance (${coin})`,
     `Staked Balance (${coin})`,
