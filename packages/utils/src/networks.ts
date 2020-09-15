@@ -238,14 +238,14 @@ const NETWORKS: NetworksMap = {
     expectedReward: 8,
   },
   OASIS: {
-    available: false,
+    available: true,
     name: "OASIS",
     denom: "AMBR", // For Amber testnet
     denomsList: ["AMBR"],
     descriptor: "AMBR",
     chainId: "oasis",
     cryptoCompareTicker: "OASIS",
-    ledgerAppVersion: "1.7.3",
+    ledgerAppVersion: "1.8.1",
     ledgerAppName: "n/a",
     ledgerDocsLink: "n/a",
     supportsLedger: true,
