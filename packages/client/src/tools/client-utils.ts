@@ -777,11 +777,6 @@ export const sortValidatorsList = (
   let result = [];
 
   switch (sortField) {
-    case COSMOS_VALIDATORS_SORT_FILTER.CUSTOM_DEFAULT:
-      return sortValidatorsChorusOnTop<ICosmosValidator>(
-        list,
-        v => v.description.moniker,
-      );
     case COSMOS_VALIDATORS_SORT_FILTER.NAME:
       result = list.sort((a, b) => {
         const aName = a.description.moniker;
@@ -793,6 +788,7 @@ export const sortValidatorsList = (
         }
       });
       break;
+    case COSMOS_VALIDATORS_SORT_FILTER.CUSTOM_DEFAULT:
     case COSMOS_VALIDATORS_SORT_FILTER.VOTING_POWER:
       result = list.sort((a, b) => {
         const aPower = divide(a.tokens, totalStake, Number);
