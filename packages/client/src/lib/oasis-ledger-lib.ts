@@ -169,4 +169,4 @@ const oasisLedger = new OasisLedgerClass();
 
 const mockOasisLedger = new MockOasisLedgerModule();
 
-export default !ENV.ENABLE_MOCK_APIS ? mockOasisLedger : oasisLedger;
+export default ENV.ENABLE_MOCK_APIS ? mockOasisLedger : oasisLedger;
