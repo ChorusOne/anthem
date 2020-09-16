@@ -121,9 +121,10 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
                 network={network}
                 settings={settings}
                 proposals={proposals}
-                address={ledger.address}
                 setAddress={setAddress}
+                address={ledger.address}
                 handleVote={this.handleVote}
+                handleUpvote={this.handleUpVote}
                 governanceTransactionHistory={governanceHistory}
               />
             );
@@ -133,18 +134,33 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
     );
   }
 
-  handleVote = (proposal: any, vote: Vote) => {
+  handleUpVote = (proposalId: number) => {
     if (!this.props.ledger.connected) {
       this.props.setSigninNetworkName(this.props.network.name);
     }
 
-    this.props.setGovernanceVoteDetails({ vote, proposal });
+    this.props.setGovernanceVoteDetails({ vote: null, proposalId });
 
     // Open the ledger dialog
     this.props.openLedgerDialog({
       signinType: "LEDGER",
       ledgerAccessType: "PERFORM_ACTION",
-      ledgerActionType: "GOVERNANCE_VOTE",
+      ledgerActionType: "VOTE_FOR_PROPOSAL",
+    });
+  };
+
+  handleVote = (proposalId: number, vote: Vote) => {
+    if (!this.props.ledger.connected) {
+      this.props.setSigninNetworkName(this.props.network.name);
+    }
+
+    this.props.setGovernanceVoteDetails({ vote, proposalId });
+
+    // Open the ledger dialog
+    this.props.openLedgerDialog({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "VOTE_FOR_PROPOSAL",
     });
   };
 }
@@ -168,7 +184,8 @@ interface CeloGovernanceComponentProps {
   proposals: GenericProposalHistory[];
   governanceTransactionHistory: ICeloTransaction[];
   setAddress: typeof Modules.actions.ledger.setAddress;
-  handleVote: (proposal: any, vote: Vote) => void;
+  handleUpvote: (proposalId: number) => void;
+  handleVote: (proposalId: number, vote: Vote) => void;
 }
 
 /** ===========================================================================
@@ -398,7 +415,9 @@ class CeloGovernanceComponent extends React.Component<
             </DetailRowText>
             {proposal.__typename === "QueuedProposal" && (
               <Row style={{ marginTop: 24 }}>
-                <Button onClick={this.handleUpVote}>Up Vote</Button>
+                <Button onClick={() => this.handleUpVote(proposal.proposalID)}>
+                  Up Vote
+                </Button>
               </Row>
             )}
           </View>
@@ -504,12 +523,12 @@ class CeloGovernanceComponent extends React.Component<
     } else if (!selectedProposal) {
       Toast.warn("Please select a proposal to vote.");
     } else {
-      this.props.handleVote(selectedProposal, vote);
+      this.props.handleVote(selectedProposal.proposalID, vote);
     }
   };
 
-  handleUpVote = () => {
-    Toast.warn("Governance up-voting coming soon...");
+  handleUpVote = (proposalId: number) => {
+    this.props.handleUpvote(proposalId);
   };
 
   renderTransactionItem = (transaction: ICeloTransaction) => {

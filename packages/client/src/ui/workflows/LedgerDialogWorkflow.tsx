@@ -192,7 +192,8 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
       case "UNLOCK_GOLD":
       case "REVOKE_VOTES":
       case "ACTIVATE_VOTES":
-      case "GOVERNANCE_VOTE":
+      case "UPVOTE_PROPOSAL":
+      case "VOTE_FOR_PROPOSAL":
         if (!this.props.ledger.connected) {
           return this.renderLedgerSignin();
         } else {
@@ -669,8 +670,6 @@ const getDialogTitle = (
     transactionTitle = "Activate Votes";
   } else if (ledgerActionType === "REVOKE_VOTES") {
     transactionTitle = "Revoke Votes";
-  } else if (ledgerActionType === "GOVERNANCE_VOTE") {
-    transactionTitle = "Governance Vote";
   } else if (ledgerActionType === "UPVOTE_PROPOSAL") {
     transactionTitle = "Upvote Proposal";
   } else if (ledgerActionType === "VOTE_FOR_PROPOSAL") {

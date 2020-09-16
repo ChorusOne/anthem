@@ -22,8 +22,8 @@ import Actions, { ActionTypes } from "./actions";
 export type Vote = "yes" | "no" | "abstain";
 
 export interface GovernanceVoteDetails {
-  vote: Vote;
-  proposal: any;
+  vote: Nullable<Vote>;
+  proposalId: number;
 }
 
 export interface TransactionState {
