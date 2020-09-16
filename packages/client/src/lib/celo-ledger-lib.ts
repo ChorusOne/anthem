@@ -415,12 +415,12 @@ class CeloLedgerClass implements ICeloLedger {
     }
 
     const balances = await this.kit.getTotalBalance(this.address);
-    const { CELO, cUSD, lockedCELO, pending } = balances;
+    const { gold, lockedGold, pending, usd } = balances;
     console.log("Account Balances:");
-    console.log(`Gold: ${CELO.toString()}`);
-    console.log(`Locked: ${lockedCELO.toString()}`);
+    console.log(`Gold: ${gold.toString()}`);
+    console.log(`Locked: ${lockedGold.toString()}`);
     console.log(`Pending: ${pending.toString()}`);
-    console.log(`USD: ${cUSD.toString()}`);
+    console.log(`USD: ${usd.toString()}`);
 
     return balances;
   }
