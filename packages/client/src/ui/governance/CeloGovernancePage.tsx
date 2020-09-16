@@ -19,6 +19,7 @@ import {
   H5,
 } from "@blueprintjs/core";
 import { CopyIcon } from "assets/images";
+import BigNumber from "bignumber.js";
 import { COLORS } from "constants/colors";
 import {
   CeloGovernanceProposalsProps,
@@ -388,7 +389,7 @@ class CeloGovernanceComponent extends React.Component<
             {proposal.__typename === "QueuedProposal" && (
               <DetailRowText>
                 <Bold style={{ marginRight: 4 }}>Proposal Upvotes:</Bold>
-                <Text>{proposal.upvotes.toFixed()}</Text>
+                <Text>{new BigNumber(proposal.upvotes).toFixed()}</Text>
               </DetailRowText>
             )}
             <DetailRowText>
