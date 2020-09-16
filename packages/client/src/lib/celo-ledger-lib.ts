@@ -88,13 +88,13 @@ export interface RevokeVotesArguments {
 }
 
 export interface CeloUpvoteProposalArguments {
-  proposalId: string;
   upvoter: string;
+  proposalId: number;
 }
 
-interface CeloGovernanceVoteArguments {
+export interface CeloGovernanceVoteArguments {
   from: string;
-  proposalId: string;
+  proposalId: number;
   vote: keyof typeof VoteValue;
 }
 

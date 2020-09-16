@@ -33,7 +33,9 @@ import {
   withGraphQLVariables,
 } from "graphql/queries";
 import {
+  CeloGovernanceVoteArguments,
   CeloUnlockGoldArguments,
+  CeloUpvoteProposalArguments,
   CeloWithdrawArguments,
   ICeloTransactionResult,
   RevokeVotesArguments,
@@ -1583,17 +1585,41 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     this.props.setTransactionData(data);
   };
 
-  getGovernanceVoteTransaction = async () => {
+  getUpvoteTransaction = async () => {
+    const { address } = this.props.ledger;
     const { governanceProposalData } = this.props.transaction;
 
     if (!governanceProposalData) {
-      return Toast.warn("Please select a proposal");
+      return Toast.warn("Please select a proposal.");
+    }
+
+    const { proposal } = governanceProposalData;
+
+    const data: CeloUpvoteProposalArguments = {
+      upvoter: address,
+      proposalId: proposal.proposalID,
+    };
+
+    this.props.setTransactionData(data);
+  };
+
+  getGovernanceVoteTransaction = async () => {
+    const { address } = this.props.ledger;
+    const { governanceProposalData } = this.props.transaction;
+
+    if (!governanceProposalData) {
+      return Toast.warn("Please select a proposal.");
     }
 
     const { vote, proposal } = governanceProposalData;
 
-    const data = {
+    if (!vote) {
+      return Toast.warn("Please select a vote option.");
+    }
+
+    const data: CeloGovernanceVoteArguments = {
       vote,
+      from: address,
       proposalId: proposal.proposalID,
     };
 

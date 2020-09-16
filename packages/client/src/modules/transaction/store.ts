@@ -20,7 +20,7 @@ import Actions, { ActionTypes } from "./actions";
  * ============================================================================
  */
 
-export type Vote = "yes" | "no" | "abstain";
+export type Vote = "Yes" | "No" | "Abstain";
 
 export interface GovernanceVoteDetails {
   vote: Nullable<Vote>;
