@@ -387,7 +387,6 @@ class CeloLedgerClass implements ICeloLedger {
 
     const { group, address, amount } = args;
     const value = new BigNumber(amount);
-
     const election = await this.kit.contracts.getElection();
     console.log(
       `Revoking ${value.toString()} votes for address: ${address} from group: ${group}`,
