@@ -387,7 +387,6 @@ class CeloLedgerClass implements ICeloLedger {
 
     const { group, address, amount } = args;
     const value = new BigNumber(amount);
-
     const election = await this.kit.contracts.getElection();
     console.log(
       `Revoking ${value.toString()} votes for address: ${address} from group: ${group}`,
@@ -416,12 +415,12 @@ class CeloLedgerClass implements ICeloLedger {
     }
 
     const balances = await this.kit.getTotalBalance(this.address);
-    const { gold, lockedGold, pending, usd } = balances;
+    const { CELO, cUSD, lockedCELO, pending } = balances;
     console.log("Account Balances:");
-    console.log(`Gold: ${gold.toString()}`);
-    console.log(`Locked: ${lockedGold.toString()}`);
+    console.log(`Gold: ${CELO.toString()}`);
+    console.log(`Locked: ${lockedCELO.toString()}`);
     console.log(`Pending: ${pending.toString()}`);
-    console.log(`USD: ${usd.toString()}`);
+    console.log(`USD: ${cUSD.toString()}`);
 
     return balances;
   }
