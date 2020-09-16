@@ -94,8 +94,9 @@ const getTransactionMessageTypeForNetwork = (
     transactionType === "LOCK_GOLD" ||
     transactionType === "UNLOCK_GOLD" ||
     transactionType === "REVOKE_VOTES" ||
-    transactionType === "ACTIVATE_VOTES" ||
-    transactionType === "GOVERNANCE_VOTE"
+    transactionType === "UPVOTE_PROPOSAL" ||
+    transactionType === "VOTE_FOR_PROPOSAL" ||
+    transactionType === "ACTIVATE_VOTES"
   ) {
     throw new Error("Not valid for Cosmos SDK transactions");
   }

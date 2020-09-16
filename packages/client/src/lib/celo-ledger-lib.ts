@@ -87,9 +87,14 @@ export interface RevokeVotesArguments {
   group: string;
 }
 
-interface CeloGovernanceVoteArguments {
+export interface CeloUpvoteProposalArguments {
+  upvoter: string;
+  proposalId: number;
+}
+
+export interface CeloGovernanceVoteArguments {
   from: string;
-  proposalId: string;
+  proposalId: number;
   vote: keyof typeof VoteValue;
 }
 
@@ -109,8 +114,7 @@ interface ICeloLedger {
     args: CeloGovernanceVoteArguments,
   ): Promise<ICeloTransactionResult>;
   upvoteForProposal(
-    proposalId: string,
-    upvoter: string,
+    args: CeloUpvoteProposalArguments,
   ): Promise<ICeloTransactionResult>;
   createAccount(address: string): Promise<ICeloTransactionResult>;
   isAccount(address: string): Promise<boolean>;
@@ -235,10 +239,12 @@ class CeloLedgerClass implements ICeloLedger {
     return receipt;
   }
 
-  async upvoteForProposal(proposalId: string, upvoter: string) {
+  async upvoteForProposal(args: CeloUpvoteProposalArguments) {
     if (!this.kit) {
       throw new Error("CeloLedgerClass not initialized yet.");
     }
+
+    const { proposalId, upvoter } = args;
 
     const governance = await this.kit.contracts.getGovernance();
     console.log(`Upvoting proposal ID: ${proposalId}`);
@@ -452,11 +458,6 @@ class MockCeloLedgerModule implements ICeloLedger {
     return "0xae1d640648009dbe0aa4485d3bfbb68c37710924";
   }
 
-  async voteForProposal(args: CeloGovernanceVoteArguments) {
-    console.log(args);
-    return PLACEHOLDER_TX_RECEIPT;
-  }
-
   async isAccount(address: string) {
     return this.createdAccount;
   }
@@ -514,6 +515,11 @@ class MockCeloLedgerModule implements ICeloLedger {
 
   async upvoteForProposal() {
     await wait(2500);
+    return PLACEHOLDER_TX_RECEIPT;
+  }
+
+  async voteForProposal(args: CeloGovernanceVoteArguments) {
+    console.log(args);
     return PLACEHOLDER_TX_RECEIPT;
   }
 

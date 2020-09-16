@@ -33,7 +33,9 @@ import {
   withGraphQLVariables,
 } from "graphql/queries";
 import {
+  CeloGovernanceVoteArguments,
   CeloUnlockGoldArguments,
+  CeloUpvoteProposalArguments,
   CeloWithdrawArguments,
   ICeloTransactionResult,
   RevokeVotesArguments,
@@ -175,7 +177,9 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         return this.renderActivateVotesStep();
       case "REVOKE_VOTES":
         return this.renderRevokeVotesStep();
-      case "GOVERNANCE_VOTE":
+      case "UPVOTE_PROPOSAL":
+        return this.renderUpvote();
+      case "VOTE_FOR_PROPOSAL":
         return this.renderGovernanceVote();
       case "DELEGATE":
       case null:
@@ -236,6 +240,33 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     return null;
   };
 
+  renderUpvote = () => {
+    const { governanceProposalData } = this.props.transaction;
+    if (!governanceProposalData) {
+      return null;
+    }
+
+    const { proposal } = governanceProposalData;
+    return (
+      <View>
+        <H6 style={{ marginTop: 8, marginBottom: 8 }}>
+          Upvoting Proposal {proposal.proposalID}: {proposal.title}
+        </H6>
+        <p>
+          Selecting vote will prompt you to confirm the transaction details on
+          your Ledger Device.
+        </p>
+        <Button
+          style={{ marginTop: 12 }}
+          onClick={this.getUpvoteTransaction}
+          data-cy="governance-upvote-button"
+        >
+          Upvote
+        </Button>
+      </View>
+    );
+  };
+
   renderGovernanceVote = () => {
     const { governanceProposalData } = this.props.transaction;
     if (!governanceProposalData) {
@@ -246,10 +277,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     return (
       <View>
         <H6 style={{ marginTop: 8, marginBottom: 8 }}>
-          Voting {vote} for Proposal ID {proposal.proposalID}
+          Voting {vote} for Proposal {proposal.proposalID}: {proposal.title}
         </H6>
         <p>
-          Selecting vote will prompt you to confirm the transaction details on
+          Selecting upvote will prompt you to confirm the transaction details on
           your Ledger Device.
         </p>
         <Button
@@ -1583,17 +1614,41 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     this.props.setTransactionData(data);
   };
 
-  getGovernanceVoteTransaction = async () => {
+  getUpvoteTransaction = async () => {
+    const { address } = this.props.ledger;
     const { governanceProposalData } = this.props.transaction;
 
     if (!governanceProposalData) {
-      return Toast.warn("Please select a proposal");
+      return Toast.warn("Please select a proposal.");
+    }
+
+    const { proposal } = governanceProposalData;
+
+    const data: CeloUpvoteProposalArguments = {
+      upvoter: address,
+      proposalId: proposal.proposalID,
+    };
+
+    this.props.setTransactionData(data);
+  };
+
+  getGovernanceVoteTransaction = async () => {
+    const { address } = this.props.ledger;
+    const { governanceProposalData } = this.props.transaction;
+
+    if (!governanceProposalData) {
+      return Toast.warn("Please select a proposal.");
     }
 
     const { vote, proposal } = governanceProposalData;
 
-    const data = {
+    if (!vote) {
+      return Toast.warn("Please select a vote option.");
+    }
+
+    const data: CeloGovernanceVoteArguments = {
       vote,
+      from: address,
       proposalId: proposal.proposalID,
     };
 
