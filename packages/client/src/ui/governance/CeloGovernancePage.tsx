@@ -475,22 +475,22 @@ class CeloGovernanceComponent extends React.Component<
                   }}
                 >
                   <Checkbox
-                    value="yes"
+                    value="Yes"
                     label="Yes"
-                    onChange={() => this.handleVoteCheck("yes")}
-                    checked={this.state.vote === "yes"}
+                    onChange={() => this.handleVoteCheck("Yes")}
+                    checked={this.state.vote === "Yes"}
                   />
                   <Checkbox
-                    value="no"
+                    value="No"
                     label="No"
-                    onChange={() => this.handleVoteCheck("no")}
-                    checked={this.state.vote === "no"}
+                    onChange={() => this.handleVoteCheck("No")}
+                    checked={this.state.vote === "No"}
                   />
                   <Checkbox
-                    value="abstain"
+                    value="Abstain"
                     label="Abstain"
-                    onChange={() => this.handleVoteCheck("abstain")}
-                    checked={this.state.vote === "abstain"}
+                    onChange={() => this.handleVoteCheck("Abstain")}
+                    checked={this.state.vote === "Abstain"}
                   />
                 </Row>
                 <Row>
