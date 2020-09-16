@@ -8,6 +8,7 @@ import { ICeloTransactionResult } from "lib/celo-ledger-lib";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { TransactionData, TxPostBody } from "tools/cosmos-utils";
 import { createReducer } from "typesafe-actions";
+import { GenericCeloProposal } from "ui/governance/CeloGovernancePage";
 import AppActions, { ActionTypes as AppActionTypes } from "../app/actions";
 import LedgerActions, {
   ActionTypes as LedgerActionTypes,
@@ -19,11 +20,11 @@ import Actions, { ActionTypes } from "./actions";
  * ============================================================================
  */
 
-export type Vote = "yes" | "no" | "abstain";
+export type Vote = "Yes" | "No" | "Abstain";
 
 export interface GovernanceVoteDetails {
-  vote: Vote;
-  proposal: any;
+  vote: Nullable<Vote>;
+  proposal: GenericCeloProposal;
 }
 
 export interface TransactionState {

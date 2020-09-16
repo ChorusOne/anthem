@@ -19,6 +19,7 @@ import {
   H5,
 } from "@blueprintjs/core";
 import { CopyIcon } from "assets/images";
+import BigNumber from "bignumber.js";
 import { COLORS } from "constants/colors";
 import {
   CeloGovernanceProposalsProps,
@@ -63,7 +64,7 @@ import CeloTransactionListItem from "ui/transactions/CeloTransactionListItem";
  * ============================================================================
  */
 
-interface GenericProposalHistory {
+export interface GenericCeloProposal {
   proposalID: number;
   stage: string;
   proposer: string;
@@ -121,9 +122,10 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
                 network={network}
                 settings={settings}
                 proposals={proposals}
-                address={ledger.address}
                 setAddress={setAddress}
+                address={ledger.address}
                 handleVote={this.handleVote}
+                handleUpvote={this.handleUpVote}
                 governanceTransactionHistory={governanceHistory}
               />
             );
@@ -133,7 +135,22 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
     );
   }
 
-  handleVote = (proposal: any, vote: Vote) => {
+  handleUpVote = (proposal: GenericCeloProposal) => {
+    if (!this.props.ledger.connected) {
+      this.props.setSigninNetworkName(this.props.network.name);
+    }
+
+    this.props.setGovernanceVoteDetails({ vote: null, proposal });
+
+    // Open the ledger dialog
+    this.props.openLedgerDialog({
+      signinType: "LEDGER",
+      ledgerAccessType: "PERFORM_ACTION",
+      ledgerActionType: "UPVOTE_PROPOSAL",
+    });
+  };
+
+  handleVote = (proposal: GenericCeloProposal, vote: Vote) => {
     if (!this.props.ledger.connected) {
       this.props.setSigninNetworkName(this.props.network.name);
     }
@@ -144,7 +161,7 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
     this.props.openLedgerDialog({
       signinType: "LEDGER",
       ledgerAccessType: "PERFORM_ACTION",
-      ledgerActionType: "GOVERNANCE_VOTE",
+      ledgerActionType: "VOTE_FOR_PROPOSAL",
     });
   };
 }
@@ -157,7 +174,7 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
 interface IState {
   vote: Nullable<Vote>;
   selectedProposalID: Nullable<number>;
-  selectedProposal: Nullable<GenericProposalHistory>;
+  selectedProposal: Nullable<GenericCeloProposal>;
 }
 
 interface CeloGovernanceComponentProps {
@@ -165,10 +182,11 @@ interface CeloGovernanceComponentProps {
   i18n: I18nProps["i18n"];
   network: NetworkDefinition;
   settings: SettingsState;
-  proposals: GenericProposalHistory[];
+  proposals: GenericCeloProposal[];
   governanceTransactionHistory: ICeloTransaction[];
   setAddress: typeof Modules.actions.ledger.setAddress;
-  handleVote: (proposal: any, vote: Vote) => void;
+  handleUpvote: (proposal: GenericCeloProposal) => void;
+  handleVote: (proposal: GenericCeloProposal, vote: Vote) => void;
 }
 
 /** ===========================================================================
@@ -202,8 +220,8 @@ class CeloGovernanceComponent extends React.Component<
     const {
       network,
       proposals,
-      governanceTransactionHistory,
       settings,
+      governanceTransactionHistory,
     } = this.props;
     const { isDesktop } = settings;
     return (
@@ -371,7 +389,7 @@ class CeloGovernanceComponent extends React.Component<
             {proposal.__typename === "QueuedProposal" && (
               <DetailRowText>
                 <Bold style={{ marginRight: 4 }}>Proposal Upvotes:</Bold>
-                <Text>{proposal.upvotes}</Text>
+                <Text>{new BigNumber(proposal.upvotes).toFixed()}</Text>
               </DetailRowText>
             )}
             <DetailRowText>
@@ -398,7 +416,9 @@ class CeloGovernanceComponent extends React.Component<
             </DetailRowText>
             {proposal.__typename === "QueuedProposal" && (
               <Row style={{ marginTop: 24 }}>
-                <Button onClick={this.handleUpVote}>Up Vote</Button>
+                <Button onClick={() => this.handleUpVote(proposal)}>
+                  Up Vote
+                </Button>
               </Row>
             )}
           </View>
@@ -456,22 +476,22 @@ class CeloGovernanceComponent extends React.Component<
                   }}
                 >
                   <Checkbox
-                    value="yes"
+                    value="Yes"
                     label="Yes"
-                    onChange={() => this.handleVoteCheck("yes")}
-                    checked={this.state.vote === "yes"}
+                    onChange={() => this.handleVoteCheck("Yes")}
+                    checked={this.state.vote === "Yes"}
                   />
                   <Checkbox
-                    value="no"
+                    value="No"
                     label="No"
-                    onChange={() => this.handleVoteCheck("no")}
-                    checked={this.state.vote === "no"}
+                    onChange={() => this.handleVoteCheck("No")}
+                    checked={this.state.vote === "No"}
                   />
                   <Checkbox
-                    value="abstain"
+                    value="Abstain"
                     label="Abstain"
-                    onChange={() => this.handleVoteCheck("abstain")}
-                    checked={this.state.vote === "abstain"}
+                    onChange={() => this.handleVoteCheck("Abstain")}
+                    checked={this.state.vote === "Abstain"}
                   />
                 </Row>
                 <Row>
@@ -486,7 +506,7 @@ class CeloGovernanceComponent extends React.Component<
     }
   };
 
-  handleSelectProposal = (proposal: GenericProposalHistory) => {
+  handleSelectProposal = (proposal: GenericCeloProposal) => {
     this.setState({
       selectedProposal: proposal,
       selectedProposalID: proposal.proposalID,
@@ -508,8 +528,8 @@ class CeloGovernanceComponent extends React.Component<
     }
   };
 
-  handleUpVote = () => {
-    Toast.warn("Governance up-voting coming soon...");
+  handleUpVote = (proposal: GenericCeloProposal) => {
+    this.props.handleUpvote(proposal);
   };
 
   renderTransactionItem = (transaction: ICeloTransaction) => {
@@ -744,7 +764,7 @@ const TransactionsContainer = styled.div`
  */
 const groupAndSortProposals = (
   proposalHistory: ICeloGovernanceProposalHistory,
-): GenericProposalHistory[] => {
+): GenericCeloProposal[] => {
   return Object.values(proposalHistory)
     .filter(x => Array.isArray(x))
     .flat()
