@@ -242,11 +242,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       return null;
     }
 
-    const { vote, proposalId } = governanceProposalData;
+    const { vote, proposal } = governanceProposalData;
     return (
       <View>
         <H6 style={{ marginTop: 8, marginBottom: 8 }}>
-          Voting {vote} for Proposal ID: {proposalId}
+          Voting {vote} for Proposal ID: {proposal.proposalID}
         </H6>
         <p>
           Selecting vote will prompt you to confirm the transaction details on
@@ -1590,11 +1590,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       return Toast.warn("Please select a proposal");
     }
 
-    const { vote, proposalId } = governanceProposalData;
+    const { vote, proposal } = governanceProposalData;
 
     const data = {
       vote,
-      proposalId,
+      proposalId: proposal.proposalID,
     };
 
     this.props.setTransactionData(data);

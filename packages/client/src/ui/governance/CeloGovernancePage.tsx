@@ -63,7 +63,7 @@ import CeloTransactionListItem from "ui/transactions/CeloTransactionListItem";
  * ============================================================================
  */
 
-interface GenericProposalHistory {
+export interface GenericCeloProposal {
   proposalID: number;
   stage: string;
   proposer: string;
@@ -134,12 +134,12 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
     );
   }
 
-  handleUpVote = (proposalId: number) => {
+  handleUpVote = (proposal: GenericCeloProposal) => {
     if (!this.props.ledger.connected) {
       this.props.setSigninNetworkName(this.props.network.name);
     }
 
-    this.props.setGovernanceVoteDetails({ vote: null, proposalId });
+    this.props.setGovernanceVoteDetails({ vote: null, proposal });
 
     // Open the ledger dialog
     this.props.openLedgerDialog({
@@ -149,12 +149,12 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
     });
   };
 
-  handleVote = (proposalId: number, vote: Vote) => {
+  handleVote = (proposal: GenericCeloProposal, vote: Vote) => {
     if (!this.props.ledger.connected) {
       this.props.setSigninNetworkName(this.props.network.name);
     }
 
-    this.props.setGovernanceVoteDetails({ vote, proposalId });
+    this.props.setGovernanceVoteDetails({ vote, proposal });
 
     // Open the ledger dialog
     this.props.openLedgerDialog({
@@ -173,7 +173,7 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
 interface IState {
   vote: Nullable<Vote>;
   selectedProposalID: Nullable<number>;
-  selectedProposal: Nullable<GenericProposalHistory>;
+  selectedProposal: Nullable<GenericCeloProposal>;
 }
 
 interface CeloGovernanceComponentProps {
@@ -181,11 +181,11 @@ interface CeloGovernanceComponentProps {
   i18n: I18nProps["i18n"];
   network: NetworkDefinition;
   settings: SettingsState;
-  proposals: GenericProposalHistory[];
+  proposals: GenericCeloProposal[];
   governanceTransactionHistory: ICeloTransaction[];
   setAddress: typeof Modules.actions.ledger.setAddress;
-  handleUpvote: (proposalId: number) => void;
-  handleVote: (proposalId: number, vote: Vote) => void;
+  handleUpvote: (proposal: GenericCeloProposal) => void;
+  handleVote: (proposal: GenericCeloProposal, vote: Vote) => void;
 }
 
 /** ===========================================================================
@@ -219,8 +219,8 @@ class CeloGovernanceComponent extends React.Component<
     const {
       network,
       proposals,
-      governanceTransactionHistory,
       settings,
+      governanceTransactionHistory,
     } = this.props;
     const { isDesktop } = settings;
     return (
@@ -415,7 +415,7 @@ class CeloGovernanceComponent extends React.Component<
             </DetailRowText>
             {proposal.__typename === "QueuedProposal" && (
               <Row style={{ marginTop: 24 }}>
-                <Button onClick={() => this.handleUpVote(proposal.proposalID)}>
+                <Button onClick={() => this.handleUpVote(proposal)}>
                   Up Vote
                 </Button>
               </Row>
@@ -505,7 +505,7 @@ class CeloGovernanceComponent extends React.Component<
     }
   };
 
-  handleSelectProposal = (proposal: GenericProposalHistory) => {
+  handleSelectProposal = (proposal: GenericCeloProposal) => {
     this.setState({
       selectedProposal: proposal,
       selectedProposalID: proposal.proposalID,
@@ -523,12 +523,12 @@ class CeloGovernanceComponent extends React.Component<
     } else if (!selectedProposal) {
       Toast.warn("Please select a proposal to vote.");
     } else {
-      this.props.handleVote(selectedProposal.proposalID, vote);
+      this.props.handleVote(selectedProposal, vote);
     }
   };
 
-  handleUpVote = (proposalId: number) => {
-    this.props.handleUpvote(proposalId);
+  handleUpVote = (proposal: GenericCeloProposal) => {
+    this.props.handleUpvote(proposal);
   };
 
   renderTransactionItem = (transaction: ICeloTransaction) => {
@@ -763,7 +763,7 @@ const TransactionsContainer = styled.div`
  */
 const groupAndSortProposals = (
   proposalHistory: ICeloGovernanceProposalHistory,
-): GenericProposalHistory[] => {
+): GenericCeloProposal[] => {
   return Object.values(proposalHistory)
     .filter(x => Array.isArray(x))
     .flat()
