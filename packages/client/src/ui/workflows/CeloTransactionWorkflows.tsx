@@ -174,7 +174,8 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
         return this.renderActivateVotesStep();
       case "REVOKE_VOTES":
         return this.renderRevokeVotesStep();
-      case "GOVERNANCE_VOTE":
+      case "UPVOTE_PROPOSAL":
+      case "VOTE_FOR_PROPOSAL":
         return this.renderGovernanceVote();
       case "DELEGATE":
       case null:

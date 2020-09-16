@@ -671,6 +671,10 @@ const getDialogTitle = (
     transactionTitle = "Revoke Votes";
   } else if (ledgerActionType === "GOVERNANCE_VOTE") {
     transactionTitle = "Governance Vote";
+  } else if (ledgerActionType === "UPVOTE_PROPOSAL") {
+    transactionTitle = "Upvote Proposal";
+  } else if (ledgerActionType === "VOTE_FOR_PROPOSAL") {
+    transactionTitle = "Vote For Proposal";
   }
 
   if (transactionStage === TRANSACTION_STAGES.SETUP) {

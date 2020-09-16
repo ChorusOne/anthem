@@ -371,7 +371,7 @@ class CeloGovernanceComponent extends React.Component<
             {proposal.__typename === "QueuedProposal" && (
               <DetailRowText>
                 <Bold style={{ marginRight: 4 }}>Proposal Upvotes:</Bold>
-                <Text>{proposal.upvotes}</Text>
+                <Text>{proposal.upvotes.toFixed()}</Text>
               </DetailRowText>
             )}
             <DetailRowText>

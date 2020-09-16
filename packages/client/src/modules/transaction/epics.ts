@@ -88,11 +88,16 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
                   transactionData,
                 );
                 return Actions.transactionConfirmed(revokeResult);
-              case "GOVERNANCE_VOTE":
-                const governanceResult = await celoLedgerUtil.voteForProposal(
+              case "UPVOTE_PROPOSAL":
+                const upvoteResult = await celoLedgerUtil.upvoteForProposal(
                   transactionData,
                 );
-                return Actions.transactionConfirmed(governanceResult);
+                return Actions.transactionConfirmed(upvoteResult);
+              case "VOTE_FOR_PROPOSAL":
+                const governanceVoteResult = await celoLedgerUtil.voteForProposal(
+                  transactionData,
+                );
+                return Actions.transactionConfirmed(governanceVoteResult);
               default: {
                 throw new Error(
                   `Action ${ledgerActionType} not supported for Celo yet.`,
