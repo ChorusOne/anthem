@@ -145,7 +145,7 @@ class CeloGovernancePage extends React.Component<IProps, {}> {
     this.props.openLedgerDialog({
       signinType: "LEDGER",
       ledgerAccessType: "PERFORM_ACTION",
-      ledgerActionType: "VOTE_FOR_PROPOSAL",
+      ledgerActionType: "UPVOTE_PROPOSAL",
     });
   };
 

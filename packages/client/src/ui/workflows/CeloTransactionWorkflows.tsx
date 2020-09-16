@@ -245,11 +245,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       return null;
     }
 
-    const { vote, proposal } = governanceProposalData;
+    const { proposal } = governanceProposalData;
     return (
       <View>
         <H6 style={{ marginTop: 8, marginBottom: 8 }}>
-          Upvoting {vote} Proposal ID: {proposal.proposalID}: {proposal.title}
+          Upvoting Proposal {proposal.proposalID}: {proposal.title}
         </H6>
         <p>
           Selecting vote will prompt you to confirm the transaction details on
@@ -276,10 +276,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     return (
       <View>
         <H6 style={{ marginTop: 8, marginBottom: 8 }}>
-          Voting {vote} for Proposal ID: {proposal.proposalID}: {proposal.title}
+          Voting {vote} for Proposal {proposal.proposalID}: {proposal.title}
         </H6>
         <p>
-          Selecting vote will prompt you to confirm the transaction details on
+          Selecting upvote will prompt you to confirm the transaction details on
           your Ledger Device.
         </p>
         <Button
