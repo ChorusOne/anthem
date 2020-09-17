@@ -238,12 +238,17 @@ export const validatePaginationParams = (param: any, defaultValue: number) => {
  */
 export const blockUnsupportedNetworks = (
   network: NetworkDefinition,
-  resolverNetworkName: NETWORK_NAME,
+  allowedNetworkNames: Set<NETWORK_NAME>,
   feature?: "portfolio" | "transactions" | "balances",
 ) => {
-  if (network.name !== resolverNetworkName) {
+  /**
+   * This can occur when the app network is switching and components are in
+   * process of handling updates. More logic could be added to the react-apollo
+   * query setup to avoid querying certain APIs if the network doesn't match.
+   */
+  if (!allowedNetworkNames.has(network.name)) {
     throw new Error(
-      `Invalid network argument supplied for this resolver. Received ${network.name} but ${resolverNetworkName} is required.`,
+      `Invalid network argument supplied for this resolver API. Received: ${network.name}. (NOTE: This is probably OK and not a bug).`,
     );
   }
 

@@ -34,7 +34,7 @@ const OasisResolvers = {
   ): Promise<IQuery["oasisAccountHistory"]> => {
     const { address } = args;
     const network = deriveNetworkFromAddress(address);
-    blockUnsupportedNetworks(network, "OASIS", "portfolio");
+    blockUnsupportedNetworks(network, new Set(["OASIS"]), "portfolio");
     return OASIS.fetchAccountHistory(address, network);
   },
 
@@ -44,7 +44,7 @@ const OasisResolvers = {
   ): Promise<IQuery["oasisTransactions"]> => {
     const { address, startingPage, pageSize } = args;
     const network = deriveNetworkFromAddress(address);
-    blockUnsupportedNetworks(network, "OASIS", "transactions");
+    blockUnsupportedNetworks(network, new Set(["OASIS"]), "transactions");
     const size = validatePaginationParams(pageSize, 25);
     const start = validatePaginationParams(startingPage, 1);
     const params = {
