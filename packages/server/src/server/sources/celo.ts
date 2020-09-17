@@ -160,7 +160,11 @@ const fetchTransaction = async (hash: string): Promise<ICeloTransaction> => {
   const response = await AxiosUtil.get<{
     transaction: CeloTransactionResponse;
   }>(url);
-  return formatCeloTransaction(response.transaction);
+  if (response) {
+    return formatCeloTransaction(response.transaction);
+  } else {
+    throw new Error(`No transaction found for hash: ${hash}`);
+  }
 };
 
 /**

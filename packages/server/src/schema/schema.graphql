@@ -2,7 +2,7 @@ type Query {
   # Cosmos APIs
   cosmosAccountBalances(address: String!): CosmosAccountBalances!
   cosmosAccountHistory(address: String!, fiat: String!): CosmosAccountHistory!
-  cosmosTransaction(hash: String!, network: String!): CosmosTransaction
+  cosmosTransaction(hash: String!, network: String!): CosmosTransaction!
   cosmosTransactions(
     address: String!
     startingPage: Float

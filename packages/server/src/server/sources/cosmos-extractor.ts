@@ -231,9 +231,13 @@ export const getTransactionByHash = async (
   const transactionQuery = getTransactionByHashQuery();
   const query = transactionQuery(variables);
   const response = await queryPostgresCosmosSdkPool(network.name, query);
-  console.log(response);
+
+  if (!response || !response.length) {
+    throw new Error(`No transaction found for hash: ${hash}`);
+  }
+
   const result = response.map(formatTransactionResponse);
-  const transaction = result[0] || null;
+  const transaction = result[0];
   return transaction;
 };
 
