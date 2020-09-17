@@ -4,6 +4,7 @@ import {
   ICosmosTransaction,
   IMsgDelegate,
   ITxMsg,
+  NETWORK_NAME,
   NetworkDefinition,
 } from "@anthem/utils";
 import * as Sentry from "@sentry/node";
@@ -237,8 +238,19 @@ export const validatePaginationParams = (param: any, defaultValue: number) => {
  */
 export const blockUnsupportedNetworks = (
   network: NetworkDefinition,
-  feature: "portfolio" | "transactions" | "balances",
+  resolverNetworkName: NETWORK_NAME,
+  feature?: "portfolio" | "transactions" | "balances",
 ) => {
+  if (network.name !== resolverNetworkName) {
+    throw new Error(
+      `Invalid network argument supplied for this resolver. Received ${network.name} but ${resolverNetworkName} is required.`,
+    );
+  }
+
+  if (!feature) {
+    return;
+  }
+
   switch (feature) {
     case "portfolio":
       if (!network.supportsPortfolio) {

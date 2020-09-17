@@ -171,7 +171,11 @@ const getPortfolioDelegatorRewards = async (request: {
   const rewardsQuery = getRewardsQueryForDelegator();
   const query = rewardsQuery(variables);
   const result = await queryPostgresCosmosSdkPool(network.name, query);
-  return result.filter(filterSanityCheckHeights).map(mapSumToBalance);
+  if (result) {
+    return result.filter(filterSanityCheckHeights).map(mapSumToBalance);
+  } else {
+    return [];
+  }
 };
 
 const getPortfolioDelegations = async (request: {

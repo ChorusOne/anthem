@@ -44,7 +44,7 @@ const CosmosResolvers = {
     const { address, fiat } = args;
     const network = deriveNetworkFromAddress(address);
 
-    blockUnsupportedNetworks(network, "portfolio");
+    blockUnsupportedNetworks(network, "COSMOS", "portfolio");
 
     // Fetch fiat price history data
     const fiatPriceHistory = await EXCHANGE_DATA_API.fetchPortfolioFiatPriceHistory(
@@ -88,7 +88,7 @@ const CosmosResolvers = {
   ): Promise<IQuery["cosmosTransaction"]> => {
     const { hash } = args;
     const network = getNetworkDefinitionFromIdentifier(args.network);
-    blockUnsupportedNetworks(network, "transactions");
+    blockUnsupportedNetworks(network, "COSMOS", "transactions");
     return COSMOS_EXTRACTOR.getTransactionByHash(hash, network);
   },
 
@@ -100,7 +100,7 @@ const CosmosResolvers = {
     const size = validatePaginationParams(pageSize, 25);
     const start = validatePaginationParams(startingPage, 1);
     const network = deriveNetworkFromAddress(address);
-    blockUnsupportedNetworks(network, "transactions");
+    blockUnsupportedNetworks(network, "COSMOS", "transactions");
     const params = {
       address,
       network,
@@ -178,6 +178,8 @@ const CosmosResolvers = {
     args: ICosmosValidatorsQueryVariables,
   ): Promise<IQuery["cosmosValidators"]> => {
     const network = getNetworkDefinitionFromIdentifier(args.network);
+    blockUnsupportedNetworks(network, "COSMOS");
+
     return COSMOS_SDK.fetchValidators(network);
   },
 
