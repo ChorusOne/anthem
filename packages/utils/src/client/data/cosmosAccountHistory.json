@@ -5411,6 +5411,90 @@
         "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
         "timestamp": "2020-09-10T16:00:00.000Z",
         "denom": "uatom"
+      },
+      {
+        "balance": "4525486",
+        "height": 3324581,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-11T16:00:01.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "4973806",
+        "height": 3326386,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-11T19:41:18.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "7433571",
+        "height": 3336295,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-12T16:00:01.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "8394556",
+        "height": 3340168,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-12T23:57:17.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "8882496",
+        "height": 3342132,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-13T03:58:40.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "10339180",
+        "height": 3348006,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-13T16:00:07.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "12316420",
+        "height": 3355977,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-14T08:17:04.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "13254755",
+        "height": 3359761,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-14T16:00:03.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "15094375",
+        "height": 3367180,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-15T07:07:53.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "16172767",
+        "height": 3371530,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-15T16:00:03.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "18526838",
+        "height": 3381034,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-16T11:27:17.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "19077174",
+        "height": 3383256,
+        "address": "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+        "timestamp": "2020-09-16T16:00:05.000Z",
+        "denom": "uatom"
       }
     ],
     "validatorCommissions": [
@@ -10117,6 +10201,90 @@
         "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
         "timestamp": "2020-09-10T16:00:00.000Z",
         "denom": "uatom"
+      },
+      {
+        "balance": "4198845771",
+        "height": 3324581,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-11T16:00:01.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "4215629820",
+        "height": 3326386,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-11T19:41:18.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "4307717780",
+        "height": 3336295,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-12T16:00:01.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "4343696854",
+        "height": 3340168,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-12T23:57:17.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "4361965213",
+        "height": 3342132,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-13T03:58:40.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "4416501913",
+        "height": 3348006,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-13T16:00:07.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "4490527284",
+        "height": 3355977,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-14T08:17:04.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "4525657421",
+        "height": 3359761,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-14T16:00:03.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "4594530588",
+        "height": 3367180,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-15T07:07:53.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "4634904581",
+        "height": 3371530,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-15T16:00:03.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "4723043517",
+        "height": 3381034,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-16T11:27:17.000Z",
+        "denom": "uatom"
+      },
+      {
+        "balance": "4743649046",
+        "height": 3383256,
+        "validator": "cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
+        "timestamp": "2020-09-16T16:00:05.000Z",
+        "denom": "uatom"
       }
     ],
     "fiatPriceHistory": [
@@ -10689,7 +10857,13 @@
       { "price": 4.975499999999999, "timestamp": "2020-09-08T00:00:00.000Z" },
       { "price": 5.15825, "timestamp": "2020-09-09T00:00:00.000Z" },
       { "price": 5.3445, "timestamp": "2020-09-10T00:00:00.000Z" },
-      { "price": 5.23125, "timestamp": "2020-09-11T00:00:00.000Z" }
+      { "price": 5.2787500000000005, "timestamp": "2020-09-11T00:00:00.000Z" },
+      { "price": 5.468, "timestamp": "2020-09-12T00:00:00.000Z" },
+      { "price": 5.471500000000001, "timestamp": "2020-09-13T00:00:00.000Z" },
+      { "price": 5.33725, "timestamp": "2020-09-14T00:00:00.000Z" },
+      { "price": 5.123749999999999, "timestamp": "2020-09-15T00:00:00.000Z" },
+      { "price": 4.9685, "timestamp": "2020-09-16T00:00:00.000Z" },
+      { "price": 5.06675, "timestamp": "2020-09-17T00:00:00.000Z" }
     ]
   }
 }

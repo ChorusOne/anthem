@@ -35,7 +35,6 @@ const CeloResolvers = {
   ): Promise<IQuery["celoAccountHistory"]> => {
     const { address } = args;
     const network = deriveNetworkFromAddress(address);
-    console.log(network);
     blockUnsupportedNetworks(network, new Set(["CELO"]), "portfolio");
     return CELO.fetchAccountHistory(address, network);
   },
