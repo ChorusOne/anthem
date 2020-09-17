@@ -774,7 +774,7 @@ export interface IQuery {
   /** Cosmos APIs */
   cosmosAccountBalances: ICosmosAccountBalances;
   cosmosAccountHistory: ICosmosAccountHistory;
-  cosmosTransaction: ICosmosTransaction;
+  cosmosTransaction: Maybe<ICosmosTransaction>;
   cosmosTransactions: ICosmosTransactionResult;
   cosmosRewardsByValidator: IAvailableReward[];
   cosmosAccountInformation: ICosmosAccountInformation;
@@ -1477,7 +1477,7 @@ export interface ICosmosTransactionQueryVariables {
 
 export type ICosmosTransactionQuery = (
   { __typename?: "Query" }
-  & { cosmosTransaction: (
+  & { cosmosTransaction: Maybe<(
     { __typename?: "CosmosTransaction" }
     & Pick<ICosmosTransaction, "hash" | "height" | "gaswanted" | "gasused" | "memo" | "timestamp" | "chain">
     & { log: Array<Maybe<(
@@ -1562,7 +1562,7 @@ export type ICosmosTransactionQuery = (
         & Pick<IEventAttributes, "key" | "value">
       )> }
     )>> }
-  ) }
+  )> }
 );
 
 export interface ICosmosTransactionsQueryVariables {
