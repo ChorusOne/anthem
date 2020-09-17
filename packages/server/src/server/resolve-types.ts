@@ -83,6 +83,10 @@ const TxMsgValue = {
       return "MsgSubmitProposal";
     }
 
+    if (hasKeys(x, ["content", "proposer", "initial_deposit"])) {
+      return "MsgParameterChangeProposal";
+    }
+
     return null;
   },
 };
