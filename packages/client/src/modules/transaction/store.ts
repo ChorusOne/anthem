@@ -147,6 +147,7 @@ const transaction = createReducer<
     state => ({
       ...initialState,
       liveTransactionRecord: state.liveTransactionRecord,
+      celoPendingWithdrawalData: state.celoPendingWithdrawalData,
     }),
   );
 
