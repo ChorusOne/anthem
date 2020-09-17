@@ -45,6 +45,7 @@ export enum TERRA_TRANSACTION_TYPES {
   UNDELEGATE = "staking/MsgUndelegate",
   REDELEGATE = "staking/MsgBeginRedelegate",
   GOVERNANCE_DEPOSIT = "gov/MsgDeposit",
+  SUBMIT_PROPOSAL = "gov/MsgSubmitProposal",
   DELEGATE_FEED_CONSENT = "oracle/MsgDelegateFeedConsent",
   WITHDRAW_REWARD = "distribution/MsgWithdrawDelegationReward",
   WITHDRAW_COMMISSION = "distribution/MsgWithdrawValidatorCommission",
@@ -501,10 +502,25 @@ const getGovernanceSubmitProposalMessage = (
   const { timestamp } = transaction;
   const msg = transaction.msgs[msgIndex];
 
+  let title;
+  let description;
+  let proposer;
+  let deposit;
+
   const fee = getTxFee(transaction);
-  const proposal = msg.value as IMsgSubmitProposal;
-  const { title, description, proposer, initial_deposit } = proposal;
-  const deposit = initial_deposit ? initial_deposit[0] : null;
+  const data: any = msg.value;
+  if (data.content) {
+    title = data.content.value.title;
+    description = data.content.value.description;
+    proposer = data.proposer;
+    deposit = data.initial_deposit ? data.initial_deposit[0] : null;
+  } else {
+    const proposal = data as IMsgSubmitProposal;
+    title = proposal.title;
+    description = proposal.description;
+    proposer = proposal.proposer;
+    deposit = proposal.initial_deposit ? proposal.initial_deposit[0] : null;
+  }
 
   return {
     fee,
@@ -676,11 +692,16 @@ export const transformCosmosTransactionToRenderElements = ({
         return getChangeWithdrawAddressMessage(transaction, msgIndex);
       }
 
+      case TERRA_TRANSACTION_TYPES.SUBMIT_PROPOSAL: {
+        return getGovernanceSubmitProposalMessage(transaction, msgIndex);
+      }
+
       case TERRA_TRANSACTION_TYPES.GOVERNANCE_DEPOSIT:
       case TERRA_TRANSACTION_TYPES.DELEGATE_FEED_CONSENT:
       case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_VOTE:
       case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_PRE_VOTE:
       default:
+        console.log(transaction);
         Sentry.captureException(
           `Unhandled Terra transaction type ${TX_TYPE} for address: ${address}`,
         );
