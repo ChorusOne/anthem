@@ -3,6 +3,7 @@ import {
   ICosmosTransaction,
   IQuery,
 } from "@anthem/utils";
+import { Code } from "@blueprintjs/core";
 import {
   CosmosTransactionsProps,
   FiatPriceHistoryProps,
@@ -68,20 +69,7 @@ class CosmosTransactionDetail extends React.PureComponent<IProps> {
                 <GraphQLGuardComponentMultipleQueries
                   tString={i18n.tString}
                   loadingComponent={<DashboardLoader />}
-                  errorComponent={
-                    <View>
-                      <Centered
-                        style={{ marginTop: 50, flexDirection: "column" }}
-                      >
-                        <p style={{ fontSize: 16 }}>
-                          {this.props.i18n.t(
-                            "Transaction could not be found for hash:",
-                          )}
-                        </p>
-                        <p>{hash}</p>
-                      </Centered>
-                    </View>
-                  }
+                  errorComponent={this.renderEmptyResult()}
                   results={[
                     [transaction, ["data", "cosmosTransaction"]],
                     [cosmosValidators, "cosmosValidators"],
@@ -100,7 +88,26 @@ class CosmosTransactionDetail extends React.PureComponent<IProps> {
     }
   }
 
+  renderEmptyResult = () => {
+    const { i18n } = this.props;
+    const hash = getTransactionHashFromUrl(this.props.location.pathname);
+    return (
+      <View>
+        <Centered style={{ marginTop: 50, flexDirection: "column" }}>
+          <p style={{ fontSize: 16 }}>
+            {i18n.t("Transaction could not be found for hash:")}
+          </p>
+          <Code style={{ marginTop: 12, fontSize: 14 }}>{hash}</Code>
+        </Centered>
+      </View>
+    );
+  };
+
   renderTransaction = (transaction: ICosmosTransaction) => {
+    if (!transaction) {
+      return this.renderEmptyResult();
+    }
+
     return (
       <View>
         <CosmosTransactionList
