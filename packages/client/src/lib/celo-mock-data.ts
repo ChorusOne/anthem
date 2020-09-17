@@ -5,10 +5,10 @@
 
 const PLACEHOLDER_TX_RECEIPT = {
   blockHash:
-    "0x9c07e995eea75054d1e87bd25d5ba23db5f128efe8ff139d49c7be799e04cd58",
-  blockNumber: 374241,
+    "0x9c07e995eea75054d1e87bd25d5ba23db5f128efe8ff139d49c7be842e04cd41",
+  blockNumber: 289127,
   transactionHash:
-    "0x54e41a120cc6a01a3e5479de2834879955d509269c36b1f63824ed3093dd648d",
+    "0x21e43a120cc6a01a3e5479de2834872155d509269c36b1f64824ed3093dd928d",
 };
 
 const ACTIVATE_VOTES_RECEIPT = {
