@@ -160,7 +160,7 @@ export const DashboardError = ({
   tString: tFnString;
   text?: string | JSX.Element;
 }) => (
-  <p style={{ marginTop: 85, textAlign: "center" }}>
+  <p style={{ marginTop: 85, textAlign: "center", padding: 12 }}>
     {text
       ? text
       : `Oops! We are having trouble fetching data at the moment. Our engineers have been notified and this will be fixed shortly.`}
