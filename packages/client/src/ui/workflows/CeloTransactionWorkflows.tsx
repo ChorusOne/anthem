@@ -777,6 +777,11 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       celoAccountBalances,
     } = this.props;
     const { celoPendingWithdrawalData } = transaction;
+
+    /**
+     * This gets fetched from the Celo Ledger library utils. Wait for it
+     * to be available before rendering.
+     */
     if (!celoPendingWithdrawalData) {
       return <Spinner />;
     }
@@ -864,7 +869,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
                         );
 
                         const timeDateString = new Date(
-                          time.toNumber(),
+                          time.toNumber() * 1000,
                         ).toLocaleString();
 
                         const untilLabel = isAvailableForWithdraw

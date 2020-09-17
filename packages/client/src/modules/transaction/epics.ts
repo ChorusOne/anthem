@@ -249,10 +249,12 @@ const fetchCeloPendingWithdrawalsEpic: EpicSignature = (
   deps,
 ) => {
   return action$.pipe(
-    filter(isActionOf(Actions.connectLedgerSuccess)),
-    filter(action => action.payload.network.name === "CELO"),
-    mergeMap(async action => {
-      const address = action.payload.ledgerAddress;
+    filter(
+      isActionOf([Actions.connectLedgerSuccess, Actions.transactionConfirmed]),
+    ),
+    filter(() => state$.value.ledger.ledger.network.name === "CELO"),
+    mergeMap(async () => {
+      const { address } = state$.value.ledger.ledger;
       const pendingWithdrawals = await deps.celoLedgerUtil.getPendingWithdrawalBalances(
         address,
       );
