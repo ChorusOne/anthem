@@ -392,7 +392,8 @@ class CeloLedgerClass implements ICeloLedger {
       `Revoking ${value.toString()} votes for address: ${address} from group: ${group}`,
     );
     const tx = await election.revokeActive(address, group, value);
-    const receipt = await tx.sendAndWaitForReceipt();
+    // @ts-ignore
+    const receipt = await tx.sendAndWaitForReceipt({ from: address });
     console.log(receipt);
     return receipt;
   }
