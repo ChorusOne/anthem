@@ -12,6 +12,13 @@ export const assertUnreachable = (x: never): never => {
 };
 
 /**
+ * Wait some time.
+ */
+export const wait = async (time: number = 1000) => {
+  await new Promise((res: any) => setTimeout(res, time));
+};
+
+/**
  * Determine the network for a given address using the address prefix.
  *
  * NOTE: Polkadot address validation was hard-coded and has been

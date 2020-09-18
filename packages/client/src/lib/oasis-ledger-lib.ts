@@ -1,9 +1,9 @@
+import { wait } from "@anthem/utils";
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
 import OasisApp from "ledger-oasis-js";
 import ENV from "lib/client-env";
-import { wait } from "tools/client-utils";
 
 /** ===========================================================================
  * Oasis Ledger Utils

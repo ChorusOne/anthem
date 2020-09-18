@@ -3,6 +3,7 @@ import {
   ICeloValidatorGroup,
   ICosmosValidator,
   NETWORK_NAME,
+  wait,
 } from "@anthem/utils";
 import { NetworkLogoIcon } from "assets/images";
 import axios from "axios";
@@ -14,7 +15,6 @@ import styled from "styled-components";
 import {
   getValidatorNameFromAddress,
   ValidatorOperatorAddressMap,
-  wait,
 } from "tools/client-utils";
 
 /** ===========================================================================

@@ -5,6 +5,7 @@ import {
   CosmosAccountBalancesDocument,
   CosmosTransactionsDocument,
   validatorAddressToOperatorAddress,
+  wait,
 } from "@anthem/utils";
 import { graphqlSelector } from "graphql/queries";
 import Analytics from "lib/analytics-lib";
@@ -29,7 +30,6 @@ import {
   initializeNetwork,
   isChartTabValidForNetwork,
   onChartTab,
-  wait,
 } from "tools/client-utils";
 import {
   validateEmailAddress,
