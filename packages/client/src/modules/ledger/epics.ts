@@ -4,6 +4,7 @@ import {
   getNetworkDefinitionFromIdentifier,
   NetworkSummariesDocument,
   validatorAddressToOperatorAddress,
+  wait,
 } from "@anthem/utils";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
 import Analytics from "lib/analytics-lib";
@@ -27,7 +28,6 @@ import {
   isChartTabValidForNetwork,
   onChartTab,
   onPageWhichIncludesAddressParam,
-  wait,
 } from "tools/client-utils";
 import { getAccAddress } from "tools/terra-library/key-utils";
 import {

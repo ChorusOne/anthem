@@ -30,6 +30,9 @@
             "name": "MsgWithdrawDelegationReward"
           },
           {
+            "name": "MsgParameterChangeProposal"
+          },
+          {
             "name": "MsgWithdrawValidatorCommission"
           }
         ]

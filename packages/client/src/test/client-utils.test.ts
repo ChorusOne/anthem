@@ -22,7 +22,6 @@ import {
   race,
   sortValidatorsChorusOnTop,
   trimZeroes,
-  wait,
 } from "tools/client-utils";
 import { cosmosRewardsByValidator } from "../../../utils/src/client/data/cosmosRewardsByValidator.json";
 import { cosmosValidators } from "../../../utils/src/client/data/cosmosValidators.json";
@@ -319,13 +318,6 @@ describe("utils", () => {
         async () => new Promise(resolve => setTimeout(() => resolve(null), 50)),
       ),
     ).toBe(null);
-  });
-
-  test("wait", async () => {
-    const then = Date.now();
-    await wait(500);
-    const expected = then + 500;
-    expect(Date.now() - expected < 10).toBeTruthy();
   });
 
   test("formatCommissionRate", () => {

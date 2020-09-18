@@ -43,7 +43,9 @@ describe("math-utils", () => {
 
     expect(() => {
       valueToBigNumber("sad8f7p0");
-    }).toThrowError("Invalid number input received, original input: sad8f7p0");
+    }).toThrowError(
+      "Invalid number input received, original input: 'sad8f7p0'",
+    );
   });
 
   test("add", () => {

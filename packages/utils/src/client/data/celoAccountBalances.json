@@ -1,18 +1,18 @@
 {
   "celoAccountBalances": {
     "address": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
-    "height": "2447125",
+    "height": "2556626",
     "availableGoldBalance": "1000000000000000016",
-    "totalLockedGoldBalance": "50915826138600692712879",
+    "totalLockedGoldBalance": "50963195658106474251698",
     "nonVotingLockedGoldBalance": "0",
-    "votingLockedGoldBalance": "50915826138600692712879",
+    "votingLockedGoldBalance": "50963195658106474251698",
     "pendingWithdrawalBalance": "0",
-    "celoUSDValue": "0",
+    "celoUSDValue": "5970399386662756655185",
     "delegations": [
       {
         "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
-        "totalVotes": "50915826138600692712879",
-        "activeVotes": "50915826138600692712879",
+        "totalVotes": "50963195658106474251698",
+        "activeVotes": "50963195658106474251698",
         "pendingVotes": "0"
       }
     ]

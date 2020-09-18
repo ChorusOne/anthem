@@ -340,12 +340,22 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     timestamp: string,
   ) => {
     const { network, isDesktop } = this.props;
-    if (!amount) {
+
+    const renderEmpty = () => {
       if (isDesktop) {
         return <EventRowItem style={{ minWidth: 275 }} />;
       } else {
         return null;
       }
+    };
+
+    if (!amount) {
+      return renderEmpty();
+    }
+
+    const invalidAmount = !amount.amount && amount.amount !== "0";
+    if (invalidAmount) {
+      return renderEmpty();
     }
 
     const { fiatCurrency } = this.props;
@@ -539,6 +549,7 @@ const getCosmosTransactionTypeIcon = (
     case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_VOTE:
     case TERRA_TRANSACTION_TYPES.EXCHANGE_RATE_PRE_VOTE:
     case COSMOS_TRANSACTION_TYPES.SUBMIT_PROPOSAL:
+    case TERRA_TRANSACTION_TYPES.SUBMIT_PROPOSAL:
     case COSMOS_TRANSACTION_TYPES.CREATE_VALIDATOR:
     case COSMOS_TRANSACTION_TYPES.EDIT_VALIDATOR:
     case TERRA_TRANSACTION_TYPES.MODIFY_WITHDRAW_ADDRESS:
@@ -588,6 +599,7 @@ export const getCosmosTransactionLabelFromType = (
     case COSMOS_TRANSACTION_TYPES.CLAIM_REWARDS:
       return tString("Claim Rewards");
     case COSMOS_TRANSACTION_TYPES.SUBMIT_PROPOSAL:
+    case TERRA_TRANSACTION_TYPES.SUBMIT_PROPOSAL:
       return tString("Submit Proposal");
     case TERRA_TRANSACTION_TYPES.WITHDRAW_COMMISSION:
     case COSMOS_TRANSACTION_TYPES.CLAIM_COMMISSION:

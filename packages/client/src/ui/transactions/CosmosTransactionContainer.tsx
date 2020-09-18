@@ -44,6 +44,10 @@ class CosmosTransactionsContainer extends React.Component<IProps, {}> {
         ]}
       >
         {() => {
+          if (!transactions.cosmosTransactions) {
+            return null;
+          }
+
           return (
             <CosmosTransactionList
               {...this.props}

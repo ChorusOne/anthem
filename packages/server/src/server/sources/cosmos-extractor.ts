@@ -171,7 +171,11 @@ const getPortfolioDelegatorRewards = async (request: {
   const rewardsQuery = getRewardsQueryForDelegator();
   const query = rewardsQuery(variables);
   const result = await queryPostgresCosmosSdkPool(network.name, query);
-  return result.filter(filterSanityCheckHeights).map(mapSumToBalance);
+  if (result) {
+    return result.filter(filterSanityCheckHeights).map(mapSumToBalance);
+  } else {
+    return [];
+  }
 };
 
 const getPortfolioDelegations = async (request: {
@@ -227,8 +231,13 @@ export const getTransactionByHash = async (
   const transactionQuery = getTransactionByHashQuery();
   const query = transactionQuery(variables);
   const response = await queryPostgresCosmosSdkPool(network.name, query);
+
+  if (!response || !response.length) {
+    throw new Error(`No transaction found for hash: ${hash}`);
+  }
+
   const result = response.map(formatTransactionResponse);
-  const transaction = result[0] || null;
+  const transaction = result[0];
   return transaction;
 };
 

@@ -1,10 +1,10 @@
-import { assertUnreachable } from "@anthem/utils";
+import { assertUnreachable, wait } from "@anthem/utils";
 import logger from "lib/logger-lib";
 import { EpicSignature } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import { combineEpics } from "redux-observable";
 import { filter, ignoreElements, mergeMap, pluck, tap } from "rxjs/operators";
-import { adaptRawTransactionData, wait } from "tools/client-utils";
+import { adaptRawTransactionData } from "tools/client-utils";
 import { createSignMessage } from "tools/cosmos-ledger-utils";
 import { createCosmosTransactionPostBody } from "tools/cosmos-utils";
 import { isActionOf } from "typesafe-actions";

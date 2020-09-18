@@ -83,6 +83,20 @@ query cosmosTransactions($address: String!, $startingPage: Float, $pageSize: Flo
                         delegator_address
                         validator_address
                     }
+                    ... on MsgParameterChangeProposal {
+                        content{
+                            type
+                            value{
+                                title
+                                description
+                            }
+                        }
+                        proposer
+                        initial_deposit{
+                            denom
+                            amount
+                        }
+                    }
                     ... on MsgWithdrawValidatorCommission {
                         validator_address
                     }

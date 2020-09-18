@@ -1,6 +1,54 @@
 {
   "celoSystemHistory": [
     {
+      "BlockNumber": "2545237",
+      "SnapshotDate": "17-09-2020",
+      "GoldTokenSupply": "607900375788881001427137802",
+      "TotalLockedGoldBalance": "337237134710168918213208712",
+      "NonVotingLockedGoldBalance": "69150551672731231088271132",
+      "TotalCeloUSDValue": "8798763014844271412229256"
+    },
+    {
+      "BlockNumber": "2527957",
+      "SnapshotDate": "16-09-2020",
+      "GoldTokenSupply": "607835492396903541737597340",
+      "TotalLockedGoldBalance": "337196104266570720513887724",
+      "NonVotingLockedGoldBalance": "69150551672731231088271132",
+      "TotalCeloUSDValue": "8612576943332910516894822"
+    },
+    {
+      "BlockNumber": "2510677",
+      "SnapshotDate": "15-09-2020",
+      "GoldTokenSupply": "607770235362679757856006043",
+      "TotalLockedGoldBalance": "337155349611026024960209701",
+      "NonVotingLockedGoldBalance": "69150551672731231088271132",
+      "TotalCeloUSDValue": "8376972282834208517077671"
+    },
+    {
+      "BlockNumber": "2493397",
+      "SnapshotDate": "14-09-2020",
+      "GoldTokenSupply": "607706170492117459243859784",
+      "TotalLockedGoldBalance": "337114755753464686515547869",
+      "NonVotingLockedGoldBalance": "69150551672731231088271132",
+      "TotalCeloUSDValue": "8308749537463531097930435"
+    },
+    {
+      "BlockNumber": "2476117",
+      "SnapshotDate": "13-09-2020",
+      "GoldTokenSupply": "607642100623461433886628898",
+      "TotalLockedGoldBalance": "337073556427218006727409836",
+      "NonVotingLockedGoldBalance": "69150551672731231088271132",
+      "TotalCeloUSDValue": "8296022567188520922023018"
+    },
+    {
+      "BlockNumber": "2458838",
+      "SnapshotDate": "12-09-2020",
+      "GoldTokenSupply": "607578178726184223354524009",
+      "TotalLockedGoldBalance": "337030894817166880276183784",
+      "NonVotingLockedGoldBalance": "69150550672731231088271132",
+      "TotalCeloUSDValue": "8278280462601164320245156"
+    },
+    {
       "BlockNumber": "2441558",
       "SnapshotDate": "11-09-2020",
       "GoldTokenSupply": "607514336282648603686370816",

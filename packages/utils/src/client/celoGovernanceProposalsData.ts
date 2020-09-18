@@ -1,0 +1,201 @@
+/**
+ * NOTE: The following is a hard-coded semi-real version of Celo
+ * Governance Proposal data which provides samples of proposals in different
+ * states (e.g. voting stage).
+ *
+ * This is useful for development and can be used to replace the
+ * celoGovernanceProposals.json file JSON data when running the app
+ * in dev mode.
+ */
+const data = {
+  celoGovernanceProposals: {
+    queuedProposals: [
+      {
+        proposalID: 11,
+        index: 0,
+        currentBlockNumber: 400000,
+        stage: "Queued",
+        proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+        upvotes: 1.4285841e24,
+        description:
+          "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0001.md",
+        proposalEpoch: 1589480751,
+        referendumEpoch: 1589567151,
+        executionEpoch: 1589739951,
+        expirationEpoch: 1589999151,
+        queuedAtBlockNumber: 381386,
+        deposit: 100000000000000000000,
+        queuedAtTimestamp: 1589480751,
+      },
+      {
+        proposalID: 10,
+        index: 1,
+        currentBlockNumber: 400000,
+        stage: "Queued",
+        proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+        upvotes: 2.135001e23,
+        description:
+          "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0002.md",
+        proposalEpoch: 1589481016,
+        referendumEpoch: 1589567416,
+        executionEpoch: 1589740216,
+        expirationEpoch: 1589999416,
+        queuedAtBlockNumber: 381439,
+        deposit: 100000000000000000000,
+        queuedAtTimestamp: 1589481016,
+      },
+    ],
+    approvalProposals: [
+      {
+        proposalID: 9,
+        index: 0,
+        currentBlockNumber: 410000,
+        stage: "Approval",
+        proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+        description:
+          "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0001.md",
+        proposalEpoch: 1589574880,
+        referendumEpoch: 1589661280,
+        executionEpoch: 1589834080,
+        expirationEpoch: 1590093280,
+        queuedAtBlockNumber: 381386,
+        deposit: 100000000000000000000,
+        queuedAtTimestamp: 1589480751,
+      },
+      {
+        proposalID: 8,
+        index: 1,
+        currentBlockNumber: 410000,
+        stage: "Approval",
+        proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+        description:
+          "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0002.md",
+        proposalEpoch: 1589574880,
+        referendumEpoch: 1589661280,
+        executionEpoch: 1589834080,
+        expirationEpoch: 1590093280,
+        queuedAtBlockNumber: 381439,
+        deposit: 100000000000000000000,
+        queuedAtTimestamp: 1589481016,
+      },
+    ],
+    referendumProposals: [
+      {
+        proposalID: 7,
+        index: 0,
+        currentBlockNumber: 450000,
+        stage: "Referendum",
+        proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+        yesVotes: 4.726916770837158e25,
+        noVotes: 0,
+        abstainVotes: 0,
+        description:
+          "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0001.md",
+        proposalEpoch: 1589574880,
+        referendumEpoch: 1589661280,
+        executionEpoch: 1589834080,
+        expirationEpoch: 1590093280,
+        queuedAtBlockNumber: 381386,
+        deposit: 100000000000000000000,
+        queuedAtTimestamp: 1589480751,
+      },
+      {
+        proposalID: 6,
+        index: 1,
+        currentBlockNumber: 450000,
+        stage: "Referendum",
+        proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+        yesVotes: 4.728916770837158e25,
+        noVotes: 0,
+        abstainVotes: 0,
+        description:
+          "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0002.md",
+        proposalEpoch: 1589574880,
+        referendumEpoch: 1589661280,
+        executionEpoch: 1589834080,
+        expirationEpoch: 1590093280,
+        queuedAtBlockNumber: 381439,
+        deposit: 100000000000000000000,
+        queuedAtTimestamp: 1589481016,
+      },
+    ],
+    executionProposals: [
+      {
+        proposalID: 5,
+        index: 0,
+        currentBlockNumber: 452035,
+        stage: "Execution",
+        proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+        yesVotes: 4.726916770837158e25,
+        noVotes: 0,
+        abstainVotes: 0,
+        description:
+          "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0001.md",
+        proposalEpoch: 1589574880,
+        referendumEpoch: 1589661280,
+        executionEpoch: 1589834080,
+        expirationEpoch: 1590093280,
+        queuedAtBlockNumber: 381386,
+        deposit: 100000000000000000000,
+        queuedAtTimestamp: 1589480751,
+      },
+      {
+        proposalID: 4,
+        index: 1,
+        currentBlockNumber: 452035,
+        stage: "Execution",
+        proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+        yesVotes: 4.728916770837158e25,
+        noVotes: 0,
+        abstainVotes: 0,
+        description:
+          "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0002.md",
+        proposalEpoch: 1589574880,
+        referendumEpoch: 1589661280,
+        executionEpoch: 1589834080,
+        expirationEpoch: 1590093280,
+        queuedAtBlockNumber: 381439,
+        deposit: 100000000000000000000,
+        queuedAtTimestamp: 1589481016,
+      },
+    ],
+    expiredProposals: [
+      {
+        proposalID: 1,
+        currentBlockNumber: 453000,
+        stage: "Expiration",
+        proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+        executed: true,
+        queuedAtBlockNumber: 91471,
+        deposit: 100000000000000000000,
+        queuedAtTimestamp: 1588031167,
+        description:
+          "https://gist.github.com/aslawson/a1f693f0e4c5fd391eac463237c4182a",
+      },
+      {
+        proposalID: 2,
+        currentBlockNumber: 453000,
+        stage: "Expiration",
+        proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+        executed: true,
+        queuedAtBlockNumber: 381386,
+        deposit: 100000000000000000000,
+        queuedAtTimestamp: 1589480751,
+        description:
+          "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0001.md",
+      },
+      {
+        proposalID: 3,
+        currentBlockNumber: 453000,
+        stage: "Expiration",
+        proposer: "0xf3eb910da09b8af348e0e5b6636da442cfa79239",
+        executed: true,
+        queuedAtBlockNumber: 381439,
+        deposit: 100000000000000000000,
+        queuedAtTimestamp: 1589481016,
+        description:
+          "https://github.com/celo-org/celo-proposals/blob/master/CGPs/0002.md",
+      },
+    ],
+  },
+};

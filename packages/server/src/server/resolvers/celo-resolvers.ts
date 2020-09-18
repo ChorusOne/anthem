@@ -35,7 +35,7 @@ const CeloResolvers = {
   ): Promise<IQuery["celoAccountHistory"]> => {
     const { address } = args;
     const network = deriveNetworkFromAddress(address);
-    blockUnsupportedNetworks(network, "portfolio");
+    blockUnsupportedNetworks(network, new Set(["CELO"]), "portfolio");
     return CELO.fetchAccountHistory(address, network);
   },
 
@@ -45,7 +45,7 @@ const CeloResolvers = {
   ): Promise<IQuery["celoTransactions"]> => {
     const { address, startingPage, pageSize } = args;
     const network = deriveNetworkFromAddress(address);
-    blockUnsupportedNetworks(network, "transactions");
+    blockUnsupportedNetworks(network, new Set(["CELO"]), "transactions");
     const size = validatePaginationParams(pageSize, 25);
     const start = validatePaginationParams(startingPage, 1);
     const params = {

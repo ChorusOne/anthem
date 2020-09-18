@@ -3,6 +3,7 @@ import {
   ICeloTransaction,
   IQuery,
 } from "@anthem/utils";
+import { Code } from "@blueprintjs/core";
 import {
   CeloTransactionsProps,
   FiatPriceHistoryProps,
@@ -63,20 +64,7 @@ class CeloTransactionDetailLoadingContainer extends React.PureComponent<
                 <GraphQLGuardComponentMultipleQueries
                   tString={i18n.tString}
                   loadingComponent={<DashboardLoader />}
-                  errorComponent={
-                    <View>
-                      <Centered
-                        style={{ marginTop: 50, flexDirection: "column" }}
-                      >
-                        <p style={{ fontSize: 16 }}>
-                          {this.props.i18n.t(
-                            "Transaction could not be found for hash:",
-                          )}
-                        </p>
-                        <p>{hash}</p>
-                      </Centered>
-                    </View>
-                  }
+                  errorComponent={this.renderEmptyResult()}
                   results={[
                     [transaction, ["data", "celoTransaction"]],
                     [fiatPriceHistory, "fiatPriceHistory"],
@@ -94,7 +82,26 @@ class CeloTransactionDetailLoadingContainer extends React.PureComponent<
     }
   }
 
+  renderEmptyResult = () => {
+    const { i18n } = this.props;
+    const hash = getTransactionHashFromUrl(this.props.location.pathname);
+    return (
+      <View>
+        <Centered style={{ marginTop: 50, flexDirection: "column" }}>
+          <p style={{ fontSize: 16 }}>
+            {i18n.t("Transaction could not be found for hash:")}
+          </p>
+          <Code style={{ marginTop: 12, fontSize: 14 }}>{hash}</Code>
+        </Centered>
+      </View>
+    );
+  };
+
   renderTransaction = (transaction: ICeloTransaction) => {
+    if (!transaction) {
+      return this.renderEmptyResult();
+    }
+
     const { ledger, settings, i18n, setAddress } = this.props;
     const { network, address } = ledger;
     const { t, tString, locale } = i18n;

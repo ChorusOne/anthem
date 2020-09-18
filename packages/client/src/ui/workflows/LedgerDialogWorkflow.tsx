@@ -252,6 +252,10 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
         )}
         <Row style={{ justifyContent: "left" }}>
           <Circle />
+          <H6 style={{ margin: 0 }}>Please use Chrome or Brave browsers.</H6>
+        </Row>
+        <Row style={{ justifyContent: "left" }}>
+          <Circle />
           <H6 style={{ margin: 0 }}>
             If you experience issues, disconnect and reconnect your Ledger.
           </H6>
@@ -278,7 +282,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
             </Button>
           </Centered>
         ) : (
-          <Centered style={{ marginTop: 48 }}>
+          <Centered style={{ marginTop: 18 }}>
             <LoaderBars />
           </Centered>
         )}

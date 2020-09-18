@@ -626,6 +626,7 @@ union TxMsgValue =
   | MsgModifyWithdrawAddress
   | MsgBeginRedelegateLegacy
   | MsgWithdrawDelegationReward
+  | MsgParameterChangeProposal
   | MsgWithdrawValidatorCommission
 
 type MsgSend {
@@ -670,6 +671,22 @@ type MsgModifyWithdrawAddress {
 type MsgWithdrawDelegationReward {
   delegator_address: String
   validator_address: String
+}
+
+type MsgParameterChangeProposal {
+  content: ParameterChangeProposal!
+  proposer: String!
+  initial_deposit: [CosmosBalance!]
+}
+
+type ParameterChangeProposal {
+  type: String!
+  value: ParameterChangeValue!
+}
+
+type ParameterChangeValue {
+  title: String!
+  description: String!
 }
 
 type MsgWithdrawValidatorCommission {

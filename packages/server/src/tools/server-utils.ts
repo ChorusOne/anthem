@@ -4,6 +4,7 @@ import {
   ICosmosTransaction,
   IMsgDelegate,
   ITxMsg,
+  NETWORK_NAME,
   NetworkDefinition,
 } from "@anthem/utils";
 import * as Sentry from "@sentry/node";
@@ -237,8 +238,24 @@ export const validatePaginationParams = (param: any, defaultValue: number) => {
  */
 export const blockUnsupportedNetworks = (
   network: NetworkDefinition,
-  feature: "portfolio" | "transactions" | "balances",
+  allowedNetworkNames: Set<NETWORK_NAME>,
+  feature?: "portfolio" | "transactions" | "balances",
 ) => {
+  /**
+   * This can occur when the app network is switching and components are in
+   * process of handling updates. More logic could be added to the react-apollo
+   * query setup to avoid querying certain APIs if the network doesn't match.
+   */
+  if (!allowedNetworkNames.has(network.name)) {
+    throw new Error(
+      `Invalid network argument supplied for this resolver API. Received: ${network.name}. (NOTE: This is probably OK and not a bug).`,
+    );
+  }
+
+  if (!feature) {
+    return;
+  }
+
   switch (feature) {
     case "portfolio":
       if (!network.supportsPortfolio) {

@@ -1,3 +1,4 @@
+import { wait } from "@anthem/utils";
 import { ContractKit, newKitFromWeb3 } from "@celo/contractkit";
 import {
   LedgerWallet,
@@ -11,7 +12,6 @@ import TransportUSB from "@ledgerhq/hw-transport-webusb";
 import BigNumber from "bignumber.js";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
 import ENV from "lib/client-env";
-import { wait } from "tools/client-utils";
 import Web3 from "web3";
 import {
   ACTIVATE_VOTES_RECEIPT,

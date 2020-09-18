@@ -519,6 +519,13 @@ export interface IMsgModifyWithdrawAddress {
   validator_address: Maybe<Scalars["String"]>;
 }
 
+export interface IMsgParameterChangeProposal {
+   __typename?: "MsgParameterChangeProposal";
+  content: IParameterChangeProposal;
+  proposer: Scalars["String"];
+  initial_deposit: Maybe<ICosmosBalance[]>;
+}
+
 export interface IMsgSend {
    __typename?: "MsgSend";
   amounts: Maybe<ICosmosBalance[]>;
@@ -738,6 +745,18 @@ export interface IOasisUnknownEvent {
    __typename?: "OasisUnknownEvent";
   type: IOasisTransactionType;
   method_name: Scalars["String"];
+}
+
+export interface IParameterChangeProposal {
+   __typename?: "ParameterChangeProposal";
+  type: Scalars["String"];
+  value: IParameterChangeValue;
+}
+
+export interface IParameterChangeValue {
+   __typename?: "ParameterChangeValue";
+  title: Scalars["String"];
+  description: Scalars["String"];
 }
 
 export interface IPrice {
@@ -1005,7 +1024,7 @@ export interface ITxMsg {
 }
 
 /** Could collapse this into a single type with all optional fields: */
-export type ITxMsgValue = IMsgSend | IMsgVote | IMsgDelegate | IMsgSubmitProposal | IMsgBeginRedelegate | IMsgModifyWithdrawAddress | IMsgBeginRedelegateLegacy | IMsgWithdrawDelegationReward | IMsgWithdrawValidatorCommission;
+export type ITxMsgValue = IMsgSend | IMsgVote | IMsgDelegate | IMsgSubmitProposal | IMsgBeginRedelegate | IMsgModifyWithdrawAddress | IMsgBeginRedelegateLegacy | IMsgWithdrawDelegationReward | IMsgParameterChangeProposal | IMsgWithdrawValidatorCommission;
 
 export interface ITxSignature {
    __typename?: "TxSignature";
@@ -1518,6 +1537,20 @@ export type ICosmosTransactionQuery = (
         { __typename?: "MsgWithdrawDelegationReward" }
         & Pick<IMsgWithdrawDelegationReward, "delegator_address" | "validator_address">
       ) | (
+        { __typename?: "MsgParameterChangeProposal" }
+        & Pick<IMsgParameterChangeProposal, "proposer">
+        & { content: (
+          { __typename?: "ParameterChangeProposal" }
+          & Pick<IParameterChangeProposal, "type">
+          & { value: (
+            { __typename?: "ParameterChangeValue" }
+            & Pick<IParameterChangeValue, "title" | "description">
+          ) }
+        ), initial_deposit: Maybe<Array<(
+          { __typename?: "CosmosBalance" }
+          & Pick<ICosmosBalance, "denom" | "amount">
+        )>> }
+      ) | (
         { __typename?: "MsgWithdrawValidatorCommission" }
         & Pick<IMsgWithdrawValidatorCommission, "validator_address">
       )> }
@@ -1602,6 +1635,20 @@ export type ICosmosTransactionsQuery = (
         ) | (
           { __typename?: "MsgWithdrawDelegationReward" }
           & Pick<IMsgWithdrawDelegationReward, "delegator_address" | "validator_address">
+        ) | (
+          { __typename?: "MsgParameterChangeProposal" }
+          & Pick<IMsgParameterChangeProposal, "proposer">
+          & { content: (
+            { __typename?: "ParameterChangeProposal" }
+            & Pick<IParameterChangeProposal, "type">
+            & { value: (
+              { __typename?: "ParameterChangeValue" }
+              & Pick<IParameterChangeValue, "title" | "description">
+            ) }
+          ), initial_deposit: Maybe<Array<(
+            { __typename?: "CosmosBalance" }
+            & Pick<ICosmosBalance, "denom" | "amount">
+          )>> }
         ) | (
           { __typename?: "MsgWithdrawValidatorCommission" }
           & Pick<IMsgWithdrawValidatorCommission, "validator_address">
@@ -3460,6 +3507,20 @@ export const CosmosTransactionDocument = gql`
           delegator_address
           validator_address
         }
+        ... on MsgParameterChangeProposal {
+          content {
+            type
+            value {
+              title
+              description
+            }
+          }
+          proposer
+          initial_deposit {
+            denom
+            amount
+          }
+        }
         ... on MsgWithdrawValidatorCommission {
           validator_address
         }
@@ -3606,6 +3667,20 @@ export const CosmosTransactionsDocument = gql`
           ... on MsgWithdrawDelegationReward {
             delegator_address
             validator_address
+          }
+          ... on MsgParameterChangeProposal {
+            content {
+              type
+              value {
+                title
+                description
+              }
+            }
+            proposer
+            initial_deposit {
+              denom
+              amount
+            }
           }
           ... on MsgWithdrawValidatorCommission {
             validator_address
