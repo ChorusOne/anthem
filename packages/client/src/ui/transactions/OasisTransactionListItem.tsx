@@ -241,6 +241,10 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
   };
 
   renderTransactionAmount = (amount: string) => {
+    if (!amount && amount !== "0") {
+      return null;
+    }
+
     const { denominationSize, denom } = this.props.network;
     return (
       <EventRowItem style={{ minWidth: 200 }}>
