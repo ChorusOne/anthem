@@ -45,7 +45,7 @@
     "sqlite": "^4.0.14",
     "sqlite3": "^5.0.0",
     "sqlstring": "^2.3.1",
-    "typescript": "3.5.3"
+    "typescript": "^3.7.4"
   },
   "devDependencies": {
     "@sentry/node": "5.6.1",
