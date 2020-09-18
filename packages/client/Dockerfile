@@ -19,8 +19,9 @@ RUN yarn client:build
 
 # Deploy the client application:
 #
-# NOTE: Netlify has the production release branch set to the
-# branch 'fake-branch-the-real-deploy-is-in-ci' which does not exist.
+# NOTE: Netlify has the production release branch set to a branch
+# which does not exist.
+#
 # This is because I could not find a way to publish an update to the
 # site in CI here while disabling the auto-publishing function, which
 # would deploy master without running tests. You can disable
