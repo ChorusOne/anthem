@@ -340,12 +340,22 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     timestamp: string,
   ) => {
     const { network, isDesktop } = this.props;
-    if (!amount) {
+
+    const renderEmpty = () => {
       if (isDesktop) {
         return <EventRowItem style={{ minWidth: 275 }} />;
       } else {
         return null;
       }
+    };
+
+    if (!amount) {
+      return renderEmpty();
+    }
+
+    const invalidAmount = !amount.amount && amount.amount !== "0";
+    if (invalidAmount) {
+      return renderEmpty();
     }
 
     const { fiatCurrency } = this.props;

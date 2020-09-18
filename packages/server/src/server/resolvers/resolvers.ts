@@ -37,6 +37,10 @@ export interface PaginationParams {
  * ============================================================================
  */
 
+const wait = async (time: number = 1000) => {
+  await new Promise((res: any) => setTimeout(res, time));
+};
+
 const resolvers = {
   ...UnionResolvers,
 
@@ -57,6 +61,8 @@ const resolvers = {
         throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
       }
 
+      await wait(5000);
+
       return EXCHANGE_DATA_API.fetchPortfolioFiatPriceHistory(fiat, network);
     },
 
@@ -70,6 +76,8 @@ const resolvers = {
       if (!network.supportsFiatPrices) {
         throw new Error(ERRORS.NETWORK_NOT_SUPPORTED(network));
       }
+
+      await wait(5000);
 
       return EXCHANGE_DATA_API.fetchPriceData(currency, fiat);
     },

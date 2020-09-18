@@ -97,7 +97,7 @@ export const valueToBigNumber = (i: GenericNumberType): BigNumber => {
     const result = new BigNumber(input);
 
     if (result.isNaN()) {
-      throw new Error(`Invalid number input received, original input: ${i}`);
+      throw new Error(`Invalid number input received, original input: '${i}'`);
     }
 
     return result;
