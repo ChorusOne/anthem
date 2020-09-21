@@ -13,8 +13,7 @@ import {
   MenuItem,
   Switch,
 } from "@blueprintjs/core";
-import { IItemRendererProps, Select } from "@blueprintjs/select";
-import { BigNumber } from "bignumber.js";
+import { IItemRendererProps } from "@blueprintjs/select";
 import { COLORS } from "constants/colors";
 import { FiatCurrency } from "constants/fiat";
 import {
