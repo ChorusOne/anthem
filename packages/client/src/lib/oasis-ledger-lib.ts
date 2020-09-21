@@ -187,7 +187,7 @@ class MockOasisLedgerModule implements IOasisLedger {
 
   async getVersion() {
     await wait(1500);
-    return "1.0.0";
+    return "1.8.1";
   }
 
   async getPublicKey() {

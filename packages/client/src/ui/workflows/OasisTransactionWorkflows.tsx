@@ -341,7 +341,7 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
                   >
                     <TextInput
                       autoFocus
-                      label="Amount of ROSE to lock"
+                      label="Amount of ROSE to delegate"
                       onSubmit={this.submitDelegationAmount}
                       style={{ ...InputStyles, width: 300 }}
                       placeholder={tString("Enter an amount")}
@@ -353,7 +353,7 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
                       checked={this.state.useFullBalance}
                       style={{ marginTop: 24 }}
                       data-cy="transaction-delegate-all-toggle"
-                      label="Lock Max"
+                      label="Delegate Max"
                       onChange={() => this.toggleFullBalance(balance)}
                     />
                     {this.props.renderConfirmArrow(

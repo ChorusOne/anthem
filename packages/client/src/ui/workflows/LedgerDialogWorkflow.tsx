@@ -117,11 +117,12 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
   renderTransactionStageTitle = (): Nullable<string> => {
     const { tString } = this.props.i18n;
     const { transactionStage } = this.props.transaction;
+    const { network } = this.props.ledger;
     const { ledgerActionType } = this.props.ledgerDialog;
     const { celoCreateAccountStatus } = this.props.ledger;
 
     // If not null then account setup is active
-    if (celoCreateAccountStatus) {
+    if (celoCreateAccountStatus && network.name === "CELO") {
       return "Create Celo Address Account";
     }
 
