@@ -31,19 +31,19 @@ export interface IOasisTransactionReceipt {
   hash: string;
 }
 
-interface OasisTransferArgs {
+export interface OasisTransferArgs {
   from: string;
   to: string;
   amount: string;
 }
 
-interface OasisDelegateArgs {
+export interface OasisDelegateArgs {
   delegator: string;
   validator: string;
   amount: string;
 }
 
-interface OasisUndelegateArgs {
+export interface OasisUndelegateArgs {
   delegator: string;
   validator: string;
   amount: string;

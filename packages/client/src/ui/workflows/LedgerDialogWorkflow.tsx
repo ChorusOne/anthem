@@ -41,6 +41,7 @@ import LoginSetup from "../LoginStart";
 import NetworkSelect from "../NetworkSelect";
 import CeloTransactionWorkflows from "./CeloTransactionWorkflows";
 import CosmosTransactionWorkflows from "./CosmosTransactionWorkflows";
+import OasisTransactionWorkflows from "./OasisTransactionWorkflows";
 
 /** ===========================================================================
  * Types & Config
@@ -551,8 +552,19 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
             {this.renderBackArrow()}
           </>
         );
-      case "POLKADOT":
       case "OASIS":
+        return (
+          <>
+            <OasisTransactionWorkflows
+              renderConfirmArrow={this.renderConfirmArrow}
+              isDarkTheme={this.props.settings.isDarkTheme}
+              fiatCurrency={this.props.settings.fiatCurrency}
+              setCanEscapeKeyCloseDialog={this.setCanEscapeKeyCloseDialog}
+            />
+            {this.renderBackArrow()}
+          </>
+        );
+      case "POLKADOT":
         return null;
       default:
         assertUnreachable(network.name);

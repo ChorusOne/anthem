@@ -61,7 +61,7 @@ import { composeWithProps } from "tools/context-utils";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import {
   denomToUnit,
-  renderCeloCurrency,
+  renderCurrencyValue,
   unitToDenom,
 } from "tools/currency-utils";
 import { bold } from "tools/i18n-utils";
@@ -112,13 +112,13 @@ interface IState {
 const ValidatorSelect = Select.ofType<ICeloValidatorGroup>();
 
 /** ===========================================================================
- * React Component
+ * Celo Transaction Workflows
  * ----------------------------------------------------------------------------
  * Transaction input component which provides transaction input validation.
  * ============================================================================
  */
 
-class CreateTransactionForm extends React.Component<IProps, IState> {
+class CeloTransactionForm extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -444,13 +444,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           IQuery["fiatPriceData"],
         ]) => {
           const { availableGoldBalance } = accountBalancesData;
-          const balance = renderCeloCurrency({
+          const balance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: availableGoldBalance,
             fiatPrice: exchangeRate.price,
             convertToFiat: true,
           });
-          const fiatBalance = renderCeloCurrency({
+          const fiatBalance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: availableGoldBalance,
             fiatPrice: exchangeRate.price,
@@ -581,13 +581,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           IQuery["fiatPriceData"],
         ]) => {
           const { availableGoldBalance } = accountBalancesData;
-          const balance = renderCeloCurrency({
+          const balance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: availableGoldBalance,
             fiatPrice: exchangeRate.price,
             convertToFiat: false,
           });
-          const fiatBalance = renderCeloCurrency({
+          const fiatBalance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: availableGoldBalance,
             fiatPrice: exchangeRate.price,
@@ -680,19 +680,18 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           IQuery["fiatPriceData"],
         ]) => {
           const { totalLockedGoldBalance } = accountBalancesData;
-          const balance = renderCeloCurrency({
+          const balance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: totalLockedGoldBalance,
             fiatPrice: exchangeRate.price,
             convertToFiat: false,
           });
-          const fiatBalance = renderCeloCurrency({
+          const fiatBalance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: totalLockedGoldBalance,
             fiatPrice: exchangeRate.price,
             convertToFiat: true,
           });
-          console.log(totalLockedGoldBalance, balance);
           return (
             <View>
               <p>
@@ -803,13 +802,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           IQuery["fiatPriceData"],
         ]) => {
           const { pendingWithdrawalBalance } = accountBalancesData;
-          const balance = renderCeloCurrency({
+          const balance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: pendingWithdrawalBalance,
             fiatPrice: exchangeRate.price,
             convertToFiat: false,
           });
-          const fiatBalance = renderCeloCurrency({
+          const fiatBalance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: pendingWithdrawalBalance,
             fiatPrice: exchangeRate.price,
@@ -949,13 +948,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             nonVotingLockedGoldBalance,
             totalLockedGoldBalance,
           } = accountBalancesData;
-          const balance = renderCeloCurrency({
+          const balance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: nonVotingLockedGoldBalance,
             fiatPrice: exchangeRate.price,
             convertToFiat: false,
           });
-          const fiatBalance = renderCeloCurrency({
+          const fiatBalance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: nonVotingLockedGoldBalance,
             fiatPrice: exchangeRate.price,
@@ -1784,4 +1783,4 @@ export default composeWithProps<ComponentProps>(
   withFiatPriceData,
   withCeloSystemBalances,
   withCeloAccountBalances,
-)(CreateTransactionForm);
+)(CeloTransactionForm);
