@@ -449,7 +449,7 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
                       checked={this.state.useFullBalance}
                       style={{ marginTop: 24 }}
                       data-cy="transaction-delegate-all-toggle"
-                      label="Unlock Max"
+                      label="Unstake max"
                       onChange={() => this.toggleFullBalance(balance)}
                     />
                     {this.props.renderConfirmArrow(

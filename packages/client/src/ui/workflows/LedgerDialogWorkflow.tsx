@@ -188,6 +188,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
       case "SEND":
       case "CLAIM":
       case "DELEGATE":
+      case "UNDELEGATE":
       case "WITHDRAW":
       case "VOTE_GOLD":
       case "LOCK_GOLD":
