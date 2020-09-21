@@ -783,7 +783,14 @@ class OasisBalancesContainer extends React.Component<
           const data = oasisAccountBalances.oasisAccountBalances;
 
           if (data) {
-            return <OasisBalancesComponent network={network} balances={data} />;
+            return (
+              <OasisBalancesComponent
+                balances={data}
+                network={network}
+                handleStake={this.handleStake}
+                handleTransfer={this.handleTransfer}
+              />
+            );
           }
 
           return (
@@ -794,7 +801,7 @@ class OasisBalancesContainer extends React.Component<
     );
   }
 
-  handleSendReceiveAction = () => {
+  handleTransfer = () => {
     let actionFunction;
     if (this.props.ledger.connected) {
       actionFunction = this.props.openLedgerDialog;
@@ -804,8 +811,23 @@ class OasisBalancesContainer extends React.Component<
 
     actionFunction({
       signinType: "LEDGER",
-      ledgerAccessType: "PERFORM_ACTION",
       ledgerActionType: "SEND",
+      ledgerAccessType: "PERFORM_ACTION",
+    });
+  };
+
+  handleStake = () => {
+    let actionFunction;
+    if (this.props.ledger.connected) {
+      actionFunction = this.props.openLedgerDialog;
+    } else {
+      actionFunction = this.props.openSelectNetworkDialog;
+    }
+
+    actionFunction({
+      signinType: "LEDGER",
+      ledgerActionType: "DELEGATE",
+      ledgerAccessType: "PERFORM_ACTION",
     });
   };
 }
@@ -813,13 +835,15 @@ class OasisBalancesContainer extends React.Component<
 interface OasisBalancesComponentProps {
   network: NetworkDefinition;
   balances: IOasisAccountBalances;
+  handleStake: () => void;
+  handleTransfer: () => void;
 }
 
 class OasisBalancesComponent extends React.Component<
   OasisBalancesComponentProps
 > {
   render(): JSX.Element {
-    const { balances, network } = this.props;
+    const { balances, network, handleStake, handleTransfer } = this.props;
 
     const { available, staked, unbonding, rewards } = balances;
 
@@ -853,7 +877,7 @@ class OasisBalancesComponent extends React.Component<
 
     return (
       <>
-        <SummaryContainer style={{ paddingTop: 50 }}>
+        <SummaryContainer>
           <BalanceContainer style={{ paddingLeft: 12, paddingRight: 12 }}>
             <View>
               <BalanceLine style={{ marginTop: 6 }}>
@@ -918,14 +942,21 @@ class OasisBalancesComponent extends React.Component<
             />
           </BalanceContainer>
         </SummaryContainer>
-        {/* <ActionContainer>
+        <ActionContainer>
           <H5>Oasis Ledger Transactions</H5>
           <DelegationControlsContainer>
-            <Button onClick={() => null} data-cy="celo-delegation-button">
-              Coming Soon!
+            <Button onClick={handleStake} data-cy="oasis-delegation-button">
+              Stake
+            </Button>
+            <Button
+              style={{ marginLeft: 12 }}
+              onClick={handleTransfer}
+              data-cy="oasis-transfer-button"
+            >
+              Transfer
             </Button>
           </DelegationControlsContainer>
-        </ActionContainer> */}
+        </ActionContainer>
       </>
     );
   }
