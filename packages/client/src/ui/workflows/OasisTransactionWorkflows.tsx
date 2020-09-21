@@ -82,7 +82,7 @@ interface IState {
 }
 
 // TODO: Add Oasis validators
-const ValidatorSelect = Select.ofType<any>();
+// const ValidatorSelect = Select.ofType<any>();
 
 /** ===========================================================================
  * Oasis Transaction Workflows
@@ -875,15 +875,6 @@ const TransactionHashText = styled(Code)`
   margin-bottom: 16px;
   word-wrap: break-word;
 `;
-
-/**
- * Determine if a PendingWithdrawal time is less than the current time and
- * can be withdrawn.
- */
-const isUnbondingTimeComplete = (time: BigNumber) => {
-  const currentTime = Math.round(new Date().getTime() / 1000);
-  return time.isLessThan(currentTime);
-};
 
 /** ===========================================================================
  * Export

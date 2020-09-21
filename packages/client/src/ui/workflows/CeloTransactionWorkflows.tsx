@@ -182,6 +182,7 @@ class CeloTransactionForm extends React.Component<IProps, IState> {
       case "VOTE_FOR_PROPOSAL":
         return this.renderGovernanceVote();
       case "DELEGATE":
+      case "UNDELEGATE":
       case null:
         break;
       default:
@@ -346,10 +347,6 @@ class CeloTransactionForm extends React.Component<IProps, IState> {
       })
       .filter(Boolean) as Array<ICeloValidatorGroup & { activeVotes: string }>;
 
-    const renderCurrencyValue = (value: string) => {
-      return denomToUnit(value, network.denominationSize);
-    };
-
     return (
       <View>
         <H6 style={{ marginTop: 8, marginBottom: 8 }}>
@@ -365,7 +362,10 @@ class CeloTransactionForm extends React.Component<IProps, IState> {
             }
           >
             {delegationGroups.map(group => {
-              const votes = renderCurrencyValue(group.activeVotes);
+              const votes = denomToUnit(
+                group.activeVotes,
+                network.denominationSize,
+              );
               return (
                 <Radio
                   key={group.group}

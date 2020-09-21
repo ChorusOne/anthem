@@ -123,7 +123,7 @@ class OasisLedgerClass implements IOasisLedger {
   }
 
   async transfer(args: OasisTransferArgs) {
-    const { from, to, amount } = args;
+    const { from, amount } = args;
     console.log("Handling Oasis transfer transaction, args: ", args);
     const tx = getStakingTransferTransaction(from, amount);
     console.log(tx);
