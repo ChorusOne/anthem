@@ -31,7 +31,7 @@ import { getAccountBalances, getPercentage } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
 import { tFnString } from "tools/i18n-utils";
-import { addValuesInList } from "tools/math-utils";
+import { addValuesInList, isGreaterThan } from "tools/math-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
 import {
@@ -789,6 +789,7 @@ class OasisBalancesContainer extends React.Component<
                 network={network}
                 handleStake={this.handleStake}
                 handleTransfer={this.handleTransfer}
+                handleUndelegate={this.handleUndelegate}
               />
             );
           }
@@ -830,6 +831,21 @@ class OasisBalancesContainer extends React.Component<
       ledgerAccessType: "PERFORM_ACTION",
     });
   };
+
+  handleUndelegate = () => {
+    let actionFunction;
+    if (this.props.ledger.connected) {
+      actionFunction = this.props.openLedgerDialog;
+    } else {
+      actionFunction = this.props.openSelectNetworkDialog;
+    }
+
+    actionFunction({
+      signinType: "LEDGER",
+      ledgerActionType: "UNDELEGATE",
+      ledgerAccessType: "PERFORM_ACTION",
+    });
+  };
 }
 
 interface OasisBalancesComponentProps {
@@ -837,13 +853,20 @@ interface OasisBalancesComponentProps {
   balances: IOasisAccountBalances;
   handleStake: () => void;
   handleTransfer: () => void;
+  handleUndelegate: () => void;
 }
 
 class OasisBalancesComponent extends React.Component<
   OasisBalancesComponentProps
 > {
   render(): JSX.Element {
-    const { balances, network, handleStake, handleTransfer } = this.props;
+    const {
+      balances,
+      network,
+      handleStake,
+      handleTransfer,
+      handleUndelegate,
+    } = this.props;
 
     const { available, staked, unbonding, rewards } = balances;
 
@@ -945,16 +968,25 @@ class OasisBalancesComponent extends React.Component<
         <ActionContainer>
           <H5>Oasis Ledger Transactions</H5>
           <DelegationControlsContainer>
-            <Button onClick={handleStake} data-cy="oasis-delegation-button">
-              Stake
+            <Button onClick={handleTransfer} data-cy="oasis-transfer-button">
+              Transfer
             </Button>
             <Button
               style={{ marginLeft: 12 }}
-              onClick={handleTransfer}
-              data-cy="oasis-transfer-button"
+              onClick={handleStake}
+              data-cy="oasis-delegate-button"
             >
-              Transfer
+              Stake
             </Button>
+            {isGreaterThan(stakedBalance, 0) && (
+              <Button
+                style={{ marginLeft: 12 }}
+                onClick={handleUndelegate}
+                data-cy="oasis-undelegate-button"
+              >
+                Unstake
+              </Button>
+            )}
           </DelegationControlsContainer>
         </ActionContainer>
       </>
