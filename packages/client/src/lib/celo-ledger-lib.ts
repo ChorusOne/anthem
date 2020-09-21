@@ -99,7 +99,7 @@ export interface CeloGovernanceVoteArguments {
 }
 
 // Other data is included but we only care about these for now.
-export interface ICeloTransactionResult {
+export interface ICeloTransactionReceipt {
   blockNumber: number;
   blockHash: string;
   transactionHash: string;
@@ -109,24 +109,24 @@ interface ICeloLedger {
   validateAddress(address: string): boolean;
   getCeloAppVersion(): Promise<string>;
   getAddress(derivationPath: "0" | "1" | "2" | "3" | "4"): Promise<string>;
-  transfer(args: CeloTransferArguments): Promise<ICeloTransactionResult>;
+  transfer(args: CeloTransferArguments): Promise<ICeloTransactionReceipt>;
   voteForProposal(
     args: CeloGovernanceVoteArguments,
-  ): Promise<ICeloTransactionResult>;
+  ): Promise<ICeloTransactionReceipt>;
   upvoteForProposal(
     args: CeloUpvoteProposalArguments,
-  ): Promise<ICeloTransactionResult>;
-  createAccount(address: string): Promise<ICeloTransactionResult>;
+  ): Promise<ICeloTransactionReceipt>;
+  createAccount(address: string): Promise<ICeloTransactionReceipt>;
   isAccount(address: string): Promise<boolean>;
-  lock(args: CeloLockGoldArguments): Promise<ICeloTransactionResult>;
-  unlock(args: CeloUnlockGoldArguments): Promise<ICeloTransactionResult>;
+  lock(args: CeloLockGoldArguments): Promise<ICeloTransactionReceipt>;
+  unlock(args: CeloUnlockGoldArguments): Promise<ICeloTransactionReceipt>;
   voteForValidatorGroup(
     args: CeloVoteArguments,
-  ): Promise<ICeloTransactionResult>;
+  ): Promise<ICeloTransactionReceipt>;
   getPendingWithdrawalBalances(address: string): Promise<PendingWithdrawal[]>;
-  withdraw(args: CeloWithdrawArguments): Promise<ICeloTransactionResult>;
-  activateVotes(address: string): Promise<ICeloTransactionResult>;
-  revokeVotes(args: RevokeVotesArguments): Promise<ICeloTransactionResult>;
+  withdraw(args: CeloWithdrawArguments): Promise<ICeloTransactionReceipt>;
+  activateVotes(address: string): Promise<ICeloTransactionReceipt>;
+  revokeVotes(args: RevokeVotesArguments): Promise<ICeloTransactionReceipt>;
   getAccountSummary(): Promise<any>;
   getTotalBalances(): Promise<any>;
 }

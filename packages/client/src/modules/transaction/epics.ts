@@ -21,7 +21,7 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
     filter(isActionOf(Actions.signTransaction)),
     mergeMap(async () => {
       try {
-        const { cosmosLedgerUtil, celoLedgerUtil } = deps;
+        const { cosmosLedgerUtil, celoLedgerUtil, oasisLedgerUtil } = deps;
         const { ledgerActionType } = state$.value.ledger.ledgerDialog;
         const { name } = state$.value.ledger.ledger.network;
         const { address } = state$.value.ledger.ledger;
@@ -107,9 +107,28 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
           case "POLKADOT":
             return Actions.signTransactionFailure();
           case "OASIS":
-            const msg = "Signing Oasis transactions is not supported yet.";
-            console.warn(msg);
-            throw new Error(msg);
+            switch (ledgerActionType) {
+              case "SEND":
+                const transferResult = await oasisLedgerUtil.transfer(
+                  transactionData,
+                );
+                return Actions.transactionConfirmed(transferResult);
+              case "DELEGATE":
+                const delegateResult = await oasisLedgerUtil.delegate(
+                  transactionData,
+                );
+                return Actions.transactionConfirmed(delegateResult);
+              case "UNDELEGATE":
+                const undelegateResult = await oasisLedgerUtil.undelegate(
+                  transactionData,
+                );
+                return Actions.transactionConfirmed(undelegateResult);
+              default: {
+                throw new Error(
+                  `Action ${ledgerActionType} not supported for Oasis yet.`,
+                );
+              }
+            }
           default:
             assertUnreachable(name);
         }

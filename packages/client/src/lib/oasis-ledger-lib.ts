@@ -26,7 +26,7 @@ const getOasisLedgerTransport = async () => {
   throw new Error(LEDGER_ERRORS.BROWSER_NOT_SUPPORTED);
 };
 
-interface OasisTransactionReceipt {
+export interface IOasisTransactionReceipt {
   height: number;
   hash: string;
 }
@@ -55,9 +55,9 @@ interface IOasisLedger {
   getAddress(): Promise<string>;
   getVersion(): Promise<string>;
   getPublicKey(): Promise<string>;
-  transfer(args: OasisTransferArgs): Promise<OasisTransactionReceipt>;
-  delegate(args: OasisDelegateArgs): Promise<OasisTransactionReceipt>;
-  undelegate(args: OasisUndelegateArgs): Promise<OasisTransactionReceipt>;
+  transfer(args: OasisTransferArgs): Promise<IOasisTransactionReceipt>;
+  delegate(args: OasisDelegateArgs): Promise<IOasisTransactionReceipt>;
+  undelegate(args: OasisUndelegateArgs): Promise<IOasisTransactionReceipt>;
 }
 
 /** ===========================================================================
@@ -165,7 +165,7 @@ const getStakingTransferTransaction = (from: string, amount: string) => {
  * ============================================================================
  */
 
-const SampleTransactionReceipt: OasisTransactionReceipt = {
+const SampleTransactionReceipt: IOasisTransactionReceipt = {
   height: 23807,
   hash: "09525844d57e7ce4c270a79d769b2a7ab6e6d12d8d3ec2fa566eee2d0f89f02",
 };
@@ -196,16 +196,19 @@ class MockOasisLedgerModule implements IOasisLedger {
   }
 
   async transfer(args: OasisTransferArgs) {
+    console.log("Handling Oasis transfer transaction, args: ", args);
     await wait(1500);
     return SampleTransactionReceipt;
   }
 
   async delegate(args: OasisDelegateArgs) {
+    console.log("Handling Oasis delegate transaction, args: ", args);
     await wait(1500);
     return SampleTransactionReceipt;
   }
 
   async undelegate(args: OasisUndelegateArgs) {
+    console.log("Handling Oasis undelegate transaction, args: ", args);
     await wait(1500);
     return SampleTransactionReceipt;
   }

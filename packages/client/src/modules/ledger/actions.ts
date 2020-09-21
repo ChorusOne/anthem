@@ -15,6 +15,7 @@ export type SIGNIN_TYPE =
 
 export type LEDGER_ACTION_TYPE =
   | "DELEGATE"
+  | "UNDELEGATE"
   | "CLAIM"
   | "SEND"
   | "VOTE_GOLD"

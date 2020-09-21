@@ -37,7 +37,7 @@ import {
   CeloUnlockGoldArguments,
   CeloUpvoteProposalArguments,
   CeloWithdrawArguments,
-  ICeloTransactionResult,
+  ICeloTransactionReceipt,
   RevokeVotesArguments,
 } from "lib/celo-ledger-lib";
 import Modules, { ReduxStoreState } from "modules/root";
@@ -1298,7 +1298,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       );
     }
 
-    const tx = transactionResult as ICeloTransactionResult;
+    const tx = transactionResult as ICeloTransactionReceipt;
     const { transactionHash, blockNumber } = tx;
 
     return (

@@ -4,7 +4,8 @@ import {
   ICosmosValidator,
 } from "@anthem/utils";
 import { PendingWithdrawal } from "@celo/contractkit/lib/wrappers/LockedGold";
-import { ICeloTransactionResult } from "lib/celo-ledger-lib";
+import { ICeloTransactionReceipt } from "lib/celo-ledger-lib";
+import { IOasisTransactionReceipt } from "lib/oasis-ledger-lib";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { TransactionData, TxPostBody } from "tools/cosmos-utils";
 import { createReducer } from "typesafe-actions";
@@ -27,6 +28,11 @@ export interface GovernanceVoteDetails {
   proposal: GenericCeloProposal;
 }
 
+export type TransactionReceipt =
+  | ICosmosTransaction
+  | ICeloTransactionReceipt
+  | IOasisTransactionReceipt;
+
 export interface TransactionState {
   transactionsPage: number;
   liveTransactionRecord: ICosmosTransaction[];
@@ -36,7 +42,7 @@ export interface TransactionState {
   transactionHash: string;
   confirmTx: boolean;
   signPending: boolean;
-  transactionResult: Nullable<ICosmosTransaction | ICeloTransactionResult>;
+  transactionResult: Nullable<TransactionReceipt>;
   governanceProposalData: Nullable<GovernanceVoteDetails>;
   broadcastingTransaction: boolean;
   selectedValidatorForDelegation: Nullable<
