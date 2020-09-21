@@ -123,7 +123,7 @@ export const COIN_DENOM_MAP = {
   umnt: "Terra Mongolian Tughrik",
   uatom: "ATOM",
   ukava: "KAVA",
-  AMBR: "AMBR",
+  ROSE: "ROSE",
   CELO: "CELO",
 };
 
