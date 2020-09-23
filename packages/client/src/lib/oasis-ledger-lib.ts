@@ -79,6 +79,9 @@ interface IOasisLedger {
   getAddress(): Promise<string>;
   getVersion(): Promise<string>;
   getPublicKey(): Promise<string>;
+  encodeAndSignTransaction(
+    transactionData: OasisTransactionPayload,
+  ): Promise<any>; // TODO: What's the return type here?
   transfer(args: OasisTransferArgs): Promise<IOasisTransactionReceipt>;
   delegate(args: OasisDelegateArgs): Promise<IOasisTransactionReceipt>;
   undelegate(args: OasisUndelegateArgs): Promise<IOasisTransactionReceipt>;
@@ -108,7 +111,7 @@ class OasisLedgerClass implements IOasisLedger {
 
   async showAddress() {
     if (!this.app) {
-      throw new Error("Not initialized yet!");
+      throw new Error("Oasis Ledger App not initialized yet!");
     }
 
     await this.app.showAddressAndPubKey(this.path);
@@ -116,7 +119,7 @@ class OasisLedgerClass implements IOasisLedger {
 
   async getAddress() {
     if (!this.app) {
-      throw new Error("Not initialized yet!");
+      throw new Error("Oasis Ledger App not initialized yet!");
     }
 
     const result = await this.app.getAddressAndPubKey(this.path);
@@ -128,7 +131,7 @@ class OasisLedgerClass implements IOasisLedger {
 
   async getVersion() {
     if (!this.app) {
-      throw new Error("Not initialized yet!");
+      throw new Error("Oasis Ledger App not initialized yet!");
     }
 
     const result = await this.app.getVersion();
@@ -138,7 +141,7 @@ class OasisLedgerClass implements IOasisLedger {
 
   async getPublicKey() {
     if (!this.app) {
-      throw new Error("Not initialized yet!");
+      throw new Error("Oasis Ledger App not initialized yet!");
     }
 
     const result = await this.app.publicKey(this.path);
@@ -174,6 +177,23 @@ class OasisLedgerClass implements IOasisLedger {
     console.log(tx);
     return SampleTransactionReceipt;
   }
+
+  async encodeAndSignTransaction(transactionData: OasisTransactionPayload) {
+    if (!this.app) {
+      throw new Error("Oasis Ledger App not initialized yet!");
+    }
+
+    const path = this.path;
+    // TODO: What is the context?
+    const context = "oasis-core/consensus: tx for chain testing";
+    const message = encodeTransaction(transactionData);
+
+    // TODO: What are the types?
+    const result: string = await this.app.sign(path, context, message);
+
+    const signedResult = encodeSignedTransaction(message, result);
+    return result;
+  }
 }
 
 /** ===========================================================================
@@ -206,6 +226,31 @@ const toCBOR = (tx: any) => {
  */
 const toBase64 = (cborTx: any) => {
   return cborTx.toString("base64");
+};
+
+/**
+ * Handle encoding the raw transaction data to be signed by the Ledger.
+ */
+const encodeTransaction = (tx: OasisTransactionPayload): string => {
+  const cborTx = toCBOR(tx);
+  const cborTxBase64 = toBase64(cborTx);
+  return cborTxBase64;
+};
+
+/**
+ * Encode the final transaction data after it has been signed by the
+ * Ledger.
+ */
+const encodeSignedTransaction = (
+  rawTransaction: any,
+  signedTransaction: any,
+) => {
+  const signed = {
+    untrusted_raw_value: rawTransaction,
+    signature: signedTransaction,
+  };
+
+  return toCBOR(signed);
 };
 
 /**
@@ -357,6 +402,10 @@ class MockOasisLedgerModule implements IOasisLedger {
 
   async getPublicKey() {
     await wait(1500);
+    return "";
+  }
+
+  async encodeAndSignTransaction(data: any) {
     return "";
   }
 
