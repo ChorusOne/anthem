@@ -13,6 +13,14 @@ import ENV from "lib/client-env";
  * ---------------------------------------------------------------------------
  * Docs: https://github.com/Zondax/ledger-oasis-js
  * Example App: https://github.com/Zondax/ledger-oasis-js/blob/master/vue_example/components/LedgerExample.vue
+ * ---------------------------------------------------------------------------
+ * * TODO:
+ *
+ * - How to determine transaction nonce?
+ * - How to determine transaction gas fees/do users specify?
+ * - Transaction body data for delegation transactions?
+ * - Obtain ROSE tokens
+ * - Test transaction workflows
  * ============================================================================
  */
 
@@ -169,7 +177,7 @@ class OasisLedgerClass implements IOasisLedger {
 }
 
 /** ===========================================================================
- * Utils
+ * Transaction Utils
  * ============================================================================
  */
 
@@ -218,14 +226,6 @@ const marshalQuantity = (value: string | number) => {
   }
   return amount.toBuffer("be", amount.byteLength());
 };
-
-/**
- * TODO:
- *
- * - How to determine transaction nonce?
- * - How to determine transaction gas fees/do users specify?
- * - Transaction body data for delegation transactions?
- */
 
 const getTransactionFee = (fee: number = 0) => {
   return {
