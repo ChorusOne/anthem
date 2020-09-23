@@ -21,9 +21,10 @@ import ENV from "lib/client-env";
  * - Transaction body data for delegation transactions?
  * - Implement broadcastTransaction method
  * - Determine if encoding/signing steps are correct or not
- * - Update some dubious types
+ * - Update dubious 'any' types
  * - Obtain ROSE tokens
  * - Test transaction workflows
+ * - Add support for redelegate transaction in the app (not supported yet)
  * ============================================================================
  */
 
@@ -177,7 +178,7 @@ class OasisLedgerClass implements IOasisLedger {
   }
 
   async redelegate(args: OasisRedelegateArgs) {
-    console.log("Handling Oasis undelegate transaction, args: ", args);
+    console.log("Handling Oasis redelegate transaction, args: ", args);
     const tx = getRedelegateTransaction(args);
     const signedTransaction = this.encodeAndSignTransaction(tx);
     const receipt = this.broadcastTransaction(signedTransaction);
