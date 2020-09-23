@@ -1,6 +1,9 @@
 import { wait } from "@anthem/utils";
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
+import bech32 from "bech32";
+import BN from "bn.js";
+import cbor from "cbor";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
 import OasisApp from "ledger-oasis-js";
 import ENV from "lib/client-env";
@@ -158,6 +161,12 @@ const getOasisLedgerTransport = async () => {
 
   throw new Error(LEDGER_ERRORS.BROWSER_NOT_SUPPORTED);
 };
+
+// Encode in CBOR.
+const toCBOR = (tx: any) => cbor.Encoder.encodeCanonical(tx);
+
+// Encode in Base64.
+const toBase64 = (cborTx: any) => cborTx.toString("base64");
 
 /**
  * Fill in the rest: https://runkit.com/embed/jhwmrma4tdfb
