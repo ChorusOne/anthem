@@ -19,6 +19,9 @@ import ENV from "lib/client-env";
  * - How to determine transaction nonce?
  * - How to determine transaction gas fees/do users specify?
  * - Transaction body data for delegation transactions?
+ * - Implement broadcastTransaction method
+ * - Determine if encoding/signing steps are correct or not
+ * - Update some dubious types
  * - Obtain ROSE tokens
  * - Test transaction workflows
  * ============================================================================
@@ -82,6 +85,9 @@ interface IOasisLedger {
   encodeAndSignTransaction(
     transactionData: OasisTransactionPayload,
   ): Promise<any>; // TODO: What's the return type here?
+  broadcastTransaction(
+    signedTransaction: any,
+  ): Promise<IOasisTransactionReceipt>;
   transfer(args: OasisTransferArgs): Promise<IOasisTransactionReceipt>;
   delegate(args: OasisDelegateArgs): Promise<IOasisTransactionReceipt>;
   undelegate(args: OasisUndelegateArgs): Promise<IOasisTransactionReceipt>;
@@ -193,6 +199,11 @@ class OasisLedgerClass implements IOasisLedger {
 
     const signedResult = encodeSignedTransaction(message, result);
     return result;
+  }
+
+  async broadcastTransaction(data: any) {
+    // TODO: Handle broadcasting the transaction to Oasis Network
+    return SampleTransactionReceipt;
   }
 }
 
@@ -407,6 +418,10 @@ class MockOasisLedgerModule implements IOasisLedger {
 
   async encodeAndSignTransaction(data: any) {
     return "";
+  }
+
+  async broadcastTransaction(data: any) {
+    return SampleTransactionReceipt;
   }
 
   async transfer(args: OasisTransferArgs) {
