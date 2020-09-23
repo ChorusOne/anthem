@@ -16,6 +16,25 @@ import ENV from "lib/client-env";
  * ============================================================================
  */
 
+// Duplicated from oasis server code which parses transactions, removing
+// irrelevant transaction methods.
+enum OasisTransactionMethod {
+  TRANSFER = "staking.Transfer",
+  ADD_ESCROW = "staking.AddEscrow",
+  RECLAIM_ESCROW = "staking.ReclaimEscrow",
+  TAKE_ESCROW = "staking.TakeEscrow",
+}
+
+interface OasisTransactionPayload {
+  nonce: number;
+  fee: {
+    gas: number;
+    amount: Buffer;
+  };
+  method: OasisTransactionMethod;
+  body: any;
+}
+
 export interface IOasisTransactionReceipt {
   height: number;
   hash: string;
@@ -121,9 +140,8 @@ class OasisLedgerClass implements IOasisLedger {
   }
 
   async transfer(args: OasisTransferArgs) {
-    const { from, amount } = args;
     console.log("Handling Oasis transfer transaction, args: ", args);
-    const tx = getStakingTransferTransaction(from, amount);
+    const tx = getTransferTransaction(args);
     console.log(tx);
     return SampleTransactionReceipt;
   }
@@ -162,29 +180,61 @@ const getOasisLedgerTransport = async () => {
   throw new Error(LEDGER_ERRORS.BROWSER_NOT_SUPPORTED);
 };
 
-// Encode in CBOR.
-const toCBOR = (tx: any) => cbor.Encoder.encodeCanonical(tx);
+/**
+ * Encode in CBOR.
+ */
+const toCBOR = (tx: any) => {
+  return cbor.Encoder.encodeCanonical(tx);
+};
 
-// Encode in Base64.
-const toBase64 = (cborTx: any) => cborTx.toString("base64");
+/**
+ * Encode in Base64.
+ */
+const toBase64 = (cborTx: any) => {
+  return cborTx.toString("base64");
+};
+
+/**
+ * Address encoder.
+ */
+const marshalAddress = (address: string) => {
+  const decoded = bech32.decode(address);
+  return Buffer.from(bech32.fromWords(decoded.words));
+};
+
+/**
+ * Encode with BigNumber.
+ */
+const marshalQuantity = (value: string | number) => {
+  const amount = new BN(value, 10);
+  if (amount.isZero()) {
+    return Buffer.from([]);
+  }
+  return amount.toBuffer("be", amount.byteLength());
+};
 
 /**
  * Fill in the rest: https://runkit.com/embed/jhwmrma4tdfb
  */
-const getStakingTransferTransaction = (from: string, amount: string) => {
-  const tx = {
-    nonce: 0,
+const getTransferTransaction = (
+  args: OasisTransferArgs,
+): OasisTransactionPayload => {
+  const { to, amount } = args;
+
+  const transaction = {
+    nonce: 0, // ... how to determine nonce?
     fee: {
-      amount: "0",
       gas: 0,
+      amount: marshalQuantity(0), // ... Do users specify gas settings?
     },
-    method: "staking.Transfer",
+    method: OasisTransactionMethod.TRANSFER,
     body: {
-      to: "oasis1qrrnesqpgc6rfy2m50eew5d7klqfqk69avhv4ak5",
-      amount: "0",
+      to: marshalAddress(to),
+      amount: marshalQuantity(amount),
     },
   };
-  return tx;
+
+  return transaction;
 };
 
 /** ===========================================================================
