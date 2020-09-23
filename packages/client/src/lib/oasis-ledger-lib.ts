@@ -148,16 +148,22 @@ class OasisLedgerClass implements IOasisLedger {
 
   async delegate(args: OasisDelegateArgs) {
     console.log("Handling Oasis delegate transaction, args: ", args);
+    const tx = getDelegateTransaction(args);
+    console.log(tx);
     return SampleTransactionReceipt;
   }
 
   async undelegate(args: OasisUndelegateArgs) {
     console.log("Handling Oasis undelegate transaction, args: ", args);
+    const tx = getUndelegateTransaction(args);
+    console.log(tx);
     return SampleTransactionReceipt;
   }
 
   async redelegate(args: OasisRedelegateArgs) {
     console.log("Handling Oasis undelegate transaction, args: ", args);
+    const tx = getRedelegateTransaction(args);
+    console.log(tx);
     return SampleTransactionReceipt;
   }
 }
@@ -214,7 +220,22 @@ const marshalQuantity = (value: string | number) => {
 };
 
 /**
- * Fill in the rest: https://runkit.com/embed/jhwmrma4tdfb
+ * TODO:
+ *
+ * - How to determine transaction nonce?
+ * - How to determine transaction gas fees/do users specify?
+ * - Transaction body data for delegation transactions?
+ */
+
+const getTransactionFee = (fee: number = 0) => {
+  return {
+    gas: 0,
+    amount: marshalQuantity(0),
+  };
+};
+
+/**
+ * Get the transfer transaction data.
  */
 const getTransferTransaction = (
   args: OasisTransferArgs,
@@ -222,15 +243,82 @@ const getTransferTransaction = (
   const { to, amount } = args;
 
   const transaction = {
-    nonce: 0, // ... how to determine nonce?
-    fee: {
-      gas: 0,
-      amount: marshalQuantity(0), // ... Do users specify gas settings?
-    },
+    nonce: 0,
+    fee: getTransactionFee(),
     method: OasisTransactionMethod.TRANSFER,
     body: {
       to: marshalAddress(to),
       amount: marshalQuantity(amount),
+    },
+  };
+
+  return transaction;
+};
+
+/**
+ * Get the delegate transaction data.
+ */
+const getDelegateTransaction = (
+  args: OasisDelegateArgs,
+): OasisTransactionPayload => {
+  const { delegator, validator, amount } = args;
+
+  const transaction = {
+    nonce: 0,
+    fee: getTransactionFee(),
+    method: OasisTransactionMethod.TRANSFER,
+    body: {
+      // TODO: The following are a guess:
+      amount: marshalQuantity(amount),
+      delegator: marshalAddress(delegator),
+      validator: marshalAddress(validator),
+    },
+  };
+
+  return transaction;
+};
+
+/**
+ * Get the undelegate transaction data.
+ */
+const getUndelegateTransaction = (
+  args: OasisUndelegateArgs,
+): OasisTransactionPayload => {
+  const { delegator, validator, amount } = args;
+
+  const transaction = {
+    nonce: 0,
+    fee: getTransactionFee(),
+    method: OasisTransactionMethod.TRANSFER,
+    body: {
+      // TODO: The following are a guess:
+      amount: marshalQuantity(amount),
+      delegator: marshalAddress(delegator),
+      validator: marshalAddress(validator),
+    },
+  };
+
+  return transaction;
+};
+
+/**
+ * Get the redelegate transaction data.
+ */
+const getRedelegateTransaction = (
+  args: OasisRedelegateArgs,
+): OasisTransactionPayload => {
+  const { delegator, current_validator, new_validator, amount } = args;
+
+  const transaction = {
+    nonce: 0,
+    fee: getTransactionFee(),
+    method: OasisTransactionMethod.TRANSFER,
+    body: {
+      // TODO: The following are a guess:
+      amount: marshalQuantity(amount),
+      delegator: marshalAddress(delegator),
+      new_validator: marshalAddress(new_validator),
+      current_validator: marshalAddress(current_validator),
     },
   };
 
