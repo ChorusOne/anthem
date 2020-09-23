@@ -82,12 +82,8 @@ interface IOasisLedger {
   getAddress(): Promise<string>;
   getVersion(): Promise<string>;
   getPublicKey(): Promise<string>;
-  encodeAndSignTransaction(
-    transactionData: OasisTransactionPayload,
-  ): Promise<any>; // TODO: What's the return type here?
-  broadcastTransaction(
-    signedTransaction: any,
-  ): Promise<IOasisTransactionReceipt>;
+  encodeAndSignTransaction(tx: OasisTransactionPayload): Promise<any>;
+  broadcastTransaction(signedTx: any): Promise<IOasisTransactionReceipt>;
   transfer(args: OasisTransferArgs): Promise<IOasisTransactionReceipt>;
   delegate(args: OasisDelegateArgs): Promise<IOasisTransactionReceipt>;
   undelegate(args: OasisUndelegateArgs): Promise<IOasisTransactionReceipt>;
@@ -159,29 +155,33 @@ class OasisLedgerClass implements IOasisLedger {
   async transfer(args: OasisTransferArgs) {
     console.log("Handling Oasis transfer transaction, args: ", args);
     const tx = getTransferTransaction(args);
-    console.log(tx);
-    return SampleTransactionReceipt;
+    const signedTransaction = this.encodeAndSignTransaction(tx);
+    const receipt = this.broadcastTransaction(signedTransaction);
+    return receipt;
   }
 
   async delegate(args: OasisDelegateArgs) {
     console.log("Handling Oasis delegate transaction, args: ", args);
     const tx = getDelegateTransaction(args);
-    console.log(tx);
-    return SampleTransactionReceipt;
+    const signedTransaction = this.encodeAndSignTransaction(tx);
+    const receipt = this.broadcastTransaction(signedTransaction);
+    return receipt;
   }
 
   async undelegate(args: OasisUndelegateArgs) {
     console.log("Handling Oasis undelegate transaction, args: ", args);
     const tx = getUndelegateTransaction(args);
-    console.log(tx);
-    return SampleTransactionReceipt;
+    const signedTransaction = this.encodeAndSignTransaction(tx);
+    const receipt = this.broadcastTransaction(signedTransaction);
+    return receipt;
   }
 
   async redelegate(args: OasisRedelegateArgs) {
     console.log("Handling Oasis undelegate transaction, args: ", args);
     const tx = getRedelegateTransaction(args);
-    console.log(tx);
-    return SampleTransactionReceipt;
+    const signedTransaction = this.encodeAndSignTransaction(tx);
+    const receipt = this.broadcastTransaction(signedTransaction);
+    return receipt;
   }
 
   async encodeAndSignTransaction(transactionData: OasisTransactionPayload) {
@@ -198,7 +198,7 @@ class OasisLedgerClass implements IOasisLedger {
     const result: string = await this.app.sign(path, context, message);
 
     const signedResult = encodeSignedTransaction(message, result);
-    return result;
+    return signedResult;
   }
 
   async broadcastTransaction(data: any) {
@@ -283,6 +283,9 @@ const marshalQuantity = (value: string | number) => {
   return amount.toBuffer("be", amount.byteLength());
 };
 
+/**
+ * Helper to construct a transaction fee.
+ */
 const getTransactionFee = (fee: number = 0) => {
   return {
     gas: 0,
