@@ -189,20 +189,30 @@ class OasisLedgerClass implements IOasisLedger {
       throw new Error("Oasis Ledger App not initialized yet!");
     }
 
+    console.log("Encoding Transaction Data: ");
+    console.log(transactionData);
+
     const path = this.path;
     // TODO: What is the context?
     const context = "oasis-core/consensus: tx for chain testing";
     const message = encodeTransaction(transactionData);
 
+    console.log("Encoded - Requesting Ledger to sign...");
+
     // TODO: What are the types?
     const result: string = await this.app.sign(path, context, message);
 
     const signedResult = encodeSignedTransaction(message, result);
+
+    console.log("Got signed payload!");
+    console.log(signedResult);
+
     return signedResult;
   }
 
   async broadcastTransaction(data: any) {
     // TODO: Handle broadcasting the transaction to Oasis Network
+    console.log("Broadcasting Oasis transaction...");
     return SampleTransactionReceipt;
   }
 }
