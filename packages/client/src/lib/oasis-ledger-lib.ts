@@ -13,19 +13,6 @@ import ENV from "lib/client-env";
  * ============================================================================
  */
 
-/**
- * Handle getting the Oasis Ledger transport.
- */
-const getOasisLedgerTransport = async () => {
-  if (window.USB) {
-    return TransportUSB.create();
-  } else if (window.u2f) {
-    return TransportU2F.create();
-  }
-
-  throw new Error(LEDGER_ERRORS.BROWSER_NOT_SUPPORTED);
-};
-
 export interface IOasisTransactionReceipt {
   height: number;
   hash: string;
@@ -49,6 +36,13 @@ export interface OasisUndelegateArgs {
   amount: string;
 }
 
+export interface OasisRedelegateArgs {
+  delegator: string;
+  new_validator: string;
+  current_validator: string;
+  amount: string;
+}
+
 interface IOasisLedger {
   connect(): Promise<void>;
   disconnect(): void;
@@ -58,6 +52,7 @@ interface IOasisLedger {
   transfer(args: OasisTransferArgs): Promise<IOasisTransactionReceipt>;
   delegate(args: OasisDelegateArgs): Promise<IOasisTransactionReceipt>;
   undelegate(args: OasisUndelegateArgs): Promise<IOasisTransactionReceipt>;
+  redelegate(args: OasisRedelegateArgs): Promise<IOasisTransactionReceipt>;
 }
 
 /** ===========================================================================
@@ -139,7 +134,30 @@ class OasisLedgerClass implements IOasisLedger {
     console.log("Handling Oasis undelegate transaction, args: ", args);
     return SampleTransactionReceipt;
   }
+
+  async redelegate(args: OasisRedelegateArgs) {
+    console.log("Handling Oasis undelegate transaction, args: ", args);
+    return SampleTransactionReceipt;
+  }
 }
+
+/** ===========================================================================
+ * Utils
+ * ============================================================================
+ */
+
+/**
+ * Handle getting the Oasis Ledger transport.
+ */
+const getOasisLedgerTransport = async () => {
+  if (window.USB) {
+    return TransportUSB.create();
+  } else if (window.u2f) {
+    return TransportU2F.create();
+  }
+
+  throw new Error(LEDGER_ERRORS.BROWSER_NOT_SUPPORTED);
+};
 
 /**
  * Fill in the rest: https://runkit.com/embed/jhwmrma4tdfb
@@ -209,6 +227,12 @@ class MockOasisLedgerModule implements IOasisLedger {
 
   async undelegate(args: OasisUndelegateArgs) {
     console.log("Handling Oasis undelegate transaction, args: ", args);
+    await wait(1500);
+    return SampleTransactionReceipt;
+  }
+
+  async redelegate(args: OasisRedelegateArgs) {
+    console.log("Handling Oasis redelegate transaction, args: ", args);
     await wait(1500);
     return SampleTransactionReceipt;
   }
