@@ -13,6 +13,20 @@ import ENV from "lib/client-env";
  * ---------------------------------------------------------------------------
  * Docs: https://github.com/Zondax/ledger-oasis-js
  * Example App: https://github.com/Zondax/ledger-oasis-js/blob/master/vue_example/components/LedgerExample.vue
+ * Oasis RunKit Example: https://runkit.com/embed/jhwmrma4tdfb
+ *
+ * Reference Steps from Slack Discussion:
+ *
+ * 1. Produce test vectors from oasis via GO command.
+ * 2. Translate vector examples into JSON blobs to create the txs we need
+ * 3. We encode the fields that require encoding (anything bignum or address).
+ * 4. We encode this via canonical CBOR, example in the paste provided by Jernej.
+ * 5. We send this to be signed by the ledger by calling sign(path, context,
+ *    bytes) Context is constructed by figuring out which module the tx is
+ *    from, and looks like: oasis-core/<module>:whatever we want to write here.
+ * 6: Wrap up the transaction and its signature in an envelope.
+ * 7. CBOR encode THAT json.
+ * 8. Submit to network.
  * ---------------------------------------------------------------------------
  * * TODO:
  *
