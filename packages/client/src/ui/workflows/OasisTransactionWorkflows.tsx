@@ -48,6 +48,7 @@ import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { renderCurrencyValue, unitToDenom } from "tools/currency-utils";
 import { bold } from "tools/i18n-utils";
 import {
+  validateBech32Address,
   validateEthereumAddress,
   validateLedgerTransactionAmount,
 } from "tools/validation-utils";
@@ -707,8 +708,7 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
     this.setState({ recipientAddress: recipient }, () => {
       const { recipientAddress } = this.state;
       if (recipientAddress) {
-        // TODO: Oasis address validation?
-        if (!validateEthereumAddress(recipientAddress)) {
+        if (!validateBech32Address(recipientAddress)) {
           Toast.warn(
             "Please ensure the entered address is a valid Oasis address.",
           );

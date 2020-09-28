@@ -65,7 +65,7 @@ import {
 } from "tools/currency-utils";
 import { bold } from "tools/i18n-utils";
 import {
-  validateCosmosAddress,
+  validateBech32Address,
   validateLedgerTransactionAmount,
 } from "tools/validation-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
@@ -910,7 +910,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     this.setState({ recipientAddress: recipient }, () => {
       const { recipientAddress } = this.state;
       if (recipientAddress) {
-        if (!validateCosmosAddress(recipientAddress)) {
+        if (!validateBech32Address(recipientAddress)) {
           Toast.warn(
             "Please ensure the entered address is a valid Cosmos address.",
           );
@@ -1025,7 +1025,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
     const { network, address } = this.props.ledger;
     const { denom } = network;
 
-    if (!validateCosmosAddress(recipientAddress)) {
+    if (!validateBech32Address(recipientAddress)) {
       return this.setState({
         sendTransactionInputError: "Please enter a valid recipient address",
       });
