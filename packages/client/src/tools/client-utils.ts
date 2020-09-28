@@ -309,8 +309,7 @@ export const getBlockExplorerUrlForTransaction = (
     case "CELO":
       return `https://rc1-blockscout.celo-testnet.org/tx/${hash}`;
     case "OASIS":
-      console.warn("[TODO]: Implement Block Explorer url for Oasis");
-      return "";
+      return `https://www.oasisscan.com/transactions/${hash}`;
     case "POLKADOT":
       console.warn("[TODO]: Implement Block Explorer url for Polkadot");
       return "";
