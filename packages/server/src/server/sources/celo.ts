@@ -276,12 +276,13 @@ const fetchGistContentForProposalList = async (
   return Promise.all(
     proposals.map(async proposal => {
       const { proposalID } = proposal;
-      const { url, title, contents } = await fetchProposalTitleFromID(
-        proposalID,
-      );
+      const { title, contents } = await fetchProposalTitleFromID(proposalID);
+
+      // Use original proposal description for gist URL
+      const gist = proposal.description;
       return {
         ...proposal,
-        gist: url,
+        gist,
         title,
         description: contents,
       };
