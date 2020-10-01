@@ -490,32 +490,38 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                         width={150}
                         style={{ display: "flex", flexDirection: "row" }}
                       >
-                        {CHORUS_VALIDATOR && CAN_VOTE && (
+                        <Tooltip
+                          usePortal={false}
+                          position={Position.RIGHT}
+                          content="To vote for a validator group, you must first lock CELO tokens."
+                        >
                           <Button
+                            disabled={CHORUS_VALIDATOR && CAN_VOTE}
                             style={{ marginBottom: 6 }}
-                            onClick={() =>
-                              this.handleAddValidator(CHORUS_VALIDATOR)
-                            }
+                            onClick={() => {
+                              if (CHORUS_VALIDATOR) {
+                                this.handleAddValidator(CHORUS_VALIDATOR);
+                              }
+                            }}
                             data-cy="lock-non-voting-gold-button"
                           >
                             Vote
                           </Button>
-                        )}
-                        {isGreaterThan(totalLockedGoldBalance, 0) && (
-                          <Tooltip
-                            usePortal={false}
-                            position={Position.RIGHT}
-                            content="To unlock locked CELO tokens, they first need to be revoked from voting."
+                        </Tooltip>
+                        <Tooltip
+                          usePortal={false}
+                          position={Position.RIGHT}
+                          content="To unlock locked CELO tokens, they first need to be revoked from voting."
+                        >
+                          <Button
+                            data-cy="unlock-gold-button"
+                            onClick={this.handleUnlockGold}
+                            style={{ marginLeft: 12, marginBottom: 6 }}
+                            disabled={!isGreaterThan(totalLockedGoldBalance, 0)}
                           >
-                            <Button
-                              data-cy="unlock-gold-button"
-                              onClick={this.handleUnlockGold}
-                              style={{ marginLeft: 12, marginBottom: 6 }}
-                            >
-                              Unlock
-                            </Button>
-                          </Tooltip>
-                        )}
+                            Unlock
+                          </Button>
+                        </Tooltip>
                       </RowItem>
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
