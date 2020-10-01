@@ -502,13 +502,19 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           </Button>
                         )}
                         {isGreaterThan(totalLockedGoldBalance, 0) && (
-                          <Button
-                            data-cy="unlock-gold-button"
-                            onClick={this.handleUnlockGold}
-                            style={{ marginLeft: 12, marginBottom: 6 }}
+                          <Tooltip
+                            usePortal={false}
+                            position={Position.RIGHT}
+                            content="To unlock locked CELO tokens, they first need to be revoked from voting."
                           >
-                            Unlock
-                          </Button>
+                            <Button
+                              data-cy="unlock-gold-button"
+                              onClick={this.handleUnlockGold}
+                              style={{ marginLeft: 12, marginBottom: 6 }}
+                            >
+                              Unlock
+                            </Button>
+                          </Tooltip>
                         )}
                       </RowItem>
                     </ValidatorDetailRow>
