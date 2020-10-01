@@ -4,8 +4,8 @@
     "height": "2556626",
     "availableGoldBalance": "1000000000000000016",
     "totalLockedGoldBalance": "50963195658106474251698",
-    "nonVotingLockedGoldBalance": "0",
-    "votingLockedGoldBalance": "50963195658106474251698",
+    "nonVotingLockedGoldBalance": "30963195658106474251698",
+    "votingLockedGoldBalance": "40963195658106474251698",
     "pendingWithdrawalBalance": "0",
     "celoUSDValue": "5970399386662756655185",
     "delegations": [

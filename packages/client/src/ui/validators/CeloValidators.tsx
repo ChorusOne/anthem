@@ -460,17 +460,6 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           )}
                         </Text>
                       </RowItem>
-                      {isGreaterThan(totalLockedGoldBalance, 0) && (
-                        <RowItem width={125}>
-                          <Button
-                            data-cy="unlock-gold-button"
-                            onClick={this.handleUnlockGold}
-                            style={{ marginBottom: 6, width: 115 }}
-                          >
-                            Unlock Celo
-                          </Button>
-                        </RowItem>
-                      )}
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
                       <RowItem width={125}>
@@ -497,8 +486,11 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           )}
                         </Text>
                       </RowItem>
-                      {CHORUS_VALIDATOR && CAN_VOTE && (
-                        <RowItem width={100}>
+                      <RowItem
+                        width={150}
+                        style={{ display: "flex", flexDirection: "row" }}
+                      >
+                        {CHORUS_VALIDATOR && CAN_VOTE && (
                           <Button
                             style={{ marginBottom: 6 }}
                             onClick={() =>
@@ -508,8 +500,17 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           >
                             Vote
                           </Button>
-                        </RowItem>
-                      )}
+                        )}
+                        {isGreaterThan(totalLockedGoldBalance, 0) && (
+                          <Button
+                            data-cy="unlock-gold-button"
+                            onClick={this.handleUnlockGold}
+                            style={{ marginLeft: 12, marginBottom: 6 }}
+                          >
+                            Unlock
+                          </Button>
+                        )}
+                      </RowItem>
                     </ValidatorDetailRow>
                     <ValidatorDetailRow>
                       <RowItem width={125}>
