@@ -966,8 +966,8 @@ class OasisBalancesComponent extends React.Component<
           </BalanceContainer>
         </SummaryContainer>
         <ActionContainer>
-          <H5>Oasis Ledger Transactions</H5>
-          <DelegationControlsContainer>
+          <H5>Ledger Support: coming soon!</H5>
+          {/* <DelegationControlsContainer>
             <Button onClick={handleTransfer} data-cy="oasis-transfer-button">
               Transfer
             </Button>
@@ -987,7 +987,7 @@ class OasisBalancesComponent extends React.Component<
                 Unstake
               </Button>
             )}
-          </DelegationControlsContainer>
+          </DelegationControlsContainer> */}
         </ActionContainer>
       </>
     );
