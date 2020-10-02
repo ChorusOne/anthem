@@ -49,7 +49,6 @@ import { renderCurrencyValue, unitToDenom } from "tools/currency-utils";
 import { bold } from "tools/i18n-utils";
 import {
   validateBech32Address,
-  validateEthereumAddress,
   validateLedgerTransactionAmount,
 } from "tools/validation-utils";
 import { GraphQLGuardComponentMultipleQueries } from "ui/GraphQLGuardComponents";
@@ -159,7 +158,7 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
     } = this.props;
     const { displayReceiveQR } = this.state;
     const { address, network } = ledger;
-    const { t, tString } = i18n;
+    const { tString } = i18n;
 
     if (displayReceiveQR) {
       return (

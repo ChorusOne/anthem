@@ -898,6 +898,8 @@ class OasisBalancesComponent extends React.Component<
      * centered in the panel using extra padding and margin.
      */
 
+    const ENABLE_LEDGER = false;
+
     return (
       <>
         <SummaryContainer>
@@ -967,27 +969,29 @@ class OasisBalancesComponent extends React.Component<
         </SummaryContainer>
         <ActionContainer>
           <H5>Ledger Support: coming soon!</H5>
-          {/* <DelegationControlsContainer>
-            <Button onClick={handleTransfer} data-cy="oasis-transfer-button">
-              Transfer
-            </Button>
-            <Button
-              style={{ marginLeft: 12 }}
-              onClick={handleStake}
-              data-cy="oasis-delegate-button"
-            >
-              Stake
-            </Button>
-            {isGreaterThan(stakedBalance, 0) && (
+          {ENABLE_LEDGER && (
+            <DelegationControlsContainer>
+              <Button onClick={handleTransfer} data-cy="oasis-transfer-button">
+                Transfer
+              </Button>
               <Button
                 style={{ marginLeft: 12 }}
-                onClick={handleUndelegate}
-                data-cy="oasis-undelegate-button"
+                onClick={handleStake}
+                data-cy="oasis-delegate-button"
               >
-                Unstake
+                Stake
               </Button>
-            )}
-          </DelegationControlsContainer> */}
+              {isGreaterThan(stakedBalance, 0) && (
+                <Button
+                  style={{ marginLeft: 12 }}
+                  onClick={handleUndelegate}
+                  data-cy="oasis-undelegate-button"
+                >
+                  Unstake
+                </Button>
+              )}
+            </DelegationControlsContainer>
+          )}
         </ActionContainer>
       </>
     );
