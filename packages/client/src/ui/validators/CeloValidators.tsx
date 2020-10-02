@@ -496,7 +496,7 @@ class CeloValidatorsListPage extends React.Component<IProps, IState> {
                           content="To vote for a validator group, you must first lock CELO tokens."
                         >
                           <Button
-                            disabled={CHORUS_VALIDATOR && CAN_VOTE}
+                            disabled={!CHORUS_VALIDATOR || !CAN_VOTE}
                             style={{ marginBottom: 6 }}
                             onClick={() => {
                               if (CHORUS_VALIDATOR) {
