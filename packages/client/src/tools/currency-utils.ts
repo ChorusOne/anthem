@@ -147,7 +147,7 @@ interface RenderCurrencyArgs {
 }
 
 // Helper to render Celo currency values
-export const renderCeloCurrency = (args: RenderCurrencyArgs) => {
+export const renderCurrencyValue = (args: RenderCurrencyArgs) => {
   const { value, denomSize, fiatPrice, convertToFiat } = args;
   let result = denomToUnit(value, denomSize, toBigNumber);
   if (convertToFiat) {

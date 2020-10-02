@@ -90,7 +90,7 @@ export type COIN_DENOMS =
   | "uatom"
   | "ukava"
   | TERRA_DENOMS
-  | "AMBR"
+  | "ROSE"
   | "CELO"
   | "DOT";
 
@@ -123,7 +123,7 @@ export const COIN_DENOM_MAP = {
   umnt: "Terra Mongolian Tughrik",
   uatom: "ATOM",
   ukava: "KAVA",
-  AMBR: "AMBR",
+  ROSE: "ROSE",
   CELO: "CELO",
 };
 
@@ -240,9 +240,9 @@ const NETWORKS: NetworksMap = {
   OASIS: {
     available: true,
     name: "OASIS",
-    denom: "AMBR", // For Amber testnet
-    denomsList: ["AMBR"],
-    descriptor: "AMBR",
+    denom: "ROSE", // For Amber testnet
+    denomsList: ["ROSE"],
+    descriptor: "ROSE",
     chainId: "oasis",
     cryptoCompareTicker: "OASIS",
     ledgerAppVersion: "1.8.1",

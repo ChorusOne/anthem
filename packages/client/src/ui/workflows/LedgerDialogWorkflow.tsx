@@ -41,6 +41,7 @@ import LoginSetup from "../LoginStart";
 import NetworkSelect from "../NetworkSelect";
 import CeloTransactionWorkflows from "./CeloTransactionWorkflows";
 import CosmosTransactionWorkflows from "./CosmosTransactionWorkflows";
+import OasisTransactionWorkflows from "./OasisTransactionWorkflows";
 
 /** ===========================================================================
  * Types & Config
@@ -116,11 +117,12 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
   renderTransactionStageTitle = (): Nullable<string> => {
     const { tString } = this.props.i18n;
     const { transactionStage } = this.props.transaction;
+    const { network } = this.props.ledger;
     const { ledgerActionType } = this.props.ledgerDialog;
     const { celoCreateAccountStatus } = this.props.ledger;
 
     // If not null then account setup is active
-    if (celoCreateAccountStatus) {
+    if (celoCreateAccountStatus && network.name === "CELO") {
       return "Create Celo Address Account";
     }
 
@@ -186,6 +188,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
       case "SEND":
       case "CLAIM":
       case "DELEGATE":
+      case "UNDELEGATE":
       case "WITHDRAW":
       case "VOTE_GOLD":
       case "LOCK_GOLD":
@@ -551,8 +554,19 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
             {this.renderBackArrow()}
           </>
         );
-      case "POLKADOT":
       case "OASIS":
+        return (
+          <>
+            <OasisTransactionWorkflows
+              renderConfirmArrow={this.renderConfirmArrow}
+              isDarkTheme={this.props.settings.isDarkTheme}
+              fiatCurrency={this.props.settings.fiatCurrency}
+              setCanEscapeKeyCloseDialog={this.setCanEscapeKeyCloseDialog}
+            />
+            {this.renderBackArrow()}
+          </>
+        );
+      case "POLKADOT":
         return null;
       default:
         assertUnreachable(network.name);

@@ -37,7 +37,7 @@ import {
   CeloUnlockGoldArguments,
   CeloUpvoteProposalArguments,
   CeloWithdrawArguments,
-  ICeloTransactionResult,
+  ICeloTransactionReceipt,
   RevokeVotesArguments,
 } from "lib/celo-ledger-lib";
 import Modules, { ReduxStoreState } from "modules/root";
@@ -61,7 +61,7 @@ import { composeWithProps } from "tools/context-utils";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import {
   denomToUnit,
-  renderCeloCurrency,
+  renderCurrencyValue,
   unitToDenom,
 } from "tools/currency-utils";
 import { bold } from "tools/i18n-utils";
@@ -112,13 +112,13 @@ interface IState {
 const ValidatorSelect = Select.ofType<ICeloValidatorGroup>();
 
 /** ===========================================================================
- * React Component
+ * Celo Transaction Workflows
  * ----------------------------------------------------------------------------
  * Transaction input component which provides transaction input validation.
  * ============================================================================
  */
 
-class CreateTransactionForm extends React.Component<IProps, IState> {
+class CeloTransactionForm extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -182,6 +182,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       case "VOTE_FOR_PROPOSAL":
         return this.renderGovernanceVote();
       case "DELEGATE":
+      case "UNDELEGATE":
       case null:
         break;
       default:
@@ -346,10 +347,6 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       })
       .filter(Boolean) as Array<ICeloValidatorGroup & { activeVotes: string }>;
 
-    const renderCurrencyValue = (value: string) => {
-      return denomToUnit(value, network.denominationSize);
-    };
-
     return (
       <View>
         <H6 style={{ marginTop: 8, marginBottom: 8 }}>
@@ -365,7 +362,10 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             }
           >
             {delegationGroups.map(group => {
-              const votes = renderCurrencyValue(group.activeVotes);
+              const votes = denomToUnit(
+                group.activeVotes,
+                network.denominationSize,
+              );
               return (
                 <Radio
                   key={group.group}
@@ -444,13 +444,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           IQuery["fiatPriceData"],
         ]) => {
           const { availableGoldBalance } = accountBalancesData;
-          const balance = renderCeloCurrency({
+          const balance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: availableGoldBalance,
             fiatPrice: exchangeRate.price,
             convertToFiat: true,
           });
-          const fiatBalance = renderCeloCurrency({
+          const fiatBalance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: availableGoldBalance,
             fiatPrice: exchangeRate.price,
@@ -581,13 +581,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           IQuery["fiatPriceData"],
         ]) => {
           const { availableGoldBalance } = accountBalancesData;
-          const balance = renderCeloCurrency({
+          const balance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: availableGoldBalance,
             fiatPrice: exchangeRate.price,
             convertToFiat: false,
           });
-          const fiatBalance = renderCeloCurrency({
+          const fiatBalance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: availableGoldBalance,
             fiatPrice: exchangeRate.price,
@@ -680,19 +680,18 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           IQuery["fiatPriceData"],
         ]) => {
           const { totalLockedGoldBalance } = accountBalancesData;
-          const balance = renderCeloCurrency({
+          const balance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: totalLockedGoldBalance,
             fiatPrice: exchangeRate.price,
             convertToFiat: false,
           });
-          const fiatBalance = renderCeloCurrency({
+          const fiatBalance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: totalLockedGoldBalance,
             fiatPrice: exchangeRate.price,
             convertToFiat: true,
           });
-          console.log(totalLockedGoldBalance, balance);
           return (
             <View>
               <p>
@@ -803,13 +802,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
           IQuery["fiatPriceData"],
         ]) => {
           const { pendingWithdrawalBalance } = accountBalancesData;
-          const balance = renderCeloCurrency({
+          const balance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: pendingWithdrawalBalance,
             fiatPrice: exchangeRate.price,
             convertToFiat: false,
           });
-          const fiatBalance = renderCeloCurrency({
+          const fiatBalance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: pendingWithdrawalBalance,
             fiatPrice: exchangeRate.price,
@@ -949,13 +948,13 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
             nonVotingLockedGoldBalance,
             totalLockedGoldBalance,
           } = accountBalancesData;
-          const balance = renderCeloCurrency({
+          const balance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: nonVotingLockedGoldBalance,
             fiatPrice: exchangeRate.price,
             convertToFiat: false,
           });
-          const fiatBalance = renderCeloCurrency({
+          const fiatBalance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: nonVotingLockedGoldBalance,
             fiatPrice: exchangeRate.price,
@@ -1298,7 +1297,7 @@ class CreateTransactionForm extends React.Component<IProps, IState> {
       );
     }
 
-    const tx = transactionResult as ICeloTransactionResult;
+    const tx = transactionResult as ICeloTransactionReceipt;
     const { transactionHash, blockNumber } = tx;
 
     return (
@@ -1784,4 +1783,4 @@ export default composeWithProps<ComponentProps>(
   withFiatPriceData,
   withCeloSystemBalances,
   withCeloAccountBalances,
-)(CreateTransactionForm);
+)(CeloTransactionForm);

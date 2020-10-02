@@ -1,14 +1,9 @@
-import {
-  ICeloValidatorGroup,
-  ICosmosTransaction,
-  ICosmosValidator,
-} from "@anthem/utils";
+import { ICeloValidatorGroup, ICosmosValidator } from "@anthem/utils";
 import { PendingWithdrawal } from "@celo/contractkit/lib/wrappers/LockedGold";
-import { ICeloTransactionResult } from "lib/celo-ledger-lib";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { TxPostBody } from "tools/cosmos-utils";
 import { ActionType, createStandardAction } from "typesafe-actions";
-import { GovernanceVoteDetails } from "./store";
+import { GovernanceVoteDetails, TransactionReceipt } from "./store";
 
 /** ===========================================================================
  * Action Types
@@ -85,7 +80,7 @@ const pollForTransaction = createStandardAction(
 
 const transactionConfirmed = createStandardAction(
   ActionTypesEnum.TRANSACTION_CONFIRMED,
-)<Nullable<ICosmosTransaction | ICeloTransactionResult>>();
+)<Nullable<TransactionReceipt>>();
 
 const transactionFailed = createStandardAction(
   ActionTypesEnum.TRANSACTION_FAILED,

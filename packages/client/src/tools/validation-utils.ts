@@ -120,9 +120,9 @@ export const validateNetworkAddress = (
 };
 
 /**
- * Perform basic validation on a Cosmos address string.
+ * Perform basic validation on a bech32 encoded address string.
  */
-export const validateCosmosAddress = (address: string): boolean => {
+export const validateBech32Address = (address: string): boolean => {
   try {
     bech32.decode(address);
   } catch (err) {
