@@ -181,34 +181,34 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
         tString={tString}
         results={[
           [oasisAccountBalances, "oasisAccountBalances"],
-          [fiatPriceData, "fiatPriceData"],
+          // [fiatPriceData, "fiatPriceData"],
         ]}
       >
         {([accountBalancesData, exchangeRate]: [
           IOasisAccountBalances,
           IQuery["fiatPriceData"],
         ]) => {
-          const { available } = accountBalancesData;
-          const balance = renderCurrencyValue({
-            denomSize: network.denominationSize,
-            value: available,
-            fiatPrice: exchangeRate.price,
-            convertToFiat: true,
-          });
-          const fiatBalance = renderCurrencyValue({
-            denomSize: network.denominationSize,
-            value: available,
-            fiatPrice: exchangeRate.price,
-            convertToFiat: true,
-          });
+          // const { available } = accountBalancesData;
+          // const balance = renderCurrencyValue({
+          //   denomSize: network.denominationSize,
+          //   value: available,
+          //   fiatPrice: exchangeRate.price,
+          //   convertToFiat: true,
+          // });
+          // const fiatBalance = renderCurrencyValue({
+          //   denomSize: network.denominationSize,
+          //   value: available,
+          //   fiatPrice: exchangeRate.price,
+          //   convertToFiat: true,
+          // });
 
           return (
             <View>
               <p>
-                {t("Available balance: {{balance}} ({{balanceFiat}})", {
+                {/* {t("Available balance: {{balance}} ({{balanceFiat}})", {
                   balance: bold(`${balance} ${ledger.network.descriptor}`),
                   balanceFiat: `${fiatBalance} ${fiatCurrency.symbol}`,
-                })}
+                })} */}
               </p>
               <H6 style={{ marginTop: 6, marginBottom: 0 }}>
                 Please enter an amount to send
@@ -742,6 +742,9 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
         transactionSetupError: amountError,
       },
       () => {
+        // TODO: For testing, remove later.
+        this.getSendTransaction();
+
         if (amountError === "") {
           this.getSendTransaction();
         }
@@ -754,7 +757,7 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
     const { network, address } = this.props.ledger;
     const { denominationSize } = network;
 
-    if (!validateEthereumAddress(recipientAddress)) {
+    if (!validateBech32Address(recipientAddress)) {
       return this.setState({
         transactionSetupError: "Please enter a valid recipient address",
       });

@@ -170,7 +170,7 @@ class OasisLedgerClass implements IOasisLedger {
   async transfer(args: OasisTransferArgs) {
     console.log("Handling Oasis transfer transaction, args: ", args);
     const tx = getTransferTransaction(args);
-    const signedTransaction = this.encodeAndSignTransaction(tx);
+    const signedTransaction = await this.encodeAndSignTransaction(tx);
     const receipt = this.broadcastTransaction(signedTransaction);
     return receipt;
   }
@@ -210,9 +210,11 @@ class OasisLedgerClass implements IOasisLedger {
     const path = this.path;
     // TODO: What is the context?
     const context = "oasis-core/consensus: tx for chain testing";
-    const message = encodeTransaction(transactionData);
+    const encodedTransaction = encodeTransaction(transactionData);
+    const message = Buffer.from(encodedTransaction, "base64");
 
     console.log("Encoded - Requesting Ledger to sign...");
+    console.log("message: ", message);
 
     // TODO: What are the types?
     const result: string = await this.app.sign(path, context, message);
@@ -305,7 +307,7 @@ const marshalQuantity = (value: string | number) => {
   if (amount.isZero()) {
     return Buffer.from([]);
   }
-  return amount.toBuffer("be", amount.byteLength());
+  return amount.toArrayLike(Buffer, "be", amount.byteLength());
 };
 
 /**
