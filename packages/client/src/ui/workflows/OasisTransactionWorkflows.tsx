@@ -153,8 +153,8 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
     const {
       i18n,
       ledger,
-      fiatCurrency,
-      fiatPriceData,
+      // fiatCurrency,
+      // fiatPriceData,
       oasisAccountBalances,
     } = this.props;
     const { displayReceiveQR } = this.state;
@@ -181,6 +181,7 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
         tString={tString}
         results={[
           [oasisAccountBalances, "oasisAccountBalances"],
+          // TODO: Re-enable when Oasis has price data:
           // [fiatPriceData, "fiatPriceData"],
         ]}
       >
@@ -188,13 +189,14 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
           IOasisAccountBalances,
           IQuery["fiatPriceData"],
         ]) => {
-          // const { available } = accountBalancesData;
-          // const balance = renderCurrencyValue({
-          //   denomSize: network.denominationSize,
-          //   value: available,
-          //   fiatPrice: exchangeRate.price,
-          //   convertToFiat: true,
-          // });
+          const { available } = accountBalancesData;
+          const balance = renderCurrencyValue({
+            denomSize: network.denominationSize,
+            value: available,
+            // fiatPrice: exchangeRate.price,
+            fiatPrice: 0,
+            convertToFiat: false,
+          });
           // const fiatBalance = renderCurrencyValue({
           //   denomSize: network.denominationSize,
           //   value: available,
@@ -209,9 +211,10 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
                   balance: bold(`${balance} ${ledger.network.descriptor}`),
                   balanceFiat: `${fiatBalance} ${fiatCurrency.symbol}`,
                 })} */}
+                Available balance: {balance}
               </p>
               <H6 style={{ marginTop: 6, marginBottom: 0 }}>
-                Please enter an amount to send
+                Please enter an amount to transfer.
               </H6>
               <View>
                 <FormContainer>
