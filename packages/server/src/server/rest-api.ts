@@ -59,17 +59,18 @@ Router.post("/broadcast-tx", async (req, res) => {
         return res.send(JSON.stringify(data));
       }
       case "OASIS": {
+        /**
+         * TODO: Broadcast transaction data to Oasis node.
+         */
         console.log("Processing Oasis Transaction, data:");
         console.log(tx);
-        return res.status(200).send("OK");
+        return res.status(200).send({ result: "OK" });
       }
       case "CELO":
       case "POLKADOT": {
-        return res
-          .status(400)
-          .send(
-            `${name} network does not supporting broadcasting transactions via API.`,
-          );
+        return res.status(400).send({
+          error: `${name} network does not supporting broadcasting transactions via API.`,
+        });
       }
       default:
         assertUnreachable(name);

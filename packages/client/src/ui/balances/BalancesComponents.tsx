@@ -898,7 +898,7 @@ class OasisBalancesComponent extends React.Component<
      * centered in the panel using extra padding and margin.
      */
 
-    const ENABLE_LEDGER = false;
+    const ENABLE_LEDGER = true;
 
     return (
       <>
