@@ -6,6 +6,7 @@ import BN from "bn.js";
 import cbor from "cbor";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
 import OasisApp from "ledger-oasis-js";
+import broadcastTransactionModule from "lib/blockchain-lib";
 import ENV from "lib/client-env";
 
 /** ===========================================================================
@@ -228,8 +229,11 @@ class OasisLedgerClass implements IOasisLedger {
   }
 
   async broadcastTransaction(data: any) {
-    // TODO: Handle broadcasting the transaction to Oasis Network
-    console.log("Broadcasting Oasis transaction...");
+    const result = await broadcastTransactionModule.broadcastTransaction(
+      data,
+      "OASIS",
+    );
+    console.log(result);
     return SampleTransactionReceipt;
   }
 }
