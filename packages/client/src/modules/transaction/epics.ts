@@ -172,7 +172,7 @@ const broadcastTransactionEpic: EpicSignature = (action$, state$, deps) => {
 
         logger(body);
 
-        const result = await deps.cosmos.broadcastTransaction(
+        const result = await deps.transactionModule.broadcastTransaction(
           body,
           networkName,
         );
@@ -204,7 +204,10 @@ const pollTransactionEpic: EpicSignature = (action$, state$, deps) => {
       try {
         const txHash = state$.value.transaction.transactionHash;
         const { network } = state$.value.ledger.ledger;
-        const result = await deps.cosmos.pollTransaction(txHash, network.name);
+        const result = await deps.transactionModule.pollTransaction(
+          txHash,
+          network.name,
+        );
 
         // Try to convert the transaction result to match the GraphQL/extractor:
         const adaptedTransactionResult = adaptRawTransactionData(

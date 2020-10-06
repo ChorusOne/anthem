@@ -1,6 +1,6 @@
 import client from "graphql/apollo-client";
 import { createBrowserHistory } from "history";
-import cosmosBlockchainModule from "lib/blockchain-lib";
+import broadcastTransactionModule from "lib/blockchain-lib";
 import celoLedgerLib from "lib/celo-ledger-lib";
 import ENV from "lib/client-env";
 import cosmosLedgerLib from "lib/cosmos-ledger-lib";
@@ -31,7 +31,7 @@ const dependencies: EpicDependencies = {
   celoLedgerUtil: celoLedgerLib,
   oasisLedgerUtil: oasisLedgerLib,
   polkadotLedgerUtil: polkadotLedgerLib,
-  cosmos: cosmosBlockchainModule,
+  transactionModule: broadcastTransactionModule,
 };
 
 const epicMiddleware = createEpicMiddleware({
