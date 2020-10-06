@@ -1,6 +1,7 @@
 import {
   assertUnreachable,
   getNetworkDefinitionFromIdentifier,
+  NETWORK_NAME,
 } from "@anthem/utils";
 import axios from "axios";
 import express from "express";
@@ -45,11 +46,34 @@ const formatLcdRequestError = (error: LcdRequestError) => {
 Router.post("/broadcast-tx", async (req, res) => {
   try {
     const { tx, network } = req.body;
-    logger.log(`Broadcasting ${network} transaction!`);
-    const host = getHostFromNetworkName(network);
-    const url = `${host}/txs`;
-    const { data } = await axios.post(url, tx);
-    res.send(JSON.stringify(data));
+    const name: NETWORK_NAME = network;
+    logger.log(`Broadcasting ${name} transaction!`);
+
+    switch (name) {
+      case "COSMOS":
+      case "KAVA":
+      case "TERRA": {
+        const host = getHostFromNetworkName(network);
+        const url = `${host}/txs`;
+        const { data } = await axios.post(url, tx);
+        return res.send(JSON.stringify(data));
+      }
+      case "OASIS": {
+        console.log("Processing Oasis Transaction, data:");
+        console.log(tx);
+        return res.status(200).send("OK");
+      }
+      case "CELO":
+      case "POLKADOT": {
+        return res
+          .status(400)
+          .send(
+            `${name} network does not supporting broadcasting transactions via API.`,
+          );
+      }
+      default:
+        assertUnreachable(name);
+    }
   } catch (err) {
     logger.error(err, true);
     res.status(400);
