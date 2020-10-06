@@ -8,7 +8,7 @@ import ENV from "./client-env";
  * ============================================================================
  */
 
-class CosmosBlockchainModule {
+class BroadcastTransactionModule {
   headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -40,7 +40,7 @@ class CosmosBlockchainModule {
  * ============================================================================
  */
 
-class MockCosmosBlockchain {
+class MockBroadcastTransaction {
   broadcastTransaction = async (body: any) => {
     return MOCK_BLOCKCHAIN_TRANSACTION_RESULT;
   };
@@ -59,10 +59,10 @@ class MockCosmosBlockchain {
  * ============================================================================
  */
 
-const cosmosBlockchainModule = new CosmosBlockchainModule();
+const broadcastTransactionModule = new BroadcastTransactionModule();
 
-const mockCosmosBlockchain = new MockCosmosBlockchain();
+const mockCosmosBlockchain = new MockBroadcastTransaction();
 
 export default ENV.ENABLE_MOCK_APIS
   ? mockCosmosBlockchain
-  : cosmosBlockchainModule;
+  : broadcastTransactionModule;
