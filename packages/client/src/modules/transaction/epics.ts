@@ -169,7 +169,7 @@ const broadcastTransactionEpic: EpicSignature = (action$, state$, deps) => {
           // mode: "block", // NOTE: Use `block` to debug and `async` in production
         });
 
-        const result = await deps.cosmosLedgerUtil.broadcastTransaction(
+        const result = await deps.transactionModule.broadcastTransaction(
           body,
           networkName,
         );
