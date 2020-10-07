@@ -5,12 +5,12 @@ import {
   NETWORKS,
 } from "@anthem/utils";
 import moment from "moment-timezone";
+import { AxiosUtil, HOSTS } from "../../tools/axios-utils";
 import ENV from "../../tools/server-env";
 import {
   convertTimestampToUTC,
   getAveragePrice,
 } from "../../tools/server-utils";
-import { AxiosUtil, HOSTS } from "../axios-utils";
 import cosmosPriceHistory from "./price-history/cosmos.json";
 import kavaPriceHistory from "./price-history/kava.json";
 
@@ -53,7 +53,7 @@ const fetchPortfolioFiatPriceHistory = async (
   const requestLimit = moment(new Date()).diff(new Date("04-22-2019"), "days");
   const crypto = network.cryptoCompareTicker;
   const url = `${HOSTS.CRYPTO_COMPARE}/data/histoday?fsym=${crypto}&tsym=${fiat}&limit=${requestLimit}&api_key=${ENV.CRYPTO_COMPARE_API_KEY}`;
-  const result = await AxiosUtil.get(url);
+  const result: any = await AxiosUtil.get(url);
   const backfilledPrices = getBackFillPricesForNetwork(network, fiat);
 
   const normalizedPrices = result.Data.filter(
@@ -74,7 +74,7 @@ const fetchPriceData = async (crypto: string, fiat: string) => {
   const from = crypto.toUpperCase();
   const to = fiat.toUpperCase();
   const url = `${HOSTS.CRYPTO_COMPARE}/data/pricemultifull?fsyms=${from}&tsyms=${to}&api_key=${ENV.CRYPTO_COMPARE_API_KEY}`;
-  const result = await AxiosUtil.get(url);
+  const result: any = await AxiosUtil.get(url);
 
   const data = result.RAW;
   const values = data[from][to];
@@ -154,7 +154,7 @@ const getPriceDataForNetwork = async (
   const url = `${HOSTS.CRYPTO_COMPARE}/data/pricemultifull?fsyms=${cryptoSymbols}&tsyms=${fiatSymbol}&api_key=${ENV.CRYPTO_COMPARE_API_KEY}`;
 
   // Fetch the price change
-  const response = await AxiosUtil.get(url);
+  const response: any = await AxiosUtil.get(url);
   const data = response.RAW;
 
   const result = Object.values(NETWORKS).map(network => {
