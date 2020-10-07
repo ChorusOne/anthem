@@ -41,7 +41,7 @@ COPY --from=build /usr/src/app/packages/server/entrypoint.sh /usr/src/app
 COPY --from=build /usr/src/app/packages/server/dist /usr/src/app/dist
 
 # Copy schema.graphql file
-COPY --from=build /usr/src/app/packages/server/src/schema.graphql /usr/src/app
+COPY --from=build /usr/src/app/packages/server/src/schema.graphql /usr/src/app/dist
 
 # Allow entrypoint to be executable
 RUN chmod +x entrypoint.sh
