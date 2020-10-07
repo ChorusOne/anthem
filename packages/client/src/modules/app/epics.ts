@@ -8,7 +8,6 @@ import {
   wait,
 } from "@anthem/utils";
 import { graphqlSelector } from "graphql/queries";
-import Analytics from "lib/analytics-lib";
 import { EpicSignature } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import { combineEpics } from "redux-observable";
@@ -23,6 +22,7 @@ import {
   take,
   tap,
 } from "rxjs/operators";
+import Analytics from "tools/analytics-utils";
 import ENV from "tools/client-env";
 import {
   getQueryParamsFromUrl,

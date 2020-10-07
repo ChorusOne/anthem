@@ -18,7 +18,6 @@ import {
 } from "graphql/queries";
 import * as Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import Analytics from "lib/analytics-lib";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
@@ -26,6 +25,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import styled from "styled-components";
 import { throttle } from "throttle-debounce";
+import Analytics from "tools/analytics-utils";
 import { ChartData, getHighchartsChartOptions } from "tools/chart-utils";
 import { BASE_CHART_TABS } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
