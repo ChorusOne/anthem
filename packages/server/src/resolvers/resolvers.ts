@@ -10,11 +10,11 @@ import {
   NetworkDefinition,
   NETWORKS,
 } from "@anthem/utils";
-import CELO from "../sources/celo";
-import COSMOS_SDK from "../sources/cosmos-sdk";
-import FIAT_CURRENCIES from "../sources/fiat-currencies";
-import EXCHANGE_DATA_API from "../sources/fiat-price-data";
-import OASIS from "../sources/oasis";
+import CELO from "../server/sources/celo";
+import COSMOS_SDK from "../server/sources/cosmos-sdk";
+import FIAT_CURRENCIES from "../server/sources/fiat-currencies";
+import EXCHANGE_DATA_API from "../server/sources/fiat-price-data";
+import OASIS from "../server/sources/oasis";
 import CeloResolvers from "./celo-resolvers";
 import CosmosResolvers from "./cosmos-resolvers";
 import OasisResolvers from "./oasis-resolvers";

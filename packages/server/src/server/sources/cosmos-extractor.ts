@@ -9,6 +9,7 @@ import {
   NetworkDefinition,
 } from "@anthem/utils";
 import { Pool } from "pg";
+import { PaginationParams } from "../../resolvers/resolvers";
 import ENV from "../../tools/server-env";
 import {
   filterSanityCheckHeights,
@@ -17,7 +18,6 @@ import {
   mapSumToBalance,
 } from "../../tools/server-utils";
 import { getSqlQueryString, SQLVariables } from "../../tools/sql-utils";
-import { PaginationParams } from "../resolvers/resolvers";
 
 /** ===========================================================================
  * Postgres Pool

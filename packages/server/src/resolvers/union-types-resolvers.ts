@@ -3,7 +3,7 @@ import {
   IOasisTransactionData,
   IOasisTransactionType,
 } from "@anthem/utils";
-import { hasKeys } from "../../tools/server-utils";
+import { hasKeys } from "../tools/server-utils";
 
 /** ===========================================================================
  * Union Type Resolvers

@@ -4,9 +4,9 @@ import {
 } from "@anthem/utils";
 import axios from "axios";
 import express from "express";
+import { PaginationParams } from "../resolvers/resolvers";
 import { AxiosUtil, getHostFromNetworkName } from "../tools/axios-utils";
 import { logger } from "../tools/server-utils";
-import { PaginationParams } from "./resolvers/resolvers";
 import CELO from "./sources/celo";
 import COSMOS_EXTRACTOR from "./sources/cosmos-extractor";
 import OASIS from "./sources/oasis";

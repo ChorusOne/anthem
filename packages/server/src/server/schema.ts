@@ -3,7 +3,7 @@ import { GraphQLSchema } from "graphql";
 import "graphql-import-node";
 import { makeExecutableSchema } from "graphql-tools";
 import path from "path";
-import resolvers from "./resolvers/resolvers";
+import resolvers from "../resolvers/resolvers";
 
 const typeDefs = fs.readFileSync(
   path.join(__dirname, "../schema/schema.graphql"),

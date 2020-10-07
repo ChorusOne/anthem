@@ -8,11 +8,11 @@ import {
   IQuery,
   NETWORKS,
 } from "@anthem/utils";
+import CELO from "../server/sources/celo";
 import {
   blockUnsupportedNetworks,
   validatePaginationParams,
-} from "../../tools/server-utils";
-import CELO from "../sources/celo";
+} from "../tools/server-utils";
 
 /** =======================================================================
  * Celo Resolvers

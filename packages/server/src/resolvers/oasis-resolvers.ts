@@ -7,11 +7,11 @@ import {
   IQuery,
   NETWORKS,
 } from "@anthem/utils";
+import OASIS from "../server/sources/oasis";
 import {
   blockUnsupportedNetworks,
   validatePaginationParams,
-} from "../../tools/server-utils";
-import OASIS from "../sources/oasis";
+} from "../tools/server-utils";
 
 /** =======================================================================
  * Oasis Resolvers

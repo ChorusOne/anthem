@@ -1,5 +1,5 @@
 import fs from "fs";
-import resolvers from "../src/server/resolvers/resolvers";
+import resolvers from "../src/resolvers/resolvers";
 
 /**
  * Derive all the query keys from the current resolver set.
