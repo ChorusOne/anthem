@@ -6,7 +6,7 @@ import BN from "bn.js";
 import cbor from "cbor";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
 import OasisApp from "ledger-oasis-js";
-import ENV from "lib/client-env";
+import ENV from "tools/client-env";
 
 /** ===========================================================================
  * Oasis Ledger Utils

@@ -1,13 +1,13 @@
 import { Colors } from "@blueprintjs/core";
 import * as Sentry from "@sentry/browser";
 import { Action, Location } from "history";
-import Analytics from "lib/analytics-lib";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
+import Analytics from "tools/analytics-utils";
 import { composeWithProps } from "tools/context-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
 import { Centered } from "ui/SharedComponents";

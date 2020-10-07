@@ -1,6 +1,6 @@
 import { wait } from "@anthem/utils";
 import Ledger from "@lunie/cosmos-ledger";
-import ENV from "./client-env";
+import ENV from "../tools/client-env";
 
 /** ===========================================================================
  * Types & Config

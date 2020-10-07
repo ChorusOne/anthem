@@ -4,12 +4,12 @@ import {
 } from "@anthem/utils";
 import axios from "axios";
 import express from "express";
-import { logger } from "../tools/server-utils";
-import { AxiosUtil, getHostFromNetworkName } from "./axios-utils";
 import { PaginationParams } from "./resolvers/resolvers";
 import CELO from "./sources/celo";
 import COSMOS_EXTRACTOR from "./sources/cosmos-extractor";
 import OASIS from "./sources/oasis";
+import { AxiosUtil, getHostFromNetworkName } from "./tools/axios-utils";
+import { logger } from "./tools/server-utils";
 
 /** ===========================================================================
  * Types & Config

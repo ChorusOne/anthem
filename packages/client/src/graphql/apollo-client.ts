@@ -4,7 +4,7 @@ import {
 } from "apollo-cache-inmemory";
 import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
-import ENV from "lib/client-env";
+import ENV from "tools/client-env";
 import getSchemaLink from "./mocks";
 
 /** ===========================================================================

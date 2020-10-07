@@ -23,11 +23,11 @@ import {
   OasisAccountHistoryDocument,
   OasisTransactionsDocument,
 } from "@anthem/utils";
-import ENV from "lib/client-env";
 import { ReduxStoreState } from "modules/root";
 import { graphql, QueryOpts, QueryResult } from "react-apollo";
 import { connect } from "react-redux";
 import { createSelector } from "reselect";
+import ENV from "tools/client-env";
 
 /** ===========================================================================
  * Query Providers

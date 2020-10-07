@@ -1,5 +1,4 @@
 import { assertUnreachable, wait } from "@anthem/utils";
-import logger from "lib/logger-lib";
 import { EpicSignature } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import { combineEpics } from "redux-observable";
@@ -170,18 +169,13 @@ const broadcastTransactionEpic: EpicSignature = (action$, state$, deps) => {
           // mode: "block", // NOTE: Use `block` to debug and `async` in production
         });
 
-        logger(body);
-
         const result = await deps.cosmos.broadcastTransaction(
           body,
           networkName,
         );
 
-        logger(result);
-
         return Actions.broadcastTransactionSuccess(result.txhash);
       } catch (err) {
-        logger(err);
         Toast.danger(
           "Failed to send transaction. Please note, the transaction may have succeeded. Please wait a few seconds and refresh your browser before trying again.",
         );
@@ -213,7 +207,6 @@ const pollTransactionEpic: EpicSignature = (action$, state$, deps) => {
         );
 
         if (result.error && result.error.includes("not found")) {
-          logger("Transaction not found, re-polling...");
           await wait(1500);
           return Actions.pollForTransaction();
         } else if (result.logs && result.logs[0].success) {

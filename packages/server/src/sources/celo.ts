@@ -5,8 +5,8 @@ import {
   IQuery,
   NetworkDefinition,
 } from "@anthem/utils";
-import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
 import { PaginationParams } from "../resolvers/resolvers";
+import { AxiosUtil, getHostFromNetworkName } from "../tools/axios-utils";
 import { fetchProposalTitleFromID } from "./icarus-wings";
 
 /** ===========================================================================

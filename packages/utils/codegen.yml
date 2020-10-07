@@ -1,5 +1,5 @@
 overwrite: true
-schema: ../server/src/schema/schema.graphql
+schema: ../server/src/schema.graphql
 documents: schema_documents/**/*.gql
 generates:
   src/graphql/introspection-result.json:

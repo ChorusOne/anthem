@@ -1,6 +1,6 @@
 import { NETWORK_NAME, NetworkDefinition, NETWORKS } from "@anthem/utils";
-import StorageModule from "lib/storage-lib";
 import { combineReducers } from "redux";
+import StorageModule from "tools/storage-utils";
 import { createReducer } from "typesafe-actions";
 import LoadingActions, {
   ActionTypes as LoadingActionTypes,

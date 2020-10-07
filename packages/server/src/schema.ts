@@ -6,7 +6,7 @@ import path from "path";
 import resolvers from "./resolvers/resolvers";
 
 const typeDefs = fs.readFileSync(
-  path.join(__dirname, "../schema/schema.graphql"),
+  path.join(__dirname, "./schema.graphql"),
   "utf8",
 );
 
