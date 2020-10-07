@@ -10,7 +10,6 @@ import {
   NetworkDefinition,
   NETWORKS,
 } from "@anthem/utils";
-import UnionResolvers from "../resolve-types";
 import CELO from "../sources/celo";
 import COSMOS_SDK from "../sources/cosmos-sdk";
 import FIAT_CURRENCIES from "../sources/fiat-currencies";
@@ -19,6 +18,7 @@ import OASIS from "../sources/oasis";
 import CeloResolvers from "./celo-resolvers";
 import CosmosResolvers from "./cosmos-resolvers";
 import OasisResolvers from "./oasis-resolvers";
+import UnionResolvers from "./union-types-resolvers";
 
 /** ===========================================================================
  * Utils and Types
