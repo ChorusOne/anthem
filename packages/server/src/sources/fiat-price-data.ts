@@ -5,12 +5,9 @@ import {
   NETWORKS,
 } from "@anthem/utils";
 import moment from "moment-timezone";
-import { AxiosUtil, HOSTS } from "../../tools/axios-utils";
-import ENV from "../../tools/server-env";
-import {
-  convertTimestampToUTC,
-  getAveragePrice,
-} from "../../tools/server-utils";
+import { AxiosUtil, HOSTS } from "../tools/axios-utils";
+import ENV from "../tools/server-env";
+import { convertTimestampToUTC, getAveragePrice } from "../tools/server-utils";
 import cosmosPriceHistory from "./price-history/cosmos.json";
 import kavaPriceHistory from "./price-history/kava.json";
 

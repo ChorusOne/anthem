@@ -5,11 +5,11 @@ import {
 import axios from "axios";
 import express from "express";
 import { PaginationParams } from "../resolvers/resolvers";
+import CELO from "../sources/celo";
+import COSMOS_EXTRACTOR from "../sources/cosmos-extractor";
+import OASIS from "../sources/oasis";
 import { AxiosUtil, getHostFromNetworkName } from "../tools/axios-utils";
 import { logger } from "../tools/server-utils";
-import CELO from "./sources/celo";
-import COSMOS_EXTRACTOR from "./sources/cosmos-extractor";
-import OASIS from "./sources/oasis";
 
 /** ===========================================================================
  * Types & Config

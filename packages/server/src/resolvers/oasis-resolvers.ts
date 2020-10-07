@@ -7,7 +7,7 @@ import {
   IQuery,
   NETWORKS,
 } from "@anthem/utils";
-import OASIS from "../server/sources/oasis";
+import OASIS from "../sources/oasis";
 import {
   blockUnsupportedNetworks,
   validatePaginationParams,

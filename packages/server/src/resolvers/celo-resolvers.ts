@@ -8,7 +8,7 @@ import {
   IQuery,
   NETWORKS,
 } from "@anthem/utils";
-import CELO from "../server/sources/celo";
+import CELO from "../sources/celo";
 import {
   blockUnsupportedNetworks,
   validatePaginationParams,
