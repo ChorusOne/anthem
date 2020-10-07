@@ -1,7 +1,7 @@
 import { CURRENCY_SETTING, FiatCurrency } from "constants/fiat";
 import { ILocale } from "i18n/catalog";
-import ENV from "lib/client-env";
 import { SIGNIN_TYPE } from "modules/ledger/actions";
+import ENV from "tools/client-env";
 
 /** ===========================================================================
  * Types & Config

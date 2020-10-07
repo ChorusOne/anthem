@@ -2,7 +2,6 @@ import client from "graphql/apollo-client";
 import { createBrowserHistory } from "history";
 import cosmosBlockchainModule from "lib/blockchain-lib";
 import celoLedgerLib from "lib/celo-ledger-lib";
-import ENV from "lib/client-env";
 import cosmosLedgerLib from "lib/cosmos-ledger-lib";
 import { reduxLogger as logger } from "lib/logger-lib";
 import oasisLedgerLib from "lib/oasis-ledger-lib";
@@ -10,6 +9,7 @@ import polkadotLedgerLib from "lib/polkadot-ledger-lib";
 import { applyMiddleware, createStore, Middleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { createEpicMiddleware } from "redux-observable";
+import ENV from "tools/client-env";
 import { EpicDependencies, rootEpic, rootReducer } from "./root";
 
 /** ===========================================================================

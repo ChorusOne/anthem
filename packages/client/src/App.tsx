@@ -1,7 +1,7 @@
 import { FocusStyleManager } from "@blueprintjs/core";
 import * as Sentry from "@sentry/browser";
 import client from "graphql/apollo-client";
-import ENV from "lib/client-env";
+import ENV from "tools/client-env";
 import store, { history } from "modules/create-store";
 import React from "react";
 import { ApolloProvider } from "react-apollo";

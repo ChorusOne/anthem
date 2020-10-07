@@ -3,7 +3,7 @@ import TransportU2F from "@ledgerhq/hw-transport-u2f";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
 import { newPolkadotApp } from "@zondax/ledger-polkadot";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
-import ENV from "lib/client-env";
+import ENV from "tools/client-env";
 
 /** ===========================================================================
  * Polkadot Ledger Utils

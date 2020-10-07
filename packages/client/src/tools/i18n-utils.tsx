@@ -6,8 +6,8 @@ import {
   TODO_IMPLEMENTATION_MSG,
 } from "i18n/catalog";
 import { ENGLISH } from "i18n/english";
-import ENV from "lib/client-env";
 import React from "react";
+import ENV from "tools/client-env";
 
 /** ===========================================================================
  * Types & Config

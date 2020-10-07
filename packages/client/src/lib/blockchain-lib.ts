@@ -1,7 +1,7 @@
 import { NETWORK_NAME } from "@anthem/utils";
 import { MOCK_BLOCKCHAIN_TRANSACTION_RESULT } from "test/data/mock-blockchain-transactions-result";
 import Toast from "ui/Toast";
-import ENV from "./client-env";
+import ENV from "../tools/client-env";
 
 /** ===========================================================================
  * Cosmos Blockchain Module

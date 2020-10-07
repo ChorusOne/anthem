@@ -16,13 +16,13 @@ import axios from "axios";
 import { COLORS } from "constants/colors";
 import { History } from "history";
 import Analytics from "lib/analytics-lib";
-import ENV from "lib/client-env";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import styled from "styled-components";
+import ENV from "tools/client-env";
 import {
   getChartTabsForNetwork,
   getPortfolioTypeFromUrl,

@@ -1,6 +1,6 @@
 import { Classes } from "@blueprintjs/core";
 import { COLORS } from "constants/colors";
-import ENV from "lib/client-env";
+import ENV from "tools/client-env";
 import Modules, { ReduxStoreState } from "modules/root";
 import React from "react";
 import { connect } from "react-redux";

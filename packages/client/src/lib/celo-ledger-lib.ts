@@ -11,7 +11,7 @@ import TransportU2F from "@ledgerhq/hw-transport-u2f";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
 import BigNumber from "bignumber.js";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
-import ENV from "lib/client-env";
+import ENV from "tools/client-env";
 import Web3 from "web3";
 import {
   ACTIVATE_VOTES_RECEIPT,
