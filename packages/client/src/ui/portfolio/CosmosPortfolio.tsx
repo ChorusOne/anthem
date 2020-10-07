@@ -157,7 +157,7 @@ class Portfolio extends React.PureComponent<IProps, IState> {
 
     this.throttledPortfolioRedrawFunction = throttle(
       250,
-      this.ridiculouslyForcePortfolioToRedraw,
+      this.redrawPortfolioOnWindowChanges,
     );
 
     this.throttledPortfolioCalculationFunction = throttle(
@@ -343,22 +343,21 @@ class Portfolio extends React.PureComponent<IProps, IState> {
     );
   };
 
-  ridiculouslyForcePortfolioToRedraw = (fullSizeChanged = false) => {
-    // Only react to width changes.
+  redrawPortfolioOnWindowChanges = (fullSizeChanged = false) => {
+    /**
+     * Seemingly HighchartsReact does not redraw easily when other elements
+     * change size or the window resizes. So the chart would get fixed to
+     * some dimension and not change when resize events happened, even
+     * though they seem to expose this "reflow" API to allow that to happen.
+     *
+     * So what happens here is we just set the portfolioData to null to
+     * un-render the chart and then reset the data again to render the chart
+     * again after an event occurs where the chart should redraw.
+     */
     const widthResized = window.innerWidth !== this.currentWindowWidth;
     this.currentWindowWidth = window.innerWidth;
 
     if (widthResized || fullSizeChanged) {
-      /**
-       * Seemingly HighchartsReact does not redraw easily when other elements
-       * change size or the window resizes. So the chart would get fixed to
-       * some dimension and not change when resize events happened, even
-       * though they seem to expose this "reflow" API to allow that to happen.
-       *
-       * So what happens here is we just set the portfolioData to null to
-       * un-render the chart and then reset the data again to render the chart
-       * again after an event occurs where the chart should redraw.
-       */
       const { portfolioChartData } = this.state;
       this.setState(
         {
