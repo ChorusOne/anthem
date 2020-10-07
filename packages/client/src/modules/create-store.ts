@@ -3,14 +3,38 @@ import { createBrowserHistory } from "history";
 import cosmosBlockchainModule from "lib/blockchain-lib";
 import celoLedgerLib from "lib/celo-ledger-lib";
 import cosmosLedgerLib from "lib/cosmos-ledger-lib";
-import { reduxLogger as logger } from "lib/logger-lib";
 import oasisLedgerLib from "lib/oasis-ledger-lib";
 import polkadotLedgerLib from "lib/polkadot-ledger-lib";
 import { applyMiddleware, createStore, Middleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { createLogger } from "redux-logger";
 import { createEpicMiddleware } from "redux-observable";
 import ENV from "tools/client-env";
 import { EpicDependencies, rootEpic, rootReducer } from "./root";
+
+/** ===========================================================================
+ * Redux Logger Setup
+ * ============================================================================
+ */
+
+const TITLE = "#15B06D";
+const ACTION = "#ff6647";
+const NEXT_STATE = "#50adfa";
+
+const logger = createLogger({
+  collapsed: true,
+  duration: true,
+  level: {
+    prevState: false,
+    action: "info",
+    nextState: "info",
+  },
+  colors: {
+    title: () => TITLE,
+    action: () => ACTION,
+    nextState: () => NEXT_STATE,
+  },
+});
 
 /** ===========================================================================
  * Router History
