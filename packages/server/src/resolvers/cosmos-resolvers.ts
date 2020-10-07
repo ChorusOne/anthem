@@ -23,14 +23,14 @@ import {
   IQuery,
   NETWORK_NAME,
 } from "@anthem/utils";
+import COSMOS_EXTRACTOR from "../sources/cosmos-extractor";
+import COSMOS_SDK from "../sources/cosmos-sdk";
+import EXCHANGE_DATA_API from "../sources/fiat-price-data";
 import {
   blockUnsupportedNetworks,
   standardizeTimestamps,
   validatePaginationParams,
-} from "../../tools/server-utils";
-import COSMOS_EXTRACTOR from "../sources/cosmos-extractor";
-import COSMOS_SDK from "../sources/cosmos-sdk";
-import EXCHANGE_DATA_API from "../sources/fiat-price-data";
+} from "../tools/server-utils";
 
 /** =======================================================================
  * Cosmos Resolvers

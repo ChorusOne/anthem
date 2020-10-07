@@ -1,13 +1,13 @@
 import { Card, Colors, H5 } from "@blueprintjs/core";
 import { AddressIcon, LedgerIcon } from "assets/images";
 import { COLORS } from "constants/colors";
-import Analytics from "lib/analytics-lib";
 import { SIGNIN_TYPE } from "modules/ledger/actions";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
+import Analytics from "tools/analytics-utils";
 import { capitalizeString, onPath } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";

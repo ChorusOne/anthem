@@ -8,9 +8,6 @@ import {
   wait,
 } from "@anthem/utils";
 import { graphqlSelector } from "graphql/queries";
-import Analytics from "lib/analytics-lib";
-import ENV from "lib/client-env";
-import StorageModule from "lib/storage-lib";
 import { EpicSignature } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import { combineEpics } from "redux-observable";
@@ -25,12 +22,15 @@ import {
   take,
   tap,
 } from "rxjs/operators";
+import Analytics from "tools/analytics-utils";
+import ENV from "tools/client-env";
 import {
   getQueryParamsFromUrl,
   initializeNetwork,
   isChartTabValidForNetwork,
   onChartTab,
 } from "tools/client-utils";
+import StorageModule from "tools/storage-utils";
 import {
   validateEmailAddress,
   validateNetworkAddress,

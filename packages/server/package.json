@@ -9,7 +9,7 @@
     "setup": "cp sample.env .env",
     "start": "nodemon --exec ts-node --files src/server.ts",
     "prod": "node build/src/server.js",
-    "build": "rimraf build && tsc -p . && ncp src/schema build/src/schema",
+    "build": "rimraf build && tsc -p . && cp src/schema.graphql build/src",
     "debug": "yarn build && yarn rawkit build/src/server.js --nodemon",
     "prettier": "prettier --list-different './src/**/*.ts'",
     "prettier:fix": "prettier --write './src/**/*.{ts,json}'",
@@ -66,10 +66,10 @@
     "graphql-import-node": "^0.0.4",
     "jest": "24.7.1",
     "nodemon": "^1.19.1",
-    "prettier": "^1.18.2",
+    "prettier": "1.19.1",
     "rawkit": "^1.5.0",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.3.0",
-    "tslint": "^5.18.0"
+    "tslint": "5.20.1"
   }
 }

@@ -7,7 +7,7 @@ import {
   IQuery,
   NetworkDefinition,
 } from "@anthem/utils";
-import { AxiosUtil, getHostFromNetworkName } from "../axios-utils";
+import { AxiosUtil, getHostFromNetworkName } from "../tools/axios-utils";
 
 /** ===========================================================================
  * Cosmos REST API Utils

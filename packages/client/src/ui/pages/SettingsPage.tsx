@@ -7,12 +7,12 @@ import {
   withFiatCurrencies,
   withGraphQLVariables,
 } from "graphql/queries";
-import Analytics from "lib/analytics-lib";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React, { ChangeEvent } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import Analytics from "tools/analytics-utils";
 import { composeWithProps } from "tools/context-utils";
 import { validateEmailAddress } from "tools/validation-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";

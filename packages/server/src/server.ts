@@ -6,8 +6,8 @@ import express from "express";
 import prometheusMiddleware from "express-prometheus-middleware";
 import depthLimit from "graphql-depth-limit";
 import { createServer } from "http";
-import restAPI from "./server/rest-api";
-import schema from "./server/schema";
+import restAPI from "./rest-api";
+import schema from "./schema";
 import ENV from "./tools/server-env";
 import { requestErrorHandler, requestLogger } from "./tools/server-utils";
 

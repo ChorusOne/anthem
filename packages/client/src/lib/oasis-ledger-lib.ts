@@ -7,7 +7,7 @@ import cbor from "cbor";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
 import OasisApp from "ledger-oasis-js";
 import broadcastTransactionModule from "lib/blockchain-lib";
-import ENV from "lib/client-env";
+import ENV from "tools/client-env";
 
 /** ===========================================================================
  * Oasis Ledger Utils

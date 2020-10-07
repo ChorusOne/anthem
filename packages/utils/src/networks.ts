@@ -64,12 +64,12 @@ const NETWORK_ADDRESS_DEFAULTS: { [key: string]: Addresses } = {
   },
   OASIS: {
     account: "oasis1qqhjc0phd0wg43luhly2ufsuw2h3gc5v3ukk4ku2",
-    validator: "",
+    validator: "oasis1qpn83e8hm3gdhvpfv66xj3qsetkj3ulmkugmmxn3",
     tx_hash: "076625844d57e7ce4c270a79d769b2a7ab6e6d12d8d3ec2fa566eee2d0f89f03",
   },
   CELO: {
     account: "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
-    validator: "",
+    validator: "0x81cef0668e15639D0b101bdc3067699309D73BED",
     tx_hash:
       "0xdb33159c19e457e500adae015e4923d3851f355f7319c3ded15a8cfe4503d002",
   },
