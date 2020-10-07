@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: 12.x
 
-      # Run install and build steps
+      # Install everything, build the packages and run static+unit tests
       - name: Build the application and run unit tests
         run: yarn docker:build
 

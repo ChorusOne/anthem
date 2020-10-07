@@ -27,9 +27,9 @@ jobs:
       - name: Setup NodeJS Environment
         uses: actions/setup-node@v1
         with:
-          node-version: 10.x
+          node-version: 12.x
 
-      # Install dependencies and build the application
+      # Install dependencies and build the packages
       - name: Install dependencies
         run: yarn docker:build
 
