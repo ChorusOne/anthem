@@ -40,8 +40,8 @@ COPY --from=build /usr/src/app/packages/server/entrypoint.sh /usr/src/app
 # Copy dist folder with server index.js file
 COPY --from=build /usr/src/app/packages/server/dist /usr/src/app/dist
 
-# Copy schema folder with GraphQL schema file
-COPY --from=build /usr/src/app/packages/server/src/schema /usr/src/app/schema
+# Copy schema.graphql file
+COPY --from=build /usr/src/app/packages/server/src/schema.graphql /usr/src/app
 
 # Allow entrypoint to be executable
 RUN chmod +x entrypoint.sh
