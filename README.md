@@ -45,7 +45,7 @@ We recommend using [VS Code](https://code.visualstudio.com/) and installing the 
 
 > For the application to work fully locally, you will need to obtain specific environment configuration variables. If you need to do this, please contact a Chorus One team member.
 
-## 🗃️ Project Overview
+## 🗃️ Overview
 
 The codebase is organized into a monorepo with the following packages:
 
@@ -54,7 +54,7 @@ The codebase is organized into a monorepo with the following packages:
 - [`server/`](https://github.com/ChorusOne/anthem/tree/master/packages/server): GraphQL/Express API server.
 - [`utils/`](https://github.com/ChorusOne/anthem/tree/master/packages/utils): Shared utils, tools, and types.
 
-Each package contains a README document with more specific information about that package.
+**NOTE:** Each package contains a README document with more specific information about that package.
 
 The `utils/` package includes shared code which the other packages import. If any updates are made to this package, it will need to be rebuilt. If updates are being made frequently, the package can be built in watch made using `yarn utils:watch`. Note that sometimes your text editor may not immediately detect changes to the `utils/` build output, when the build changes.
 
