@@ -8,7 +8,6 @@ import {
 } from "@anthem/utils";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
 import Analytics from "lib/analytics-lib";
-import StorageModule from "lib/storage-lib";
 import { EpicSignature, ReduxActionTypes } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import { combineEpics } from "redux-observable";
@@ -29,6 +28,7 @@ import {
   onChartTab,
   onPageWhichIncludesAddressParam,
 } from "tools/client-utils";
+import StorageModule from "tools/storage-utils";
 import { getAccAddress } from "tools/terra-library/key-utils";
 import {
   validateLedgerAppVersion,

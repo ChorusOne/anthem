@@ -1,7 +1,7 @@
 import { Pathname, Search } from "history";
-import StorageModule from "lib/storage-lib";
 import { combineReducers } from "redux";
 import { ALL_POSSIBLE_CHART_TABS } from "tools/client-utils";
+import StorageModule from "tools/storage-utils";
 import { createReducer } from "typesafe-actions";
 import actions, { ActionTypes } from "./actions";
 

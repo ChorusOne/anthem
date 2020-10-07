@@ -1,4 +1,4 @@
-import StorageModule from "lib/storage-lib";
+import StorageModule from "tools/storage-utils";
 
 describe("storage-utils", () => {
   test("localStorage address", () => {
