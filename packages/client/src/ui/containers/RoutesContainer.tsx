@@ -1,6 +1,5 @@
 import { Classes } from "@blueprintjs/core";
 import { COLORS } from "constants/colors";
-import ENV from "tools/client-env";
 import Modules, { ReduxStoreState } from "modules/root";
 import React from "react";
 import { connect } from "react-redux";
@@ -12,6 +11,7 @@ import {
   withRouter,
 } from "react-router-dom";
 import styled from "styled-components";
+import ENV from "tools/client-env";
 import { getQueryParamsFromUrl } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
