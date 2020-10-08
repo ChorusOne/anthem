@@ -458,14 +458,15 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
     fee: CosmosTransactionFee,
     transaction: ICosmosTransaction,
   ) => {
-    if (!fee) {
-      return null;
-    }
-
     const { hash, height, timestamp, chain } = transaction;
     const { t, network, fiatCurrency } = this.props;
-    const txFee = denomToUnit(fee.amount, network.denominationSize);
-    const fiatFees = this.props.getFiatPriceForTransaction(timestamp, txFee);
+    const txFee = fee
+      ? denomToUnit(fee.amount, network.denominationSize)
+      : null;
+
+    const fiatFees = txFee
+      ? this.props.getFiatPriceForTransaction(timestamp, txFee)
+      : null;
 
     return (
       <EventRowBottom>
@@ -476,20 +477,25 @@ class CosmosTransactionListItem extends React.PureComponent<IProps, {}> {
             <EventText>{height}</EventText>
           </EventContextBox>
         </EventRowItem>
-        <EventRowItem style={{ minWidth: 275 }}>
-          <EventIconBox />
-          <EventContextBox>
-            <EventText style={{ fontWeight: "bold" }}>{t("Fees")}</EventText>
-            <EventText>
-              {formatCurrencyAmount(txFee, 6)} {coinDenomToName(fee.denom)}{" "}
-              {fee.denom === network.denom && (
-                <>
-                  ({formatCurrencyAmount(fiatFees, 2)} {fiatCurrency.symbol})
-                </>
-              )}
-            </EventText>
-          </EventContextBox>
-        </EventRowItem>
+
+        {fee !== null && txFee !== null ? (
+          <EventRowItem style={{ minWidth: 275 }}>
+            <EventIconBox />
+
+            <EventContextBox>
+              <EventText style={{ fontWeight: "bold" }}>{t("Fees")}</EventText>
+              <EventText>
+                {formatCurrencyAmount(txFee, 6)} {coinDenomToName(fee.denom)}{" "}
+                {fee.denom === network.denom && fiatFees !== null && (
+                  <>
+                    ({formatCurrencyAmount(fiatFees, 2)} {fiatCurrency.symbol})
+                  </>
+                )}
+              </EventText>
+            </EventContextBox>
+          </EventRowItem>
+        ) : null}
+
         {this.renderTransactionHashLink(hash, chain)}
       </EventRowBottom>
     );
