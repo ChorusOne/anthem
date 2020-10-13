@@ -1,7 +1,7 @@
 import { NormalizedCacheObject } from "apollo-cache-inmemory";
 import ApolloClient from "apollo-client";
 import { History } from "history";
-import cosmosBlockchainModule from "lib/blockchain-lib";
+import broadcastTransactionModule from "lib/blockchain-lib";
 import celoLedgerModule from "lib/celo-ledger-lib";
 import cosmosLedgerModule from "lib/cosmos-ledger-lib";
 import oasisLedgerModule from "lib/oasis-ledger-lib";
@@ -85,11 +85,11 @@ const rootReducer = combineReducers({
 
 export interface EpicDependencies {
   router: History<any>;
-  cosmos: typeof cosmosBlockchainModule;
   cosmosLedgerUtil: typeof cosmosLedgerModule;
   celoLedgerUtil: typeof celoLedgerModule;
   oasisLedgerUtil: typeof oasisLedgerModule;
   polkadotLedgerUtil: typeof polkadotLedgerModule;
+  transactionModule: typeof broadcastTransactionModule;
   client: ApolloClient<NormalizedCacheObject>;
 }
 
