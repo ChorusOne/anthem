@@ -55,6 +55,7 @@ export const queryPostgresCosmosSdkPool = async (
       break;
     case "POLKADOT":
     case "CELO":
+    case "SKALE":
     case "OASIS":
       // Not supported yet
       console.warn(`${network} is not supported yet!`);

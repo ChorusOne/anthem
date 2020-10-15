@@ -18,6 +18,7 @@ const HOSTS = {
   KAVA_LCD: ENV.KAVA_LCD_NODE,
   TERRA_LCD: ENV.TERRA_LCD_NODE,
   COSMOS_LCD: ENV.COSMOS_LCD_NODE,
+  SKALE: ENV.SKALE_EXTRACTOR_API,
 };
 
 const hostsList = Object.values(HOSTS);
@@ -37,6 +38,8 @@ export const getHostFromNetworkName = (network: NETWORK_NAME) => {
       return HOSTS.OASIS;
     case "CELO":
       return HOSTS.CELO;
+    case "SKALE":
+      return HOSTS.SKALE;
     case "POLKADOT":
       return "";
     default:

@@ -1,0 +1,20 @@
+query skaleAccountBalances($address: String!){
+    skaleAccountBalances(address: $address){
+        address
+        height
+        availableBalance
+        lockedBalance
+        delegatedBalance
+        slashedBalance
+        delegations{
+            address
+            validatorId
+            amount
+            delegationPeriod
+            created
+            started
+            finished
+            info
+        }
+    }
+}

@@ -123,6 +123,10 @@ const getBackFillPricesForNetwork = (
       return [];
 
     // NOTE: Not supported yet
+    case "SKALE":
+      return [];
+
+    // NOTE: Not supported yet
     case "POLKADOT":
       return [];
 

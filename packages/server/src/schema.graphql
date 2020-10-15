@@ -57,11 +57,36 @@ type Query {
   celoValidatorGroups: [CeloValidatorGroup!]!
   celoGovernanceProposals: CeloGovernanceProposalHistory!
 
+  # Skale APIs
+  skaleAccountBalances(address: String!): SkaleAccountBalances!
+
   # Fiat price APIs
   fiatCurrencies: [FiatCurrency!]!
   fiatPriceHistory(fiat: String!, network: String!): [FiatPrice!]!
   fiatPriceData(currency: String!, fiat: String!): FiatPriceData!
   networkSummaries(fiat: String!): [NetworkSummary!]!
+}
+
+# TODO: move down
+type SkaleAccountBalances {
+  address: String!
+  height: String!
+  skaleTokenBalance: String!
+  skaleTokenLockedBalance: String!
+  skaleTokenDelegatedBalance: String!
+  skaleUSDValue: String!
+  delegations: [SkaleAccountDelegation!]!
+}
+
+type SkaleAccountDelegation {
+  address: String!
+  validatorId: String!
+  amount: Float!
+  delegationPeriod: Float!
+  created: Float!
+  started: Float!
+  finished: Float!
+  info: String
 }
 
 # *****************************************************************************

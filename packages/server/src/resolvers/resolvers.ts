@@ -18,6 +18,7 @@ import OASIS from "../sources/oasis";
 import CeloResolvers from "./celo-resolvers";
 import CosmosResolvers from "./cosmos-resolvers";
 import OasisResolvers from "./oasis-resolvers";
+import { SkaleResolvers } from "./skale-resolvers";
 import UnionResolvers from "./union-types-resolvers";
 
 /** ===========================================================================
@@ -45,6 +46,7 @@ const resolvers = {
     ...OasisResolvers,
     ...CosmosResolvers,
     ...CeloResolvers,
+    ...SkaleResolvers,
 
     fiatPriceHistory: async (
       _: void,
@@ -109,6 +111,8 @@ const resolvers = {
                 expectedReward: null,
                 totalSupply: null,
               };
+              break;
+            case "SKALE": // TODO: do it!
               break;
             default:
               assertUnreachable(network.name);

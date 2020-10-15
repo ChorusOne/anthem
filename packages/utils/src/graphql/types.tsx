@@ -806,6 +806,8 @@ export interface IQuery {
   celoSystemHistory: ICeloSystemHistory[];
   celoValidatorGroups: ICeloValidatorGroup[];
   celoGovernanceProposals: ICeloGovernanceProposalHistory;
+  /** Skale APIs */
+  skaleAccountBalances: ISkaleAccountBalances;
   /** Fiat price APIs */
   fiatCurrencies: IFiatCurrency[];
   fiatPriceHistory: IFiatPrice[];
@@ -935,6 +937,10 @@ export interface IQueryCeloTransactionArgs {
   hash: Scalars["String"];
 }
 
+export interface IQuerySkaleAccountBalancesArgs {
+  address: Scalars["String"];
+}
+
 export interface IQueryFiatPriceHistoryArgs {
   fiat: Scalars["String"];
   network: Scalars["String"];
@@ -989,6 +995,30 @@ export interface IReferendumProposal {
   gist: Scalars["String"];
   title: Scalars["String"];
   description: Scalars["String"];
+}
+
+/** TODO: move down */
+export interface ISkaleAccountBalances {
+   __typename?: "SkaleAccountBalances";
+  address: Scalars["String"];
+  height: Scalars["String"];
+  availableBalance: Scalars["String"];
+  lockedBalance: Scalars["String"];
+  delegatedBalance: Scalars["String"];
+  slashedBalance: Scalars["String"];
+  delegations: ISkaleAccountDelegation[];
+}
+
+export interface ISkaleAccountDelegation {
+   __typename?: "SkaleAccountDelegation";
+  address: Scalars["String"];
+  validatorId: Scalars["String"];
+  amount: Scalars["Float"];
+  delegationPeriod: Scalars["Float"];
+  created: Scalars["Float"];
+  started: Scalars["Float"];
+  finished: Scalars["Float"];
+  info: Maybe<Scalars["String"]>;
 }
 
 export interface ITag {
@@ -1928,6 +1958,22 @@ export type IOasisTransactionsQuery = (
         { __typename?: "OasisUnknownEvent" }
         & Pick<IOasisUnknownEvent, "type" | "method_name">
       ) }
+    )> }
+  ) }
+);
+
+export interface ISkaleAccountBalancesQueryVariables {
+  address: Scalars["String"];
+}
+
+export type ISkaleAccountBalancesQuery = (
+  { __typename?: "Query" }
+  & { skaleAccountBalances: (
+    { __typename?: "SkaleAccountBalances" }
+    & Pick<ISkaleAccountBalances, "address" | "height" | "availableBalance" | "lockedBalance" | "delegatedBalance" | "slashedBalance">
+    & { delegations: Array<(
+      { __typename?: "SkaleAccountDelegation" }
+      & Pick<ISkaleAccountDelegation, "address" | "validatorId" | "amount" | "delegationPeriod" | "created" | "started" | "finished" | "info">
     )> }
   ) }
 );
@@ -4545,3 +4591,68 @@ export function useOasisTransactionsLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type OasisTransactionsQueryHookResult = ReturnType<typeof useOasisTransactionsQuery>;
 export type OasisTransactionsLazyQueryHookResult = ReturnType<typeof useOasisTransactionsLazyQuery>;
 export type OasisTransactionsQueryResult = ApolloReactCommon.QueryResult<IOasisTransactionsQuery, IOasisTransactionsQueryVariables>;
+export const SkaleAccountBalancesDocument = gql`
+    query skaleAccountBalances($address: String!) {
+  skaleAccountBalances(address: $address) {
+    address
+    height
+    availableBalance
+    lockedBalance
+    delegatedBalance
+    slashedBalance
+    delegations {
+      address
+      validatorId
+      amount
+      delegationPeriod
+      created
+      started
+      finished
+      info
+    }
+  }
+}
+    `;
+export type SkaleAccountBalancesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ISkaleAccountBalancesQuery, ISkaleAccountBalancesQueryVariables>, "query"> & ({ variables: ISkaleAccountBalancesQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+export const SkaleAccountBalancesComponent = (props: SkaleAccountBalancesComponentProps) => (
+      <ApolloReactComponents.Query<ISkaleAccountBalancesQuery, ISkaleAccountBalancesQueryVariables> query={SkaleAccountBalancesDocument} {...props} />
+    );
+
+export type ISkaleAccountBalancesProps<TChildProps = {}> = ApolloReactHoc.DataProps<ISkaleAccountBalancesQuery, ISkaleAccountBalancesQueryVariables> & TChildProps;
+export function withSkaleAccountBalances<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ISkaleAccountBalancesQuery,
+  ISkaleAccountBalancesQueryVariables,
+  ISkaleAccountBalancesProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, ISkaleAccountBalancesQuery, ISkaleAccountBalancesQueryVariables, ISkaleAccountBalancesProps<TChildProps>>(SkaleAccountBalancesDocument, {
+      alias: "skaleAccountBalances",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useSkaleAccountBalancesQuery__
+ *
+ * To run a query within a React component, call `useSkaleAccountBalancesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSkaleAccountBalancesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSkaleAccountBalancesQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *   },
+ * });
+ */
+export function useSkaleAccountBalancesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ISkaleAccountBalancesQuery, ISkaleAccountBalancesQueryVariables>) {
+        return ApolloReactHooks.useQuery<ISkaleAccountBalancesQuery, ISkaleAccountBalancesQueryVariables>(SkaleAccountBalancesDocument, baseOptions);
+      }
+export function useSkaleAccountBalancesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ISkaleAccountBalancesQuery, ISkaleAccountBalancesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ISkaleAccountBalancesQuery, ISkaleAccountBalancesQueryVariables>(SkaleAccountBalancesDocument, baseOptions);
+        }
+export type SkaleAccountBalancesQueryHookResult = ReturnType<typeof useSkaleAccountBalancesQuery>;
+export type SkaleAccountBalancesLazyQueryHookResult = ReturnType<typeof useSkaleAccountBalancesLazyQuery>;
+export type SkaleAccountBalancesQueryResult = ApolloReactCommon.QueryResult<ISkaleAccountBalancesQuery, ISkaleAccountBalancesQueryVariables>;

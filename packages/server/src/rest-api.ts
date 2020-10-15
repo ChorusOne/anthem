@@ -67,6 +67,7 @@ Router.post("/broadcast-tx", async (req, res) => {
         return res.status(200).send({ result: "OK" });
       }
       case "CELO":
+      case "SKALE":
       case "POLKADOT": {
         return res.status(400).send({
           error: `${name} network does not supporting broadcasting transactions via API.`,
@@ -135,6 +136,7 @@ Router.get("/tx-history/:network/:address", async (req, res) => {
         transactions = result.data;
         break;
       }
+      case "SKALE": // TODO: implement this!
       case "POLKADOT":
         break;
       default:

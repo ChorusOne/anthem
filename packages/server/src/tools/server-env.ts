@@ -35,6 +35,7 @@ const TERRA_LCD_NODE = getenv.string("TERRA_LCD_NODE");
 const COSMOS_LCD_NODE = getenv.string("COSMOS_LCD_NODE");
 const CELO_EXTRACTOR_API = getenv.string("CELO_EXTRACTOR_API");
 const OASIS_EXTRACTOR_API = getenv.string("OASIS_EXTRACTOR_API");
+const SKALE_EXTRACTOR_API = getenv.string("SKALE_EXTRACTOR_API");
 
 // Database names
 const COSMOS_DB = getenv.string("COSMOS_DB", "cosmos4");
@@ -63,6 +64,7 @@ const ENV = {
   COSMOS_LCD_NODE,
   CELO_EXTRACTOR_API,
   OASIS_EXTRACTOR_API,
+  SKALE_EXTRACTOR_API,
 };
 
 /** ===========================================================================

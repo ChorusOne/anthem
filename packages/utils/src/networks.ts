@@ -92,7 +92,8 @@ export type COIN_DENOMS =
   | TERRA_DENOMS
   | "ROSE"
   | "CELO"
-  | "DOT";
+  | "DOT"
+  | "SKL";
 
 export type NETWORK_NAME =
   | "COSMOS"
@@ -100,7 +101,8 @@ export type NETWORK_NAME =
   | "KAVA"
   | "OASIS"
   | "CELO"
-  | "POLKADOT";
+  | "POLKADOT"
+  | "SKALE";
 
 export interface CoinDenom {
   denom: string;
@@ -125,6 +127,7 @@ export const COIN_DENOM_MAP = {
   ukava: "KAVA",
   ROSE: "ROSE",
   CELO: "CELO",
+  SKALE: "SKALE",
 };
 
 export const coinDenomToName = (denom: string): string => {
@@ -278,6 +281,28 @@ const NETWORKS: NetworksMap = {
     supportsValidatorsList: false,
     supportsGovernance: false,
     denominationSize: 1e9,
+    customChartTabs: new Set(),
+    expectedReward: null,
+  },
+  SKALE: {
+    available: false,
+    name: "SKALE",
+    denom: "SKL",
+    denomsList: ["SKL"],
+    descriptor: "SKL",
+    chainId: "n/a",
+    cryptoCompareTicker: "SKL",
+    ledgerAppVersion: "4.18.0",
+    ledgerAppName: "Skale",
+    ledgerDocsLink: "n/a", // TODO: fix it
+    supportsLedger: false,
+    supportsFiatPrices: false,
+    supportsBalances: true,
+    supportsPortfolio: false,
+    supportsTransactionsHistory: false,
+    supportsValidatorsList: false,
+    supportsGovernance: false,
+    denominationSize: 1e18,
     customChartTabs: new Set(),
     expectedReward: null,
   },

@@ -31,6 +31,7 @@ const postProcessResponse = (response: any, network: NetworkDefinition) => {
     case "POLKADOT":
     case "OASIS":
     case "CELO":
+    case "SKALE":
       break;
     default:
       return assertUnreachable(name);
