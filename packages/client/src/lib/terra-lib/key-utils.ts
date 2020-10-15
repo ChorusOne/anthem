@@ -1,4 +1,4 @@
-import { assertUnreachable, NETWORK_NAME } from "@anthem/utils";
+import { NETWORK_NAME } from "@anthem/utils";
 import * as bech32 from "bech32";
 import * as bip32 from "bip32";
 import * as bip39 from "bip39";
@@ -50,26 +50,8 @@ const networkToPrefix = (network: NETWORK_NAME): Prefixes => {
         accountPrefix: "kava",
         validatorPrefix: "kavavaloper",
       };
-    case "OASIS":
-      console.warn("[TODO]: Implement Oasis address prefixes!");
-      return {
-        accountPrefix: "oasis",
-        validatorPrefix: "oasis",
-      };
-    case "CELO":
-      console.warn("[TODO]: Implement Celo address prefixes!");
-      return {
-        accountPrefix: "celo",
-        validatorPrefix: "celo",
-      };
-    case "POLKADOT":
-      console.warn("[TODO]: Implement Polkadot address prefixes!");
-      return {
-        accountPrefix: "polkadot",
-        validatorPrefix: "polkadot",
-      };
     default:
-      return assertUnreachable(network);
+      throw new Error("Unexpected network recevied");
   }
 };
 

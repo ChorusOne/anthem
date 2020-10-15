@@ -568,6 +568,8 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
         );
       case "POLKADOT":
         return null;
+      case "SKALE":
+        return null;
       default:
         assertUnreachable(network.name);
         return null;

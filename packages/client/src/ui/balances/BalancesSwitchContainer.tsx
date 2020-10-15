@@ -91,6 +91,8 @@ class BalancesSwitchContainer extends React.Component<IProps, IState> {
         return <CeloBalances />;
       case "POLKADOT":
         return null;
+      case "SKALE":
+        return null; // TODO: asap!
       default:
         return assertUnreachable(network.name);
     }

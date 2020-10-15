@@ -1,5 +1,4 @@
 import {
-  assertUnreachable,
   COIN_DENOMS,
   ICosmosAccountInformation,
   IMsgSend,
@@ -108,20 +107,8 @@ const getTransactionMessageTypeForNetwork = (
       return COSMOS_MESSAGE_TYPES[transactionType];
     case "TERRA":
       return TERRA_MESSAGE_TYPES[transactionType];
-    case "OASIS":
-      console.warn("[TODO]: Implement Oasis transaction types!");
-      // @ts-ignore
-      return OASIS_MESSAGE_TYPES[transactionType];
-    case "CELO":
-      console.warn("[TODO]: Implement Celo transaction types!");
-      // @ts-ignore
-      return CELO_MESSAGE_TYPES[transactionType];
-    case "POLKADOT":
-      console.warn("[TODO]: Implement Polkadot transaction types!");
-      // @ts-ignore
-      return POLKADOT_MESSAGE_TYPES[transactionType];
     default:
-      return assertUnreachable(network);
+      throw new Error(`Unexpected network ${network}`);
   }
 };
 

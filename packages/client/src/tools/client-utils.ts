@@ -313,6 +313,9 @@ export const getBlockExplorerUrlForTransaction = (
     case "POLKADOT":
       console.warn("[TODO]: Implement Block Explorer url for Polkadot");
       return "";
+    case "SKALE":
+      console.warn("[TODO]: Implement Block Explorer url for Skale"); // TODO: proably etherscan
+      return "";
     default:
       return assertUnreachable(network);
   }

@@ -314,6 +314,7 @@ const refreshBalanceAndTransactionsEpic: EpicSignature = (
             case "TERRA":
             case "KAVA":
             case "POLKADOT":
+            case "SKALE":
               break;
             default:
               assertUnreachable(network.name);

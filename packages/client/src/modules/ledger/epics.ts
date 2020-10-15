@@ -176,6 +176,8 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
                 ledgerAppVersion = await oasisLedgerUtil.getVersion();
                 break;
               }
+              case "SKALE":
+                return Actions.empty("Skale Ledger is not supported.");
               case "POLKADOT":
                 return Actions.empty("Polkadot Ledger is not supported.");
               // await polkadotLedgerUtil.connect();

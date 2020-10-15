@@ -105,6 +105,8 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
             }
           case "POLKADOT":
             return Actions.signTransactionFailure();
+          case "SKALE":
+            return Actions.signTransactionFailure();
           case "OASIS":
             switch (ledgerActionType) {
               case "SEND":

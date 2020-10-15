@@ -95,6 +95,15 @@ class NotificationsBanner extends React.Component<IProps> {
             <b>{name} Network</b> is in beta.
           </BannerText>
         );
+      case "SKALE":
+        return (
+          <BannerText>
+            <span role="img" aria-label="warning-emoji">
+              🚧
+            </span>{" "}
+            <b>Skale Network</b> is still in development.
+          </BannerText>
+        );
       case "POLKADOT":
         return null;
       default:
