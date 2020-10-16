@@ -17,6 +17,7 @@ import {
   CeloBalances,
   CosmosBalances,
   OasisBalances,
+  SkaleBalances,
 } from "./BalancesComponents";
 
 /** ===========================================================================
@@ -92,7 +93,7 @@ class BalancesSwitchContainer extends React.Component<IProps, IState> {
       case "POLKADOT":
         return null;
       case "SKALE":
-        return null; // TODO: asap!
+        return <SkaleBalances />;
       default:
         return assertUnreachable(network.name);
     }

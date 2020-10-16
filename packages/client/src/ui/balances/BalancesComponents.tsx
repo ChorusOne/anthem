@@ -1231,3 +1231,5 @@ export const OasisBalances = composeWithProps<ComponentProps>(
   withFiatPriceData,
   withOasisAccountBalances,
 )(OasisBalancesContainer);
+
+export const SkaleBalances = () => <>sammy was here</>;

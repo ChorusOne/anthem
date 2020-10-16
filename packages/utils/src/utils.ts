@@ -36,6 +36,8 @@ export const deriveNetworkFromAddress = (
   } else if (address.substring(0, 5) === "oasis") {
     return NETWORKS.OASIS;
   } else if (address.substring(0, 2) === "0x" && address.length === 42) {
+    return NETWORKS.SKALE; // TODO: find a way to distinguish Celo and Skale
+  } else if (address.substring(0, 2) === "0x" && address.length === 42) {
     return NETWORKS.CELO;
   } else if (address.length === 48) {
     // NOTE: This check based on length === 48 may need to change!
