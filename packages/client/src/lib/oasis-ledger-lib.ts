@@ -227,7 +227,32 @@ class OasisLedgerClass implements IOasisLedger {
     return signedResult;
   }
 
+  async getTransferPayload(args: OasisTransferArgs) {
+    console.log("getTransferPayload: ", args);
+
+    const headers = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    };
+
+    const payload = {
+      ...args,
+      fee: 10, // TODO: What is the fee?
+    };
+
+    const response = await fetch(`${ENV.SERVER_URL}/api/oasis/transfer`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+    return data;
+  }
+
   async signPayload(tx: any) {
+    console.log("signPayload: ", tx);
+
     if (!this.app) {
       throw new Error("Oasis Ledger App not initialized yet!");
     }
@@ -254,26 +279,7 @@ class OasisLedgerClass implements IOasisLedger {
       headers,
       body: JSON.stringify(payload),
     });
-    const data = await response.json();
-    return data;
-  }
 
-  async getTransferPayload(args: OasisTransferArgs) {
-    const headers = {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    };
-
-    const payload = {
-      ...args,
-      fee: 10, // TODO: What is the fee?
-    };
-
-    const response = await fetch(`${ENV.SERVER_URL}/api/oasis/transfer`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(payload),
-    });
     const data = await response.json();
     return data;
   }
@@ -372,27 +378,6 @@ const getTransactionFee = (fee: number = 0) => {
     gas: 0,
     amount: marshalQuantity(0),
   };
-};
-
-/**
- * Get the transfer transaction data.
- */
-const getTransferTransaction = (
-  args: OasisTransferArgs,
-): OasisTransactionPayload => {
-  const { to, amount } = args;
-
-  const transaction = {
-    nonce: 0,
-    fee: getTransactionFee(),
-    method: OasisTransactionMethod.TRANSFER,
-    body: {
-      to: marshalAddress(to),
-      amount: marshalQuantity(amount),
-    },
-  };
-
-  return transaction;
 };
 
 /**
