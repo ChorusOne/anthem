@@ -13,10 +13,17 @@ import ENV from "tools/client-env";
  * Oasis RunKit Example: https://runkit.com/embed/jhwmrma4tdfb
  *
  * ---------------------------------------------------------------------------
- * * QUESTIONS:
+ * [OASIS LEDGER TODO]:
  *
  * - How to determine transaction nonce?
  * - How to determine transaction gas fees/do users specify?
+ *
+ * TODO:
+ * - Test the transfer transaction.
+ * - Finish implementation for the delegation flow transactions.
+ * - Test the delegation flow transactions.
+ * - Enable for mainnet.
+ * - Confirm with Oasis team.
  * ============================================================================
  */
 

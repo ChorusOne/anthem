@@ -80,13 +80,22 @@ interface IState {
   transactionSetupError: string;
 }
 
-// TODO: Add Oasis validators
+/**
+ * [OASIS LEDGER TODO]: We will probably need an API to provide an Oasis
+ * validator list, if possible. Otherwise, the delegation transaction workflow
+ * would require the user to simply supply the address of the validator they
+ * wish to delegate to.
+ */
 // const ValidatorSelect = Select.ofType<any>();
 
 /** ===========================================================================
  * Oasis Transaction Workflows
  * ----------------------------------------------------------------------------
  * Transaction input component which provides transaction input validation.
+ *
+ * [OASIS LEDGER TODO]: This file will include the UI for the other Oasis
+ * Ledger workflows. Currently, it includes the UI for the transfer
+ * transaction.
  * ============================================================================
  */
 

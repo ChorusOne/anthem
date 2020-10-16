@@ -898,6 +898,9 @@ class OasisBalancesComponent extends React.Component<
      * centered in the panel using extra padding and margin.
      */
 
+    /**
+     * [OASIS LEDGER TODO]: This flag enables the transaction controls.
+     */
     const ENABLE_LEDGER = true;
 
     return (

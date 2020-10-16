@@ -42,6 +42,13 @@ const formatLcdRequestError = (error: LcdRequestError) => {
   }
 };
 
+/**
+ * [OASIS LEDGER TODO]:
+ *
+ * Additional APIs will need to be added here for the other Oasis Ledger
+ * transaction types, e.g. delegate, undelegate, redelegate.
+ */
+
 // Get a payload to sign for an Oasis Transfer transaction
 Router.post("/oasis/transfer", async (req, res) => {
   try {
@@ -67,7 +74,7 @@ Router.post("/oasis/transfer/send", async (req, res) => {
     const url = `${host}/api/transaction/transfer/send`;
     console.log(`Making request to url: ${url}`);
     const { data } = await axios.post(url, body, {
-      // Hard-coded for now:
+      // Hard-coded for access token for now (ask Dave):
       headers: {
         Authorization:
           "Bearer 41461b9bb96199527ffcc6d05212b25b19ff734494f56d861c9454b52c24a4d7",
