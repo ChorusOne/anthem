@@ -1,5 +1,4 @@
 import {
-  deriveNetworkFromAddress,
   ICeloAccountBalancesQueryVariables,
   ICeloAccountHistoryQueryVariables,
   ICeloGovernanceTransactionsQueryVariables,
@@ -31,8 +30,7 @@ const CeloResolvers = {
     args: ICeloAccountHistoryQueryVariables,
   ): Promise<IQuery["celoAccountHistory"]> => {
     const { address } = args;
-    const network = deriveNetworkFromAddress(address);
-    return CELO.fetchAccountHistory(address, network);
+    return CELO.fetchAccountHistory(address, NETWORKS.CELO);
   },
 
   celoTransactions: async (
@@ -40,12 +38,11 @@ const CeloResolvers = {
     args: ICeloTransactionsQueryVariables,
   ): Promise<IQuery["celoTransactions"]> => {
     const { address, startingPage, pageSize } = args;
-    const network = deriveNetworkFromAddress(address);
     const size = validatePaginationParams(pageSize, 25);
     const start = validatePaginationParams(startingPage, 1);
     const params = {
       address,
-      network,
+      network: NETWORKS.CELO,
       pageSize: size,
       startingPage: start,
     };
