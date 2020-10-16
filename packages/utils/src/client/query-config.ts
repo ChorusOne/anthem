@@ -16,7 +16,7 @@ export interface VarConfig {
   testQuery: (s: string) => boolean;
 }
 
-const { COSMOS, OASIS, CELO } = NETWORK_ADDRESS_DEFAULTS;
+const { COSMOS, OASIS, CELO, SKALE } = NETWORK_ADDRESS_DEFAULTS;
 
 /**
  * Variable config source of truth for which variables will be mapped
@@ -177,6 +177,14 @@ const VARIABLES_CONFIG: ReadonlyArray<VarConfig> = [
       network: "COSMOS",
     },
     testQuery: (gql: string) => gql.includes("$network"),
+  },
+
+  // Skale APIs --------------------------------------------------------------
+  {
+    variables: {
+      address: SKALE.account,
+    },
+    testQuery: (gql: string) => gql.includes("skaleAccountBalances"),
   },
 ];
 

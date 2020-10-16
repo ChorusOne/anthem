@@ -5,8 +5,8 @@ import {
   KavaLogo,
   OasisLogo,
   PolkadotLogo,
-  TerraLogo,
   SkaleLogo,
+  TerraLogo,
 } from "assets/icons";
 import React from "react";
 import styled from "styled-components";

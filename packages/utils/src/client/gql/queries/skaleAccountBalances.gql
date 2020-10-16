@@ -2,10 +2,10 @@ query skaleAccountBalances($address: String!){
     skaleAccountBalances(address: $address){
         address
         height
-        availableBalance
-        lockedBalance
-        delegatedBalance
-        slashedBalance
+        skaleTokenBalance
+        skaleTokenLockedBalance
+        skaleTokenDelegatedBalance
+        skaleUSDValue
         delegations{
             address
             validatorId

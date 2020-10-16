@@ -1002,10 +1002,10 @@ export interface ISkaleAccountBalances {
    __typename?: "SkaleAccountBalances";
   address: Scalars["String"];
   height: Scalars["String"];
-  availableBalance: Scalars["String"];
-  lockedBalance: Scalars["String"];
-  delegatedBalance: Scalars["String"];
-  slashedBalance: Scalars["String"];
+  skaleTokenBalance: Scalars["String"];
+  skaleTokenLockedBalance: Scalars["String"];
+  skaleTokenDelegatedBalance: Scalars["String"];
+  skaleUSDValue: Scalars["String"];
   delegations: ISkaleAccountDelegation[];
 }
 
@@ -1970,7 +1970,7 @@ export type ISkaleAccountBalancesQuery = (
   { __typename?: "Query" }
   & { skaleAccountBalances: (
     { __typename?: "SkaleAccountBalances" }
-    & Pick<ISkaleAccountBalances, "address" | "height" | "availableBalance" | "lockedBalance" | "delegatedBalance" | "slashedBalance">
+    & Pick<ISkaleAccountBalances, "address" | "height" | "skaleTokenBalance" | "skaleTokenLockedBalance" | "skaleTokenDelegatedBalance" | "skaleUSDValue">
     & { delegations: Array<(
       { __typename?: "SkaleAccountDelegation" }
       & Pick<ISkaleAccountDelegation, "address" | "validatorId" | "amount" | "delegationPeriod" | "created" | "started" | "finished" | "info">
@@ -4596,10 +4596,10 @@ export const SkaleAccountBalancesDocument = gql`
   skaleAccountBalances(address: $address) {
     address
     height
-    availableBalance
-    lockedBalance
-    delegatedBalance
-    slashedBalance
+    skaleTokenBalance
+    skaleTokenLockedBalance
+    skaleTokenDelegatedBalance
+    skaleUSDValue
     delegations {
       address
       validatorId

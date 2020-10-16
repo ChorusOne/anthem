@@ -73,6 +73,11 @@ const NETWORK_ADDRESS_DEFAULTS: { [key: string]: Addresses } = {
     tx_hash:
       "0xdb33159c19e457e500adae015e4923d3851f355f7319c3ded15a8cfe4503d002",
   },
+  SKALE: {
+    account: "0x96aA945360B76e18ea5a1cFf3Ebd9b5B8ffa518E",
+    validator: "XXXXXXXXXXXXXXXXXXX",
+    tx_hash: "XXXXXXXXXXXXXXXXXXX",
+  },
 };
 
 /** ===========================================================================

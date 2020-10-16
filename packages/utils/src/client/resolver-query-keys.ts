@@ -31,6 +31,7 @@ export default [
   "celoSystemHistory",
   "celoValidatorGroups",
   "celoGovernanceProposals",
+  "skaleAccountBalances",
   "fiatPriceHistory",
   "fiatPriceData",
   "fiatCurrencies",
