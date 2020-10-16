@@ -170,9 +170,8 @@ class OasisLedgerClass implements IOasisLedger {
 
   async transfer(args: OasisTransferArgs) {
     console.log("Handling Oasis transfer transaction, args: ", args);
-    const tx = getTransferTransaction(args);
-    const signedTransaction = await this.encodeAndSignTransaction(tx);
-    const receipt = this.broadcastTransaction(signedTransaction);
+    const tx = this.getTransferPayload(args);
+    const receipt = this.signPayload(tx);
     return receipt;
   }
 
@@ -226,6 +225,57 @@ class OasisLedgerClass implements IOasisLedger {
     console.log(signedResult);
 
     return signedResult;
+  }
+
+  async signPayload(tx: any) {
+    if (!this.app) {
+      throw new Error("Oasis Ledger App not initialized yet!");
+    }
+
+    const path = this.path;
+    // TODO: What is the context?
+    const context = "oasis-core/consensus: tx for chain testing";
+    const result: string = await this.app.sign(path, context, tx);
+    const publicKey = await this.app.publicKey(path);
+
+    const payload = {
+      publicKey,
+      tx,
+      sig: result,
+    };
+
+    const headers = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    };
+
+    const response = await fetch(`${ENV.SERVER_URL}/api/oasis/transfer/send`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json();
+    return data;
+  }
+
+  async getTransferPayload(args: OasisTransferArgs) {
+    const headers = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    };
+
+    const payload = {
+      ...args,
+      fee: 10, // TODO: What is the fee?
+    };
+
+    const response = await fetch(`${ENV.SERVER_URL}/api/oasis/transfer`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json();
+    return data;
   }
 
   async broadcastTransaction(data: any) {

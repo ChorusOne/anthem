@@ -42,6 +42,34 @@ const formatLcdRequestError = (error: LcdRequestError) => {
   }
 };
 
+// Get a payload to sign for an Oasis Transfer transaction
+Router.post("/oasis/transfer", async (req, res) => {
+  const { body } = req;
+  const host = getHostFromNetworkName("OASIS");
+  const url = `${host}/api/transaction/transfer`;
+  console.log(`Making request to url: ${url}`);
+  const { data } = await axios.post(url, body);
+  console.log(data);
+  return res.send(JSON.stringify(data));
+});
+
+// Submit an Oasis transaction
+Router.post("/oasis/transfer/send", async (req, res) => {
+  const { body } = req;
+  const host = getHostFromNetworkName("OASIS");
+  const url = `${host}/api/transaction/transfer/send`;
+  console.log(`Making request to url: ${url}`);
+  const { data } = await axios.post(url, body, {
+    // Hard-coded for now:
+    headers: {
+      Authorization:
+        "Bearer 41461b9bb96199527ffcc6d05212b25b19ff734494f56d861c9454b52c24a4d7",
+    },
+  });
+  console.log(data);
+  return res.send(JSON.stringify(data));
+});
+
 // Broadcast a transaction
 Router.post("/broadcast-tx", async (req, res) => {
   try {
