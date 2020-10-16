@@ -55,7 +55,7 @@ Router.post("/oasis/transfer", async (req, res) => {
     const { body } = req;
     const host = getHostFromNetworkName("OASIS");
     const url = `${host}/api/transaction/transfer`;
-    console.log(`Making request to url: ${url}`);
+    console.log("Handling /oasis/transfer request");
     const { data } = await axios.post(url, body);
     console.log(data);
     return res.send(JSON.stringify(data));
@@ -72,7 +72,7 @@ Router.post("/oasis/transfer/send", async (req, res) => {
     const { body } = req;
     const host = getHostFromNetworkName("OASIS");
     const url = `${host}/api/transaction/transfer/send`;
-    console.log(`Making request to url: ${url}`);
+    console.log("Handling /oasis/transfer/send request");
     const { data } = await axios.post(url, body, {
       // Hard-coded for access token for now (ask Dave):
       headers: {
