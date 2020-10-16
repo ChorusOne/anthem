@@ -55,6 +55,7 @@ Router.post("/oasis/transfer", async (req, res) => {
   } catch (err) {
     logger.error(err, true);
     res.status(400);
+    res.send({ error: "Failed to get sign payload." });
   }
 });
 
@@ -77,6 +78,7 @@ Router.post("/oasis/transfer/send", async (req, res) => {
   } catch (err) {
     logger.error(err, true);
     res.status(400);
+    res.send({ error: "Failed to get send signed transaction." });
   }
 });
 
