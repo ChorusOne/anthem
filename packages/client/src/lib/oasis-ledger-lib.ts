@@ -98,8 +98,6 @@ interface IOasisLedger {
   getAddress(): Promise<string>;
   getVersion(): Promise<string>;
   getPublicKey(): Promise<string>;
-  encodeAndSignTransaction(tx: OasisTransactionPayload): Promise<any>;
-  broadcastTransaction(signedTx: any): Promise<IOasisTransactionReceipt>;
   transfer(args: OasisTransferArgs): Promise<IOasisTransactionReceipt>;
   delegate(args: OasisDelegateArgs): Promise<IOasisTransactionReceipt>;
   undelegate(args: OasisUndelegateArgs): Promise<IOasisTransactionReceipt>;
@@ -171,60 +169,26 @@ class OasisLedgerClass implements IOasisLedger {
   async transfer(args: OasisTransferArgs) {
     console.log("Handling Oasis transfer transaction, args: ", args);
     const tx = await this.getTransferPayload(args);
-    const receipt = await this.signPayload(tx);
+    const receipt = await this.signAndSendTransferTransaction(tx);
     return receipt;
   }
 
   async delegate(args: OasisDelegateArgs) {
     console.log("Handling Oasis delegate transaction, args: ", args);
-    const tx = getDelegateTransaction(args);
-    const signedTransaction = this.encodeAndSignTransaction(tx);
-    const receipt = this.broadcastTransaction(signedTransaction);
-    return receipt;
+    // TODO: Implement!
+    return SampleTransactionReceipt;
   }
 
   async undelegate(args: OasisUndelegateArgs) {
     console.log("Handling Oasis undelegate transaction, args: ", args);
-    const tx = getUndelegateTransaction(args);
-    const signedTransaction = this.encodeAndSignTransaction(tx);
-    const receipt = this.broadcastTransaction(signedTransaction);
-    return receipt;
+    // TODO: Implement!
+    return SampleTransactionReceipt;
   }
 
   async redelegate(args: OasisRedelegateArgs) {
     console.log("Handling Oasis redelegate transaction, args: ", args);
-    const tx = getRedelegateTransaction(args);
-    const signedTransaction = this.encodeAndSignTransaction(tx);
-    const receipt = this.broadcastTransaction(signedTransaction);
-    return receipt;
-  }
-
-  async encodeAndSignTransaction(transactionData: OasisTransactionPayload) {
-    if (!this.app) {
-      throw new Error("Oasis Ledger App not initialized yet!");
-    }
-
-    console.log("Encoding Transaction Data: ");
-    console.log(transactionData);
-
-    const path = this.path;
-    // TODO: What is the context?
-    const context = "oasis-core/consensus: tx for chain testing";
-    const encodedTransaction = encodeTransaction(transactionData);
-    const message = Buffer.from(encodedTransaction, "base64");
-
-    console.log("Encoded - Requesting Ledger to sign...");
-    console.log("message: ", message);
-
-    // TODO: What are the types?
-    const result: string = await this.app.sign(path, context, message);
-
-    const signedResult = encodeSignedTransaction(message, result);
-
-    console.log("Got signed payload!");
-    console.log(signedResult);
-
-    return signedResult;
+    // TODO: Implement!
+    return SampleTransactionReceipt;
   }
 
   async getTransferPayload(args: OasisTransferArgs) {
@@ -250,7 +214,7 @@ class OasisLedgerClass implements IOasisLedger {
     return data;
   }
 
-  async signPayload(tx: any) {
+  async signAndSendTransferTransaction(tx: any) {
     console.log("signPayload: ", tx);
 
     if (!this.app) {
@@ -283,15 +247,6 @@ class OasisLedgerClass implements IOasisLedger {
     const data = await response.json();
     return data;
   }
-
-  async broadcastTransaction(data: any) {
-    const result = await broadcastTransactionModule.broadcastTransaction(
-      data,
-      "OASIS",
-    );
-    console.log(result);
-    return SampleTransactionReceipt;
-  }
 }
 
 /** ===========================================================================
@@ -310,144 +265,6 @@ const getOasisLedgerTransport = async () => {
   }
 
   throw new Error(LEDGER_ERRORS.BROWSER_NOT_SUPPORTED);
-};
-
-/**
- * Encode in CBOR.
- */
-const toCBOR = (tx: any) => {
-  return cbor.Encoder.encodeCanonical(tx);
-};
-
-/**
- * Encode in Base64.
- */
-const toBase64 = (cborTx: any) => {
-  return cborTx.toString("base64");
-};
-
-/**
- * Handle encoding the raw transaction data to be signed by the Ledger.
- */
-const encodeTransaction = (tx: OasisTransactionPayload): string => {
-  const cborTx = toCBOR(tx);
-  const cborTxBase64 = toBase64(cborTx);
-  return cborTxBase64;
-};
-
-/**
- * Encode the final transaction data after it has been signed by the
- * Ledger.
- */
-const encodeSignedTransaction = (
-  rawTransaction: any,
-  signedTransaction: any,
-) => {
-  const signed = {
-    untrusted_raw_value: rawTransaction,
-    signature: signedTransaction,
-  };
-
-  return toCBOR(signed);
-};
-
-/**
- * Address encoder.
- */
-const marshalAddress = (address: string) => {
-  const decoded = bech32.decode(address);
-  return Buffer.from(bech32.fromWords(decoded.words));
-};
-
-/**
- * Encode with BigNumber.
- */
-const marshalQuantity = (value: string | number) => {
-  const amount = new BN(value, 10);
-  if (amount.isZero()) {
-    return Buffer.from([]);
-  }
-  return amount.toArrayLike(Buffer, "be", amount.byteLength());
-};
-
-/**
- * Helper to construct a transaction fee.
- */
-const getTransactionFee = (fee: number = 0) => {
-  return {
-    gas: 0,
-    amount: marshalQuantity(0),
-  };
-};
-
-/**
- * Get the delegate transaction data.
- */
-const getDelegateTransaction = (
-  args: OasisDelegateArgs,
-): OasisTransactionPayload => {
-  const { delegator, validator, amount } = args;
-
-  const transaction = {
-    nonce: 0,
-    fee: getTransactionFee(),
-    method: OasisTransactionMethod.TRANSFER,
-    body: {
-      // TODO: The following are a guess:
-      amount: marshalQuantity(amount),
-      delegator: marshalAddress(delegator),
-      validator: marshalAddress(validator),
-    },
-  };
-
-  return transaction;
-};
-
-/**
- * Get the undelegate transaction data.
- */
-const getUndelegateTransaction = (
-  args: OasisUndelegateArgs,
-): OasisTransactionPayload => {
-  const { delegator, validator, amount } = args;
-
-  const transaction = {
-    nonce: 0,
-    fee: getTransactionFee(),
-    method: OasisTransactionMethod.TRANSFER,
-    body: {
-      // TODO: The following are a guess:
-      amount: marshalQuantity(amount),
-      delegator: marshalAddress(delegator),
-      validator: marshalAddress(validator),
-    },
-  };
-
-  return transaction;
-};
-
-/**
- * Get the redelegate transaction data.
- */
-const getRedelegateTransaction = (
-  args: OasisRedelegateArgs,
-): OasisTransactionPayload => {
-  const { delegator, current_validator, new_validator, amount } = args;
-
-  const transaction = {
-    nonce: 0,
-    fee: getTransactionFee(),
-    method: OasisTransactionMethod.TRANSFER,
-    body: {
-      // TODO: The following are a guess:
-      amount: marshalQuantity(amount),
-      delegator: marshalAddress(delegator),
-      new_validator: marshalAddress(new_validator),
-      current_validator: marshalAddress(current_validator),
-    },
-  };
-
-  return transaction;
 };
 
 /** ===========================================================================
