@@ -248,8 +248,6 @@ const fetchAccountBalances = async (
     `${host}/account/${address}`,
   );
 
-  console.log(response);
-
   // No balances, default to zero:
   if (!response) {
     return ZeroBalance;
