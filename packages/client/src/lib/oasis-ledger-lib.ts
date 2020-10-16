@@ -170,8 +170,8 @@ class OasisLedgerClass implements IOasisLedger {
 
   async transfer(args: OasisTransferArgs) {
     console.log("Handling Oasis transfer transaction, args: ", args);
-    const tx = this.getTransferPayload(args);
-    const receipt = this.signPayload(tx);
+    const tx = await this.getTransferPayload(args);
+    const receipt = await this.signPayload(tx);
     return receipt;
   }
 
