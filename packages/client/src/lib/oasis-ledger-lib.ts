@@ -43,6 +43,26 @@ import ENV from "tools/client-env";
  * ============================================================================
  */
 
+const OASIS_API = {
+  // Transfer:
+  TRANSFER: `${ENV.SERVER_URL}/api/oasis/transfer`,
+  TRANSFER_SEND: `${ENV.SERVER_URL}/api/oasis/transfer/send`,
+  // Delegate:
+  DELEGATE: `${ENV.SERVER_URL}/api/oasis/delegate`,
+  DELEGATE_SEND: `${ENV.SERVER_URL}/api/oasis/delegate/send`,
+  // Undelegate:
+  UNDELEGATE: `${ENV.SERVER_URL}/api/oasis/undelegate`,
+  UNDELEGATE_SEND: `${ENV.SERVER_URL}/api/oasis/undelegate/send`,
+  // Redelegate:
+  REDELEGATE: `${ENV.SERVER_URL}/api/oasis/redelegate`,
+  REDELEGATE_SEND: `${ENV.SERVER_URL}/api/oasis/redelegate/send`,
+};
+
+const headers = {
+  Accept: "application/json",
+  "Content-Type": "application/json",
+};
+
 // Duplicated from oasis server code which parses transactions, removing
 // irrelevant transaction methods.
 enum OasisTransactionMethod {
@@ -194,17 +214,12 @@ class OasisLedgerClass implements IOasisLedger {
   async getTransferPayload(args: OasisTransferArgs) {
     console.log("getTransferPayload: ", args);
 
-    const headers = {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    };
-
     const payload = {
       ...args,
       fee: 10, // TODO: What is the fee?
     };
 
-    const response = await fetch(`${ENV.SERVER_URL}/api/oasis/transfer`, {
+    const response = await fetch(OASIS_API.TRANSFER, {
       method: "POST",
       headers,
       body: JSON.stringify(payload),
@@ -233,12 +248,7 @@ class OasisLedgerClass implements IOasisLedger {
       sig: result,
     };
 
-    const headers = {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    };
-
-    const response = await fetch(`${ENV.SERVER_URL}/api/oasis/transfer/send`, {
+    const response = await fetch(OASIS_API.TRANSFER_SEND, {
       method: "POST",
       headers,
       body: JSON.stringify(payload),
