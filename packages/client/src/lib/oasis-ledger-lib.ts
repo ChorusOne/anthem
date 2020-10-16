@@ -2,11 +2,7 @@ import { wait } from "@anthem/utils";
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
 import OasisApp from "@oasisprotocol/ledger";
-import bech32 from "bech32";
-import BN from "bn.js";
-import cbor from "cbor";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
-import broadcastTransactionModule from "lib/blockchain-lib";
 import ENV from "tools/client-env";
 
 /** ===========================================================================
