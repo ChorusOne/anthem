@@ -14,11 +14,13 @@ import {
   CosmosAccountBalancesProps,
   FiatPriceDataProps,
   OasisAccountBalancesProps,
+  SkaleAccountBalancesProps,
   withCeloAccountBalances,
   withCosmosAccountBalances,
   withFiatPriceData,
   withGraphQLVariables,
   withOasisAccountBalances,
+  withSkaleAccountBalances,
 } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
@@ -999,6 +1001,112 @@ class OasisBalancesComponent extends React.Component<
 }
 
 /** ===========================================================================
+ * Skale Account Balances
+ * ============================================================================
+ */
+
+export const SkaleBalancesContainer = ({
+  i18n,
+  skaleAccountBalances,
+  fiatPriceData,
+  ledger,
+}: SkaleBalanceContainerProps) => {
+  const { network } = ledger;
+
+  console.log(network);
+
+  return (
+    <GraphQLGuardComponentMultipleQueries
+      allowErrorResponses
+      tString={i18n.tString}
+      loadingComponent={<DashboardLoader />}
+      errorComponent={<DashboardError tString={i18n.tString} />}
+      results={[
+        [skaleAccountBalances, "skaleAccountBalances"],
+        [fiatPriceData, "fiatPriceData"],
+      ]}
+    >
+      {() => {
+        // Handle if balances request failed
+        if (skaleAccountBalances.error) {
+          return <DashboardError tString={i18n.tString} />;
+        }
+
+        const data = skaleAccountBalances.skaleAccountBalances;
+        const balances = skaleAccountBalances.skaleAccountBalances;
+
+        if (data) {
+          return (
+            <SummaryContainer>
+              <BalanceContainer>
+                <View>
+                  <BalanceLine>
+                    <Icon
+                      icon={IconNames.DOT}
+                      style={{ marginRight: 2 }}
+                      color={COLORS.BALANCE_SHADE_ONE}
+                    />
+                    <BalanceTitle>{i18n.tString("Available")}:</BalanceTitle>
+                    <BalanceText data-cy="balance-available">
+                      {balances?.skaleTokenBalance}
+                    </BalanceText>
+                  </BalanceLine>
+                  <BalanceLine>
+                    <Icon
+                      color={COLORS.BALANCE_SHADE_TWO}
+                      style={{ marginRight: 2 }}
+                      icon={IconNames.DOT}
+                    />
+                    <BalanceTitle>{i18n.tString("Delegated")}:</BalanceTitle>
+                    <BalanceText data-cy="balance-delegations">
+                      {balances?.skaleTokenDelegatedBalance}
+                    </BalanceText>
+                  </BalanceLine>
+                  <BalanceLine>
+                    <Icon
+                      color={COLORS.BALANCE_SHADE_THREE}
+                      style={{ marginRight: 2 }}
+                      icon={IconNames.DOT}
+                    />
+                    <BalanceTitle>{i18n.tString("Locked")}:</BalanceTitle>
+                    <BalanceText data-cy="balance-rewards">
+                      {balances?.skaleTokenLockedBalance}
+                    </BalanceText>
+                  </BalanceLine>
+                </View>
+                <BalancePieChart
+                  percentages={[
+                    balances?.skaleTokenBalance,
+                    balances?.skaleTokenDelegatedBalance,
+                    balances?.skaleTokenLockedBalance,
+                  ].map(parseFloat)}
+                  total={String(
+                    [
+                      balances?.skaleTokenBalance,
+                      balances?.skaleTokenDelegatedBalance,
+                      balances?.skaleTokenLockedBalance,
+                    ]
+                      .map(parseFloat)
+                      .reduce((acc, value) => acc + value, 0),
+                  )}
+                />
+              </BalanceContainer>
+            </SummaryContainer>
+          );
+        }
+
+        return (
+          <DashboardError
+            tString={i18n.tString}
+            text="No balance data exists"
+          />
+        );
+      }}
+    </GraphQLGuardComponentMultipleQueries>
+  );
+};
+
+/** ===========================================================================
  * Styles and Helpers
  * ============================================================================
  */
@@ -1232,4 +1340,13 @@ export const OasisBalances = composeWithProps<ComponentProps>(
   withOasisAccountBalances,
 )(OasisBalancesContainer);
 
-export const SkaleBalances = () => <>sammy was here</>;
+interface SkaleBalanceContainerProps
+  extends IProps,
+    SkaleAccountBalancesProps {}
+
+export const SkaleBalances = composeWithProps<ComponentProps>(
+  withProps,
+  withGraphQLVariables,
+  withFiatPriceData,
+  withSkaleAccountBalances,
+)(SkaleBalancesContainer);

@@ -51,6 +51,8 @@
   "Unbonding": "解除委托",
   "Commission": "佣金",
   "Total": "总计",
+  "Delegated": "<<< TODO: Implement >>>",
+  "Locked": "<<< TODO: Implement >>>",
   "Pending": "待定",
   "Portfolio": "投资组合",
   "Balance": "余额",

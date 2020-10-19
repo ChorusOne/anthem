@@ -51,6 +51,8 @@
   "Unbonding": "Unbonding",
   "Commission": "Commission",
   "Total": "Total",
+  "Delegated": "Delegated",
+  "Locked": "Locked",
   "Pending": "Pending",
   "Portfolio": "Portfolio",
   "Balance": "Balance",

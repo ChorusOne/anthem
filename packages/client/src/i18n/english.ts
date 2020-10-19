@@ -82,6 +82,8 @@ export type ENGLISH =
   | readonly [PORTFOLIO_CHART_TYPES]
   | readonly ["Total"]
   | readonly ["Available"]
+  | readonly ["Delegated"]
+  | readonly ["Locked"]
   | readonly ["Staking"]
   | readonly ["Rewards"]
   | readonly ["Pending"]

@@ -51,6 +51,8 @@
   "Unbonding": "Bevorstehend",
   "Commission": "Kommission",
   "Total": "Total",
+  "Delegated": "<<< TODO: Implement >>>",
+  "Locked": "<<< TODO: Implement >>>",
   "Pending": "Bevorstehend",
   "Portfolio": "Portfolio",
   "Balance": "Guthaben",

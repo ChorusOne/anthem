@@ -51,6 +51,8 @@
   "Unbonding": "언본딩",
   "Commission": "커미션",
   "Total": "총 자산",
+  "Delegated": "<<< TODO: Implement >>>",
+  "Locked": "<<< TODO: Implement >>>",
   "Pending": "지연 상태",
   "Portfolio": "포트폴리오",
   "Balance": "잔고",

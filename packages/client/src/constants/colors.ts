@@ -34,7 +34,7 @@ export enum COLORS {
 
   // Balance colors
   BALANCE_SHADE_ONE = "rgb(190, 234, 174)",
-  BALANCE_SHADE_TWO = "#148972",
+  BALANCE_SHADE_TWO = "#3c5543",
   BALANCE_SHADE_THREE = "rgb(36, 129, 138)",
   BALANCE_SHADE_FOUR = "rgb(15, 64, 68)",
   BALANCE_SHADE_FIVE = "rgb(10, 50, 50)",

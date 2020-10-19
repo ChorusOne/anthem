@@ -22,6 +22,7 @@ import {
   OasisAccountBalancesDocument,
   OasisAccountHistoryDocument,
   OasisTransactionsDocument,
+  SkaleAccountBalancesDocument,
 } from "@anthem/utils";
 import { ReduxStoreState } from "modules/root";
 import { graphql, QueryOpts, QueryResult } from "react-apollo";
@@ -178,6 +179,25 @@ export interface NetworkSummariesDataProps {
 export const withNetworkSummariesData = graphql(NetworkSummariesDocument, {
   name: "networkSummaries",
   ...noPollingConfig(["fiat"]),
+});
+
+/** ===========================================================================
+ * Skale Account Balances
+ * ============================================================================
+ */
+
+interface AccountBalancesQueryResult extends QueryResult {
+  data: void;
+  skaleAccountBalances: IQuery["skaleAccountBalances"];
+}
+
+export interface SkaleAccountBalancesProps {
+  skaleAccountBalances: AccountBalancesQueryResult;
+}
+
+export const withSkaleAccountBalances = graphql(SkaleAccountBalancesDocument, {
+  name: "skaleAccountBalances",
+  ...fastPollingConfig(["address"]),
 });
 
 /** ===========================================================================
