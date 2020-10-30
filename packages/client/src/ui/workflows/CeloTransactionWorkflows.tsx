@@ -296,7 +296,14 @@ class CeloTransactionForm extends React.Component<IProps, IState> {
   };
 
   renderActivateVotesStep = () => {
-    const { height } = this.props.celoSystemBalances.celoSystemBalances;
+    const celoSystemBalances = this.props.celoSystemBalances.celoSystemBalances;
+
+    if (!celoSystemBalances) {
+      return null;
+    }
+
+    const { height } = celoSystemBalances;
+
     const estimatedHoursLeft = estimateNextCeloEpochFromHeight(height);
     return (
       <View>
@@ -1286,7 +1293,13 @@ class CeloTransactionForm extends React.Component<IProps, IState> {
     const { transactionResult } = transaction;
     const { ledgerActionType } = this.props.ledgerDialog;
     const isVoteTransaction = ledgerActionType === "VOTE_GOLD";
-    const { height } = this.props.celoSystemBalances.celoSystemBalances;
+    const celoSystemBalances = this.props.celoSystemBalances.celoSystemBalances;
+
+    if (!celoSystemBalances) {
+      return null;
+    }
+
+    const { height } = celoSystemBalances;
     const estimatedHoursLeft = estimateNextCeloEpochFromHeight(height);
 
     if (!transactionResult) {
