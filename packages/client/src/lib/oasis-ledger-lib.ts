@@ -200,7 +200,8 @@ class OasisLedgerClass implements IOasisLedger {
 
     const payload = {
       ...args,
-      fee: 10, // TODO: What is the fee?
+      amount: parseInt(args.amount),
+      gas: { amount: 10, limit: 1500 }, // TODO: What is the fee?
     };
 
     const response = await fetch(OASIS_API.TRANSFER, {
@@ -221,15 +222,15 @@ class OasisLedgerClass implements IOasisLedger {
     }
 
     const path = this.path;
-    // TODO: What is the context?
-    const context = "oasis-core/consensus: tx for chain testing";
-    const result: string = await this.app.sign(path, context, tx);
+    const context =
+      "oasis-core/consensus: tx for chain 086a764a7a748eb6a2a3b046f152caf7e1cc9713478ce0565df253e1c5872963";
     const publicKey = await this.app.publicKey(path);
+    const result = await this.app.sign(path, context, Buffer.from(tx, "hex"));
 
     const payload = {
-      publicKey,
-      tx,
-      sig: result,
+      publicKey: Buffer.from(publicKey.pk).toString("hex"),
+      transaction: tx,
+      signature: Buffer.from(result.signature).toString("hex"),
     };
 
     const response = await fetch(OASIS_API.TRANSFER_SEND, {
