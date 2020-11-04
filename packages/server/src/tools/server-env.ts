@@ -34,7 +34,8 @@ const KAVA_LCD_NODE = getenv.string("KAVA_LCD_NODE");
 const TERRA_LCD_NODE = getenv.string("TERRA_LCD_NODE");
 const COSMOS_LCD_NODE = getenv.string("COSMOS_LCD_NODE");
 const CELO_EXTRACTOR_API = getenv.string("CELO_EXTRACTOR_API");
-const OASIS_EXTRACTOR_API = getenv.string("OASIS_EXTRACTOR_API");
+const OASIS_EXTRACTOR_API =
+  "http://216.18.206.50:10100" || getenv.string("OASIS_EXTRACTOR_API");
 
 // Database names
 const COSMOS_DB = getenv.string("COSMOS_DB", "cosmos4");
