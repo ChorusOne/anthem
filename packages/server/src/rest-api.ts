@@ -42,6 +42,53 @@ const formatLcdRequestError = (error: LcdRequestError) => {
   }
 };
 
+/**
+ * [OASIS LEDGER TODO]:
+ *
+ * Additional APIs will need to be added here for the other Oasis Ledger
+ * transaction types, e.g. delegate, undelegate, redelegate.
+ */
+
+// Get a payload to sign for an Oasis Transfer transaction
+Router.post("/oasis/transfer", async (req, res) => {
+  try {
+    const { body } = req;
+    const host = getHostFromNetworkName("OASIS");
+    const url = `${host}/transaction/transfer`;
+    console.log("Handling /oasis/transfer request");
+    const { data } = await axios.post(url, body);
+    console.log(data);
+    return res.send(JSON.stringify(data));
+  } catch (err) {
+    logger.error(err, true);
+    res.status(400);
+    res.send({ error: "Failed to get sign payload." });
+  }
+});
+
+// Submit an Oasis transaction
+Router.post("/oasis/transfer/send", async (req, res) => {
+  try {
+    const { body } = req;
+    const host = getHostFromNetworkName("OASIS");
+    const url = `${host}/transaction/transfer/submit`;
+    console.log("Handling /oasis/transfer/send request");
+    const { data } = await axios.post(url, body, {
+      // Hard-coded for access token for now (ask Dave):
+      headers: {
+        Authorization:
+          "Bearer 41461b9bb96199527ffcc6d05212b25b19ff734494f56d861c9454b52c24a4d7",
+      },
+    });
+    console.log(data);
+    return res.send(JSON.stringify(data));
+  } catch (err) {
+    logger.error(err, true);
+    res.status(400);
+    res.send({ error: "Failed to get send signed transaction." });
+  }
+});
+
 // Broadcast a transaction
 Router.post("/broadcast-tx", async (req, res) => {
   try {

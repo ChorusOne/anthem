@@ -898,7 +898,10 @@ class OasisBalancesComponent extends React.Component<
      * centered in the panel using extra padding and margin.
      */
 
-    const ENABLE_LEDGER = false;
+    /**
+     * [OASIS LEDGER TODO]: This flag enables the transaction controls.
+     */
+    const ENABLE_LEDGER = true;
 
     return (
       <>
@@ -968,20 +971,22 @@ class OasisBalancesComponent extends React.Component<
           </BalanceContainer>
         </SummaryContainer>
         <ActionContainer>
-          <H5>Ledger Support: coming soon!</H5>
+          <H5>Ledger Support:</H5>
           {ENABLE_LEDGER && (
             <DelegationControlsContainer>
               <Button onClick={handleTransfer} data-cy="oasis-transfer-button">
                 Transfer
               </Button>
-              <Button
-                style={{ marginLeft: 12 }}
-                onClick={handleStake}
-                data-cy="oasis-delegate-button"
-              >
-                Stake
-              </Button>
-              {isGreaterThan(stakedBalance, 0) && (
+              {false && (
+                <Button
+                  style={{ marginLeft: 12 }}
+                  onClick={handleStake}
+                  data-cy="oasis-delegate-button"
+                >
+                  Stake
+                </Button>
+              )}
+              {false && isGreaterThan(stakedBalance, 0) && (
                 <Button
                   style={{ marginLeft: 12 }}
                   onClick={handleUndelegate}

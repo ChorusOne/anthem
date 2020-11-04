@@ -30,6 +30,8 @@ spec:
             value: https://vault:8200
           - name: COSMOS_DB
             value: cosmos
+          - name: OASIS_EXTRACTOR_API
+            value: http://216.18.206.50:10100
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
