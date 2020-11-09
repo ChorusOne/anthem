@@ -8,7 +8,7 @@ import Ethereum from "assets/coins/Ethereum.svg";
 import CeloLogo from "assets/networks/celo.png";
 import CosmosLogo from "assets/networks/cosmos_logo.png";
 import KavaLogo from "assets/networks/kava.png";
-import OasisLogo from "assets/networks/oasis.png";
+import OasisLogo from "assets/networks/oasis-blue.svg";
 import PolkadotLogo from "assets/networks/polkadot.png";
 import TerraLogo from "assets/networks/terra.png";
 
