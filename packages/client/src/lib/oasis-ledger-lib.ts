@@ -33,7 +33,7 @@ const OASIS_API = {
   TRANSFER_SEND: `${ENV.SERVER_URL}/api/oasis/transfer/send`,
   // Delegate:
   DELEGATE: `${ENV.SERVER_URL}/api/oasis/delegate`,
-  DELEGATE_SEND: `${ENV.SERVER_URL}/api/oasis/transfer/send`,
+  DELEGATE_SEND: `${ENV.SERVER_URL}/api/oasis/delegate/send`,
   // Undelegate:
   UNDELEGATE: `${ENV.SERVER_URL}/api/oasis/undelegate`,
   UNDELEGATE_SEND: `${ENV.SERVER_URL}/api/oasis/undelegate/send`,
@@ -78,8 +78,8 @@ export interface OasisTransferArgs {
 }
 
 export interface OasisDelegateArgs {
-  from: string;
-  to: string;
+  delegator: string;
+  validator: string;
   amount: string;
 }
 
@@ -179,9 +179,8 @@ class OasisLedgerClass implements IOasisLedger {
 
   async delegate(args: OasisDelegateArgs) {
     console.log("Handling Oasis delegate transaction, args: ", args);
-    const tx = await this.getDelegatePayload(args);
-    const receipt = await this.signAndSendDelegationTransaction(tx);
-    return receipt;
+    // TODO: Implement!
+    return SampleTransactionReceipt;
   }
 
   async undelegate(args: OasisUndelegateArgs) {
@@ -196,32 +195,13 @@ class OasisLedgerClass implements IOasisLedger {
     return SampleTransactionReceipt;
   }
 
-  async getDelegatePayload(args: OasisDelegateArgs) {
-    console.log("getDelegatePayload: ", args);
-
-    const payload = {
-      ...args,
-      amount: parseInt(args.amount),
-      gas: { amount: 2000, limit: 2269 },
-    };
-
-    const response = await fetch(OASIS_API.DELEGATE, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(payload),
-    });
-
-    const data = await response.json();
-    return data;
-  }
-
   async getTransferPayload(args: OasisTransferArgs) {
     console.log("getTransferPayload: ", args);
 
     const payload = {
       ...args,
       amount: parseInt(args.amount),
-      gas: { amount: 10, limit: 1500 },
+      gas: { amount: 10, limit: 1500 }, // TODO: What is the fee?
     };
 
     const response = await fetch(OASIS_API.TRANSFER, {
@@ -254,33 +234,6 @@ class OasisLedgerClass implements IOasisLedger {
     };
 
     const response = await fetch(OASIS_API.TRANSFER_SEND, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(payload),
-    });
-
-    const data = await response.json();
-    return data;
-  }
-
-  async signAndSendDelegationTransaction(tx: any) {
-    if (!this.app) {
-      throw new Error("Oasis Ledger App not initialized yet!");
-    }
-
-    const path = this.path;
-    const context =
-      "oasis-core/consensus: tx for chain 086a764a7a748eb6a2a3b046f152caf7e1cc9713478ce0565df253e1c5872963";
-    const publicKey = await this.app.publicKey(path);
-    const result = await this.app.sign(path, context, Buffer.from(tx, "hex"));
-
-    const payload = {
-      publicKey: Buffer.from(publicKey.pk).toString("hex"),
-      transaction: tx,
-      signature: Buffer.from(result.signature).toString("hex"),
-    };
-
-    const response = await fetch(OASIS_API.DELEGATE_SEND, {
       method: "POST",
       headers,
       body: JSON.stringify(payload),

@@ -13,7 +13,7 @@ import {
   MenuItem,
   Switch,
 } from "@blueprintjs/core";
-import { IItemRendererProps, Select } from "@blueprintjs/select";
+import { IItemRendererProps } from "@blueprintjs/select";
 import { COLORS } from "constants/colors";
 import { FiatCurrency } from "constants/fiat";
 import {
@@ -66,7 +66,6 @@ import {
   View,
 } from "../SharedComponents";
 import Toast from "../Toast";
-import { validators } from "../validators/OasisValidators";
 
 /** ===========================================================================
  * Types & Config
@@ -87,6 +86,7 @@ interface IState {
  * would require the user to simply supply the address of the validator they
  * wish to delegate to.
  */
+// const ValidatorSelect = Select.ofType<any>();
 
 /** ===========================================================================
  * Oasis Transaction Workflows
@@ -98,8 +98,6 @@ interface IState {
  * transaction.
  * ============================================================================
  */
-
-const ValidatorSelect = Select.ofType<any>();
 
 class OasisTransactionForm extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -300,73 +298,39 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
       i18n,
       ledger,
       fiatCurrency,
-      // fiatPriceData,
+      fiatPriceData,
       oasisAccountBalances,
-      transaction,
     } = this.props;
-
-    const { selectedValidatorForDelegation } = transaction;
     const { network } = ledger;
     const { tString } = i18n;
-
     return (
       <GraphQLGuardComponentMultipleQueries
         tString={tString}
-        results={[[oasisAccountBalances, "oasisAccountBalances"]]}
+        results={[
+          [oasisAccountBalances, "oasisAccountBalances"],
+          [fiatPriceData, "fiatPriceData"],
+        ]}
       >
-        {([accountBalancesData]: [IOasisAccountBalances]) => {
+        {([accountBalancesData, exchangeRate]: [
+          IOasisAccountBalances,
+          IQuery["fiatPriceData"],
+        ]) => {
           const { available } = accountBalancesData;
           const balance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: available,
-            fiatPrice: 1,
+            fiatPrice: exchangeRate.price,
             convertToFiat: false,
           });
           const fiatBalance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: available,
-            fiatPrice: 1,
+            fiatPrice: exchangeRate.price,
             convertToFiat: true,
           });
           return (
             <View>
-              <p>Choose a validator to delegate to:</p>
-
-              <ValidatorSelect
-                popoverProps={{
-                  onClose: this.setCanEscapeKeyCloseDialog(true),
-                  popoverClassName: "ValidatorCompositionSelect",
-                }}
-                onItemSelect={this.handleSelectValidator}
-                itemRenderer={(
-                  validator,
-                  { handleClick, modifiers }: IItemRendererProps,
-                ) => (
-                  <MenuItem
-                    onClick={handleClick}
-                    active={modifiers.active}
-                    key={validator.consensus_pubkey}
-                    text={validator.name}
-                    data-cy={`${validator.name}-delegation-option`}
-                  />
-                )}
-                itemPredicate={(query, validator) =>
-                  validator.name.toLowerCase().includes(query.toLowerCase())
-                }
-                items={validators}
-              >
-                <Button
-                  category="SECONDARY"
-                  rightIcon="caret-down"
-                  onClick={this.setCanEscapeKeyCloseDialog(false)}
-                  data-cy="validator-composition-select-menu"
-                >
-                  {selectedValidatorForDelegation
-                    ? (selectedValidatorForDelegation as any).name
-                    : "Choose Validator"}
-                </Button>
-              </ValidatorSelect>
-
+              <p>Choose a validator to delegate to.</p>
               <p style={{ marginTop: 8 }}>
                 Available: {bold(`${balance} ${ledger.network.descriptor}`)} (
                 {fiatBalance} {fiatCurrency.symbol})
@@ -406,21 +370,7 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
                     />
                     {this.props.renderConfirmArrow(
                       tString("Generate My Transaction"),
-                      (...callbackArgs) => {
-                        if (!(selectedValidatorForDelegation as any)?.address) {
-                          alert("Please pick a validator to delegate to.");
-                          return;
-                        }
-
-                        if (!this.state.amount) {
-                          alert("Please enter an amount");
-                          return;
-                        }
-
-                        console.log(this.state.amount);
-
-                        this.submitDelegationAmount(...callbackArgs);
-                      },
+                      this.submitDelegationAmount,
                     )}
                   </form>
                 </FormContainer>
@@ -864,14 +814,12 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
 
   getDelegationTransaction = async () => {
     const { amount } = this.state;
-    const { transaction } = this.props;
     const { network, address } = this.props.ledger;
-    const { selectedValidatorForDelegation } = transaction;
     const { denominationSize } = network;
 
     const data: OasisDelegateArgs = {
-      from: address,
-      to: (selectedValidatorForDelegation as any)?.address,
+      delegator: address,
+      validator: "",
       amount: unitToDenom(amount, denominationSize),
     };
 
