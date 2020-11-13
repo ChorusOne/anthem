@@ -9,6 +9,7 @@ import { composeWithProps } from "tools/context-utils";
 import PolkadotPage from "ui/pages/PolkadotPage";
 import { PanelMessageText } from "ui/SharedComponents";
 import CosmosValidators from "ui/validators/CosmosValidators";
+import { OasisValidators } from "ui/validators/OasisValidators";
 import CeloValidators from "./CeloValidators";
 
 /** ===========================================================================
@@ -77,7 +78,7 @@ class ValidatorsSwitchContainer extends React.Component<IProps, IState> {
       case "COSMOS":
         return <CosmosValidators />;
       case "OASIS":
-        return null;
+        return <OasisValidators />;
       case "CELO":
         return <CeloValidators />;
       case "POLKADOT":

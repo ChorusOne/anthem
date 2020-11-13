@@ -11,8 +11,8 @@ import { IThemeProps } from "ui/containers/ThemeContainer";
 
 export const ValidatorListCard = styled(Card)`
   padding: 8px;
-  width: ${(props: { theme: IThemeProps }) =>
-    props.theme.isDesktop ? "550px" : "auto"};
+  min-width: ${(props: { theme: IThemeProps }) =>
+    props.theme.isDesktop ? "550px" : null};
 `;
 
 export const ValidatorRowBase = styled.div`

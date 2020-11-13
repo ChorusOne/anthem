@@ -49,12 +49,29 @@ const formatLcdRequestError = (error: LcdRequestError) => {
  * transaction types, e.g. delegate, undelegate, redelegate.
  */
 
+// Get a payload to sign for an Oasis Delegation transaction
+Router.post("/oasis/delegate", async (req, res) => {
+  try {
+    const { body } = req;
+    const host = getHostFromNetworkName("OASIS");
+    const url = `${host}/transaction/create/stake`;
+    console.log("Handling /oasis/transfer request");
+    const { data } = await axios.post(url, body);
+    console.log(data);
+    return res.send(JSON.stringify(data));
+  } catch (err) {
+    logger.error(err, true);
+    res.status(400);
+    res.send({ error: "Failed to get sign payload." });
+  }
+});
+
 // Get a payload to sign for an Oasis Transfer transaction
 Router.post("/oasis/transfer", async (req, res) => {
   try {
     const { body } = req;
     const host = getHostFromNetworkName("OASIS");
-    const url = `${host}/transaction/transfer`;
+    const url = `${host}/transaction/create/transfer`;
     console.log("Handling /oasis/transfer request");
     const { data } = await axios.post(url, body);
     console.log(data);
@@ -71,8 +88,9 @@ Router.post("/oasis/transfer/send", async (req, res) => {
   try {
     const { body } = req;
     const host = getHostFromNetworkName("OASIS");
-    const url = `${host}/transaction/transfer/submit`;
+    const url = `${host}/transaction/submit`;
     console.log("Handling /oasis/transfer/send request");
+
     const { data } = await axios.post(url, body, {
       // Hard-coded for access token for now (ask Dave):
       headers: {

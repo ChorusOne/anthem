@@ -253,7 +253,7 @@ const NETWORKS: NetworksMap = {
     supportsBalances: true,
     supportsPortfolio: true,
     supportsTransactionsHistory: true,
-    supportsValidatorsList: false,
+    supportsValidatorsList: true,
     supportsGovernance: false,
     denominationSize: 1e9,
     customChartTabs: new Set(),
