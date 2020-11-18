@@ -17,6 +17,7 @@ import {
 import { IItemRendererProps, Select } from "@blueprintjs/select";
 import { COLORS } from "constants/colors";
 import { FiatCurrency } from "constants/fiat";
+import client from "graphql/apollo-client";
 import {
   FiatPriceDataProps,
   OasisAccountBalancesProps,
@@ -310,7 +311,7 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
     const { tString } = i18n;
 
     return (
-      <OasisValidatorsComponent>
+      <OasisValidatorsComponent client={client}>
         {({ data: oasisValidatorsData }) => (
           <GraphQLGuardComponentMultipleQueries
             tString={tString}
