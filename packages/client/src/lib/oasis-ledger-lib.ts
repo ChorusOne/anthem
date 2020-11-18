@@ -243,7 +243,7 @@ class OasisLedgerClass implements IOasisLedger {
 
     const path = this.path;
     const context =
-      "oasis-core/consensus: tx for chain 086a764a7a748eb6a2a3b046f152caf7e1cc9713478ce0565df253e1c5872963";
+      "oasis-core/consensus: tx for chain a4dc2c4537992d6d2908c9779927ccfee105830250d903fd1abdfaf42cb45631";
     const publicKey = await this.app.publicKey(path);
     const result = await this.app.sign(path, context, Buffer.from(tx, "hex"));
 
@@ -270,7 +270,7 @@ class OasisLedgerClass implements IOasisLedger {
 
     const path = this.path;
     const context =
-      "oasis-core/consensus: tx for chain 086a764a7a748eb6a2a3b046f152caf7e1cc9713478ce0565df253e1c5872963";
+      "oasis-core/consensus: tx for chain a4dc2c4537992d6d2908c9779927ccfee105830250d903fd1abdfaf42cb45631";
     const publicKey = await this.app.publicKey(path);
     const result = await this.app.sign(path, context, Buffer.from(tx, "hex"));
 

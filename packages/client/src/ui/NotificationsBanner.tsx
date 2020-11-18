@@ -22,7 +22,6 @@ interface IProps extends ComponentProps {}
  * React Component
  * ============================================================================
  */
-const OASIS_TEMPORARILY_DISABLED = true;
 
 class NotificationsBanner extends React.Component<IProps> {
   render(): Nullable<JSX.Element> {
@@ -81,22 +80,12 @@ class NotificationsBanner extends React.Component<IProps> {
       case "OASIS":
         return (
           <BannerText>
-            {OASIS_TEMPORARILY_DISABLED ? (
-              <>
-                <span role="img" aria-label="warning-emoji">
-                  🚧
-                </span>{" "}
-                Currently migrating to <b>Oasis mainnet</b>, so some features
-                like transferring or staking maybe disabled for a short time.
-              </>
-            ) : (
-              <>
-                <span role="img" aria-label="warning-emoji">
-                  🚧
-                </span>{" "}
-                Connected to the <b>Oasis Amber Mainnet.</b>
-              </>
-            )}
+            <>
+              <span role="img" aria-label="warning-emoji">
+                🚧
+              </span>{" "}
+              Connected to the <b>Oasis Amber Mainnet.</b>
+            </>
           </BannerText>
         );
       case "CELO":
