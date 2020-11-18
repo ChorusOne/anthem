@@ -7,6 +7,7 @@ import {
   IQuery,
   NETWORKS,
 } from "@anthem/utils";
+import Axios from "axios";
 import OASIS from "../sources/oasis";
 import {
   blockUnsupportedNetworks,
@@ -61,6 +62,62 @@ const OasisResolvers = {
     args: IOasisTransactionQueryVariables,
   ): Promise<IQuery["oasisTransaction"]> => {
     return OASIS.fetchTransaction(args.hash);
+  },
+
+  oasisValidators: async () => {
+    const result = await Axios.get<{
+      code: 0;
+      data: {
+        active: number;
+        delegators: number;
+        inactive: number;
+        list: Array<{
+          active: boolean;
+          balance: string;
+          bound: any;
+          bounds: any;
+          commission: number;
+          delegators: number;
+          description: string | null;
+          email: string | null;
+          entityAddress: string;
+          entityId: string;
+          escrow: string;
+          escrowAmountStatus: any;
+          escrowChange24: string;
+          escrowPercent: number;
+          escrowSharesStatus: any;
+          icon: string;
+          keybase: any;
+          name: string;
+          nodeAddress: string;
+          nodeId: string;
+          nodes: any;
+          nonce: number;
+          proposals: number;
+          rank: number;
+          rates: any;
+          score: number;
+          signs: number;
+          status: boolean;
+          totalShares: string;
+          twitter: string;
+          uptime: string;
+          website: string;
+        }>;
+      };
+    }>("https://www.oasisscan.com/mainnet/validator/list");
+
+    return result.data.data.list
+      .filter(validator => validator.active)
+      .map(validator => ({
+        address: validator.nodeAddress,
+        name: validator.name || validator.nodeAddress,
+        commission: validator.commission,
+        website: validator.website,
+        iconUrl:
+          validator.icon || "https://www.oasisscan.com/_nuxt/img/d7112e0.png",
+      }));
   },
 };
 

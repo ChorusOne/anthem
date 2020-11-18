@@ -41,6 +41,7 @@ type Query {
     pageSize: Float
   ): OasisTransactionResult!
   oasisTransaction(hash: String!): OasisTransaction!
+  oasisValidators: [OasisValidator!]!
 
   # Celo APIs
   celoAccountBalances(address: String!): CeloAccountBalances!
@@ -285,6 +286,14 @@ type OasisAccountBalances {
   commissions: String! # Not available yet
   meta: OasisAccountMeta!
   delegations: [OasisDelegation!]
+}
+
+type OasisValidator {
+  address: String!
+  name: String
+  commission: Float!
+  website: String
+  iconUrl: String
 }
 
 type OasisAccountHistory {

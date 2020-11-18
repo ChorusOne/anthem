@@ -1,0 +1,9 @@
+query oasisValidators{
+    oasisValidators{
+        address
+        name
+        commission
+        website
+        iconUrl
+    }
+}
