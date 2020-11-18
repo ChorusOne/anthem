@@ -856,6 +856,8 @@ interface OasisBalancesComponentProps {
   handleUndelegate: () => void;
 }
 
+const OASIS_TEMPORARILY_DISABLED = true;
+
 class OasisBalancesComponent extends React.Component<
   OasisBalancesComponentProps
 > {
@@ -974,22 +976,52 @@ class OasisBalancesComponent extends React.Component<
           <H5>What do you want to do?</H5>
           {ENABLE_LEDGER && (
             <DelegationControlsContainer>
-              <Button onClick={handleTransfer} data-cy="oasis-transfer-button">
+              <Button
+                onClick={() => {
+                  if (OASIS_TEMPORARILY_DISABLED) {
+                    alert(
+                      "Anthem is currently preparing to migrate to Oasis mainnet, which is scheduled to undergo an upgrade to activate transfers on Nov 18, 4pm UTC. We should be back shortly after allowing Oasis users to observe their accounts, as well as transfer and delegate ROSE tokens via Ledger devices",
+                    );
+                    return;
+                  }
+
+                  handleTransfer();
+                }}
+                data-cy="oasis-transfer-button"
+              >
                 Transfer
               </Button>
 
               <Button
                 style={{ marginLeft: 12 }}
-                onClick={handleStake}
+                onClick={() => {
+                  if (OASIS_TEMPORARILY_DISABLED) {
+                    alert(
+                      "Anthem is currently preparing to migrate to Oasis mainnet, which is scheduled to undergo an upgrade to activate transfers on Nov 18, 4pm UTC. We should be back shortly after allowing Oasis users to observe their accounts, as well as transfer and delegate ROSE tokens via Ledger devices",
+                    );
+                    return;
+                  }
+
+                  handleStake();
+                }}
                 data-cy="oasis-delegate-button"
               >
                 Stake
               </Button>
 
-              {isGreaterThan(stakedBalance, 0) && (
+              {isGreaterThan(stakedBalance, 0) && false && (
                 <Button
                   style={{ marginLeft: 12 }}
-                  onClick={handleUndelegate}
+                  onClick={() => {
+                    if (OASIS_TEMPORARILY_DISABLED) {
+                      alert(
+                        "Anthem is currently preparing to migrate to Oasis mainnet, which is scheduled to undergo an upgrade to activate transfers on Nov 18, 4pm UTC. We should be back shortly after allowing Oasis users to observe their accounts, as well as transfer and delegate ROSE tokens via Ledger devices",
+                      );
+                      return;
+                    }
+
+                    handleUndelegate();
+                  }}
                   data-cy="oasis-undelegate-button"
                 >
                   Unstake
