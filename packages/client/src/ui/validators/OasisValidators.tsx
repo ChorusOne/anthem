@@ -81,8 +81,6 @@ const TxIcon = styled.img`
 
 type SortKey = Exclude<keyof IOasisValidator, "__typename">;
 
-const TEMPORARILY_DISABLED = true;
-
 const OasisValidatorsListPage = ({
   network,
   address,
@@ -277,13 +275,6 @@ const OasisValidatorsListPage = ({
                             <Button
                               style={{ marginBottom: 6 }}
                               onClick={() => {
-                                if (TEMPORARILY_DISABLED) {
-                                  alert(
-                                    "Anthem is currently preparing to migrate to Oasis mainnet, which is scheduled to undergo an upgrade to activate transfers on Nov 18, 4pm UTC. We should be back shortly after allowing Oasis users to observe their accounts, as well as transfer and delegate ROSE tokens via Ledger devices",
-                                  );
-                                  return;
-                                }
-
                                 setDelegationValidatorSelection(
                                   validator as any,
                                 );
