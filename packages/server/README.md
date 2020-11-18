@@ -4,7 +4,7 @@ This is the GraphQL/Express server for Anthem.
 
 ## Project Overview
 
-This is a GraphQL server written in TypeScript using Apollo-Express
+This is a GraphQL server written in TypeScript using Apollo-Express.
 
 - [GraphQL](https://graphql.org/): A query language for your API.
 - [Express](https://expressjs.com/): A NodeJS web application framework.
