@@ -114,8 +114,8 @@ const OasisResolvers = {
     return result.data.data.list
       .filter(validator => validator.active)
       .map(validator => ({
-        address: validator.nodeAddress,
-        name: validator.name || validator.nodeAddress,
+        address: validator.entityAddress,
+        name: validator.name || validator.entityAddress,
         commission: validator.commission,
         website: validator.website,
         iconUrl:

@@ -81,6 +81,8 @@ const TxIcon = styled.img`
 
 type SortKey = Exclude<keyof IOasisValidator, "__typename">;
 
+const HIGHLIGHTED_VALIDATOR = "oasis1qpn83e8hm3gdhvpfv66xj3qsetkj3ulmkugmmxn3";
+
 const OasisValidatorsListPage = ({
   network,
   address,
@@ -100,10 +102,16 @@ const OasisValidatorsListPage = ({
   );
 
   const sortedValidators = [
-    // validators[0],
+    ...(validatorsData?.oasisValidators || []).filter(
+      ({ address: validatorAddress }) =>
+        validatorAddress === HIGHLIGHTED_VALIDATOR,
+    ),
 
     ...(validatorsData?.oasisValidators || [])
-      // .filter((_, index) => index !== 0)
+      .filter(
+        ({ address: validatorAddress }) =>
+          validatorAddress !== HIGHLIGHTED_VALIDATOR,
+      )
       .sort((a, b) => {
         const factor = currentSortDirection === "asc" ? -1 : 1;
         return (
@@ -197,7 +205,7 @@ const OasisValidatorsListPage = ({
                 return (
                   <View key={validator.address}>
                     <ValidatorRowExpandable
-                      highlight={validator.name === "Chorus One"}
+                      highlight={validator.address === HIGHLIGHTED_VALIDATOR}
                       data-cy={`validator-${validator.address}`}
                       onClick={() =>
                         setExpandedValidator(
