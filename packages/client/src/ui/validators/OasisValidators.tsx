@@ -1,4 +1,8 @@
-import { useOasisAccountBalancesQuery } from "@anthem/utils";
+import {
+  IOasisValidator,
+  useOasisAccountBalancesQuery,
+  useOasisValidatorsQuery,
+} from "@anthem/utils";
 import client from "graphql/apollo-client";
 
 import { Card, Collapse, H5, H6, Icon, Spinner } from "@blueprintjs/core";
@@ -75,117 +79,11 @@ const TxIcon = styled.img`
   }
 `;
 
-interface OasisValidator {
-  address: string;
-  name: string;
-  commission: number;
-  website: string | null;
-  iconUrl: string;
-}
+type SortKey = Exclude<keyof IOasisValidator, "__typename">;
 
-export const validators: OasisValidator[] = [
-  {
-    address: "oasis1qqv25adrld8jjquzxzg769689lgf9jxvwgjs8tha",
-    name: "oasis1qqv25adrld8jjquzxzg769689lgf9jxvwgjs8tha",
-    commission: 0,
-    website: null,
-    iconUrl: "https://testnet.oasisscan.com/_nuxt/img/73803cf.png",
-  },
-  {
-    address: "oasis1qz2tg4hsatlxfaf8yut9gxgv8990ujaz4sldgmzx",
-    name: "oasis1qz2tg4hsatlxfaf8yut9gxgv8990ujaz4sldgmzx",
-    commission: 0,
-    website: null,
-    iconUrl: "https://testnet.oasisscan.com/_nuxt/img/73803cf.png",
-  },
-  {
-    address: "oasis1qq2vzcvxn0js5unsch5me2xz4kr43vcasv0d5eq4",
-    name: "oasis1qq2vzcvxn0js5unsch5me2xz4kr43vcasv0d5eq4",
-    commission: 0,
-    website: null,
-    iconUrl: "https://testnet.oasisscan.com/_nuxt/img/73803cf.png",
-  },
-  {
-    address: "oasis1qz424yg28jqmgfq3xvly6ky64jqnmlylfc27d7cp",
-    name: "oasis1qz424yg28jqmgfq3xvly6ky64jqnmlylfc27d7cp",
-    commission: 0,
-    website: null,
-    iconUrl: "https://testnet.oasisscan.com/_nuxt/img/73803cf.png",
-  },
-  {
-    address: "oasis1qq9dy5xlkrp6y3ckfp8rx8edq77c88ttl5qe3p2u",
-    name: "oasis1qq9dy5xlkrp6y3ckfp8rx8edq77c88ttl5qe3p2u",
-    commission: 0.95,
-    website: null,
-    iconUrl: "https://testnet.oasisscan.com/_nuxt/img/73803cf.png",
-  },
-  {
-    address: "oasis1qrmeqm709yht440e2ypf672p3h2r3gteyqyn6wcp",
-    name: "oasis1qrmeqm709yht440e2ypf672p3h2r3gteyqyn6wcp",
-    commission: 0,
-    website: null,
-    iconUrl: "https://testnet.oasisscan.com/_nuxt/img/73803cf.png",
-  },
-  {
-    address: "oasis1qqaz80ylc4hspw6rl2vv6pxzmv7umwv3350fcsqp",
-    name: "oasis1qqaz80ylc4hspw6rl2vv6pxzmv7umwv3350fcsqp",
-    commission: 0,
-    website: null,
-    iconUrl: "https://testnet.oasisscan.com/_nuxt/img/73803cf.png",
-  },
-  {
-    address: "oasis1qzpjq7uv353uycr8pu6fzrzfp82rujk2puzecxpp",
-    name: "oasis1qzpjq7uv353uycr8pu6fzrzfp82rujk2puzecxpp",
-    commission: 0,
-    website: null,
-    iconUrl: "https://testnet.oasisscan.com/_nuxt/img/73803cf.png",
-  },
-  {
-    address: "oasis1qpc66dgff4wrkj8kac4njrl2uvww3c9m5ycjwar2",
-    name: "oasis1qpc66dgff4wrkj8kac4njrl2uvww3c9m5ycjwar2",
-    commission: 0,
-    website: null,
-    iconUrl: "https://testnet.oasisscan.com/_nuxt/img/73803cf.png",
-  },
-  {
-    address: "oasis1qzwe6xywazp29tp20974wgxhdcpdf6yxfcn2jxvv",
-    name: "oasis1qzwe6xywazp29tp20974wgxhdcpdf6yxfcn2jxvv",
-    commission: 0,
-    website: null,
-    iconUrl: "https://testnet.oasisscan.com/_nuxt/img/73803cf.png",
-  },
-  {
-    address: "oasis1qpkl3vykn9mf4xcq9eevmey4ffrzf0ajtcpvd7sk",
-    name: "oasis1qpkl3vykn9mf4xcq9eevmey4ffrzf0ajtcpvd7sk",
-    commission: 0.01,
-    website: null,
-    iconUrl: "https://testnet.oasisscan.com/_nuxt/img/73803cf.png",
-  },
-  {
-    address: "oasis1qpkkdc8vm4vs23fyma4dyx9u6wa3kxuq05mjvh8u",
-    name: "oasis1qpkkdc8vm4vs23fyma4dyx9u6wa3kxuq05mjvh8u",
-    commission: 0,
-    website: null,
-    iconUrl: "https://testnet.oasisscan.com/_nuxt/img/73803cf.png",
-  },
-  {
-    address: "oasis1qrmrhnwavaqk9wgw6yehnptzjd6zwckjxy4zn68p",
-    name: "oasis1qrmrhnwavaqk9wgw6yehnptzjd6zwckjxy4zn68p",
-    commission: 0,
-    website: null,
-    iconUrl: "https://testnet.oasisscan.com/_nuxt/img/73803cf.png",
-  },
-];
-
-const validatorsHashmap: { [key: string]: OasisValidator } = validators.reduce(
-  (acc, validator) => ({ ...acc, [validator.address]: validator }),
-  {},
-);
-
-type SortKey = keyof OasisValidator;
+const TEMPORARILY_DISABLED = true;
 
 const OasisValidatorsListPage = ({
-  i18n,
   network,
   address,
   setDelegationValidatorSelection,
@@ -193,6 +91,8 @@ const OasisValidatorsListPage = ({
   openLedgerDialog,
   setSigninNetworkName,
 }: IProps) => {
+  const { data: validatorsData } = useOasisValidatorsQuery({ client });
+
   const [expandedValidator, setExpandedValidator] = useState<null | string>(
     null,
   );
@@ -204,7 +104,7 @@ const OasisValidatorsListPage = ({
   const sortedValidators = [
     // validators[0],
 
-    ...validators
+    ...(validatorsData?.oasisValidators || [])
       // .filter((_, index) => index !== 0)
       .sort((a, b) => {
         const factor = currentSortDirection === "asc" ? -1 : 1;
@@ -214,6 +114,13 @@ const OasisValidatorsListPage = ({
         );
       }),
   ];
+
+  const validatorsHashmap: { [key: string]: IOasisValidator } = (
+    validatorsData?.oasisValidators || []
+  ).reduce(
+    (acc, validator) => ({ ...acc, [validator.address]: validator }),
+    {},
+  );
 
   const onSort = (sortKey: SortKey) => {
     if (currentSortKey === sortKey) {
@@ -301,7 +208,7 @@ const OasisValidatorsListPage = ({
                       }
                     >
                       <RowItem width={45}>
-                        <TxIcon src={validator.iconUrl} />
+                        <TxIcon src={validator.iconUrl || undefined} />
                       </RowItem>
 
                       <RowItem width={470}>
@@ -370,6 +277,13 @@ const OasisValidatorsListPage = ({
                             <Button
                               style={{ marginBottom: 6 }}
                               onClick={() => {
+                                if (TEMPORARILY_DISABLED) {
+                                  alert(
+                                    "Anthem is currently preparing to migrate to Oasis mainnet, which is scheduled to undergo an upgrade to activate transfers on Nov 18, 4pm UTC. We should be back shortly after allowing Oasis users to observe their accounts, as well as transfer and delegate ROSE tokens via Ledger devices",
+                                  );
+                                  return;
+                                }
+
                                 setDelegationValidatorSelection(
                                   validator as any,
                                 );
@@ -521,7 +435,10 @@ const OasisValidatorsListPage = ({
                   <StakingRow>
                     <RowItem width={45}>
                       <TxIcon
-                        src={validatorsHashmap[delegation.validator]?.iconUrl}
+                        src={
+                          validatorsHashmap[delegation.validator]?.iconUrl ||
+                          undefined
+                        }
                       />
                     </RowItem>
                     <RowItem width={150}>

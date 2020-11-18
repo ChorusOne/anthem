@@ -2,6 +2,7 @@ import {
   assertUnreachable,
   IOasisAccountBalances,
   IQuery,
+  OasisValidatorsComponent,
 } from "@anthem/utils";
 import {
   Classes,
@@ -66,7 +67,6 @@ import {
   View,
 } from "../SharedComponents";
 import Toast from "../Toast";
-import { validators } from "../validators/OasisValidators";
 
 /** ===========================================================================
  * Types & Config
@@ -310,132 +310,138 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
     const { tString } = i18n;
 
     return (
-      <GraphQLGuardComponentMultipleQueries
-        tString={tString}
-        results={[[oasisAccountBalances, "oasisAccountBalances"]]}
-      >
-        {([accountBalancesData]: [IOasisAccountBalances]) => {
-          const { available } = accountBalancesData;
-          const balance = renderCurrencyValue({
-            denomSize: network.denominationSize,
-            value: available,
-            fiatPrice: 1,
-            convertToFiat: false,
-          });
-          const fiatBalance = renderCurrencyValue({
-            denomSize: network.denominationSize,
-            value: available,
-            fiatPrice: 1,
-            convertToFiat: true,
-          });
-          return (
-            <View>
-              <p>Choose a validator to delegate to:</p>
+      <OasisValidatorsComponent>
+        {({ data: oasisValidatorsData }) => (
+          <GraphQLGuardComponentMultipleQueries
+            tString={tString}
+            results={[[oasisAccountBalances, "oasisAccountBalances"]]}
+          >
+            {([accountBalancesData]: [IOasisAccountBalances]) => {
+              const { available } = accountBalancesData;
+              const balance = renderCurrencyValue({
+                denomSize: network.denominationSize,
+                value: available,
+                fiatPrice: 1,
+                convertToFiat: false,
+              });
+              const fiatBalance = renderCurrencyValue({
+                denomSize: network.denominationSize,
+                value: available,
+                fiatPrice: 1,
+                convertToFiat: true,
+              });
+              return (
+                <View>
+                  <p>Choose a validator to delegate to:</p>
 
-              <ValidatorSelect
-                popoverProps={{
-                  onClose: this.setCanEscapeKeyCloseDialog(true),
-                  popoverClassName: "ValidatorCompositionSelect",
-                }}
-                onItemSelect={this.handleSelectValidator}
-                itemRenderer={(
-                  validator,
-                  { handleClick, modifiers }: IItemRendererProps,
-                ) => (
-                  <MenuItem
-                    onClick={handleClick}
-                    active={modifiers.active}
-                    key={validator.consensus_pubkey}
-                    text={validator.name}
-                    data-cy={`${validator.name}-delegation-option`}
-                  />
-                )}
-                itemPredicate={(query, validator) =>
-                  validator.name.toLowerCase().includes(query.toLowerCase())
-                }
-                items={validators}
-              >
-                <Button
-                  category="SECONDARY"
-                  rightIcon="caret-down"
-                  onClick={this.setCanEscapeKeyCloseDialog(false)}
-                  data-cy="validator-composition-select-menu"
-                >
-                  {selectedValidatorForDelegation
-                    ? (selectedValidatorForDelegation as any).name
-                    : "Choose Validator"}
-                </Button>
-              </ValidatorSelect>
-
-              <p style={{ marginTop: 8 }}>
-                Available: {bold(`${balance} ${ledger.network.descriptor}`)} (
-                {fiatBalance} {fiatCurrency.symbol})
-              </p>
-              <H6 style={{ marginTop: 12, marginBottom: 0 }}>
-                Please enter an amount of available ROSE to delegate:
-              </H6>
-              <View style={{ marginTop: 12 }}>
-                <FormContainer>
-                  <form
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
+                  <ValidatorSelect
+                    popoverProps={{
+                      onClose: this.setCanEscapeKeyCloseDialog(true),
+                      popoverClassName: "ValidatorCompositionSelect",
                     }}
-                    data-cy="ledger-action-input-form"
-                    onSubmit={(event: ChangeEvent<HTMLFormElement>) => {
-                      event.preventDefault();
-                      this.submitDelegationAmount();
-                    }}
-                  >
-                    <TextInput
-                      autoFocus
-                      label="Amount of ROSE to delegate"
-                      onSubmit={this.submitDelegationAmount}
-                      style={{ ...InputStyles, width: 300 }}
-                      placeholder={tString("Enter an amount")}
-                      data-cy="transaction-amount-input"
-                      value={this.state.amount}
-                      onChange={this.handleEnterLedgerActionAmount}
-                    />
-                    <Switch
-                      checked={this.state.useFullBalance}
-                      style={{ marginTop: 24 }}
-                      data-cy="transaction-delegate-all-toggle"
-                      label="Delegate Max"
-                      onChange={() => this.toggleFullBalance(balance)}
-                    />
-                    {this.props.renderConfirmArrow(
-                      tString("Generate My Transaction"),
-                      (...callbackArgs) => {
-                        if (!(selectedValidatorForDelegation as any)?.address) {
-                          alert("Please pick a validator to delegate to.");
-                          return;
-                        }
-
-                        if (!this.state.amount) {
-                          alert("Please enter an amount");
-                          return;
-                        }
-
-                        console.log(this.state.amount);
-
-                        this.submitDelegationAmount(...callbackArgs);
-                      },
+                    onItemSelect={this.handleSelectValidator}
+                    itemRenderer={(
+                      validator,
+                      { handleClick, modifiers }: IItemRendererProps,
+                    ) => (
+                      <MenuItem
+                        onClick={handleClick}
+                        active={modifiers.active}
+                        key={validator.consensus_pubkey}
+                        text={validator.name}
+                        data-cy={`${validator.name}-delegation-option`}
+                      />
                     )}
-                  </form>
-                </FormContainer>
-                {this.state.transactionSetupError && (
-                  <div style={{ marginTop: 12 }} className={Classes.LABEL}>
-                    <ErrorText data-cy="amount-transaction-error">
-                      {this.state.transactionSetupError}
-                    </ErrorText>
-                  </div>
-                )}
-              </View>
-            </View>
-          );
-        }}
-      </GraphQLGuardComponentMultipleQueries>
+                    itemPredicate={(query, validator) =>
+                      validator.name.toLowerCase().includes(query.toLowerCase())
+                    }
+                    items={oasisValidatorsData?.oasisValidators || []}
+                  >
+                    <Button
+                      category="SECONDARY"
+                      rightIcon="caret-down"
+                      onClick={this.setCanEscapeKeyCloseDialog(false)}
+                      data-cy="validator-composition-select-menu"
+                    >
+                      {selectedValidatorForDelegation
+                        ? (selectedValidatorForDelegation as any).name
+                        : "Choose Validator"}
+                    </Button>
+                  </ValidatorSelect>
+
+                  <p style={{ marginTop: 8 }}>
+                    Available: {bold(`${balance} ${ledger.network.descriptor}`)}{" "}
+                    ({fiatBalance} {fiatCurrency.symbol})
+                  </p>
+                  <H6 style={{ marginTop: 12, marginBottom: 0 }}>
+                    Please enter an amount of available ROSE to delegate:
+                  </H6>
+                  <View style={{ marginTop: 12 }}>
+                    <FormContainer>
+                      <form
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                        }}
+                        data-cy="ledger-action-input-form"
+                        onSubmit={(event: ChangeEvent<HTMLFormElement>) => {
+                          event.preventDefault();
+                          this.submitDelegationAmount();
+                        }}
+                      >
+                        <TextInput
+                          autoFocus
+                          label="Amount of ROSE to delegate"
+                          onSubmit={this.submitDelegationAmount}
+                          style={{ ...InputStyles, width: 300 }}
+                          placeholder={tString("Enter an amount")}
+                          data-cy="transaction-amount-input"
+                          value={this.state.amount}
+                          onChange={this.handleEnterLedgerActionAmount}
+                        />
+                        <Switch
+                          checked={this.state.useFullBalance}
+                          style={{ marginTop: 24 }}
+                          data-cy="transaction-delegate-all-toggle"
+                          label="Delegate Max"
+                          onChange={() => this.toggleFullBalance(balance)}
+                        />
+                        {this.props.renderConfirmArrow(
+                          tString("Generate My Transaction"),
+                          (...callbackArgs) => {
+                            if (
+                              !(selectedValidatorForDelegation as any)?.address
+                            ) {
+                              alert("Please pick a validator to delegate to.");
+                              return;
+                            }
+
+                            if (!this.state.amount) {
+                              alert("Please enter an amount");
+                              return;
+                            }
+
+                            console.log(this.state.amount);
+
+                            this.submitDelegationAmount(...callbackArgs);
+                          },
+                        )}
+                      </form>
+                    </FormContainer>
+                    {this.state.transactionSetupError && (
+                      <div style={{ marginTop: 12 }} className={Classes.LABEL}>
+                        <ErrorText data-cy="amount-transaction-error">
+                          {this.state.transactionSetupError}
+                        </ErrorText>
+                      </div>
+                    )}
+                  </View>
+                </View>
+              );
+            }}
+          </GraphQLGuardComponentMultipleQueries>
+        )}
+      </OasisValidatorsComponent>
     );
   };
 

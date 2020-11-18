@@ -747,6 +747,15 @@ export interface IOasisUnknownEvent {
   method_name: Scalars["String"];
 }
 
+export interface IOasisValidator {
+   __typename?: "OasisValidator";
+  address: Scalars["String"];
+  name: Maybe<Scalars["String"]>;
+  commission: Scalars["Float"];
+  website: Maybe<Scalars["String"]>;
+  iconUrl: Maybe<Scalars["String"]>;
+}
+
 export interface IParameterChangeProposal {
    __typename?: "ParameterChangeProposal";
   type: Scalars["String"];
@@ -796,6 +805,7 @@ export interface IQuery {
   oasisAccountHistory: IOasisAccountHistory[];
   oasisTransactions: IOasisTransactionResult;
   oasisTransaction: IOasisTransaction;
+  oasisValidators: IOasisValidator[];
   /** Celo APIs */
   celoAccountBalances: ICeloAccountBalances;
   celoAccountHistory: ICeloAccountSnapshot[];
@@ -1930,6 +1940,16 @@ export type IOasisTransactionsQuery = (
       ) }
     )> }
   ) }
+);
+
+export interface IOasisValidatorsQueryVariables {}
+
+export type IOasisValidatorsQuery = (
+  { __typename?: "Query" }
+  & { oasisValidators: Array<(
+    { __typename?: "OasisValidator" }
+    & Pick<IOasisValidator, "address" | "name" | "commission" | "website" | "iconUrl">
+  )> }
 );
 
 export const CeloAccountBalancesDocument = gql`
@@ -4545,3 +4565,56 @@ export function useOasisTransactionsLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type OasisTransactionsQueryHookResult = ReturnType<typeof useOasisTransactionsQuery>;
 export type OasisTransactionsLazyQueryHookResult = ReturnType<typeof useOasisTransactionsLazyQuery>;
 export type OasisTransactionsQueryResult = ApolloReactCommon.QueryResult<IOasisTransactionsQuery, IOasisTransactionsQueryVariables>;
+export const OasisValidatorsDocument = gql`
+    query oasisValidators {
+  oasisValidators {
+    address
+    name
+    commission
+    website
+    iconUrl
+  }
+}
+    `;
+export type OasisValidatorsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<IOasisValidatorsQuery, IOasisValidatorsQueryVariables>, "query">;
+
+export const OasisValidatorsComponent = (props: OasisValidatorsComponentProps) => (
+      <ApolloReactComponents.Query<IOasisValidatorsQuery, IOasisValidatorsQueryVariables> query={OasisValidatorsDocument} {...props} />
+    );
+
+export type IOasisValidatorsProps<TChildProps = {}> = ApolloReactHoc.DataProps<IOasisValidatorsQuery, IOasisValidatorsQueryVariables> & TChildProps;
+export function withOasisValidators<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  IOasisValidatorsQuery,
+  IOasisValidatorsQueryVariables,
+  IOasisValidatorsProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, IOasisValidatorsQuery, IOasisValidatorsQueryVariables, IOasisValidatorsProps<TChildProps>>(OasisValidatorsDocument, {
+      alias: "oasisValidators",
+      ...operationOptions,
+    });
+}
+
+/**
+ * __useOasisValidatorsQuery__
+ *
+ * To run a query within a React component, call `useOasisValidatorsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOasisValidatorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOasisValidatorsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOasisValidatorsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<IOasisValidatorsQuery, IOasisValidatorsQueryVariables>) {
+        return ApolloReactHooks.useQuery<IOasisValidatorsQuery, IOasisValidatorsQueryVariables>(OasisValidatorsDocument, baseOptions);
+      }
+export function useOasisValidatorsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<IOasisValidatorsQuery, IOasisValidatorsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<IOasisValidatorsQuery, IOasisValidatorsQueryVariables>(OasisValidatorsDocument, baseOptions);
+        }
+export type OasisValidatorsQueryHookResult = ReturnType<typeof useOasisValidatorsQuery>;
+export type OasisValidatorsLazyQueryHookResult = ReturnType<typeof useOasisValidatorsLazyQuery>;
+export type OasisValidatorsQueryResult = ApolloReactCommon.QueryResult<IOasisValidatorsQuery, IOasisValidatorsQueryVariables>;

@@ -3,6 +3,7 @@ export default [
   "oasisAccountHistory",
   "oasisTransactions",
   "oasisTransaction",
+  "oasisValidators",
   "cosmosAccountHistory",
   "cosmosTransaction",
   "cosmosTransactions",
