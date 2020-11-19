@@ -84,7 +84,8 @@ class NotificationsBanner extends React.Component<IProps> {
               <span role="img" aria-label="warning-emoji">
                 🚧
               </span>{" "}
-              Connected to the <b>Oasis Mainnet.</b>
+              Ledger transactions are live on <b>Oasis mainnet</b>. You may
+              experience data integrity issues.
             </>
           </BannerText>
         );
