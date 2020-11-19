@@ -84,7 +84,7 @@ class NotificationsBanner extends React.Component<IProps> {
               <span role="img" aria-label="warning-emoji">
                 🚧
               </span>{" "}
-              Connected to the <b>Oasis Amber Mainnet.</b>
+              Connected to the <b>Oasis Mainnet.</b>
             </>
           </BannerText>
         );
