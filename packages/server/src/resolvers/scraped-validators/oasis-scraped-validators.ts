@@ -876,7 +876,7 @@ export const oasisScrapedValidators = {
         icon: null,
         website: "https://smartstake.io",
         twitter: "smartstake",
-        keybase: null,
+        keybase: "DD06F013A474ACA3",
         email: "aionsmartstake@gmail.com",
         description: null,
         escrow: "44270103.96",
