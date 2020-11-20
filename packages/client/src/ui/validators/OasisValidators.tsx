@@ -1,5 +1,6 @@
 import {
   IOasisValidator,
+  IOasisValidatorsQuery,
   useOasisAccountBalancesQuery,
   useOasisValidatorsQuery,
 } from "@anthem/utils";
@@ -80,25 +81,16 @@ const TxIcon = styled.img`
 `;
 
 type SortKey = Exclude<keyof IOasisValidator, "__typename">;
-
-const HIGHLIGHTED_VALIDATOR = "oasis1qpn83e8hm3gdhvpfv66xj3qsetkj3ulmkugmmxn3";
-
-const OasisValidatorsListPage = ({
-  network,
-  address,
-  setDelegationValidatorSelection,
-  ledger,
-  openLedgerDialog,
-  setSigninNetworkName,
-}: IProps) => {
-  const { data: validatorsData } = useOasisValidatorsQuery({ client });
-
-  const [expandedValidator, setExpandedValidator] = useState<null | string>(
-    null,
-  );
-  const [currentSortKey, setSortKey] = useState<SortKey>("name");
-  const [currentSortDirection, setSortDirection] = useState<"asc" | "desc">(
-    "asc",
+export const sanitizeOasisValidators = (
+  validatorsData: IOasisValidatorsQuery | undefined,
+  currentSortKey: SortKey | undefined,
+  currentSortDirection: "asc" | "desc",
+) => {
+  const validatorsHashmap: { [key: string]: IOasisValidator } = (
+    validatorsData?.oasisValidators || []
+  ).reduce(
+    (acc, validator) => ({ ...acc, [validator.address]: validator }),
+    {},
   );
 
   const sortedValidators = [
@@ -113,19 +105,53 @@ const OasisValidatorsListPage = ({
           validatorAddress !== HIGHLIGHTED_VALIDATOR,
       )
       .sort((a, b) => {
-        const factor = currentSortDirection === "asc" ? -1 : 1;
+        const factor = currentSortDirection === "desc" ? 1 : -1;
         return (
           factor *
-          ((a[currentSortKey] || "") < (b[currentSortKey] || "") ? 1 : -1)
+          ((a[currentSortKey || "name"] || "") <
+          (b[currentSortKey || "name"] || "")
+            ? 1
+            : -1)
         );
       }),
   ];
 
-  const validatorsHashmap: { [key: string]: IOasisValidator } = (
-    validatorsData?.oasisValidators || []
-  ).reduce(
-    (acc, validator) => ({ ...acc, [validator.address]: validator }),
-    {},
+  return { sortedValidators, validatorsHashmap };
+};
+
+export const useOasisValidators = (
+  currentSortKey: SortKey | undefined,
+  currentSortDirection: "asc" | "desc",
+) => {
+  const { data: validatorsData } = useOasisValidatorsQuery({ client });
+  return sanitizeOasisValidators(
+    validatorsData,
+    currentSortKey,
+    currentSortDirection,
+  );
+};
+
+const HIGHLIGHTED_VALIDATOR = "oasis1qpn83e8hm3gdhvpfv66xj3qsetkj3ulmkugmmxn3";
+
+const OasisValidatorsListPage = ({
+  network,
+  address,
+  setDelegationValidatorSelection,
+  ledger,
+  openLedgerDialog,
+  setSigninNetworkName,
+}: IProps) => {
+  const [expandedValidator, setExpandedValidator] = useState<null | string>(
+    null,
+  );
+  const [currentSortKey, setSortKey] = useState<SortKey>("name");
+  const [currentSortDirection, setSortDirection] = useState<"asc" | "desc">(
+    "asc",
+  );
+
+  const { sortedValidators, validatorsHashmap } = useOasisValidators(
+    currentSortKey,
+    currentSortDirection,
   );
 
   const onSort = (sortKey: SortKey) => {
@@ -429,6 +455,8 @@ const OasisValidatorsListPage = ({
             </StakingRowSummary>
 
             {data?.oasisAccountBalances?.delegations?.map(delegation => {
+              console.log(delegation.validator);
+
               return (
                 <View key={delegation.validator}>
                   <StakingRow>
@@ -441,8 +469,16 @@ const OasisValidatorsListPage = ({
                       />
                     </RowItem>
                     <RowItem width={150}>
-                      <H5 style={{ margin: 0 }}>
-                        {validatorsHashmap[delegation.validator]?.name}
+                      <H5
+                        style={{
+                          margin: 0,
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {validatorsHashmap[delegation.validator]?.name ||
+                          delegation.validator}
                       </H5>
                     </RowItem>
                     <RowItem width={100}>
@@ -467,7 +503,21 @@ const OasisValidatorsListPage = ({
                     <RowItem width={75}>
                       <Button
                         style={{ borderRadius: "50%" }}
-                        onClick={() => console.log("do something!")}
+                        onClick={() => {
+                          setDelegationValidatorSelection(
+                            delegation.validator as any,
+                          );
+
+                          if (!ledger.connected) {
+                            setSigninNetworkName(network.name);
+                          }
+
+                          openLedgerDialog({
+                            signinType: "LEDGER",
+                            ledgerAccessType: "PERFORM_ACTION",
+                            ledgerActionType: "DELEGATE",
+                          });
+                        }}
                       >
                         <Icon icon="plus" color={COLORS.LIGHT_WHITE} />
                       </Button>
