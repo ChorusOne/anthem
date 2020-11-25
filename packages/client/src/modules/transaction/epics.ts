@@ -144,8 +144,6 @@ const signTransactionEpic: EpicSignature = (action$, state$, deps) => {
 
         return Actions.signTransactionFailure();
       }
-
-      return Actions.signTransactionFailure();
     }),
   );
 };

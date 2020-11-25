@@ -36,7 +36,7 @@ const OASIS_API = {
   DELEGATE_SEND: `${ENV.SERVER_URL}/api/oasis/transfer/send`,
   // Undelegate:
   UNDELEGATE: `${ENV.SERVER_URL}/api/oasis/undelegate`,
-  UNDELEGATE_SEND: `${ENV.SERVER_URL}/api/oasis/undelegate/send`,
+  UNDELEGATE_SEND: `${ENV.SERVER_URL}/api/oasis/transfer/send`,
   // Redelegate:
   REDELEGATE: `${ENV.SERVER_URL}/api/oasis/redelegate`,
   REDELEGATE_SEND: `${ENV.SERVER_URL}/api/oasis/redelegate/send`,
@@ -186,8 +186,9 @@ class OasisLedgerClass implements IOasisLedger {
 
   async undelegate(args: OasisUndelegateArgs) {
     console.log("Handling Oasis undelegate transaction, args: ", args);
-    // TODO: Implement!
-    return SampleTransactionReceipt;
+    const tx = await this.getUndelegatePayload(args);
+    const receipt = await this.signAndSendTransferTransaction(tx);
+    return receipt;
   }
 
   async redelegate(args: OasisRedelegateArgs) {
@@ -206,6 +207,25 @@ class OasisLedgerClass implements IOasisLedger {
     };
 
     const response = await fetch(OASIS_API.DELEGATE, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+    return data;
+  }
+
+  async getUndelegatePayload(args: OasisUndelegateArgs) {
+    console.log("getDelegatePayload: ", args);
+
+    const payload = {
+      ...args,
+      amount: parseInt(args.amount),
+      gas: { amount: 2000, limit: 2269 },
+    };
+
+    const response = await fetch(OASIS_API.UNDELEGATE, {
       method: "POST",
       headers,
       body: JSON.stringify(payload),

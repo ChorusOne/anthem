@@ -436,8 +436,6 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
                                 return;
                               }
 
-                              console.log(this.state.amount);
-
                               this.submitDelegationAmount(...callbackArgs);
                             },
                           )}
@@ -465,98 +463,154 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
   };
 
   renderUndelegateTransactionSetup = () => {
-    const {
-      i18n,
-      ledger,
-      fiatCurrency,
-      fiatPriceData,
-      oasisAccountBalances,
-    } = this.props;
+    const { i18n, ledger, oasisAccountBalances, transaction } = this.props;
     const { network } = ledger;
     const { tString } = i18n;
     return (
-      <GraphQLGuardComponentMultipleQueries
-        tString={tString}
-        results={[
-          [oasisAccountBalances, "oasisAccountBalances"],
-          [fiatPriceData, "fiatPriceData"],
-        ]}
-      >
-        {([accountBalancesData, exchangeRate]: [
-          IOasisAccountBalances,
-          IQuery["fiatPriceData"],
-        ]) => {
-          const { staked } = accountBalancesData;
-          const balance = renderCurrencyValue({
-            denomSize: network.denominationSize,
-            value: staked.balance,
-            fiatPrice: exchangeRate.price,
-            convertToFiat: false,
-          });
-          const fiatBalance = renderCurrencyValue({
-            denomSize: network.denominationSize,
-            value: staked.balance,
-            fiatPrice: exchangeRate.price,
-            convertToFiat: true,
-          });
+      <OasisValidatorsComponent client={client}>
+        {({ data: oasisValidatorsData }) => {
+          const { sortedValidators } = sanitizeOasisValidators(
+            oasisValidatorsData,
+            "name",
+            "asc",
+          );
+
+          const { selectedValidatorForUndelegation } = transaction;
+
           return (
-            <View>
-              <p style={{ marginTop: 8 }}>
-                Staked ROSE amount:{" "}
-                {bold(`${balance} ${ledger.network.descriptor}`)} ({fiatBalance}{" "}
-                {fiatCurrency.symbol})
-              </p>
-              <H6 style={{ marginTop: 12, marginBottom: 0 }}>
-                Please enter an amount of available ROSE to undelegate:
-              </H6>
-              <View style={{ marginTop: 12 }}>
-                <FormContainer>
-                  <form
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                    data-cy="ledger-action-input-form"
-                    onSubmit={(event: ChangeEvent<HTMLFormElement>) => {
-                      event.preventDefault();
-                      this.submitDelegationAmount();
-                    }}
-                  >
-                    <TextInput
-                      autoFocus
-                      label="Unlock Amount (ROSE)"
-                      onSubmit={this.submitDelegationAmount}
-                      style={{ ...InputStyles, width: 300 }}
-                      placeholder={tString("Enter an amount")}
-                      data-cy="transaction-amount-input"
-                      value={this.state.amount}
-                      onChange={this.handleEnterLedgerActionAmount}
-                    />
-                    <Switch
-                      checked={this.state.useFullBalance}
-                      style={{ marginTop: 24 }}
-                      data-cy="transaction-delegate-all-toggle"
-                      label="Unstake max"
-                      onChange={() => this.toggleFullBalance(balance)}
-                    />
-                    {this.props.renderConfirmArrow(
-                      tString("Generate My Transaction"),
-                      this.submitUndelegateTransactionSetup,
-                    )}
-                  </form>
-                </FormContainer>
-                {this.state.transactionSetupError && (
-                  <div style={{ marginTop: 12 }} className={Classes.LABEL}>
-                    <ErrorText data-cy="amount-transaction-error">
-                      {this.state.transactionSetupError}
-                    </ErrorText>
-                  </div>
-                )}
-              </View>
-            </View>
+            <GraphQLGuardComponentMultipleQueries
+              tString={tString}
+              results={[[oasisAccountBalances, "oasisAccountBalances"]]}
+            >
+              {([accountBalancesData]: [IOasisAccountBalances]) => {
+                const { staked } = accountBalancesData;
+                const balance = renderCurrencyValue({
+                  denomSize: network.denominationSize,
+                  value: staked.balance,
+                  fiatPrice: 1,
+                  convertToFiat: false,
+                });
+
+                return (
+                  <View>
+                    <p style={{ marginTop: 8 }}>
+                      Staked ROSE amount:{" "}
+                      {bold(`${balance} ${ledger.network.descriptor}`)}
+                    </p>
+
+                    <p>Choose a validator to undelegate from:</p>
+
+                    <ValidatorSelect
+                      popoverProps={{
+                        onClose: this.setCanEscapeKeyCloseDialog(true),
+                        popoverClassName: "ValidatorCompositionSelect",
+                      }}
+                      onItemSelect={this.handleSelectUndelegationValidator}
+                      itemRenderer={(
+                        validator,
+                        { handleClick, modifiers }: IItemRendererProps,
+                      ) => (
+                        <MenuItem
+                          onClick={handleClick}
+                          active={modifiers.active}
+                          key={validator.consensus_pubkey}
+                          text={validator.name}
+                          data-cy={`${validator.name}-delegation-option`}
+                        />
+                      )}
+                      itemPredicate={(query, validator) =>
+                        validator.name
+                          .toLowerCase()
+                          .includes(query.toLowerCase())
+                      }
+                      items={sortedValidators || []}
+                    >
+                      <Button
+                        category="SECONDARY"
+                        rightIcon="caret-down"
+                        onClick={this.setCanEscapeKeyCloseDialog(false)}
+                        data-cy="validator-composition-select-menu"
+                      >
+                        {selectedValidatorForUndelegation
+                          ? (selectedValidatorForUndelegation as any).name
+                          : "Choose Validator"}
+                      </Button>
+                    </ValidatorSelect>
+
+                    <H6 style={{ marginTop: 12, marginBottom: 0 }}>
+                      Please enter an amount of available ROSE to undelegate:
+                    </H6>
+                    <View style={{ marginTop: 12 }}>
+                      <FormContainer>
+                        <form
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                          }}
+                          data-cy="ledger-action-input-form"
+                          onSubmit={(event: ChangeEvent<HTMLFormElement>) => {
+                            event.preventDefault();
+                            this.submitUndelegationAmount();
+                          }}
+                        >
+                          <TextInput
+                            autoFocus
+                            label="Unlock Amount (ROSE)"
+                            onSubmit={this.submitUndelegationAmount}
+                            style={{ ...InputStyles, width: 300 }}
+                            placeholder={tString("Enter an amount")}
+                            data-cy="transaction-amount-input"
+                            value={this.state.amount}
+                            onChange={this.handleEnterLedgerActionAmount}
+                          />
+                          <Switch
+                            checked={this.state.useFullBalance}
+                            style={{ marginTop: 24 }}
+                            data-cy="transaction-delegate-all-toggle"
+                            label="Unstake max"
+                            onChange={() => this.toggleFullBalance(balance)}
+                          />
+                          {this.props.renderConfirmArrow(
+                            tString("Generate My Transaction"),
+                            (...callbackArgs) => {
+                              if (
+                                !(selectedValidatorForUndelegation as any)
+                                  ?.address
+                              ) {
+                                alert(
+                                  "Please pick a validator to undelegate from.",
+                                );
+                                return;
+                              }
+
+                              if (!this.state.amount) {
+                                alert("Please enter an amount");
+                                return;
+                              }
+
+                              this.submitUndelegationAmount(...callbackArgs);
+                            },
+                          )}
+                        </form>
+                      </FormContainer>
+                      {this.state.transactionSetupError && (
+                        <div
+                          style={{ marginTop: 12 }}
+                          className={Classes.LABEL}
+                        >
+                          <ErrorText data-cy="amount-transaction-error">
+                            {this.state.transactionSetupError}
+                          </ErrorText>
+                        </div>
+                      )}
+                    </View>
+                  </View>
+                );
+              }}
+            </GraphQLGuardComponentMultipleQueries>
           );
         }}
-      </GraphQLGuardComponentMultipleQueries>
+      </OasisValidatorsComponent>
     );
   };
 
@@ -588,6 +642,15 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
         transactionSetupError: "",
       },
       () => this.props.setDelegationValidatorSelection(validator),
+    );
+  };
+
+  handleSelectUndelegationValidator = (validator: any) => {
+    this.setState(
+      {
+        transactionSetupError: "",
+      },
+      () => this.props.setUndelegationValidatorSelection(validator),
     );
   };
 
@@ -903,7 +966,7 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
     this.props.setTransactionData(data);
   };
 
-  submitUndelegateTransactionSetup = () => {
+  submitUndelegationAmount = () => {
     const { amount } = this.state;
     const { oasisAccountBalances } = this.props.oasisAccountBalances;
     const { staked } = oasisAccountBalances;
@@ -921,10 +984,26 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
       },
       () => {
         if (amountError === "") {
-          this.getUndelegateTransaction();
+          this.getUndelegationTransaction();
         }
       },
     );
+  };
+
+  getUndelegationTransaction = async () => {
+    const { amount } = this.state;
+    const { transaction } = this.props;
+    const { network, address } = this.props.ledger;
+    const { selectedValidatorForUndelegation } = transaction;
+    const { denominationSize } = network;
+
+    const data: OasisDelegateArgs = {
+      from: address,
+      to: (selectedValidatorForUndelegation as any)?.address,
+      amount: unitToDenom(amount, denominationSize),
+    };
+
+    this.props.setTransactionData(data);
   };
 
   getUndelegateTransaction = () => {
@@ -989,6 +1068,8 @@ const dispatchProps = {
   broadcastTransaction: Modules.actions.transaction.broadcastTransaction,
   setDelegationValidatorSelection:
     Modules.actions.transaction.setDelegationValidatorSelection,
+  setUndelegationValidatorSelection:
+    Modules.actions.transaction.setUndelegationValidatorSelection,
 };
 
 const withProps = connect(mapStateToProps, dispatchProps);

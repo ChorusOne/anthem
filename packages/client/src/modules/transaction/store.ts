@@ -48,6 +48,9 @@ export interface TransactionState {
   selectedValidatorForDelegation: Nullable<
     ICosmosValidator | ICeloValidatorGroup
   >;
+  selectedValidatorForUndelegation: Nullable<
+    ICosmosValidator | ICeloValidatorGroup
+  >;
   celoPendingWithdrawalData?: PendingWithdrawal[];
 }
 
@@ -63,6 +66,7 @@ const initialState: TransactionState = {
   signPending: false,
   broadcastingTransaction: false,
   selectedValidatorForDelegation: null,
+  selectedValidatorForUndelegation: null,
   governanceProposalData: null,
 };
 
@@ -86,6 +90,10 @@ const transaction = createReducer<
   .handleAction(Actions.setDelegationValidatorSelection, (state, action) => ({
     ...state,
     selectedValidatorForDelegation: action.payload,
+  }))
+  .handleAction(Actions.setUndelegationValidatorSelection, (state, action) => ({
+    ...state,
+    selectedValidatorForUndelegation: action.payload,
   }))
   .handleAction(Actions.signTransactionSuccess, (state, action) => ({
     ...state,

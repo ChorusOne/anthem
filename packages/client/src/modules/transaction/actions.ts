@@ -31,6 +31,7 @@ enum ActionTypesEnum {
   SET_TRANSACTIONS_PAGE = "SET_TRANSACTIONS_PAGE",
 
   SET_DELEGATION_VALIDATOR_SELECTION = "SET_DELEGATION_VALIDATOR_SELECTION",
+  SET_UNDELEGATION_VALIDATOR_SELECTION = "SET_UNDELEGATION_VALIDATOR_SELECTION",
 
   SET_GOVERNANCE_VOTE_DETAILS = "SET_GOVERNANCE_VOTE_DETAILS",
 
@@ -98,6 +99,10 @@ const setDelegationValidatorSelection = createStandardAction(
   ActionTypesEnum.SET_DELEGATION_VALIDATOR_SELECTION,
 )<ICosmosValidator | ICeloValidatorGroup>();
 
+const setUndelegationValidatorSelection = createStandardAction(
+  ActionTypesEnum.SET_UNDELEGATION_VALIDATOR_SELECTION,
+)<ICosmosValidator | ICeloValidatorGroup>();
+
 const setGovernanceVoteDetails = createStandardAction(
   ActionTypesEnum.SET_GOVERNANCE_VOTE_DETAILS,
 )<GovernanceVoteDetails>();
@@ -121,6 +126,7 @@ const actions = {
   setTransactionsPage,
   removeLocalCopyOfTransaction,
   setDelegationValidatorSelection,
+  setUndelegationValidatorSelection,
   setGovernanceVoteDetails,
   setCeloPendingWithdrawalData,
 };
