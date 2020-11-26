@@ -993,7 +993,7 @@ class OasisBalancesComponent extends React.Component<
                 Stake
               </Button>
 
-              {isGreaterThan(stakedBalance, 0) && false && (
+              {isGreaterThan(stakedBalance, 0) && (
                 <Button
                   style={{ marginLeft: 12 }}
                   onClick={() => {

@@ -55,9 +55,24 @@ Router.post("/oasis/delegate", async (req, res) => {
     const { body } = req;
     const host = getHostFromNetworkName("OASIS");
     const url = `${host}/transaction/create/stake`;
-    console.log("Handling /oasis/transfer request");
+    console.log("Handling /oasis/delegate request");
     const { data } = await axios.post(url, body);
-    console.log(data);
+    return res.send(JSON.stringify(data));
+  } catch (err) {
+    logger.error(err, true);
+    res.status(400);
+    res.send({ error: "Failed to get sign payload." });
+  }
+});
+
+// Get a payload to sign for an Oasis Undelegation transaction
+Router.post("/oasis/undelegate", async (req, res) => {
+  try {
+    const { body } = req;
+    const host = getHostFromNetworkName("OASIS");
+    const url = `${host}/transaction/create/unstake`;
+    console.log("Handling /oasis/undelegate request");
+    const { data } = await axios.post(url, body);
     return res.send(JSON.stringify(data));
   } catch (err) {
     logger.error(err, true);
@@ -74,7 +89,6 @@ Router.post("/oasis/transfer", async (req, res) => {
     const url = `${host}/transaction/create/transfer`;
     console.log("Handling /oasis/transfer request");
     const { data } = await axios.post(url, body);
-    console.log(data);
     return res.send(JSON.stringify(data));
   } catch (err) {
     logger.error(err, true);
