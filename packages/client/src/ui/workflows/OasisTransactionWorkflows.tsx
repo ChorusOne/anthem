@@ -783,6 +783,7 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
     const { i18n, transaction, ledger } = this.props;
     const { t, tString } = i18n;
     const { transactionResult } = transaction;
+    const { ledgerActionType } = this.props.ledgerDialog;
 
     if (!transactionResult) {
       return (
@@ -798,6 +799,11 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
     return (
       <Centered style={{ flexDirection: "column" }}>
         <H5>{tString("Transaction Confirmed!")}</H5>
+
+        {ledgerActionType === "UNDELEGATE" ? (
+          <H5>Your unbonded tokens will become available after 14 days.</H5>
+        ) : null}
+
         <p style={{ textAlign: "center" }}>
           {t(
             "Your transaction is successful and was included at block height {{height}}. It may take a few moments for the updates to appear in Anthem.",
@@ -806,6 +812,7 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
             },
           )}
         </p>
+
         <TransactionHashText>{hash}</TransactionHashText>
         <CopyTextComponent
           textToCopy={hash}
@@ -968,12 +975,13 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
 
   submitUndelegationAmount = () => {
     const { amount } = this.state;
+    const { network } = this.props.ledger;
     const { oasisAccountBalances } = this.props.oasisAccountBalances;
     const { staked } = oasisAccountBalances;
     const maximumAmount = staked.balance;
 
     const amountError = validateLedgerTransactionAmount(
-      amount,
+      unitToDenom(amount, network.denominationSize),
       maximumAmount,
       this.props.i18n.tString,
     );

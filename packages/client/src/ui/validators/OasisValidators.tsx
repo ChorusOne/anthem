@@ -137,6 +137,7 @@ const OasisValidatorsListPage = ({
   network,
   address,
   setDelegationValidatorSelection,
+  setUndelegationValidatorSelection,
   ledger,
   openLedgerDialog,
   setSigninNetworkName,
@@ -455,8 +456,6 @@ const OasisValidatorsListPage = ({
             </StakingRowSummary>
 
             {data?.oasisAccountBalances?.delegations?.map(delegation => {
-              console.log(delegation.validator);
-
               return (
                 <View key={delegation.validator}>
                   <StakingRow>
@@ -464,7 +463,7 @@ const OasisValidatorsListPage = ({
                       <TxIcon
                         src={
                           validatorsHashmap[delegation.validator]?.iconUrl ||
-                          undefined
+                          "https://www.oasisscan.com/_nuxt/img/d7112e0.png"
                         }
                       />
                     </RowItem>
@@ -500,7 +499,28 @@ const OasisValidatorsListPage = ({
                         %
                       </Text>
                     </RowItem>
-                    <RowItem width={75}>
+                    <RowItem width={85}>
+                      <Button
+                        style={{ borderRadius: "50%", marginRight: 8 }}
+                        onClick={() => {
+                          setUndelegationValidatorSelection(
+                            delegation.validator as any,
+                          );
+
+                          if (!ledger.connected) {
+                            setSigninNetworkName(network.name);
+                          }
+
+                          openLedgerDialog({
+                            signinType: "LEDGER",
+                            ledgerAccessType: "PERFORM_ACTION",
+                            ledgerActionType: "UNDELEGATE",
+                          });
+                        }}
+                      >
+                        <Icon icon="minus" color={COLORS.LIGHT_WHITE} />
+                      </Button>
+
                       <Button
                         style={{ borderRadius: "50%" }}
                         onClick={() => {
@@ -547,6 +567,8 @@ const dispatchProps = {
   openSelectNetworkDialog: Modules.actions.ledger.openSelectNetworkDialog,
   setDelegationValidatorSelection:
     Modules.actions.transaction.setDelegationValidatorSelection,
+  setUndelegationValidatorSelection:
+    Modules.actions.transaction.setUndelegationValidatorSelection,
 };
 
 type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
