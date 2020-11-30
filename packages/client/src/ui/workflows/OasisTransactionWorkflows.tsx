@@ -49,6 +49,7 @@ import { composeWithProps } from "tools/context-utils";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { renderCurrencyValue, unitToDenom } from "tools/currency-utils";
 import { bold } from "tools/i18n-utils";
+import { isGreaterThan, multiply, subtract } from "tools/math-utils";
 import {
   validateBech32Address,
   validateLedgerTransactionAmount,
@@ -100,6 +101,14 @@ interface IState {
  * transaction.
  * ============================================================================
  */
+
+const sanitizeBalance = (balance: any) => {
+  const balanceSanitized = isGreaterThan(subtract(balance, "1"), 0)
+    ? subtract(balance, "1")
+    : multiply(balance, "0.9");
+
+  return balanceSanitized;
+};
 
 const ValidatorSelect = Select.ofType<any>();
 
@@ -301,7 +310,6 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
     const {
       i18n,
       ledger,
-      fiatCurrency,
       // fiatPriceData,
       oasisAccountBalances,
       transaction,
@@ -333,12 +341,9 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
                   fiatPrice: 1,
                   convertToFiat: false,
                 });
-                const fiatBalance = renderCurrencyValue({
-                  denomSize: network.denominationSize,
-                  value: available,
-                  fiatPrice: 1,
-                  convertToFiat: true,
-                });
+
+                const balanceSanitized = sanitizeBalance(balance);
+
                 return (
                   <View>
                     <p>Choose a validator to delegate to:</p>
@@ -382,8 +387,7 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
 
                     <p style={{ marginTop: 8 }}>
                       Available:{" "}
-                      {bold(`${balance} ${ledger.network.descriptor}`)} (
-                      {fiatBalance} {fiatCurrency.symbol})
+                      {bold(`${balanceSanitized} ${ledger.network.descriptor}`)}
                     </p>
                     <H6 style={{ marginTop: 12, marginBottom: 0 }}>
                       Please enter an amount of available ROSE to delegate:
@@ -416,7 +420,9 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
                             style={{ marginTop: 24 }}
                             data-cy="transaction-delegate-all-toggle"
                             label="Delegate Max"
-                            onChange={() => this.toggleFullBalance(balance)}
+                            onChange={() =>
+                              this.toggleFullBalance(balanceSanitized)
+                            }
                           />
                           {this.props.renderConfirmArrow(
                             tString("Generate My Transaction"),
@@ -491,11 +497,13 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
                   convertToFiat: false,
                 });
 
+                const balanceSanitized = sanitizeBalance(balance);
+
                 return (
                   <View>
                     <p style={{ marginTop: 8 }}>
                       Staked ROSE amount:{" "}
-                      {bold(`${balance} ${ledger.network.descriptor}`)}
+                      {bold(`${balanceSanitized} ${ledger.network.descriptor}`)}
                     </p>
 
                     <p>Choose a validator to undelegate from:</p>
@@ -568,7 +576,9 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
                             style={{ marginTop: 24 }}
                             data-cy="transaction-delegate-all-toggle"
                             label="Unstake max"
-                            onChange={() => this.toggleFullBalance(balance)}
+                            onChange={() =>
+                              this.toggleFullBalance(balanceSanitized)
+                            }
                           />
                           {this.props.renderConfirmArrow(
                             tString("Generate My Transaction"),

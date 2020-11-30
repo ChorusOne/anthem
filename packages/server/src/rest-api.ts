@@ -4,6 +4,7 @@ import {
   NETWORK_NAME,
 } from "@anthem/utils";
 import axios from "axios";
+import * as contentful from "contentful";
 import express from "express";
 import { PaginationParams } from "./resolvers/resolvers";
 import CELO from "./sources/celo";
@@ -244,6 +245,25 @@ Router.post("/newsletter", async (req, res) => {
   } catch (err) {
     res.sendStatus(400);
   }
+});
+
+/** ===========================================================================
+ * Contentful REST APIs
+ * ============================================================================
+ */
+// these keys are read-only, so they don't need to be secret
+const client = contentful.createClient({
+  space: "n2vu799xayo6",
+  accessToken: "4UkbcW3Gie676YczsDNxUF0J7sdi6bcEUv1y8NMHjwY",
+});
+
+Router.get("/my-ledger-doesnt-work", async (req, res) => {
+  const entries = await client.getEntries({
+    "fields.appearsIn": "My Ledger Doesn't Work Modal",
+    content_type: "richText",
+  });
+
+  return res.json(entries);
 });
 
 /** ===========================================================================
