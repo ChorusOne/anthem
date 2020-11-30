@@ -1,14 +1,19 @@
 import { AVAILABLE_NETWORKS, NETWORK_NAME } from "@anthem/utils";
-import { Card } from "@blueprintjs/core";
+import { Card, Icon } from "@blueprintjs/core";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { BLOCKS } from "@contentful/rich-text-types";
 import { NetworkLogoIcon } from "assets/images";
+import axios from "axios";
 import { COLORS } from "constants/colors";
 import { SIGNIN_TYPE } from "modules/ledger/actions";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
 import Analytics from "tools/analytics-utils";
+import ENV from "tools/client-env";
 import { capitalizeString, onPath } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { View } from "./SharedComponents";
@@ -37,6 +42,8 @@ class NetworkSelectComponent extends React.Component<IProps, {}> {
             );
           })}
         </NetworkGrid>
+
+        <MyLedgerDoesntWork />
       </View>
     );
   }
@@ -75,6 +82,164 @@ class NetworkSelectComponent extends React.Component<IProps, {}> {
     return onPath("/landing", window.location.pathname);
   };
 }
+
+const MyLedgerDoesntWorkLink = styled.div`
+  color: #106ba3;
+  padding-top: 22px;
+  font-size: 18px;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
+const MyLedgerDoesntWorkModalWrapper = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 25;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > .inner {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    max-width: 600px;
+    max-height: 700px;
+    background: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    > .inner-inner {
+      width: 100%;
+      height: calc(100% - 32px);
+
+      overflow-y: scroll;
+      overflow-x: hidden;
+
+      padding: 0 24px 24px 24px;
+
+      font-size: 18px;
+
+      p {
+        margin: 24px 0;
+      }
+
+      img {
+        max-width: 100%;
+        box-shadow: 0 0 14px rgba(0, 0, 0, 0.14);
+      }
+
+      a {
+        color: blue;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+
+      > *:first-child {
+        margin-top: 0 !important;
+      }
+    }
+  }
+
+  .close-icon {
+    position: absolute;
+    top: 4px;
+    right: 3px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+`;
+
+const MyLedgerDoesntWork = () => {
+  const [shouldShowModal, setShouldShowModal] = useState(false);
+
+  return (
+    <>
+      <MyLedgerDoesntWorkLink
+        onClick={() => setShouldShowModal(true)}
+        style={{ fontWeight: "bold" }}
+      >
+        Is your ledger not working?
+      </MyLedgerDoesntWorkLink>
+
+      {shouldShowModal && (
+        <MyLedgerDoesntWorkModal setShouldShowModal={setShouldShowModal} />
+      )}
+    </>
+  );
+};
+
+const MyLedgerDoesntWorkModal = ({
+  setShouldShowModal,
+}: {
+  setShouldShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const [contentfulData, setContentfulData] = useState<any>(null);
+
+  useEffect(() => {
+    const getAndSaveData = async () => {
+      const response = await axios.get(
+        `${ENV.SERVER_URL}/api/my-ledger-doesnt-work`,
+      );
+
+      setContentfulData(response.data);
+    };
+
+    getAndSaveData();
+  }, []);
+
+  return ReactDOM.createPortal(
+    <MyLedgerDoesntWorkModalWrapper onClick={event => event.stopPropagation()}>
+      <div className="inner">
+        <Icon
+          onClick={() => setShouldShowModal(false)}
+          className="close-icon"
+          icon="cross"
+          iconSize={24}
+        />
+
+        <div className="inner-inner">
+          {contentfulData?.items?.[0]?.fields?.content
+            ? documentToReactComponents(
+                contentfulData.items[0].fields.content,
+                {
+                  renderNode: {
+                    [BLOCKS.EMBEDDED_ASSET]: node => {
+                      console.log(node);
+
+                      return (
+                        <img
+                          alt="from contentful"
+                          src={node.data.target.fields.file.url}
+                        />
+                      );
+                    },
+                  },
+                },
+              )
+            : null}
+        </div>
+      </div>
+    </MyLedgerDoesntWorkModalWrapper>,
+    document.body,
+  );
+};
 
 /** ===========================================================================
  * Styles and Helpers
