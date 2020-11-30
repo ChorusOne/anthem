@@ -137,7 +137,7 @@ A docker image for the frontend application will be available shortly.
 
 ## 📟 Kubernetes
 
-A Kubernetes manifest file for the backend server is included in `packages/server/anthem.yaml.dist`.
+A Kubernetes manifest file for the backend server is included in `packages/server/anthem.yaml.dist`
 
 ## 🚚 CI/CD
 
