@@ -294,6 +294,9 @@ type OasisValidator {
   commission: Float!
   website: String
   iconUrl: String
+  keybase: String
+  email: String
+  twitter: String
 }
 
 type OasisAccountHistory {

@@ -39,7 +39,6 @@ import PageAddressBar from "ui/PageAddressBar";
 import {
   Button,
   Centered,
-  Link,
   PageContainer,
   PageScrollableContent,
   View,
@@ -285,9 +284,66 @@ const OasisValidatorsListPage = ({
                           </RowItem>
                           <RowItem width={300}>
                             {validator.website ? (
-                              <Link href={validator.website}>
+                              <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href={validator.website}
+                              >
                                 {validator.website}
-                              </Link>
+                              </a>
+                            ) : (
+                              "-"
+                            )}
+                          </RowItem>
+                        </ValidatorDetailRow>
+
+                        <ValidatorDetailRow>
+                          <RowItem width={200}>
+                            <H6 style={{ margin: 0 }}>Email</H6>
+                          </RowItem>
+                          <RowItem width={300}>
+                            {validator.email ? (
+                              <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href={`mailto: ${validator.email}`}
+                              >
+                                {validator.email}
+                              </a>
+                            ) : (
+                              "-"
+                            )}
+                          </RowItem>
+                        </ValidatorDetailRow>
+
+                        <ValidatorDetailRow>
+                          <RowItem width={200}>
+                            <H6 style={{ margin: 0 }}>Twitter</H6>
+                          </RowItem>
+                          <RowItem width={300}>
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={`https://twitter.com/${validator.twitter}`}
+                            >
+                              {validator.twitter}
+                            </a>
+                          </RowItem>
+                        </ValidatorDetailRow>
+
+                        <ValidatorDetailRow>
+                          <RowItem width={200}>
+                            <H6 style={{ margin: 0 }}>Keybase</H6>
+                          </RowItem>
+                          <RowItem width={300}>
+                            {validator.keybase ? (
+                              <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href={`http://keybase.io/${validator.keybase}`}
+                              >
+                                {validator.keybase}
+                              </a>
                             ) : (
                               "-"
                             )}
