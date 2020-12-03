@@ -754,6 +754,9 @@ export interface IOasisValidator {
   commission: Scalars["Float"];
   website: Maybe<Scalars["String"]>;
   iconUrl: Maybe<Scalars["String"]>;
+  keybase: Maybe<Scalars["String"]>;
+  email: Maybe<Scalars["String"]>;
+  twitter: Maybe<Scalars["String"]>;
 }
 
 export interface IParameterChangeProposal {
@@ -1948,7 +1951,7 @@ export type IOasisValidatorsQuery = (
   { __typename?: "Query" }
   & { oasisValidators: Array<(
     { __typename?: "OasisValidator" }
-    & Pick<IOasisValidator, "address" | "name" | "commission" | "website" | "iconUrl">
+    & Pick<IOasisValidator, "address" | "name" | "commission" | "website" | "iconUrl" | "keybase" | "email" | "twitter">
   )> }
 );
 
@@ -4573,6 +4576,9 @@ export const OasisValidatorsDocument = gql`
     commission
     website
     iconUrl
+    keybase
+    email
+    twitter
   }
 }
     `;

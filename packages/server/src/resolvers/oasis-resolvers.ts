@@ -120,6 +120,9 @@ const OasisResolvers = {
         website: validator.website,
         iconUrl:
           validator.icon || "https://www.oasisscan.com/_nuxt/img/d7112e0.png",
+        email: validator.email,
+        keybase: validator.keybase,
+        twitter: validator.twitter,
       }));
   },
 };
