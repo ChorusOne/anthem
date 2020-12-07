@@ -111,19 +111,22 @@ const OasisResolvers = {
 
     const result = { data: oasisScrapedValidators };
 
-    return result.data.data.list
-      .filter(validator => validator.active)
-      .map(validator => ({
-        address: validator.entityAddress,
-        name: validator.name || validator.entityAddress,
-        commission: validator.commission,
-        website: validator.website,
-        iconUrl:
-          validator.icon || "https://www.oasisscan.com/_nuxt/img/d7112e0.png",
-        email: validator.email,
-        keybase: validator.keybase,
-        twitter: validator.twitter,
-      }));
+    return (
+      result.data.data.list
+        // .filter(validator => validator.active)
+        .map(validator => ({
+          address: validator.entityAddress,
+          name: validator.name || validator.entityAddress,
+          commission: validator.commission,
+          website: validator.website,
+          iconUrl:
+            validator.icon || "https://www.oasisscan.com/_nuxt/img/d7112e0.png",
+          email: validator.email,
+          keybase: validator.keybase,
+          twitter: validator.twitter,
+          active: validator.active || false,
+        }))
+    );
   },
 };
 

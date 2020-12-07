@@ -8,5 +8,6 @@ query oasisValidators{
         keybase
         email
         twitter
+        active
     }
 }

@@ -757,6 +757,7 @@ export interface IOasisValidator {
   keybase: Maybe<Scalars["String"]>;
   email: Maybe<Scalars["String"]>;
   twitter: Maybe<Scalars["String"]>;
+  active: Maybe<Scalars["Boolean"]>;
 }
 
 export interface IParameterChangeProposal {
@@ -1951,7 +1952,7 @@ export type IOasisValidatorsQuery = (
   { __typename?: "Query" }
   & { oasisValidators: Array<(
     { __typename?: "OasisValidator" }
-    & Pick<IOasisValidator, "address" | "name" | "commission" | "website" | "iconUrl" | "keybase" | "email" | "twitter">
+    & Pick<IOasisValidator, "address" | "name" | "commission" | "website" | "iconUrl" | "keybase" | "email" | "twitter" | "active">
   )> }
 );
 
@@ -4579,6 +4580,7 @@ export const OasisValidatorsDocument = gql`
     keybase
     email
     twitter
+    active
   }
 }
     `;

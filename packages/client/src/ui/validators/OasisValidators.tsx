@@ -238,6 +238,7 @@ const OasisValidatorsListPage = ({
                           isExpanded ? null : validator.address,
                         )
                       }
+                      style={{ opacity: validator.active ? 1 : 0.2 }}
                     >
                       <RowItem width={45}>
                         <TxIcon src={validator.iconUrl || undefined} />
@@ -260,6 +261,15 @@ const OasisValidatorsListPage = ({
 
                     <Collapse isOpen={isExpanded}>
                       <ValidatorDetails>
+                        <ValidatorDetailRow>
+                          <RowItem width={200}>
+                            <H6 style={{ margin: 0 }}>Status</H6>
+                          </RowItem>
+                          <RowItem style={{ fontWeight: "bold" }} width={300}>
+                            {validator.active ? "ACTIVE" : "INACTIVE"}
+                          </RowItem>
+                        </ValidatorDetailRow>
+
                         <ValidatorDetailRow>
                           <RowItem width={200}>
                             <H6 style={{ margin: 0 }}>Operator Address</H6>
