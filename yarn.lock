@@ -5422,6 +5422,11 @@ JSONStream@^1.0.4, JSONStream@^1.3.4:
     jsonparse "^1.2.0"
     through ">=2.2.7 <3"
 
+a-simple-cache@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/a-simple-cache/-/a-simple-cache-2.0.1.tgz#8d1a01732baf4c4d238af7326079ad429582865c"
+  integrity sha512-2lL9XGR4B9UcCSHASG86c/RrqZu6WKCSwfLiV+9VyHUbfxnKuD0nLGJ5FR5cU22ELxxVxTw22XFJtxASm8A2qQ==
+
 abab@^2.0.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.3.tgz#623e2075e02eb2d3f2475e49f99c91846467907a"
