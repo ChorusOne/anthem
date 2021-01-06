@@ -111,6 +111,22 @@ export const PageContainer = styled.div`
 export const PageContainerScrollable = styled(PageContainer)`
   overflow-y: scroll;
   padding-bottom: 50px;
+
+  .contentful {
+    h1 {
+      font-weight: bold;
+      margin-top: 24px;
+      line-height: 25px;
+      font-size: 22px;
+      color: #182026;
+      padding-bottom: 10px;
+      margin-bottom: 30px;
+
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+      border-color: #a7b6c2;
+    }
+  }
 `;
 
 /** ===========================================================================
