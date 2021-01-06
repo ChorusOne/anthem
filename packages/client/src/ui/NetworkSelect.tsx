@@ -1,21 +1,18 @@
 import { AVAILABLE_NETWORKS, NETWORK_NAME } from "@anthem/utils";
 import { Card, Icon } from "@blueprintjs/core";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import { BLOCKS } from "@contentful/rich-text-types";
 import { NetworkLogoIcon } from "assets/images";
-import axios from "axios";
 import { COLORS } from "constants/colors";
 import { SIGNIN_TYPE } from "modules/ledger/actions";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux";
-import styled, { CSSProperties } from "styled-components";
+import styled from "styled-components";
 import Analytics from "tools/analytics-utils";
-import ENV from "tools/client-env";
 import { capitalizeString, onPath } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
+import { LedgerHelpText } from "./LedgerHelpText";
 import { View } from "./SharedComponents";
 
 /** ===========================================================================
@@ -189,22 +186,8 @@ const MyLedgerDoesntWorkModal = ({
   setShouldShowModal,
 }: {
   setShouldShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-  const [contentfulData, setContentfulData] = useState<any>(null);
-
-  useEffect(() => {
-    const getAndSaveData = async () => {
-      const response = await axios.get(
-        `${ENV.SERVER_URL}/api/my-ledger-doesnt-work`,
-      );
-
-      setContentfulData(response.data);
-    };
-
-    getAndSaveData();
-  }, []);
-
-  return ReactDOM.createPortal(
+}) =>
+  ReactDOM.createPortal(
     <MyLedgerDoesntWorkModalWrapper onClick={event => event.stopPropagation()}>
       <div className="inner">
         <Icon
@@ -215,31 +198,12 @@ const MyLedgerDoesntWorkModal = ({
         />
 
         <div className="inner-inner">
-          {contentfulData?.items?.[0]?.fields?.content
-            ? documentToReactComponents(
-                contentfulData.items[0].fields.content,
-                {
-                  renderNode: {
-                    [BLOCKS.EMBEDDED_ASSET]: node => {
-                      console.log(node);
-
-                      return (
-                        <img
-                          alt="from contentful"
-                          src={node.data.target.fields.file.url}
-                        />
-                      );
-                    },
-                  },
-                },
-              )
-            : null}
+          <LedgerHelpText />
         </div>
       </div>
     </MyLedgerDoesntWorkModalWrapper>,
     document.body,
   );
-};
 
 /** ===========================================================================
  * Styles and Helpers

@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { composeWithProps } from "tools/context-utils";
 import { IThemeProps } from "ui/containers/ThemeContainer";
+import { LedgerHelpText } from "ui/LedgerHelpText";
 import { Link, PageContainerScrollable, PageTitle } from "ui/SharedComponents";
 
 /** ===========================================================================
@@ -200,6 +201,11 @@ const HelpPage: React.FC<IProps> = (props: IProps) => {
           address.
         </p>
       </RowContainer>
+
+      <div className="contentful">
+        <LedgerHelpText />
+      </div>
+
       <PageTitle data-cy="help-page-title">Celo Network</PageTitle>
       <Line />
       <RowContainer id="help-page-data-integrity-disclaimer">
