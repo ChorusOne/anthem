@@ -454,8 +454,8 @@ class CeloTransactionForm extends React.Component<IProps, IState> {
           const balance = renderCurrencyValue({
             denomSize: network.denominationSize,
             value: availableGoldBalance,
-            fiatPrice: exchangeRate.price,
-            convertToFiat: true,
+            fiatPrice: 0,
+            convertToFiat: false,
           });
           const fiatBalance = renderCurrencyValue({
             denomSize: network.denominationSize,
