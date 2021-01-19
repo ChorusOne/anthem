@@ -13,7 +13,7 @@ import { COLORS } from "constants/colors";
 import { LEDGER_ACTION_TYPE } from "modules/ledger/actions";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -38,7 +38,7 @@ import {
   View,
 } from "ui/SharedComponents";
 import LoginSetup from "../LoginStart";
-import NetworkSelect from "../NetworkSelect";
+import NetworkSelect, { MyLedgerDoesntWorkModal } from "../NetworkSelect";
 import CeloTransactionWorkflows from "./CeloTransactionWorkflows";
 import CosmosTransactionWorkflows from "./CosmosTransactionWorkflows";
 import OasisTransactionWorkflows from "./OasisTransactionWorkflows";
@@ -263,6 +263,7 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
             If you experience issues, disconnect and reconnect your Ledger.
           </H6>
         </Row>
+
         {ledgerAppVersionValid === false ? (
           <Centered style={{ flexDirection: "column", marginTop: 52 }}>
             <ErrorText>
@@ -286,9 +287,16 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
           </Centered>
         ) : (
           <Centered style={{ marginTop: 18 }}>
-            <LoaderBars />
+            <LoaderBars style={{ padding: "12px 0" }} width={86} height={86} />
           </Centered>
         )}
+
+        <Row style={{ justifyContent: "left" }}>
+          <H6 style={{ margin: 0 }}>
+            <MyLedgerDoesntWork />
+          </H6>
+        </Row>
+
         {this.renderBackArrow()}
         <HrefLink
           style={{
@@ -570,7 +578,6 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
         return null;
       default:
         assertUnreachable(network.name);
-        return null;
     }
   };
 
@@ -578,6 +585,41 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
     this.setState({ canEscapeKeyCloseDialog: canClose });
   };
 }
+
+const StyledMyLedgerDoesntWorkLink = styled.span`
+  display: block;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 22px;
+  cursor: pointer;
+  border-radius: 4px;
+  box-shadow: 0 0 39px rgba(0, 0, 0, 0.2);
+  padding: 6px 10%;
+  background: #1d818b;
+  text-align: center;
+  font-weight: normal;
+
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
+const MyLedgerDoesntWork = () => {
+  const [shouldShowModal, setShouldShowModal] = useState(false);
+
+  return (
+    <>
+      <StyledMyLedgerDoesntWorkLink onClick={() => setShouldShowModal(true)}>
+        Is your ledger not working? You might need to adjust some settings on
+        your browser.
+      </StyledMyLedgerDoesntWorkLink>
+
+      {shouldShowModal && (
+        <MyLedgerDoesntWorkModal setShouldShowModal={setShouldShowModal} />
+      )}
+    </>
+  );
+};
 
 /** ===========================================================================
  * Styles and Helpers
@@ -626,6 +668,7 @@ const Circle = styled.div`
   border-radius: 50%;
   border-style: solid;
   border-color: ${COLORS.CTA};
+  flex-shrink: 0;
 `;
 
 const BackArrow = () => (
