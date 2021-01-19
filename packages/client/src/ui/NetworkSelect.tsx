@@ -182,7 +182,7 @@ const MyLedgerDoesntWork = () => {
   );
 };
 
-const MyLedgerDoesntWorkModal = ({
+export const MyLedgerDoesntWorkModal = ({
   setShouldShowModal,
 }: {
   setShouldShowModal: React.Dispatch<React.SetStateAction<boolean>>;

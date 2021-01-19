@@ -216,7 +216,7 @@ const connectLedgerEpic: EpicSignature = (action$, state$, deps) => {
             );
           } catch (error) {
             console.log(error);
-            let retryDelay = 500;
+            let retryDelay = 2500;
             const { message } = error;
 
             if (message === LEDGER_ERRORS.BROWSER_NOT_SUPPORTED) {

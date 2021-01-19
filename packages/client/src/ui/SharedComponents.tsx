@@ -158,9 +158,22 @@ export const PageTitle = (props: {
  * LoaderBars
  * ============================================================================
  */
-export const LoaderBars = ({ style }: { style?: React.CSSProperties }) => (
+export const LoaderBars = ({
+  style,
+  height,
+  width,
+}: {
+  style?: React.CSSProperties;
+  width?: number;
+  height?: number;
+}) => (
   <View style={style}>
-    <Loader type="Bars" color={COLORS.CTA} height={124} width={124} />
+    <Loader
+      type="Bars"
+      color={COLORS.CTA}
+      height={height || 124}
+      width={width || 124}
+    />
   </View>
 );
 
