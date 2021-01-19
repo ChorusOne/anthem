@@ -49,7 +49,12 @@ import { composeWithProps } from "tools/context-utils";
 import { TRANSACTION_STAGES } from "tools/cosmos-transaction-utils";
 import { renderCurrencyValue, unitToDenom } from "tools/currency-utils";
 import { bold } from "tools/i18n-utils";
-import { isGreaterThan, multiply, subtract } from "tools/math-utils";
+import {
+  isGreaterThan,
+  isLessThan,
+  multiply,
+  subtract,
+} from "tools/math-utils";
 import {
   validateBech32Address,
   validateLedgerTransactionAmount,
@@ -439,6 +444,13 @@ class OasisTransactionForm extends React.Component<IProps, IState> {
 
                               if (!this.state.amount) {
                                 alert("Please enter an amount");
+                                return;
+                              }
+
+                              if (isLessThan(this.state.amount, 100)) {
+                                alert(
+                                  "Sorry, the minimum delegation amount is 100 ROSE!",
+                                );
                                 return;
                               }
 
