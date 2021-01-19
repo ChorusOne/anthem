@@ -85,6 +85,7 @@ export const getHighchartsChartOptions = (
       marginLeft: 76,
       backgroundColor: "transparent",
       height: fullSize ? window.innerHeight - 250 : 225,
+      zoomType: "x",
     },
     credits: {
       enabled: false,
