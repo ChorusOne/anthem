@@ -4,6 +4,7 @@ import {
   CeloTransactionsDocument,
   CosmosAccountBalancesDocument,
   CosmosTransactionsDocument,
+  deriveNetworkFromAddress,
   validatorAddressToOperatorAddress,
   wait,
 } from "@anthem/utils";
@@ -76,7 +77,19 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
       // Try to initialize the transactions page from the url
       const paramsPage = Number(params.page);
       const page = !isNaN(paramsPage) ? paramsPage : 1;
-      const network = initializeNetwork(window.location.pathname, address);
+      let network = initializeNetwork(window.location.pathname, address);
+
+      const derivedNetwork = deriveNetworkFromAddress(address);
+
+      const onDifferentNetwork = network.name !== derivedNetwork.name;
+
+      // Redirecting to correct location if the network does not match with that of the address
+      if (onDifferentNetwork) {
+        network = derivedNetwork;
+        deps.router.replace({
+          pathname: `/${derivedNetwork.name.toLowerCase()}/total`,
+        });
+      }
 
       return Actions.initializeAppSuccess({
         address,
