@@ -79,16 +79,18 @@ const appInitializationEpic: EpicSignature = (action$, state$, deps) => {
       const page = !isNaN(paramsPage) ? paramsPage : 1;
       let network = initializeNetwork(window.location.pathname, address);
 
-      const derivedNetwork = deriveNetworkFromAddress(address);
+      if (address) {
+        const derivedNetwork = deriveNetworkFromAddress(address);
 
-      const onDifferentNetwork = network.name !== derivedNetwork.name;
+        const onDifferentNetwork = network.name !== derivedNetwork.name;
 
-      // Redirecting to correct location if the network does not match with that of the address
-      if (onDifferentNetwork) {
-        network = derivedNetwork;
-        deps.router.replace({
-          pathname: `/${derivedNetwork.name.toLowerCase()}/total`,
-        });
+        // Redirecting to correct location if the network does not match with that of the address
+        if (onDifferentNetwork) {
+          network = derivedNetwork;
+          deps.router.replace({
+            pathname: `/${derivedNetwork.name.toLowerCase()}/total`,
+          });
+        }
       }
 
       return Actions.initializeAppSuccess({
