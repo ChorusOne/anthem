@@ -277,7 +277,7 @@ export const getPortfolioTypeFromUrl = (
  * Initialize the network when the app launches.
  */
 export const initializeNetwork = (
-  _url: string,
+  _: string,
   address: string,
 ): NetworkDefinition => {
   // Due to a spammy error (https://sentry.io/organizations/chorus-one/issues/1638505828/events/e03550f4e2514fa9990331a095442149/?project=1531694)
