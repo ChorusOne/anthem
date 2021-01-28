@@ -277,14 +277,12 @@ export const getPortfolioTypeFromUrl = (
  * Initialize the network when the app launches.
  */
 export const initializeNetwork = (
-  url: string,
+  _url: string,
   address: string,
 ): NetworkDefinition => {
-  const network = url.split("/")[1];
-  const networkDefinition = NETWORKS[network.toUpperCase()];
-  if (networkDefinition) {
-    return networkDefinition;
-  } else if (address) {
+  // Due to a spammy error (https://sentry.io/organizations/chorus-one/issues/1638505828/events/e03550f4e2514fa9990331a095442149/?project=1531694)
+  // we are now only deriving the network from the address
+  if (address) {
     const derivedNetwork = deriveNetworkFromAddress(address);
     return derivedNetwork;
   } else {
