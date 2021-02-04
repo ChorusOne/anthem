@@ -165,11 +165,10 @@ class DashboardPage extends React.Component<IProps> {
     // For OASIS - Conditionally rendering the "REWARDS" tab based on data
     // i.e., Don't render the tab if sum of all the rewards data is 0
     if (oasisAccountHistory) {
-      let sumOfRewards = 0;
-
-      oasisAccountHistory.forEach(account => {
-        sumOfRewards = sumOfRewards + (parseInt(account.rewards) || 0);
-      });
+      const sumOfRewards = oasisAccountHistory.reduce(
+        (prev, current) => prev + (parseInt(current.rewards) || 0),
+        0,
+      );
 
       if (sumOfRewards > 0) {
         tabs.REWARDS = "REWARDS";
