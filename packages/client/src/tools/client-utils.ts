@@ -199,6 +199,8 @@ export const getChartTabsForNetwork = (network: NetworkDefinition) => {
 
       if (key === "STAKING" && network.name === "CELO") {
         continue;
+      } else if (key === "REWARDS" && network.name === "OASIS") {
+        continue;
       } else {
         result[key] = value;
       }
