@@ -38,6 +38,11 @@ import PortfolioSwitchContainer from "ui/portfolio/PortfolioSwitchContainer";
 import { View } from "ui/SharedComponents";
 import Toast from "ui/Toast";
 import TransactionSwitchContainer from "ui/transactions/TransactionSwitchContainer";
+import {
+  OasisAccountHistoryProps,
+  withGraphQLVariables,
+  withOasisAccountHistory,
+} from "../../graphql/queries";
 
 /** ===========================================================================
  * React Component
@@ -144,11 +149,31 @@ class DashboardPage extends React.Component<IProps> {
   }
 
   renderDashboardNavigationLinks = () => {
-    const { address, ledger, history, settings, location } = this.props;
+    const {
+      address,
+      ledger,
+      history,
+      settings,
+      location,
+      oasisAccountHistory: { oasisAccountHistory },
+    } = this.props;
     const { network } = ledger;
     const { pathname } = location;
 
     const tabs = getChartTabsForNetwork(network);
+
+    // For OASIS - Conditionally rendering the "REWARDS" tab based on data
+    // i.e., Don't render the tab if sum of all the rewards data is 0
+    if (oasisAccountHistory) {
+      const sumOfRewards = oasisAccountHistory.reduce(
+        (prev, current) => prev + (parseInt(current.rewards) || 0),
+        0,
+      );
+
+      if (sumOfRewards > 0) {
+        tabs.REWARDS = "REWARDS";
+      }
+    }
 
     if (settings.isDesktop) {
       return (
@@ -448,7 +473,11 @@ type ConnectProps = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
 interface ComponentProps {}
 
-interface IProps extends ComponentProps, ConnectProps, RouteComponentProps {}
+interface IProps
+  extends ComponentProps,
+    ConnectProps,
+    RouteComponentProps,
+    OasisAccountHistoryProps {}
 
 /** ===========================================================================
  * Export
@@ -458,4 +487,6 @@ interface IProps extends ComponentProps, ConnectProps, RouteComponentProps {}
 export default composeWithProps<ComponentProps>(
   withProps,
   withRouter,
+  withGraphQLVariables,
+  withOasisAccountHistory,
 )(DashboardPage);
