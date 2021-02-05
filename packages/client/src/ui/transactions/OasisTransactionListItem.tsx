@@ -338,7 +338,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
 
   renderBlockExplorerLink = (transaction: IOasisTransaction) => {
     const { hash } = transaction;
-    const link = `https://oasismonitor.com/operation/${hash}`;
+    const link = `https://oasisscan.com/transactions/${hash}`;
     return (
       <a target="_blank" href={link} rel="noopener noreferrer">
         <ClickableEventRow onClick={() => null}>
@@ -347,7 +347,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
           </EventIconBox>
           <EventContextBox>
             <EventText style={{ fontWeight: 200 }}>
-              View on Oasis Monitor
+              View on Oasis Scan
             </EventText>
           </EventContextBox>
         </ClickableEventRow>
