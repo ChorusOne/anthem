@@ -49,7 +49,6 @@ class NotificationsBanner extends React.Component<IProps> {
 
     switch (name) {
       case "COSMOS":
-      case "TERRA":
         return (
           <BannerText>
             <b>
@@ -70,6 +69,8 @@ class NotificationsBanner extends React.Component<IProps> {
             </Link>
           </BannerText>
         );
+      case "TERRA":
+        return <BannerText>Terra is no longer supported. </BannerText>;
       case "KAVA":
         return (
           <BannerText>
