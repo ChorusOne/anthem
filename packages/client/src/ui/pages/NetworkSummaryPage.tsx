@@ -92,102 +92,104 @@ class NetworkSummaryPage extends React.Component<IProps> {
                     </ItemHeader>
                     <ItemHeader />
                   </HeaderRow>
-                  {summaries.map(summary => {
-                    const name = summary.name as NETWORK_NAME;
+                  {summaries
+                    .filter(({ name }) => name !== "TERRA")
+                    .map(summary => {
+                      const name = summary.name as NETWORK_NAME;
 
-                    const {
-                      inflation,
-                      tokenPrice,
-                      lastDayChange,
-                      expectedReward,
-                      supportsLedger,
-                      marketCapitalization,
-                    } = summary;
+                      const {
+                        inflation,
+                        tokenPrice,
+                        lastDayChange,
+                        expectedReward,
+                        supportsLedger,
+                        marketCapitalization,
+                      } = summary;
 
-                    return (
-                      <Row key={name}>
-                        <Item style={{ width: 45 }}>
-                          <NetworkLogoIcon network={name} />
-                        </Item>
-                        <Item>
-                          <Text>
-                            {name ? <b>{capitalizeString(name)}</b> : "n/a"}
-                          </Text>
-                        </Item>
-                        <Item>
-                          <Text>
-                            {tokenPrice ? (
-                              <span>
-                                {letter}
-                                {formatCurrencyAmount(tokenPrice, 2)}
-                              </span>
-                            ) : (
-                              "n/a"
+                      return (
+                        <Row key={name}>
+                          <Item style={{ width: 45 }}>
+                            <NetworkLogoIcon network={name} />
+                          </Item>
+                          <Item>
+                            <Text>
+                              {name ? <b>{capitalizeString(name)}</b> : "n/a"}
+                            </Text>
+                          </Item>
+                          <Item>
+                            <Text>
+                              {tokenPrice ? (
+                                <span>
+                                  {letter}
+                                  {formatCurrencyAmount(tokenPrice, 2)}
+                                </span>
+                              ) : (
+                                "n/a"
+                              )}
+                            </Text>
+                          </Item>
+                          <Item>
+                            <Text>
+                              {lastDayChange ? (
+                                <PercentChangeText value={lastDayChange} />
+                              ) : (
+                                "n/a"
+                              )}
+                            </Text>
+                          </Item>
+                          <Item>
+                            <Text>
+                              {marketCapitalization ? (
+                                <span>
+                                  {letter}
+                                  {formatCurrencyAmount(marketCapitalization)}
+                                </span>
+                              ) : (
+                                "n/a"
+                              )}
+                            </Text>
+                          </Item>
+                          <Item>
+                            <Text>
+                              {expectedReward ? (
+                                <span>{expectedReward.toFixed(2)}%</span>
+                              ) : (
+                                "n/a"
+                              )}
+                            </Text>
+                          </Item>
+                          <Item>
+                            <Text>
+                              {inflation ? (
+                                <span>{inflation.toFixed(2)}%</span>
+                              ) : (
+                                "n/a"
+                              )}
+                            </Text>
+                          </Item>
+                          <Item>
+                            <Text>
+                              {expectedReward && inflation ? (
+                                <span>
+                                  {(expectedReward - inflation).toFixed(2)}%
+                                </span>
+                              ) : (
+                                "n/a"
+                              )}
+                            </Text>
+                          </Item>
+                          <Item>
+                            {supportsLedger && (
+                              <Button
+                                onClick={() => this.handleConnectNetwork(name)}
+                              >
+                                Connect
+                              </Button>
                             )}
-                          </Text>
-                        </Item>
-                        <Item>
-                          <Text>
-                            {lastDayChange ? (
-                              <PercentChangeText value={lastDayChange} />
-                            ) : (
-                              "n/a"
-                            )}
-                          </Text>
-                        </Item>
-                        <Item>
-                          <Text>
-                            {marketCapitalization ? (
-                              <span>
-                                {letter}
-                                {formatCurrencyAmount(marketCapitalization)}
-                              </span>
-                            ) : (
-                              "n/a"
-                            )}
-                          </Text>
-                        </Item>
-                        <Item>
-                          <Text>
-                            {expectedReward ? (
-                              <span>{expectedReward.toFixed(2)}%</span>
-                            ) : (
-                              "n/a"
-                            )}
-                          </Text>
-                        </Item>
-                        <Item>
-                          <Text>
-                            {inflation ? (
-                              <span>{inflation.toFixed(2)}%</span>
-                            ) : (
-                              "n/a"
-                            )}
-                          </Text>
-                        </Item>
-                        <Item>
-                          <Text>
-                            {expectedReward && inflation ? (
-                              <span>
-                                {(expectedReward - inflation).toFixed(2)}%
-                              </span>
-                            ) : (
-                              "n/a"
-                            )}
-                          </Text>
-                        </Item>
-                        <Item>
-                          {supportsLedger && (
-                            <Button
-                              onClick={() => this.handleConnectNetwork(name)}
-                            >
-                              Connect
-                            </Button>
-                          )}
-                        </Item>
-                      </Row>
-                    );
-                  })}
+                          </Item>
+                        </Row>
+                      );
+                    })}
                 </Card>
               </Scrollable>
             );
