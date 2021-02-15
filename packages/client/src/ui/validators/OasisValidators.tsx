@@ -4,23 +4,14 @@ import {
   useOasisAccountBalancesQuery,
   useOasisValidatorsQuery,
 } from "@anthem/utils";
-import client from "graphql/apollo-client";
-
 import { Card, Collapse, H5, H6, Icon, Spinner } from "@blueprintjs/core";
 import { CopyIcon, NetworkLogoIcon } from "assets/images";
 import { COLORS } from "constants/colors";
+import client from "graphql/apollo-client";
 import {
-  CosmosAccountBalancesProps,
   FiatPriceDataProps,
-  RewardsByValidatorProps,
-  StakingPoolProps,
-  ValidatorsProps,
-  withCosmosAccountBalances,
   withFiatPriceData,
   withGraphQLVariables,
-  withRewardsByValidatorQuery,
-  withStakingPool,
-  withValidators,
 } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
@@ -61,14 +52,7 @@ import {
  * ============================================================================
  */
 interface ComponentProps {}
-interface IProps
-  extends ComponentProps,
-    ValidatorsProps,
-    StakingPoolProps,
-    FiatPriceDataProps,
-    CosmosAccountBalancesProps,
-    RewardsByValidatorProps,
-    ConnectProps {}
+interface IProps extends ComponentProps, FiatPriceDataProps, ConnectProps {}
 
 const TxIcon = styled.img`
   width: 32px;
@@ -644,9 +628,5 @@ const withProps = connect(mapStateToProps, dispatchProps);
 export const OasisValidators = composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
-  withValidators,
-  withStakingPool,
   withFiatPriceData,
-  withCosmosAccountBalances,
-  withRewardsByValidatorQuery,
 )(OasisValidatorsListPage);
