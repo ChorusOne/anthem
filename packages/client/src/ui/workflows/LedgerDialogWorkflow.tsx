@@ -415,6 +415,9 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
               <AddressSubtitle>
                 Don't have an address on hand? Choose one below to explore a
                 network you're interested in.
+                <p className="note">
+                  NOTE: Please do NOT send funds to these addresses.
+                </p>
               </AddressSubtitle>
               <Column
                 style={{ marginTop: 6, maxHeight: 85, overflowY: "scroll" }}
@@ -679,7 +682,11 @@ const BackArrow = () => (
   />
 );
 
-const AddressSubtitle = styled.b``;
+const AddressSubtitle = styled.b`
+  .note {
+    margin: 12px 0;
+  }
+`;
 
 const ClearAllLink = styled.p`
   width: 150px;
