@@ -11,11 +11,7 @@ import { IconNames } from "@blueprintjs/icons";
 import { ChorusLogo } from "assets/icons";
 import { NetworkLogoIcon } from "assets/images";
 import { COLORS } from "constants/colors";
-import {
-  ValidatorsProps,
-  withGraphQLVariables,
-  withValidators,
-} from "graphql/queries";
+import { ValidatorsProps, withGraphQLVariables } from "graphql/queries";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
@@ -614,6 +610,5 @@ interface IProps
 export default composeWithProps<ComponentProps>(
   withProps,
   withGraphQLVariables,
-  withValidators,
   withRouter,
 )(SideMenuComponent);
