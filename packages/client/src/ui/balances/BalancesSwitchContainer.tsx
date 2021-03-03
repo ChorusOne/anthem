@@ -84,7 +84,7 @@ class BalancesSwitchContainer extends React.Component<IProps, IState> {
       case "TERRA":
       case "KAVA":
       case "COSMOS":
-        return <CosmosBalances />;
+        return null;
       case "OASIS":
         return <OasisBalances />;
       case "CELO":

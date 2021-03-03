@@ -76,12 +76,7 @@ class PortfolioSwitchContainer extends React.Component<IProps, IState> {
     switch (network.name) {
       case "TERRA":
       case "COSMOS":
-        return (
-          <CosmosPortfolio
-            fullSize={this.props.fullSize}
-            downloadDataToFile={this.downloadDataToFile}
-          />
-        );
+        return null;
       case "OASIS":
         return (
           <OasisPortfolio

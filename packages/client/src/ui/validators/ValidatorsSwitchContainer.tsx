@@ -76,7 +76,7 @@ class ValidatorsSwitchContainer extends React.Component<IProps, IState> {
     switch (network.name) {
       case "TERRA":
       case "COSMOS":
-        return <CosmosValidators />;
+        return null;
       case "OASIS":
         return <OasisValidators />;
       case "CELO":

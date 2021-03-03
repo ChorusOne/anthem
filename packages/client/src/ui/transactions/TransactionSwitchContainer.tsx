@@ -76,7 +76,7 @@ class TransactionSwitchContainer extends React.Component<IProps, IState> {
     switch (network.name) {
       case "TERRA":
       case "COSMOS":
-        return <CosmosTransactionContainer />;
+        return null;
       case "OASIS":
         return <OasisTransactionContainer />;
       case "CELO":
