@@ -4,16 +4,16 @@
     "height": "2556626",
     "availableGoldBalance": "1000000000000000016",
     "totalLockedGoldBalance": "50963195658106474251698",
-    "nonVotingLockedGoldBalance": "0",
+    "nonVotingLockedGoldBalance": "1",
     "votingLockedGoldBalance": "40963195658106474251698",
-    "pendingWithdrawalBalance": "0",
+    "pendingWithdrawalBalance": "1",
     "celoUSDValue": "5970399386662756655185",
     "delegations": [
       {
         "group": "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
         "totalVotes": "50963195658106474251698",
         "activeVotes": "50963195658106474251698",
-        "pendingVotes": "0"
+        "pendingVotes": "1"
       }
     ]
   }
