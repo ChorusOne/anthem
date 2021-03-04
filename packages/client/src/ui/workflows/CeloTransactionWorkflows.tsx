@@ -1108,7 +1108,7 @@ class CeloTransactionForm extends React.Component<IProps, IState> {
         active={modifiers.active}
         key={validator.group}
         text={validator.name}
-        data-cy={`${validator.name}-delegation-option`}
+        data-cy={`${validator.name.split(" ").join("")}-delegation-option`}
       />
     );
   };
