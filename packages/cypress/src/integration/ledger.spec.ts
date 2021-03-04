@@ -7,7 +7,7 @@ import { UTILS, getScreenType } from "../support/cypress-utils";
 
 describe("Test Ledger Transactions", () => {
   beforeEach(() => {
-    UTILS.loginWithAddress(getScreenType(), "cosmos", true);
+    UTILS.loginWithAddress(getScreenType(), "celo", true);
   });
 
   afterEach(() => {
@@ -17,10 +17,10 @@ describe("Test Ledger Transactions", () => {
   // Error with no value:
   it("The delegation transaction workflow can be completed", () => {
     UTILS.findAndClick("stake-button");
-    UTILS.findAndClick(
-      "validator-cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
-    );
+    UTILS.findAndClick("validator-0x81cef0668e15639d0b101bdc3067699309d73bed");
     UTILS.findAndClick("delegate-button");
+    UTILS.findAndClick("ledger-dialog-confirmation-button");
+    UTILS.findAndClick("ledger-dialog-confirmation-button");
     UTILS.findAndClick("ledger-dialog-confirmation-button");
     UTILS.shouldMatchText(
       "amount-transaction-error",
@@ -29,7 +29,7 @@ describe("Test Ledger Transactions", () => {
 
     // Open the validator menu and selector a validator
     UTILS.findAndClick("validator-composition-select-menu");
-    UTILS.findAndClick("Cosmostation-delegation-option");
+    UTILS.findAndClick("ChorusOne-delegation-option");
 
     // Error with very large value added:
     UTILS.typeText("transaction-amount-input", "500000000000");
@@ -40,63 +40,43 @@ describe("Test Ledger Transactions", () => {
     );
 
     UTILS.findAndClick("transaction-delegate-all-toggle");
-    UTILS.findAndClick("toggle-custom-gas-settings");
-
-    UTILS.typeText("custom-gas-price-input", "0.05");
-    UTILS.typeText("custom-gas-amount-input", "200000");
 
     UTILS.findAndClick("ledger-dialog-confirmation-button");
     UTILS.findAndClick("ledger-dialog-confirmation-button");
     cy.wait(5000);
-    UTILS.findAndClick("transaction-submit-button");
-    cy.wait(5000);
+
     UTILS.findAndClick("transaction-dialog-close-button");
   });
 
-  it("The rewards claim transaction workflow can be completed", () => {
+  it("The unlocking transaction workflow can be completed", () => {
     UTILS.findAndClick("stake-button");
-    UTILS.findAndClick(
-      "validator-cosmosvaloper15urq2dtp9qce4fyc85m6upwm9xul3049e02707",
-    );
-    UTILS.findAndClick("claim-rewards-button");
+    UTILS.findAndClick("unlock-gold-button");
+    UTILS.findAndClick("ledger-dialog-confirmation-button");
+    UTILS.findAndClick("ledger-dialog-confirmation-button");
     UTILS.findAndClick("ledger-dialog-confirmation-button");
 
     // Error with no validators selected:
     UTILS.shouldMatchText(
-      "claims-transaction-error",
-      "Please select at least one validator to withdraw rewards from.",
+      "amount-transaction-error",
+      "Please input an amount.",
     );
 
-    // Check both:
-    UTILS.findAndClick("validator-check-option-0");
-    UTILS.findAndClick("validator-check-option-1");
-
-    // Uncheck both:
-    UTILS.findAndClick("validator-check-option-0");
-    UTILS.findAndClick("validator-check-option-1");
-
-    UTILS.findAndClick("ledger-dialog-confirmation-button");
-
-    // Error should persist after checking and unchecking both options;
-    UTILS.shouldMatchText(
-      "claims-transaction-error",
-      "Please select at least one validator to withdraw rewards from.",
-    );
-
-    // Check both and proceed
-    UTILS.findAndClick("validator-check-option-0");
-    UTILS.findAndClick("validator-check-option-1");
+    UTILS.findAndClick("transaction-delegate-all-toggle");
 
     UTILS.findAndClick("ledger-dialog-confirmation-button");
     UTILS.findAndClick("ledger-dialog-confirmation-button");
     cy.wait(5000);
-    UTILS.findAndClick("transaction-submit-button");
-    cy.wait(5000);
+
     UTILS.findAndClick("transaction-dialog-close-button");
   });
 
   it("The send transaction workflow can be completed", () => {
     UTILS.findAndClick("send-receive-button");
+
+    // Connect with ledger
+    UTILS.findAndClick("CELO-network-login");
+    UTILS.findAndClick("ledger-dialog-confirmation-button");
+    UTILS.findAndClick("ledger-dialog-confirmation-button");
     UTILS.findAndClick("ledger-dialog-confirmation-button");
 
     // Error with no validators selected:
@@ -106,7 +86,7 @@ describe("Test Ledger Transactions", () => {
     );
 
     // Error with very large value added:
-    UTILS.typeText("transaction-send-amount-input", "500000000000");
+    UTILS.typeText("transaction-send-amount-input", "5000000000000000000");
     UTILS.findAndClick("ledger-dialog-confirmation-button");
     UTILS.shouldMatchText(
       "amount-send-transaction-error",
@@ -117,18 +97,11 @@ describe("Test Ledger Transactions", () => {
     UTILS.typeText("transaction-send-amount-input", "1");
     UTILS.typeText(
       "transaction-send-recipient-input",
-      "cosmos15v50ymp6n5dn73erkqtmq0u8adpl8d3ujv2e74",
+      "0x47b2dB6af05a55d42Ed0F3731735F9479ABF0673",
     );
 
-    // Set gas settings
-    UTILS.findAndClick("toggle-custom-gas-settings");
-    UTILS.typeText("custom-gas-price-input", "0.05");
-    UTILS.typeText("custom-gas-amount-input", "200000");
-
     UTILS.findAndClick("ledger-dialog-confirmation-button");
     UTILS.findAndClick("ledger-dialog-confirmation-button");
-    cy.wait(5000);
-    UTILS.findAndClick("transaction-submit-button");
     cy.wait(5000);
     UTILS.findAndClick("transaction-dialog-close-button");
   });
