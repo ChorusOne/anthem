@@ -8,7 +8,6 @@ import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import PolkadotPage from "ui/pages/PolkadotPage";
 import { PanelMessageText } from "ui/SharedComponents";
-import CosmosValidators from "ui/validators/CosmosValidators";
 import { OasisValidators } from "ui/validators/OasisValidators";
 import CeloValidators from "./CeloValidators";
 

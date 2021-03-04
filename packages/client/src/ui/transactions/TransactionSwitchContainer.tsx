@@ -8,7 +8,6 @@ import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { PanelMessageText } from "ui/SharedComponents";
 import CeloTransactionContainer from "ui/transactions/CeloTransactionContainer";
-import CosmosTransactionContainer from "ui/transactions/CosmosTransactionContainer";
 import OasisTransactionContainer from "ui/transactions/OasisTransactionContainer";
 
 /** ===========================================================================

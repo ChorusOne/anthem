@@ -9,7 +9,6 @@ import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { PanelMessageText } from "ui/SharedComponents";
 import CeloPortfolio from "./CeloPortfolio";
-import CosmosPortfolio from "./CosmosPortfolio";
 import OasisPortfolio from "./OasisPortfolio";
 
 /** ===========================================================================
