@@ -95,7 +95,7 @@ const resolvers = {
             case "COSMOS":
             case "KAVA":
             case "TERRA":
-              stats = await COSMOS_SDK.fetchNetworkStats(network);
+              // stats = await COSMOS_SDK.fetchNetworkStats(network);
               break;
             case "OASIS":
               stats = await OASIS.fetchNetworkSummaryStats();

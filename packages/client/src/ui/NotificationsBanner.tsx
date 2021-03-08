@@ -4,9 +4,7 @@ import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 
 /** ===========================================================================
@@ -32,10 +30,6 @@ class NotificationsBanner extends React.Component<IProps> {
       return null;
     }
 
-    if (!this.props.address) {
-      return null;
-    }
-
     return (
       <Banner className="notifications-banner">
         {this.getBannerTextForNetwork()}
@@ -51,22 +45,12 @@ class NotificationsBanner extends React.Component<IProps> {
       case "COSMOS":
         return (
           <BannerText>
-            <b>
-              <span role="img" aria-label="warning-emoji">
-                ⚠️
-              </span>{" "}
-              BETA:
-            </b>{" "}
-            Anthem provides data for the {capitalizeString(name)} network but is
-            currently in a beta release. You may experience data integrity
-            issues.{" "}
-            <Link
-              to="/help"
-              onClick={this.props.displayDataIntegrityHelpLabel}
-              style={{ color: COLORS.WHITE, textDecoration: "underline" }}
-            >
-              Learn More.
-            </Link>
+            <span role="img" aria-label="warning-emoji">
+              ⚠️
+            </span>{" "}
+            After the cosmoshub-4 upgrade, Anthem unfortunately no longer
+            supports Cosmos. Reach out if you have questions or if you want to
+            help maintain historical data for the Cosmos Hub.
           </BannerText>
         );
       case "TERRA":

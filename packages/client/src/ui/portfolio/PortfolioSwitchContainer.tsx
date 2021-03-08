@@ -9,7 +9,6 @@ import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { PanelMessageText } from "ui/SharedComponents";
 import CeloPortfolio from "./CeloPortfolio";
-import CosmosPortfolio from "./CosmosPortfolio";
 import OasisPortfolio from "./OasisPortfolio";
 
 /** ===========================================================================
@@ -76,12 +75,7 @@ class PortfolioSwitchContainer extends React.Component<IProps, IState> {
     switch (network.name) {
       case "TERRA":
       case "COSMOS":
-        return (
-          <CosmosPortfolio
-            fullSize={this.props.fullSize}
-            downloadDataToFile={this.downloadDataToFile}
-          />
-        );
+        return null;
       case "OASIS":
         return (
           <OasisPortfolio

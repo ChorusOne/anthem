@@ -24,11 +24,21 @@ class NetworkSelectComponent extends React.Component<IProps, {}> {
   render(): JSX.Element {
     const enableThemedStyles = !this.onLandingPage();
     const color = enableThemedStyles ? undefined : COLORS.DARK_TITLE;
+
+    const filteredAvailableNetworks = () => {
+      return Object.values(AVAILABLE_NETWORKS).filter(
+        ({ name }) =>
+          name !== "COSMOS" &&
+          name !== "KAVA" &&
+          name !== "TERRA" &&
+          name !== "POLKADOT",
+      );
+    };
     return (
-      <View>
+      <StyledView>
         <p style={{ color }}>Choose a network to connect to:</p>
         <NetworkGrid>
-          {Object.values(AVAILABLE_NETWORKS).map(network => {
+          {filteredAvailableNetworks().map(network => {
             return (
               <NetworkSelect
                 enableThemedStyles
@@ -41,7 +51,7 @@ class NetworkSelectComponent extends React.Component<IProps, {}> {
         </NetworkGrid>
 
         <MyLedgerDoesntWork />
-      </View>
+      </StyledView>
     );
   }
 
@@ -80,9 +90,16 @@ class NetworkSelectComponent extends React.Component<IProps, {}> {
   };
 }
 
+const StyledView = styled(View)`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
 const MyLedgerDoesntWorkLink = styled.div`
   color: #106ba3;
   padding-top: 22px;
+  margin-top: auto;
   font-size: 18px;
   text-align: center;
   cursor: pointer;

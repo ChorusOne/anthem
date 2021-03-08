@@ -8,7 +8,6 @@ import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import PolkadotPage from "ui/pages/PolkadotPage";
 import { PanelMessageText } from "ui/SharedComponents";
-import CosmosValidators from "ui/validators/CosmosValidators";
 import { OasisValidators } from "ui/validators/OasisValidators";
 import CeloValidators from "./CeloValidators";
 
@@ -76,7 +75,7 @@ class ValidatorsSwitchContainer extends React.Component<IProps, IState> {
     switch (network.name) {
       case "TERRA":
       case "COSMOS":
-        return <CosmosValidators />;
+        return null;
       case "OASIS":
         return <OasisValidators />;
       case "CELO":

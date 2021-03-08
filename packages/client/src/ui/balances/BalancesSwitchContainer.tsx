@@ -13,11 +13,7 @@ import { RouteComponentProps } from "react-router";
 import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { PanelMessageText } from "ui/SharedComponents";
-import {
-  CeloBalances,
-  CosmosBalances,
-  OasisBalances,
-} from "./BalancesComponents";
+import { CeloBalances, OasisBalances } from "./BalancesComponents";
 
 /** ===========================================================================
  * Types & Config
@@ -84,7 +80,7 @@ class BalancesSwitchContainer extends React.Component<IProps, IState> {
       case "TERRA":
       case "KAVA":
       case "COSMOS":
-        return <CosmosBalances />;
+        return null;
       case "OASIS":
         return <OasisBalances />;
       case "CELO":

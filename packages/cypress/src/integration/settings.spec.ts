@@ -19,7 +19,7 @@ SCREEN_SIZES.forEach(({ type, size }) => {
   describe(`Test Dashboard Portfolio Routes, viewport: ${size}`, () => {
     beforeEach(() => {
       UTILS.setViewportSize(size);
-      UTILS.loginWithAddress(type, "cosmos");
+      UTILS.loginWithAddress(type, "celo");
       visitSettingsPage(type);
     });
 

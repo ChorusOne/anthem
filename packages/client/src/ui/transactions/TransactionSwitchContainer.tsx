@@ -8,7 +8,6 @@ import { capitalizeString } from "tools/client-utils";
 import { composeWithProps } from "tools/context-utils";
 import { PanelMessageText } from "ui/SharedComponents";
 import CeloTransactionContainer from "ui/transactions/CeloTransactionContainer";
-import CosmosTransactionContainer from "ui/transactions/CosmosTransactionContainer";
 import OasisTransactionContainer from "ui/transactions/OasisTransactionContainer";
 
 /** ===========================================================================
@@ -76,7 +75,7 @@ class TransactionSwitchContainer extends React.Component<IProps, IState> {
     switch (network.name) {
       case "TERRA":
       case "COSMOS":
-        return <CosmosTransactionContainer />;
+        return null;
       case "OASIS":
         return <OasisTransactionContainer />;
       case "CELO":

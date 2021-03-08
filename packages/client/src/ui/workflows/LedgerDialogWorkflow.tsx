@@ -415,6 +415,9 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
               <AddressSubtitle>
                 Don't have an address on hand? Choose one below to explore a
                 network you're interested in.
+                <p className="note">
+                  NOTE: Please do NOT send funds to these addresses.
+                </p>
               </AddressSubtitle>
               <Column
                 style={{ marginTop: 6, maxHeight: 85, overflowY: "scroll" }}
@@ -422,18 +425,18 @@ class LedgerDialogComponents extends React.PureComponent<IProps, IState> {
                 <Link
                   replace
                   style={{ marginTop: 2, marginBottom: 2 }}
-                  to={`/cosmos/${activeChartTab.toLowerCase()}?address=cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd`}
+                  to={`/celo/${activeChartTab.toLowerCase()}?address=0x0223cdb245a1ece59770ed20e852dd2b5b4e108a`}
                 >
                   <Row style={{ justifyContent: "flex-start" }}>
                     <NetworkLogoIcon
-                      network="COSMOS"
+                      network="CELO"
                       styles={{ width: 22, height: 22, marginRight: 6 }}
                     />
                     <View>
-                      <NetworkLabel>COSMOS</NetworkLabel>
+                      <NetworkLabel>CELO</NetworkLabel>
                       <RecentAddress>
                         {formatAddressString(
-                          "cosmos15urq2dtp9qce4fyc85m6upwm9xul3049um7trd",
+                          "0x0223cdb245a1ece59770ed20e852dd2b5b4e108a",
                           !this.props.settings.isDesktop,
                           25,
                         )}
@@ -679,7 +682,11 @@ const BackArrow = () => (
   />
 );
 
-const AddressSubtitle = styled.b``;
+const AddressSubtitle = styled.b`
+  .note {
+    margin: 12px 0;
+  }
+`;
 
 const ClearAllLink = styled.p`
   width: 150px;
