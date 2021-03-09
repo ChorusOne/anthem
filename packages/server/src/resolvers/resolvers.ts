@@ -11,7 +11,6 @@ import {
   NETWORKS,
 } from "@anthem/utils";
 import CELO from "../sources/celo";
-import COSMOS_SDK from "../sources/cosmos-sdk";
 import FIAT_CURRENCIES from "../sources/fiat-currencies";
 import EXCHANGE_DATA_API from "../sources/fiat-price-data";
 import OASIS from "../sources/oasis";
@@ -95,7 +94,6 @@ const resolvers = {
             case "COSMOS":
             case "KAVA":
             case "TERRA":
-              // stats = await COSMOS_SDK.fetchNetworkStats(network);
               break;
             case "OASIS":
               stats = await OASIS.fetchNetworkSummaryStats();
