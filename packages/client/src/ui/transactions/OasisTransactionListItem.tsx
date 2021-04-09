@@ -248,8 +248,8 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
 
     const { denominationSize, denom } = this.props.network;
 
-    const renderEventContextBox = (type: IOasisTransactionType) => {
-      if (type === IOasisTransactionType.EscrowReclaim) {
+    const renderEventContextBox = (transactionType: IOasisTransactionType) => {
+      if (transactionType === IOasisTransactionType.EscrowReclaim) {
         return (
           <Tooltip
             content={
