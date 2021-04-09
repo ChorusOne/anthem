@@ -941,7 +941,7 @@ class OasisBalancesComponent extends React.Component<
                   {renderCurrency(unbondingBalance)}
                 </BalanceText>
               </BalanceLine>
-              <BalanceLine style={{ marginTop: 6 }}>
+              {/*<BalanceLine style={{ marginTop: 6 }}>
                 <Icon
                   icon={IconNames.DOT}
                   style={{ marginRight: 2 }}
@@ -952,7 +952,7 @@ class OasisBalancesComponent extends React.Component<
                   {renderCurrency(rewards)}
                 </BalanceText>
               </BalanceLine>
-              {/* <BalanceLine style={{ marginTop: 6 }}>
+              <BalanceLine style={{ marginTop: 6 }}>
                 <Icon
                   icon={IconNames.DOT}
                   style={{ marginRight: 2 }}
