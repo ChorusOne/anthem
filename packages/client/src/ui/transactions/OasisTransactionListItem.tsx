@@ -29,6 +29,7 @@ import { ILocale } from "i18n/catalog";
 import Modules from "modules/root";
 import React from "react";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import { copyTextToClipboard, formatAddressString } from "tools/client-utils";
 import { denomToUnit, formatCurrencyAmount } from "tools/currency-utils";
 import { formatDate, formatTime } from "tools/date-utils";
@@ -105,7 +106,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
         const event = transaction.data as IOasisTransferEvent;
         return (
           <>
-            {this.renderTransactionAmount(event.tokens)}
+            {this.renderTransactionAmount(event.tokens, event.type)}
             {this.renderAddressBox(event.from, "From")}
             {this.renderAddressBox(event.to, "To")}
           </>
@@ -115,7 +116,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
         const event = transaction.data as IOasisEscrowAddEvent;
         return (
           <>
-            {this.renderTransactionAmount(event.tokens)}
+            {this.renderTransactionAmount(event.tokens, event.type)}
             {this.renderAddressBox(event.to, "To")}
           </>
         );
@@ -124,7 +125,7 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
         const event = transaction.data as IOasisEscrowReclaimEvent;
         return (
           <>
-            {this.renderTransactionAmount(event.shares)}
+            {this.renderTransactionAmount(event.shares, event.type)}
             {this.renderAddressBox(event.from, "From")}
           </>
         );
@@ -240,23 +241,55 @@ class OasisTransactionListItem extends React.PureComponent<IProps, {}> {
     );
   };
 
-  renderTransactionAmount = (amount: string) => {
+  renderTransactionAmount = (amount: string, type: IOasisTransactionType) => {
     if (!amount && amount !== "0") {
       return null;
     }
 
     const { denominationSize, denom } = this.props.network;
+
+    const renderEventContextBox = (type: IOasisTransactionType) => {
+      if (type === IOasisTransactionType.EscrowReclaim) {
+        return (
+          <Tooltip
+            content={
+              <TooltipContent>
+                Shares on Oasis represent a user’s portion of tokens staked with
+                a validator. The longer you have been staking, the more ROSE
+                tokens your shares will reclaim, as more ROSE staking rewards
+                will have accrued.
+              </TooltipContent>
+            }
+            position={Position.BOTTOM}
+          >
+            <EventContextBox>
+              <EventText style={{ fontWeight: "bold" }}>
+                Amount SHARES
+              </EventText>
+              <EventText>
+                {formatCurrencyAmount(denomToUnit(amount, denominationSize))}
+              </EventText>
+            </EventContextBox>
+          </Tooltip>
+        );
+      } else {
+        return (
+          <EventContextBox>
+            <EventText style={{ fontWeight: "bold" }}>Amount {denom}</EventText>
+            <EventText>
+              {formatCurrencyAmount(denomToUnit(amount, denominationSize))}
+            </EventText>
+          </EventContextBox>
+        );
+      }
+    };
+
     return (
       <EventRowItem style={{ minWidth: 200 }}>
         <EventIconBox>
           <EventIcon src={OasisLogo} />
         </EventIconBox>
-        <EventContextBox>
-          <EventText style={{ fontWeight: "bold" }}>Amount {denom}</EventText>
-          <EventText>
-            {formatCurrencyAmount(denomToUnit(amount, denominationSize))}
-          </EventText>
-        </EventContextBox>
+        {renderEventContextBox(type)}
       </EventRowItem>
     );
   };
@@ -425,6 +458,16 @@ export const getOasisTransactionLabelFromType = (
       return assertUnreachable(type);
   }
 };
+
+/** ===========================================================================
+ * Styled Components
+ * ============================================================================
+ */
+
+const TooltipContent = styled.div`
+  max-width: 15rem;
+  line-height: 1.4;
+`;
 
 /** ===========================================================================
  * Export
