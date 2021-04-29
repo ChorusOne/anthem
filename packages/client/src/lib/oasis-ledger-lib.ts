@@ -5,6 +5,9 @@ import OasisApp from "@oasisprotocol/ledger";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
 import ENV from "tools/client-env";
 
+const GENESIS_HASH =
+  "53852332637bacb61b91b6411ab4095168ba02a50be4c3f82448438826f23898";
+
 /** ===========================================================================
  * Oasis Ledger Utils
  * ---------------------------------------------------------------------------
@@ -262,8 +265,7 @@ class OasisLedgerClass implements IOasisLedger {
     }
 
     const path = this.path;
-    const context =
-      "oasis-core/consensus: tx for chain a4dc2c4537992d6d2908c9779927ccfee105830250d903fd1abdfaf42cb45631";
+    const context = `oasis-core/consensus: tx for chain ${GENESIS_HASH}`;
     const publicKey = await this.app.publicKey(path);
     const result = await this.app.sign(path, context, Buffer.from(tx, "hex"));
 
@@ -289,8 +291,7 @@ class OasisLedgerClass implements IOasisLedger {
     }
 
     const path = this.path;
-    const context =
-      "oasis-core/consensus: tx for chain a4dc2c4537992d6d2908c9779927ccfee105830250d903fd1abdfaf42cb45631";
+    const context = `oasis-core/consensus: tx for chain ${GENESIS_HASH}`;
     const publicKey = await this.app.publicKey(path);
     const result = await this.app.sign(path, context, Buffer.from(tx, "hex"));
 
