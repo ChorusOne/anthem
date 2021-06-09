@@ -8,6 +8,7 @@ import { VoteValue } from "@celo/contractkit/lib/wrappers/Governance";
 import { PendingWithdrawal } from "@celo/contractkit/lib/wrappers/LockedGold";
 import Eth from "@ledgerhq/hw-app-eth";
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
+import TransportHID from "@ledgerhq/hw-transport-webhid";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
 import BigNumber from "bignumber.js";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
@@ -45,7 +46,9 @@ const TEST_NETS = {
  * Handle getting the Celo Ledger transport.
  */
 const getCeloLedgerTransport = () => {
-  if (window.USB) {
+  if (window.HID) {
+    return TransportHID.create();
+  } else if (window.USB) {
     return TransportUSB.create();
   } else if (window.u2f) {
     return TransportU2F.create();

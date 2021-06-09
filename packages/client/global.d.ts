@@ -24,6 +24,7 @@ type ReactNode =
 
 /* Attach Segment analytics module to the global window object */
 interface Window {
+  HID?: any;
   USB?: any;
   u2f?: any;
   analytics: SegmentAnalytics.AnalyticsJS;
@@ -46,5 +47,6 @@ declare module "@ledgerhq/hw-app-eth";
 declare module "@oasisprotocol/ledger";
 declare module "@ledgerhq/hw-transport-u2f";
 declare module "@ledgerhq/hw-transport-webusb";
+declare module "@ledgerhq/hw-transport-webhid";
 declare module "react-syntax-highlighter/dist/esm/styles/hljs";
 declare module "react-syntax-highlighter/dist/esm/styles/prism";

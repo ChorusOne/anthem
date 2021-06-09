@@ -1,5 +1,6 @@
 import { wait } from "@anthem/utils";
 import TransportU2F from "@ledgerhq/hw-transport-u2f";
+import TransportHID from "@ledgerhq/hw-transport-webhid";
 import TransportUSB from "@ledgerhq/hw-transport-webusb";
 import OasisApp from "@oasisprotocol/ledger";
 import { LEDGER_ERRORS } from "constants/ledger-errors";
@@ -321,7 +322,9 @@ class OasisLedgerClass implements IOasisLedger {
  * Handle getting the Oasis Ledger transport.
  */
 const getOasisLedgerTransport = async () => {
-  if (window.USB) {
+  if (window.HID) {
+    return TransportHID.create();
+  } else if (window.USB) {
     return TransportUSB.create();
   } else if (window.u2f) {
     return TransportU2F.create();
