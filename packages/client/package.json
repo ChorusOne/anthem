@@ -33,6 +33,7 @@
     "@ledgerhq/hw-app-eth": "^5.14.0",
     "@ledgerhq/hw-transport-u2f": "^5.30.0",
     "@ledgerhq/hw-transport-webusb": "^5.53.1",
+    "@ledgerhq/hw-transport-webhid": "^5.51.1",
     "@lunie/cosmos-ledger": "0.1.7",
     "@oasisprotocol/ledger": "^0.1.0",
     "@polkadot/api": "^1.26.1",
