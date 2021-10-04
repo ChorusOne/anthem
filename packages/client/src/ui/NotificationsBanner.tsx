@@ -1,4 +1,3 @@
-import { assertUnreachable } from "@anthem/utils";
 import { COLORS } from "constants/colors";
 import Modules, { ReduxStoreState } from "modules/root";
 import { i18nSelector } from "modules/settings/selectors";
@@ -32,63 +31,23 @@ class NotificationsBanner extends React.Component<IProps> {
 
     return (
       <Banner className="notifications-banner">
-        {this.getBannerTextForNetwork()}
+        <BannerText>
+          <span role="img" aria-label="warning-emoji">
+            ⚠️
+          </span>{" "}
+          We are sunsetting Anthem on October 7, which will mean support for
+          Oasis and Celo will end.{" "}
+          <a
+            href="https://medium.com/chorus-one/sunsetting-anthem-dashboard-8aca0b6d28e0"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            Learn more here.
+          </a>
+        </BannerText>
       </Banner>
     );
   }
-
-  getBannerTextForNetwork = () => {
-    const { network } = this.props;
-    const { name } = network;
-
-    switch (name) {
-      case "COSMOS":
-        return (
-          <BannerText>
-            <span role="img" aria-label="warning-emoji">
-              ⚠️
-            </span>{" "}
-            After the cosmoshub-4 upgrade, Anthem unfortunately no longer
-            supports Cosmos. Reach out if you have questions or if you want to
-            help maintain historical data for the Cosmos Hub.
-          </BannerText>
-        );
-      case "TERRA":
-        return <BannerText>Terra is no longer supported. </BannerText>;
-      case "KAVA":
-        return (
-          <BannerText>
-            Kava Network in Anthem currently only supports balances and Ledger
-            transaction workflows.
-          </BannerText>
-        );
-      case "OASIS":
-        return (
-          <BannerText>
-            <>
-              <span role="img" aria-label="warning-emoji">
-                🚧
-              </span>{" "}
-              Ledger transactions are live on <b>Oasis mainnet</b>. You may
-              experience data integrity issues.
-            </>
-          </BannerText>
-        );
-      case "CELO":
-        return (
-          <BannerText>
-            <span role="img" aria-label="warning-emoji">
-              ⚠️
-            </span>{" "}
-            <b>{name} Network</b> is in beta.
-          </BannerText>
-        );
-      case "POLKADOT":
-        return null;
-      default:
-        return assertUnreachable(name);
-    }
-  };
 }
 
 /** ===========================================================================
@@ -122,6 +81,12 @@ const BannerText = styled.p`
   padding: 0;
   font-weight: 300px;
   color: ${COLORS.WHITE};
+
+  a {
+    color: ${COLORS.WHITE};
+    font-weight: bold;
+    text-decoration: underline;
+  }
 `;
 
 /** ===========================================================================
